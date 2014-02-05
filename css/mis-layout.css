@@ -1,0 +1,376 @@
+@charset "utf-8";
+
+
+body {
+	margin: 0;
+	padding: 0;
+	min-width: 1000px;
+	background: #EEE;
+}
+
+body, input, button, select, textarea {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+
+/* input and form styles */
+
+input[type=text], input[type=password], input[type=file], input[type=button], input[type=submit], input[type=reset], select, button, textarea {
+	padding: 5px 10px;
+	margin: 3px;
+	border: 0;
+	border: 1px #ccc solid;
+	min-height: 20px;
+	-webkit-transition: all 0.2s;
+	   -moz-transition: all 0.2s;
+		 -o-transition: all 0.2s;
+			transition: all 0.2s;
+}
+
+input[type=text]:hover, input[type=password]:hover, select:hover, textarea:hover {
+	border: 1px #aaa solid;
+}
+
+input[type=button]:hover, input[type=submit]:hover, button:hover, input[type=reset]:hover {
+	background: #00094a;
+}
+
+input[type=text], input[type=password], select, textarea {
+	border: 1px #D1D1D1 solid;
+}
+
+input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus {
+	border: 1px #D1D1D1 solid;
+	box-shadow: 0px 0px 7px rgba(120, 120, 255, 0.5);
+	outline: 0;
+}
+input[type=button]:focus, input[type=submit]:focus, button:focus, input[type=reset]:focus {
+	background: #00094a;
+	box-shadow: 0px 0px 7px rgba(100, 100, 100, 0.5);
+	outline: 0;
+}
+
+input[type=button], input[type=submit], button, input[type=reset] {
+	background: #001a7c;
+	border: 1px #001a7c solid;
+	color: #FFF;
+	cursor: pointer;
+}
+
+input[type=button]:active, input[type=submit]:active, button:active, input[type=reset]:active {
+	background: #223caf;
+	position: relative;
+	top: 2px;
+	left: 2px;
+}
+
+input[type=button].error, input[type=submit].error, button.error {
+	background: #c00;
+	border: 1px #c00 solid;
+}
+input[type=button].error:hover, input[type=submit].error:hover, button.error:hover,input[type=button].error:focus, input[type=submit].error:focus, button.error:focus {
+	background: #a00;
+}
+
+
+select {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+
+a {
+	text-decoration: none;
+	color: #223caf;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:active {
+	color: #334cc0;
+}
+
+a.big-link {
+	font-size: 18px;
+	display: inline-block;
+	margin: 5px 0px;
+}
+
+i.loading {
+	display: inline-block;
+	vertical-align: middle;
+	width: 40px;
+	height: 40px;
+	background: url('../img/loading.gif') center center no-repeat;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	margin: 3px 0px;
+	padding: 0;
+}
+
+
+.page-head {
+	padding-left: 20px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px #eee solid;
+}
+
+.notification {
+	background: #DDF;
+	padding: 5px;
+	border: 1px #223caf solid;
+	margin: 10px 0px;
+	text-align: left;
+	position: relative;
+}
+
+.notification.error{
+	background: #FDD;
+	border: 1px #af3c22 solid;
+}
+
+.notification.success{
+	background: #DFD;
+	border: 1px #3caf22 solid;
+}
+
+table tr th {
+	background: #00094a;
+	color: #FFF;
+}
+table tr td, table tr th {
+	padding: 5px 10px;
+	margin: 0;
+}
+
+table tr:nth-child(odd) {
+	background: #eee;
+}
+
+table[nozebra] tr:nth-child(odd) {
+	background: transparent;
+}
+
+.column {
+	width: 48%;
+	margin-right: 1%;
+	display: inline-block;
+	text-align: justify;
+}
+
+hr {
+	height: 1px;
+	border: 0;
+	background: #ccc;
+	margin: 20px 0px;
+}
+
+/* Search Bar Styles */
+.-mis-search-bar {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	background: #666;
+	min-width: 800px;
+	box-shadow: 0px 0px 3px rgba(100, 100, 100, 0.4);
+	z-index: 100;
+}
+
+.-mis-search-bar div {	
+	float: left;
+	height: inherit;
+}
+
+.-mis-logo {
+	width: 105px;
+	background: url('../img/mis-logo-small.png') no-repeat;
+}
+
+.-mis-search-button {
+	width: 500px;
+	padding: auto;
+	vertical-align: middle;
+}
+.-mis-search-button form {
+	display: block;
+	height: 30px;
+	margin: 1px 0px;
+	text-align: center;
+}
+
+.-mis-search-text {
+	width: 400px;
+}
+
+div.-mis-right-options {
+	float: right;
+	margin-left: 0px 5px;
+}
+.-mis-search-bar a {
+	display: block;
+	height: 40px;
+	padding: 0px 7px;
+	line-height: 40px;
+	vertical-align: middle;
+	text-decoration: none;
+	color: #FFF;
+}
+
+.small-profile-thumb {
+	float: left;
+	height: 40px;
+	margin-right: -5px;
+}
+
+
+
+
+
+/* Navbar Styles */
+
+.-mis-navbar {
+	width: 180px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	background: #EEE;
+	padding-top: 50px;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow: visible;
+}
+
+.-mis-profile-photo {
+	width: 180px;
+	position: relative;
+	overflow: hidden;
+}
+.-mis-profile-photo img {
+	width: 100%;
+	z-index: 9;
+}
+
+.-mis-profile-details {
+	line-height: 1.25;
+	font-size: 14px;
+	opacity: 0;
+	background: rgba(255, 255, 255, 0.8);
+	position: absolute;
+	left: 0;
+	top: 50px;
+	right: 0;
+	bottom: 0;
+	padding: 10px;
+	box-shadow: 0px 0px 2px #223caf;
+	color: #000;
+	
+	-webkit-transition: all 0.5s ease-in-out 0;
+	   -moz-transition: all 0.5s ease-in-out 0;
+		 -o-transition: all 0.5s ease-in-out 0;
+			transition: all 0.5s ease-in-out 0;
+}
+.-mis-profile-photo:hover .-mis-profile-details {
+	top: 0;
+	opacity: 1;
+}
+
+
+.-mis-navbar ul {
+	margin: 0px;
+	list-style-type: none;
+	padding: 0px;
+}
+
+.-mis-navbar ul li {
+	padding: 0px;
+	width: 100%;
+	margin-top: 5px;
+	position: relative;
+}
+
+.-mis-navbar ul li a {
+	padding: 5px 5px;
+	display: block;
+	color: #001a8d;
+	-webkit-transition: all 0.2s ease-in-out 0;
+	   -moz-transition: all 0.2s ease-in-out 0;
+		 -o-transition: all 0.2s ease-in-out 0;
+			transition: all 0.2s ease-in-out 0;
+}
+
+.-mis-navbar ul li a:hover {
+	padding: 5px 10px;
+	display: block;
+	background: #ccc;
+}
+
+.-mis-navbar ul li.current {
+	border-left: 2px #223caf solid;
+}
+
+
+.-mis-navbar ul li ul {
+	display: none;
+	top: 10px;
+	right: -20px;
+	color: #223caf;
+	-webkit-transition: all 0.2s ease-in-out 0;
+	   -moz-transition: all 0.2s ease-in-out 0;
+		 -o-transition: all 0.2s ease-in-out 0;
+			transition: all 0.2s ease-in-out 0;
+}
+
+.-mis-navbar ul li ul li a {
+	color: #223caf;
+}
+
+.-mis-navbar ul li:hover ul {
+	display: block;
+	padding-left: 10px;
+	border-left: 3px #bbb solid;
+}
+
+
+
+/* Content Style */
+.-mis-content {
+	position: fixed;
+	top: 40px;
+	left: 200px;
+	right: 40px;
+	bottom: 30px;
+	overflow-y: auto;
+	padding: 10px;
+	background: #FDFDFD;
+}
+
+
+/* Footer Style */
+.-mis-footer {
+	position: fixed;
+	bottom: 0px;
+	left: 200px;
+	right: 0px;
+	height: 20px;
+	background: #EEE;
+	padding: 5px;
+	text-align: center;
+	font-size: 11px;
+	line-height: 20px;
+}
+
+
+}

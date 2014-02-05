@@ -1,6 +1,22 @@
 <?php
 	require_once("ConfigSQL.php");
 	
+	function auth() {
+		global $mysqli; // Use the $mysqli defined in ConfigSQL
+		
+		session_start_sec();
+		$args = func_get_args();
+
+		if(!login_check($mysqli)) {
+			header("Location: ".WEBSITE_ROOT."/Login.php?error=2");
+			exit;
+		}
+		
+		foreach($args as $aid) {
+			var_dump($aid);
+		}
+	}
+	
 	function session_start_sec() {
 		$session_name = "mis_sess_id";
 		$secure = SECURE;
@@ -17,6 +33,8 @@
 	}
 		
 	function login($user_id, $password, $mysqli) {
+		$user_id = strclean($user_id);
+		$password = strclean($password);
 		if($result = $mysqli->query("SELECT * FROM users WHERE id = '$user_id' LIMIT 1")) {
 			if($result->num_rows == 1) {
 				if(!check_brute($user_id, $mysqli)) {
@@ -39,10 +57,8 @@
 				}
 			}
 		}
-		else {
-			//Login Fail
-			return false;
-		}
+		//Login Fail
+		return false;
 	}
 	
 	function set_session($user_id, $password) {

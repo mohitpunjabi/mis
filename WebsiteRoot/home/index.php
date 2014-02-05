@@ -1,7 +1,9 @@
 <?php
 	require_once("../Includes/Auth.php");
+	require_once("../Includes/Layout.php");
+	
+	auth("a", "b");
 
-	session_start_sec();
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 	var_dump(login("806", "ps", $mysqli));
 	var_dump(login_check($mysqli));

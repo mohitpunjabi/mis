@@ -1,10 +1,14 @@
 <?php
 	require_once("Includes/Auth.php");
-	// http://www.wikihow.com/Create-a-Secure-Login-Script-in-PHP-and-MySQL
-	$error_code = 0;
-	
+	require_once("Includes/Layout.php");
+
 	session_start_sec();
+	if(login_check($mysqli)) {
+			header("Location: home/");
+			exit;
+	}
 	
+	$error_code = 0;	
 	if(isset($_POST['username'], $_POST['password'])) {
 		$user_id = $_POST['username'];
 		$password = $_POST['password'];
@@ -43,33 +47,25 @@
 			<div class="inner-box">
             <h1 class="page-head">Login to continue</h1>
 			<?php
-			$errorHead = "Error";
-
-            if(isset($_GET['error']) || $error_code == 1) {
-				$error = $_GET['error'];
+				$errorHead = "Error";
 				$errorMessage = "An error occured while logging in. Please try again.";
-				if($error == "Access denied") $errorMessage = "You do not have access to that location.";
+				if($error_code == 1) $errorMessage = "Invalid username or password. Please try again.";
+				if($error_code == 2) $errorMessage = "You do not have access to that location.";
 				
-				echo '
-					<div class="notification error">
-						<h2>'.$errorHead.'</h2>
-						'.$errorMessage.'
-					</div>
-				';
-			}
-			else drawNotification("Login", "Please enter your username and password");
+				if($error_code == 0) drawNotification("Login", "Please enter your username and password");
+				else				 drawNotification($errorHead, $errorMessage, "error");
             ?>
             
-			<form action="." id="login" method="post" >
+			<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" id="login" method="post" >
             	<table align="center" nozebra>
                 	<tr>
                     	<td align="right">Username</td>
-                        <td align="left"><input type="text" placeholder="Username" name="username" /></td>
+                        <td align="left"><input type="text" placeholder="Username" name="username" value="<?php if($error_code == 1) echo $_POST['username']; ?>" required /></td>
                     </tr>
 
                 	<tr>
                     	<td align="right">Password</td>
-                        <td align="left"><input type="password" placeholder="Password" name="password" /></td>
+                        <td align="left"><input type="password" placeholder="Password" name="password" required /></td>
                     </tr>
                     <tr>
                     	<td></td>
@@ -78,11 +74,8 @@
                 </table>
             </form>
                 <hr />
-                
+                <a href="#">Forgot Password</a> | 
                 <a href="#">Online Help</a> | 
-                <a href="#">Student Registration</a> | 
-                <a href="#">Faculty Registration</a> |
-                <a href="DeveloperLogin.php">Developers</a> | 
                 <a href="#">Indian School of Mines, Dhanbad</a>
             </div>
         </div>

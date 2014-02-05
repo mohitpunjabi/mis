@@ -1,9 +1,4 @@
 <?php
-	var_dump($_SERVER);
-	$sn = $_SERVER['PHP_SELF'];
-	die($sn);
-
-	@session_start();
 	define("SERVER_NAME", "http://localhost/ismportal");
 	
 	function drawHeader($title = "Feedback System - Indian School of Mines") {

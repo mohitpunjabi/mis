@@ -8,13 +8,15 @@
 		$args = func_get_args();
 
 		if(!login_check($mysqli)) {
-			header("Location: ".WEBSITE_ROOT."/Login.php?error=2");
+			header("Location: ".WEBSITE_ROOT."/Logout.php?error=2");
 			exit;
 		}
 		
-		foreach($args as $aid) {
-			var_dump($aid);
-		}
+		if(sizeof($args) == 0) return true;
+		foreach($args as $aid) if(in_array($aid, $_SESSION['auth'])) return true;
+
+		header("Location: ".WEBSITE_ROOT."/Logout.php?error=2");
+		exit;
 	}
 	
 	function session_start_sec() {
@@ -47,7 +49,7 @@
 				if($password == $row['password']) {
 					// Login Successful
 					$user_id = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $user_id);
-					set_session($user_id, $password);
+					set_session($user_id, $password, $mysqli);
 					return true;
 				}
 				else {
@@ -61,14 +63,49 @@
 		return false;
 	}
 	
-	function set_session($user_id, $password) {
-		$_SESSION['users']['id'] = $user_id;
+	function set_session($user_id, $password, $mysqli) {
+		$_SESSION['id'] = $user_id;
 		$_SESSION['login_string'] = hash('sha512', $password . $_SERVER['HTTP_USER_AGENT']);
+		$_SESSION['auth'] = array();
+
+		if($result = $mysqli->query("SELECT u . * , d.name AS dept_name, d.type AS dept_type
+			FROM (
+				SELECT * 
+				FROM user_details
+				NATURAL JOIN users
+				WHERE id =  '$user_id'
+			) AS u, departments AS d
+			WHERE u.dept_id = d.id")) {
+			$row = $result->fetch_assoc();
+			$_SESSION['name'] = $row['salutation'] . ' ' . $row['first_name'] . (($row['middle_name'] != '')? ' '.$row['middle_name']: '') . (($row['last_name'] != '')? ' '.$row['last_name']: '');
+			$_SESSION['sex'] = $row['sex'];
+			$_SESSION['category'] = $row['category'];
+			$_SESSION['dob'] = $row['dob'];
+			$_SESSION['email'] = $row['email'];
+			$_SESSION['photopath'] = $row['photopath'];
+			$_SESSION['marital_status'] = $row['marital_status'];
+			$_SESSION['physically_challenged'] = $row['physically_challenged'];
+			$_SESSION['dept_id'] = $row['dept_id'];
+			$_SESSION['created_date'] = $row['created_date'];
+			$_SESSION['dept_name'] = $row['dept_name'];
+			$_SESSION['dept_type'] = $row['dept_type'];
+			array_push($_SESSION['auth'], $row['auth_id']);
+			
+			if($row['auth_id'] == 'emp') {
+				if($result = $mysqli->query("SELECT * 
+					FROM  `emp_basic_details` 
+					WHERE id =  '$user_id'")) {
+					$row = $result->fetch_assoc();
+					$_SESSION['designation'] = $row['designation'];
+					array_push($_SESSION['auth'], $row['auth_id']);
+				}
+			}
+		}
 	}
 	
 	function login_check($mysqli) {
-		if(isset($_SESSION['users']['id'], $_SESSION['login_string'])) {
-			$user_id = $_SESSION['users']['id'];
+		if(isset($_SESSION['id'], $_SESSION['login_string'])) {
+			$user_id = $_SESSION['id'];
 			$login_string = $_SESSION['login_string'];
 			$user_browser = $_SERVER['HTTP_USER_AGENT'];
 			

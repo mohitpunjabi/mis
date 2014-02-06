@@ -1,5 +1,5 @@
 <?php
-	define("SERVER_NAME", "http://localhost/ismportal");
+	require_once("Auth.php");
 	
 	function drawHeader($title = "Feedback System - Indian School of Mines") {
 		echo '
@@ -10,28 +10,28 @@
 <title>'.$title.'</title>
 
 
-<link rel="stylesheet" type="text/css" href="'.SERVER_NAME.'/CSS/feedback-layout-style.css" />
-<script type="text/javascript" src="'.SERVER_NAME.'/JS/jQuery 1.8.js"></script>
-<script type="text/javascript" src="'.SERVER_NAME.'/JS/feedback-layout-script.js"></script>
+<link rel="stylesheet" type="text/css" href="'.WEBSITE_ROOT.'/../css/mis-layout.css" />
+<script type="text/javascript" src="'.WEBSITE_ROOT.'/../js/jquery.js"></script>
+<script type="text/javascript" src="'.WEBSITE_ROOT.'/../js/mis-layout.js"></script>
 </head>
 
 <body>
-	<div class="-feedback-search-bar">
-		<div class="-feedback-logo"></div>
-    	<div class="-feedback-search-button">
-            <form id="-feedback-search-form">
-            <input type="text" name="-feedback-search-text" class="-feedback-search-text" placeholder="Search Feedback" />
-            <input type="submit" name="-feedback-search-submit" value="Search" />
+	<div class="-mis-search-bar">
+		<div class="-mis-logo"></div>
+    	<div class="-mis-search-button">
+            <form id="-mis-search-form">
+            <input type="text" name="-mis-search-text" class="-mis-search-text" placeholder="Enter text to search for" />
+            <input type="submit" name="-mis-search-submit" value="Search" />
             </form>
         </div>
-		<div class="-feedback-right-options">
-        	<a href="'.SERVER_NAME.'/WebsiteRoot/Logout.php">Logout</a>
+		<div class="-mis-right-options">
+        	<a href="'.WEBSITE_ROOT.'/Logout.php">Logout</a>
         </div>
-        <div class="-feedback-right-options">
+        <div class="-mis-right-options">
             <a href="AccountFunctions.php">'.$_SESSION['SESS_NAME'].'</a>
         </div>        
-		<div class="-feedback-right-options">
-        	<img src="'.SERVER_NAME.'/Images/'.$_SESSION['SESS_PHOTOPATH'].'" class="small-profile-thumb" />
+		<div class="-mis-right-options">
+        	<img src="'.WEBSITE_ROOT.'/Images/'.$_SESSION['SESS_PHOTOPATH'].'" class="small-profile-thumb" />
         </div>
     </div>
     ';
@@ -40,10 +40,10 @@
 	'
 	
     
-    <div class="-feedback-navbar">
-    	<div class="-feedback-profile-photo">
+    <div class="-mis-navbar">
+    	<div class="-mis-profile-photo">
         	<img src="'.SERVER_NAME.'/Images/'.$_SESSION['SESS_PHOTOPATH'].'" />
-            <div class="-feedback-profile-details">
+            <div class="-mis-profile-details">
                 <h2>'.$_SESSION['SESS_NAME'].'</h2>
                 <span><strong>'.$_SESSION['SESS_USERNAME'].'</strong></span><br />
                 <span>'.$_SESSION['SESS_AUTHFULL'].'</span><br />
@@ -78,7 +78,7 @@
 	echo '
     </div>
     
-    <div class="-feedback-content">
+    <div class="-mis-content">
 		';
 	}
 	
@@ -87,7 +87,7 @@
 		echo '
     </div>
 	
-    <div class="-feedback-footer">
+    <div class="-mis-footer">
     	<a href="#">Indian School of Mines, Dhanbad</a> | 
     	<a href="#">Student Registration</a> | 
     	<a href="#">Faculty Registration</a> |

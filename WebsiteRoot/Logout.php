@@ -15,4 +15,5 @@
 			$params["httponly"]);
 	 
 	session_destroy();
-	header('Location: Login.php');
+	$qstring = (isset($_GET['error']))? "?error=".$_GET['error']: "";
+	header('Location: Login.php' . $qstring);

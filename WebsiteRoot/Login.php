@@ -3,7 +3,7 @@
 	require_once("Includes/Layout.php");
 
 	session_start_sec();
-	if(login_check()) {
+	if(login_check($mysqli)) {
 			header("Location: ".WEBSITE_ROOT."/home/");
 			exit;
 	}
@@ -14,7 +14,7 @@
 		$password = $_POST['password'];
 		
 		if(login($user_id, $password, $mysqli)) {
-			header("Location: ".WEBSITE_ROOT."home/");
+			header("Location: ".WEBSITE_ROOT."/home/");
 			exit;
 		}
 		else $error_code = 1;

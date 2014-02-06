@@ -295,6 +295,10 @@ div.-mis-right-options {
 	padding: 0px;
 }
 
+.-mis-navbar > ul {
+	margin-top: 10px;
+}
+
 .-mis-navbar ul li.arrow {
 	background: url(../img/arrow.png) no-repeat right center;
 }

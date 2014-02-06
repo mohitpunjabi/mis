@@ -64,7 +64,11 @@
 	
 	function _drawNavbarMenu() {
 		global $mysqli;
-		echo '<ul>';
+		echo '<ul>
+			<li>
+				<a href="'.WEBSITE_ROOT .'/home">Home</a>
+			</li>
+		';
 		$result = $mysqli->query("SELECT * FROM modules");
 		while($row = $result->fetch_assoc()) {
 			include_once("../" . $row["id"] . "/AccountFunctions.php");

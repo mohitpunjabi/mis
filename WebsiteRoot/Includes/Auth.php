@@ -35,8 +35,8 @@
 	    session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], $secure, $httponly);
 		
 		session_name($session_name);
-		session_start();
-		session_regenerate_id();
+		@session_start();
+		@session_regenerate_id();
 	}
 		
 	function login($user_id, $password, $mysqli) {

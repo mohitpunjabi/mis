@@ -1,8 +1,7 @@
 <?php
-	require_once("../Includes/SessionAuth.php");
-	require_once("../Includes/AuthDo.php");
-	require_once("../Includes/ConfigSQL.php");
-	require_once("../Includes/FeedbackLayout.php");
+	require_once("../Includes/Auth.php");
+	require_once("../Includes/Layout.php");
+	auth('deo');
 	require_once("connectDB.php");
 	drawHeader("Add Student Details");
 

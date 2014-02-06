@@ -103,6 +103,10 @@
 		}
 	}
 	
+	// Set all old session values for compatibility.
+	function _set_old_session_values() {
+	}
+	
 	function login_check($mysqli) {
 		if(isset($_SESSION['id'], $_SESSION['login_string'])) {
 			$user_id = $_SESSION['id'];

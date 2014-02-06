@@ -19,6 +19,11 @@
 		exit;
 	}
 	
+	function is_auth($auth) {
+		session_start_sec();
+		return in_array($auth, $_SESSION['auth']);
+	}
+	
 	function session_start_sec() {
 		$session_name = "mis_sess_id";
 		$secure = SECURE;
@@ -54,7 +59,7 @@
 				}
 				else {
 					//Incorrect Password
-					$mysqli->query("INSERT INTO user_login_attempt values('$user_id', now())");
+					$mysqli->query("INSERT INTO user_login_attempts values('$user_id', now())");
 					return false;
 				}
 			}
@@ -71,8 +76,8 @@
 		if($result = $mysqli->query("SELECT u . * , d.name AS dept_name, d.type AS dept_type
 			FROM (
 				SELECT * 
-				FROM user_details
-				NATURAL JOIN users
+				FROM users
+				NATURAL JOIN user_details
 				WHERE id =  '$user_id'
 			) AS u, departments AS d
 			WHERE u.dept_id = d.id")) {

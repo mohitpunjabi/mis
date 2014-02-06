@@ -47,6 +47,17 @@
 		xmlhttp.send();	
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
+
+	function payband_handler(auth)
+	{
+		var gp = document.getElementsByName("gradepay")[0];
+		gp.innerHTML = "<option  value=\"\" disabled selected>Grade Pay</option>";
+		gp.innerHTML += "<option  value=\"2000\">2000</option>";
+		gp.innerHTML += "<option  value=\"3000\">3000</option>";
+		gp.innerHTML += "<option  value=\"4000\">4000</option>";
+		gp.style.visibility = "visible";
+	}
+
 	
 	function designation_dropdown(auth)
 	{
@@ -128,15 +139,15 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Employee Id<span style= "color:red;"> *</span>
         </td>
         <td width='30%'>
-        	<input type="text" name="emp_id" required="required" /> 
+        	<input type="text" name="emp_id" required="required" tabindex="1" /> 
             <!-- <input type="button" value="Go" id="fetch_id_btn" />-->
         </td>
         <td width='20%'>
         	Physically Challenged<span style= "color:red;"> *</span>
         </td>
         <td width='30%'>
-   	      	<input type="radio" name="pd" value="Yes" />Yes
-            <input type="radio" name="pd" checked value="No" />No       
+   	      	<input type="radio" name="pd" value="Yes" tabindex="2" />Yes
+            <input type="radio" name="pd" checked value="No" tabindex="3" />No       
         </td>
     </tr>
 	<tr>
@@ -144,7 +155,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Salutation<span style= "color:red;"> *</span>
         </td>
         <td>
-			<select name="salutation" >
+			<select name="salutation" tabindex="4" >
             	<option value="Dr" >Dr</option>
                 <option value="Prof">Prof</option>
                 <option value="Mr">Mr</option>
@@ -156,7 +167,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	First Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name = "firstname" required="required"/>
+        	<input type="text" name = "firstname" required="required" tabindex="5"/>
         </td>
     </tr>
    	<tr>
@@ -164,13 +175,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Middle Name
         </td>
         <td>
-        	<input type="text" name = "middlename" />
+        	<input type="text" name = "middlename" tabindex="6" />
         </td>
         <td>
         	Last Name
         </td>
         <td>
-        	<input type="text" name = "lastname" />
+        	<input type="text" name = "lastname" tabindex="7" />
         </td>
    </tr>
    <tr>
@@ -178,14 +189,14 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Gender<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="radio" name="sex" checked value="male">Male</input>
-            <input type="radio" name="sex" value="female">Female</input>
+        	<input type="radio" name="sex" checked value="male" tabindex="8">Male</input>
+            <input type="radio" name="sex" value="female" tabindex="9">Female</input>
         </td>
         <td>
         	Nationality<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="nationality" required="required" value="Indian"/>
+        	<input type="text" name="nationality" required="required" value="Indian" tabindex="10"/>
         </td>
    </tr>
 	   <tr>
@@ -193,13 +204,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Father's Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="father" required="required" />
+        	<input type="text" name="father" required="required" tabindex="11" />
         </td>
         <td>
 			Mother's Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="mother" required="required" />
+        	<input type="text" name="mother" required="required" tabindex="12" />
         </td>
    </tr>
    <tr>
@@ -207,7 +218,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 			Employee Type<span style= "color:red;"> *</span>
        	</td>
         <td>
-        	<select name="tstatus" onchange="teaching_handler(this.value);" >
+        	<select name="tstatus" onchange="teaching_handler(this.value);" tabindex="13" >
             	<option value="ft" selected="selected" >Faculty</option>
                 <option value="nfta">Non Faculty (Academic)</option>
                 <option value="nftn">Non Faculty (Non Academic)</option>
@@ -217,7 +228,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Research Interest
         </td>
         <td>
-        	<input type="text" name="research_int" id="res_int_id"/>
+        	<input type="text" name="research_int" id="res_int_id" tabindex="14"/>
         </td>
    </tr>
    <tr>
@@ -225,7 +236,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Marital Status<span style= "color:red;"> *</span>
         </td>
     	<td>
-        	<select name="mstatus" >
+        	<select name="mstatus" tabindex="15" >
             	<option value="married">Married</option>
                 <option value="unmarried">Unmarried</option>
                 <option value="widow">Widow</option>
@@ -238,8 +249,8 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Kashmiri Immigrant<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<input type="radio" name="kashmiri" value="yes"/>Yes
-            <input type="radio" name="kashmiri" checked value="no"/>No
+			<input type="radio" name="kashmiri" value="yes" tabindex="16"/>Yes
+            <input type="radio" name="kashmiri" checked value="no" tabindex="17"/>No
         </td> 
     </tr>
     <tr>
@@ -247,13 +258,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Date of Joining<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<input type="date" name="entrance_age" value="<?php echo date("Y-m-d",time()+(19800));?>" required="required" >
+			<input type="date" name="entrance_age" value="<?php echo date("Y-m-d",time()+(19800));?>" required="required" tabindex="18" >
         </td>
     	<td>
         	Designation<span style= "color:red;"> *</span>
         </td>
     	<td id="des">
-			<select name="designation">
+			<select name="designation" tabindex="19">
             	<option value="professor">Professor</option>
             	<option value="associate professor">Associate Professor</option>
             	<option value="assistant professor">Assistant Professor</option>
@@ -265,13 +276,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Post Concerned
         </td>
     	<td>
-  	      	<input type="text" name="post" />
+  	      	<input type="text" name="post" tabindex="20" />
         </td>
     	<td>
         	Department/Section<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<select name="department" id="depts" >
+  	      	<select name="department" id="depts" tabindex="21" >
             	<?php
 					$qry=mysql_query("select id,name from departments where type='academic'");
 					while($row=mysql_fetch_row($qry))
@@ -287,7 +298,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
             Category<span style= "color:red;"> *</span>
         </td>
     	<td>
-        	<select name="category">
+        	<select name="category" tabindex="22">
 				<option value="General">GEN</option>
                 <option value="OBC">OBC</option>
                 <option value="SC">SC</option>
@@ -299,7 +310,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Religion<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="religion" required="required"/>
+  	      	<input type="text" name="religion" required="required" tabindex="23"/>
         </td>
     </tr>
     <tr>
@@ -307,21 +318,21 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	DOB<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?>  required="required" />
+  	      	<input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?>  required="required" tabindex="24" />
         </td>
     	<td>
         	Place of Birth<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="pob" required="required" />
+  	      	<input type="text" name="pob" required="required" tabindex="25" />
         </td>
     </tr>
      <tr>
     	<td>
-        	Pay Band+gradepay+basic (tobe aded)<span style= "color:red;"> *</span>
+        	Pay Details<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<select name="payscale" >
+  	      	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);">
             	<option value="" disabled selected>Pay Band </option>
 				<?php
 					$qry=mysql_query("select distinct pay_band from pay_scales");
@@ -331,10 +342,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 					}
                 ?>
             </select>
+            <select name="gradepay" tabindex="26" onchange="javascript: document.getElementById('basicpay').style.visibility='visible'"style="visibility:hidden">
+            </select>
+            <input type="text" name="basicpay" id="basicpay" style="visibility:hidden" size="10"  placeholder="Basic Pay"/>
         </td>
         <td>Nature of Employment<span style= "color:red;"> *</span></td>
        	<td>
-        	<select name="empnature" >
+        	<select name="empnature" tabindex="27" >
             	<option value="permanent">Permanent</option>
                 <option value="temporary">Temporary</option>
                 <option value="probation">Probation</option>
@@ -348,7 +362,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Date of Retirement
         </td>
         <td>
-        	<input type="date" name="retire" />
+        	<input type="date" name="retire" tabindex="28" />
         </td>
     </tr>
     <tr>
@@ -365,13 +379,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Address Line 1<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<textarea name="line11" required="required"></textarea>
+			<textarea name="line11" required="required" tabindex="29"></textarea>
         </td>
     	<td>
         	Address Line 1<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<textarea name="line12" required="required"></textarea>
+			<textarea name="line12" required="required" tabindex="36"></textarea>
         </td>
     </tr>
     <tr>
@@ -379,13 +393,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Address Line 2
         </td>
     	<td>
-  	      	<input type="text" name="line21" />
+  	      	<input type="text" name="line21" tabindex="30" />
         </td>
     	<td>
         	Address Line 2
         </td>
     	<td>
-  	      	<input type="text" name="line22" />
+  	      	<input type="text" name="line22" tabindex="36" />
         </td>
     </tr>
 	<tr>
@@ -393,13 +407,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	City<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="city1" required="required"/>
+  	      	<input type="text" name="city1" required="required" tabindex="31"/>
         </td>
         <td>
         	City<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="city2" required="required"/>
+  	      	<input type="text" name="city2" required="required" tabindex="37"/>
         </td>
     </tr>
     <tr>
@@ -407,13 +421,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	State<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="state1" required="required"/>
+  	      	<input type="text" name="state1" required="required" tabindex="32"/>
         </td>
     	<td>
         	State<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="state2" required="required"/>
+  	      	<input type="text" name="state2" required="required" tabindex="38"/>
         </td>
     </tr>
     <tr>
@@ -421,13 +435,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Pin code<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="pincode1" required="required"/>
+  	      	<input type="tel" name="pincode1" required="required" tabindex="33"/>
         </td>
     	<td>
         	Pin code<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="pincode2" required="required"/>
+  	      	<input type="tel" name="pincode2" required="required" tabindex="39"/>
         </td>
     </tr>
 	    <tr>
@@ -435,13 +449,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Country<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="country1" value="India" required="required"/>
+  	      	<input type="text" name="country1" value="India" required="required" tabindex="34"/>
         </td>
     	<td>
         	Country<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="country2" value="India" required="required"/>
+  	      	<input type="text" name="country2" value="India" required="required" tabindex="40"/>
         </td>
     </tr>
     <tr>
@@ -449,32 +463,32 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Contact No<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="contact1" required="required"/>
+  	      	<input type="tel" name="contact1" required="required" tabindex="35"/>
         </td>
     	<td>
         	Contact No<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="contact2" required="required"/>
+  	      	<input type="tel" name="contact2" required="required" tabindex="41"/>
         </td>
     </tr>
     <tr><th colspan=4></th></tr>
 		<tr><td>Hobbies</td>
-        	<td><input type="text" name="hobbies"></td>
+        	<td><input type="text" name="hobbies" tabindex="42"></td>
             <td>Favourite Past Time</td>
-        	<td><input type="text" name="favpast"></td>
+        	<td><input type="text" name="favpast" tabindex="43"></td>
         </tr>
         <tr>
             <td>Fax</td>
-        	<td><input type="tel" name="fax" ></td>
+        	<td><input type="tel" name="fax" tabindex="44"></td>
             <td>Office No</td>
-        	<td><input type="tel" name="office"></td>
+        	<td><input type="tel" name="office" tabindex="45"></td>
         </tr>
         <tr>
         	<td>Email</td>
-        	<td><input type="email" name="email" ></td>
+        	<td><input type="email" name="email" tabindex="46" ></td>
             <td>Mobile No</td>
-        	<td><input type="tel" name="mobile" ></td>
+        	<td><input type="tel" name="mobile" tabindex="47" ></td>
         </tr>
 </table>
 <table width="90%">
@@ -482,12 +496,12 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         <tr  height="150">
             <td width="145" id="preview"><?php echo '<img src="Images/noProfileImage.png" id="view_photo" width="145" height="150"/>'; ?></td>
         	<td align="center">Click on choose file to select picture<span style= "color:red;"> *</span><br>
-            	<input type="file" name="photo" id="photo" required="required" ><br>
-                <input type="button" value="preview" onClick="preview_pic();">	
+            	<input type="file" name="photo" id="photo" required="required" tabindex="48" ><br>
+                <input type="button" value="preview" onClick="preview_pic();" tabindex="49">	
             </td>
 		</tr>
 </table>
-<input type = "submit" value="Next"/>
+<input type = "submit" value="Next" tabindex="50"/>
 </form>
 
 <?php

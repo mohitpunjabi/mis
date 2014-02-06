@@ -28,58 +28,71 @@
         	<a href="'.WEBSITE_ROOT.'/Logout.php">Logout</a>
         </div>
         <div class="-mis-right-options">
-            <a href="AccountFunctions.php">'.$_SESSION['SESS_NAME'].'</a>
+            <a href="AccountFunctions.php">'.$_SESSION['name'].'</a>
         </div>        
 		<div class="-mis-right-options">
-        	<img src="'.WEBSITE_ROOT.'/Images/'.$_SESSION['SESS_PHOTOPATH'].'" class="small-profile-thumb" />
+        	<img src="'.WEBSITE_ROOT.'/Images/'.$_SESSION['photopath'].'" class="small-profile-thumb" />
         </div>
     </div>
     ';
 	
 	echo
 	'
-	
-    
     <div class="-mis-navbar">
     	<div class="-mis-profile-photo">
-        	<img src="'.SERVER_NAME.'/Images/'.$_SESSION['SESS_PHOTOPATH'].'" />
+        	<img src="'.WEBSITE_ROOT.'/Images/'.$_SESSION['photopath'].'" />
             <div class="-mis-profile-details">
-                <h2>'.$_SESSION['SESS_NAME'].'</h2>
-                <span><strong>'.$_SESSION['SESS_USERNAME'].'</strong></span><br />
-                <span>'.$_SESSION['SESS_AUTHFULL'].'</span><br />
+                <h2>'.$_SESSION['name'].'</h2>
+                <span><strong>'.$_SESSION['id'].'</strong></span><br />
 				';
-			if($_SESSION['SESS_AUTH'] == 'ST')
-                echo '<span>'.$_SESSION['SESS_COURSE'].', '.$_SESSION['SESS_BRANCH'].'</span><br /><br />';
-			if($_SESSION['SESS_AUTH'] == 'FT' || $_SESSION['SESS_AUTH'] == 'FA')
-                echo '<span>'.$_SESSION['SESS_DESIGN'].', '.$_SESSION['SESS_DEPT'].'</span><br /><br />';
+			if(in_array('emp', $_SESSION['auth']))
+                echo '<span>'.$_SESSION['designation'].', '.$_SESSION['dept_name'].'</span><br /><br />';
+			else if(in_array('st', $_SESSION['auth']))
+                echo '<span>, '.$_SESSION['dept_name'].'</span><br /><br />';
 	echo'
             </div>
         </div>';
-		
-		
-    echo '<ul>
-        	<li><a href="'.SERVER_NAME.'/WebsiteRoot/">Home</a></li>
-		  ';
-	
-		if($_SESSION["SESS_AUTH"] == 'FT') {
-        	echo '<li><a href="'.SERVER_NAME.'/WebsiteRoot/employee/show_emp.php">View Details</a></li>';
-		}
-		if($_SESSION["SESS_AUTH"] == 'DO') {
-        	echo '<li>
-			<a href="'.SERVER_NAME.'/WebsiteRoot/employee/">Employee Management</a>
-				<ul>
-					<li><a href="'.SERVER_NAME.'/WebsiteRoot/employee/add_employee.php">Add an employee</a></li>
-					<li><a href="'.SERVER_NAME.'/WebsiteRoot/employee/edit_employee.php">Edit employee details</a></li>
-					<li><a href="'.SERVER_NAME.'/WebsiteRoot/employee/emp_view.php">View employee Details</a></li>
-				</ul>
-			</li>';
-		}
 
+	_drawNavbarMenu();	
+		
 	echo '
     </div>
     
     <div class="-mis-content">
 		';
+	}
+	
+	function _drawNavbarMenu() {
+		global $mysqli;
+		echo '<ul>';
+		$result = $mysqli->query("SELECT * FROM modules");
+		while($row = $result->fetch_assoc()) {
+			include_once("../" . $row["id"] . "/AccountFunctions.php");
+			_drawNavbarMenuItem($$row["id"], WEBSITE_ROOT . "/" . $row["id"]);
+		}
+		echo '</ul>';
+	}
+	
+	function _drawNavbarMenuItem($mi, $basePath) {
+		foreach($mi as $key => $val) {
+			echo '<li>';
+			echo "<a href=\"$basePath/".((is_string($val))? $val: "")."\">$key</a>";
+			if(is_array($val))	{
+				echo '<ul>';
+				_drawNavbarMenuItem($val, $basePath);
+				echo '</ul>';
+			}
+			echo '</li>';
+		}
+	}
+	
+	function currentModule() {
+		$urlParts = explode("/", $_SERVER['PHP_SELF']);
+		$i = 0;
+		for($i = 0; $i < sizeof($urlParts); $i++)
+			if(strtolower($urlParts[$i]) == "websiteroot") break;
+		
+		return $urlParts[$i+1];
 	}
 	
 	
@@ -89,8 +102,6 @@
 	
     <div class="-mis-footer">
     	<a href="#">Indian School of Mines, Dhanbad</a> | 
-    	<a href="#">Student Registration</a> | 
-    	<a href="#">Faculty Registration</a> |
     	<a href="#">Developers</a> |
     	<a href="#">Help</a>
     </div>

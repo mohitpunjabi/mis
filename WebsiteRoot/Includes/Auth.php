@@ -105,7 +105,22 @@
 					array_push($_SESSION['auth'], $row['auth_id']);
 				}
 			}
+			
+			_set_old_session_values();
 		}
+	}
+	
+	// Set all old session values for compatibility.
+	function _set_old_session_values() {
+			$_SESSION['SESS_USERNAME'] = $_SESSION['id'];
+			$_SESSION['SESS_AUTH'] = $_SESSION['auth'][0];
+			$_SESSION['SESS_AUTHFULL'] = $_SESSION['auth'][0];
+			$_SESSION['SESS_BRANCH'] = '';
+			$_SESSION['SESS_COURSE'] = '';
+			$_SESSION['SESS_SEMESTER'] = '';
+			$_SESSION['SESS_NAME'] = $_SESSION['name'];
+			$_SESSION['SESS_DEPT'] = $_SESSION['dept_id'];
+			if(is_auth('emp')) $_SESSION['SESS_DESIGN'] = $_SESSION['designation'];
 	}
 	
 	function login_check($mysqli) {

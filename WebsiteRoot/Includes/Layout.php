@@ -75,8 +75,9 @@
 	
 	function _drawNavbarMenuItem($mi, $basePath) {
 		foreach($mi as $key => $val) {
-			echo '<li>';
-			echo "<a href=\"$basePath/".((is_string($val))? $val: "")."\">$key</a>";
+			$arrow = (is_array($val))? 'class="arrow"': "";
+			echo "<li $arrow>";
+			echo "<a href=\"$basePath/".((is_string($val))? $val: "#")."\">$key</a>";
 			if(is_array($val))	{
 				echo '<ul>';
 				_drawNavbarMenuItem($val, $basePath);

@@ -251,6 +251,7 @@ div.-mis-right-options {
 	padding-left: 10px;
 	padding-right: 10px;
 	overflow: visible;
+	z-index: 4;
 }
 
 .-mis-profile-photo {
@@ -294,15 +295,19 @@ div.-mis-right-options {
 	padding: 0px;
 }
 
-.-mis-navbar ul li {
+.-mis-navbar ul li.arrow {
+	background: url(../img/arrow.png) no-repeat right center;
+}
+
+.-mis-navbar ul > li {
 	padding: 0px;
 	width: 100%;
-	margin-top: 5px;
+	margin: 0;
 	position: relative;
 }
 
-.-mis-navbar ul li a {
-	padding: 5px 5px;
+.-mis-navbar ul > li > a {
+	padding: 7px 5px;
 	display: block;
 	color: #001a8d;
 	-webkit-transition: all 0.2s ease-in-out 0;
@@ -311,42 +316,39 @@ div.-mis-right-options {
 			transition: all 0.2s ease-in-out 0;
 }
 
-.-mis-navbar ul li a:hover {
-	padding: 5px 10px;
-	display: block;
-	background: #ccc;
-}
-
 .-mis-navbar ul li.current {
 	border-left: 2px #223caf solid;
 }
 
 
-.-mis-navbar ul li ul {
+.-mis-navbar ul > li > ul {
 	display: none;
-	top: 10px;
-	right: -20px;
-	color: #223caf;
-	-webkit-transition: all 0.2s ease-in-out 0;
-	   -moz-transition: all 0.2s ease-in-out 0;
-		 -o-transition: all 0.2s ease-in-out 0;
-			transition: all 0.2s ease-in-out 0;
+	position: absolute;
+	background: #EEE;
+	box-shadow: 0px 0px 3px rgba(100, 100, 100, 0.4);
+	top: 0px;
+	right: -100%;
+	width: inherit;
+	padding: 5px;
 }
 
-.-mis-navbar ul li ul li a {
-	color: #223caf;
+.-mis-navbar ul > li:hover > a {
+	padding: 7px 10px;
 }
 
-.-mis-navbar ul li:hover ul {
+.-mis-navbar ul li:hover {
+	background: #ccc;
+}
+
+.-mis-navbar ul > li:hover > ul {
 	display: block;
-	padding-left: 10px;
-	border-left: 3px #bbb solid;
 }
 
 
 
 /* Content Style */
 .-mis-content {
+	z-index: 2;
 	position: fixed;
 	top: 40px;
 	left: 200px;

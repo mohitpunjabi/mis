@@ -1,5 +1,6 @@
-<?php
-	require_once("../Includes/SessionAuth.php");
+<?php	require_once("../Includes/Auth.php");
+	auth();
+
 	require_once("connectDB.php");
 	
 	function generate_random_string($name_length = 8) 

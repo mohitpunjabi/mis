@@ -1,6 +1,5 @@
 <?php
-//	require_once('../Includes/SessionAuth.php');
-	require_once("../Includes/FeedbackLayout.php");
+//	require_once('../Includes/SessionAuth.php');	require_once("../Includes/Layout.php");
 	
 	require_once("connectDB.php");
 	drawHeader("View Student Details");

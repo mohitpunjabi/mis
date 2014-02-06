@@ -1,7 +1,7 @@
-<?php
-	require_once("../Includes/SessionAuth.php");
-	require_once("../Includes/ConfigSQL.php");
-	require_once("../Includes/FeedbackLayout.php");
+<?php	require_once("../Includes/Auth.php");
+	auth();
+
+	require_once("../Includes/ConfigSQL.php");	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	drawHeader("Student Management");
 	

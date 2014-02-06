@@ -1,9 +1,9 @@
 <html>
-<?php
-	require_once("../Includes/SessionAuth.php");
+<?php	require_once("../Includes/Auth.php");
+	auth();
+
 	require_once("../Includes/AuthDo.php");
-	require_once("../Includes/ConfigSQL.php");
-	require_once("../Includes/FeedbackLayout.php");
+	require_once("../Includes/ConfigSQL.php");	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	

@@ -2,6 +2,7 @@
 	require_once("Auth.php");
 	
 	function drawHeader($title = "Feedback System - Indian School of Mines") {
+		@session_start_sec();
 		echo '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -31,7 +32,12 @@
             <a href="AccountFunctions.php">'.$_SESSION['name'].'</a>
         </div>        
 		<div class="-mis-right-options">
-        	<img src="'.WEBSITE_ROOT.'/Images/'.$_SESSION['photopath'].'" class="small-profile-thumb" />
+		';
+			if(is_auth("emp"))
+	        	echo '<img src="'.WEBSITE_ROOT.'/employee/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'" class="small-profile-thumb" />';
+			else if(is_auth("stu")) 
+	        	echo '<img src="'.WEBSITE_ROOT.'/student/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'" class="small-profile-thumb" />';
+		echo '
         </div>
     </div>
     ';
@@ -39,15 +45,19 @@
 	echo
 	'
     <div class="-mis-navbar">
-    	<div class="-mis-profile-photo">
-        	<img src="'.WEBSITE_ROOT.'/Images/'.$_SESSION['photopath'].'" />
+    	<div class="-mis-profile-photo">';
+			if(is_auth("emp"))
+	        	echo '<img src="'.WEBSITE_ROOT.'/employee/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'"  />';
+			else if(is_auth("stu")) 
+	        	echo '<img src="'.WEBSITE_ROOT.'/student/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'"  />';
+	echo '
             <div class="-mis-profile-details">
                 <h2>'.$_SESSION['name'].'</h2>
                 <span><strong>'.$_SESSION['id'].'</strong></span><br />
 				';
 			if(in_array('emp', $_SESSION['auth']))
                 echo '<span>'.$_SESSION['designation'].', '.$_SESSION['dept_name'].'</span><br /><br />';
-			else if(in_array('st', $_SESSION['auth']))
+			else if(in_array('stu', $_SESSION['auth']))
                 echo '<span>, '.$_SESSION['dept_name'].'</span><br /><br />';
 	echo'
             </div>

@@ -1,17 +1,9 @@
 
-<<<<<<< HEAD
 <?php
 	require_once("../Includes/Auth.php");
     auth('deo');
 	require_once("../Includes/ConfigSQL.php");
 	require_once("../Includes/Layout.php");
-=======
-<?php	require_once("../Includes/Auth.php");
-	auth();
-
-	require_once("../Includes/AuthDo.php");
-	require_once("../Includes/ConfigSQL.php");	require_once("../Includes/Layout.php");
->>>>>>> employee
 	
 	if((isset($_SESSION['STUDENT_CURRSTEP']) && $_SESSION['STUDENT_CURRSTEP'] == 1) == FALSE)
 	{

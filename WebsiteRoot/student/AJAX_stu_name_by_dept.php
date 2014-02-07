@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 <?php
 	require_once("../Includes/Auth.php");
 	auth('deo');
-=======
-<?php	require_once("../Includes/Auth.php");
-	auth();
-
->>>>>>> employee
 	require_once("connectDB.php");
 	
 	$dept=$_GET['dept'];

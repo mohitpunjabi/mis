@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 <?php
-		require_once("../Includes/Auth.php");
-		auth('deo','stu');
-=======
-<?php	require_once("../Includes/Auth.php");
+	require_once("../Includes/Auth.php");
 	auth();
 
->>>>>>> employee
 		require_once("connectDB.php");
 
 		if(isset($_GET['t']))
 		{
-			if($_GET['t']=='ug')	
+			if($_GET['t']=='ft')	
 			{
 				$qry=mysql_query("select id,name from departments where type='academic'");
 				while($roww=mysql_fetch_row($qry))
@@ -24,7 +19,7 @@
 						<?php
                 }
 			}
-			if($_GET['t']=='pg')
+			if($_GET['t']=='nfta')
 	       	{
 				$qry=mysql_query("select id,name from departments");
 				while($roww=mysql_fetch_row($qry))
@@ -37,7 +32,7 @@
 					<?php
 				}
 			}
-			if($_GET['t']=='jrf')	
+			if($_GET['t']=='nftn')	
 			{
 				$qry=mysql_query("select id,name from departments where type='nonacademic'");
 				while($roww=mysql_fetch_row($qry))

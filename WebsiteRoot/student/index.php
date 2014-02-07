@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 <?php
 	require_once("../Includes/Auth.php");
 	auth('deo','stu');
 	require_once("../Includes/ConfigSQL.php");
 	require_once("../Includes/Layout.php");
+=======
+<?php	require_once("../Includes/Auth.php");
+	auth();
+
+	require_once("../Includes/ConfigSQL.php");	require_once("../Includes/Layout.php");
+>>>>>>> employee
 	require_once("connectDB.php");
 	drawHeader("Student Management");
 	

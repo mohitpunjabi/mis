@@ -1,24 +1,14 @@
-<<<<<<< HEAD
 <?php
 	require_once("../Includes/Auth.php");
-	auth('deo');
-	require_once("../Includes/ConfigSQL.php");
+	auth("deo");
 	require_once("../Includes/Layout.php");
-=======
-<html>
-<?php	require_once("../Includes/Auth.php");
-	auth();
 
-	require_once("../Includes/AuthDo.php");
-	require_once("../Includes/ConfigSQL.php");	require_once("../Includes/Layout.php");
->>>>>>> employee
-
-/*	if(!(isset($_SESSION['EMP_CURRSTEP']) && $_SESSION['EMP_CURRSTEP'] == 3))
+	if(!(isset($_SESSION['EMP_CURRSTEP']) && $_SESSION['EMP_CURRSTEP'] == 3))
 	{
 		if(!isset($_SESSION['EMP_CURRSTEP']))
 			$_SESSION['EMP_CURRSTEP'] = 3;
 		header("Location: add_employee.php");
-	}	*/
+	}	
 	drawHeader("Add educational qualifications");
 ?>
 <script	type="text/javascript">
@@ -93,8 +83,8 @@
 <?php
 	echo '<table>
 				<tr>
-					<th>Student Id</th>
-					<td>'.$_SESSION['ADD_STU_ID'].'</td>
+					<th>Employee Id</th>
+					<td>'.$_SESSION['ADD_EMP_ID'].'</td>
 				</tr></table>' ;
 ?>
 <h1>Step 4 :Please fill up the Educational Qualificatoins</h1>

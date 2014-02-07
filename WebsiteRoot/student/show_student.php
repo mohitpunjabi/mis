@@ -1,7 +1,12 @@
 <?php
+<<<<<<< HEAD
 	require_once('../Includes/Auth.php');
 	require_once("../Includes/Layout.php");
 	auth('deo','stu');
+=======
+//	require_once('../Includes/SessionAuth.php');	require_once("../Includes/Layout.php");
+	
+>>>>>>> employee
 	require_once("connectDB.php");
 	drawHeader("View Student Details");
 ?>

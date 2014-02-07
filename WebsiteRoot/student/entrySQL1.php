@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <?php
 	require_once("../Includes/Auth.php");
 	auth('deo');
+=======
+<?php	require_once("../Includes/Auth.php");
+	auth();
+
+>>>>>>> employee
 	require_once("connectDB.php");
     
 	//making directory in images for the student

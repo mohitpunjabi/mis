@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <?php
 	require_once("../Includes/Auth.php");
 	auth('deo');
+=======
+<?php	require_once("../Includes/Auth.php");
+	auth();
+
+>>>>>>> employee
 	require_once("connectDB.php");
 	
 	$res=mysql_query("SELECT * FROM  stu_current_entry ");

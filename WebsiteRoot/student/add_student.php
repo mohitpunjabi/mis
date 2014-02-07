@@ -8,15 +8,15 @@
 	$result=mysql_query("SELECT * FROM  stu_current_entry ");
 	$row_count=mysql_num_rows($result);
 
-	if($row_count == 0) 
+	if($row_count == 0)
 	{
-		$_SESSION['STU_CURRSTEP'] = 0;
+		$_SESSION['STUDENT_CURRSTEP'] = 0;
 		header('Location: stu_detail.php');
 	}
 	else
 	{
 		$row=mysql_fetch_row($result);
-		echo $_SESSION['ADD_STU_ID']=$row[0];
+		echo $_SESSION['ADD_STUDENT_ID']=$row[0];
 		switch($row[1])
 		{
 			case 1:	header('Location: student_other_details.php');break;

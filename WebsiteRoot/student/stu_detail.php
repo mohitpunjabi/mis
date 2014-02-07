@@ -1,13 +1,11 @@
 <?php
 	require_once("../Includes/Auth.php");
 	require_once("../Includes/Layout.php");
-	
 	auth('deo');
-	
 	require_once("connectDB.php");
 	
 	drawHeader("Add Candidate Details");
-	if(!(isset($_SESSION['STU_CURRSTEP']) && $_SESSION['STU_CURRSTEP'] == 0))
+	if(!(isset($_SESSION['STUDENT_CURRSTEP']) && $_SESSION['STUDENT_CURRSTEP'] == 0))
 		header("Location: add_student.php");
 	
 	if(isset($_GET['error']))

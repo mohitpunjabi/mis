@@ -1,6 +1,6 @@
-<?php	require_once("../Includes/Auth.php");
-	auth();
-
+<?php
+	require_once("../Includes/Auth.php");
+	auth('deo');
 	require_once("connectDB.php");
     
 	//making directory in images for the student
@@ -75,26 +75,26 @@
 				$father=$_POST['father_name'];
 	
 			$qry = "INSERT INTO user_other_details
-					VALUES ('".$_POST['stu_id']."',
-							'".$_POST['religion']."',
-							'".$_POST['nationality']."',
+					VALUES ('".strtolower($_POST['stu_id'])."',
+							'".strtolower($_POST['religion'])."',
+							'".strtolower($_POST['nationality'])."',
 							'".$_POST['kashmiri']."',
-							'".$_POST['hobbies']."',
-							'".$_POST['favpast']."',
-							'".$_POST['pob']."',
+							'".strtolower($_POST['hobbies'])."',
+							'".strtolower($_POST['favpast'])."',
+							'".strtolower($_POST['pob'])."',
 							'".$_POST['mobile']."',
-							'".$father."',
-							'".$mother."',
-							'".$guardian."')";
+							'".strtolower($father)."',
+							'".strtolower($mother)."',
+							'".strtolower($guardian)."')";
 			$uresult = mysql_query($qry);
 
 			$qry = "INSERT INTO stu_details
 					(admn_no,
 					 admn_date,
 					 identification_mark)
-					VALUES ('".$_POST['stu_id']."',
+					VALUES ('".strtolower($_POST['stu_id'])."',
 							'".$_POST['entrance_age']."',
-						    '".$_POST['identification_mark']."')";
+						    '".strtolower($_POST['identification_mark'])."')";
 			$iresult = mysql_query($qry);
 
 			if($presult && $uresult && $iresult )
@@ -102,35 +102,35 @@
 				if(!$_POST['correspondence_addr'])
 				{
 					$qry = "INSERT INTO user_address
-						VALUES ('".$_POST['stu_id']."',
-								'".$_POST['line13']."',
-								'".$_POST['line23']."',
-								'".$_POST['city3']."',					
-								'".$_POST['state3']."',
+						VALUES ('".strtolower($_POST['stu_id'])."',
+								'".strtolower($_POST['line13'])."',
+								'".strtolower($_POST['line23'])."',
+								'".strtolower($_POST['city3'])."',					
+								'".strtolower($_POST['state3'])."',
 								'".$_POST['pincode3']."',
-								'".$_POST['country3']."',
+								'".strtolower($_POST['country3'])."',
 								'".$_POST['contact3']."','correspondence')";
 				$result3 = mysql_query($qry);
 				}
 				
 				$qry = "INSERT INTO user_address
-						VALUES ('".$_POST['stu_id']."',
-								'".$_POST['line11']."',
-								'".$_POST['line21']."',
-								'".$_POST['city1']."',					
-								'".$_POST['state1']."',
+						VALUES ('".strtolower($_POST['stu_id'])."',
+								'".strtolower($_POST['line11'])."',
+								'".strtolower($_POST['line21'])."',
+								'".strtolower($_POST['city1'])."',					
+								'".strtolower($_POST['state1'])."',
 								'".$_POST['pincode1']."',
-								'".$_POST['country1']."',
+								'".strtolower($_POST['country1'])."',
 								'".$_POST['contact1']."','present')";
 				$result1 = mysql_query($qry);
 				$qry = "INSERT INTO user_address
-						VALUES ('".$_POST['stu_id']."',
-								'".$_POST['line12']."',
-								'".$_POST['line22']."',
-								'".$_POST['city2']."',					
-								'".$_POST['state2']."',
+						VALUES ('".strtolower($_POST['stu_id'])."',
+								'".strtolower($_POST['line12'])."',
+								'".strtolower($_POST['line22'])."',
+								'".strtolower($_POST['city2'])."',					
+								'".strtolower($_POST['state2'])."',
 								'".$_POST['pincode2']."',
-								'".$_POST['country2']."',
+								'".strtolower($_POST['country2'])."',
 								'".$_POST['contact2']."','permanent')";
 				$result2 = mysql_query($qry);
 				
@@ -138,7 +138,7 @@
 				
 				if($result1 && $result2)
 				{
-					$next_step="INSERT INTO stu_current_entry VALUES ('".$_POST['stu_id']."',1)";
+					$next_step="INSERT INTO stu_current_entry VALUES ('".strtolower($_POST['stu_id'])."',1)";
 					mysql_query($next_step);
 					$_SESSION['STU_CURRSTEP'] = 1;
 					header('Location: add_student.php');

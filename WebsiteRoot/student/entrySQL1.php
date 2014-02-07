@@ -84,8 +84,7 @@
 							'".strtolower($_POST['pob'])."',
 							'".$_POST['mobile']."',
 							'".strtolower($father)."',
-							'".strtolower($mother)."',
-							'".strtolower($guardian)."')";
+							'".strtolower($mother)."')";
 			$uresult = mysql_query($qry);
 
 			$qry = "INSERT INTO stu_details
@@ -150,7 +149,7 @@
 			}
 			else
 			{
-				echo mysql_error("There was an error in entering user datails or user other details");		
+				echo mysql_error();		
 			}
 		}
 		else

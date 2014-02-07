@@ -48,8 +48,10 @@
 		$stu=$_GET['stu_id'];
 		
 	$stu_details=mysql_query("select * 
-								from user_details NATURAL JOIN user_other_details NATURAL JOIN stu_details
-								where id='".$stu."'");
+								from user_details, user_other_details, stu_details
+								WHERE user_details.id='".$stu."' AND
+									  user_details.id = user_other_details.id AND
+									  user_details.id = stu_details.admn_no");
 	
 	$user=mysql_fetch_assoc($stu_details);
 	
@@ -76,15 +78,15 @@
 				$dept=mysql_fetch_row($dept);
 				$dept_id=strtoupper($dept[1]);
 				
-				$db = mysql_select_db("feedback_sfstest");
+				//$db = mysql_select_db("feedback_sfstest");
 	//retrieving course id from feedback_sfstest
-		$ret_course_id=mysql_query("SELECT course_name FROM feedback_course INNER JOIN feedback_numsubjects WHERE branch_id='$dept_id'");//'$dept_id'");
-		$db = mysql_select_db("mis");
-				$course_id=mysql_fetch_row($ret_course_id);
-				$course=$course_id[0];
+		//$ret_course_id=mysql_query("SELECT course_name FROM feedback_course INNER JOIN feedback_numsubjects WHERE branch_id='$dept_id'");//'$dept_id'");
+		//$db = mysql_select_db("mis");
+				//$course_id=mysql_fetch_row($ret_course_id);
+				$course="";//$course_id[0];
 				$stu_detail=mysql_query("select * from stu_details where admn_no='".$stu."'");
 				$row=mysql_fetch_row($stu_detail);
-				
+								
 				if(empty($user['guardian_name']))
 					{
 						echo '<th>Father Name</th><td>'.$user['father_name'].'</td>

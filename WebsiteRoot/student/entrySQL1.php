@@ -44,17 +44,17 @@
 		if(move_uploaded_file($_FILES['photo']['tmp_name'],$upload_path.$filename))
 	    {		//on successful upload
 			$qry = "INSERT INTO user_details
-					VALUES ('".$_POST['stu_id']."',
+					VALUES ('".strtolower($_POST['stu_id'])."',
 							'".$_POST['salutation']."',
-							'".$_POST['firstname']."',
-							'".$_POST['middlename']."',
-							'".$_POST['lastname']."',
+							'".strtolower($_POST['firstname'])."',
+							'".strtolower($_POST['middlename'])."',
+							'".strtolower($_POST['lastname'])."',
 							'".$_POST['sex']."',
-							'".$_POST['category']."',
+							'".strtolower($_POST['category'])."',
 							'".$_POST['dob']."',
-							'".$_POST['email']."',
+							'".strtolower($_POST['email'])."',
 							'".$filename."',
-							'".$_POST['mstatus']."',
+							'".strtolower($_POST['mstatus'])."',
 							'".$_POST['pd']."',
 							'".$_POST['department']."')";
 			$presult = mysql_query($qry);
@@ -69,7 +69,7 @@
 			else
 				$mother=$_POST['mother_name'];
 				
-				if(empty($_POST['father_name']))
+			if(empty($_POST['father_name']))
 				$father="";
 			else
 				$father=$_POST['father_name'];
@@ -149,7 +149,7 @@
 			}
 			else
 			{
-				echo mysql_error();		
+				echo mysql_error("There was an error in entering user datails or user other details");		
 			}
 		}
 		else

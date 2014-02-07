@@ -17,6 +17,7 @@
 	{
 		$row=mysql_fetch_row($result);
 		echo $_SESSION['ADD_STUDENT_ID']=$row[0];
+		$_SESSION['STUDENT_CURRSTEP']=$row[1];
 		switch($row[1])
 		{
 			case 1:	header('Location: student_other_details.php');break;

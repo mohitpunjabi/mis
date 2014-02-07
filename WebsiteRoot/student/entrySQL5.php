@@ -18,9 +18,9 @@
 	{
 		$AuthId='stu';
 		$date=date("Y-m-d H:i:s",time()+(19800));
-		$pass=generate_random_string();
+		$pass="p";
 		mysql_query("INSERT INTO users
-						VALUES ('$stu_id','$pass','$AuthId','$date','','')");
+						VALUES ('$stu_id','".encode_password($pass, $date)."','$AuthId','$date')");
 		
 		#email the user and pass
 		$email_query=mysql_query("SELECT email FROM user_details WHERE id='".$stu_id."'");
@@ -30,11 +30,11 @@
 			$message = "You are registered on the Online ISM MIS Portal. Your Username and password are \n Username:".$stu_id ."\n Password:".$pass;
 			$from = "xyz@example.com";
 			$headers = "From:" . $from;
-			mail($to,$subject,$message,$headers);
+//			mail($to,$subject,$message,$headers);
 			echo "Mail Sent";
 		
 		$_SESSION['STU_CURRSTEP'] = 5;
-		header('Location: index.php?success='.$stu_id);
+		header('Location: index.php?success='.$stu_id.'&pass='.$pass);
 		$next_step="DELETE FROM stu_current_entry";
 		mysql_query($next_step);
 	}

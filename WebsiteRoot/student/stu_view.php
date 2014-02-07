@@ -1,13 +1,9 @@
 <?php
-	require_once('../Includes/SessionAuth.php');
-	require_once("../Includes/FeedbackLayout.php");
+	require_once('../Includes/Auth.php');
+	auth('deo','stu');
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	drawHeader("View Student");
-	if($_SESSION['SESS_AUTH']!="DO")
-	{
-		header("location: ../Includes/SessionAuthFail.php");
-		exit();
-	}
 ?>
 <h1 class="page-head">Select Student Admission Number to view other Student details</h1> 	
 <script type="text/javascript">

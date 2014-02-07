@@ -1,7 +1,8 @@
 <?php
-	require_once("../Includes/SessionAuth.php");
+	require_once("../Includes/Auth.php");
+	auth('deo','stu');
 	require_once("../Includes/ConfigSQL.php");
-	require_once("../Includes/FeedbackLayout.php");
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	drawHeader("Student Management");
 	
@@ -13,7 +14,7 @@
 		
 	drawNotification("Please select an option", ""); 
 
-	if($_SESSION['SESS_AUTH']=="DO")
+	if(is_auth('deo'))
 	{
 		echo '<h2><br><a href = "add_student.php">Add Student</a></h2>';
 		$query=mysql_query("select * from stu_current_entry");
@@ -25,7 +26,7 @@
 	    echo '<br><h2><a href = "edit_stu.php">Edit Student Details</a><br></h2>';
 	    echo '<h2><a href = "stu_view.php">View Student Details</a><br></h2>';
 	}
-    else
+    else if(is_auth('stu'))
 		echo '<br><h2><a href = "show_stu.php">View Student Details</a></h2>';
 
 	mysql_close();

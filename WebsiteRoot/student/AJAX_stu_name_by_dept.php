@@ -1,5 +1,6 @@
 <?php
-	require_once("../Includes/SessionAuth.php");
+	require_once("../Includes/Auth.php");
+	auth('deo');
 	require_once("connectDB.php");
 	
 	$dept=$_GET['dept'];

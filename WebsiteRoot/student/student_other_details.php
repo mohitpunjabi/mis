@@ -1,14 +1,14 @@
 
 <?php
-	require_once("../Includes/SessionAuth.php");
-	require_once("../Includes/AuthDo.php");
+	require_once("../Includes/Auth.php");
+    auth('deo');
 	require_once("../Includes/ConfigSQL.php");
-	require_once("../Includes/FeedbackLayout.php");
+	require_once("../Includes/Layout.php");
 	
-	if((isset($_SESSION['STU_CURRSTEP']) && $_SESSION['STU_CURRSTEP'] == 1) == FALSE)
+	if((isset($_SESSION['STUDENT_CURRSTEP']) && $_SESSION['STUDENT_CURRSTEP'] == 1) == FALSE)
 	{
-		if(!isset($_SESSION['STU_CURRSTEP']))
-			$_SESSION['STU_CURRSTEP'] = 1;
+		if(!isset($_SESSION['STUDENT_CURRSTEP']))
+			$_SESSION['STUDENT_CURRSTEP'] = 1;
 		header("Location: add_student.php");
 	}	
 	drawHeader("Add Admission Details");
@@ -41,7 +41,7 @@
 <?php	echo '<table>
 				<tr>
 					<th>Student Id</th>
-					<td>'.$_SESSION['ADD_STU_ID'].'</td>
+					<td>'.$_SESSION['ADD_STUDENT_ID'].'</td>
 				</tr>
 				</table>' ;
  ?>
@@ -109,13 +109,13 @@
         	Parent/Guardian Mobile No.
         </td>
         <td>
-        	<input type="tel" name = "parent_mob" />
+        	<input type="tel" name = "parent_mob" required="required"/>
         </td>
         <td>
         	Parent/Guardian Landline No.
         </td>
         <td>
-        	<input type="tel" name = "parent_lan" required="required"/>
+        	<input type="tel" name = "parent_lan" />
         </td>
    </tr>
    <tr>

@@ -1,7 +1,7 @@
 <?php
-//	require_once('../Includes/SessionAuth.php');
-	require_once("../Includes/FeedbackLayout.php");
-	
+	require_once('../Includes/Auth.php');
+	require_once("../Includes/Layout.php");
+	auth('deo','stu');
 	require_once("connectDB.php");
 	drawHeader("View Student Details");
 ?>
@@ -42,9 +42,9 @@
 </script>
 <?php
 	$c=0;
-	if($_SESSION['SESS_AUTH']!="DO")
+	if(is_auth('stu'))
 		echo $stu=$_SESSION['SESS_USERNAME'];
-	else
+	else if(is_auth('deo'))
 		$stu=$_GET['stu_id'];
 		
 	$stu_details=mysql_query("select * 

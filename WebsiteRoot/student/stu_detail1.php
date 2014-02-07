@@ -1,5 +1,6 @@
 <?php
-		require_once("../Includes/SessionAuth.php");
+		require_once("../Includes/Auth.php");
+		auth('deo','stu');
 		require_once("connectDB.php");
 
 		if(isset($_GET['t']))

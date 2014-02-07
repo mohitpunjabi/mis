@@ -9,7 +9,7 @@
 		return substr(str_shuffle($alpha_numeric), 0, $name_length);
 	}
 	
-	$res=mysql_query("SELECT * FROM  stu_current_entry ");
+	$res=mysql_query("SELECT * FROM  stu_current_entry");
 	$row=mysql_fetch_array($res);
 	$stu_id=$row[0];
 	

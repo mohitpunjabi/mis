@@ -6,20 +6,19 @@
 ?>
 <h1 class="page-head">Notifications</h1>
 
-<h2>Today</h2>
+<a href="notify_someone.php">Notify</a>
 <?php
-	if(is_auth("emp")) {
-		drawNotification("Username created", "Your username and password have been created. <a href=\"employee/show_emp.php\">Click here</a> to view your details.", "success");
-		drawNotification("Feedback: Submission going on", "The feedback submission is going on.");
-		drawNotification("Result: Result declared", "The result declaration has been completed. <a href=\"employee/show_emp.php\">Click here</a> to view the results of this session.");
+	$res = $mysqli->query("SELECT * from user_notifications
+						   WHERE user_to = '".$_SESSION['id']."' AND
+						   ISNULL(rec_date)");
 
-		echo "<h2>Yesterday</h2>";
-		drawNotification("Inventory: Item rejected", "The item you tried to issue was rejected. <a href=\"employee/show_emp.php\">Click here</a> to know more.", "error");
+	if(!$res) drawNotification("No more notifications", "You do not have any unreaed notifications");
+	else {
+		echo "<h2>Unread Notifications</h2>";
+		while($row = $res->fetch_assoc()) {
+			drawNotification($row["module_id"] . ": " . $row["title"], "<b>" . date("d M Y", strtotime($row['send_date'])) . "</b>: " . $row["description"] . " <a href=\"".$row["path"]."\">Know more &raquo;</a>", $row["type"]);
+		}
 	}
-	if(is_auth("deo")) {
-		drawNotification("Username created", "Your username and password have been created. <a href=\"employee/show_emp.php\">Click here</a> to view your details.", "success");
-		drawNotification("Feedback: Submission going on", "The feedback submission is going on.");
-	}	
 
 	drawFooter();
 ?>

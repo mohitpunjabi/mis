@@ -1,5 +1,5 @@
 <?php
-	require_once("Auth.php");
+	require_once("Auth.php");	
 	
 	function drawHeader($title = "Feedback System - Indian School of Mines") {
 		@session_start_sec();
@@ -132,5 +132,16 @@
 				'.$description.'
 			</div>
 		';
+	}
+	
+	function notify($user_id_to, $title, $description, $path, $type = "") {
+		global $mysqli;
+		$title = strclean($title);
+		$description = strclean($description);
+		$path = strclean($path);
+		$type = strclean($type);
+		
+		$mysqli->query("INSERT into user_notifications
+						VALUES('$user_id_to', '".$_SESSION['id']."', now(), NULL, '".currentModule()."', '$title', '$description', '$path', '$type')");
 	}
 ?>

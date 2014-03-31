@@ -108,7 +108,8 @@
 	function fetch_details()
 	{
 		var emp_id = document.getElementsByName("emp_id")[0].value;
-		alert(emp_id);
+		$("#fetch_id_btn").hide();
+		$("#empIdIcon").show();
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -122,12 +123,31 @@
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
-			    document.getElementById("d").innerHTML=xmlhttp.responseText;
+				if(xmlhttp.responseText != "") {
+					var details = eval(xmlhttp.responseText);
+					$("select[name=salutation]").val(details['salutation']);
+					$("input[name=firstname]").val(details['first_name']);
+					$("input[name=middlename]").val(details['middle_name']);
+					$("input[name=lastname]").val(details['last_name']);
+					$("select[name=tstatus]").val('ft');
+					$("input[name=research_int]").val(details['research_int']);
+					$("select[name=category]").val(details['category']);
+					$("input[name=mobile]").val(details['ph_no']);
+				}
+				$("td, th").css("visibility", "visible");
+				$("#fetch_id_btn").show();
+				$("#empIdIcon").hide();
 		    }
 	  	}
 		xmlhttp.open("GET","AJAX_fetch_emp_details.php?emp_id="+emp_id,true);
 		xmlhttp.send();	
 	}
+	
+	$(document).ready(function() {
+		$("td, th").css("visibility", "hidden");
+		$("td#empId").css("visibility", "visible");
+		$("#empIdIcon").hide();
+	});
 </script>
 <h1>Step 1 :Fill up the details</h1>
 <form method = "post" action=  "entrySQL1.php" enctype="multipart/form-data" onsubmit="return image_validation();" >
@@ -135,12 +155,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 <table width='90%'>
 	<tr><th colspan=4></th></tr>
     <tr>
-    	<td width='20%'>
+    	<td width='20%' id="empId">
         	Employee Id<span style= "color:red;"> *</span>
         </td>
-        <td width='30%'>
+        <td width='30%' id="empId">
         	<input type="text" name="emp_id" required="required" tabindex="1" /> 
-            <!-- <input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/> -->
+            <input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
+            <i class="loading" id="empIdIcon"></i>
         </td>
         <td width='20%'>
         	Physically Challenged<span style= "color:red;"> *</span>

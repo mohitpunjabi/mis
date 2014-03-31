@@ -1,10 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-</body>
-</html>
+<?php
+	require_once("../Includes/Auth.php");
+	require_once("../Includes/FeedbackConfigSQL.php");
+	auth('deo');
+	
+	if(isset($_GET['emp_id'])) {
+		$emp_id = strclean($_GET['emp_id']);
+		$res = $fb_mysqli->query("select salutation, first_name, middle_name, last_name, design, email, ph_no, research_int, sex, category, physically_challenged from feedback_faculty where emp_id = '$emp_id'");
+		if($res && $res->num_rows == 1) {
+			$row = $res->fetch_assoc();
+			echo "({";
+			foreach($row as $key => $val) {
+				echo "'$key': '$val'";
+				if($key != 'physically_challenged') echo ", ";
+			}
+			echo "})";
+		}
+	}

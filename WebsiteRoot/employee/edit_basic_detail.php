@@ -424,7 +424,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Pin code<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="pincode1" value=<?php echo $addr1['pincode']; ?> required>
+  	      	<input type="tel" name="pincode1" required value=<?php echo $addr1['pincode']; ?> >
         </td>
     	<td>
         	Pin code<span style= "color:red;"> *</span>

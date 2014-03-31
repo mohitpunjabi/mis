@@ -106,7 +106,7 @@
 	}
 
 	function fetch_details()
-		{
+	{
 		var emp_id = document.getElementsByName("emp_id")[0].value;
 		alert(emp_id);
 		var xmlhttp;
@@ -122,10 +122,10 @@
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
-			    document.getElementById("depts").innerHTML=xmlhttp.responseText;
+			    document.getElementById("d").innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("GET","ajax_fetch_emp_details?emp_id="+emp_id,true);
+		xmlhttp.open("GET","AJAX_fetch_emp_details.php?emp_id="+emp_id,true);
 		xmlhttp.send();	
 	}
 </script>
@@ -140,7 +140,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         </td>
         <td width='30%'>
         	<input type="text" name="emp_id" required="required" tabindex="1" /> 
-            <!-- <input type="button" value="Go" id="fetch_id_btn" />-->
+            <!-- <input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/> -->
         </td>
         <td width='20%'>
         	Physically Challenged<span style= "color:red;"> *</span>

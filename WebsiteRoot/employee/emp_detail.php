@@ -134,6 +134,16 @@
 					$("select[name=category]").val(details['category']);
 					$("input[name=mobile]").val(details['ph_no']);
 				}
+				else {
+					$("select[name=salutation]").val("Dr");
+					$("input[name=firstname]").val("");
+					$("input[name=middlename]").val("");
+					$("input[name=lastname]").val("");
+					$("select[name=tstatus]").val('ft');
+					$("input[name=research_int]").val("");
+					$("select[name=category]").val("");
+					$("input[name=mobile]").val("");
+				}
 				$("td, th").css("visibility", "visible");
 				$("#fetch_id_btn").show();
 				$("#empIdIcon").hide();

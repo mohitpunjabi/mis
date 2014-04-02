@@ -10,7 +10,7 @@ Auth.php
 
 `auth(...)`: Calling it ensures that someone must be logged in to view the page. Provide arguments, if you want to restrict access. Eg: `auth('deo', 'stu')` restricts the page to Data Entry Operators and Students.
 
-`is_auth($auth_id)`: Returns `true` if the user is of authorization `$auth_id`. Returns false otherwise.
+`is_auth($auth_id, $module_id)`: Returns `true` if the user is of authorization `$auth_id`. Returns false otherwise. If `$auth_id == "deo"`, then use `$module_id` to query which module the deo must belong to. Default value for `$module_id` is the module in which the function is called.
 
 `start_session_sec()`: Starts the secured session. Use this function everywhere instead of the default `session_start()`.
 

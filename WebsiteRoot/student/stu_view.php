@@ -47,8 +47,20 @@
 <form method="get" action="show_student.php">
 	<table align="center" >
     	<tr><th>Student Admission Number</th>
+<<<<<<< HEAD
         	<td><input type="text" name="stu_id"  id="stu_id" />
         	
+=======
+        	<td><select name="stu_id"  id="stu_id" >
+        	<?php
+				$stu_detail=mysql_query("select admn_no from stu_details");
+				while($row=mysql_fetch_row($stu_detail))
+				{
+					echo '<option value="'.$row[0].'">'.$row[0].'</option>';
+				}
+			?>
+            </select>
+>>>>>>> student
         	<a onClick="onclick_stu_id();" >Don't remember Student Id</a>
             </td>
         </tr>

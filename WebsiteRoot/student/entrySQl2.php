@@ -17,7 +17,11 @@
 			parent_mobile_no='".strtolower($_POST['parent_mob'])."',
 			parent_landline_no='".strtolower($_POST['parent_lan'])."',
 			alternate_email_id='".strtolower($_POST['alternate_email_id'])."',
+<<<<<<< HEAD
 			migration_cert='".$_POST['migration_certificate']."'
+=======
+			migration_cert='".strtolower($POST['migration_certificate'])."'
+>>>>>>> student
 			WHERE admn_no='$stu_id'";
 	$result = mysql_query($qry);
 

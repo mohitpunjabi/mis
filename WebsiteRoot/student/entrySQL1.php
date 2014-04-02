@@ -44,6 +44,7 @@
 		if(move_uploaded_file($_FILES['photo']['tmp_name'],$upload_path.$filename))
 	    {		//on successful upload
 			$qry = "INSERT INTO user_details
+<<<<<<< HEAD
 					VALUES ('".strtolower($_POST['stu_id'])."',
 							'".$_POST['salutation']."',
 							'".strtolower($_POST['firstname'])."',
@@ -55,6 +56,19 @@
 							'".strtolower($_POST['email'])."',
 							'".$filename."',
 							'".strtolower($_POST['mstatus'])."',
+=======
+					VALUES ('".$_POST['stu_id']."',
+							'".$_POST['salutation']."',
+							'".$_POST['firstname']."',
+							'".$_POST['middlename']."',
+							'".$_POST['lastname']."',
+							'".$_POST['sex']."',
+							'".$_POST['category']."',
+							'".$_POST['dob']."',
+							'".$_POST['email']."',
+							'".$filename."',
+							'".$_POST['mstatus']."',
+>>>>>>> student
 							'".$_POST['pd']."',
 							'".$_POST['department']."')";
 			$presult = mysql_query($qry);
@@ -69,7 +83,11 @@
 			else
 				$mother=$_POST['mother_name'];
 				
+<<<<<<< HEAD
 			if(empty($_POST['father_name']))
+=======
+				if(empty($_POST['father_name']))
+>>>>>>> student
 				$father="";
 			else
 				$father=$_POST['father_name'];
@@ -84,7 +102,12 @@
 							'".strtolower($_POST['pob'])."',
 							'".$_POST['mobile']."',
 							'".strtolower($father)."',
+<<<<<<< HEAD
 							'".strtolower($mother)."')";
+=======
+							'".strtolower($mother)."',
+							'".strtolower($guardian)."')";
+>>>>>>> student
 			$uresult = mysql_query($qry);
 
 			$qry = "INSERT INTO stu_details

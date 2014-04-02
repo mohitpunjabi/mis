@@ -16,6 +16,6 @@
 		$employee["Employee details"]["View your details"]["Dependent Family Member Details"] = "show_emp.php?form_name=2";
 		$employee["Employee details"]["View your details"]["Educational Details"] = "show_emp.php?form_name=3";
 		$employee["Employee details"]["View your details"]["Last 5 Year Stay Details"] = "show_emp.php?form_name=4";
-		$employee["Employee details"]["View your details"]["All Employee Details"] = "show_emp.php?form_name=5";
+		$employee["Employee details"]["View your details"]["All Details"] = "show_emp.php?form_name=5";
 		$employee["Employee details"]["Edit your details"]="edit_basic_detail_authemp.php";
 	}

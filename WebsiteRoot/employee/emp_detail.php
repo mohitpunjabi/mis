@@ -19,6 +19,7 @@
 	function teaching_handler(auth)
 	{
 		designation_dropdown(auth);
+		retirement_handler();
 		if(auth =='ft')
 		{
 			document.getElementById('res_int_id').disabled=false;
@@ -48,21 +49,71 @@
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
-	function payband_handler(auth)
+	function payband_handler(pb)
 	{
 		var gp = document.getElementsByName("gradepay")[0];
-		gp.innerHTML = "<option  value=\"\" disabled selected>Grade Pay</option>";
-		gp.innerHTML += "<option  value=\"2000\">2000</option>";
-		gp.innerHTML += "<option  value=\"3000\">3000</option>";
-		gp.innerHTML += "<option  value=\"4000\">4000</option>";
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp=new XMLHttpRequest();
+		}
+		else
+	  	{// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+	  	{
+	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+			    gp.innerHTML=xmlhttp.responseText;
+		    }
+	  	}
+		xmlhttp.open("GET","AJAX_gradepay.php?pb="+pb,true);
+		xmlhttp.send();
+		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
 		gp.style.visibility = "visible";
+		document.getElementById('basicpay').style.visibility='visible';
 	}
 
+	function retirement_handler()
+	{
+		var retire = document.getElementById("retire");
+		var auth = document.getElementsByName("tstatus")[0].value;
+		var source=document.getElementsByName("dob")[0].value;
+		var new_date=new Date(source);
+		
+		if(auth=="ft")
+			new_date.setFullYear(new_date.getFullYear() + 65);
+		else if(auth=="nfta")
+			new_date.setFullYear(new_date.getFullYear() + 62);
+		else if(auth=="nftn")
+			new_date.setFullYear(new_date.getFullYear() + 60);
+
+		var month=new_date.getMonth();
+		var year=new_date.getFullYear();
+		if(month==0 || month==2 || month==4 || month==6 || month==7 || month==9 || month==11)
+			new_date.setDate(31);
+		else if(month!=1)
+			new_date.setDate(30);
+		else
+		{
+			if(year%4==0 && year%100!=0)
+				new_date.setDate(29);
+			else
+				new_date.setDate(28);
+		}
+		var date='';
+		if(new_date.getDate()<10)	date='0'+new_date.getDate();
+		else	date=''+new_date.getDate();
+		
+		retire.value=new_date.getFullYear()+source.substr(source.indexOf('-'),[3])+'-'+date;
+
+	}	
 	
 	function designation_dropdown(auth)
 	{
 		if(auth=="ft")
-			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option></select>";
+			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"lecturer\">Lecturer</option><option value=\"demonstrator\">Demonstrator</option></select>";
 		else
 			document.getElementById("des").innerHTML="<input type=\"text\" name=\"designation\" required=\"required\" />";
 	}
@@ -106,10 +157,9 @@
 	}
 
 	function fetch_details()
-	{
+		{
 		var emp_id = document.getElementsByName("emp_id")[0].value;
-		$("#fetch_id_btn").hide();
-		$("#empIdIcon").show();
+		alert(emp_id);
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -123,31 +173,12 @@
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
-				if(xmlhttp.responseText != "") {
-					var details = eval(xmlhttp.responseText);
-					$("select[name=salutation]").val(details['salutation']);
-					$("input[name=firstname]").val(details['first_name']);
-					$("input[name=middlename]").val(details['middle_name']);
-					$("input[name=lastname]").val(details['last_name']);
-					$("select[name=tstatus]").val('ft');
-					$("input[name=research_int]").val(details['research_int']);
-					$("select[name=category]").val(details['category']);
-					$("input[name=mobile]").val(details['ph_no']);
-				}
-				$("td, th").css("visibility", "visible");
-				$("#fetch_id_btn").show();
-				$("#empIdIcon").hide();
+			    document.getElementById("depts").innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("GET","AJAX_fetch_emp_details.php?emp_id="+emp_id,true);
+		xmlhttp.open("GET","ajax_fetch_emp_details?emp_id="+emp_id,true);
 		xmlhttp.send();	
 	}
-	
-	$(document).ready(function() {
-		$("td, th").css("visibility", "hidden");
-		$("td#empId").css("visibility", "visible");
-		$("#empIdIcon").hide();
-	});
 </script>
 <h1>Step 1 :Fill up the details</h1>
 <form method = "post" action=  "entrySQL1.php" enctype="multipart/form-data" onsubmit="return image_validation();" >
@@ -155,13 +186,12 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 <table width='90%'>
 	<tr><th colspan=4></th></tr>
     <tr>
-    	<td width='20%' id="empId">
+    	<td width='20%'>
         	Employee Id<span style= "color:red;"> *</span>
         </td>
-        <td width='30%' id="empId">
+        <td width='30%'>
         	<input type="text" name="emp_id" required="required" tabindex="1" /> 
-            <input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
-            <i class="loading" id="empIdIcon"></i>
+            <!-- <input type="button" value="Go" id="fetch_id_btn" />-->
         </td>
         <td width='20%'>
         	Physically Challenged<span style= "color:red;"> *</span>
@@ -279,7 +309,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Date of Joining<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<input type="date" name="entrance_age" value="<?php echo date("Y-m-d",time()+(19800));?>" required="required" tabindex="18" >
+			<input type="date" name="entrance_age" value="<?php echo date("Y-m-d",time()+(19800));?>" onchange="retirement_handler()" required="required" tabindex="18" >
         </td>
     	<td>
         	Designation<span style= "color:red;"> *</span>
@@ -289,6 +319,9 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
             	<option value="professor">Professor</option>
             	<option value="associate professor">Associate Professor</option>
             	<option value="assistant professor">Assistant Professor</option>
+                <option value="senior lecturer">Senior Lecturer</option>
+                <option value="lecturer">Lecturer</option>
+                <option value="demonstrator">Demonstrator</option></select>
             </select>
         </td>
     </tr>
@@ -339,7 +372,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	DOB<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?>  required="required" tabindex="24" />
+  	      	<input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?>  required="required" tabindex="24" onchange="retirement_handler()" />
         </td>
     	<td>
         	Place of Birth<span style= "color:red;"> *</span>
@@ -356,10 +389,10 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
   	      	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);">
             	<option value="" disabled selected>Pay Band </option>
 				<?php
-					$qry=mysql_query("select distinct pay_band from pay_scales");
+					$qry=mysql_query("select distinct pay_band,pay_band_description from pay_scales");
 					while($row=mysql_fetch_row($qry))
 					{
-						echo '<option value="'.$row[0].'">'.$row[0].'</option>';
+						echo '<option value="'.$row[0].'">'.strtoupper($row[0]).' ('.$row[1].')</option>';
 					}
                 ?>
             </select>
@@ -380,10 +413,14 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
    </tr>
    <tr>
 		<td>
+<?php        
+	$date = new DateTime(date("Y-m-d",time()+(19800)));
+	$date->modify('+65 year');
+?>
         	Date of Retirement
         </td>
         <td>
-        	<input type="date" name="retire" tabindex="28" />
+	       	<input type="date" id="retire" name="retire" value="<?php 	echo $date->format('Y-m-d'); ?>" tabindex="28" />
         </td>
     </tr>
     <tr>

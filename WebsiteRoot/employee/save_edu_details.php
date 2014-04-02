@@ -1,6 +1,6 @@
 <?php	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp=$_SESSION['EDIT_EMP'];
@@ -21,6 +21,9 @@
 									grade='".clean(strtolower($grade))."' ,
 									division='".clean(strtolower($div))."' 
 									where id='".$emp."' and sno=".$sno);
+
+	if($updateedu_detail)
+		notify($emp, "Details Edited", "Your educational details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=3","success");
 	
 	$edu_detail=mysql_query("select * 
 							from emp_education_details 

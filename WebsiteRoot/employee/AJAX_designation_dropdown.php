@@ -3,6 +3,5 @@
 	auth();
 
 		
-		
 		mysql_close();
 ?>

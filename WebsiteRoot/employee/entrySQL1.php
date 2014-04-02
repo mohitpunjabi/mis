@@ -42,6 +42,12 @@
 		// Upload the file to your specified path.
 		if(move_uploaded_file($_FILES['photo']['tmp_name'],$upload_path.$filename))
 	    {		//on successful upload
+			
+			
+			//insertion in users
+			mysql_query("INSERT INTO users VALUES ('".clean(strtolower($_POST['emp_id']))."','','emp','')");
+
+			//insertion in user_details
 			$qry = "INSERT INTO user_details
 					VALUES ('".clean(strtolower($_POST['emp_id']))."',
 							'".clean($_POST['salutation'])."',
@@ -58,6 +64,7 @@
 							'".$_POST['department']."')";
 			$presult = mysql_query($qry);
 	
+			//insertion in user_other_details
 			$qry = "INSERT INTO user_other_details
 					VALUES ('".clean(strtolower($_POST['emp_id']))."',
 							'".clean(strtolower($_POST['religion']))."',
@@ -77,7 +84,6 @@
 							'".$_POST['tstatus']."',
 							'".clean(strtolower($_POST['designation']))."',
 							'".clean(strtolower($_POST['post']))."',
-							'".clean(strtolower($_POST['research_int']))."',
 							'".$_POST['office']."',
 							'".$_POST['fax']."',
 							'".$_POST['entrance_age']."',
@@ -85,9 +91,14 @@
 							'".clean(strtolower($_POST['empnature']))."')";
 			$qresult = mysql_query($qry);
 
+			$qry="INSERT INTO faculty_details
+					VALUES ('".clean(strtolower($_POST['emp_id']))."','".clean(strtolower($_POST['research_int']))."')";
+
+			$sresult = mysql_query($qry);
+			
 			$qry = "INSERT INTO emp_pay_details
 					VALUES ('".clean(strtolower($_POST['emp_id']))."',
-							'".clean($_POST['payscale'])."','10000')";
+							'".clean($_POST['gradepay'])."','".clean($_POST['basicpay'])."')";
 			$qresult = mysql_query($qry);
 
 			if($presult && $uresult && $qresult)

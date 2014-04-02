@@ -35,10 +35,12 @@
 		newwin.document.close()
 	}
 	
+/*
 	function onclick_step(step)
 	{
 		$("#"+step).slideToggle("fast");
 	}
+*/
 </script>
 <?php
 	$c=0;
@@ -46,48 +48,59 @@
 		$emp=$_SESSION['SESS_USERNAME'];
 	else if(is_auth("deo"))
 		$emp=$_GET['emp_id'];
-		
-	$emp_user_details=mysql_query("select * 
-								from user_details NATURAL JOIN user_other_details NATURAL JOIN emp_basic_details
+	
+	if(isset($_GET['form_name']))
+		$form=$_GET['form_name'];	
+	else
+		echo "form_name not set";
+	
+	$emp_photo=mysql_query("select photopath from user_details where id='".$emp."'");
+	$photo=mysql_fetch_row($emp_photo);
+	echo '<div id="print" >
+			<table>
+			<tr>
+				<th>Employee Id</th>
+				<td>'.$emp.'</td>
+			</tr></table>';
+	if(mysql_num_rows($emp_photo)!=0)
+		echo '<center><img src="Images/'.$emp.'/'.$photo[0].'" width="145" height="150" /></center>';
+
+	if($form==0 || $form==5)
+	{
+		$emp_user_details=mysql_query("select * 
+								from user_details NATURAL JOIN user_other_details NATURAL JOIN emp_basic_details NATURAL JOIN faculty_details
 								where id='".$emp."'");
-	$emp_pay_deatils=mysql_query("select pay_band,grade_pay 
+		$emp_pay_deatils=mysql_query("select pay_band,grade_pay,basic_pay 
 								from emp_pay_details NATURAL JOIN pay_scales
 								where id='".$emp."'");
-	$user=mysql_fetch_assoc($emp_user_details);
-	$pay=mysql_fetch_assoc($emp_pay_deatils);
-	if(mysql_num_rows($emp_user_details)!=0)
-	{
-		echo '<div id="print" ><table>
-				<tr>
-					<th>Employee Id</th>
-					<td>'.$user['id'].'</td>					
-				</tr></table>';
-		echo '<center><img src="Images/'.$emp.'/'.$user['photopath'].'" width="145" height="150" /></center>';
-		echo '<center><h2><a onClick="onclick_step(\'step1\');">Employee Basic Details</a></h2>';
-
-		echo '	<div id="step1" style="display:none">
-			<table width="90%">
-				<tr>
-					<th>Name</th><td>'.$user['salutation'].' '.ucwords(trim($user['first_name'])).' '.ucwords($user['middle_name']).' '.ucwords(trim($user['last_name'])).'</td>
-					<th>Marital Status</th><td>'.ucwords($user['marital_status']).'</td>
-					<th>Physically Challenged</th><td>'.ucwords($user['physically_challenged']).'</td>
-				</tr>
-				<tr>
-					<th>Gender</th><td>'.ucwords($user['sex']).'</td>
-					<th>Category</th><td>'.ucwords($user['category']).'</td>
-					<th>Kashmiri Immigrant</th><td>'.ucwords($user['kashmiri_immigrant']).'</td>
-				</tr>
-				<tr>
-					<th>Department</th>';
-					
-				$dept=mysql_query("select name from departments where id='".$user['dept_id']."'");
-				$row=mysql_fetch_row($dept);
-				if($user['retirement_date']=="0000-00-00")
-					$retire='NA';
-				else
-					$retire=date('d M Y', strtotime($user['retirement_date']));
-					
-		echo 		'<td>'.$row[0].'</td>
+								
+		$user=mysql_fetch_assoc($emp_user_details);
+		$pay=mysql_fetch_assoc($emp_pay_deatils);
+		if(mysql_num_rows($emp_user_details)!=0)
+		{
+			echo '<center><h2>Employee Basic Details</h2>';
+			echo '	<table width="90%">
+					<tr>
+						<th>Name</th><td>'.$user['salutation'].' '.ucwords(trim($user['first_name'])).' '.ucwords($user['middle_name']).' '.ucwords(trim($user['last_name'])).'</td>
+						<th>Marital Status</th><td>'.ucwords($user['marital_status']).'</td>
+						<th>Physically Challenged</th><td>'.ucwords($user['physically_challenged']).'</td>
+					</tr>
+					<tr>
+						<th>Gender</th><td>'.ucwords($user['sex']).'</td>
+						<th>Category</th><td>'.ucwords($user['category']).'</td>
+						<th>Kashmiri Immigrant</th><td>'.ucwords($user['kashmiri_immigrant']).'</td>
+					</tr>
+					<tr>
+						<th>Department</th>';
+						
+			$dept=mysql_query("select name from departments where id='".$user['dept_id']."'");
+			$row=mysql_fetch_row($dept);
+			if($user['retirement_date']=="0000-00-00")
+				$retire='NA';
+			else
+				$retire=date('d M Y', strtotime($user['retirement_date']));
+						
+			echo 	'<td>'.$row[0].'</td>
 					<th>Designation</th>
 					<td>'.ucwords($user['designation']).'</td>
 					<th>Post Concerned</th>
@@ -107,15 +120,13 @@
 					<th>Father\'s Name</th><td>'.$user['father_name'].'</td>
 					<th>Mother\'s Name</th><td>'.$user['mother_name'].'</td>
 					<th>Date of Retirement</th><td>'.date('d M Y',strtotime($user['retirement_date'])).'</td>
-					
-				</tr></table>
-				<table>';
-
-		$emp_present_addr_details=mysql_query("select * from user_address where id='".$emp."' and type='present'");
-		$emp_permanent_addr_details=mysql_query("select * from user_address where id='".$emp."' and type='permanent'");
-		$addr1=mysql_fetch_assoc($emp_present_addr_details);
-		$addr2=mysql_fetch_assoc($emp_permanent_addr_details);
-		echo 	'<table width="90%">
+				</tr></table>';
+	
+			$emp_present_addr_details=mysql_query("select * from user_address where id='".$emp."' and type='present'");
+			$emp_permanent_addr_details=mysql_query("select * from user_address where id='".$emp."' and type='permanent'");
+			$addr1=mysql_fetch_assoc($emp_present_addr_details);
+			$addr2=mysql_fetch_assoc($emp_permanent_addr_details);
+			echo '<table width="90%">
 				<tr>
 					<th>Present Address</th>
 					<th>Permanent Address</th>
@@ -136,7 +147,7 @@
 				$emp_type=mysql_query("select type from auth_types where id='".$user['auth_id']."'");
 				$row=mysql_fetch_row($emp_type);
 				
-		echo 	'<table  width="90%">
+			echo '<table  width="90%">
 				<tr>
 					<th>Employee Type</th><td>'.$row[0].'</td>
 					<th>Research Interest</th>
@@ -152,20 +163,31 @@
 				</tr>
 				<tr>
 					<th>Pay Scale</th>
-					<td>Pay Band =>'.$pay['pay_band'].'<br>
-						Grade Pay =>'.$pay['grade_pay'].'</td>
+					<td><u>Pay Band</u> =>'.strtoupper($pay['pay_band']).'<br>
+						<u>Grade Pay</u> =>'.$pay['grade_pay'].'<br>
+						<u>Basic Pay</u> =>'.$pay['basic_pay'].'
+					</td>
 				</tr>
-
-			</table></div></center>' ;			
+				</table></center>';
+		}
+		else 
+		{
+			
+			if($form==0)
+			{
+				echo '<center><h2>Employee Basic Details</h2>';
+				drawNotification("Not Found","Your details have not been updated. Please check after some time.","error");
+			}
+			$c=$c+1;
+		}
 	}
-	else $c=$c+1;
-
-	$prev_detail=mysql_query("select * from emp_prev_exp_details where id='".$emp."'");
-	if(mysql_num_rows($prev_detail)!=0)
+	if($form==1 || $form==5)
 	{
-		echo '<br><center><h2><a onClick="onclick_step(\'step2\');">Previous Employment Details</a></h2>';
-		echo '<div id="step2" style="display:none">
-				<table align="center" width="90%"> 
+		$prev_detail=mysql_query("select * from emp_prev_exp_details where id='".$emp."'");
+		if(mysql_num_rows($prev_detail)!=0)
+		{
+			echo '<br><center><h2>Previous Employment Details</h2>';
+			echo '<table align="center" width="90%"> 
 				<tr>
 			        <th>Full address of Employer</th>
 					<th>Position held</th>
@@ -175,27 +197,36 @@
 			        <th>Remarks</th>
 				</tr>';
 				
-		while($row=mysql_fetch_assoc($prev_detail))
-		{
-			echo '<tr>
+			while($row=mysql_fetch_assoc($prev_detail))
+			{
+				echo '<tr>
 			    	<td>'.ucwords($row['address']).'</td>
 			    	<td>'.ucwords($row['designation']).'</td>
 			    	<td>'.date('d M Y', strtotime($row['from'])).'</td>
 			    	<td>'.date('d M Y', strtotime($row['to'])).'</td>
 			    	<td>'.$row['pay_scale'].'</td>
 			    	<td>'.ucfirst($row['remarks']).'</td>
-			    </tr>';
+				    </tr>';
+			}
+			echo "</table></center>";
 		}
-		echo "</table></div></center>";
+		else	
+		{
+			if($form==1)
+			{
+				echo '<br><center><h2>Previous Employment Details</h2>';
+				drawNotification("Not Found","Your details have not been updated. Please check after some time.","error");
+			}
+			$c=$c+1;
+		}
 	}
-	else	$c=$c+1;
-	
-	$fam_detail=mysql_query("select * from emp_family_details where id='".$emp."'");
-	if(mysql_num_rows($fam_detail)!=0)
+	if($form==2 || $form==5)
 	{
-		echo '<br><center><h2><a onClick="onclick_step(\'step3\');">Employee Family Details</a></h2>';
-		echo '<div id="step3" style="display:none">
-				<table align="center"> 
+		$fam_detail=mysql_query("select * from emp_family_details where id='".$emp."'");
+		if(mysql_num_rows($fam_detail)!=0)
+		{
+			echo '<br><center><h2>Employee Family Details</h2>';
+			echo '<table align="center"> 
 				<tr>
 					 <th>Name</th>
 				   	 <th>Relationship</th>
@@ -206,95 +237,118 @@
 					 <th>Active/Inactive</th>
 				</tr>';
 				
-		while($row=mysql_fetch_row($fam_detail))
-		{
-			if($row[8]=="Active")
-				$style="background:#DFD";
-			else
-				$style="background:#FDD";
-			echo '<tr align="center">
-			    	<td>'.ucwords($row[2]).'</td>
-				    <td>'.$row[3].'</td>
-					<td>'.date('d M Y', strtotime($row[7])).'<br>(Age: '.floor((time() - strtotime($row[7]))/(365*24*60*60)).' years)</td>
-				    <td>'.ucwords($row[4]).'</td>
-				   	<td>'.$row[5].'</td>
-				    <td><img src="Images/'.$emp.'/'.$row[6].'" name="image3[]" height="80"/></td>
-					<td style="'.$style.'">'.$row[8].'</td>
-		    </tr>';
+			while($row=mysql_fetch_row($fam_detail))
+			{
+				if($row[8]=="Active")
+					$style="background:#DFD";
+				else
+					$style="background:#FDD";
+				echo '<tr align="center">
+				    	<td>'.ucwords($row[2]).'</td>
+					    <td>'.$row[3].'</td>
+						<td>'.date('d M Y', strtotime($row[7])).'<br>(Age: '.floor((time() - strtotime($row[7]))/(365*24*60*60)).' years)</td>
+					    <td>'.ucwords($row[4]).'</td>
+					   	<td>'.$row[5].'</td>
+					    <td><img src="Images/'.$emp.'/'.$row[6].'" name="image3[]" height="80"/></td>
+						<td style="'.$style.'">'.$row[8].'</td>
+				    </tr>';
+			}
+			echo "</table></center>";
 		}
-		echo "</table></div></center>";
+		else	
+		{
+			if($form==2)
+			{
+				echo '<br><center><h2>Employee Family Details</h2>';
+				drawNotification("Not Found","Your details have not been updated. Please check after some time.","error");
+			}
+			$c=$c+1;
+		}
 	}
-	else	$c=$c+1;
-		
-	$edu_detail=mysql_query("select * from emp_education_details where id='".$emp."'");
-	if(mysql_num_rows($edu_detail)!=0)
+	if($form==3 || $form==5)
 	{
-		echo '<br><center><h2><a onClick="onclick_step(\'step4\');">Employee Education Details</a></h2>';
-		echo '<div id="step4" style="display:none">
-				<table align="center" width="90%"> 
-				<tr>
+		$edu_detail=mysql_query("select * from emp_education_details where id='".$emp."'");
+		if(mysql_num_rows($edu_detail)!=0)
+		{
+			echo '<br><center><h2>Employee Education Details</h2>';
+			echo '<table align="center" width="90%"> 
+					<tr>
 					 <th>Examination</th>
-				     <th>Branch/Specialization</th>
+				     <th>Course(Specialization)</th>
 				   	 <th>College/University/Institute</th>
 				     <th>Year</th>
 				     <th>Percentage/Grade</th>
 				     <th>Class/Division</th>
-				</tr>';
+					</tr>';
 				
-		while($row=mysql_fetch_row($edu_detail))
-		{
-			echo '<tr align="center">
-			    	<td>'.strtoupper($row[2]).'</td>
-			    	<td>'.strtoupper($row[3]).'</td>
-			    	<td>'.strtoupper($row[4]).'</td>
-			    	<td>'.$row[5].'</td>
-			    	<td>'.strtoupper($row[6]).'</td>
-			    	<td>'.ucwords($row[7]).'</td>
-			    </tr>';
+			while($row=mysql_fetch_row($edu_detail))
+			{
+				echo '<tr align="center">
+				    	<td>'.strtoupper($row[2]).'</td>
+				    	<td>'.strtoupper($row[3]).'</td>
+				    	<td>'.strtoupper($row[4]).'</td>
+			    		<td>'.$row[5].'</td>
+			    		<td>'.strtoupper($row[6]).'</td>
+				    	<td>'.ucwords($row[7]).'</td>
+				    </tr>';
+			}
+			echo "</table></center>";
 		}
-		echo "</table></div></center>";
+		else
+		{
+			if($form==3)
+			{
+				echo '<br><center><h2>Employee Education Details</h2>';
+				drawNotification("Not Found","Your details have not been updated. Please check after some time.","error");
+			}
+			$c=$c+1;
+		}
 	}
-	else	$c=$c+1;
-
-	$last5_detail=mysql_query("select * from emp_last5yrstay_details where id='".$emp."'");
-	if(mysql_num_rows($last5_detail)!=0)
+	if($form==4 || $form==5)
 	{
-		echo '<br><center><h2><a onClick="onclick_step(\'step5\');">Employee Last 5 Year Stay Details</a></h2>';
-		echo '<div id="step5" style="display:none">
-				<table align="center" width="90%"> 
-				<tr>
-					<th colspan=2>Duration</th>
-				   	 <th rowspan=2>Residential Address</th>
-				     <th rowspan=2>Name of District Headquarters of address mentioned previously</th>
-			     </tr>
-			     <tr>
-			     	<th>From</th>
-			      	<th>To</th>
-				</tr>';
-				
-		while($row=mysql_fetch_row($last5_detail))
+		$last5_detail=mysql_query("select * from emp_last5yrstay_details where id='".$emp."'");
+		if(mysql_num_rows($last5_detail)!=0)
 		{
-			echo '<tr align="center">
-			    	<td>'.date('d M Y', strtotime($row[2])).'</td>
-			    	<td>'.date('d M Y', strtotime($row[3])).'</td>
-			    	<td>'.$row[4].'</td>
-			    	<td>'.ucwords($row[5]).'</td>
-			    </tr>';
+			echo '<br><center><h2>Employee Last 5 Year Stay Details</h2>';
+			echo '<table align="center" width="90%"> 
+					<tr>
+						<th colspan=2>Duration</th>
+					   	 <th rowspan=2>Residential Address</th>
+					     <th rowspan=2>Name of District Headquarters</th>
+				     </tr>
+				     <tr>
+				     	<th>From</th>
+				      	<th>To</th>
+					</tr>';
+				
+			while($row=mysql_fetch_row($last5_detail))
+			{
+				echo '<tr align="center">
+				    	<td>'.date('d M Y', strtotime($row[2])).'</td>
+				    	<td>'.date('d M Y', strtotime($row[3])).'</td>
+				    	<td>'.$row[4].'</td>
+				    	<td>'.ucwords($row[5]).'</td>
+				    </tr>';
+			}
+			echo "</table></center>";
 		}
-		echo "</table></div></center>";
+		else
+		{
+			
+			if($form==4)
+			{
+				echo '<br><center><h2>Employee Last 5 Year Stay Details</h2>';
+				drawNotification("Not Found","Your details have not been updated. Please check after some time.","error");
+			}
+			$c=$c+1;
+		}
 	}
-	else	$c=$c+1;
 	echo "</div>";
-	if($c==5) 
+	if($c==5)
 		drawNotification("Not Found","Your details have not been updated. Please check after some time.","error");
 	else
 		echo '<br><br><center><button onclick="printContent(\'print\')" >PRINT</button>';
-	if($_SESSION['SESS_AUTH']=="DO")
-	{	
-		?>
-            <a href="emp_view.php"><button>Back</button></a></center>
-		<?php 
-	}
+	
 	mysql_close();
 	drawFooter();
 ?>

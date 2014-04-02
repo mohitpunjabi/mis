@@ -164,6 +164,53 @@
 		}
 	}
 	
+	function examination_editbtn_handler(i)
+	{
+		var exam=document.getElementById("exam"+i).value;
+			if(exam=="non-matric")
+			{
+				document.getElementById("branch"+i).value="n/a";
+				document.getElementById("clgname"+i).value="n/a";
+				document.getElementById("year"+i).value="n/a";
+				document.getElementById("grade"+i).value="n/a";
+				document.getElementById("div"+i).value="n/a";
+			}
+			else
+			{
+				document.getElementById("branch"+i).value="";
+				document.getElementById("clgname"+i).value="";
+				document.getElementById("year"+i).value="";
+				document.getElementById("grade"+i).value="";
+				document.getElementById("div"+i).value="";
+			}
+	}
+	
+	function examination_handler(obj)
+	{		
+		var row=document.getElementById("tableid").rows.length;
+		var i=0;
+		for(i=0;i<row;i++)
+		{
+			var exam=document.getElementsByName("exam4[]")[i].value;
+			if(exam=="non-matric")
+			{
+				document.getElementsByName("branch4[]")[i].value="n/a";
+				document.getElementsByName("clgname4[]")[i].value="n/a";
+				document.getElementsByName("year4[]")[i].value="n/a";
+				document.getElementsByName("grade4[]")[i].value="n/a";
+				document.getElementsByName("div4[]")[i].value="n/a";
+			}
+			else
+			{
+				document.getElementsByName("branch4[]")[i].value="";
+				document.getElementsByName("clgname4[]")[i].value="";
+				document.getElementsByName("year4[]")[i].value="";
+				document.getElementsByName("grade4[]")[i].value="";
+				document.getElementsByName("div4[]")[i].value="";
+			}
+		}
+	}
+	
 </script>
 
 <body>
@@ -174,7 +221,7 @@
 					<td>'.$emp.'</td>
 				</tr></table>' ;
 ?>
-<h1>Educational Qualificatoins</h1>
+<h1>Educational Qualifications</h1>
 <form method = "post" action=  "updateSQL4.php"  onsubmit="return onclick_submit()" >
 <?php
 	$i=1;
@@ -187,7 +234,7 @@
 				<tr>
 					 <th>S no.</th>
 				     <th>Examination</th>
-				     <th>Branch/Specialization</th>
+				     <th>Course(Specialization)</th>
 				   	 <th>College/University/Institute</th>
 				     <th>Year</th>
 				     <th>Percentage/Grade</th>
@@ -222,7 +269,7 @@
      <tr>
 		 <th>S no.</th>
 	     <th>Examination</th>
-	     <th>Branch/Specialization</th>
+	     <th>Course(Specialization)</th>
 	   	 <th>College/University/Institute</th>
 	     <th>Year</th>
 	     <th>Percentage/Grade</th>
@@ -230,7 +277,17 @@
     </tr>
 	<tr id="addrow">
   	    	<td id="sno">1</td>
-	        <td><input type="text" name="exam4[]"/></td>
+	        <td><select name="exam4[]" onChange="examination_handler(this);" >
+            		<option disabled selected value="" >Select Examination</option>
+            		<option value="non-matric">Non-Matric</option>
+                    <option value="matric">Matric</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="graduation">Graduation</option>
+                    <option value="post-graduation">Post Graduation</option>
+                    <option value="doctorate">Doctorate</option>
+                    <option value="post-doctorate">Post Doctorate</option>
+                    <option value="others">Others</option>
+                </select></td>
             <td><input type="text" name="branch4[]"/></td>
             <td><input type="text" name="clgname4[]"/></td>
             <td><input type="text" name="year4[]" /></td>

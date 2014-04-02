@@ -1,12 +1,13 @@
 <?php
 	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp=$_SESSION['EDIT_EMP'];
 	$s=$_GET['s'];
 	$qry=mysql_query("DELETE FROM emp_prev_exp_details WHERE id='".$emp."' AND sno=".$s);
+	notify($emp, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=1","success");
 	$i=1;
 	$prev_detail=mysql_query("select * 
 							from emp_prev_exp_details

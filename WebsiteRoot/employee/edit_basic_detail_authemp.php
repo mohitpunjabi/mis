@@ -11,7 +11,7 @@
 		$emp_id=$_SESSION['id'];
 		if(isset($_GET['update']))
 		{
-			drawNotification("Your details have been saved", "<a href='show_emp.php'>Click here</a> to view your details", "success");
+			drawNotification("Your basic details have been saved", "<a href='show_emp.php?form_name=0'>Click here</a> to view your basic details", "success");
 		}
 	}
 	else
@@ -136,7 +136,7 @@
 	function designation_dropdown(auth)
 	{
 		if(auth=="ft")
-			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"lecturer\">Lecturer</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"demonstrator\">Demonstrator</option></select>";
+			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"lecturer\">Lecturer</option><option value=\"demonstrator\">Demonstrator</option></select>";
 		else
 			document.getElementById("des").innerHTML="<input type=\"text\" name=\"designation\" required=\"required\" />";
 	}
@@ -144,7 +144,7 @@
 </script>
 <body>
 <h1>Edit the Basic details</h1>
-<form method = "post" action="updateSQL1.php" >
+<form method = "post" action="updateSQL1emp.php" >
 Fields marked with <span style= "color:red;">*</span> are mandatory.
 <table width='90%'>
 	<tr><th colspan=4></th></tr>
@@ -180,7 +180,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	First Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input  type="text" name = "firstname" required value="<?php echo $user['first_name'];?>" <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<input  type="text" name = "firstname" required value="<?php echo $user['first_name'];?>" <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
     </tr>
    	<tr>
@@ -188,13 +188,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Middle Name
         </td>
         <td>
-        	<input type="text" name = "middlename" value=<?php echo $user['middle_name'];?> >
+        	<input disabled type="text" name = "middlename" value=<?php echo $user['middle_name'];?> >
         </td>
         <td>
         	Last Name
         </td>
         <td>
-        	<input type="text" name = "lastname" value=<?php echo $user['last_name'];?> >
+        	<input disabled type="text" name = "lastname" value=<?php echo $user['last_name'];?> >
         </td>
    </tr>
    <tr>
@@ -202,14 +202,14 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Gender<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="radio" name="sex" value="male" <?php if($user['sex']=='male' || $user['sex']=='m') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "readonly"; ?> >Male</input>
-            <input type="radio" name="sex" value="female" <?php if($user['sex']=='female' || $user['sex']=='f') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "readonly"; ?> >Female</input>
+        	<input type="radio" name="sex" value="male" <?php if($user['sex']=='male' || $user['sex']=='m') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "disabled"; ?> >Male</input>
+            <input type="radio" name="sex" value="female" <?php if($user['sex']=='female' || $user['sex']=='f') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "disabled"; ?> >Female</input>
         </td>
         <td>
         	Nationality<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="nationality" required value=<?php echo $user['nationality'];?> <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<input type="text" name="nationality" required value=<?php echo $user['nationality'];?> <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
    </tr>
    <tr>
@@ -217,13 +217,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Father's Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="father" required value=<?php echo $user['father_name']; ?> <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<input type="text" name="father" required value=<?php echo $user['father_name']; ?> <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
         <td>
 			Mother's Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="mother" required value=<?php echo $user['mother_name'];?> <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<input type="text" name="mother" required value=<?php echo $user['mother_name'];?> <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
    </tr>
    <tr>
@@ -231,7 +231,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 			Employee Type<span style= "color:red;"> *</span>
        	</td>
         <td>
-        	<select name="tstatus" onChange="teaching_handler(this.value);" id="teaching" <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<select name="tstatus" onChange="teaching_handler(this.value);" id="teaching" <?php if(is_auth('emp'))echo "disabled"; ?> >
             	<option value="ft" <?php if($user['auth_id']=="ft")echo "selected"; ?> >Faculty</option>
                 <option value="nfta" <?php if($user['auth_id']=="nfta")echo "selected"; ?> >Non Faculty (Academic)</option>
                 <option value="nftn" <?php if($user['auth_id']=="nftn")echo "selected"; ?> >Non Faculty (Non Academic)</option>
@@ -245,7 +245,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 				if($user['auth_id']=='ft') 
         			echo '<input type="text" name="research_int" id="res_int_id"  value="'.$user['research_interest'].'" >';
 				else
-					echo '<input type="text" name="research_int" id="res_int_id"  readonly >';
+					echo '<input type="text" name="research_int" id="res_int_id"  disabled >';
              ?>
         </td>
    </tr>
@@ -267,8 +267,8 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Kashmiri Immigrant<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<input type="radio" name="kashmiri" value="yes" <?php if($user['kashmiri_immigrant']=='yes') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "readonly"; ?> />Yes
-            <input type="radio" name="kashmiri" value="no" <?php if($user['kashmiri_immigrant']=='no') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "readonly"; ?> />No
+			<input type="radio" name="kashmiri" value="yes" <?php if($user['kashmiri_immigrant']=='yes') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "disabled"; ?> />Yes
+            <input type="radio" name="kashmiri" value="no" <?php if($user['kashmiri_immigrant']=='no') echo 'checked="checked"'; ?> <?php if(is_auth('emp'))echo "disabled"; ?> />No
         </td> 
     </tr>
     <tr>
@@ -276,7 +276,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Date of Joining<span style= "color:red;"> *</span>
         </td>
     	<td>
-			<input type="date" name="entrance_age" value="<?php echo $user['joining_date'];?>" required <?php if(is_auth('emp'))echo "readonly"; ?> >
+			<input type="date" name="entrance_age" value="<?php echo $user['joining_date'];?>" required <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
     	<td>
         	Designation<span style= "color:red;"> *</span>
@@ -286,7 +286,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 			if($user['auth_id']=="ft")
 			{
 				echo '<select name="designation" '; 
-				if(is_auth('emp'))	echo 'readonly  >';
+				if(is_auth('emp'))	echo 'disabled  >';
 				else	echo '>';
 		        echo '<option value="professor" '; if($user['designation']=="professor") echo 'selected';
 										echo  '>Professor</option>';
@@ -304,7 +304,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	else 
            	{	echo '<input type="text" name="designation" value="'.$user['designation'].'" required ';
 				if(is_auth('emp'))
-					echo 'readonly >';
+					echo 'disabled >';
 				else
 					echo '>';
 			}
@@ -322,7 +322,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Department/Section<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<select name="department" id="depts" <?php if(is_auth('emp'))echo "readonly"; ?> >
+  	      	<select name="department" id="depts" <?php if(is_auth('emp'))echo "disabled"; ?> >
             	<?php
 					if($user['auth_id']=='ft')
 					{
@@ -367,7 +367,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
             Category<span style= "color:red;"> *</span>
         </td>
     	<td>
-        	<select name="category" <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<select name="category" <?php if(is_auth('emp'))echo "disabled"; ?> >
 				<option value="General" <?php if($user['category']=="General")echo "selected"; ?> >GEN</option>
                 <option value="OBC" <?php if($user['category']=="OBC")echo "selected"; ?> >OBC</option>
                 <option value="SC" <?php if($user['category']=="SC")echo "selected"; ?> >SC</option>
@@ -379,7 +379,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Religion<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="religion" value="<?php echo $user['religion']; ?>" required <?php if(is_auth('emp'))echo "readonly"; ?> >
+  	      	<input type="text" name="religion" value="<?php echo $user['religion']; ?>" required <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
     </tr>
     <tr>
@@ -387,13 +387,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	DOB<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="date" name="dob" onChange="retirement_handler()"  value=<?php echo $user['dob'];?> max=<?php echo date("Y-m-d", time()+(19800)); ?> <?php if(is_auth('emp'))echo "readonly"; ?> >
+  	      	<input type="date" name="dob"  onChange="retirement_handler()" value=<?php echo $user['dob'];?> max=<?php echo date("Y-m-d", time()+(19800)); ?> <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
     	<td>
         	Place of Birth<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="pob" value=<?php echo $user['birth_place']; ?> required <?php if(is_auth('emp'))echo "readonly"; ?> >
+  	      	<input type="text" name="pob" value=<?php echo $user['birth_place']; ?> required <?php if(is_auth('emp'))echo "disabled"; ?> >
         </td>
     </tr>
     <tr>
@@ -401,8 +401,8 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Pay Scale<span style= "color:red;"> *</span>
         </td>
     	<td>
-        	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);" <?php if(is_auth('emp'))echo "readonly"; ?> >
-            	<option value="" readonly>Pay Band </option>
+        	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);" <?php if(is_auth('emp'))echo "disabled"; ?> >
+            	<option value="" disabled>Pay Band </option>
 				<?php
 					$qry=mysql_query("select distinct pay_band,pay_band_description from pay_scales");
 					while($row=mysql_fetch_row($qry))
@@ -414,7 +414,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 					}
                 ?>
             </select>
-            <select name="gradepay" tabindex="26" <?php if(is_auth('emp'))echo "readonly"; ?> >
+            <select name="gradepay" tabindex="26" <?php if(is_auth('emp'))echo "disabled"; ?> >
 				<?php
 					$qry=mysql_query("select * from pay_scales where pay_band='".$pay['pay_band']."'");
 					while($row=mysql_fetch_row($qry))
@@ -426,11 +426,11 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 					}
                 ?>
             </select>
-            <input type="text" name="basicpay" id="basicpay" size="10"  placeholder="Basic Pay" value="<?php echo $pay['basic_pay']; ?>" <?php if(is_auth('emp'))echo "readonly"; ?> />
+            <input type="text" name="basicpay" id="basicpay" size="10"  placeholder="Basic Pay" value="<?php echo $pay['basic_pay']; ?>" <?php if(is_auth('emp'))echo "disabled"; ?> />
         </td>
         <td>Nature of Employment<span style= "color:red;"> *</span></td>
        	<td>
-            <select name="empnature" <?php if(is_auth('emp'))echo "readonly"; ?> >
+            <select name="empnature" <?php if(is_auth('emp'))echo "disabled"; ?> >
             	<option value="permanent" <?php if($user['employment_nature']=="permanent")echo "selected"; ?> >Permanent</option>
                 <option value="temporary" <?php if($user['employment_nature']=="temporary")echo "selected"; ?> >Temporary</option>
                 <option value="probation" <?php if($user['employment_nature']=="probation")echo "selected"; ?> >Probation</option>
@@ -444,7 +444,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Date of Retirement
         </td>
         <td>
-        	<input type="date" name="retire" id="retire" value=<?php echo $user['retirement_date'];?> <?php if(is_auth('emp'))echo "readonly"; ?> />
+        	<input type="date" name="retire" id="retire" value=<?php echo $user['retirement_date'];?> <?php if(is_auth('emp'))echo "disabled"; ?> />
         </td>
     </tr>
     <tr>
@@ -467,7 +467,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Address Line 1<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<textarea type="text" name="line12" readonly ><?php echo $addr2['line1']; ?> </textarea>
+  	      	<textarea type="text" name="line12" disabled readonly ><?php echo $addr2['line1']; ?> </textarea>
         </td>
     </tr>
      <tr>
@@ -481,7 +481,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Address Line 2
         </td>
     	<td>
-  	      	<input type="text" name="line22" readonly value=<?php echo $addr2['line2']; ?> >
+  	      	<input type="text" name="line22" readonly disabled value=<?php echo $addr2['line2']; ?> >
         </td>
     </tr>
 	<tr>
@@ -495,7 +495,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	City<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="city2" readonly value="<?php echo $addr2['city']; ?>" >
+  	      	<input type="text" name="city2" readonly disabled value="<?php echo $addr2['city']; ?>" >
         </td>
     </tr>
     <tr>
@@ -509,7 +509,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	State<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="state2" value="<?php echo $addr2['state']; ?>" readonly >
+  	      	<input type="text" name="state2" disabled value="<?php echo $addr2['state']; ?>" readonly >
         </td>
     </tr>
     <tr>
@@ -517,13 +517,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Pin code<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="pincode1" value="<?php echo $addr1['pincode']; ?>" >
+  	      	<input type="tel" name="pincode1" required value="<?php echo $addr1['pincode']; ?>" >
         </td>
     	<td>
         	Pin code<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="pincode2" value="<?php echo $addr2['pincode']; ?>" readonly >
+  	      	<input type="tel" name="pincode2" value="<?php echo $addr2['pincode']; ?>" readonly disabled >
         </td>
     </tr>
     <tr>
@@ -537,7 +537,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Country<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="country2" value="<?php echo $addr2['country']; ?>" readonly />
+  	      	<input type="text" name="country2" value="<?php echo $addr2['country']; ?>" readonly disabled />
         </td>
     </tr>
     <tr>
@@ -551,7 +551,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Contact No<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="tel" name="contact2" value="<?php echo $addr2['contact_no']; ?>" readonly >
+  	      	<input type="tel" name="contact2" value="<?php echo $addr2['contact_no']; ?>" readonly disabled >
         </td>
     </tr>
 	<tr><th colspan=4></th></tr>

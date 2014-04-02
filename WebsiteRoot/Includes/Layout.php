@@ -84,8 +84,15 @@
 		$deoModules = array();
 		while($row = $deoRes->fetch_assoc()) array_push($deoModules, $row['module_id']);
 		var_dump($deoModules);
-		die();
+		$isDeo = is_auth("deo");
+		$deoKey = array_search("deo", $_SESSION['auth']);
+		
 		while($row = $msresult->fetch_assoc()) {
+			if($isDeo && in_array($row['id'], $deoModules)) {
+				$_SESSION['auth'][$deoKey] = "deo";
+			}
+			else 
+				$_SESSION['auth'][$deoKey] = "";
 			include_once("../" . $row["id"] . "/AccountFunctions.php");
 			_drawNavbarMenuItem($$row["id"], WEBSITE_ROOT . "/" . $row["id"]);
 		}

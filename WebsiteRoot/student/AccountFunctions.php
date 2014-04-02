@@ -1,13 +1,13 @@
 <?php
-	$employee = array();
+	$student = array();
 	
 	if(is_auth('deo')) {
-		$employee["Manage Employees"] = array();
-		$employee["Manage Employees"]["Add Employee"] = "add_employee.php";
-		$employee["Manage Employees"]["Edit Employee Details"] = "edit_employee.php";
-		$employee["Manage Employees"]["View Employee Details"] = "emp_view.php";
+		$student["Manage students"] = array();
+		$student["Manage students"]["Add student"] = "add_student.php";
+		$student["Manage students"]["Edit student Details"] = "edit_student.php";
+		$student["Manage students"]["View student Details"] = "emp_view.php";
 	}
 	
 	if(is_auth('emp')) {
-		$employee["View your details"] = "show_emp.php";
+		$student["View your details"] = "show_emp.php";
 	}

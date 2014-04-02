@@ -29,8 +29,6 @@
 			if($module == "") {
 				// This is a bad hack! Using debug_backtrace to find the module where the function was called.
 				$backtrace = debug_backtrace();
-				var_dump($backtrace);
-				die();
 				$module = _moduleFromURL($backtrace[sizeof($backtrace)-1]['file']);
 			}
 			$deoRes = $mysqli->query("SELECT * FROM deo_modules where id = '".$_SESSION['id']."'");

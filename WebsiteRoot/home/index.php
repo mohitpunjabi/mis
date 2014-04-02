@@ -17,7 +17,7 @@
 	else {
 		echo "<h2>Unread Notifications</h2>";
 		while($row = $res->fetch_assoc()) {
-			drawNotification($row["module_id"] . ": " . $row["title"], "<b>" . date("d M Y", strtotime($row['send_date'])) . "</b>: " . $row["description"] . " <a href=\"".$row["path"]."\">Know more &raquo;</a>", $row["type"]);
+			drawNotification($row["module_id"] . ": " . $row["title"], "<b>" . date("d M Y", strtotime($row['send_date'])) . "</b>: " . $row["description"] . " <a href=\"".WEBSITE_ROOT."/".$row["module_id"]."/".$row["path"]."\">Know more &raquo;</a>", $row["type"]);
 		}
 	}
 

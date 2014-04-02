@@ -79,8 +79,13 @@
 				<a href="'.WEBSITE_ROOT .'/home">Home</a>
 			</li>
 		';
-		$result = $mysqli->query("SELECT * FROM modules");
-		while($row = $result->fetch_assoc()) {
+		$msresult = $mysqli->query("SELECT * FROM modules");
+		$deoRes = $mysqli->query("SELECT * FROM deo_module where id = '".$_SESSION['id']."'");
+		$deoModules = array();
+		while($row = $deoRes->fetch_assoc()) array_push($deoModules, $row['module_id']);
+		var_dump($deoModules);
+		die();
+		while($row = $msresult->fetch_assoc()) {
 			include_once("../" . $row["id"] . "/AccountFunctions.php");
 			_drawNavbarMenuItem($$row["id"], WEBSITE_ROOT . "/" . $row["id"]);
 		}
@@ -144,4 +149,3 @@
 		$mysqli->query("INSERT into user_notifications
 						VALUES('$user_id_to', '".$_SESSION['id']."', now(), NULL, '".currentModule()."', '$title', '$description', '$path', '$type')");
 	}
-?>

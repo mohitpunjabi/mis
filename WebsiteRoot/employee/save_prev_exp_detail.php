@@ -1,6 +1,6 @@
 <?php	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp=$_SESSION['EDIT_EMP'];
@@ -21,6 +21,8 @@
 									address='".clean(strtolower($addr))."' ,
 									remarks='".clean(strtolower($reason))."' 
 									where id='".$emp."' and sno=".$sno);
+	if($updateprev_detail)
+		notify($emp, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=1","success");
 	
 	$prev_detail=mysql_query("select * 
 							from emp_prev_exp_details 

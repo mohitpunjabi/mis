@@ -81,7 +81,7 @@
 			alert('Sno '+(row.length-2)+': Error : Fill the period of entering and leaving correctly !!');
 			return false;
 		}
-		else if((d=="" && f=="" && t=="" && a=="" && r=="" && row.length!=3)||(d!="" && f!="" && t!="" && a!="" && r!=""))
+		else if((d=="" && f=="" && t=="" && a=="" && r=="")||(d!="" && f!="" && t!="" && a!="" && r!=""))
 			return true;
 		else
 		{

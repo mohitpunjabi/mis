@@ -1,6 +1,6 @@
 <?php	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp=$_SESSION['EDIT_EMP'];
@@ -17,6 +17,8 @@
 									res_addr='".clean($addr)."' ,
 									dist_hq_name='".clean(strtolower($dist))."' 
 									where id='".$emp."' and sno=".$sno);
+	if($updatestay_detail)
+		notify($emp, "Details Edited", "Your last 5 year stay details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=4","success");
 	
 	$stay_detail=mysql_query("select * 
 							from emp_last5yrstay_details 

@@ -11,7 +11,7 @@
 	
 	function onclick_emp_id()
 	{
-		document.getElementById('search_eid').style.visibility="visible";
+		document.getElementById('search_eid').style.display="table-row";
 	}
 	
 	function onclick_empname()
@@ -62,7 +62,7 @@
         </tr>
 
 
-		<tr id="search_eid" style="visibility: hidden">
+		<tr id="search_eid" style="display: none">
 	    	<th>Department</th>
 				<td>
                 <select id="emp_dept" onchange="onclick_empname();">
@@ -78,8 +78,18 @@
         	    </td>
 	    </tr>
 		<tr id="employee"></tr>
-
-
+		<tr><th>Select Form</th>
+        	<td><select name="form_name">
+        	<?php
+				echo '<option value="0">Basic Details</option>';
+				echo '<option value="1">Previous Employment Details</option>';
+				echo '<option value="2">Dependent Family Member Details</option>';
+				echo '<option value="3">Educational Details</option>';
+				echo '<option value="4">Last 5 Year Stay Details</option>';
+				echo '<option value="5">All Employee Details</option>';
+			?>	
+            </select></td>
+        </tr>
     </table>
     <center><input type="submit" name="submit"/></center>
 </form>

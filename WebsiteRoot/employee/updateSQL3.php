@@ -1,6 +1,6 @@
 <?php	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp_id=$_SESSION['EDIT_EMP'];
@@ -45,6 +45,7 @@
 	}
 	if($result)
 	{
+		notify($emp_id, "Details Edited", "Your dependent family member details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=2","success");
 		header('Location: index.php?update='.$emp_id);
 	}
 	else

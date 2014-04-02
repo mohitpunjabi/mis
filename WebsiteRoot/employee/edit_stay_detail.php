@@ -192,7 +192,7 @@
 					 <th rowspan=2>S no.</th>
 					 <th colspan=2>Duration</th>
 				   	 <th rowspan=2>Residential Address</th>
-				     <th rowspan=2>Name of District Headquarters of address mentioned previously</th>
+				     <th rowspan=2>Name of District Headquarters</th>
 					 <th rowspan=2>Edit/Delete</th>
 			     </tr>
 			     <tr>
@@ -224,7 +224,7 @@
      	 <th rowspan=2>S no.</th>
 	     <th colspan=2>Duration</th>
 	   	 <th rowspan=2>Residential Address</th>
-	     <th rowspan=2>Name of District Headquarters of address mentioned previously</th>
+	     <th rowspan=2>Name of District Headquarters</th>
      </tr>
      <tr>
      	<th>From</th>

@@ -1,11 +1,13 @@
 <?php
 	require_once("../Includes/Auth.php");
 	auth();
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp=$_SESSION['EDIT_EMP'];
 	$s=$_GET['s'];
 	$qry=mysql_query("DELETE FROM emp_education_details WHERE id='".$emp."' AND sno=".$s);
+	notify($emp, "Details Edited", "Your educational details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=3","success");
 	$i=1;
 	$edu_detail=mysql_query("select * 
 							from emp_education_details
@@ -16,7 +18,7 @@
 		echo '<tr>
 					 <th>S no.</th>
 				     <th>Examination</th>
-				     <th>Branch/Specialization</th>
+				     <th>Course(Specialization)</th>
 				   	 <th>College/University/Institute</th>
 				     <th>Year</th>
 				     <th>Percentage/Grade</th>

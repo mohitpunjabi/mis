@@ -4,6 +4,7 @@
 
 	require_once("connectDB.php");
 	
+	// not using this function
 	function generate_random_string($name_length = 8) 
 	{
 		$alpha_numeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -31,8 +32,9 @@
 		$AuthId='emp';
 		$date=date("Y-m-d H:i:s",time()+(19800));
 		$pass="p";
-		mysql_query("INSERT INTO users
-						VALUES ('$emp_id','".encode_password($pass, $date)."','$AuthId','$date')");
+		mysql_query("UPDATE users
+						SET password='".encode_password($pass, $date)."', created_date='$date'
+						WHERE id='$emp_id'");
 		
 		#email the user and pass
 		$email_query=mysql_query("SELECT email FROM user_details WHERE id='".$emp_id."'");

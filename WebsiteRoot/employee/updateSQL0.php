@@ -1,6 +1,6 @@
 <?php	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 
 	if(isset($_FILES['photo']['name'])) 
@@ -55,7 +55,10 @@
 			$uresult = mysql_query($qry);
 
 			if($uresult)
+			{
+				notify($_POST['emp_id'], "Details Edited", "Your photograph have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=0","success");
 				header('Location: index.php?update='.$_POST['emp_id']);
+			}
 			else
 				echo mysql_error();
 		}

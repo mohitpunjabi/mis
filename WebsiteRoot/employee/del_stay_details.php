@@ -1,12 +1,13 @@
 <?php
 	require_once("../Includes/Auth.php");
 	auth();
-
+	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
 	$emp=$_SESSION['EDIT_EMP'];
 	$s=$_GET['s'];
 	$qry=mysql_query("DELETE FROM emp_last5yrstay_details WHERE id='".$emp."' AND sno=".$s);
+	notify($emp, "Details Edited", "Your last 5 year stay details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=4","success");
 	$i=1;
 	$stay_detail=mysql_query("select * 
 							from emp_last5yrstay_details
@@ -18,7 +19,7 @@
 				<th rowspan=2>S no.</th>
 				<th colspan=2>Duration</th>
 				<th rowspan=2>Residential Address</th>
-				<th rowspan=2>Name of District Headquarters of address mentioned previously</th>
+				<th rowspan=2>Name of District Headquarters</th>
 				<th rowspan=2>Edit/Delete</th>
 			  </tr>
 			  <tr>
@@ -43,6 +44,8 @@
 			mysql_query("update emp_last5yrstay_details set sno=".$i." where id='".$emp."' and `from`='".$row[2]."' and `to`='".$row[3]."' and res_addr='".$row[4]."' and dist_hq_name='".$row[5]."'");
 			$i++;
 		}
+		
+
 	}
 	mysql_close();
 ?>

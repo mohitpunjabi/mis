@@ -1,7 +1,7 @@
 <?php
 	$employee = array();
 	
-	if(is_auth('deo')) {
+	if(is_auth('deo', 'employee')) {
 		$employee["Manage Employees"] = array();
 		$employee["Manage Employees"]["Add Employee"] = "add_employee.php";
 		$employee["Manage Employees"]["Edit Employee Details"] = "edit_employee.php";

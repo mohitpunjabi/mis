@@ -80,19 +80,8 @@
 			</li>
 		';
 		$msresult = $mysqli->query("SELECT * FROM modules");
-		$deoRes = $mysqli->query("SELECT * FROM deo_module where id = '".$_SESSION['id']."'");
-		$deoModules = array();
-		while($row = $deoRes->fetch_assoc()) array_push($deoModules, $row['module_id']);
-		var_dump($deoModules);
-		$isDeo = is_auth("deo");
-		$deoKey = array_search("deo", $_SESSION['auth']);
-		
+
 		while($row = $msresult->fetch_assoc()) {
-			if($isDeo && in_array($row['id'], $deoModules)) {
-				$_SESSION['auth'][$deoKey] = "deo";
-			}
-			else 
-				$_SESSION['auth'][$deoKey] = "";
 			include_once("../" . $row["id"] . "/AccountFunctions.php");
 			_drawNavbarMenuItem($$row["id"], WEBSITE_ROOT . "/" . $row["id"]);
 		}
@@ -112,14 +101,18 @@
 			echo '</li>';
 		}
 	}
-	
-	function currentModule() {
-		$urlParts = explode("/", $_SERVER['PHP_SELF']);
+
+	function _moduleFromURL($url) {
 		$i = 0;
-		for($i = 0; $i < sizeof($urlParts); $i++)
-			if(strtolower($urlParts[$i]) == "websiteroot") break;
+		$urlParts = explode("\\", $url);
+		if(sizeof($urlParts) == 1) $urlParts = explode("/", $url);
+		for($i = 0; $i < sizeof($urlParts); $i++) if(strtolower($urlParts[$i]) == "websiteroot") break;
 		
 		return $urlParts[$i+1];
+	}
+	
+	function currentModule() {
+		return _moduleFromURL($_SERVER['PHP_SELF']);
 	}
 	
 	

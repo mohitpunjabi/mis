@@ -1,5 +1,6 @@
 <?php
 	require_once("ConfigSQL.php");
+	require_once("Layout.php");
 	
 	function auth() {
 		global $mysqli; // Use the $mysqli defined in ConfigSQL
@@ -13,15 +14,30 @@
 		}
 		
 		if(sizeof($args) == 0) return true;
-		foreach($args as $aid) if(in_array($aid, $_SESSION['auth'])) return true;
+		foreach($args as $aid) if(is_auth($aid)) return true;
 
 		header("Location: ".WEBSITE_ROOT."/Logout.php?error=2");
 		exit;
 	}
 	
-	function is_auth($auth) {
+	function is_auth($auth, $module = "") {
 		session_start_sec();
-		return in_array($auth, $_SESSION['auth']);
+		if($auth == "")    return false;
+		if($auth != "deo") return in_array($auth, $_SESSION['auth']);
+		else {
+			global $mysqli;
+			if($module == "") {
+				// This is a bad hack! Using debug_backtrace to find the module where the function was called.
+				$backtrace = debug_backtrace();
+				var_dump($backtrace);
+				die();
+				$module = _moduleFromURL($backtrace[sizeof($backtrace)-1]['file']);
+			}
+			$deoRes = $mysqli->query("SELECT * FROM deo_modules where id = '".$_SESSION['id']."'");
+			$deoModules = array();
+			while($row = $deoRes->fetch_assoc()) array_push($deoModules, $row['module_id']);
+			return (in_array($auth, $_SESSION['auth']) && in_array($module, $deoModules));
+		}
 	}
 	
 	function session_start_sec() {

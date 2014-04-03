@@ -51,11 +51,7 @@
 		
 		if($result1)
 		{
-			if(is_auth('emp'))
-			{
-				notify('deo1', "Details Edited", "Employee ".$_SESSION['id']." has successfully edited his basic details", "show_emp.php?emp_id=".$_POST['emp_id']."&form_name=0" );
-				header('Location: edit_basic_detail_authemp.php?update='.$_POST['emp_id']);
-			}
+			header('Location: edit_basic_detail_authemp.php?update='.$_POST['emp_id']);
 		}
 		else
 		{

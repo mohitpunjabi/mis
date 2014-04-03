@@ -401,7 +401,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Pay Scale<span style= "color:red;"> *</span>
         </td>
     	<td>
-        	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);" <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<select name="payscale" tabindex="26"  required onchange="payband_handler(this.value);" <?php if(is_auth('emp'))echo "readonly"; ?> >
             	<option value="" readonly>Pay Band </option>
 				<?php
 					$qry=mysql_query("select distinct pay_band,pay_band_description from pay_scales");
@@ -414,7 +414,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 					}
                 ?>
             </select>
-            <select name="gradepay" tabindex="26" <?php if(is_auth('emp'))echo "readonly"; ?> >
+            <select name="gradepay" required tabindex="26" <?php if(is_auth('emp'))echo "readonly"; ?> >
 				<?php
 					$qry=mysql_query("select * from pay_scales where pay_band='".$pay['pay_band']."'");
 					while($row=mysql_fetch_row($qry))
@@ -426,7 +426,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 					}
                 ?>
             </select>
-            <input type="text" name="basicpay" id="basicpay" size="10"  placeholder="Basic Pay" value="<?php echo $pay['basic_pay']; ?>" <?php if(is_auth('emp'))echo "readonly"; ?> />
+            <input type="text" name="basicpay" required id="basicpay" size="10"  placeholder="Basic Pay" value="<?php echo $pay['basic_pay']; ?>" <?php if(is_auth('emp'))echo "readonly"; ?> />
         </td>
         <td>Nature of Employment<span style= "color:red;"> *</span></td>
        	<td>

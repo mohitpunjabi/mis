@@ -216,10 +216,10 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 <table width='90%'>
 	<tr><th colspan=4></th></tr>
     <tr>
-    	<td width='20%'>
+    	<td width='20%' id="empId">
         	Employee Id<span style= "color:red;"> *</span>
         </td>
-        <td width='30%'>
+        <td width='30%' id="empId">
         	<input type="text" name="emp_id" required="required" tabindex="1" /> 
             <input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
             <i class="loading" id="empIdIcon"></i>

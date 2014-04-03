@@ -175,14 +175,6 @@
 				document.getElementById("grade"+i).value="n/a";
 				document.getElementById("div"+i).value="n/a";
 			}
-			else
-			{
-				document.getElementById("branch"+i).value="";
-				document.getElementById("clgname"+i).value="";
-				document.getElementById("year"+i).value="";
-				document.getElementById("grade"+i).value="";
-				document.getElementById("div"+i).value="";
-			}
 	}
 	
 	function examination_handler(obj)
@@ -199,14 +191,6 @@
 				document.getElementsByName("year4[]")[i].value="n/a";
 				document.getElementsByName("grade4[]")[i].value="n/a";
 				document.getElementsByName("div4[]")[i].value="n/a";
-			}
-			else
-			{
-				document.getElementsByName("branch4[]")[i].value="";
-				document.getElementsByName("clgname4[]")[i].value="";
-				document.getElementsByName("year4[]")[i].value="";
-				document.getElementsByName("grade4[]")[i].value="";
-				document.getElementsByName("div4[]")[i].value="";
 			}
 		}
 	}

@@ -417,7 +417,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Pay Details<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);">
+  	      	<select name="payscale" tabindex="26"  onchange="payband_handler(this.value);" required >
             	<option value="" disabled selected>Pay Band </option>
 				<?php
 					$qry=mysql_query("select distinct pay_band,pay_band_description from pay_scales");
@@ -427,9 +427,9 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 					}
                 ?>
             </select>
-            <select name="gradepay" tabindex="26" onchange="javascript: document.getElementById('basicpay').style.visibility='visible'"style="visibility:hidden">
+            <select name="gradepay" tabindex="26" onchange="javascript: document.getElementById('basicpay').style.visibility='visible'"style="visibility:hidden" required >
             </select>
-            <input type="text" name="basicpay" id="basicpay" style="visibility:hidden" size="10"  placeholder="Basic Pay"/>
+            <input type="text" name="basicpay" id="basicpay" style="visibility:hidden" size="10"  placeholder="Basic Pay" required />
         </td>
         <td>Nature of Employment<span style= "color:red;"> *</span></td>
        	<td>

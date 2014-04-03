@@ -93,14 +93,6 @@
 				document.getElementsByName("grade4[]")[i].value="n/a";
 				document.getElementsByName("div4[]")[i].value="n/a";
 			}
-			else
-			{
-				document.getElementsByName("branch4[]")[i].value="";
-				document.getElementsByName("clgname4[]")[i].value="";
-				document.getElementsByName("year4[]")[i].value="";
-				document.getElementsByName("grade4[]")[i].value="";
-				document.getElementsByName("div4[]")[i].value="";
-			}
 		}
 	}
 </script>

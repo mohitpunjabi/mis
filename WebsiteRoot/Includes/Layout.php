@@ -58,7 +58,7 @@
 			if(in_array('emp', $_SESSION['auth']))
                 echo '<span>'.$_SESSION['designation'].', '.$_SESSION['dept_name'].'</span><br /><br />';
 			else if(in_array('stu', $_SESSION['auth']))
-                echo '<span>, '.$_SESSION['dept_name'].'</span><br /><br />';
+                echo '<span>'.$_SESSION['dept_name'].'</span><br /><br />';
 	echo'
             </div>
         </div>';

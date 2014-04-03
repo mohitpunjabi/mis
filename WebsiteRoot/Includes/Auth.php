@@ -120,9 +120,33 @@
 					array_push($_SESSION['auth'], $row['auth_id']);
 				}
 			}
+			if($row['auth_id'] == 'stu') {
+				if($result = $mysqli->query("SELECT * 
+					FROM  `stu_academic` 
+					WHERE id =  '$user_id'")) {
+					$row = $result->fetch_assoc();
+					$_SESSION['branch_id'] = $row['branch_id'];
+					$_SESSION['course_id'] = $row['course_id'];
+					$_SESSION['semester'] = $row['semester'];
+				
+					array_push($_SESSION['auth'], $row['auth_id']);
+				}
+			}
 			
+			_add_auth_types_to_session();
 			_set_old_session_values();
 		}
+	}
+	
+	function _add_auth_types_to_session() {
+		global $mysqli;
+		$user_id = $_SESSION['id'];
+		if($result = $mysqli->query("SELECT * 
+			FROM  user_auth_types
+			WHERE id =  '$user_id'")) {
+			while($row = $result->fetch_assoc())
+				array_push($_SESSION['auth'], $row['auth_id']);
+		}		
 	}
 	
 	// Set all old session values for compatibility.
@@ -130,9 +154,11 @@
 			$_SESSION['SESS_USERNAME'] = $_SESSION['id'];
 			$_SESSION['SESS_AUTH'] = $_SESSION['auth'][0];
 			$_SESSION['SESS_AUTHFULL'] = $_SESSION['auth'][0];
-			$_SESSION['SESS_BRANCH'] = '';
-			$_SESSION['SESS_COURSE'] = '';
-			$_SESSION['SESS_SEMESTER'] = '';
+			if(is_auth('stu')) {
+				$_SESSION['SESS_BRANCH'] = $_SESSION['branch_id'];
+				$_SESSION['SESS_COURSE'] = $_SESSION['course_id'];
+				$_SESSION['SESS_SEMESTER'] = $_SESSION['semester'];
+			}
 			$_SESSION['SESS_NAME'] = $_SESSION['name'];
 			$_SESSION['SESS_DEPT'] = $_SESSION['dept_id'];
 			if(is_auth('emp')) $_SESSION['SESS_DESIGN'] = $_SESSION['designation'];

@@ -82,7 +82,7 @@
 		$msresult = $mysqli->query("SELECT * FROM modules");
 
 		while($row = $msresult->fetch_assoc()) {
-			include_once("../" . $row["id"] . "/AccountFunctions.php");
+			include_once(_getRelativePathToWebsiteRoot() . "/" . $row["id"] . "/AccountFunctions.php");
 			_drawNavbarMenuItem($$row["id"], WEBSITE_ROOT . "/" . $row["id"]);
 		}
 		echo '</ul>';
@@ -100,6 +100,15 @@
 			}
 			echo '</li>';
 		}
+	}
+	
+	function _getRelativePathToWebsiteRoot() {
+		$p = substr($_SERVER['PHP_SELF'], stripos($_SERVER['PHP_SELF'], "websiteroot") + strlen("websiteroot"));
+		$urlParts = explode("\\", $p);
+		if(sizeof($urlParts) == 1) $urlParts = explode("/", $p);
+
+		for($i = 0, $path = ""; $i < sizeof($urlParts) - 2; $i++) $path .= "../";		
+		return $path;
 	}
 
 	function _moduleFromURL($url) {

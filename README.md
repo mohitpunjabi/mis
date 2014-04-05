@@ -41,14 +41,18 @@ Also defines the `WEBSITE_ROOT` variable. Set this to the local path of the Webs
 Auth Types
 ---
 
-Following is the list of standard Auth Types that will be used:
+Following is the list of standard Auth Types that will be used. Note that the auth types of local modules are prefixed with the module id. Although all modules can use that auth id, but only that particular module has the right to add and remove the entries for that auth id in the `user_auth_types` table.
+
+The auth IDs with no prefix are core IDs and are created by the core modules. Please create an issue if your auth
 
 
 
 | Auth ID	| Description 						|
 |:-------------:|:-----------------------------------------------------:|
+|`acmc_cs`	|Civil Supervisor					|
+|`acmc_es`	|Electrical Supervisor					|
 |`chw`		|Chief Hostel Warden					|
-|`cmi_ace`	|Campus Maintainence Assistant Engineer (Civil) 	|
+|`cmi_ace`	|Campus Maintainence Assistant Campus Engineer		|
 |`cmi_aee`	|Campus Maintainence Assistant Engineer (Electrical)	|
 |`cmi_ce`	|Campus Maintainence Campus Engineer			|
 |`cmi_inc`	|Campus Maintainence Store Incharge			|

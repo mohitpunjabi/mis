@@ -1,9 +1,10 @@
 <?php
 	require_once("../Includes/Auth.php");
-	auth('deo','stu');
-	require_once("../Includes/ConfigSQL.php");
 	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
+	
+	auth('deo', 'stu');
+
 	drawHeader("Student Management");
 	
 	if(isset($_GET['success']))
@@ -23,11 +24,11 @@
 			$row=mysql_fetch_row($query);
 			echo '(Continue with Student '.$row[0].')';
 		}
-	    echo '<br><h2><a href = "edit_stu.php">Edit Student Details</a><br></h2>';
+	    echo '<br><h2><a href = "edit_student.php">Edit Student Details</a><br></h2>';
 	    echo '<h2><a href = "stu_view.php">View Student Details</a><br></h2>';
 	}
     else if(is_auth('stu'))
-		echo '<br><h2><a href = "show_stu.php">View Student Details</a></h2>';
+		echo '<	br><h2><a href = "show_stu.php">View Student Details</a></h2>';
 
 	mysql_close();
 	drawFooter();

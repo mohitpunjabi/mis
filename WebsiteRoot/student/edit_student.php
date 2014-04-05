@@ -1,16 +1,40 @@
 <?php
-	require_once('../Includes/Auth.php');
+	require_once("../Includes/Auth.php");
 	auth('deo');
 	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
-	drawHeader("View Student");
+	drawHeader("Edit Student");
+
+	drawNotification("Please select Student Admission Number and Form to edit", "");
+
+	if(isset($_POST['submit']))
+	{
+		 $stuId = $_POST['stu_id'];
+		$_SESSION['EDIT_STU']=$stuId;
+		
+		$form_name = $_POST['form_name'];
+		if($form_name==0){
+			header('Location: edit_stu_profile_pic.php');
+		}
+		else if($form_name==1){
+			header('Location: edit_student_basic_details.php');
+		}
+		else if($form_name==2){
+			header('Location: edit_student_admission_details.php');
+		}
+		else if($form_name==3){
+			header('Location: edit_stu_admn_fee_detail.php');
+		}
+		
+		
+	}
+	
 ?>
-<h1 class="page-head">Select Student Admission Number to view other Student details</h1> 	
 <script type="text/javascript">
 	
 	function onclick_stu_id()
 	{
-		document.getElementById('search_sid').style.visibility="visible";
+		document.getElementById('search_sid').style.display="table-row";
 	}
 	
 	function onclick_stuname()
@@ -44,17 +68,17 @@
 		document.getElementById('stu_id').value=stu_name_id;
 	}
 </script>
-<form method="get" action="show_student.php">
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 	<table align="center" >
     	<tr><th>Student Admission Number</th>
         	<td><input type="text" name="stu_id"  id="stu_id" />
-        	
         	<a onClick="onclick_stu_id();" >Don't remember Student Id</a>
             </td>
         </tr>
 
 
-		<tr id="search_sid" style="visibility: hidden">
+		<tr id="search_sid" style="display:none;">
 	    	<th>Department</th>
 				<td>
                 <select id="stu_dept" onchange="onclick_stuname();">
@@ -70,12 +94,21 @@
         	    </td>
 	    </tr>
 		<tr id="student"></tr>
-
-
-    </table>
-    <center><input type="submit" name="submit"/></center>
+		
+		<tr><th>Select Form</th>
+        	<td><select name="form_name">
+        	<?php
+				echo '<option value="0">Change profile picture</option>';
+				echo '<option value="1">Basic Details</option>';
+				//echo '<option value="2">Admission/Fee Details</option>';
+				//echo '<option value="3">Academic Details</option>';
+				
+			?>	
+            </select></td>
+        </tr>
+ 
+    </table><center><input type="submit" name="submit"/></center>
 </form>
-<br><br><br><br>
 <?php
 	mysql_close();
 	drawFooter();

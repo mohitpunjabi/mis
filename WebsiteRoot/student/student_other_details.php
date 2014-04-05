@@ -79,7 +79,7 @@
 				<option value="pl">Provisional List</option>
              </select>
         </td>
-      <td>
+        <td>
 			Student Type
        	</td>
         <td>

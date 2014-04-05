@@ -2,7 +2,15 @@
 	require_once("../Includes/Auth.php");
 	auth('deo');
 	require_once("connectDB.php");
-    
+	/*echo $_POST['course_id'];
+	$course_id=$_POST['course_id'];
+	//echo $_POST['branch_id'];
+	$branch_id=$_POST['branch_id'];
+	$AuthId='stu';
+	$qry = "INSERT INTO stu_academic (id,auth_id,course_id,branch_id,enrollment_year)
+						VALUES ('".strtolower($_POST['stu_id'])."','".$AuthId."','".strtolower($course_id)."','".strtolower($branch_id)."','".strtolower($_POST['entrance_age'])."')";
+$mresult=mysql_query($qry);
+	die();*/
 	//making directory in images for the student
     mkdir("Images/".$_POST['stu_id']."/");
 	
@@ -44,7 +52,6 @@
 		if(move_uploaded_file($_FILES['photo']['tmp_name'],$upload_path.$filename))
 	    {		//on successful upload
 			$qry = "INSERT INTO user_details
-<<<<<<< HEAD
 					VALUES ('".strtolower($_POST['stu_id'])."',
 							'".$_POST['salutation']."',
 							'".strtolower($_POST['firstname'])."',
@@ -56,19 +63,6 @@
 							'".strtolower($_POST['email'])."',
 							'".$filename."',
 							'".strtolower($_POST['mstatus'])."',
-=======
-					VALUES ('".$_POST['stu_id']."',
-							'".$_POST['salutation']."',
-							'".$_POST['firstname']."',
-							'".$_POST['middlename']."',
-							'".$_POST['lastname']."',
-							'".$_POST['sex']."',
-							'".$_POST['category']."',
-							'".$_POST['dob']."',
-							'".$_POST['email']."',
-							'".$filename."',
-							'".$_POST['mstatus']."',
->>>>>>> student
 							'".$_POST['pd']."',
 							'".$_POST['department']."')";
 			$presult = mysql_query($qry);
@@ -83,11 +77,7 @@
 			else
 				$mother=$_POST['mother_name'];
 				
-<<<<<<< HEAD
 			if(empty($_POST['father_name']))
-=======
-				if(empty($_POST['father_name']))
->>>>>>> student
 				$father="";
 			else
 				$father=$_POST['father_name'];
@@ -102,22 +92,38 @@
 							'".strtolower($_POST['pob'])."',
 							'".$_POST['mobile']."',
 							'".strtolower($father)."',
-<<<<<<< HEAD
 							'".strtolower($mother)."')";
-=======
-							'".strtolower($mother)."',
-							'".strtolower($guardian)."')";
->>>>>>> student
 			$uresult = mysql_query($qry);
+			//$stu_id=$_POST['stu_id'];
+			//$enroll_year=substr($_POST['entrance_age']);
+			$AuthId='stu';
+			$course_id=$_POST['course_id'];
+			$branch_id=$_POST['branch_id'];
+			$qry = "INSERT INTO users (id,auth_id)
+						VALUES ('".strtolower($_POST['stu_id'])."','".$AuthId."')";
+			$mresult=mysql_query($qry);
+
+			$qry = "INSERT INTO stu_academic (id,auth_id,course_id,branch_id,enrollment_year)
+						VALUES ('".strtolower($_POST['stu_id'])."','".$AuthId."','".strtolower($course_id)."','".strtolower($branch_id)."','".strtolower($_POST['entrance_age'])."')";
+
+			$mresult=mysql_query($qry);
+
+			if($mresult)
+				echo "bye";
 
 			$qry = "INSERT INTO stu_details
 					(admn_no,
 					 admn_date,
+					 enrollment_year,
 					 identification_mark)
 					VALUES ('".strtolower($_POST['stu_id'])."',
 							'".$_POST['entrance_age']."',
+							'".$_POST['entrance_age']."',
 						    '".strtolower($_POST['identification_mark'])."')";
 			$iresult = mysql_query($qry);
+
+			if($iresult)
+				echo "hi";
 
 			if($presult && $uresult && $iresult )
 			{
@@ -145,6 +151,7 @@
 								'".strtolower($_POST['country1'])."',
 								'".$_POST['contact1']."','present')";
 				$result1 = mysql_query($qry);
+				
 				$qry = "INSERT INTO user_address
 						VALUES ('".strtolower($_POST['stu_id'])."',
 								'".strtolower($_POST['line12'])."',
@@ -157,12 +164,11 @@
 				$result2 = mysql_query($qry);
 				
 				
-				
 				if($result1 && $result2)
 				{
-					$next_step="INSERT INTO stu_current_entry VALUES ('".strtolower($_POST['stu_id'])."',1)";
+					$next_step="INSERT INTO stu_current_entry VALUES ('".strtolower($_POST['stu_id'])."',2)";
 					mysql_query($next_step);
-					$_SESSION['STU_CURRSTEP'] = 1;
+					$_SESSION['STU_CURRSTEP'] = 2;
 					header('Location: add_student.php');
 				}
 				else

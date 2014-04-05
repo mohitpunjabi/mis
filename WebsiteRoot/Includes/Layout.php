@@ -29,7 +29,7 @@
         	<a href="'.WEBSITE_ROOT.'/Logout.php">Logout</a>
         </div>
         <div class="-mis-right-options">
-            <a href="AccountFunctions.php">'.$_SESSION['name'].'</a>
+            <a href="'.WEBSITE_ROOT.'/home">'.$_SESSION['name'].'</a>
         </div>        
 		<div class="-mis-right-options">
 		';
@@ -55,9 +55,9 @@
                 <h2>'.$_SESSION['name'].'</h2>
                 <span><strong>'.$_SESSION['id'].'</strong></span><br />
 				';
-			if(in_array('emp', $_SESSION['auth']))
+			if(is_auth('emp'))
                 echo '<span>'.$_SESSION['designation'].', '.$_SESSION['dept_name'].'</span><br /><br />';
-			else if(in_array('stu', $_SESSION['auth']))
+			else if(is_auth('stu'))
                 echo '<span>'.$_SESSION['dept_name'].'</span><br /><br />';
 	echo'
             </div>
@@ -82,7 +82,7 @@
 		$msresult = $mysqli->query("SELECT * FROM modules");
 
 		while($row = $msresult->fetch_assoc()) {
-			include_once("../" . $row["id"] . "/AccountFunctions.php");
+			include_once(_getRelativePathToWebsiteRoot() . "/" . $row["id"] . "/AccountFunctions.php");
 			_drawNavbarMenuItem($$row["id"], WEBSITE_ROOT . "/" . $row["id"]);
 		}
 		echo '</ul>';
@@ -92,7 +92,7 @@
 		foreach($mi as $key => $val) {
 			$arrow = (is_array($val))? 'class="arrow"': "";
 			echo "<li $arrow>";
-			echo "<a href=\"$basePath/".((is_string($val))? $val: "#")."\">$key</a>";
+			echo "<a href=\"".((is_string($val))? "$basePath/".$val: "#")."\">$key</a>";
 			if(is_array($val))	{
 				echo '<ul>';
 				_drawNavbarMenuItem($val, $basePath);
@@ -100,6 +100,15 @@
 			}
 			echo '</li>';
 		}
+	}
+	
+	function _getRelativePathToWebsiteRoot() {
+		$p = substr($_SERVER['PHP_SELF'], stripos($_SERVER['PHP_SELF'], "websiteroot") + strlen("websiteroot"));
+		$urlParts = explode("\\", $p);
+		if(sizeof($urlParts) == 1) $urlParts = explode("/", $p);
+
+		for($i = 0, $path = ""; $i < sizeof($urlParts) - 2; $i++) $path .= "../";		
+		return $path;
 	}
 
 	function _moduleFromURL($url) {

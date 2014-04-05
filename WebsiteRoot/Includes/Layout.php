@@ -92,7 +92,7 @@
 		foreach($mi as $key => $val) {
 			$arrow = (is_array($val))? 'class="arrow"': "";
 			echo "<li $arrow>";
-			echo "<a href=\"$basePath/".((is_string($val))? $val: "#")."\">$key</a>";
+			echo "<a href=\"".((is_string($val))? "$basePath/".$val: "#")."\">$key</a>";
 			if(is_array($val))	{
 				echo '<ul>';
 				_drawNavbarMenuItem($val, $basePath);

@@ -98,6 +98,7 @@
 			WHERE u.dept_id = d.id")) {
 			$row = $result->fetch_assoc();
 			$_SESSION['name'] = $row['salutation'] . ' ' . $row['first_name'] . (($row['middle_name'] != '')? ' '.$row['middle_name']: '') . (($row['last_name'] != '')? ' '.$row['last_name']: '');
+			$_SESSION['name'] = ucwords($_SESSION['name']);
 			$_SESSION['sex'] = $row['sex'];
 			$_SESSION['category'] = $row['category'];
 			$_SESSION['dob'] = $row['dob'];
@@ -107,7 +108,7 @@
 			$_SESSION['physically_challenged'] = $row['physically_challenged'];
 			$_SESSION['dept_id'] = $row['dept_id'];
 			$_SESSION['created_date'] = $row['created_date'];
-			$_SESSION['dept_name'] = $row['dept_name'];
+			$_SESSION['dept_name'] = ucwords($row['dept_name']);
 			$_SESSION['dept_type'] = $row['dept_type'];
 			array_push($_SESSION['auth'], $row['auth_id']);
 			
@@ -116,7 +117,7 @@
 					FROM  `emp_basic_details` 
 					WHERE id =  '$user_id'")) {
 					$row = $result->fetch_assoc();
-					$_SESSION['designation'] = $row['designation'];
+					$_SESSION['designation'] = ucwords($row['designation']);
 					array_push($_SESSION['auth'], $row['auth_id']);
 				}
 			}

@@ -29,7 +29,7 @@
         	<a href="'.WEBSITE_ROOT.'/Logout.php">Logout</a>
         </div>
         <div class="-mis-right-options">
-            <a href="AccountFunctions.php">'.$_SESSION['name'].'</a>
+            <a href="'.WEBSITE_ROOT.'/home">'.$_SESSION['name'].'</a>
         </div>        
 		<div class="-mis-right-options">
 		';
@@ -55,9 +55,9 @@
                 <h2>'.$_SESSION['name'].'</h2>
                 <span><strong>'.$_SESSION['id'].'</strong></span><br />
 				';
-			if(in_array('emp', $_SESSION['auth']))
+			if(is_auth('emp'))
                 echo '<span>'.$_SESSION['designation'].', '.$_SESSION['dept_name'].'</span><br /><br />';
-			else if(in_array('stu', $_SESSION['auth']))
+			else if(is_auth('stu'))
                 echo '<span>'.$_SESSION['dept_name'].'</span><br /><br />';
 	echo'
             </div>

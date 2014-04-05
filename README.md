@@ -47,27 +47,27 @@ Following is the list of standard Auth Types that will be used:
 
 | Auth ID	| Description 						|
 |:-------------:|:-----------------------------------------------------:|
-|chw		|chief hostel warden					|
-|cmi_ace	|campus maintainence assistant engineer (civil) 	|
-|cmi_aee	|campus maintainence assistant engineer (electrical)	|
-|cmi_ce		|campus maintainence campus engineer			|
-|cmi_inc	|campus maintainence store incharge			|
-|deo		|data entry operator					|
-|emp		|employee						|
-|fictp		|departmental faculty incharge training and placement	|
-|ft		|faculty						|
-|guard_sup	|guard supervisor					|
-|health_doc	|health center doctor					|
-|health_reg	|health center registration desk			|
-|health_wd	|health center ward					|
-|hod		|head of department					|
-|hostel_wd	|hostel warden						|
-|jrf		|junior research fellow					|
-|nfta		|non faculty academic					|
-|nftn		|non faculty non academic				|
-|pg		|post graduate						|
-|stock_inc	|departmental stock and inventory incharge		|
-|stu		|student						|
-|timetable_inc	|timetable incharge					|
-|tpo		|training and placement officer				|
-|ug		|under graduate						|
+|`chw`		|Chief Hostel Warden					|
+|`cmi_ace`	|Campus Maintainence Assistant Engineer (Civil) 	|
+|`cmi_aee`	|Campus Maintainence Assistant Engineer (Electrical)	|
+|`cmi_ce`	|Campus Maintainence Campus Engineer			|
+|`cmi_inc`	|Campus Maintainence Store Incharge			|
+|`deo`		|Data Entry Operator					|
+|`emp`		|Employee						|
+|`fictp`	|Departmental Faculty Incharge Training and Placement	|
+|`ft`		|Faculty						|
+|`guard_sup`	|Guard Supervisor					|
+|`health_doc`	|Health Center Doctor					|
+|`health_reg`	|Health Center Registration Desk			|
+|`health_wd`	|Health Center Ward					|
+|`hod`		|Head of Department					|
+|`hostel_wd`	|Hostel Warden						|
+|`jrf`		|Junior Research Fellow					|
+|`nfta`		|Non Faculty Academic					|
+|`nftn`		|Non Faculty Non Academic				|
+|`pg`		|Post Graduate						|
+|`stock_inc`	|Departmental Stock and Inventory Incharge		|
+|`stu`		|Student						|
+|`timetable_inc`|Timetable Incharge					|
+|`tpo`		|Training and Placement Officer				|
+|`ug`		|Under Graduate						|

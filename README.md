@@ -36,3 +36,38 @@ ConfigSQL.php
 Defines global database variables. Creates a mysqli object `$mysqli`. Use this variable to connect to the database everywhere.
 
 Also defines the `WEBSITE_ROOT` variable. Set this to the local path of the WebsiteRoot folder of the project.
+
+
+Auth Types
+---
+
+Following is the list of standard Auth Types that will be used:
+
+
+
+| Auth ID	| Description 						|
+|:-------------:|:-----------------------------------------------------:|
+|chw		|chief hostel warden					|
+|cmi_ace	|campus maintainence assistant engineer (civil) 	|
+|cmi_aee	|campus maintainence assistant engineer (electrical)	|
+|cmi_ce		|campus maintainence campus engineer			|
+|cmi_inc	|campus maintainence store incharge			|
+|deo		|data entry operator					|
+|emp		|employee						|
+|fictp		|departmental faculty incharge training and placement	|
+|ft		|faculty						|
+|guard_sup	|guard supervisor					|
+|health_doc	|health center doctor					|
+|health_reg	|health center registration desk			|
+|health_wd	|health center ward					|
+|hod		|head of department					|
+|hostel_wd	|hostel warden						|
+|jrf		|junior research fellow					|
+|nfta		|non faculty academic					|
+|nftn		|non faculty non academic				|
+|pg		|post graduate						|
+|stock_inc	|departmental stock and inventory incharge		|
+|stu		|student						|
+|timetable_inc	|timetable incharge					|
+|tpo		|training and placement officer				|
+|ug		|under graduate						|

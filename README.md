@@ -41,9 +41,9 @@ Also defines the `WEBSITE_ROOT` variable. Set this to the local path of the Webs
 Auth Types
 ---
 
-Following is the list of standard Auth Types that will be used. Note that the auth types of local modules are prefixed with the module id. Although all modules can use that auth id, but only that particular module has the right to add and remove the entries for that auth id in the `user_auth_types` table.
+Following is the list of standard Auth Types that will be used. Note that the auth types of local modules are prefixed with the *module id*. Although all modules can use that auth ID, but only that particular module has the right to add and remove the entries for that auth ID in the `user_auth_types` table (the table that maps users to auth IDs).
 
-The auth IDs with no prefix are core IDs and are created by the core modules. Please create an issue if your auth
+> Note: The auth IDs with no prefix are core IDs and are created by the core modules. Please create an issue if an auth ID you require is not present here.
 
 
 

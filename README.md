@@ -34,3 +34,5 @@ ConfigSQL.php
 ---
 
 Defines global database variables. Creates a mysqli object `$mysqli`. Use this variable to connect to the database everywhere.
+
+Also defines the `WEBSITE_ROOT` variable. Set this to the local path of the WebsiteRoot folder of the project.

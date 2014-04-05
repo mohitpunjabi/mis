@@ -15,8 +15,6 @@
 ?>
 
 <script type="text/javascript">
-
-	
 	
 	function preview_pic()
 	{
@@ -93,11 +91,78 @@
 		}
 		
 	}
+
+    function options_of_branches()
+    {
+        var tr=document.getElementById('branch');
+        var dept=document.getElementById('depts').value;
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                tr.innerHTML=xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true);
+        xmlhttp.send();
+        tr.innerHTML = "<td><i class=\"loading\"></i></td>";
+    }
+
+    function options_of_courses()
+    {
+        //set_id_of_branch();
+        var tr=document.getElementById('course');
+        var branch=document.getElementById('branch_id').value;
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                tr.innerHTML=xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET","AJAX_courses_by_branch.php?branch="+branch,true);
+        xmlhttp.send();
+        tr.innerHTML = "<td><i class=\"loading\"></i></td>";
+    }
+
+    function set_id_of_branch()
+    {
+        var branch_id=document.getElementById('branch_id').value;
+        document.getElementById('id_of_branch').value=branch_id;
+        return 0;
+    }
+
+    function set_id_of_course()
+    {
+        var course_id=document.getElementById('course_id').value;
+        document.getElementById('id_of_course').value=course_id;
+    }
+
 </script>
 
 
 <h1>Step 1 :Fill up the details</h1>
 <form method = "post" action=  "entrySQL1.php" enctype="multipart/form-data" onsubmit="return image_validation();" >
+<!--input type="text" name="id_of_course" id="id_of_course"/>
+<input type="text" name="id_of_branch" id="id_of_branch"/-->
 <table width='90%'>
 	<th colspan=4></th>
     <tr>
@@ -267,8 +332,9 @@
         	Department
         </td>
     	<td>
-  	      	<select name="department" id="depts" >
+  	      	<select name="department" id="depts" onchange="options_of_branches()">
             	<?php
+                    echo '<option disabled="disabled" selected>Select Department</option>';
 					$qry=mysql_query("select id,name from departments where type='academic'");
 					while($row=mysql_fetch_row($qry))
 					{
@@ -278,7 +344,26 @@
             </select>
         </td>
     </tr>
-   <tr/>
+    <tr>
+        <td>
+            Branch
+        </td>
+        <td id="branch">
+            <!--select name="branch">
+                <option disabled="disabled" selected>Select Branches</option>
+            </select-->
+        </td>
+        <td>
+            Course
+        </td>
+        <td id="course">
+            <!--select name="course">
+                <option disabled="disabled" selected>Select Course</option>
+            </select-->
+        </td>
+    </tr>
+    <!--tr >
+    </tr!-->
     <tr>
     	<th width='50%' colspan=2>
         	Present Address

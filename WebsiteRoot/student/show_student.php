@@ -43,20 +43,15 @@
 <?php
 	$c=0;
 	if(is_auth('stu'))
-		echo $stu=$_SESSION['SESS_USERNAME'];
+		$stu=$_SESSION['SESS_USERNAME'];
 	else if(is_auth('deo'))
 		$stu=$_GET['stu_id'];
 		
 	$stu_details=mysql_query("select * 
-<<<<<<< HEAD
 								from user_details, user_other_details, stu_details
 								WHERE user_details.id='".$stu."' AND
 									  user_details.id = user_other_details.id AND
 									  user_details.id = stu_details.admn_no");
-=======
-								from user_details NATURAL JOIN user_other_details NATURAL JOIN stu_details
-								where id='".$stu."'");
->>>>>>> student
 	
 	$user=mysql_fetch_assoc($stu_details);
 	
@@ -83,27 +78,23 @@
 				$dept=mysql_fetch_row($dept);
 				$dept_id=strtoupper($dept[1]);
 				
-<<<<<<< HEAD
 				//$db = mysql_select_db("feedback_sfstest");
 	//retrieving course id from feedback_sfstest
 		//$ret_course_id=mysql_query("SELECT course_name FROM feedback_course INNER JOIN feedback_numsubjects WHERE branch_id='$dept_id'");//'$dept_id'");
 		//$db = mysql_select_db("mis");
 				//$course_id=mysql_fetch_row($ret_course_id);
-				$course="";//$course_id[0];
+				$course_branch_id = mysql_query("select course_id,branch_id from stu_academic where id='".$stu."'");
+				$id_row=mysql_fetch_array($course_branch_id);
+				$course_name = mysql_query("select name from courses where id='".$id_row[0]."'");
+				$course_name_row = mysql_fetch_array($course_name);
+				$course_name = $course_name_row[0];
+				$branch_name = mysql_query("select name from branches where id='".$id_row[1]."'");
+				$branch_name_row = mysql_fetch_array($branch_name);
+				$branch_name = $branch_name_row[0];
+				//$course="";//$course_id[0];
 				$stu_detail=mysql_query("select * from stu_details where admn_no='".$stu."'");
 				$row=mysql_fetch_row($stu_detail);
 								
-=======
-				$db = mysql_select_db("feedback_sfstest");
-	//retrieving course id from feedback_sfstest
-		$ret_course_id=mysql_query("SELECT course_name FROM feedback_course INNER JOIN feedback_numsubjects WHERE branch_id='$dept_id'");//'$dept_id'");
-		$db = mysql_select_db("mis");
-				$course_id=mysql_fetch_row($ret_course_id);
-				$course=$course_id[0];
-				$stu_detail=mysql_query("select * from stu_details where admn_no='".$stu."'");
-				$row=mysql_fetch_row($stu_detail);
-				
->>>>>>> student
 				if(empty($user['guardian_name']))
 					{
 						echo '<th>Father Name</th><td>'.$user['father_name'].'</td>
@@ -144,7 +135,7 @@
 				else
 						$type='Junior Research Faculty';
 					echo '<th>Student Type</th><td>'.$type.'</td>
-					<th>Course</th><td>'.$course.'</td>
+					<th>Course</th><td>'.$course_name.'</td>
 					<th>Branch</th><td>'.$dept[0].'</td>
 				</tr>
 				<tr>
@@ -210,7 +201,7 @@
 	
 		
 	
-		echo '<br><center><h2><a onClick="onclick_step(\'step4\');">Student Admission Details</a></h2>';
+	/*	echo '<br><center><h2><a onClick="onclick_step(\'step4\');">Student Admission Details</a></h2>';
 		echo '<div id="step4" style="display:none">
 				<table align="center" width="90%"> 
 				<tr>
@@ -280,7 +271,7 @@
 		
 		echo "</table></div></center>";
 	
-	
+	*/
 	
 		echo '<br><br><center><button onclick="printContent(\'print\')" >PRINT</button>';
 	if($_SESSION['SESS_AUTH']=="DO")

@@ -67,9 +67,11 @@ Following is the list of standard Auth Types that will be used. Note that the au
 |`hod`		|Head of Department					|
 |`hostel_wd`	|Hostel Warden						|
 |`jrf`		|Junior Research Fellow					|
+|`library_inc`	|Departmental Library Incharge				|
 |`nfta`		|Non Faculty Academic					|
 |`nftn`		|Non Faculty Non Academic				|
 |`pg`		|Post Graduate						|
+|`sports_spo`	|Sports Officer						|
 |`stock_inc`	|Departmental Stock and Inventory Incharge		|
 |`stu`		|Student						|
 |`timetable_inc`|Timetable Incharge					|

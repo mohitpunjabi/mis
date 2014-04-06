@@ -51,9 +51,9 @@
 			$qry = "INSERT INTO user_details
 					VALUES ('".clean(strtolower($_POST['emp_id']))."',
 							'".clean($_POST['salutation'])."',
-							'".clean(strtolower($_POST['firstname']))."',
-							'".clean(strtolower($_POST['middlename']))."',
-							'".clean(strtolower($_POST['lastname']))."',
+							'".ucwords(clean(strtolower($_POST['firstname'])))."',
+							'".ucwords(clean(strtolower($_POST['middlename'])))."',
+							'".ucwords(clean(strtolower($_POST['lastname'])))."',
 							'".clean(strtolower($_POST['sex']))."',
 							'".$_POST['category']."',
 							'".$_POST['dob']."',
@@ -74,16 +74,14 @@
 							'".clean(strtolower($_POST['favpast']))."',
 							'".clean(strtolower($_POST['pob']))."',
 							'".clean($_POST['mobile'])."',
-							'".clean(strtolower($_POST['father']))."',
-							'".clean(strtolower($_POST['mother']))."')";
+							'".ucwords(clean(strtolower($_POST['father'])))."',
+							'".ucwords(clean(strtolower($_POST['mother'])))."')";
 			$uresult = mysql_query($qry);
 
-			if($_POST['tstatus']!='ft')	$_POST['research_int']='NA';
 			$qry = "INSERT INTO emp_basic_details
 					VALUES ('".clean(strtolower($_POST['emp_id']))."',
 							'".$_POST['tstatus']."',
 							'".clean(strtolower($_POST['designation']))."',
-							'".clean(strtolower($_POST['post']))."',
 							'".$_POST['office']."',
 							'".$_POST['fax']."',
 							'".$_POST['entrance_age']."',
@@ -91,7 +89,10 @@
 							'".clean(strtolower($_POST['empnature']))."')";
 			$qresult = mysql_query($qry);
 
-			$qry="INSERT INTO faculty_details
+			if($_POST['tstatus']!='ft')
+				$_POST['research_int']='NA';	//to be on safe side
+			else
+				$qry="INSERT INTO faculty_details
 					VALUES ('".clean(strtolower($_POST['emp_id']))."','".clean(strtolower($_POST['research_int']))."')";
 
 			$sresult = mysql_query($qry);

@@ -26,7 +26,7 @@
 			$qry = "INSERT INTO emp_family_details 
 					VALUES ('$emp_id',
 							'$sno',
-							'".clean(strtolower($_POST['name3'][$i]))."',
+							'".ucwords(clean(strtolower($_POST['name3'][$i])))."',
 							'".$_POST['relationship3'][$i]."',
 							'".clean(strtolower($_POST['profession3'][$i]))."',
 							'".clean($_POST['addr3'][$i])."',

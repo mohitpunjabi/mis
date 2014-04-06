@@ -88,9 +88,24 @@
 			new_date.setFullYear(new_date.getFullYear() + 62);
 		else if(auth=="nftn")
 			new_date.setFullYear(new_date.getFullYear() + 60);
-
+		
+		//change suggested for 1st day of month dob
+		if(new_date.getDate()==1)
+		{
+			if(new_date.getMonth()==0)
+			{
+				new_date.setMonth(11);
+				new_date.setFullYear(new_date.getFullYear() - 1);
+			}
+			else
+			{
+				new_date.setMonth(new_date.getMonth()-1);
+			}
+		}
+		
 		var month=new_date.getMonth();
 		var year=new_date.getFullYear();
+		
 		if(month==0 || month==2 || month==4 || month==6 || month==7 || month==9 || month==11)
 			new_date.setDate(31);
 		else if(month!=1)
@@ -102,18 +117,23 @@
 			else
 				new_date.setDate(28);
 		}
+
 		var date='';
 		if(new_date.getDate()<10)	date='0'+new_date.getDate();
-		else	date=''+new_date.getDate();
-		
-		retire.value=new_date.getFullYear()+source.substr(source.indexOf('-'),[3])+'-'+date;
+		else	date+=new_date.getDate();
 
+		month+=1;		
+		var mon='';
+		if(month<10)	mon='0'+month;
+		else	mon+=month;
+		
+		retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
 	}	
 	
 	function designation_dropdown(auth)
 	{
 		if(auth=="ft")
-			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"lecturer\">Lecturer</option><option value=\"demonstrator\">Demonstrator</option></select>";
+			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"chair professor\">Chair Professor</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"lecturer\">Lecturer</option><option value=\"demonstrator\">Demonstrator</option><option value=\"others\">Others</option></select>";
 		else
 			document.getElementById("des").innerHTML="<input type=\"text\" name=\"designation\" required=\"required\" />";
 	}
@@ -350,31 +370,11 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
             	<option value="professor">Professor</option>
             	<option value="associate professor">Associate Professor</option>
             	<option value="assistant professor">Assistant Professor</option>
+                <option value="chair professor">Chair Professor</option>
                 <option value="senior lecturer">Senior Lecturer</option>
                 <option value="lecturer">Lecturer</option>
-                <option value="demonstrator">Demonstrator</option></select>
-            </select>
-        </td>
-    </tr>
-    <tr>
-    	<td>
-        	Post Concerned
-        </td>
-    	<td>
-  	      	<input type="text" name="post" tabindex="20" />
-        </td>
-    	<td>
-        	Department/Section<span style= "color:red;"> *</span>
-        </td>
-    	<td>
-  	      	<select name="department" id="depts" tabindex="21" >
-            	<?php
-					$qry=mysql_query("select id,name from departments where type='academic'");
-					while($row=mysql_fetch_row($qry))
-					{
-						echo '<option value="'.$row[0].'">'.$row[1].'</option>';
-					}
-				?>
+                <option value="demonstrator">Demonstrator</option>
+                <option value="others">Others</option></select>
             </select>
         </td>
     </tr>
@@ -444,6 +444,20 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
    </tr>
    <tr>
 		<td>
+        	Department/Section<span style= "color:red;"> *</span>
+        </td>
+    	<td>
+  	      	<select name="department" id="depts" tabindex="21" >
+            	<?php
+					$qry=mysql_query("select id,name from departments where type='academic'");
+					while($row=mysql_fetch_row($qry))
+					{
+						echo '<option value="'.$row[0].'">'.$row[1].'</option>';
+					}
+				?>
+            </select>
+        </td>
+        <td>
 <?php        
 	$date = new DateTime(date("Y-m-d",time()+(19800)));
 	$date->modify('+65 year');

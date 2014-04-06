@@ -77,3 +77,11 @@ Following is the list of standard Auth Types that will be used. Note that the au
 |`timetable_inc`|Timetable Incharge					|
 |`tpo`		|Training and Placement Officer				|
 |`ug`		|Under Graduate						|
+|`dsw` 		|Dean of Student Welfare 				|
+|`pce`		|Professor of Continuing Education			|
+|`dt`		|Director						|
+|`est_ar`	|Assistant Registrar					|
+|`vehicle_inc`	|Vehicle Incharge					|
+|`edc_ctk`	|Care Taker						|
+|`exam_dr`	|Exam Deputy Registrar					|
+|`exam_no`	|Exam Section Nodal Officer				|

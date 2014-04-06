@@ -1,6 +1,6 @@
 <?php
 	$employee = array();
-	
+
 	if(is_auth('deo')) {
 		$employee["Manage Employees"] = array();
 		$employee["Manage Employees"]["Add Employee"] = "add_employee.php";
@@ -19,3 +19,4 @@
 		$employee["Employee details"]["View your details"]["All Details"] = "show_emp.php?form_name=5";
 		$employee["Employee details"]["Edit your details"]="edit_basic_detail_authemp.php";
 	}
+?>

@@ -23,18 +23,20 @@
 	$uresult = mysql_query($qry);
 
 	if(isset($_POST['tstatus']) && $_POST['tstatus']!='ft')	$_POST['research_int']='NA';
+
 	$qry="UPDATE emp_basic_details
-			SET	post_concerned='".clean(strtolower($_POST['post']))."',
-				office_no='".$_POST['office']."',
+			SET	office_no='".$_POST['office']."',
 				fax='".$_POST['fax']."'
 			WHERE id='".$_POST['emp_id']."'";
 	$qresult = mysql_query($qry);
-	
-	$qry="UPDATE faculty_details
-			SET research_interest='".clean(strtolower($_POST['research_int']))."'
-			WHERE id='".$_POST['emp_id']."'";
-	$sresult = mysql_query($qry);
-
+				
+	if($_POST['tstatus']=='ft')
+	{
+		$qry="UPDATE faculty_details
+				SET research_interest='".clean(strtolower($_POST['research_int']))."'
+				WHERE id='".$_POST['emp_id']."'";
+		$sresult = mysql_query($qry);
+	}
 	
 	if($presult && $uresult && $qresult)
 	{

@@ -22,7 +22,7 @@
 	// extracting existing details from the database
 	
 	$emp_user_details=mysql_query("select * 
-								from user_details NATURAL JOIN user_other_details NATURAL JOIN emp_basic_details NATURAL JOIN faculty_details
+								from user_details NATURAL JOIN user_other_details NATURAL JOIN emp_basic_details
 								where id='".$emp_id."'");
 	$emp_pay_details=mysql_query("select pay_code,pay_band,grade_pay,basic_pay 
 								from emp_pay_details NATURAL JOIN pay_scales
@@ -113,8 +113,23 @@
 		else if(auth=="nftn")
 			new_date.setFullYear(new_date.getFullYear() + 60);
 
+				//change suggested for 1st day of month dob
+		if(new_date.getDate()==1)
+		{
+			if(new_date.getMonth()==0)
+			{
+				new_date.setMonth(11);
+				new_date.setFullYear(new_date.getFullYear() - 1);
+			}
+			else
+			{
+				new_date.setMonth(new_date.getMonth()-1);
+			}
+		}
+		
 		var month=new_date.getMonth();
 		var year=new_date.getFullYear();
+		
 		if(month==0 || month==2 || month==4 || month==6 || month==7 || month==9 || month==11)
 			new_date.setDate(31);
 		else if(month!=1)
@@ -126,17 +141,23 @@
 			else
 				new_date.setDate(28);
 		}
+
 		var date='';
 		if(new_date.getDate()<10)	date='0'+new_date.getDate();
-		else	date=''+new_date.getDate();
+		else	date+=new_date.getDate();
+
+		month+=1;		
+		var mon='';
+		if(month<10)	mon='0'+month;
+		else	mon+=month;
 		
-		retire.value=new_date.getFullYear()+source.substr(source.indexOf('-'),[3])+'-'+date;
+		retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
 	}	
 	
 	function designation_dropdown(auth)
 	{
 		if(auth=="ft")
-			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"lecturer\">Lecturer</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"demonstrator\">Demonstrator</option></select>";
+			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"chair professor\">Chair Professor</option><option value=\"lecturer\">Lecturer</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"demonstrator\">Demonstrator</option><option value=\"others\">Others</option></select>";
 		else
 			document.getElementById("des").innerHTML="<input type=\"text\" name=\"designation\" required=\"required\" />";
 	}
@@ -217,13 +238,13 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         	Father's Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="father" required value=<?php echo $user['father_name']; ?> <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<input type="text" name="father" required value="<?php echo $user['father_name']; ?>" <?php if(is_auth('emp'))echo "readonly"; ?> >
         </td>
         <td>
 			Mother's Name<span style= "color:red;"> *</span>
         </td>
         <td>
-        	<input type="text" name="mother" required value=<?php echo $user['mother_name'];?> <?php if(is_auth('emp'))echo "readonly"; ?> >
+        	<input type="text" name="mother" required value="<?php echo $user['mother_name'];?>" <?php if(is_auth('emp'))echo "readonly"; ?> >
         </td>
    </tr>
    <tr>
@@ -242,10 +263,14 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
         </td>
         <td>
         	<?php 
-				if($user['auth_id']=='ft') 
-        			echo '<input type="text" name="research_int" id="res_int_id"  value="'.$user['research_interest'].'" >';
+				if($user['auth_id']=='ft')
+				{
+					$research_query=mysql_query("select research_interest from faculty_details where id='".$emp_id."'");
+					$research=mysql_fetch_assoc($research_query);
+        			echo '<input type="text" name="research_int" id="res_int_id" value="'.$research['research_interest'].'" >';
+				}
 				else
-					echo '<input type="text" name="research_int" id="res_int_id"  readonly >';
+					echo '<input type="text" name="research_int" id="res_int_id"  disabled >';
              ?>
         </td>
    </tr>
@@ -294,12 +319,16 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 										echo  '>Associate Professor</option>';
 				echo '<option value="assistant professor" '; if($user['designation']=="assistant professor") echo 'selected';
 										echo  '>Assistant Professor</option>';
+				echo '<option value="chair professor" '; if($user['designation']=="chair professor") echo 'selected';
+										echo  '>Chair Professor</option>';
 				echo '<option value="senior lecturer" '; if($user['designation']=="senior lecturer") echo 'selected';
 										echo  '>Senior Lecturer</option>';
 				echo '<option value="lecturer" '; if($user['designation']=="lecturer") echo 'selected';
 										echo  '>Lecturer</option>';
 				echo '<option value="demonstrator" '; if($user['designation']=="demonstrator") echo 'selected';
-										echo  '>Demonstrator</option></select>';
+										echo  '>Demonstrator</option>';
+				echo '<option value="others" '; if($user['designation']=="others") echo 'selected';
+										echo  '>Others</option></select>';
 			}
         	else 
            	{	echo '<input type="text" name="designation" value="'.$user['designation'].'" required ';
@@ -310,15 +339,86 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 			}
 		?>
         </td>
+    </tr>	
+    <tr>
+    	<td>
+            Category<span style= "color:red;"> *</span>
+        </td>
+    	<td>
+        	<select name="category" <?php if(is_auth('emp'))echo "readonly"; ?> >
+				<option value="General" <?php if($user['category']=="General")echo "selected"; ?> >GEN</option>
+                <option value="OBC" <?php if($user['category']=="OBC")echo "selected"; ?> >OBC</option>
+                <option value="SC" <?php if($user['category']=="SC")echo "selected"; ?> >SC</option>
+                <option value="ST" <?php if($user['category']=="ST")echo "selected"; ?> >ST</option>
+                <option value="Others" <?php if($user['category']=="Others")echo "selected"; ?> >Others</option>
+             </select>
+        </td>
+    	<td>
+        	Religion<span style= "color:red;"> *</span>
+        </td>
+    	<td>
+  	      	<input type="text" name="religion" value="<?php echo $user['religion']; ?>" required <?php if(is_auth('emp'))echo "readonly"; ?> >
+        </td>
     </tr>
-	<tr>
-        <td>
-        	Post Concerned
+    <tr>
+    	<td>
+        	DOB<span style= "color:red;"> *</span>
         </td>
     	<td>
-  	      	<input type="text" name="post" value="<?php echo $user['post_concerned'];?>" >
+  	      	<input type="date" name="dob" onChange="retirement_handler()"  value=<?php echo $user['dob'];?> max=<?php echo date("Y-m-d", time()+(19800)); ?> <?php if(is_auth('emp'))echo "readonly"; ?> >
         </td>
     	<td>
+        	Place of Birth<span style= "color:red;"> *</span>
+        </td>
+    	<td>
+  	      	<input type="text" name="pob" value=<?php echo $user['birth_place']; ?> required <?php if(is_auth('emp'))echo "readonly"; ?> >
+        </td>
+    </tr>
+    <tr>
+    	<td>
+        	Pay Scale<span style= "color:red;"> *</span>
+        </td>
+    	<td>
+        	<select name="payscale" tabindex="26"  required onChange="payband_handler(this.value);" <?php if(is_auth('emp'))echo "readonly"; ?> >
+            	<option value="" readonly>Pay Band </option>
+				<?php
+					$qry=mysql_query("select distinct pay_band,pay_band_description from pay_scales");
+					while($row=mysql_fetch_row($qry))
+					{
+						if($pay['pay_band']==$row[0])
+							echo '<option selected="selected" value="'.$row[0].'">'.strtoupper($row[0]).' ('.$row[1].')</option>';
+						else
+							echo '<option value="'.$row[0].'">'.strtoupper($row[0]).' ('.$row[1].')</option>';
+					}
+                ?>
+            </select>
+            <select name="gradepay" required tabindex="26" <?php if(is_auth('emp'))echo "readonly"; ?> >
+				<?php
+					$qry=mysql_query("select * from pay_scales where pay_band='".$pay['pay_band']."'");
+					while($row=mysql_fetch_row($qry))
+					{
+						if($pay['pay_code']==$row[0])
+							echo '<option selected="selected" value="'.$row[0].'" >'.$row[3].'</option>';
+						else
+							echo '<option value="'.$row[0].'">'.$row[3].'</option>';
+					}
+                ?>
+            </select>
+            <input type="text" name="basicpay" required id="basicpay" size="10"  placeholder="Basic Pay" value="<?php echo $pay['basic_pay']; ?>" <?php if(is_auth('emp'))echo "readonly"; ?> />
+        </td>
+        <td>Nature of Employment<span style= "color:red;"> *</span></td>
+       	<td>
+            <select name="empnature" <?php if(is_auth('emp'))echo "readonly"; ?> >
+            	<option value="permanent" <?php if($user['employment_nature']=="permanent")echo "selected"; ?> >Permanent</option>
+                <option value="temporary" <?php if($user['employment_nature']=="temporary")echo "selected"; ?> >Temporary</option>
+                <option value="probation" <?php if($user['employment_nature']=="probation")echo "selected"; ?> >Probation</option>
+                <option value="contract" <?php if($user['employment_nature']=="contract")echo "selected"; ?> >Contract</option>
+                <option value="others" <?php if($user['employment_nature']=="others")echo "selected"; ?> >Others</option>
+            </select>
+        </td>
+   </tr>
+   <tr>
+   		<td>
         	Department/Section<span style= "color:red;"> *</span>
         </td>
     	<td>
@@ -361,85 +461,6 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 				?>
             </select>
         </td>
-    </tr>
-    <tr>
-    	<td>
-            Category<span style= "color:red;"> *</span>
-        </td>
-    	<td>
-        	<select name="category" <?php if(is_auth('emp'))echo "readonly"; ?> >
-				<option value="General" <?php if($user['category']=="General")echo "selected"; ?> >GEN</option>
-                <option value="OBC" <?php if($user['category']=="OBC")echo "selected"; ?> >OBC</option>
-                <option value="SC" <?php if($user['category']=="SC")echo "selected"; ?> >SC</option>
-                <option value="ST" <?php if($user['category']=="ST")echo "selected"; ?> >ST</option>
-                <option value="Others" <?php if($user['category']=="Others")echo "selected"; ?> >Others</option>
-             </select>
-        </td>
-    	<td>
-        	Religion<span style= "color:red;"> *</span>
-        </td>
-    	<td>
-  	      	<input type="text" name="religion" value="<?php echo $user['religion']; ?>" required <?php if(is_auth('emp'))echo "readonly"; ?> >
-        </td>
-    </tr>
-    <tr>
-    	<td>
-        	DOB<span style= "color:red;"> *</span>
-        </td>
-    	<td>
-  	      	<input type="date" name="dob" onChange="retirement_handler()"  value=<?php echo $user['dob'];?> max=<?php echo date("Y-m-d", time()+(19800)); ?> <?php if(is_auth('emp'))echo "readonly"; ?> >
-        </td>
-    	<td>
-        	Place of Birth<span style= "color:red;"> *</span>
-        </td>
-    	<td>
-  	      	<input type="text" name="pob" value=<?php echo $user['birth_place']; ?> required <?php if(is_auth('emp'))echo "readonly"; ?> >
-        </td>
-    </tr>
-    <tr>
-    	<td>
-        	Pay Scale<span style= "color:red;"> *</span>
-        </td>
-    	<td>
-        	<select name="payscale" tabindex="26"  required onchange="payband_handler(this.value);" <?php if(is_auth('emp'))echo "readonly"; ?> >
-            	<option value="" readonly>Pay Band </option>
-				<?php
-					$qry=mysql_query("select distinct pay_band,pay_band_description from pay_scales");
-					while($row=mysql_fetch_row($qry))
-					{
-						if($pay['pay_band']==$row[0])
-							echo '<option selected="selected" value="'.$row[0].'">'.strtoupper($row[0]).' ('.$row[1].')</option>';
-						else
-							echo '<option value="'.$row[0].'">'.strtoupper($row[0]).' ('.$row[1].')</option>';
-					}
-                ?>
-            </select>
-            <select name="gradepay" required tabindex="26" <?php if(is_auth('emp'))echo "readonly"; ?> >
-				<?php
-					$qry=mysql_query("select * from pay_scales where pay_band='".$pay['pay_band']."'");
-					while($row=mysql_fetch_row($qry))
-					{
-						if($pay['pay_code']==$row[0])
-							echo '<option selected="selected" value="'.$row[0].'" >'.$row[3].'</option>';
-						else
-							echo '<option value="'.$row[0].'">'.$row[3].'</option>';
-					}
-                ?>
-            </select>
-            <input type="text" name="basicpay" required id="basicpay" size="10"  placeholder="Basic Pay" value="<?php echo $pay['basic_pay']; ?>" <?php if(is_auth('emp'))echo "readonly"; ?> />
-        </td>
-        <td>Nature of Employment<span style= "color:red;"> *</span></td>
-       	<td>
-            <select name="empnature" <?php if(is_auth('emp'))echo "readonly"; ?> >
-            	<option value="permanent" <?php if($user['employment_nature']=="permanent")echo "selected"; ?> >Permanent</option>
-                <option value="temporary" <?php if($user['employment_nature']=="temporary")echo "selected"; ?> >Temporary</option>
-                <option value="probation" <?php if($user['employment_nature']=="probation")echo "selected"; ?> >Probation</option>
-                <option value="contract" <?php if($user['employment_nature']=="contract")echo "selected"; ?> >Contract</option>
-                <option value="others" <?php if($user['employment_nature']=="others")echo "selected"; ?> >Others</option>
-            </select>
-        </td>
-   </tr>
-   <tr>
 		<td>
         	Date of Retirement
         </td>

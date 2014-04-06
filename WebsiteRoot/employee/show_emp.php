@@ -68,14 +68,19 @@
 	if($form==0 || $form==5)
 	{
 		$emp_user_details=mysql_query("select * 
-								from user_details NATURAL JOIN user_other_details NATURAL JOIN emp_basic_details NATURAL JOIN faculty_details
+								from user_details NATURAL JOIN user_other_details NATURAL JOIN emp_basic_details
 								where id='".$emp."'");
 		$emp_pay_deatils=mysql_query("select pay_band,grade_pay,basic_pay 
 								from emp_pay_details NATURAL JOIN pay_scales
 								where id='".$emp."'");
-								
+
 		$user=mysql_fetch_assoc($emp_user_details);
 		$pay=mysql_fetch_assoc($emp_pay_deatils);
+		if($user['auth_id']=='ft')
+		{	$research_query=mysql_query("select research_interest from faculty_details where id='".$emp."'");
+			$research=mysql_fetch_assoc($research_query);
+		}
+
 		if(mysql_num_rows($emp_user_details)!=0)
 		{
 			echo '<center><h2>Employee Basic Details</h2>';
@@ -90,37 +95,36 @@
 						<th>Category</th><td>'.ucwords($user['category']).'</td>
 						<th>Kashmiri Immigrant</th><td>'.ucwords($user['kashmiri_immigrant']).'</td>
 					</tr>
-					<tr>
-						<th>Department</th>';
-						
-			$dept=mysql_query("select name from departments where id='".$user['dept_id']."'");
-			$row=mysql_fetch_row($dept);
-			if($user['retirement_date']=="0000-00-00")
-				$retire='NA';
-			else
-				$retire=date('d M Y', strtotime($user['retirement_date']));
-						
-			echo 	'<td>'.$row[0].'</td>
-					<th>Designation</th>
-					<td>'.ucwords($user['designation']).'</td>
-					<th>Post Concerned</th>
-					<td>'.ucwords($user['post_concerned']).'</td>
-				</tr>
 				<tr>
 					<th>DOB</th><td>'.date('d M Y', strtotime($user['dob'])).'</td>
 					<th>Place of Birth</th><td>'.ucwords($user['birth_place']).'</td>
 					<th>Date of joining</th><td>'.date('d M Y', strtotime($user['joining_date'])).'</td>
 				</tr>
 				<tr>
-					<th>Email</th><td>'.$user['email'].'</td>
-					<th>Mobile no.</th><td>'.$user['mobile_no'].'</td>
+					<th>Department</th>';
+						
+			$dept=mysql_query("select name from departments where id='".$user['dept_id']."'");
+			$row=mysql_fetch_row($dept);
+			
+			$dt = DateTime::createFromFormat("Y-m-d", $user['retirement_date']);
+			//var_dump($dt->format("d M Y"));
+			//(strtotime("2041-01-31"));
+
+			echo 	'<td>'.$row[0].'</td>
+					<th>Designation</th>
+					<td>'.ucwords($user['designation']).'</td>
 					<th>Employment Nature</th><td>'.ucwords($user['employment_nature']).'</td>
 				</tr>
 				<tr>
 					<th>Father\'s Name</th><td>'.$user['father_name'].'</td>
 					<th>Mother\'s Name</th><td>'.$user['mother_name'].'</td>
-					<th>Date of Retirement</th><td>'.date('d M Y',strtotime($user['retirement_date'])).'</td>
-				</tr></table>';
+					<th>Date of Retirement</th><td>'.$dt->format("d M Y").'</td>
+				</tr>
+				<tr>
+					<th>Email</th><td>'.$user['email'].'</td>
+					<th>Mobile no.</th><td>'.$user['mobile_no'].'</td>
+				</tr>
+				</table>';
 	
 			$emp_present_addr_details=mysql_query("select * from user_address where id='".$emp."' and type='present'");
 			$emp_permanent_addr_details=mysql_query("select * from user_address where id='".$emp."' and type='permanent'");
@@ -151,7 +155,7 @@
 				<tr>
 					<th>Employee Type</th><td>'.$row[0].'</td>
 					<th>Research Interest</th>
-					<td>'.(($user['auth_id']!='ft')?	'NA' : ucwords($user['research_interest'])).'</td>
+					<td>'.(($user['auth_id']!='ft')?	'NA' : ucwords($research['research_interest'])).'</td>
 					<th>Religion</th><td>'.ucwords($user['religion']).'</td>
 					<th>Nationality</th><td>'.ucwords($user['nationality']).'</td>
 				</tr>

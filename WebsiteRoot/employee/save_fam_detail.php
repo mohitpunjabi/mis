@@ -17,7 +17,7 @@
 									set profession='".clean(strtolower($prof))."' , present_post_addr='".clean(strtolower($addr))."' , dob='".$dob."' , active_inactive='".$active."'
 									where id='".$emp."' and sno=".$sno);
 	if($updatefam_detail)
-		notify($emp_id, "Details Edited", "Your dependent family member details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=2","success");
+		notify($emp, "Details Edited", "Your dependent family member details have been successfully edited by Data Entry Operator ".$_SESSION['id'], "show_emp.php?form_name=2","success");
 	
 	$fam_detail=mysql_query("select * 
 							from emp_family_details 

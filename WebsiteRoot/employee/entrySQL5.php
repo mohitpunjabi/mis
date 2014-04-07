@@ -76,21 +76,21 @@
 			}
 			
 			//check for optional steps i.e previous_exp,family,stay details
-			$prev_query=$mysqli->query("select count(*) from emp_prev_exp_details");
+			$prev_query=$mysqli->query("select count(*) from emp_prev_exp_details where id='$emp_id'");
 			$prev_row=$prev_query->fetch_row();
 			if($prev_row[0]==0)
 				$prev='approved';
 			else
 				$prev='pending';
 				
-			$fam_query=$mysqli->query("select count(*) from emp_family_details");
+			$fam_query=$mysqli->query("select count(*) from emp_family_details where id='$emp_id'");
 			$fam_row=$fam_query->fetch_row();
 			if($fam_row[0]==0)
 				$fam='approved';
 			else
 				$fam='pending';
 				
-			$stay_query=$mysqli->query("select count(*) from emp_last5yrstay_details");
+			$stay_query=$mysqli->query("select count(*) from emp_last5yrstay_details where id='$emp_id'");
 			$stay_row=$stay_query->fetch_row();
 			if($stay_row[0]==0)
 				$stay='approved';

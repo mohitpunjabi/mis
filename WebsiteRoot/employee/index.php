@@ -5,11 +5,14 @@
 	require_once("connectDB.php");
 	drawHeader("Employee Management");
 	
-	if(isset($_GET['success']))
-		drawNotification("Employee Added", "Employee ".$_GET['success']." was successfully added. Their password is '<b>".$_GET['pass']."</b>'.", "success");
+
+	if(isset($_GET['validation']))
+		drawNotification("Validation Request Sent","Details of Employee ".$_GET['validation']." was successfully sent for validation.", "success");
 	if(isset($_GET['update']))
 		drawNotification("Employee Edited", "Employee ".$_GET['update']." was successfully edited.", "success");
-		
+	if(isset($_GET['error']))
+		drawNotification("Not sent for Validation", "Employee ".$_GET['error']." was successfully added. Their password is '<b>".$_GET['pass']."</b>.' But not sent for validation since no authorization is provided for nodal officer.", "error");
+	
 		
 	drawNotification("Please select an option", ""); 
 

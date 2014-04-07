@@ -4,7 +4,7 @@
 	require_once("../Includes/Layout.php");
 	require_once("connectDB.php");
 	
-	drawHeader("Add Candidate Details");
+	drawHeader("Add Employee Details");
 	if(!(isset($_SESSION['EMP_CURRSTEP']) && $_SESSION['EMP_CURRSTEP'] == 0))
 		header("Location: add_employee.php");
 	

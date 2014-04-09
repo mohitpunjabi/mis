@@ -1,0 +1,3 @@
+SELECT course_id, branch_id
+FROM course_branch AS a INNER JOIN courses AS b
+WHERE a.course_id = b.id AND a.year >= ((YEAR(NOW()) - (MONTH(NOW())<7)) + 1 - (duration/2))

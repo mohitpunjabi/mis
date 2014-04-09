@@ -11,7 +11,7 @@
 		$emp_id=$_SESSION['id'];
 		if(isset($_GET['update']))
 		{
-			drawNotification("Your basic details have been saved", "<a href='show_emp.php?form_name=0'>Click here</a> to view your basic details", "success");
+			drawNotification("Basic Details Edited", "<a href='show_emp.php?form_name=0'>Click here</a> to view your basic details", "success");
 		}
 	}
 	else

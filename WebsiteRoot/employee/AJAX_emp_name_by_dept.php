@@ -5,7 +5,7 @@
 	
 	$dept=$_GET['dept'];
 	echo '<th>Employee name</th>';
-	$empquery=mysql_query("select id,first_name,middle_name from user_details where dept_id='".$dept."'");
+	$empquery=mysql_query("select id,first_name,last_name,auth_id from user_details natural join users where dept_id='".$dept."' and auth_id='emp'");
 	if(mysql_num_rows($empquery)==0)
 	{
 		echo '<td>No Employee in this department</td>';

@@ -72,7 +72,7 @@
 			$emp_name=$emp_name_row['salutation'].' '.$emp_name_row['first_name'].' '.$emp_name_row['last_name'];
 			while($no=$nodal_query->fetch_assoc())
 			{
-				notify($no['id'], "Validation Request", "Please validate ".$emp_name." details", "validate_emp.php?new=".$emp_id);
+				notify($no['id'], "Validation Request", "Please validate ".$emp_name." details", "validate_step.php?emp=".$emp_id);
 			}
 			
 			//check for optional steps i.e previous_exp,family,stay details

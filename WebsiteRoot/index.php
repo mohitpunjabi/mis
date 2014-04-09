@@ -1,6 +1,6 @@
 <?php
 	require_once('Includes/Auth.php');
 	
-	header("Location: Login123.php");
+	header("Location: Login.php");
 	exit;
 ?>

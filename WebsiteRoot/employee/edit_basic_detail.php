@@ -159,7 +159,8 @@
 		if(auth=="ft")
 			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"professor\">Professor</option><option value=\"associate professor\">Associate Professor</option><option value=\"assistant professor\">Assistant Professor</option><option value=\"chair professor\">Chair Professor</option><option value=\"lecturer\">Lecturer</option><option value=\"senior lecturer\">Senior Lecturer</option><option value=\"demonstrator\">Demonstrator</option><option value=\"others\">Others</option></select>";
 		else
-			document.getElementById("des").innerHTML="<input type=\"text\" name=\"designation\" required=\"required\" />";
+			document.getElementById("des").innerHTML="<select name=\"designation\"><option value=\"dy registrar\">Dy Registrar</option><option value=\"system mgr.\">System Mgr.</option><option value=\"smo\">SMO</option><option value=\"asstt. registrar\">Asstt. Registrar</option><option value=\"t o\">T O</option><option value=\"res. officer\">Res. Officer</option><option value=\"programmer\">Programmer</option><option value=\"spo\">SPO</option><option value=\"mo\">MO</option><option value=\"sys. analyst\">Sys Analyst</option><option value=\"a e (civil)\">A E (Civil)</option><option value=\"aws\">AWS</option><option value=\"a e (e)\">A E (E)</option><option value=\"so\">SO</option><option value=\"sr. pa\">Sr. PA</option><option value=\"coach\">Coach</option><option value=\"sta\">STA</option><option value=\"prof. asstt. (lib.)\">Prof. Asstt. (Lib.)</option><option value=\"deo gr.d\">DEO Gr.D</option><option value=\"sr. sec. asstt.\">Sr. Sec. Asstt.</option><option value=\"hort.\">Hort.</option><option value=\"tech. asstt.\">Tech. Asstt.</option><option value=\"sctfc. asstt.\">Sctfc. Asstt.</option><option value=\"prof. asstt.\">Prof. Asstt.</option><option value=\"comp. oprtr.\">Comp. Oprtr.</option><option value=\"draftsman\">Draftsman</option><option value=\"res. asstt.\">Res. Asstt.</option><option value=\"nurse\">Nurse</option><option value=\"elect. supervisor\">Elect. Supervisor</option><option value=\"sanit. insp.\">Sanit. Insp.</option><option value=\"assistant\">Assistant</option><option value=\"glass blower\">Glass Blower</option><option value=\"pa\">PA</option><option value=\"steno\">Steno</option><option value=\"semi prof. asstt.\">Semi Prof. Asstt.</option><option value=\"deo\">DEO</option><option value=\"work supervisor\">Work Supervisor</option><option value=\"udc\">UDC</option><option value=\"dresser\">Dresser</option><option value=\"ldc\">LDC</option><option value=\"sr. driver\">Sr. Driver</option><option value=\"driver\">Driver</option><option value=\"mechanic a\">Mechanic A</option><option value=\"valveman\">Valveman</option><option value=\"sec. cut. (sr)\">Sec. Cut. (Sr)</option><option value=\"mechanic b\">Mechanic B</option><option value=\"asstt. valveman\">Asstt. Valveman</option><option value=\"sec. cutt. (jr)\">Sec. Cutt. (Jr)</option><option value=\"wardboy\">Wardboy</option><option value=\"mechanic c\">Mechanic C</option><option value=\"lib. attend.\">Lib. Attend.</option><option value=\"lab. attend.\">Lab. Attend.</option><option value=\"gest. oprtr.\">Gest. Oprtr.</option><option value=\"garden maz.\">Garden Maz.</option><option value=\"chowkidar\">Chowkidar</option><option value=\"daftry\">Daftry</option><option value=\"peon\">Peon</option><option value=\"mazdoor\">Mazdoor</option><option value=\"asstt. carpenter\">Asstt. Carpenter</option><option value=\"safai mazd.\">Safai Mazd.</option><option value=\"hindi officer\">Hindi Officer</option><option value=\"others\">Others</option></select>";
+			//document.getElementById("des").innerHTML="<input type=\"text\" name=\"designation\" required=\"required\" />";
 	}
 
 </script>
@@ -331,11 +332,73 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
 										echo  '>Others</option></select>';
 			}
         	else 
-           	{	echo '<input type="text" name="designation" value="'.$user['designation'].'" required ';
-				if(is_auth('emp'))
-					echo 'readonly >';
-				else
-					echo '>';
+           	{	
+				//echo '<input type="text" name="designation" value="'.$user['designation'].'" required ';
+				echo '<select name="designation" '; 
+				if(is_auth('emp'))	echo 'readonly  >';
+				else	echo '>';
+		        echo '<option value="dy registrar" '; if($user['designation']=="dy registrar") echo 'selected';echo '>Dy Registrar</option>';
+            	echo '<option value="system mgr." '; if($user['designation']=="system mgr.") echo 'selected';echo '>System Mgr.</option>';
+				echo '<option value="smo" '; if($user['designation']=="smo") echo 'selected';echo '>SMO</option>';
+				echo '<option value="asstt. registrar" '; if($user['designation']=="asstt. registrar") echo 'selected';echo '>Asstt. Registrar</option>';
+				echo '<option value="t o" '; if($user['designation']=="t o") echo 'selected';echo '>T O</option>';
+				echo '<option value="res. officer" '; if($user['designation']=="res. officer") echo 'selected';echo '>Res. Officer</option>';
+				echo '<option value="programmer" '; if($user['designation']=="programmer") echo 'selected';echo '>Programmer</option>';
+				echo '<option value="spo" '; if($user['designation']=="spo") echo 'selected';echo '>SPO</option>';
+				echo '<option value="mo" '; if($user['designation']=="mo") echo 'selected';echo '>MO</option>';
+				echo '<option value="sys. analyst" '; if($user['designation']=="sys. analyst") echo 'selected';echo '>Sys. Analyst</option>';
+				echo '<option value="a e (civil)" '; if($user['designation']=="a e (civil)") echo 'selected';echo '>A E (Civil)</option>';
+				echo '<option value="aws" '; if($user['designation']=="aws") echo 'selected';echo '>AWS</option>';
+				echo '<option value="a e (e)" '; if($user['designation']=="a e (e)") echo 'selected';echo '>A E (E)</option>';
+				echo '<option value="so" '; if($user['designation']=="so") echo 'selected';echo '>SO</option>';
+				echo '<option value="sr. pa" '; if($user['designation']=="sr. pa") echo 'selected';echo '>Sr. PA</option>';
+				echo '<option value="coach" '; if($user['designation']=="coach") echo 'selected';echo '>Coach</option>';
+				echo '<option value="sta" '; if($user['designation']=="sta") echo 'selected';echo '>STA</option>';
+				echo '<option value="prof. asstt. (lib.)" '; if($user['designation']=="prof. asstt. (lib.)") echo 'selected';echo '>Prof. Asstt. (Lib.)</option>';
+				echo '<option value="deo gr.d" '; if($user['designation']=="deo gr.d") echo 'selected';echo '>DEO Gr.D</option>';
+				echo '<option value="sr. sec. asstt." '; if($user['designation']=="sr. sec. asstt.") echo 'selected';echo '>Sr. Sec. Asstt.</option>';
+				echo '<option value="hort." '; if($user['designation']=="hort.") echo 'selected';echo '>Hort.</option>';
+				echo '<option value="tech. asstt." '; if($user['designation']=="tech. asstt.") echo 'selected';echo '>Tech. Asstt.</option>';
+				echo '<option value="sctfc. asstt." '; if($user['designation']=="sctfc. asstt.") echo 'selected';echo '>Sctfc. Asstt.</option>';
+				echo '<option value="prof. asstt." '; if($user['designation']=="prof. asstt.") echo 'selected';echo '>Prof. Asstt.</option>';
+				echo '<option value="comp. oprtr." '; if($user['designation']=="comp. oprtr.") echo 'selected';echo '>Comp. Oprtr.</option>';
+				echo '<option value="draftsman" '; if($user['designation']=="draftsman") echo 'selected';echo '>Draftsman</option>';
+				echo '<option value="res. asstt." '; if($user['designation']=="res. asstt.") echo 'selected';echo '>Res. Asstt.</option>';
+				echo '<option value="nurse" '; if($user['designation']=="nurse") echo 'selected';echo '>Nurse</option>';
+				echo '<option value="elect. supervisor" '; if($user['designation']=="elect. supervisor") echo 'selected';echo '>Elect. Supervisor</option>';
+				echo '<option value="sanit. insp." '; if($user['designation']=="sanit. insp.") echo 'selected';echo '>Sanit. Insp.</option>';
+				echo '<option value="assistant" '; if($user['designation']=="assistant") echo 'selected';echo '>Assistant</option>';
+				echo '<option value="glass blower" '; if($user['designation']=="glass blower") echo 'selected';echo '>Glass Blower</option>';
+				echo '<option value="pa" '; if($user['designation']=="pa") echo 'selected';echo '>PA</option>';
+				echo '<option value="steno" '; if($user['designation']=="steno") echo 'selected';echo '>Steno</option>';
+				echo '<option value="semi prof. asstt." '; if($user['designation']=="semi prof. asstt.") echo 'selected';echo '>Semi Prof. Asstt.</option>';
+				echo '<option value="deo" '; if($user['designation']=="deo") echo 'selected';echo '>DEO</option>';
+				echo '<option value="work supervisor" '; if($user['designation']=="work supervisor") echo 'selected';echo '>Work Supervisor</option>';
+				echo '<option value="udc" '; if($user['designation']=="udc") echo 'selected';echo '>UDC</option>';
+				echo '<option value="dresser" '; if($user['designation']=="dresser") echo 'selected';echo '>Dresser</option>';
+				echo '<option value="ldc" '; if($user['designation']=="ldc") echo 'selected';echo '>LDC</option>';
+				echo '<option value="sr. driver" '; if($user['designation']=="sr. driver") echo 'selected';echo '>Sr. Driver</option>';
+				echo '<option value="driver" '; if($user['designation']=="driver") echo 'selected';echo '>Driver</option>';
+				echo '<option value="mechanic a" '; if($user['designation']=="mechanic a") echo 'selected';echo '>Mechanic A</option>';
+				echo '<option value="valveman" '; if($user['designation']=="valveman") echo 'selected';echo '>Valveman</option>';
+				echo '<option value="sec. cut. (sr)" '; if($user['designation']=="sec. cut. (sr)") echo 'selected';echo '>Sec. Cut. (Sr)</option>';
+				echo '<option value="mechanic b" '; if($user['designation']=="mechanic b") echo 'selected';echo '>Mechanic B</option>';
+				echo '<option value="asstt. valveman" '; if($user['designation']=="asstt. valveman") echo 'selected';echo '>Asstt. Valveman</option>';
+				echo '<option value="sec. cutt. (jr)" '; if($user['designation']=="sec. cutt. (jr)") echo 'selected';echo '>Sec. Cutt. (Jr)</option>';
+				echo '<option value="wardboy"  '; if($user['designation']=="wardboy") echo 'selected';echo '>Wardboy</option>';
+				echo '<option value="mechanic c" '; if($user['designation']=="mechanic c") echo 'selected';echo '>Mechanic C</option>';
+				echo '<option value="lib. attend." '; if($user['designation']=="lib. attend.") echo 'selected';echo '>Lib. Attend.</option>';
+				echo '<option value="lab. attend." '; if($user['designation']=="lab. attend.") echo 'selected';echo '>Lab. Attend.</option>';
+				echo '<option value="gest. oprtr." '; if($user['designation']=="gest. oprtr.") echo 'selected';echo '>Gest. Oprtr.</option>';
+				echo '<option value="garden maz." '; if($user['designation']=="garden maz.") echo 'selected';echo '>Garden Maz.</option>';
+				echo '<option value="chowkidar" '; if($user['designation']=="chowkidar") echo 'selected';echo '>Chowkidar</option>';
+				echo '<option value="daftry" '; if($user['designation']=="daftry") echo 'selected';echo '>Daftry</option>';
+				echo '<option value="peon" '; if($user['designation']=="peon") echo 'selected';echo '>Peon</option>';
+				echo '<option value="mazdoor" '; if($user['designation']=="mazdoor") echo 'selected';echo '>Mazdoor</option>';
+				echo '<option value="asstt. carpenter" '; if($user['designation']=="asstt. carpenter") echo 'selected';echo '>Asstt. Carpenter</option>';
+				echo '<option value="safai mazd." '; if($user['designation']=="safai mazd.") echo 'selected';echo '>Safai Mazd.</option>';
+				echo '<option value="hindi officer" '; if($user['designation']=="hindi officer") echo 'selected';echo '>Hindi Officer</option>';
+				echo '<option value="others" '; if($user['designation']=="others") echo 'selected';echo '>Others</option></select>';
 			}
 		?>
         </td>

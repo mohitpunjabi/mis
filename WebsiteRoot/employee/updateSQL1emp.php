@@ -53,6 +53,14 @@
 		
 		if($result1)
 		{
+			/*
+			//notify nodal officer
+			$nodal_query=$mysqli->query("SELECT id FROM user_auth_types WHERE auth_id='est_ar'");
+			while($no=$nodal_query->fetch_assoc())
+			{
+				notify($no['id'], "Validation Request", "Please validate ".$_SESSION['name']." details", "validate_step.php?emp=".$_SESSION['id']);
+			}
+			*/
 			header('Location: edit_basic_detail_authemp.php?update='.$_POST['emp_id']);
 		}
 		else

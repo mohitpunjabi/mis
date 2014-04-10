@@ -1,7 +1,7 @@
 <?php
 	require_once('../Includes/Auth.php');
 	require_once("../Includes/Layout.php");
-	auth();
+	auth('emp','deo');
 	require_once("connectDB.php");
 	drawHeader("View Employee Details");
 ?>

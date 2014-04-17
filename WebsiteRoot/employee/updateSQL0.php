@@ -65,7 +65,10 @@
 					$v_query=$mysqli->query("INSERT INTO emp_validation_details VALUES ('".$_POST['emp_id']."','pending','approved','approved','approved','approved','approved','".$date."')");
 				
 				//notify employee
-				notify($_POST['emp_id'], "Details Edited", "Your photograph have been successfully edited by Data Entry Operator ".$_SESSION['id']." and sent for validation.", "show_emp.php?form_name=0");
+				//new user query
+				$newuser_query=$mysqli->query("select * from users where id='".$_POST['emp_id']."' and password='' and auth_id='emp'");
+				if($newuser_query->num_rows==0)	//old user
+					notify($_POST['emp_id'], "Details Edited", "Your photograph have been successfully edited by Data Entry Operator ".$_SESSION['id']." and sent for validation.", "show_emp.php?form_name=0");
 				
 				$emp_name_query=$mysqli->query("select salutation,first_name,last_name from user_details where id='".$_POST['emp_id']."'");
 				$emp_name_row=$emp_name_query->fetch_assoc();

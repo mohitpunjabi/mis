@@ -83,6 +83,28 @@
 
 		if(mysql_num_rows($emp_user_details)!=0)
 		{
+			$status_query=$mysqli->query("select * from emp_validation_details where id='".$emp."'");
+			if($status_query->num_rows!=0)
+			{
+				$status_row=$status_query->fetch_assoc();
+				if($status_row['profile_pic_status']=='pending')
+					drawNotification("Pending : Profile Picture","Your profile picture is sent for validation.");
+				else if($status_row['profile_pic_status']=='rejected')
+				{
+					$rejectreason0_query=$mysqli->query("select reason from emp_reject_reason where id='".$emp."' and step=0");
+					$reject_row=$rejectreason0_query->fetch_assoc();
+					drawNotification("Rejected : Profile Picture","Your profile picture is rejected. Please contact the Establishment Section for the same.<br>Reason behind rejection : ".$reject_row['reason'],"error");
+				}
+
+				if($status_row['basic_details_status']=='pending')
+					drawNotification("Pending : Basic Details","Your basic details have been sent for validation.");
+				else if($status_row['basic_details_status']=='rejected')
+				{
+					$rejectreason1_query=$mysqli->query("select reason from emp_reject_reason where id='".$emp."' and step=1");
+					$reject_row=$rejectreason1_query->fetch_assoc();
+					drawNotification("Rejected : Basic Details","Your basic details have been rejected. Please contact the Establishment Section for the same.<br>Reason behind rejection : ".$reject_row['reason'],"error");
+				}
+			}
 			echo '<center><h2>Employee Basic Details</h2>';
 			echo '	<table width="90%">
 					<tr>
@@ -190,6 +212,19 @@
 		$prev_detail=mysql_query("select * from emp_prev_exp_details where id='".$emp."'");
 		if(mysql_num_rows($prev_detail)!=0)
 		{
+			$status_query=$mysqli->query("select * from emp_validation_details where id='".$emp."'");
+			if($status_query->num_rows!=0)
+			{
+				$status_row=$status_query->fetch_assoc();
+				if($status_row['prev_exp_status']=='pending')
+					drawNotification("Pending : Previous Employment Details","Your previous employment details have been sent for validation.");
+				else if($status_row['prev_exp_status']=='rejected')
+				{
+					$rejectreason2_query=$mysqli->query("select reason from emp_reject_reason where id='".$emp."' and step=2");
+					$reject_row=$rejectreason2_query->fetch_assoc();
+					drawNotification("Rejected : Previous Employment Details","Your previous employment details have been rejected. Please contact the Establishment Section for the same.<br>Reason behind rejection : ".$reject_row['reason'],"error");
+				}
+			}
 			echo '<br><center><h2>Previous Employment Details</h2>';
 			echo '<table align="center" width="90%"> 
 				<tr>
@@ -229,6 +264,19 @@
 		$fam_detail=mysql_query("select * from emp_family_details where id='".$emp."'");
 		if(mysql_num_rows($fam_detail)!=0)
 		{
+			$status_query=$mysqli->query("select * from emp_validation_details where id='".$emp."'");
+			if($status_query->num_rows!=0)
+			{
+				$status_row=$status_query->fetch_assoc();
+				if($status_row['family_details_status']=='pending')
+					drawNotification("Pending : Dependent Family Member Details","Your dependent family member details have been sent for validation");
+				else if($status_row['family_details_status']=='rejected')
+				{
+					$rejectreason3_query=$mysqli->query("select reason from emp_reject_reason where id='".$emp."' and step=3");
+					$reject_row=$rejectreason3_query->fetch_assoc();
+					drawNotification("Rejected : Dependent Family Member Details","Your dependent family member details have been rejected. Please contact the Establishment Section for the same.<br>Reason behind rejection : ".$reject_row['reason'],"error");
+				}
+			}
 			echo '<br><center><h2>Employee Family Details</h2>';
 			echo '<table align="center"> 
 				<tr>
@@ -274,6 +322,19 @@
 		$edu_detail=mysql_query("select * from emp_education_details where id='".$emp."'");
 		if(mysql_num_rows($edu_detail)!=0)
 		{
+			$status_query=$mysqli->query("select * from emp_validation_details where id='".$emp."'");
+			if($status_query->num_rows!=0)
+			{
+				$status_row=$status_query->fetch_assoc();
+				if($status_row['educational_status']=='pending')
+					drawNotification("Pending : Educational Details","Your educational details have been sent for validation.");
+				else if($status_row['educational_status']=='rejected')
+				{
+					$rejectreason4_query=$mysqli->query("select reason from emp_reject_reason where id='".$emp."' and step=4");
+					$reject_row=$rejectreason4_query->fetch_assoc();
+					drawNotification("Rejected : Educational Details","Your educational details have been rejected. Please contact the Establishment Section for the same.<br>Reason behind rejection : ".$reject_row['reason'],"error");
+				}
+			}
 			echo '<br><center><h2>Employee Education Details</h2>';
 			echo '<table align="center" width="90%"> 
 					<tr>
@@ -313,6 +374,19 @@
 		$last5_detail=mysql_query("select * from emp_last5yrstay_details where id='".$emp."'");
 		if(mysql_num_rows($last5_detail)!=0)
 		{
+			if($status_query->num_rows!=0)
+			{
+				$status_query=$mysqli->query("select * from emp_validation_details where id='".$emp."'");
+				$status_row=$status_query->fetch_assoc();
+				if($status_row['stay_status']=='pending')
+					drawNotification("Pending : Last 5 Year Stay Details","Your last 5 year stay details have been sent for validation");
+				else if($status_row['stay_status']=='rejected')
+				{
+					$rejectreason5_query=$mysqli->query("select reason from emp_reject_reason where id='".$emp."' and step=5");
+					$reject_row=$rejectreason5_query->fetch_assoc();
+					drawNotification("Rejected : Last 5 Year Stay Details","Your last 5 year stay details have been rejected. Please contact the Establishment Section for the same.<br>Reason behind rejection : ".$reject_row['reason'],"error");
+				}
+			}
 			echo '<br><center><h2>Employee Last 5 Year Stay Details</h2>';
 			echo '<table align="center" width="90%"> 
 					<tr>

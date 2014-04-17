@@ -32,7 +32,10 @@
 			$v_query=$mysqli->query("INSERT INTO emp_validation_details VALUES ('".$emp."','approved','approved','pending','approved','approved','approved','".$date."')");
 
 		//notify employee
-		notify($emp, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$_SESSION['id']." and sent for validation.", "show_emp.php?form_name=1");
+		//new user query
+		$newuser_query=$mysqli->query("select * from users where id='".$emp."' and password='' and auth_id='emp'");
+		if($newuser_query->num_rows==0)	//old user
+			notify($emp, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$_SESSION['id']." and sent for validation.", "show_emp.php?form_name=1");
 		$emp_name_query=$mysqli->query("select salutation,first_name,last_name from user_details where id='".$emp."'");
 		$emp_name_row=$emp_name_query->fetch_assoc();
 		$emp_name=$emp_name_row['salutation'].' '.$emp_name_row['first_name'].' '.$emp_name_row['last_name'];

@@ -63,7 +63,7 @@
 			
 		$update_reject0=$mysqli->query("update emp_validation_details set profile_pic_status='rejected' where id='".$_SESSION['EMP_VALIDATE']."'");
 		if($newuser_query->num_rows==0)	//old user
-			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for profile picture have been rejected. Contact data entry operator for the same.", "reject_reason.php?step=0","error");
+			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for profile picture have been rejected. Contact the Establishment Section for the same.", "show_emp.php?form_name=0","error");
 		//for both old or new user
 		$deoquery=$mysqli->query("select id from deo_modules where module_id='employee'");
 		$deo=$deoquery->fetch_assoc();
@@ -80,7 +80,7 @@
 			
 		$update_reject1=$mysqli->query("update emp_validation_details set basic_details_status='rejected' where id='".$_SESSION['EMP_VALIDATE']."'");
 		if($newuser_query->num_rows==0)	//old user
-			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for basic details have been rejected. Contact data entry operator for the same.", "reject_reason.php?step=1","error");
+			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for basic details have been rejected. Contact the Establishment Section for the same.", "show_emp.php?form_name=0","error");
 		//for both old or new user
 		$deoquery=$mysqli->query("select id from deo_modules where module_id='employee'");
 		$deo=$deoquery->fetch_assoc();
@@ -97,7 +97,7 @@
 			
 		$update_reject2=$mysqli->query("update emp_validation_details set prev_exp_status='rejected' where id='".$_SESSION['EMP_VALIDATE']."'");
 		if($newuser_query->num_rows==0)	//old user
-			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for previous employment details have been rejected. Contact data entry operator for the same.", "reject_reason.php?step=2","error");
+			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for previous employment details have been rejected. Contact the Establishment Section for the same.", "show_emp.php?form_name=1","error");
 		//for both old or new user
 		$deoquery=$mysqli->query("select id from deo_modules where module_id='employee'");
 		$deo=$deoquery->fetch_assoc();
@@ -114,7 +114,7 @@
 			
 		$update_reject3=$mysqli->query("update emp_validation_details set family_details_status='rejected' where id='".$_SESSION['EMP_VALIDATE']."'");
 		if($newuser_query->num_rows==0)	//old user
-			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for dependent family member details have been rejected. Contact data entry operator for the same.", "reject_reason.php?step=3","error");
+			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for dependent family member details have been rejected. Contact the Establishment Section for the same.", "show_emp.php?form_name=2","error");
 		//for both old or new user
 		$deoquery=$mysqli->query("select id from deo_modules where module_id='employee'");
 		$deo=$deoquery->fetch_assoc();
@@ -131,7 +131,7 @@
 			
 		$update_reject4=$mysqli->query("update emp_validation_details set educational_status='rejected' where id='".$_SESSION['EMP_VALIDATE']."'");
 		if($newuser_query->num_rows==0)	//old user
-			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for educational details have been rejected. Contact data entry operator for the same.", "reject_reason.php?step=4","error");
+			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for educational details have been rejected. Contact the Establishment Section for the same.", "show_emp.php?form_name=3","error");
 		//for both old or new user
 		$deoquery=$mysqli->query("select id from deo_modules where module_id='employee'");
 		$deo=$deoquery->fetch_assoc();
@@ -148,7 +148,7 @@
 			
 		$update_reject5=$mysqli->query("update emp_validation_details set stay_status='rejected' where id='".$_SESSION['EMP_VALIDATE']."'");
 		if($newuser_query->num_rows==0)	//old user
-			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for last 5 year details have been rejected. Contact data entry operator for the same.", "reject_reason.php?step=5","error");
+			notify($_SESSION['EMP_VALIDATE'], "Validation Request Rejected", "Your validation request for last 5 year details have been rejected. Contact the Establishment Section for the same.", "show_emp.php?form_name=4","error");
 		//for both old or new user
 		$deoquery=$mysqli->query("select id from deo_modules where module_id='employee'");
 		$deo=$deoquery->fetch_assoc();

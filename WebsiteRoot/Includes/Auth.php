@@ -34,8 +34,7 @@
 			$deoRes = $mysqli->query("SELECT * FROM deo_modules where id = '".$_SESSION['id']."'");
 			$deoModules = array();
 			while($row = $deoRes->fetch_assoc()) array_push($deoModules, $row['module_id']);
-			return (in_array($auth, $_SESSION['auth']));
-//			return (in_array($auth, $_SESSION['auth']) && in_array($module, $deoModules));
+			return (in_array($auth, $_SESSION['auth']) && in_array($module, $deoModules));
 		}
 	}
 	

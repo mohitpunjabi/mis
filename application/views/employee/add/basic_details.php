@@ -378,7 +378,7 @@
         <tr><th colspan=2 >Photograph</th></tr><tr></tr>
         <tr  height="150">
             <td width="145" id="preview">
-                <img src="<?php echo base_url(); ?>assets/images/noProfileImage.png" id="view_photo" width="145" height="150"/>
+                <img src="<?php echo base_url(); ?>assets/images/employee/noProfileImage.png" id="view_photo" width="145" height="150"/>
             </td>
         	<td align="center">Click on choose file to select picture<span style= "color:red;"> *</span><br>
             	<input type="file" name="photo" id="photo" required="required" tabindex="48" ><br>

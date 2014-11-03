@@ -14,7 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://mohit.mis/';
+
+$config['base_url']	= 'http://bran.mis/';
 
 /*
 |--------------------------------------------------------------------------

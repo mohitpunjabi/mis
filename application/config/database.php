@@ -65,5 +65,21 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 
+$db['feedback']['hostname'] = 'localhost';
+$db['feedback']['username'] = 'root';
+$db['feedback']['password'] = '';
+$db['feedback']['database'] = 'feedback_mis';
+$db['feedback']['dbdriver'] = 'mysql';
+$db['feedback']['dbprefix'] = '';
+$db['feedback']['pconnect'] = TRUE;
+$db['feedback']['db_debug'] = TRUE;
+$db['feedback']['cache_on'] = FALSE;
+$db['feedback']['cachedir'] = '';
+$db['feedback']['char_set'] = 'utf8';
+$db['feedback']['dbcollat'] = 'utf8_general_ci';
+$db['feedback']['swap_pre'] = '';
+$db['feedback']['autoinit'] = TRUE;
+$db['feedback']['stricton'] = FALSE;
+
 /* End of file database.php */
 /* Location: ./application/config/database.php */

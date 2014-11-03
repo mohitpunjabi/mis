@@ -3,6 +3,7 @@
 <head>
 	<title>Add Employee Basic Details</title>
     <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
+    <?php echo $javascript; ?>
 </head>
 <body>
 	<h1>Step 1 :Fill up the details</h1>

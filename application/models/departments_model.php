@@ -3,10 +3,6 @@
 class Departments_model extends CI_Model
 {
 
-	var $id;
-	var $name;
-	var $type;
-
 	function __construct()
 	{
 		// Call the Model constructor
@@ -36,15 +32,7 @@ class Departments_model extends CI_Model
 		}
 	}
 
-	function insert_entry()
-	{
-		$this->id = $this->input->post('dept_id');
-		$this->name = $this->input->post('dept_name');
-		$this->type = $this->input->post('dept_type');
-
-		$this->db->insert('departments', $this);
-	}
 }
 
 /* End of file departments_model.php */
-/* Location: Codeigniter/application/models/departments_model.php */
+/* Location: mis/application/models/departments_model.php */

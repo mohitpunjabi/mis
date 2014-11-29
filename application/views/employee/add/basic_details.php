@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Add Employee Basic Details</title>
@@ -6,8 +5,9 @@
     <?php echo $javascript; ?>
 </head>
 <body>
+    <p><?php echo $error; ?></p>
 	<h1>Step 1 :Fill up the details</h1>
-	<?php  echo form_open_multipart('employee/add','onSubmit="return image_validation();"');   ?>
+	<?php  echo form_open_multipart('employee/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=4></th></tr>
@@ -106,7 +106,7 @@
     			Research Interest
     		</td>
 	        <td>
-	        	<input type="text" name="research_int" id="res_int_id" tabindex="14"/>
+	        	<input type="text" name="research_int" id="res_int_id" tabindex="14" />
 	        </td>
 		</tr>
 		<tr>
@@ -124,7 +124,7 @@
     				</select>
 	        </td>
 	    	<td>
-		        	Kashmiri Immigrant<span style= "color:red;"> *</span>
+		        Kashmiri Immigrant<span style= "color:red;"> *</span>
 	        </td>
 	    	<td>
 				<input type="radio" name="kashmiri" value="yes" tabindex="16"/>Yes
@@ -389,5 +389,6 @@
     </table>
     <input type = "submit" value="Next" tabindex="50"/>
     <?php echo form_close(); ?>
+
 </body>
 </html>

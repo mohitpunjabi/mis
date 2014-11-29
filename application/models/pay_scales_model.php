@@ -58,4 +58,4 @@ class Pay_scales_model extends CI_Model
 }
 
 /* End of file pay_scales_model.php */
-/* Location: Codeigniter/application/models/pay_scales_model.php */
+/* Location: mis/application/models/pay_scales_model.php */

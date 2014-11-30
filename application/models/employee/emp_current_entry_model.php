@@ -2,6 +2,8 @@
 
 class Emp_current_entry_model extends CI_Model
 {
+	var $table = 'emp_current_entry';
+
 	function __construct()
 	{
 		// Call the Model constructor
@@ -10,7 +12,7 @@ class Emp_current_entry_model extends CI_Model
 
 	function get_current_entry()
 	{
-		$query = $this->db->get('emp_current_entry');
+		$query = $this->db->get($this->table);
 		if($query->num_rows() === 1)
 	        	return $query->row();
 		else
@@ -19,7 +21,12 @@ class Emp_current_entry_model extends CI_Model
 
 	function insert($data)
 	{
-    	$this->db->insert('emp_current_entry', $data);
+    	$this->db->insert($this->table, $data);
+	}
+
+	function update($data, $where)
+	{
+		$this->db->update($this->table,$data,$where);
 	}
 }
 

@@ -190,6 +190,55 @@ class Add extends CI_Controller
 		$this->load->view('employee/add/previous_employment_details',$data);
 	}
 
+	public function insert_prev_emp_details($emp_id = '', $error = '')
+	{
+		if($emp_id != '')
+		{
+			$designation = $this->input->post('designation2');
+			$from = $this->input->post('from2');
+			$to = $this->input->post('to2');
+			$payscale = $this->input->post('payscale2');
+			$addr = $this->input->post('addr2');
+			$reason = $this->input->post('reason2');
+
+			$n = count($designation);
+			$i = 0;
+
+			while($designation[$i] != '' && $i<$n)
+			{
+				$emp_prev_exp_details[$i]['id'] = $emp_id;
+				$emp_prev_exp_details[$i]['sno'] = $i+1;
+				$emp_prev_exp_details[$i]['designation'] = strtolower($designation[$i]);
+				$emp_prev_exp_details[$i]['from'] = $from[$i];
+				$emp_prev_exp_details[$i]['to'] = $to[$i];
+				$emp_prev_exp_details[$i]['pay_scale'] = strtolower($payscale[$i]);
+				$emp_prev_exp_details[$i]['address'] = strtolower($addr[$i]);
+				$emp_prev_exp_details[$i]['remarks'] = strtolower($reason[$i]);
+				$i++;
+			}
+
+			//loading models
+
+			$this->load->model('emp_prev_exp_details_model','',TRUE);
+			$this->load->model('employee/emp_current_entry_model','',TRUE);
+
+			//starting transaction for insertion in database
+
+			$this->db->trans_start();
+
+			$this->emp_prev_exp_details_model->insert_batch($emp_prev_exp_details);
+			$this->emp_current_entry_model->update(array('curr_step' => 2),array('id' => $emp_id));
+
+			$this->db->trans_complete();
+			//transaction completed
+
+		}
+		else
+			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
+
+		$this->index($error);
+	}
+
 	public function step($num = 0,$employee = '',$error = '')
 	{
 		switch ($num)

@@ -45,7 +45,7 @@ class Add extends CI_Controller
 	public function insert_basic_details()
 	{
 		$emp_id = strtolower($this->input->post('emp_id'));
-		$upload = $this->_upload_image($emp_id);
+		$upload = $this->_upload_image($emp_id,'photo');
 		if($upload !== FALSE)
 		{
 			$users = array(
@@ -239,19 +239,87 @@ class Add extends CI_Controller
 		$this->index($error);
 	}
 
+	private function _add_family_details($emp_id = '', $error = '')
+	{
+		$data['error'] = $error;	// Handling Errors
+		$data['add_emp_id'] = $emp_id;
+
+		//javascript
+		$data['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/family_details_script.js \" ></script>";
+
+		//view
+		$this->load->view('employee/add/family_details',$data);
+	}
+
+	public function insert_family_details($emp_id = '', $error = '')
+	{
+		if($emp_id != '')
+		{
+			$name = $this->input->post('name3');
+			$relationship = $this->input->post('relationship3');
+			$profession = $this->input->post('profession3');
+			$addr = $this->input->post('addr3');
+			$dob = $this->input->post('dob3');
+			$active = $this->input->post('active3');
+
+			$n = count($name);
+			$i = 0;
+
+			$upload = $this->_upload_image($emp_id,'photo3',$n);
+
+			if($upload !== FALSE)
+			{
+				while($name[$i] != '' && $i<$n)
+				{
+					$emp_family_details[$i]['id'] = $emp_id;
+					$emp_family_details[$i]['sno'] = $i+1;
+					$emp_family_details[$i]['name'] = ucwords(strtolower($name[$i]));
+					$emp_family_details[$i]['relationship'] = $relationship[$i];
+					$emp_family_details[$i]['profession'] = strtolower($profession[$i]);
+					$emp_family_details[$i]['present_post_addr'] = strtolower($addr[$i]);
+					$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? $upload[$i]['file_name'] : '';
+					$emp_family_details[$i]['dob'] = $dob[$i];
+					$emp_family_details[$i]['active_inactive'] = $active[$i];
+					$i++;
+				}
+			}
+			else return;
+
+			//loading models
+
+			$this->load->model('emp_family_details_model','',TRUE);
+			$this->load->model('employee/emp_current_entry_model','',TRUE);
+
+			//starting transaction for insertion in database
+
+			$this->db->trans_start();
+
+			$this->emp_family_details_model->insert_batch($emp_family_details);
+			$this->emp_current_entry_model->update(array('curr_step' => 3),array('id' => $emp_id));
+
+			$this->db->trans_complete();
+			//transaction completed
+
+		}
+		else
+			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
+
+		$this->index($error);
+	}
+
 	public function step($num = 0,$employee = '',$error = '')
 	{
 		switch ($num)
 		{
 			case 0:	$this->_add_basic_details($error);break;
 			case 1: $this->_add_prev_emp_details($employee,$error);break;
-			case 2: $this->load->view('employee/add/family_details',$data);break;
+			case 2: $this->_add_family_details($employee,$error);break;
 			case 3: $this->load->view('employee/add/educational_details',$data);break;
 			case 4: $this->load->view('employee/add/last_five_year_stay_details',$data);break;
 		}
 	}
 
-	private function _upload_image($emp_id = '')
+	private function _upload_image($emp_id = '', $name ='', $n_family = FALSE)
 	{
 		$config['upload_path'] = 'assets/images/employee/'.strtolower($emp_id).'/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
@@ -259,18 +327,59 @@ class Add extends CI_Controller
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
 
-		if(isset($_FILES['photo']['name']))
-        {
-                if($_FILES['photo']['name'] == "")
+		if($n_family === FALSE)
+		{
+			if(isset($_FILES[$name]['name']))
+        	{
+                if($_FILES[$name]['name'] == "")
             		$filename = "";
                 else
 				{
-                    $filename=$this->security->sanitize_filename(strtolower($_FILES['photo']['name']));
+                    $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
                     $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
                     $filename='emp_'.$emp_id.'_'.$filename;
                 }
-        }
+	        }
+	        else
+	        {
+	        	$this->index('ERROR: File Name not set.');
+				return FALSE;
+	        }
+	    }
+	    else
+    	{
+    		$i=0;
+    		while($i<$n_family)
+    		{
+    			if(isset($_FILES[$name]['name'][$i]))
+        		{
+	                if($_FILES[$name]['name'][$i] == "")
+            			$filename[$i] = "";
+                	else
+					{
+	                    $filename[$i] = $this->security->sanitize_filename(strtolower($_FILES[$name]['name'][$i]));
+                    	$ext =  strrchr( $filename[$i], '.' ); // Get the extension from the filename.
+                    	$filename[$i]='emp_'.$emp_id.'_fam_'.($i+1).$ext;
+                	}
+	        	}
+	        	else
+	        	{
+		        	$this->index('ERROR: File Name not set.');
+					return FALSE;
+	        	}
+	        	$i++;
+    		}
+    	}
+    	//dont upload files with no file name
+		for($i=0 ; $i < $n_family ; $i++)
+			if($_FILES[$name]["name"][$i] == '')
+			{
+				unset($_FILES[$name]["name"][$i]);
+			}
+
 		$config['file_name'] = $filename;
+		//$this->load->view('welcome_message',array('d'=>array('photo_image'=>$_FILES,'config'=>$config)));
+		//return FALSE;
 
 		if(!is_dir($config['upload_path']))	//create the folder if it's not already exists
 	    {
@@ -279,7 +388,7 @@ class Add extends CI_Controller
 
 		$this->load->library('upload', $config);
 
-		if ( ! $this->upload->do_upload('photo'))
+		if ( ! $this->upload->do_multi_upload($name))		//do_multi_upload is back compatible with do_upload
 		{
 			$error = $this->upload->display_errors();
 			$this->index('ERROR: '.$error);
@@ -287,7 +396,10 @@ class Add extends CI_Controller
 		}
 		else
 		{
-			$upload_data = $this->upload->data();
+			if($n_family === FALSE)						//single upload
+				$upload_data = $this->upload->data();
+			else 										//multiple upload using name array
+				$upload_data = $this->upload->get_multi_upload_data();
 			return $upload_data;
 		}
 	}

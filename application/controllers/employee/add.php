@@ -18,6 +18,18 @@ class Add extends CI_Controller
 			$this->step($entry->curr_step,$entry->id,$error);
 	}
 
+	public function step($num = 0,$employee = '',$error = '')
+	{
+		switch ($num)
+		{
+			case 0:	$this->_add_basic_details($error);break;
+			case 1: $this->_add_prev_emp_details($employee,$error);break;
+			case 2: $this->_add_family_details($employee,$error);break;
+			case 3: $this->_add_education_details($employee,$error);break;
+			case 4: $this->_add_last_5yr_stay_details($employee,$error);break;
+		}
+	}
+
 	private function _add_basic_details($error='')
 	{
 		// Handling Errors
@@ -204,7 +216,7 @@ class Add extends CI_Controller
 			$n = count($designation);
 			$i = 0;
 
-			while($designation[$i] != '' && $i<$n)
+			while($i<$n && $designation[$i] != '')
 			{
 				$emp_prev_exp_details[$i]['id'] = $emp_id;
 				$emp_prev_exp_details[$i]['sno'] = $i+1;
@@ -269,7 +281,7 @@ class Add extends CI_Controller
 
 			if($upload !== FALSE)
 			{
-				while($name[$i] != '' && $i<$n)
+				while($i<$n && $name[$i] != '')
 				{
 					$emp_family_details[$i]['id'] = $emp_id;
 					$emp_family_details[$i]['sno'] = $i+1;
@@ -307,16 +319,127 @@ class Add extends CI_Controller
 		$this->index($error);
 	}
 
-	public function step($num = 0,$employee = '',$error = '')
+	private function _add_education_details($emp_id = '', $error = '')
 	{
-		switch ($num)
+		$data['error'] = $error;	// Handling Errors
+		$data['add_emp_id'] = $emp_id;
+
+		//javascript
+		$data['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/education_details_script.js \" ></script>";
+
+		//view
+		$this->load->view('employee/add/educational_details',$data);
+	}
+
+	public function insert_education_details($emp_id = '', $error = '')
+	{
+		if($emp_id != '')
 		{
-			case 0:	$this->_add_basic_details($error);break;
-			case 1: $this->_add_prev_emp_details($employee,$error);break;
-			case 2: $this->_add_family_details($employee,$error);break;
-			case 3: $this->load->view('employee/add/educational_details',$data);break;
-			case 4: $this->load->view('employee/add/last_five_year_stay_details',$data);break;
+			$exam = $this->input->post('exam4');
+			$branch = $this->input->post('branch4');
+			$clgname = $this->input->post('clgname4');
+			$year = $this->input->post('year4');
+			$grade = $this->input->post('grade4');
+			$div = $this->input->post('div4');
+
+			$n = count($clgname);
+			$i = 0;
+
+			while($i<$n && $clgname[$i] != '')
+			{
+				$emp_education_details[$i]['id'] = $emp_id;
+				$emp_education_details[$i]['sno'] = $i+1;
+				$emp_education_details[$i]['exam'] = strtolower($exam[$i]);
+				$emp_education_details[$i]['branch'] = strtolower($branch[$i]);
+				$emp_education_details[$i]['institute'] = strtolower($clgname[$i]);
+				$emp_education_details[$i]['year'] = $year[$i];
+				$emp_education_details[$i]['grade'] = strtolower($grade[$i]);
+				$emp_education_details[$i]['division'] = strtolower($div[$i]);
+				$i++;
+			}
+
+			//loading models
+
+			$this->load->model('emp_education_details_model','',TRUE);
+			$this->load->model('employee/emp_current_entry_model','',TRUE);
+
+			//starting transaction for insertion in database
+
+			$this->db->trans_start();
+
+			$this->emp_education_details_model->insert_batch($emp_education_details);
+			$this->emp_current_entry_model->update(array('curr_step' => 4),array('id' => $emp_id));
+
+			$this->db->trans_complete();
+			//transaction completed
 		}
+		else
+			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
+
+		$this->index($error);
+	}
+
+	private function _add_last_5yr_stay_details($emp_id = '', $error = '')
+	{
+		$data['error'] = $error;	// Handling Errors
+		$data['add_emp_id'] = $emp_id;
+
+		$data['title']='Add last 5 year stay details';
+		//javascript
+		$data['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/last_5yr_stay_details_script.js \" ></script>";
+
+		//view
+		$this->load->view('employee/add/last_five_year_stay_details',$data);
+	}
+
+	public function insert_last_5yr_stay_details($emp_id = '', $error = '')
+	{
+		if($emp_id != '')
+		{
+			$from = $this->input->post('from5');
+			$to = $this->input->post('to5');
+			$addr = $this->input->post('addr5');
+			$district = $this->input->post('dist5');
+
+			$n = count($from);
+			$i = 0;
+
+			while($i<$n && $from[$i] != "")
+			{
+				$emp_last5yrstay_details[$i]['id'] = $emp_id;
+				$emp_last5yrstay_details[$i]['sno'] = $i+1;
+				$emp_last5yrstay_details[$i]['from'] = $from[$i];
+				$emp_last5yrstay_details[$i]['to'] = $to[$i];
+				$emp_last5yrstay_details[$i]['res_addr'] = $addr[$i];
+				$emp_last5yrstay_details[$i]['dist_hq_name'] = strtolower($district[$i]);
+				$i++;
+			}
+
+			//loading models
+			$this->load->model('users_model','',TRUE);
+			$this->load->model('emp_last5yrstay_details_model','',TRUE);
+			$this->load->model('employee/emp_current_entry_model','',TRUE);
+
+			//starting transaction for insertion in database
+
+			$date = date("Y-m-d H:i:s",time());
+			$pass='p';
+
+			$this->db->trans_start();
+
+			$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
+			$this->users_model->update(array('password' => $pass, 'created_date' => $date), array('id' => $emp_id));
+			$this->emp_current_entry_model->delete(array('id' => $emp_id));
+
+			$this->db->trans_complete();
+			//transaction completed
+
+			$error = 'SUCCESS : Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' .';
+		}
+		else
+			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
+
+		$this->index($error);
 	}
 
 	private function _upload_image($emp_id = '', $name ='', $n_family = FALSE)

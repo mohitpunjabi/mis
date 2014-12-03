@@ -2,6 +2,7 @@
 
 class Users_model extends CI_Model
 {
+	var $table = 'users';
 
 	function __construct()
 	{
@@ -11,7 +12,12 @@ class Users_model extends CI_Model
 
 	function insert($data)
 	{
-		$this->db->insert('users',$data);
+		$this->db->insert($thid->table,$data);
+	}
+
+	function update($data, $where)
+	{
+		$this->db->update($this->table,$data,$where);
 	}
 }
 

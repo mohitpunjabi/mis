@@ -15,7 +15,7 @@
     </table>
 
 	<h1>Step 2 :Please fill up previous employment details</h1>
-	<?php  echo form_open_multipart('employee/add/insert_prev_emp_details/'.$add_emp_id,'onSubmit="return onclick_submit();"');   ?>
+	<?php  echo form_open('employee/add/insert_prev_emp_details/'.$add_emp_id,'onSubmit="return onclick_submit();"');   ?>
 
 	<table id="tableid">
     	<tr>

@@ -182,7 +182,7 @@
         	   DOB<span style= "color:red;"> *</span>
             </td>
             <td>
-	      	    <input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?>  required="required" tabindex="24" onchange="retirement_handler()" />
+	      	    <input type="date" name="dob" value="<?php echo date("Y-m-d",time());?>" max=<?php echo date("Y-m-d", time()); ?>  required="required" tabindex="24" onchange="retirement_handler()" />
             </td>
         	<td>
             	Place of Birth<span style= "color:red;"> *</span>
@@ -240,7 +240,7 @@
                 </select>
             </td>
             <?php
-	           $date = new DateTime(date("Y-m-d",time()+(19800)));
+	           $date = new DateTime(date("Y-m-d",time()));
 	           $date->modify('+65 year');
             ?>
             <td>

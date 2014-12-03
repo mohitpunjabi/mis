@@ -41,7 +41,7 @@
             </select>
         </td>
         <td>
-            <input type="date" name="dob3[]" max="<?php echo date("Y-m-d",time()+(19800));?>" >
+            <input type="date" name="dob3[]" max="<?php echo date("Y-m-d",time());?>" >
         </td>
         <td align="center"><input type="text" name="profession3[]"/></td>
         <td align="center"><textarea rows=4 cols=25 name="addr3[]"></textarea></td>

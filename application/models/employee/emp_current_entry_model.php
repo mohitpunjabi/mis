@@ -14,7 +14,7 @@ class Emp_current_entry_model extends CI_Model
 	{
 		$query = $this->db->get($this->table);
 		if($query->num_rows() === 1)
-	        	return $query->row();
+	        return $query->row();
 		else
 			return FALSE;
 	}
@@ -27,6 +27,11 @@ class Emp_current_entry_model extends CI_Model
 	function update($data, $where)
 	{
 		$this->db->update($this->table,$data,$where);
+	}
+
+	function delete($where)
+	{
+		$this->db->delete($this->table,$where);
 	}
 }
 

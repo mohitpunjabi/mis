@@ -435,11 +435,12 @@ class Add extends CI_Controller
 
 			$date = date("Y-m-d H:i:s",time());
 			$pass='p';
-
+			$encode_pass=$this->authorization->strclean($pass);
+			$encode_pass=$this->authorization->encode_password($encode_pass,$date);
 			$this->db->trans_start();
 
 			$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
-			$this->users_model->update(array('password' => $pass, 'created_date' => $date), array('id' => $emp_id));
+			$this->users_model->update(array('password' => $encode_pass, 'created_date' => $date), array('id' => $emp_id));
 			$this->emp_current_entry_model->delete(array('id' => $emp_id));
 
 			$this->db->trans_complete();

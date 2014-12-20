@@ -47,4 +47,4 @@
         </tr>
     </table>
     <center><input type="submit" name="submit"/></center>
-</form>
+<?php echo form_close(); ?>

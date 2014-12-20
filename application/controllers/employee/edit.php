@@ -10,7 +10,7 @@ class Edit extends CI_Controller
 
 	public function index()
 	{
-		$this->session->set_userdata('auth','deo');	//check for auth deo
+		$this->session->unset_userdata('auth','deo');	//check for auth deo
 		if(!$this->session->userdata('auth'))
 		{
 			$this->session->set_flashdata('flashError', 'Auth variable in session not set.');

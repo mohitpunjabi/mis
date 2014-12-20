@@ -1,10 +1,3 @@
-<html lang="en">
-<head>
-	<title>Add Employee Basic Details</title>
-    <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
-    <?php echo $javascript; ?>
-</head>
-<body>
     <p><?php echo $error; ?></p>
 	<h1>Step 1 :Fill up the details</h1>
 	<?php  echo form_open_multipart('employee/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
@@ -15,12 +8,12 @@
 			<td width='20%' id="empId">
     			Employee Id<span style= "color:red;"> *</span>
             </td>
-			<td width='30%' id="empId">
+			<td width='28%' id="empId">
 	        	<input type="text" name="emp_id" required="required" tabindex="1" />
 				<input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
 				<i class="loading" id="empIdIcon"></i>
 			</td>
-			<td width='20%'>
+			<td width='22%'>
     			Physically Challenged<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
@@ -389,6 +382,3 @@
     </table>
     <input type = "submit" value="Next" tabindex="50"/>
     <?php echo form_close(); ?>
-
-</body>
-</html>

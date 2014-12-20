@@ -12,9 +12,11 @@ class Menu extends CI_Controller
 	public function index()
 	{
 		$this->load->model('employee/Emp_current_entry_model','',TRUE);
-		$data['title']='Employee Management';
 		$data['entry']=$this->Emp_current_entry_model->get_current_entry();
+		$header['title']='Employee Management';
+		$this->load->view('templates/header',$header);
 		$this->load->view('employee/main_menu',$data);
+		$this->load->view('templates/footer');
 	}
 }
 

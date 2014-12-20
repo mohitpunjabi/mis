@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Add Education Qualifications</title>
-    <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
-    <?php echo $javascript; ?>
-</head>
-<body>
     <p><?php echo $error; ?></p>
     <table>
     	<tr>
@@ -51,5 +43,3 @@
 	<br>
 	<input type="submit" name="submit4" value="Next" />
 	<?php echo form_close(); ?>
-</body>
-</html>

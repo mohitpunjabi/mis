@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Add Previous Employment Details</title>
-    <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
-    <?php echo $javascript; ?>
-</head>
-<body>
     <p><?php echo $error; ?></p>
     <table>
     	<tr>
@@ -43,5 +35,3 @@
 	<input type="button" name="add" value="Add More" onClick="onclick_add();"/><br>
 	<input type="submit" name="submit2" value="Next" />
     <?php echo form_close(); ?>
-</body>
-</html>

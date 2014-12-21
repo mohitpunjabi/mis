@@ -10,7 +10,7 @@ assets
 |      |       |
 |      |       |----basic_details_script.js
 |      |
-|      |----jquery.js	
+|      |----jquery.js
 |
 |-----images
 |	|

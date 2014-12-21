@@ -16,61 +16,59 @@ class Authorization
 		// Set the super object to a local variable for use throughout the class
 		$this->CI =& get_instance();
 	}
-/*
-	function auth()
-	{
-		$this->session->session_start_sec();
-		$args = func_get_args();
 
-		if(!$this->login_check()) {
-			//Page to redirect here
-			//header("Location: ".WEBSITE_ROOT."/Logout.php?error=2");
-			exit;
-		}
+	function auth($args = array())
+	{
+		//$args = func_get_args();
+
+		if(!($this->CI->session->userdata('isLoggedIn') && $this->login_check()))
+			return false;
 
 		if(sizeof($args) == 0) return true;
 		foreach($args as $aid) if($this->is_auth($aid)) return true;
-		//Page to redirect here
-		//header("Location: ".WEBSITE_ROOT."/Logout.php?error=2");
-		exit;
+		return false;
 	}
-
 
 	function is_auth($auth, $module = "")
 	{
 		if($auth == "")    return false;
-		if($auth != "deo") return in_array($auth, $_SESSION['auth']);
-		else {
-			if($module == "") {
+		if($auth != "deo") return in_array($auth , $this->CI->session->userdata('auth'));
+		else
+		{
+/*			if($module == "")
+			{
 				// This is a bad hack! Using debug_backtrace to find the module where the function was called.
 				$backtrace = debug_backtrace();
 				$module = _moduleFromURL($backtrace[sizeof($backtrace)-1]['file']);
 			}
-			$deoRes = $mysqli->query("SELECT * FROM deo_modules where id = '".$_SESSION['id']."'");
+
+			$query = $this->CI->db->get_where("deo_modules", array('id' => $this->CI->session->userdata('id')));
+			$deoRes = $query->result();
 			$deoModules = array();
-			while($row = $deoRes->fetch_assoc()) array_push($deoModules, $row['module_id']);
-			return (in_array($auth, $_SESSION['auth']));
-//			return (in_array($auth, $_SESSION['auth']) && in_array($module, $deoModules));
+			foreach ($deoRes as $row) {
+			 	array_push($deoModules, $row->module_id);
+			 }
+*/			return (in_array($auth, $this->CI->session->userdata('auth')));
+//			return (in_array($auth, $this->CI->session->userdata('auth')) && in_array($module, $deoModules));
 		}
 	}
-	*/
+
 
 
 	function login_check()
 	{
-		$CI = &get_instance();
-		if(isset($_SESSION['id'], $_SESSION['login_string']))
+		if($this->CI->session->userdata('id') && $this->CI->session->userdata('login_string') )
 		{
-			$user_id = $_SESSION['id'];
-			$login_string = $_SESSION['login_string'];
-			$user_browser = $_SERVER['HTTP_USER_AGENT'];
+			$user_id = $this->CI->session->userdata('id');
+			$login_string = $this->CI->session->userdata('login_string');
+			$user_browser = $this->CI->session->userdata('user_agent');
 
-			if($query = $CI->db->get_where("users",array("id" => $user_id)))
+			if($query = $this->CI->db->get_where("users",array("id" => $user_id)))
 			{
 				if($query->num_rows == 1)
 				{
-					$row = $query->row_array();
-					$password = $row["password"];
+					$row = $query->row();
+					$password = $row->password;
 					return (hash('sha512', $password . $user_browser) == $login_string);
 				}
 			}

@@ -1,4 +1,4 @@
-    <p><?php echo $error; ?></p>
+    <p><?php $this->notification->drawNotification('',$error,'error'); ?></p>
 	<h1>Step 1 :Fill up the details</h1>
 	<?php  echo form_open_multipart('employee/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.

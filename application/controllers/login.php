@@ -6,19 +6,18 @@ class Login extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper(array('form', 'url'));
 	}
 
 	public function index()
 	{
-
 		if($this->session->userdata('isLoggedIn'))
 			redirect('home');
 		else
 			$this->showlogin();
 	}
 
-	function showlogin($error_code = 0)
+	//access private so that it can't be called from outside
+	private function showlogin($error_code = 0)
 	{
 		$data['error_code'] = $error_code;
     	$this->load->view('login',$data);
@@ -37,6 +36,12 @@ class Login extends CI_Controller
 		}
 		else
 			$this->showlogin(1);
+	}
+
+	function logout($error_code = 0)
+	{
+        $this->session->sess_destroy();
+        $this->showlogin($error_code);
 	}
 }
 

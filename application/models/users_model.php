@@ -73,7 +73,7 @@ class Users_model extends CI_Model
 		return false;
     }
 
-	function set_session($user_id, $password, $data)
+	private function set_session($user_id, $password, $data)
 	{
 		$this->session->set_userdata( array( 'id'=>$user_id,
 											'login_string'=> hash('sha512', $password . $this->input->user_agent()),
@@ -95,15 +95,20 @@ class Users_model extends CI_Model
 												'created_date' 	=> $data->created_date,
 												'dept_name' => ucwords($data->dept_name),
 												'dept_type' => $data->dept_type,
+												'auth'	=> array($data->auth_id),
 												'isLoggedIn'=>true ));
-
 			if($data->auth_id == 'emp')
 			{
-				if($query = $this->db->get_where("emp_basic_details",array('id'=>$user_id)))
+				if($query = $this->db->query("SELECT auth_id,d.name as des_name
+												FROM emp_basic_details AS e INNER JOIN designations AS d
+												ON e.designation = d.id
+												where e.id = '".$user_id."'"))
 				{
 					$row = $query->row();
-					$this->session->set_userdata(array('designation' => ucwords($row->designation),
-														'auth' => array($data->auth_id, $row->auth_id)));
+					$this->session->set_userdata(array('designation' => ucwords($row->des_name)));
+					$auths = $this->session->userdata('auth');
+					array_push($auths, $row->auth_id);
+					$this->session->set_userdata('auth',$auths);
 				}
 			}
 
@@ -114,8 +119,10 @@ class Users_model extends CI_Model
 					$row = $query->row();
 					$this->session->set_userdata(array( 'branch_id' => $row->branch_id,
 														'course_id' => $row->course_id,
-														'semester' 	=> $row->semester,
-														'auth' => array($data->auth_id, $row->auth_id)));
+														'semester' 	=> $row->semester));
+					$auths = $this->session->userdata('auth');
+					array_push($auths, $row->auth_id);
+					$this->session->set_userdata('auth',$auths);
 				}
 			}
 		}

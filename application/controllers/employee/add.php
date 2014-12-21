@@ -1,11 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Add extends CI_Controller
+class Add extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct();
-		$this->load->helper(array('form', 'url'));
+		parent::__construct(array('deo'));
 	}
 
 	public function index($error='')
@@ -446,7 +445,7 @@ class Add extends CI_Controller
 			$this->db->trans_complete();
 			//transaction completed
 
-			$error = 'SUCCESS : Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' .';
+			$this->session->set_flashdata('flashSuccess','SUCCESS : Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' .');
 		}
 		else
 			$error = 'ERROR : No employee id selected. You are not supposed to be here.';

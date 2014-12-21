@@ -1,4 +1,4 @@
-    <p><?php echo $error; ?></p>
+    <p><?php $this->notification->drawNotification('',$error,'error'); ?></p>
     <table>
     	<tr>
             <th>Employee Id</th>

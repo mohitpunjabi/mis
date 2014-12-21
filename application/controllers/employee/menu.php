@@ -1,12 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Menu extends CI_Controller
+class Menu extends MY_Controller
 {
 
 	function __construct()
 	{
-		parent::__construct();
-		$this->load->helper(array('form', 'url'));
+		parent::__construct(array('emp','deo'));
 	}
 
 	public function index()

@@ -1,22 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Edit extends CI_Controller
+class Edit extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct();
-		$this->load->helper(array('form', 'url'));
+		parent::__construct('emp','deo');
 	}
 
 	public function index()
 	{
-		$this->session->unset_userdata('auth','deo');	//check for auth deo
-		if(!$this->session->userdata('auth'))
-		{
-			$this->session->set_flashdata('flashError', 'Auth variable in session not set.');
-			redirect('employee/menu','location');
-		}
-		else if($this->session->userdata('auth')=='deo')
+		if($this->authorization->is_auth('deo'))
 		{
 			$header['title']="Edit Employee";
 			$this->load->view('templates/header',$header);
@@ -24,12 +17,9 @@ class Edit extends CI_Controller
 			$this->load->view('templates/footer');
 
 		}
-		else if($this->session->userdata('auth')=='emp')
+		else if($this->authorization->is_auth('emp'))
 		{
 
-		}
-		else
-		{
 		}
 	}
 

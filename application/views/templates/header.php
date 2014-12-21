@@ -27,50 +27,55 @@
             </form>
         </div>
 		<div class="-mis-right-options">
-        	<a href="#">Logout</a>
+        	<a href="<?= site_url('login/logout') ?>">Logout</a>
         </div>
         <div class="-mis-right-options">
-            <a href="#">$_SESSION['name']</a>
+        	<?php echo "<a href = \"".site_url('home')."\" >".$this->session->userdata('name')."</a>"; ?>
         </div>
 		<div class="-mis-right-options">
 
 <?php
-/*			if(is_auth("emp"))
-	        	echo '<img src="'.WEBSITE_ROOT.'/employee/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'" class="small-profile-thumb" />';
-			else if(is_auth("stu"))
-	        	echo '<img src="'.WEBSITE_ROOT.'/student/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'" class="small-profile-thumb" />';
-*/
+			if($this->authorization->is_auth('emp'))
+	        	echo '<img src="'.base_url().'assets/images/employee/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" class="small-profile-thumb" />';
+			else if($this->authorization->is_auth('stu'))
+	        	echo '<img src="'.base_url().'assets/images/student/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" class="small-profile-thumb" />';
+
 ?>
-	Image to be shown using session
         </div>
     </div>
 
 	<div class="-mis-navbar">
     	<div class="-mis-profile-photo">
 <?php
-/*
-			if(is_auth("emp"))
-	        	echo '<img src="'.WEBSITE_ROOT.'/employee/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'"  />';
-			else if(is_auth("stu"))
-	        	echo '<img src="'.WEBSITE_ROOT.'/student/Images/'.$_SESSION['id'].'/'.$_SESSION['photopath'].'"  />';
-*/
+
+			if($this->authorization->is_auth('emp'))
+	        	echo '<img src="'.base_url().'assets/images/employee/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" />';
+			else if($this->authorization->is_auth('stu'))
+	        	echo '<img src="'.base_url().'assets/images/student/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" />';
 ?>
 
     		<div class="-mis-profile-details">
 <?php
-        //echo "<h2>$_SESSION['name']</h2>";
-    	//echo "<span><strong>$_SESSION['id']</strong></span><br />";
-/*
-		if(is_auth('emp'))
-            echo '<span>'.$_SESSION['designation'].', '.$_SESSION['dept_name'].'</span><br /><br />';
-		else if(is_auth('stu'))
-            echo '<span>'.$_SESSION['dept_name'].'</span><br /><br />';
-*/
+        echo "<h2>".$this->session->userdata('name')."</h2>";
+    	echo "<span><strong>".$this->session->userdata('id')."</strong></span><br />";
+
+		if($this->authorization->is_auth('emp'))
+            echo '<span>'.$this->session->userdata('designation').', '.$this->session->userdata('dept_name').'</span><br /><br />';
+		if($this->authorization->is_auth('stu'))
+            echo '<span>'.$this->session->userdata('dept_name').'</span><br /><br />';
+
 ?>
     		</div>
 		</div>
-	<?php //	_drawNavbarMenu();	?>
-
+		<?php //	_drawNavbarMenu();	?>
+				<ul>
+					<li>
+						<a href=" <?= site_url('home') ?> ">Home</a>
+					</li>
+					<li>
+						<a href=" <?= site_url('employee/menu') ?> ">Employee Management</a>
+					</li>
+				</ul>
     </div>
 
     <div class="-mis-content">

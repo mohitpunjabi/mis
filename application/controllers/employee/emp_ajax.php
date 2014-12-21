@@ -2,6 +2,11 @@
 
 class Emp_ajax extends CI_Controller
 {
+	function __construct()
+    {
+        parent::__construct();
+    }
+
 	public function index()
 	{
 		// Will never be used

@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title><?php echo $title; ?></title>
-    <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
-    <?php echo $javascript; ?>
-</head>
-<body>
-    <p><?php echo $error; ?></p>
+    <p><?php $this->notification->drawNotification('',$error,'error'); ?></p>
     <table>
     	<tr>
             <th>Employee Id</th>
@@ -50,5 +42,3 @@
 		<br>
 		<input type="submit" name="submit5"/>
 	<?php echo form_close(); ?>
-</body>
-</html>

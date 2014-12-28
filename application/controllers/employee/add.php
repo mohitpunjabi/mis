@@ -17,11 +17,11 @@ class Add extends MY_Controller
 			$this->step($entry->curr_step,$entry->id,$error);
 	}
 
-	public function step($num = 0,$employee = '',$error = '')
+	private function step($num = 0,$employee = '',$error = '')
 	{
 		switch ($num)
 		{
-			case 0:	$this->_add_basic_details($error);break;
+			case 0: $this->_add_basic_details($error);break;
 			case 1: $this->_add_prev_emp_details($employee,$error);break;
 			case 2: $this->_add_family_details($employee,$error);break;
 			case 3: $this->_add_education_details($employee,$error);break;
@@ -182,7 +182,7 @@ class Add extends MY_Controller
 			$this->db->trans_complete();
 			//transaction completed
 
-			$this->index();
+			redirect('employee/add');
 		}
 	}
 
@@ -193,7 +193,7 @@ class Add extends MY_Controller
 
 		//joining date of the employee
 		$this->load->model('emp_basic_details_model','',TRUE);
-		$emp_basic_details=$this->emp_basic_details_model->getbyID($emp_id);
+		$emp_basic_details=$this->emp_basic_details_model->getEmployeeByID($emp_id);
 		if($emp_basic_details!==FALSE)
 			$data['joining_date']=$emp_basic_details->joining_date;
 		else $data['joining_date']=FALSE;
@@ -243,17 +243,19 @@ class Add extends MY_Controller
 
 			$this->db->trans_start();
 
-			$this->emp_prev_exp_details_model->insert_batch($emp_prev_exp_details);
+			if(isset($emp_prev_exp_details))
+				$this->emp_prev_exp_details_model->insert_batch($emp_prev_exp_details);
 			$this->emp_current_entry_model->update(array('curr_step' => 2),array('id' => $emp_id));
 
 			$this->db->trans_complete();
 			//transaction completed
-
+			redirect('employee/add');
 		}
 		else
+		{
 			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
-
-		$this->index($error);
+			$this->index($error);
+		}
 	}
 
 	private function _add_family_details($emp_id = '', $error = '')
@@ -313,17 +315,19 @@ class Add extends MY_Controller
 
 			$this->db->trans_start();
 
-			$this->emp_family_details_model->insert_batch($emp_family_details);
+			if(isset($emp_family_details))
+				$this->emp_family_details_model->insert_batch($emp_family_details);
 			$this->emp_current_entry_model->update(array('curr_step' => 3),array('id' => $emp_id));
 
 			$this->db->trans_complete();
 			//transaction completed
-
+			redirect('employee/add');
 		}
 		else
+		{
 			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
-
-		$this->index($error);
+			$this->index($error);
+		}
 	}
 
 	private function _add_education_details($emp_id = '', $error = '')
@@ -376,16 +380,19 @@ class Add extends MY_Controller
 
 			$this->db->trans_start();
 
-			$this->emp_education_details_model->insert_batch($emp_education_details);
+			if(isset($emp_education_details))
+				$this->emp_education_details_model->insert_batch($emp_education_details);
 			$this->emp_current_entry_model->update(array('curr_step' => 4),array('id' => $emp_id));
 
 			$this->db->trans_complete();
 			//transaction completed
+			redirect('employee/add');
 		}
 		else
+		{
 			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
-
-		$this->index($error);
+			$this->index($error);
+		}
 	}
 
 	private function _add_last_5yr_stay_details($emp_id = '', $error = '')
@@ -438,19 +445,22 @@ class Add extends MY_Controller
 			$encode_pass=$this->authorization->encode_password($encode_pass,$date);
 			$this->db->trans_start();
 
-			$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
+			if(isset($emp_last5yrstay_details))
+				$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
 			$this->users_model->update(array('password' => $encode_pass, 'created_date' => $date), array('id' => $emp_id));
 			$this->emp_current_entry_model->delete(array('id' => $emp_id));
 
 			$this->db->trans_complete();
 			//transaction completed
 
-			$this->session->set_flashdata('flashSuccess','SUCCESS : Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' .');
+			$this->session->set_flashdata('flashSuccess','Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' .');
+			redirect('employee/add');
 		}
 		else
+		{
 			$error = 'ERROR : No employee id selected. You are not supposed to be here.';
-
-		$this->index($error);
+			$this->index($error);
+		}
 	}
 
 	private function _upload_image($emp_id = '', $name ='', $n_family = FALSE)
@@ -471,7 +481,7 @@ class Add extends MY_Controller
 				{
                     $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
                     $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                    $filename='emp_'.$emp_id.'_'.$filename;
+                    $filename='emp_'.$emp_id.'_'.date('YmdHis');
                 }
 	        }
 	        else

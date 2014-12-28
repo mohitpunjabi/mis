@@ -12,7 +12,7 @@ class Users_model extends CI_Model
 
 	function insert($data)
 	{
-		$this->db->insert($thid->table,$data);
+		$this->db->insert($this->table,$data);
 	}
 
 	function update($data, $where)

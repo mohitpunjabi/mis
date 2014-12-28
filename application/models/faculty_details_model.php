@@ -3,6 +3,7 @@
 class Faculty_details_model extends CI_Model
 {
 
+	var $table = 'faculty_details';
 	function __construct()
 	{
 		// Call the Model constructor
@@ -11,7 +12,26 @@ class Faculty_details_model extends CI_Model
 
 	function insert($data)
 	{
-		$this->db->insert('faculty_details',$data);
+		$this->db->insert($this->table,$data);
+	}
+
+	function updateById($data,$id)
+	{
+		$this->db->update($this->table,$data,array('id'=>$id));
+	}
+
+	function getFacultyByID($id = '')
+	{
+		if($id != '')
+		{
+			$query = $this->db->where('id="'.$id.'"','',FALSE)->get($this->table);
+			if($query->num_rows() === 1)
+				return $query->row();
+			else
+				return FALSE;
+		}
+		else
+			return FALSE;
 	}
 }
 

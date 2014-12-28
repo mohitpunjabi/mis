@@ -27,6 +27,27 @@ class Emp_ajax extends CI_Controller
 		if($data['feedback_emp_detail'] !== FALSE)
 			$this->load->view('employee/emp_ajax/fetch_feedback_emp_detail.php',$data);
 	}
+
+	public function delete_record($form = -1, $s = -1)
+	{
+		switch($form)
+		{
+			case 2: $this->load->model('emp_prev_exp_details_model','',TRUE);break;
+			case 4: $this->load->model('emp_education_details_model','',TRUE);break;
+			case 5: $this->load->model('emp_last5yrstay_details_model','',TRUE);break;
+		}
+		if($form !=-1 && $s!=-1)
+		{
+			$this->load->model('emp_basic_details_model','',TRUE);
+				$emp_basic_details=$this->emp_basic_details_model->getEmployeeByID($this->session->userdata('EDIT_EMPLOYEE_ID'));
+			if($emp_basic_details)	$data['joining_date']=$emp_basic_details->joining_date;
+			else $data['joining_date']=FALSE;
+			$data['form'] = $form;
+			$data['s'] = $s;
+			$data['emp_id'] = $this->session->userdata('EDIT_EMPLOYEE_ID');
+			$this->load->view('employee/emp_ajax/delete_record',$data);
+		}
+	}
 }
 
 /* End of file Emp_ajax.php */

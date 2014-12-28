@@ -34,7 +34,7 @@
 			newrow.innerHTML=document.getElementById("addrow").innerHTML;
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
-			document.getElementsByName('view_photo3[]')[row.length-2].src = "http://bran.mis/assets/images/employee/noProfileImage.png";
+			document.getElementsByName('view_photo3[]')[row.length-2].src = window.location.protocol+"//"+window.location.hostname+"/assets/images/employee/noProfileImage.png";
 			document.getElementsByName('active3[]')[row.length-2].style.background = "#DFD";
 		}
 	}
@@ -136,11 +136,11 @@
 		var row=document.getElementById("tableid").rows;
 		var file=document.getElementsByName("photo3[]")[tr_no-1].files[0];
 		if(!file)
-			document.getElementsByName('view_photo3[]')[tr_no-1].src =  "Images/noProfileImage.png";
-      		else
+			document.getElementsByName('view_photo3[]')[tr_no-1].src =  window.location.protocol+"//"+window.location.hostname+"/assets/images/employee/noProfileImage.png";
+  		else
 		{
 			oFReader = new FileReader();
-        		oFReader.onload = function(oFREvent)
+    		oFReader.onload = function(oFREvent)
 			{
 				var dataURI = oFREvent.target.result;
 				document.getElementsByName('view_photo3[]')[tr_no-1].src = dataURI;

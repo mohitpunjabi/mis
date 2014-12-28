@@ -1,4 +1,4 @@
-    <p><?php $this->notification->drawNotification('',$error,'error'); ?></p>
+    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
     <table>
     	<tr>
             <th>Employee Id</th>

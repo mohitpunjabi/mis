@@ -102,11 +102,7 @@ class Authorization
 		//global $mysqli;
 		$str = @trim($str);
 		if(get_magic_quotes_gpc()) $str = stripslashes($str);
-
-		$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
-    	$replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
-
-    	return str_replace($search, $replace, $str);
+		return $this->CI->db->escape_str($str);
 	}
 
 	function esc_url($url)

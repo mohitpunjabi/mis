@@ -1,4 +1,4 @@
-    <p><?php $this->notification->drawNotification('',$error,'error'); ?></p>
+    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<h1>Step 1 :Fill up the details</h1>
 	<?php  echo form_open_multipart('employee/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
@@ -11,7 +11,7 @@
 			<td width='28%' id="empId">
 	        	<input type="text" name="emp_id" required="required" tabindex="1" />
 				<input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
-				<i class="loading" id="empIdIcon"></i>
+				<i class="loading" id="empIdIcon" ></i>
 			</td>
 			<td width='22%'>
     			Physically Challenged<span style= "color:red;"> *</span>

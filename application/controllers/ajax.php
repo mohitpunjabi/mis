@@ -55,6 +55,12 @@ class Ajax extends CI_Controller
 		$this->load->view('ajax/department',$data);
 	}
 
+	public function empNameByDept($dept = '')
+	{
+		$this->load->model('user_details_model','',TRUE);
+		$data['empNames'] = $this->user_details_model->getEmpNamesByDept($dept);
+		$this->load->view('ajax/empNameByDept',$data);
+	}
 }
 
 /* End of file ajax.php */

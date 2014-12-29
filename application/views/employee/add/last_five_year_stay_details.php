@@ -22,15 +22,15 @@
 			<tr id="addrow">
 				<td id="sno">1</td>
 			    <td><input 	type="date" name="from5[]"
-			    			max = <?php echo date("Y-m-d", time()+(19800)); ?>
-	                        min = <?php $date=date("Y-m-d", time()+(19800));
+			    			max = <?php echo date("Y-m-d", time()); ?>
+	                        min = <?php $date=date("Y-m-d", time());
 	                                    $newdate = strtotime ( '-5 year' , strtotime ( $date ) ) ;
 	                                    echo date("Y-m-d", $newdate); ?> >
 	            </td>
 			    <td><input  type="date"
 			    			name="to5[]"
-			    			max = <?php echo date("Y-m-d", time()+(19800)); ?>
-	                        min = <?php $date=date("Y-m-d", time()+(19800));
+			    			max = <?php echo date("Y-m-d", time()); ?>
+	                        min = <?php $date=date("Y-m-d", time());
 	                                    $newdate = strtotime ( '-5 year' , strtotime ( $date ) ) ;
 	                                    echo date("Y-m-d", $newdate); ?> >
 	            </td>

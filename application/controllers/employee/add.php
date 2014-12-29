@@ -434,26 +434,62 @@ class Add extends MY_Controller
 
 			//loading models
 			$this->load->model('users_model','',TRUE);
+			$this->load->model('user_details_model','',TRUE);
+			$this->load->model('emp_prev_exp_details_model','',TRUE);
+			$this->load->model('emp_family_details_model','',TRUE);
 			$this->load->model('emp_last5yrstay_details_model','',TRUE);
+			$this->load->model('emp_validation_details_model','',TRUE);
+			$this->load->model('user_auth_types_model','',TRUE);
 			$this->load->model('employee/emp_current_entry_model','',TRUE);
 
-			//starting transaction for insertion in database
-
 			$date = date("Y-m-d H:i:s",time());
-			$pass='p';
-			$encode_pass=$this->authorization->strclean($pass);
-			$encode_pass=$this->authorization->encode_password($encode_pass,$date);
+
+			//starting transaction for insertion in database
 			$this->db->trans_start();
 
 			if(isset($emp_last5yrstay_details))
 				$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
-			$this->users_model->update(array('password' => $encode_pass, 'created_date' => $date), array('id' => $emp_id));
+
+			$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
+			if(!$res)
+			{
+				//if there is no nodal officer i.e est_ar then who will provide validation for default the details are approved and password is set as p.
+				$pass='p';
+				$encode_pass=$this->authorization->strclean($pass);
+				$encode_pass=$this->authorization->encode_password($encode_pass,$date);
+				$this->users_model->update(array('password' => $encode_pass, 'created_date' => $date), array('id' => $emp_id));
+				$this->session->set_flashdata('flashError','Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' and was not sent for validation. There is no nodal officer with auth id \'est_ar\'.');
+			}
+			else
+			{
+				//notify nodal officers for vaidation.
+				$user = $this->user_details_model->getUserById($emp_id);
+				$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
+				foreach($res as $row)
+					$this->notification->notify($row->id, "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
+
+				//check for optional forms i.e previous_exp, family, stay details
+				//if optional forms have no records then set them as approved otherwise pending
+				$prev = ($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))?	'pending':'approved';
+				$fam  = ($this->emp_family_details_model->getEmpFamById($emp_id))?			'pending':'approved';
+				$stay = ($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))?	'pending':'approved';
+				$this->emp_validation_details_model->insert(array(	'id'=>$emp_id,
+																	'profile_pic_status'=> 'pending',
+																	'basic_details_status'=> 'pending',
+																	'prev_exp_status'=> $prev,
+																	'family_details_status'=> $fam,
+																	'educational_status'=> 'pending',
+																	'stay_status'=> $stay,
+																	'created_date'=> $date));
+
+				$this->session->set_flashdata('flashSuccess','Employee \''.$emp_id.'\' successfully created and sent for validation.');
+			}
+
 			$this->emp_current_entry_model->delete(array('id' => $emp_id));
 
 			$this->db->trans_complete();
 			//transaction completed
 
-			$this->session->set_flashdata('flashSuccess','Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' .');
 			redirect('employee/add');
 		}
 		else

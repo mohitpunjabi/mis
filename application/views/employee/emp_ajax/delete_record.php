@@ -1,17 +1,7 @@
 <?php
-	if($emp_id == FALSE)
-	{
-		echo '<tr><td>';
-		$this->notification->drawNotification('','EDIT EMPLOYEE_ID session variable not set.','error');
-		echo '</td></tr>';
-		exit;
-	}
 	switch($form)
 	{
-		case 2: $this->emp_prev_exp_details_model->delete_record(array('id'=>$emp_id, 'sno'=>$s));
-				//notify($emp_id, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$this->session->userdata('id'), "show_emp.php?form_name=1","success");
-
-				$emp_prev_exp_details = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
+		case 2: $emp_prev_exp_details = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
 				if($emp_prev_exp_details)
 				{
 					echo '<tr>
@@ -59,10 +49,7 @@
 					$this->notification->drawNotification("Empty","No previous employment details found.","error");
 				break;
 
-		case 4: $this->emp_education_details_model->delete_record(array('id'=>$emp_id, 'sno'=>$s));
-				//notify($emp_id, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$this->session->userdata('id'), "show_emp.php?form_name=1","success");
-
-				$emp_education_details = $this->emp_education_details_model->getEmpEduById($emp_id);
+		case 4: $emp_education_details = $this->emp_education_details_model->getEmpEduById($emp_id);
 				if($emp_education_details)
 				{
 					echo '<tr>
@@ -105,9 +92,7 @@
 					$this->notification->drawNotification("Empty","No educational qualifications found.","error");
 				break;
 
-		case 5: $this->emp_last5yrstay_details_model->delete_record(array('id'=>$emp_id, 'sno'=>$s));
-				//notify($emp_id, "Details Edited", "Your previous employment details have been successfully edited by Data Entry Operator ".$this->session->userdata('id'), "show_emp.php?form_name=1","success");
-				$date = date("Y-m-d", time());
+		case 5: $date = date("Y-m-d", time());
 				$newdate = strtotime('-5 year',strtotime ($date )) ;
 				$newdate = date("Y-m-d", $newdate);
 

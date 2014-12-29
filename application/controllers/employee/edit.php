@@ -27,7 +27,6 @@ class Edit extends MY_Controller
 		else if($this->authorization->is_auth('emp'))
 		{
 			$header['title']="Edit Basic details";
-			//$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_basic_details_script.js \" ></script>";
 
 			$emp_id=$data['emp_id']=$this->session->userdata('id');
 			$this->load->model('user_details_model','',TRUE);
@@ -68,6 +67,8 @@ class Edit extends MY_Controller
 
 		$emp_id = $this->input->post('emp_id');
 		$form = $this->input->post('form_name');
+
+		// if some one refreshes the page then post values will be false, so saving the values in session.
 		if($emp_id != '')
 		{
 			$this->session->set_userdata('EDIT_EMPLOYEE_ID',$emp_id);
@@ -640,7 +641,7 @@ class Edit extends MY_Controller
 				case 'educational_status' : $msg = "Your educational qualifications have been successfully edited by Data Entry Operator ".$this->session->userdata('id')." and sent for validation.";break;
 				case 'stay_status' : $msg = "Your last five year stay details have been successfully edited by Data Entry Operator ".$this->session->userdata('id')." and sent for validation.";break;
 			}
-			//notify($emp_id, "Details Edited", $msg, "show_emp.php?form_name=".$this->session->userdata('EDIT_EMPLOYEE_FORM'));
+			$this->notification->notify($emp_id, "Details Edited", $msg, "view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
 		}
 		//Notify Assistant registrar for validation
 		$this->load->model('user_details_model','',TRUE);
@@ -648,7 +649,11 @@ class Edit extends MY_Controller
 		$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
 		$this->load->model('user_auth_types_model','',TRUE);
 		$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
-		//while($res as $row)	notify($row->id, "Validation Request", "Please validate ".$emp_name." details", "validate_step.php?emp=".$emp_id);
+		foreach ($res as $row)
+		{
+			if($row->id == $emp_id)	continue;
+			$this->notification->notify($row->id, "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
+		}
 	}
 
 	private function _upload_image($emp_id = '', $name ='', $n_family = FALSE)

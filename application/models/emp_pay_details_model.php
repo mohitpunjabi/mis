@@ -21,7 +21,7 @@ class Emp_pay_details_model extends CI_Model
 
 	function getEmpPayDetailsbyId($emp_id = '')
 	{
-		$query = $this->db->select('emp_pay_details.pay_code, pay_band, grade_pay, basic_pay')
+		$query = $this->db->select('emp_pay_details.pay_code, pay_band, pay_band_description, grade_pay, basic_pay')
 							->from($this->table)
 							->join('pay_scales','emp_pay_details.pay_code = pay_scales.pay_code')
 							->where('id',$emp_id)

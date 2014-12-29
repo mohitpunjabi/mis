@@ -27,18 +27,32 @@
 			</div>';
 		}
 
-/*
+
 		function notify($user_id_to, $title, $description, $path, $type = "")
 		{
 
-			$title = strclean($title);
-			$description = strclean($description);
-			$path = strclean($path);
-			$type = strclean($type);
+			$title = $this->CI->authorization->strclean($title);
+			$description = $this->CI->authorization->strclean($description);
+			$path = $this->CI->authorization->strclean($path);
+			$type = $this->CI->authorization->strclean($type);
 
-			$mysqli->query("INSERT into user_notifications
-							VALUES('$user_id_to', '".$_SESSION['id']."', now(), NULL, '".currentModule()."', '$title', '$description', '$path', '$type')");
+			$this->CI->db->query("INSERT into user_notifications
+							VALUES('$user_id_to', '".$this->CI->session->userdata('id')."', now(), NULL, '".$this->currentModule()."', '$title', '$description', '$path', '$type')");
 		}
-*/
+
+		function currentModule()
+		{
+			return $this->_moduleFromURL($_SERVER['PHP_SELF']);
+		}
+
+		function _moduleFromURL($url)
+		{
+			$i = 0;
+			$urlParts = explode("\\", $url);
+			if(sizeof($urlParts) == 1) $urlParts = explode("/", $url);
+			for($i = 0; $i < sizeof($urlParts); $i++) if(strtolower($urlParts[$i]) == "index.php") break;
+
+			return $urlParts[$i+1];
+		}
 	}
 

@@ -1,5 +1,5 @@
-<h1 class="page-head">Please select Employee Id and Form to Edit Employee Details</h1>
-<?php  echo form_open('employee/edit/edit_form');   ?>
+<h1 class="page-head">Please select Employee Id and Form to View Employee Details</h1>
+<?php  echo form_open('employee/view/view_form');   ?>
 	<table align="center" >
     	<tr><th>Employee Id</th>
         	<td>
@@ -48,12 +48,12 @@
 
         <tr><th>Select Form</th>
         	<td><select name="form_name">
-    				<option value="0">Change profile picture</option>
-    				<option value="1">Basic Details</option>
-    				<option value="2">Previous Employment Details</option>
-    				<option value="3">Dependent Family Member Details</option>
-    				<option value="4">Educational Details</option>
-    				<option value="5">Last 5 Year Stay Details</option>
+                <option value="0">Basic Details</option>
+                <option value="1">Previous Employment Details</option>
+                <option value="2">Dependent Family Member Details</option>
+                <option value="3">Educational Details</option>
+                <option value="4">Last 5 Year Stay Details</option>
+                <option value="5">All Employee Details</option>
             </select></td>
         </tr>
     </table>

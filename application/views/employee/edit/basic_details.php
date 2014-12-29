@@ -7,10 +7,10 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
     	<td width='20%'>
         	Employee Id<span style= "color:red;"> *</span>
         </td>
-        <td width='30%'>
+        <td width='28%'>
         	<input type="text" name="emp_id" id="emp_id" readonly value="<?= $emp_id ?>"  >
         </td>
-        <td width='20%'>
+        <td width='22%'>
         	Physically Challenged<span style= "color:red;"> *</span>
         </td>
         <td width='30%'>

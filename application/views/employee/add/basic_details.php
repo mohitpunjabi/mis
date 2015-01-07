@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Add Employee Basic Details</title>
-    <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
-    <?php echo $javascript; ?>
-</head>
-<body>
+    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<h1>Step 1 :Fill up the details</h1>
-	<?php  echo form_open_multipart('employee/add','onSubmit="return image_validation();"');   ?>
+	<?php  echo form_open_multipart('employee/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=4></th></tr>
@@ -15,12 +8,12 @@
 			<td width='20%' id="empId">
     			Employee Id<span style= "color:red;"> *</span>
             </td>
-			<td width='30%' id="empId">
+			<td width='28%' id="empId">
 	        	<input type="text" name="emp_id" required="required" tabindex="1" />
 				<input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
-				<i class="loading" id="empIdIcon"></i>
+				<i class="loading" id="empIdIcon" ></i>
 			</td>
-			<td width='20%'>
+			<td width='22%'>
     			Physically Challenged<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
@@ -106,7 +99,7 @@
     			Research Interest
     		</td>
 	        <td>
-	        	<input type="text" name="research_int" id="res_int_id" tabindex="14"/>
+	        	<input type="text" name="research_int" id="res_int_id" tabindex="14" />
 	        </td>
 		</tr>
 		<tr>
@@ -124,7 +117,7 @@
     				</select>
 	        </td>
 	    	<td>
-		        	Kashmiri Immigrant<span style= "color:red;"> *</span>
+		        Kashmiri Immigrant<span style= "color:red;"> *</span>
 	        </td>
 	    	<td>
 				<input type="radio" name="kashmiri" value="yes" tabindex="16"/>Yes
@@ -182,7 +175,7 @@
         	   DOB<span style= "color:red;"> *</span>
             </td>
             <td>
-	      	    <input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?>  required="required" tabindex="24" onchange="retirement_handler()" />
+	      	    <input type="date" name="dob" value="<?php echo date("Y-m-d",time());?>" max=<?php echo date("Y-m-d", time()); ?>  required="required" tabindex="24" onchange="retirement_handler()" />
             </td>
         	<td>
             	Place of Birth<span style= "color:red;"> *</span>
@@ -240,7 +233,7 @@
                 </select>
             </td>
             <?php
-	           $date = new DateTime(date("Y-m-d",time()+(19800)));
+	           $date = new DateTime(date("Y-m-d",time()));
 	           $date->modify('+65 year');
             ?>
             <td>
@@ -389,5 +382,3 @@
     </table>
     <input type = "submit" value="Next" tabindex="50"/>
     <?php echo form_close(); ?>
-</body>
-</html>

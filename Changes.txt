@@ -1,15 +1,3 @@
-function site_url($uri)	from url helper
-			returns 	http://localhost/index.php/($uri)
-		but it should return 	http://localhost/CodeIgniter/index.php/($uri)
-In config.php --- changed 
-		$config['base_url']	= 'http://localhost/';
-				to
-		$config['base_url']	= 'http://localhost/CodeIgniter/';
-
-//-----------------------------------------------------------------------------
-
-In autoload.php 
-$autoload['libraries'] = array('database');
 
 //----------------------------------------------------------------------------
 In application/config/routes.php
@@ -22,17 +10,22 @@ assets
 |      |       |
 |      |       |----basic_details_script.js
 |      |
-|      |----jquery.js	
+|      |----jquery.js
 |
-|-----image
-	|
-	|------employee
-	|	|
-	|	|------001
-	|	|	|----emp_100_img.jpg
-	|	|
-	|	|------noProfileImage.png
-
+|-----images
+|	|
+|	|------employee
+|	|	|
+|	|	|------001
+|	|	|	|----emp_100_img.jpg
+|	|	|
+|	|	|------noProfileImage.png
+|
+|------css
+|
+|
+|
+|
 
 added --- > $route['assets/(:any)'] = 'assets/$1';
 

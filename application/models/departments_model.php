@@ -3,9 +3,7 @@
 class Departments_model extends CI_Model
 {
 
-	var $id;
-	var $name;
-	var $type;
+	var $table = 'departments';
 
 	function __construct()
 	{
@@ -20,7 +18,7 @@ class Departments_model extends CI_Model
 			$this->db->select('id, name')
 					 ->where('type="'.$type.'"','',FALSE)
 					 ->order_by('name');
-			$query = $this->db->get('departments');
+			$query = $this->db->get($this->table);
 			if($query->num_rows() > 0)
 				return $query->result();
 			else
@@ -28,7 +26,7 @@ class Departments_model extends CI_Model
 		}
 		else
 		{
-			$query = $this->db->get('departments');
+			$query = $this->db->get($this->table);
 			if($query->num_rows() > 0)
 				return $query->result();
 			else
@@ -36,15 +34,15 @@ class Departments_model extends CI_Model
 		}
 	}
 
-	function insert_entry()
+	function getDepartmentById($id = '')
 	{
-		$this->id = $this->input->post('dept_id');
-		$this->name = $this->input->post('dept_name');
-		$this->type = $this->input->post('dept_type');
-
-		$this->db->insert('departments', $this);
+		$query = $this->db->get_where($this->table,array('id'=>$id));
+		if($query->num_rows() === 1)
+			return $query->row();
+		else
+			return false;
 	}
 }
 
 /* End of file departments_model.php */
-/* Location: Codeigniter/application/models/departments_model.php */
+/* Location: mis/application/models/departments_model.php */

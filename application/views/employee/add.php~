@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Employee Management</title>
+</head>
+<body>	
+	<h2><a href = "<?php echo site_url_extended('employee/menu/add'); ?>" >Add Employee</a></h2>
+<!--		$query=mysql_query("select * from emp_current_entry");
+		if(mysql_num_rows($query)!=0)
+		{
+			$row=mysql_fetch_row($query);
+			echo '(Continue with Employee '.$row[0].')';
+		}
+-->
+	<br>
+	<h2><a href = "<?php echo site_url_extended('employee/menu/edit'); ?>" >Edit Employee Details</a></h2>
+	<br>
+	<h2><a href = "<?php echo site_url_extended('employee/menu/view'); ?>" >View Employee Details</a></h2>
+	<br>
+	<h2><a href = "<?php echo site_url_extended('employee/menu/validation_requests'); ?>" >Employee Validation Requests</a></h2>
+
+<!--	If not DEO
+	<br>
+	<h2><a href = "<?php echo site_url_extended('employee/menu/show_emp'); ?>" >View Employee Details</a></h2>
+-->
+</body>
+</html>

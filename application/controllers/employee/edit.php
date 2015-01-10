@@ -674,7 +674,7 @@ class Edit extends MY_Controller
 				{
                     $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
                     $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                    $filename='emp_'.$emp_id.'_'.date('YmdHis');
+                    $filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
                 }
 	        }
 	        else

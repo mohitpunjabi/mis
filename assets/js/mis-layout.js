@@ -17,4 +17,30 @@ $(document).ready(function() {
 			right: "-105%"
 		}, 200);
 	});
+	
+	$(".-mis-menu-authtype > .role").click(function() {
+		$(this).parent().toggleClass("collapsed");
+	});
+
+	$(".counter").css({
+		opacity: "0",
+	})
+	.animate({
+		opacity: "1",
+		top: "3px"
+	}, 200)
+	.animate({
+		top: "7px"
+	}, 200);
+
+	$(".-mis-menu-authtype > .counter").click(function(e) {
+		$(".notification-drawer").hide();
+		$(this).parent().find(".notification-drawer").fadeIn("fast");
+		e.stopImmediatePropagation();
+	});
+
+	$(window).click(function() {
+		$(".notification-drawer").fadeOut("fast");
+	});	
+
 });

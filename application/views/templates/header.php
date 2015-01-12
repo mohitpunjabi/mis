@@ -67,15 +67,45 @@
 ?>
     		</div>
 		</div>
-		<?php //	_drawNavbarMenu();	?>
-				<ul>
-					<li>
-						<a href=" <?= site_url('home') ?> ">Home</a>
-					</li>
-					<li>
-						<a href=" <?= site_url('employee/menu') ?> ">Employee Management</a>
-					</li>
-				</ul>
+		<?php 
+		function _drawNavbarMenuItem($mi) {
+			foreach($mi as $key => $val) {
+				$arrow = (is_array($val))? 'class="arrow"': "";
+				echo "<li $arrow>";
+				echo "<a href=\"".((is_string($val))? $val: "#")."\">$key</a>";
+				if(is_array($val)) {
+					echo '<ul>';
+					_drawNavbarMenuItem($val);
+					echo '</ul>';
+				}
+				echo '</li>';
+			}
+		}
+		
+		if(isset($menu)) {
+			foreach($menu as $key => $val) {
+				echo '<div class="-mis-menu-authtype collapsed">
+						<div class="role">Roles as '.ucfirst($authKeys[$key]).'</div>
+						<span class="counter active">42</span>';
+	
+				echo '<div class="notification-drawer">';
+					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "error");
+					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "success");
+					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "normal");
+					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "error");
+	
+					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "error");
+									
+				echo '</div>';			
+				
+					echo '<ul>';
+				_drawNavbarMenuItem($val);
+					echo '</ul>';
+				echo '</div>';
+			}
+		}
+		?>
+
     </div>
 
     <div class="-mis-content">

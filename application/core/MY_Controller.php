@@ -41,7 +41,7 @@
 	    	}
 	    	return $menu;
 	    }
-		
+
 		function getAuthKeys() {
 	    	$auths = $this->CI->session->userdata('auth');
 			foreach($auths as $i => $auth) {
@@ -49,7 +49,7 @@
 			}
 			return $keys;
 		}
-		
+
 		function drawHeader($title = "MIS") {
 			$this->load->view("templates/header", array("menu" => $this->getMenu(),
 														"title" => $title,

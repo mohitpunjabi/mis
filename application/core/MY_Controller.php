@@ -16,7 +16,7 @@
 
 	    	$this->load->model('modules_model', '', TRUE);
 	    	$this->load->model('auth_types_model', 'auth_types', TRUE);
-
+			$this->load->model('user_notifications_model', '', TRUE);
 	    }
 
 	    function getMenu()
@@ -41,7 +41,7 @@
 	    	}
 	    	return $menu;
 	    }
-		
+
 		function getAuthKeys() {
 	    	$auths = $this->CI->session->userdata('auth');
 			foreach($auths as $i => $auth) {
@@ -49,11 +49,20 @@
 			}
 			return $keys;
 		}
-		
+
+		function getNotifications() {
+			$auths = $this->CI->session->userdata('auth');
+			foreach($auths as $i => $auth) {
+				$notifications[$auth] = $this->user_notifications_model->getUserNotifications($this->session->userdata('id'), $auth);
+			}
+			return $notifications;
+		}
+
 		function drawHeader($title = "MIS") {
 			$this->load->view("templates/header", array("menu" => $this->getMenu(),
 														"title" => $title,
-														"authKeys" => $this->getAuthKeys()));
+														"authKeys" => $this->getAuthKeys(),
+														"notifications" => $this->getNotifications()));
 		}
 	}
 

@@ -25,8 +25,8 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
-		$this->load->view('templates/header',array('title'=>'MIS'));
-		$this->load->view('home');
+		$this->drawHeader("MIS");
+		$this->load->view('home',array('menu'=>parent::getMenu()));
 		$this->load->view('templates/footer');
 	}
 }

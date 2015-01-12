@@ -67,7 +67,7 @@
 ?>
     		</div>
 		</div>
-		<?php 
+		<?php
 		function _drawNavbarMenuItem($mi) {
 			foreach($mi as $key => $val) {
 				$arrow = (is_array($val))? 'class="arrow"': "";
@@ -81,23 +81,21 @@
 				echo '</li>';
 			}
 		}
-		
+
 		if(isset($menu)) {
 			foreach($menu as $key => $val) {
 				echo '<div class="-mis-menu-authtype collapsed">
 						<div class="role">Roles as '.ucfirst($authKeys[$key]).'</div>
 						<span class="counter active">42</span>';
-	
+
 				echo '<div class="notification-drawer">';
-					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "error");
-					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "success");
-					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "normal");
-					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "error");
-	
-					$this->notification->drawNotification("dakjfa", "Lorem ipsum dolor si amet.", "error");
-									
-				echo '</div>';			
-				
+				if(!$notifications[$key]) $this->notification->drawNotification("No more notifications", "You do not have any unread notifications.");
+				else {
+					foreach($notifications[$key] as $row) {
+						$this->notification->drawNotification(ucwords($row->title), "<b>" . date("d M Y", strtotime($row->send_date)) . "</b>: " . $row->description . " <a href=\"".site_url($row->module_id."/".$row->path)."\">Know more &raquo;</a>", $row->type);
+					}
+				}
+								echo '</div>';
 					echo '<ul>';
 				_drawNavbarMenuItem($val);
 					echo '</ul>';

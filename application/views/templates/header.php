@@ -14,6 +14,17 @@
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
+	<script type="text/javascript">
+		function js_base_url()
+		{
+			return "<?= base_url()?>";
+		}
+
+		function js_site_url(uri)
+		{
+			return js_base_url()+"index.php/"+uri;
+		}
+	</script>
     <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
 <body>
@@ -106,7 +117,6 @@
     </div>
 
     <div class="-mis-content">
-    	<div id = 'base_url' hidden><?= base_url() ?></div>
     	<div class="flash-data">
     		<?php
     			if($this->session->flashdata('flashSuccess'))

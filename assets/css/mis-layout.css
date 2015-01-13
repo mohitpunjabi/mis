@@ -258,6 +258,7 @@ div.-mis-right-options {
 	width: 180px;
 	position: relative;
 	overflow: hidden;
+	margin-bottom: 20px;
 }
 .-mis-profile-photo img {
 	width: 100%;
@@ -289,10 +290,75 @@ div.-mis-right-options {
 }
 
 
+.-mis-menu-authtype {
+	position: relative;
+	z-index: 1;
+}
+
+.-mis-menu-authtype > .counter {
+	position: absolute;
+	display: block;
+	text-align: center;
+	min-width: 10px;
+	height: 10px;
+	padding: 5px;
+	font-size: 12px;
+	line-height: 10px;
+	font-weight: bold;
+	color: #FFF;
+	background: #D00;
+	border-radius: 20px;
+	top: 7px;
+	right: 5px;
+	cursor: pointer;
+}
+
+.-mis-menu-authtype > .notification-drawer {
+	position: fixed;
+	left: 200px;
+	width: 300px;
+	top: 40px;
+	bottom: 40px;
+	overflow-y: auto;
+	box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);
+	background: #FAFAFA;
+	padding: 10px;
+	
+	display: none;
+}
+
+.-mis-menu-authtype > .role {
+	margin: 0px -10px;
+	padding: 7px 0px 7px 30px;
+	color: #000;
+	font-weight: bold;
+	background: url(../images/arrow-down.png) no-repeat 10px center;
+	background-color: #ddd;
+	cursor: pointer;
+}
+
+.-mis-menu-authtype:hover > .role {
+	background-color: #ccc;
+}
+
+.-mis-menu-authtype.collapsed > .role {
+	background-image: url(../images/arrow.png);
+}
+
+.-mis-navbar > .-mis-menu-authtype.collapsed > ul {
+	display: none;
+}
+
+.-mis-navbar > .-mis-menu-authtype > ul {
+	display: block;
+}
+
+
 .-mis-navbar ul {
 	margin: 0px;
 	list-style-type: none;
 	padding: 0px;
+	z-index: 2;
 }
 
 .-mis-navbar > ul {

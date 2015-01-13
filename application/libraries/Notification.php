@@ -7,7 +7,6 @@
 
 	class Notification {
 
-		var $notification_table_name = 'user_notifications';
 		var $CI;
 
 		public function __construct()
@@ -28,16 +27,20 @@
 		}
 
 
-		function notify($user_id_to, $title, $description, $path, $type = "")
+		function notify($user_id_to, $auth, $title, $description, $path, $type = "")
 		{
+			$data['user_to'] = $user_id_to;
+			$data['user_from'] = $this->CI->session->userdata('id');
+			$data['send_date'] = date('Y-m-d H:i:s');
+			$data['auth_id'] = $auth;
+			$data['module_id'] = $this->currentModule();
+			$data['title'] = $this->CI->authorization->strclean($title);
+			$data['description'] = $this->CI->authorization->strclean($description);
+			$data['path'] = $this->CI->authorization->strclean($path);
+			$data['type'] = $this->CI->authorization->strclean($type);
 
-			$title = $this->CI->authorization->strclean($title);
-			$description = $this->CI->authorization->strclean($description);
-			$path = $this->CI->authorization->strclean($path);
-			$type = $this->CI->authorization->strclean($type);
-
-			$this->CI->db->query("INSERT into user_notifications
-							VALUES('$user_id_to', '".$this->CI->session->userdata('id')."', now(), NULL, '".$this->currentModule()."', '$title', '$description', '$path', '$type')");
+			$this->load->model('user_notifications_model','',TRUE);
+			$this->user_notifications_model->insert($data);
 		}
 
 		function currentModule()

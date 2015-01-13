@@ -10,12 +10,22 @@
 	?>
 	</title>
 	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/mis-layout.css" />
+	<?php 	if(isset($css))	echo $css;	?>
+
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
-    <?php
-    	if(isset($javascript))
-    		echo $javascript;
-	?>
+	<script type="text/javascript">
+		function js_base_url()
+		{
+			return "<?= base_url()?>";
+		}
+
+		function js_site_url(uri)
+		{
+			return js_base_url()+"index.php/"+uri;
+		}
+	</script>
+    <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
 <body>
 	<div class="-mis-search-bar">
@@ -67,15 +77,43 @@
 ?>
     		</div>
 		</div>
-		<?php //	_drawNavbarMenu();	?>
-				<ul>
-					<li>
-						<a href=" <?= site_url('home') ?> ">Home</a>
-					</li>
-					<li>
-						<a href=" <?= site_url('employee/menu') ?> ">Employee Management</a>
-					</li>
-				</ul>
+		<?php
+		function _drawNavbarMenuItem($mi) {
+			foreach($mi as $key => $val) {
+				$arrow = (is_array($val))? 'class="arrow"': "";
+				echo "<li $arrow>";
+				echo "<a href=\"".((is_string($val))? $val: "#")."\">$key</a>";
+				if(is_array($val)) {
+					echo '<ul>';
+					_drawNavbarMenuItem($val);
+					echo '</ul>';
+				}
+				echo '</li>';
+			}
+		}
+
+		if(isset($menu)) {
+			foreach($menu as $key => $val) {
+				echo '<div class="-mis-menu-authtype collapsed">
+						<div class="role">Roles as '.ucfirst($authKeys[$key]).'</div>
+						<span class="counter active">42</span>';
+
+				echo '<div class="notification-drawer">';
+				if(!$notifications[$key]) $this->notification->drawNotification("No more notifications", "You do not have any unread notifications.");
+				else {
+					foreach($notifications[$key] as $row) {
+						$this->notification->drawNotification(ucwords($row->title), "<b>" . date("d M Y", strtotime($row->send_date)) . "</b>: " . $row->description . " <a href=\"".site_url($row->module_id."/".$row->path)."\">Know more &raquo;</a>", $row->type);
+					}
+				}
+								echo '</div>';
+					echo '<ul>';
+				_drawNavbarMenuItem($val);
+					echo '</ul>';
+				echo '</div>';
+			}
+		}
+		?>
+
     </div>
 
     <div class="-mis-content">

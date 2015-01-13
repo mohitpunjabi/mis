@@ -1,9 +1,4 @@
 
-	function js_base_url()
-	{
-		return window.location.protocol+'//'+window.location.hostname+'/index.php/';
-	}
-
 	function onclick_emp_id()
 	{
 		document.getElementById('search_eid').style.display="table-row";
@@ -30,8 +25,7 @@
 			    emp_name.innerHTML += xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/empNameByDept/"+dept,true);
-//		xmlhttp.open("GET","AJAX_emp_name_by_dept.php?dept="+dept,true);
+		xmlhttp.open("POST",js_site_url("ajax/empNameByDept/"+dept),true);
 		xmlhttp.send();
 		emp_name.innerHTML = "<i class=\"loading\"></i>";
 	}

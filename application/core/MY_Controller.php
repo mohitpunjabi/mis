@@ -6,8 +6,8 @@
 	class MY_Controller extends CI_Controller {
 
 		var $CI;
-		var $javascript = '';
-		var $css = '';
+		var $_js = '';
+		var $_css = '';
 
     	function __construct($args = array())
     	{
@@ -63,8 +63,8 @@
 		function drawHeader($title = "MIS") {
 			$this->load->view("templates/header", array("menu" => $this->getMenu(),
 														"title" => $title,
-														"javascript" => $this->javascript,
-														"css" => $this->css,
+														"javascript" => $this->_js,
+														"css" => $this->_css,
 														"authKeys" => $this->getAuthKeys(),
 														"notifications" => $this->getNotifications()));
 		}
@@ -73,12 +73,12 @@
 			$this->load->view("templates/footer");
 		}
 
-		function addJS($js='') {
-			$this->javascript .= "<script type=\"text/javascript\" src=\"".base_url()."assets/js/".$js." \" ></script>";
+		function addJS($js) {
+			$this->_js .= "<script type=\"text/javascript\" src=\"".base_url()."assets/js/".$js." \" ></script>";
 		}
 
-		function addCSS($css = '') {
-			$this->css .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".base_url()."assets/css/".$css."\" />";
+		function addCSS($css) {
+			$this->_css .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".base_url()."assets/css/".$css."\" />";
 		}
 	}
 

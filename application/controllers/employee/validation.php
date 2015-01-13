@@ -9,16 +9,15 @@ class Validation extends MY_Controller
 
 	public function index()
 	{
-		$header['title']="Validation Requests";
-		$header['javascript']="<script type=\"text/javascript\">function reject_reason(i){ alert(\"Reason behind Rejection : '\"+document.getElementById('rejected'+i).innerHTML+\"'\"); }</script>";
+		$this->addJS('employee/reject_reason_script.js');
 
 		$this->load->model('user_details_model','',TRUE);
 		$this->load->model('emp_validation_details_model','',TRUE);
 		$data['emp_validation_details']=$this->emp_validation_details_model->getValidationDetails();
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Validation Requests");
 		$this->load->view('employee/validation/index',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function validate_step($emp_id='', $step='')
@@ -36,8 +35,7 @@ class Validation extends MY_Controller
 			return;
 		}
 
-		$header['title']="Employee Validation";
-		$header['javascript']="<script type=\"text/javascript\">function reject_reason(i){ alert(\"Reason behind Rejection : '\"+document.getElementById('rejected'+i).innerHTML+\"'\"); }</script>";
+		$this->addJS('employee/reject_reason_script.js');
 
 		$this->load->model('user_details_model','',TRUE);
 		$this->load->model('user_other_details_model','',TRUE);
@@ -73,7 +71,7 @@ class Validation extends MY_Controller
 			return;
 		}
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Employee Validation");
 		$this->load->view('employee/view/view_header',array('emp_id'=>$emp_id));
 
 		$this->load->view('employee/validation/index',array('emp_validation_details'=>array($data['emp_validation_details'])));
@@ -93,7 +91,7 @@ class Validation extends MY_Controller
 		}
 		$this->load->view('employee/validation/validation',array('emp_id'=>$emp_id, 'step'=>$step,'emp_validation_details'=>$data['emp_validation_details']));
 		//$this->load->view('employee/view/view_footer');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function validate_details($emp_id, $step)
@@ -131,7 +129,7 @@ class Validation extends MY_Controller
 			//Notify Employee about the same
 			if($user->auth_id == 'emp' && $user->password !='')
 			{
-				$this->notification->notify($emp_id, "Validation Request Approved", "Your validation request for ".$msg." have been approved.", "view/index/".(($step==0)? $step:($step-1)),"success");
+				$this->notification->notify($emp_id,'emp', "Validation Request Approved", "Your validation request for ".$msg." have been approved.", "view/index/".(($step==0)? $step:($step-1)),"success");
 			}
 		}
 		else if($this->input->post('reject'))
@@ -150,13 +148,13 @@ class Validation extends MY_Controller
 			//Notify Employee about the same
 			if($user->auth_id == 'emp' && $user->password !='')
 			{
-				$this->notification->notify($emp_id, "Validation Request Rejected", "Your validation request for ".$msg." have been rejected. Contact the Establishment Section for the same.", "view/index/".(($step==0)? $step:($step-1)),"error");
+				$this->notification->notify($emp_id,'emp', "Validation Request Rejected", "Your validation request for ".$msg." have been rejected. Contact the Establishment Section for the same.", "view/index/".(($step==0)? $step:($step-1)),"error");
 			}
 			//Notify Deo of employee about the same
 			$deo = $this->deo_modules_model->getDeoByModuleId('employee');
 			foreach($deo as $row)
 			{
-				$this->notification->notify($row->id, "Validation Request Rejected", "Validation request for employee ".$emp_id." ".$msg." have been rejected.", "validation","error");
+				$this->notification->notify($row->id,'deo', "Validation Request Rejected", "Validation request for employee ".$emp_id." ".$msg." have been rejected.", "validation","error");
 			}
 		}
 

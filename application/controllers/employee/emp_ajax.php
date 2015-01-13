@@ -95,7 +95,7 @@ class Emp_ajax extends CI_Controller
 				case 'educational_status' : $msg = "Your educational qualifications have been successfully edited by Data Entry Operator ".$this->session->userdata('id')." and sent for validation.";break;
 				case 'stay_status' : $msg = "Your last five year stay details have been successfully edited by Data Entry Operator ".$this->session->userdata('id')." and sent for validation.";break;
 			}
-			$this->notification->notify($emp_id, "Details Edited", $msg, "view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
+			$this->notification->notify($emp_id, 'emp', "Details Edited", $msg, "view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
 		}
 		//Notify Assistant registrar for validation
 		$this->load->model('user_details_model','',TRUE);
@@ -106,7 +106,7 @@ class Emp_ajax extends CI_Controller
 		foreach ($res as $row)
 		{
 			if($row->id == $emp_id)	continue;
-			$this->notification->notify($row->id, "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
+			$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
 		}
 	}
 }

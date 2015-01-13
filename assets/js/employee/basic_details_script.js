@@ -1,9 +1,4 @@
 
-	function js_base_url()
-	{
-		return window.location.protocol+'//'+window.location.hostname+'/index.php/';
-	}
-
 	function teaching_handler(auth)
 	{
 		designation_dropdown(auth);
@@ -32,8 +27,7 @@
 			    document.getElementById("depts").innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/department/"+auth,true);
-//	  	xmlhttp.open("POST","http://bran.mis/index.php/ajax/department/"+auth,true);
+		xmlhttp.open("POST",js_site_url("ajax/department/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
@@ -57,8 +51,7 @@
 			    gp.innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/grade_pay/"+pb,true);
-//		xmlhttp.open("POST","http://bran.mis/index.php/ajax/grade_pay/"+pb,true);
+		xmlhttp.open("POST",js_site_url("ajax/grade_pay/"+pb),true);
 		xmlhttp.send();
 		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
 		gp.style.visibility = "visible";
@@ -139,8 +132,7 @@
 			    document.getElementById("des").innerHTML=xmlhttp.responseText;
 		    	}
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/designation/"+auth,true);
-//		xmlhttp.open("POST","http://bran.mis/index.php/ajax/designation/"+auth,true);
+		xmlhttp.open("POST",js_site_url("ajax/designation/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("des").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
@@ -149,7 +141,7 @@
 	{
 		var file=document.getElementById('photo').files[0];
 		if(!file)
-			document.getElementById('view_photo').src =  "Images/noProfileImage.png";
+			document.getElementById('view_photo').src =  js_base_url()+"assets/images/employee/noProfileImage.png";
       	else
 		{
 			oFReader = new FileReader();
@@ -227,8 +219,7 @@
 				$("#empIdIcon").hide();
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"employee/emp_ajax/feedback_emp_detail/"+emp_id,true);
-//		xmlhttp.open("POST","http://bran.mis/index.php/employee/emp_ajax/feedback_emp_detail/"+emp_id,true);
+		xmlhttp.open("POST",js_site_url("employee/emp_ajax/feedback_emp_detail/"+emp_id),true);
 		xmlhttp.send();
 	}
 

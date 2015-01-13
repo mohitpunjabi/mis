@@ -10,12 +10,11 @@
 	?>
 	</title>
 	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/mis-layout.css" />
+	<?php 	if(isset($css))	echo $css;	?>
+
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
-    <?php
-    	if(isset($javascript))
-    		echo $javascript;
-	?>
+    <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
 <body>
 	<div class="-mis-search-bar">
@@ -107,6 +106,7 @@
     </div>
 
     <div class="-mis-content">
+    	<div id = 'base_url' hidden><?= base_url() ?></div>
     	<div class="flash-data">
     		<?php
     			if($this->session->flashdata('flashSuccess'))

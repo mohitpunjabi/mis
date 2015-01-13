@@ -1,9 +1,4 @@
 
-	function js_base_url()
-	{
-		return window.location.protocol+'//'+window.location.hostname+'/index.php/';
-	}
-
 	function payband_handler(pb)
 	{
 		var gp = document.getElementsByName("gradepay")[0];
@@ -23,7 +18,7 @@
 			    gp.innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/grade_pay/"+pb,true);
+		xmlhttp.open("POST",js_site_url("ajax/grade_pay/"+pb),true);
 		xmlhttp.send();
 		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
@@ -56,7 +51,7 @@
 			    document.getElementById("depts").innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/department/"+auth,true);
+		xmlhttp.open("POST",js_site_url("ajax/department/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
@@ -134,7 +129,7 @@
 			    document.getElementById("des").innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_base_url()+"ajax/designation/"+auth,true);
+		xmlhttp.open("POST",js_site_url("ajax/designation/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("des").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}

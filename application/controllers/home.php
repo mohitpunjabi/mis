@@ -27,7 +27,7 @@ class Home extends MY_Controller {
 	{
 		$this->drawHeader("MIS");
 		$this->load->view('home',array('menu'=>parent::getMenu()));
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

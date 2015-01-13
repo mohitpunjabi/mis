@@ -11,8 +11,7 @@ class View extends MY_Controller
 	{
 		if($this->authorization->is_auth('deo'))
 		{
-			$header['title']="View Employee";
-			$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_employee_script.js \" ></script>";
+			$this->addJS('employee/edit_employee_script.js');
 
 			$this->load->model('emp_basic_details_model','',TRUE);
 			$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
@@ -20,9 +19,9 @@ class View extends MY_Controller
 			$this->load->model('departments_model','',TRUE);
 			$data['departments']=$this->departments_model->get_departments();
 
-			$this->load->view('templates/header',$header);
+			$this->drawHeader("View Employee");
 			$this->load->view('employee/view/index',$data);
-			$this->load->view('templates/footer');
+			$this->drawFooter();
 		}
 		else if($this->authorization->is_auth('emp'))
 		{
@@ -63,8 +62,7 @@ class View extends MY_Controller
 
 	private function _load_view($emp_id, $form)
 	{
-		$header['title']='View Employee Details';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/print_script.js \" ></script>";
+		$this->addJS('employee/print_script.js');
 
 		$data['emp_id'] = $emp_id;
 		$data['form'] = $form;
@@ -96,7 +94,7 @@ class View extends MY_Controller
 		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("View Employee Details");
 		$this->load->view('employee/view/view_header',array('emp_id'=>$emp_id));
 		$this->load->view('employee/view/profile_pic',$data);
 		switch($form)
@@ -113,7 +111,7 @@ class View extends MY_Controller
 					$this->load->view('employee/view/last_five_year_stay_details',$data);
 		}
 		$this->load->view('employee/view/view_footer');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 /* End of file view.php */

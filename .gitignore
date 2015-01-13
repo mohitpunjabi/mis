@@ -2,4 +2,4 @@ application/config/database.php
 application/config/config.php
 application/logs
 assets/images/employee
-application/logs
+application/config/config.php

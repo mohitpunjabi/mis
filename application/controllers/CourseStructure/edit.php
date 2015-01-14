@@ -10,6 +10,7 @@ class Edit extends MY_Controller
 	}
 	public function index()
 	{
+		//edited
 		$data = array();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();

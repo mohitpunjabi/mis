@@ -169,12 +169,14 @@ class Add extends MY_Controller
 		$elective_details['practical'] = $this->input->post("P".$counter);
 		$elective_details['type'] = $this->input->post("type".$counter);
 		
-		$credit_hours= $elective_details['lecture']*2 + $elective_details['tutorial'] + $elective_details['practical'];
+		//$credit_hours= $elective_details['lecture']*2 + $elective_details['tutorial'] + $elective_details['practical'];
+		$credit_hours= $this->input->post("credit_hours".$counter);
 		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
 	 
 		$options = $session_data['options'][$counter];
 		$sequence_elective = $session_data['elective'][$counter];
 		
+		$group_id = uniqid();
 		for($i = 1;$i <= $options;$i++)
 		{
 			$subject_details['id'] = uniqid();			
@@ -186,7 +188,7 @@ class Add extends MY_Controller
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
 			//add group id to elective feild in database.
-			$subject_details['elective'] = uniqid();
+			$subject_details['elective'] = $group_id;
 			$subject_details['type'] = $elective_details['type'];
 			
 			$coursestructure_details['id'] = $subject_details['id'];

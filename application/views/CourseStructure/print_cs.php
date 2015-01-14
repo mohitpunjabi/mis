@@ -69,33 +69,21 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center><h3>Course Structure for  
   <?php
-  echo "all session variables are ".var_dump($CS_session);
-  echo "All session variables = <br>".var_dump($CS_session); 
-    $db=$this->load->database();
-    $course_id=strtok($aggr_id,"_");
-    $branch_id=strtok("_");
-    $session=strtok("_");
-    $course_query="SELECT name,duration FROM courses WHERE id='".$course_id."'";
-    $result_course=$this->db->query($course_query);
-    $row=$result_course->result();
-    $course_name=$row[0]->name;
-    $course_duration=$row[0]->duration;
-    echo $course_name." ";
-    $branch_query="SELECT name FROM branches WHERE id='".$branch_id."'";
-    $result_branch=$this->db->query($branch_query);
-    $row=$result_branch->result();
-    $branch_name=$row[0]->name;
+ 
+    $course_name=$CS_session['course_name'];
+    $course_duration=$CS_session['duration'];
+    $branch_name=$CS_session['branch_name'];
+    $aggr_id= $CS_session['aggr_id'];
+    $session=$CS_session['session'];
+    echo $CS_session['course_name']." ";
     echo "(".$branch_name.")"."<br>";
     echo "Applicable for the Session "."20".$session[0].$session[1]."-20".$session[2].$session[3];
   ?>
   </h3>
   <?php
-      for($counter=1;$counter<=2*$course_duration;$counter++)
+      for($semester=1;$semester<=2*$course_duration;$semester++)
       {
-        echo "<h3>Subjects for Semester". $counter."<br></h3>";
-        $query_subjects="SELECT * FROM course_structure WHERE semester=".$counter." AND aggr_id='".$aggr_id."' ORDER BY sequence";
-        $result_subjects=$this->db->query($query_subjects);
-        $count=1;
+        echo "<h3>Subjects for Semester". $semester."<br></h3>";
   ?>
   <table border="1">
     <tr>
@@ -110,39 +98,81 @@
       <th>Elective</th>
       <th>Type</th>
     </tr>
-  <?php
-        foreach($result_subjects->result() as $row)
+  		<?php
+        for($i=1;$i<=$subjects["count"][$semester];$i++)
         {
-  ?>
-          <tr>
-            <td><?php echo $count;$count++;?></td>
-            <td><?php echo $row->subject_id; ?></td>
-  <?php
-        $query_details="SELECT * FROM subjects WHERE id='".$row->subject_id."'";
-        $result_details=$this->db->query($query_details);
-        $subject=$result_details->result();
-  ?>
-            <td><?php echo $subject[0]->name;?></td>
-            <td><?php echo $subject[0]->lecture;?></td>
-            <td><?php echo $subject[0]->tutorial;?></td>
-            <td><?php echo $subject[0]->practical;?></td>
-            <td><?php echo $subject[0]->credit_hours;?></td>
-            <td><?php echo $subject[0]->contact_hours;?></td>
-            <td><?php 
-                  if($subject[0]->elective==0) echo "No";
-                  else echo "Yes";
-                  ?>
-            </td>
-            <td><?php 
-                  if($subject[0]->type==0) echo "Theory";
-                  if($subject[0]->type==1) echo "Practical";
-                  if($subject[0]->type==2) echo "Sessional";
-                  if($subject[0]->type==3) echo "Non-Contact";
-                ?>
-            </td>
-          </tr>
-  <?php
-        }
+            if(isset($subjects["group_details"][$semester][$i]->group_id))
+			{
+				echo "<tr><td colspan='10' style = 'text-align:center;font-size:20px;'>".$subjects["group_details"][$semester][$i]->elective_name."</td></tr>";
+				$group_id = $subjects["group_details"][$semester][$i]->group_id;
+				for($j = 0;$j<$subjects["elective_count"][$group_id];$j++)
+				{
+					
+		?>
+                    <tr>
+                        <td><?php echo $subjects["sequence_no"][$semester][$i+$j]?></td>
+                        
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->subject_id; ?></td>
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->name;?></td>
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->lecture;?></td>
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->tutorial;?></td>
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->practical;?></td>
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->credit_hours;?></td>
+                        <td><?php echo $subjects["subject_details"][$semester][$i+$j]->contact_hours;?></td>
+                        <td>
+                            <?php 
+                                  if($subjects["subject_details"][$semester][$i+$j]->elective==0) 
+                                     echo "No";
+                                  else 
+                                    echo "Yes";
+                              ?>
+                        </td>
+                        <td>
+                            <?php 
+                              if($subjects["subject_details"][$semester][$i+$j]->type=="Theory") echo "Theory";
+                              if($subjects["subject_details"][$semester][$i+$j]->type=="Practical") echo "Practical";
+                              if($subjects["subject_details"][$semester][$i+$j]->type==2) echo "Sessional";
+                              if($subjects["subject_details"][$semester][$i+$j]->type ==3) echo "Non-Contact";
+                            ?>
+                        </td>
+                    </tr>
+         <?php
+				}//for closed..
+				$i = $j+$i-1;
+				}//if closed.
+				else
+				{
+		 ?>
+                  <tr>
+                    <td><?php echo $subjects["sequence_no"][$semester][$i]?></td>
+                    
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->subject_id; ?></td>
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->name;?></td>
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->lecture;?></td>
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->tutorial;?></td>
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->practical;?></td>
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->credit_hours;?></td>
+                    <td><?php echo $subjects["subject_details"][$semester][$i]->contact_hours;?></td>
+                    <td>
+                        <?php 
+                              if($subjects["subject_details"][$semester][$i]->elective==0) 
+                                 echo "No";
+                              else 
+                                echo "Yes";
+                          ?>
+                    </td>
+                    <td>
+                        <?php 
+                          if($subjects["subject_details"][$semester][$i]->type==0) echo "Theory";
+                          if($subjects["subject_details"][$semester][$i]->type==1) echo "Practical";
+                          if($subjects["subject_details"][$semester][$i]->type==2) echo "Sessional";
+                          if($subjects["subject_details"][$semester][$i]->type ==3) echo "Non-Contact";
+                        ?>
+                    </td>
+                  </tr>
+  		 <?php
+				}//else closed
+           }//inner for loop 
   ?>
   </table>
   <?php

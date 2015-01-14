@@ -1,6 +1,6 @@
 <?php
 
-class Employee_menu extends CI_Model
+class Employee_menu_model extends CI_Model
 {
 	function __construct()
 	{

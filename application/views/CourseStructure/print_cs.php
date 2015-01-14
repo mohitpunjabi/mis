@@ -69,6 +69,7 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center><h3>Course Structure for  
   <?php
+  echo "all session variables are ".var_dump($CS_session);
   echo "All session variables = <br>".var_dump($CS_session); 
     $db=$this->load->database();
     $course_id=strtok($aggr_id,"_");

@@ -46,7 +46,8 @@ class Add extends MY_Controller
 		$course_branch_mapping['year'] = $session;
 		$course_branch_mapping['aggr_id'] = trim($aggr_id);
 		
-		$this->basic_model->insert_course_branch($course_branch_mapping);
+		if(!$this->basic_model->select_course_branch(trim($aggr_id)))
+			$this->basic_model->insert_course_branch($course_branch_mapping);
 		
 		$this->drawHeader();
 		$this->load->view('CourseStructure/count',$data);
@@ -185,7 +186,7 @@ class Add extends MY_Controller
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
 			//add group id to elective feild in database.
-			$subject_details['elective'] = "G_".$counter;
+			$subject_details['elective'] = uniqid();
 			$subject_details['type'] = $elective_details['type'];
 			
 			$coursestructure_details['id'] = $subject_details['id'];

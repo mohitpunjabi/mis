@@ -63,13 +63,7 @@
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
 	</style>
-  <?php 
-   // $db= $this->load->database();
-    //$query_course= "SELECT * from courses";
-    //$result_course= $this->db->query($query_course);
-    //$query_branch= "SELECT * from branches";
-    //$result_branch= $this->db->query($query_branch);
-  ?>
+  
 </head>
 <body>
 
@@ -79,37 +73,8 @@
   <font face="Arial" size="3">
   <b>Add New Course Structure</b><br><br>
   <?php
-  $form_attrinutes = array("id"=>"add_course_form");
+  	$form_attrinutes = array("id"=>"add_course_form");
     echo form_open('CourseStructure/add/EnterNumberOfSubjects',$form_attrinutes);
-    
-    
-    /*
-	$course_options= array();
-    foreach($result_course as $row)
-    {
-      $course_options[$row->id]=$row->name;
-    }
-    
-	$branch_options = array();
-	foreach($result_branch as $row)
-    {
-      $branch_options[$row->id]=$row->name;
-    }
-    
-	$sess_options=array();
-	for($counter=10;$counter<=20;$counter++)
-    {
-      $ss=$counter.($counter+1);
-      $sess= '20'.$counter."-".'20'.($counter+1);
-      $sess_options[$ss]=$sess;
-    }
-    $sem_options=array();
-    for($counter=1;$counter<=10;$counter++)
-    {
-      $sem_options[$counter]=$counter;
-    }
-	
-	*/
   ?>
   <table id = "form_table">
     <tr>
@@ -128,36 +93,15 @@
       </td>
     </tr>
     <!--
-    <tr>
-      <td>
-        <label for"branch">Branch</label>
-      </td>
-      <td>
         <?php 
           echo form_dropdown('branch', $branch_options,'Select');
         ?>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for"session">Valid from</label> 
-      </td>
-      <td>
           <?php
             echo form_dropdown('session',$sess_options,'Select');
           ?>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for"semester">Semester</label> 
-      </td>
-      <td>
           <?php
             echo form_dropdown('sem',$sem_options,'Select');
           ?>
-      </td>
-    </tr>
     -->
     </table>
     <?php

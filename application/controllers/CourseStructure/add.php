@@ -219,7 +219,8 @@ class Add extends MY_Controller
   }
   
   
-	public function json_get_branch(){
+	public function json_get_branch()
+	{
 		$this->output->set_content_type('application/json');
 		$this->output->set_output(json_encode($this->basic_model->get_branches()));
 	}

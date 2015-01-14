@@ -36,7 +36,7 @@ class Edit extends MY_Controller
 		
 		$aggr_id = $course.'_'.$branch.'_'.$session;
 		
-		$result_common_all_subjects_sorted = $this->
+		//$result_common_all_subjects_sorted = $this->
 		
 		
 		$this->session->set_userdata($data);

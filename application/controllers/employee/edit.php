@@ -11,8 +11,7 @@ class Edit extends MY_Controller
 	{
 		if($this->authorization->is_auth('deo'))
 		{
-			$header['title']="Edit Employee";
-			$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_employee_script.js \" ></script>";
+			$this->addJS("employee/edit_employee_script.js");
 
 			$this->load->model('emp_basic_details_model','',TRUE);
 			$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
@@ -20,14 +19,12 @@ class Edit extends MY_Controller
 			$this->load->model('Departments_model','',TRUE);
 			$data['departments']=$this->Departments_model->get_departments();
 
-			$this->load->view('templates/header',$header);
+			$this->drawHeader("Edit Employee");
 			$this->load->view('employee/edit/index',$data);
-			$this->load->view('templates/footer');
+			$this->drawFooter();
 		}
 		else if($this->authorization->is_auth('emp'))
 		{
-			$header['title']="Edit Basic details";
-
 			$emp_id=$data['emp_id']=$this->session->userdata('id');
 			$this->load->model('user_details_model','',TRUE);
 			$this->load->model('user_other_details_model','',TRUE);
@@ -50,9 +47,9 @@ class Edit extends MY_Controller
 			$this->load->model('pay_scales_model','',TRUE);
 			$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
 
-			$this->load->view('templates/header',$header);
+			$this->drawHeader("Edit Basic details");
 			$this->load->view('employee/edit/own_basic_details',$data);
-			$this->load->view('templates/footer');
+			$this->drawFooter();
 		}
 	}
 
@@ -96,16 +93,15 @@ class Edit extends MY_Controller
 
 	private function _edit_profile_pic($emp_id)
 	{
-		$header['title']='Change Employee picture';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/emp_profile_picture_script.js \" ></script>";
+		$this->addJS("employee/emp_profile_picture_script.js");
 
 		$this->load->model('user_details_model','',TRUE);
 		$res=$this->user_details_model->getUserById($emp_id);
 		$data['photopath'] = ($res == FALSE)?	FALSE:$res->photopath;
 		$data['emp_id']=$emp_id;
-		$this->load->view('templates/header',$header);
+		$this->drawHeader('Change Employee picture');
 		$this->load->view('employee/edit/profile_pic',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function update_profile_pic($emp_id)
@@ -128,8 +124,7 @@ class Edit extends MY_Controller
 
 	private function _edit_basic_details($emp_id)
 	{
-		$header['title']='Edit basic details';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_basic_details_script.js \" ></script>";
+		$this->addJS("employee/edit_basic_details_script.js");
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('user_details_model','',TRUE);
@@ -153,9 +148,9 @@ class Edit extends MY_Controller
 		$this->load->model('pay_scales_model','',TRUE);
 		$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader('Edit basic details');
 		$this->load->view('employee/edit/basic_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function update_basic_details($emp_id)
@@ -311,8 +306,7 @@ class Edit extends MY_Controller
 
 	private function _edit_prev_emp_details($emp_id)
 	{
-		$header['title']='Edit Previous Employment Details';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_prev_emp_details_script.js \" ></script>";
+		$this->addJS("employee/edit_prev_emp_details_script.js");
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('emp_prev_exp_details_model','',TRUE);
@@ -326,9 +320,9 @@ class Edit extends MY_Controller
 		else
 			$data['joining_date'] = FALSE;
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader('Edit Previous Employment Details');
 		$this->load->view('employee/edit/previous_employment_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function update_prev_emp_details($emp_id)
@@ -391,16 +385,15 @@ class Edit extends MY_Controller
 
 	private function _edit_family_details($emp_id)
 	{
-		$header['title']='Edit Family Details';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_family_details_script.js \" ></script>";
+		$this->addJS("employee/edit_family_details_script.js");
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('emp_family_details_model','',TRUE);
 		$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader('Edit Family Details');
 		$this->load->view('employee/edit/family_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function update_family_details($emp_id)
@@ -467,16 +460,15 @@ class Edit extends MY_Controller
 
 	private function _edit_education_details($emp_id)
 	{
-		$header['title']='Edit Educational Qualifications';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_education_details_script.js \" ></script>";
+		$this->addJS("employee/edit_education_details_script.js");
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('emp_education_details_model','',TRUE);
 		$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader('Edit Educational Qualifications');
 		$this->load->view('employee/edit/educational_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function update_education_details($emp_id)
@@ -539,16 +531,15 @@ class Edit extends MY_Controller
 
 	private function _edit_last_5yr_stay_details($emp_id)
 	{
-		$header['title']='Edit last 5 year stay details';
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/edit_last_5yr_stay_details_script.js \" ></script>";
+		$this->addJS("employee/edit_last_5yr_stay_details_script.js");
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('emp_last5yrstay_details_model','',TRUE);
 		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
 
-		$this->load->view('templates/header',$header);
+		$this->drawHeader('Edit last 5 year stay details');
 		$this->load->view('employee/edit/last_five_year_stay_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	function update_last_5yr_stay_details($emp_id)
@@ -641,7 +632,7 @@ class Edit extends MY_Controller
 				case 'educational_status' : $msg = "Your educational qualifications have been successfully edited by Data Entry Operator ".$this->session->userdata('id')." and sent for validation.";break;
 				case 'stay_status' : $msg = "Your last five year stay details have been successfully edited by Data Entry Operator ".$this->session->userdata('id')." and sent for validation.";break;
 			}
-			$this->notification->notify($emp_id, "Details Edited", $msg, "view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
+			$this->notification->notify($emp_id, 'emp', "Details Edited", $msg, "view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
 		}
 		//Notify Assistant registrar for validation
 		$this->load->model('user_details_model','',TRUE);
@@ -652,7 +643,7 @@ class Edit extends MY_Controller
 		foreach ($res as $row)
 		{
 			if($row->id == $emp_id)	continue;
-			$this->notification->notify($row->id, "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
+			$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
 		}
 	}
 

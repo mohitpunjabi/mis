@@ -1,9 +1,4 @@
 
-	function js_base_url()
-	{
-		return window.location.protocol+'//'+window.location.hostname+'/index.php/';
-	}
-
 	function onclick_add()
 	{
 		var row=document.getElementById("tableid").rows;
@@ -97,7 +92,7 @@
 				    table.innerHTML=xmlhttp.responseText;
 			    }
 		  	}
-			xmlhttp.open("POST",js_base_url()+"employee/emp_ajax/delete_record/5/"+i,true);
+			xmlhttp.open("POST",js_site_url("employee/emp_ajax/delete_record/5/"+i),true);
 			xmlhttp.send();
 		}
 	}
@@ -105,7 +100,7 @@
 	function onclick_edit(i,from,to,maxdate,mindate)
 	{
 		var row=document.getElementsByName("row[]")[i-1];
-		var x = '<form action="'+js_base_url()+'employee/edit/update_old_last_5yr_stay_details/'+i+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
+		var x = '<form action="'+js_site_url('employee/edit/update_old_last_5yr_stay_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
 		x+='<table><tr>';
 		x+='<th>From</th><td><input type="date" name="from'+i+'" id="from'+i+'" value="'+from+'" max='+maxdate+' min='+mindate+' ></td></tr>';
 		x+='<tr><th>To</th><td><input type="date" name="to'+i+'" id="to'+i+'" value="'+to+'" max='+maxdate+' min='+mindate+' ></td></tr>';

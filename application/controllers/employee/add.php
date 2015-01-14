@@ -47,14 +47,12 @@ class Add extends MY_Controller
 		$data['academic_departments']=$this->Departments_model->get_departments('academic');
 
 		//javascript
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/basic_details_script.js \" ></script>";
-
-		$header['title']="Add Employee Basic Details";
+		$this->addJS('employee/basic_details_script.js');
 
 		//view
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Add Employee Basic Details");
 		$this->load->view('employee/add/basic_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	public function insert_basic_details()
@@ -199,12 +197,12 @@ class Add extends MY_Controller
 		else $data['joining_date']=FALSE;
 
 		//javascript
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/prev_emp_details_script.js \" ></script>";
-		$header['title']="Add Previous Employment Details";
+		$this->addJS("employee/prev_emp_details_script.js");
+
 		//view
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Add Previous Employment Details");
 		$this->load->view('employee/add/previous_employment_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	public function insert_prev_emp_details($emp_id = '', $error = '')
@@ -264,12 +262,12 @@ class Add extends MY_Controller
 		$data['add_emp_id'] = $emp_id;
 
 		//javascript
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/family_details_script.js \" ></script>";
-		$header['title']="Add Family Details";
+		$this->addJS("employee/family_details_script.js");
+
 		//view
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Add Family Details");
 		$this->load->view('employee/add/family_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	public function insert_family_details($emp_id = '', $error = '')
@@ -336,12 +334,12 @@ class Add extends MY_Controller
 		$data['add_emp_id'] = $emp_id;
 
 		//javascript
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/education_details_script.js \" ></script>";
-		$header['title']="Add Education Qualifications";
+		$this->addJS("employee/education_details_script.js");
+
 		//view
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Add Education Qualifications");
 		$this->load->view('employee/add/educational_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	public function insert_education_details($emp_id = '', $error = '')
@@ -401,12 +399,12 @@ class Add extends MY_Controller
 		$data['add_emp_id'] = $emp_id;
 
 		//javascript
-		$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/employee/last_5yr_stay_details_script.js \" ></script>";
-		$header['title']="Add last 5 year stay details";
+		$this->addJS("employee/last_5yr_stay_details_script.js");
+
 		//view
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Add last 5 year stay details");
 		$this->load->view('employee/add/last_five_year_stay_details',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 
 	public function insert_last_5yr_stay_details($emp_id = '', $error = '')
@@ -466,7 +464,7 @@ class Add extends MY_Controller
 				$user = $this->user_details_model->getUserById($emp_id);
 				$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
 				foreach($res as $row)
-					$this->notification->notify($row->id, "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
+					$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
 
 				//check for optional forms i.e previous_exp, family, stay details
 				//if optional forms have no records then set them as approved otherwise pending

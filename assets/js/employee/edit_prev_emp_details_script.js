@@ -1,9 +1,4 @@
 
-	function js_base_url()
-	{
-		return window.location.protocol+'//'+window.location.hostname+'/index.php/';
-	}
-
 	function onclick_add()
 	{
 		var row=document.getElementById("tableid").rows;
@@ -101,7 +96,7 @@
 				    table.innerHTML=xmlhttp.responseText;
 			    }
 		  	}
-		  	xmlhttp.open("POST",js_base_url()+"employee/emp_ajax/delete_record/2/"+i,true);
+		  	xmlhttp.open("POST",js_site_url("employee/emp_ajax/delete_record/2/"+i),true);
 			xmlhttp.send();
 		}
 	}
@@ -114,7 +109,7 @@
 	function onclick_edit(i, from, to, date)
 	{
 		var row = document.getElementsByName("row[]")[i-1];
-		var x = '<form action="'+js_base_url()+'employee/edit/update_old_prev_emp_details/'+i+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
+		var x = '<form action="'+js_site_url('employee/edit/update_old_prev_emp_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
 		x+='<table><tr>';
 		x+='<th>Full address of Employer</th><td><textarea rows=2 cols=50 name="addr'+i+'" id="addr'+i+'" >'+row.cells[1].innerHTML+'</textarea></td></tr>';
 		x+='<tr><th>Position held</th><td><input type="text" id="designation'+i+'" name="designation'+i+'" size="35" value="'+row.cells[2].innerHTML+'"></td></tr>';

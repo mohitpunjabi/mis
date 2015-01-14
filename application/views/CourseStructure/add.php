@@ -79,8 +79,11 @@
   <font face="Arial" size="3">
   <b>Add New Course Structure</b><br><br>
   <?php
-    echo form_open('CourseStructure/add/EnterNumberOfSubjects');
+  $form_attrinutes = array("id"=>"add_course_form");
+    echo form_open('CourseStructure/add/EnterNumberOfSubjects',$form_attrinutes);
     
+    
+    /*
 	$course_options= array();
     foreach($result_course as $row)
     {
@@ -105,18 +108,26 @@
     {
       $sem_options[$counter]=$counter;
     }
+	
+	*/
   ?>
-  <table>
+  <table id = "form_table">
     <tr>
       <td>
       <label for="course_name">Name of Course  </label>
       </td>
       <td>
-        <?php 
-          echo form_dropdown('course', $course_options,'Select');
-        ?>
+        <select name="course" id="course_selection">
+          <option value="">Select Course</option>
+          <?php 
+            foreach ($result_course as $row) {
+              echo "<option value='".$row->id."' data-duration='".$row->duration."' >".$row->name."</option>"; 
+            }
+          ?>
+        </select>
       </td>
     </tr>
+    <!--
     <tr>
       <td>
         <label for"branch">Branch</label>
@@ -147,6 +158,7 @@
           ?>
       </td>
     </tr>
+    -->
     </table>
     <?php
     echo form_submit('submit', 'Add Course Structure');
@@ -158,4 +170,5 @@
 </div>
 
 </body>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/CourseStructure/add.js"></script>
 </html>

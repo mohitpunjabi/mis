@@ -97,7 +97,7 @@ class Add extends MY_Controller
 			$subject_details['tutorial'] = $this->input->post("T".$i);
 			$subject_details['practical'] = $this->input->post("P".$i);
 			
-			$credit_hours= $subject_details['lecture']*2 + $subject_details['tutorial'] + $subject_details['practical'];
+			$credit_hours= $this->input->post('credit_hours'.$i);//$subject_details['lecture']*2 + $subject_details['tutorial'] + $subject_details['practical'];
 		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + $subject_details['practical'];
 
 			$subject_details['credit_hours'] = $credit_hours;
@@ -217,5 +217,11 @@ class Add extends MY_Controller
     redirect("CourseStructure/add");
 	//$this->load->view('print_cs',$data);
   }
+  
+  
+	public function json_get_branch(){
+		$this->output->set_content_type('application/json');
+		$this->output->set_output(json_encode($this->basic_model->get_branches()));
+	}
 }
 ?>

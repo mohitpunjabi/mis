@@ -92,6 +92,7 @@
         <th>Lecture</th>
         <th>Tutorial</th>
         <th>Practical</th>
+		<th>Credit Hours</th>
         <th>Type</th>
       </tr>
       <?php for($counter = 1;$counter<=$CS_session['count_core'];$counter++){ ?> 
@@ -131,13 +132,13 @@
         </td>
         <td>
           <select name="P<?php echo $counter;?>">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <?php for($i = 0; $i<=5; $i+=0.5){ ?>
+              <option value="<?php echo $i; ?>"><?php echo $i; ?></option> 
+            <?php } ?>
           </select>
+        </td>
+        <td>
+          <input type="text" name="credit_hours<?php echo $counter;?>"/>
         </td>
         <td>
           <select name="type<?php echo $counter; ?>">

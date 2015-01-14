@@ -31,7 +31,6 @@ class Edit extends MY_Controller
 		$data["CS_session"]['semester'] = $this->input->post("sem");
 		$data["CS_session"]['session'] = $this->input->post("session");
 		
-		
 		$course_id = $data["CS_session"]['course_id'];
 		$branch_id = $data["CS_session"]['branch_id'];
 		$semester = $data["CS_session"]['semester'];
@@ -50,7 +49,6 @@ class Edit extends MY_Controller
 		for($counter=1;$counter<=2*$row_course[0]->duration;$counter++)
 		{
 		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
-		  //$data["subjects"][$counter]=array();
 		  $i=1;
 		  foreach($result_ids as $row)
 		  {
@@ -65,24 +63,10 @@ class Edit extends MY_Controller
 			   	$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
 			    $data["subjects"]["elective_count"][$group_id]++;
 			   }
-			   
-			   //else
-			   	//$data["subjects"]["group_details"][$counter][$i] = array();
-				
-			   //$data['group_id'] =$data["subjects"]["group_details"][3][4];
 			   $i++;
 		  }
 		  $data["subjects"]["count"][$counter]=$i-1;
 		}	
-		
-	/*		
-    
-        
-		$this->load->view('templates/header');
-		$this->load->view('CourseStructure/print_cs',$data);
-		$this->load->view('templates/footer');
-		
-	*/
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  

@@ -131,8 +131,8 @@
                             <?php 
                               if($subjects["subject_details"][$semester][$i+$j]->type=="Theory") echo "Theory";
                               if($subjects["subject_details"][$semester][$i+$j]->type=="Practical") echo "Practical";
-                              if($subjects["subject_details"][$semester][$i+$j]->type==2) echo "Sessional";
-                              if($subjects["subject_details"][$semester][$i+$j]->type ==3) echo "Non-Contact";
+                              if($subjects["subject_details"][$semester][$i+$j]->type=="Sessional") echo "Sessional";
+                              if($subjects["subject_details"][$semester][$i+$j]->type =="Non-Contact") echo "Non-Contact";
                             ?>
                         </td>
                     </tr>
@@ -163,10 +163,10 @@
                     </td>
                     <td>
                         <?php 
-                          if($subjects["subject_details"][$semester][$i]->type==0) echo "Theory";
-                          if($subjects["subject_details"][$semester][$i]->type==1) echo "Practical";
-                          if($subjects["subject_details"][$semester][$i]->type==2) echo "Sessional";
-                          if($subjects["subject_details"][$semester][$i]->type ==3) echo "Non-Contact";
+                          if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
+                          if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
+                          if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
+                          if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
                         ?>
                     </td>
                   </tr>

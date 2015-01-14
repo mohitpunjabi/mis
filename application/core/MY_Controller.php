@@ -35,10 +35,13 @@
 	    		foreach($modules as $row)
 	    		{
 	    			$module = $row->id;
-	    			$this->load->model($module.'/menu_model','',TRUE);
-	    			$model_menu = $this->menu_model->getMenu();
-	    			if(isset($model_menu[$auth]) && is_array($model_menu[$auth]))
-	    				$menu[$auth] = array_merge($menu[$auth], $model_menu[$auth]);
+	    			if(file_exists(APPPATH."models/$module/menu_model.php"))
+	    			{
+	    				$this->load->model($module.'/menu_model',$module,TRUE);
+	    				$model_menu = $this->$module->getMenu();
+	    				if(isset($model_menu[$auth]) && is_array($model_menu[$auth]))
+	    					$menu[$auth] = array_merge($menu[$auth], $model_menu[$auth]);
+	    			}
 	    		}
 	    	}
 	    	return $menu;

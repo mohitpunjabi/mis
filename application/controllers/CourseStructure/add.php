@@ -14,9 +14,9 @@ class Add extends MY_Controller
 		$data = array();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
-		$this->load->view('templates/header');
+		$this->drawHeader();
 		$this->load->view('CourseStructure/add',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	public function EnterNumberOfSubjects()
@@ -47,9 +47,9 @@ class Add extends MY_Controller
 		
 		$this->basic_model->insert_course_branch($course_branch_mapping);
 		
-		$this->load->view('templates/header');
+		$this->drawHeader();
 		$this->load->view('CourseStructure/count',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
     public function EnterSubjects()
   	{
@@ -67,9 +67,9 @@ class Add extends MY_Controller
 		
 		$this->session->set_userdata($data);
 		
-		$this->load->view('templates/header');
+		$this->drawHeader();
 		$this->load->view('CourseStructure/courses',$data);
-		$this->load->view('templates/footer');	
+		$this->drawFooter();
   	}
  	 
  	 public function InsertElectiveSubject()
@@ -140,9 +140,9 @@ class Add extends MY_Controller
 			}
 		}
 		$this->session->set_userdata($data);
-		$this->load->view('templates/header');
+		$this->drawHeader();
 		$this->load->view('CourseStructure/add_elective',$data);
-		$this->load->view('templates/footer');	
+		$this->drawFooter();
   }
   
   public function success()
@@ -154,6 +154,11 @@ class Add extends MY_Controller
     $aggr_id = $session_data["aggr_id"];
     $count_elective = $session_data["count_elective"];
 	
+	if($session_data['list_type'] == 1)
+	{
+		$count_elective = 1;
+	}
+		
     for($counter = 1;$counter<=$count_elective;$counter++)
     {
 		$elective_details['elective_name'] = $this->input->post("name".$counter);
@@ -184,7 +189,11 @@ class Add extends MY_Controller
 			
 			$coursestructure_details['id'] = $subject_details['id'];
 			$coursestructure_details['semester'] = $sem;
-			$coursestructure_details['sequence'] = $this->input->post("sequence".$i);
+			$sequence = $this->input->post("sequence".$counter."_".$i);
+			
+			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
+			//$sequence = ;
+			$coursestructure_details['sequence'] = $sequence; 
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.

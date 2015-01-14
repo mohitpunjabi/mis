@@ -156,10 +156,17 @@
           <th>Subject ID</th>
           <th>Subject Name</th>
         </tr>
-        <?php for($i = 1;$i<=$options[$counter];$i++){ ?>
+        <?php for($i = 1;$i<=$options[$counter];$i++){ 
+		echo '
           <tr>
-            <td>
-              <?php echo $i;?>
+            <td>';
+			  echo '<select name="sequence'.$counter.'_'.$i.'"> ';
+			  for($j = 1;$j<=$options[$counter];$j++)
+			  {
+			  		echo '<option value="'.$j.'">'.$j.'</option>';
+			  }
+			 echo '</select>';
+			  ?>
             </td>
             <td>
               <input type="text" name="id<?php echo $counter.'_'.$i;?>"/>

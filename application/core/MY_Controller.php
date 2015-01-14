@@ -35,9 +35,9 @@
 	    		foreach($modules as $row)
 	    		{
 	    			$module = $row->id;
-	    			if(file_exists(APPPATH."models/$module/menu_model.php"))
+	    			if(file_exists(APPPATH."models/$module/".$module."_menu.php"))
 	    			{
-	    				$this->load->model($module.'/menu_model',$module,TRUE);
+	    				$this->load->model($module."/".$module."_menu",$module,TRUE);
 	    				$model_menu = $this->$module->getMenu();
 	    				if(isset($model_menu[$auth]) && is_array($model_menu[$auth]))
 	    					$menu[$auth] = array_merge($menu[$auth], $model_menu[$auth]);

@@ -1,6 +1,6 @@
 <?php
 
-class Menu_model extends CI_Model
+class Employee_menu extends CI_Model
 {
 	function __construct()
 	{
@@ -39,5 +39,5 @@ class Menu_model extends CI_Model
 		return $menu;
 	}
 }
-/* End of file menu_model.php */
-/* Location: mis/application/models/employee/menu_model.php */
+/* End of file employee_menu.php */
+/* Location: mis/application/models/employee/employee_menu.php */

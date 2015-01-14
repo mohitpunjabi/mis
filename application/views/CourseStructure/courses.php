@@ -82,7 +82,7 @@
   ?>
   </h3>
   <?php 
-    echo form_open('CourseStructure/add/AddElectiveList');  
+    echo form_open('CourseStructure/add/InsertElectiveSubject');  
   ?>
   <table class="table table-condensed" style="width: auto">
       <tr>
@@ -141,10 +141,10 @@
         </td>
         <td>
           <select name="type<?php echo $counter; ?>">
-            <option value="0">Theory</option>
-            <option value="1">Practical</option>
-            <option value="2">Sessional</option>
-            <option value="3">Non-Contact</option>
+            <option value="Theory">Theory</option>
+            <option value="Practical">Practical</option>
+            <option value="Sessional">Sessional</option>
+            <option value="Non-Contact">Non-Contact</option>
           </select>
         </td>
         </tr>  
@@ -178,11 +178,11 @@
           Enter number of options for Elective 1
           </td>
           <td>
-          <input type="text" name="count_elective" id = "count_elective" />
+          <input type="text" name="options1" id = "options1" />
           </td>
           <td>
             <select name="seq_e1"/>
-              <?php for($j=1;$j<=$count_core+$count_elective;$j++) {?>
+              <?php for($j=1;$j<=$CS_session['count_core']+$CS_session['count_elective'];$j++) {?>
               <option value="<?php echo $j; ?>"><?php echo $j;?></option>
               <?php } ?>
             </select>
@@ -213,7 +213,7 @@
         //$list_type.delete();
         $('tr.diff_options').remove();
         var base_str = "<tr class=\"same_options\"><td>Please Enter the Number of Options</td>";
-        base_str += "<td><input type=\"text\" name=\"options\" /></td></tr>";
+        base_str += "<td><input type=\"text\" name=\"options1\" /></td></tr>";
         for(i=1;i<=elective_count;i++){
           base_str += "<tr class=\"same_options\"> <td> Select order of Elective "+i+" </td>";
           base_str += "<td><select name=\"seq_e"+i+"\">";

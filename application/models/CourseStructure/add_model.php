@@ -4,6 +4,7 @@ class Add_model extends CI_Model
 {
 	var $table_subject = 'subjects';
 	var $table_coursestructure = 'course_structure';
+	var $table_elective_group = 'elective_group';
 
 
 	function __construct()
@@ -24,7 +25,13 @@ class Add_model extends CI_Model
     	$this->db->insert($this->table_coursestructure, $coursestructure_details);
 		return $this->db->_error_message(); 
 	}
-
+	
+	function insert_elective_group($elective_group)
+	{
+    	$this->db->insert($this->table_elective_group, $elective_group);
+		return $this->db->_error_message(); 
+	}
+	
 	function update($data, $where)
 	{
 		$this->db->update($this->table,$data,$where);

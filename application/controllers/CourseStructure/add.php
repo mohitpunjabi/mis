@@ -4,6 +4,7 @@ class Add extends MY_Controller
 {
 	function __construct()
 	{
+		// This is to call the parent constructor
 		parent::__construct(array('deo'));
 		$this->load->library('session');
 		$this->load->model('CourseStructure/basic_model','',TRUE);

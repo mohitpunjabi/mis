@@ -325,7 +325,7 @@ div.-mis-right-options {
 	left: 230px;
 	width: 400px;
 	top: 40px;
-	bottom: 40px;
+	bottom: 10px;
 	overflow-y: auto;
 	box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);
 	background: #FAFAFA;

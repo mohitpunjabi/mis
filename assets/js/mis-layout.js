@@ -1,3 +1,5 @@
+var notifsShowing = 4;
+
 $(document).ready(function() {
 	$(".notification").css({
 		"opacity": "0",
@@ -46,6 +48,27 @@ $(document).ready(function() {
 	.animate({
 		top: "7px"
 	}, 100);
+
+	$(".notification-drawer").append("<center><br /><a href='#' id='loadOlderNotifs'>Load older notifications</a><br /></center>");
+	
+	$("#loadOlderNotifs").click(function(e) {
+		notifsShowing += 10;
+		loadMoreNotifications();
+		e.stopImmediatePropagation();
+	});
+	
+	function loadMoreNotifications() {
+		var $readNotifs = $(".notification-drawer .read .-mis-notification-link");
+		$readNotifs.show();
+		if($readNotifs.length >= notifsShowing) {
+			for(var i = notifsShowing; i < $readNotifs.length; i++)
+				$($readNotifs[i]).hide();
+		}
+		else
+			$("#loadOlderNotifs").hide();
+	}
+
+	loadMoreNotifications();
 
 	$(".-mis-menu-authtype > .counter").click(function(e) {
 		$(".notification-drawer").hide();

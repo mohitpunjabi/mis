@@ -21,7 +21,7 @@ class Edit extends MY_Controller
 		$this->drawFooter();
 	}
 	
-	public function ViewCourseStructure()
+	public function EditCourseStructure()
 	{
 		//$this->load->model('CourseStructure/view_model','',TRUE);
 		

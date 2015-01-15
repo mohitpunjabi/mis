@@ -73,7 +73,7 @@
   <b>Add New Course Structure</b><br><br>
   <?php
   	$form_attrinutes = array("id"=>"add_course_form");
-    echo form_open('CourseStructure/edit/ViewCourseStructure',$form_attrinutes);
+    echo form_open('CourseStructure/edit/EditCourseStructure',$form_attrinutes);
   ?>
   <table id = "form_table">
     <tr>

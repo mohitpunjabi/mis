@@ -94,19 +94,42 @@
 
 		if(isset($menu)) {
 			foreach($menu as $key => $val) {
+				$unreadCount = 0;
+
+				if($notifications[$key]["unread"]) $unreadCount = count($notifications[$key]["unread"]);
 				echo '<div class="-mis-menu-authtype collapsed">
-						<div class="role">Roles as '.ucfirst($authKeys[$key]).'</div>
-						<span class="counter active">42</span>';
+						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
+				if($unreadCount > 0) echo '<span class="counter active">'.$unreadCount.'</span>';
+				else echo '<span class="counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
-				if(!$notifications[$key]) $this->notification->drawNotification("No more notifications", "You do not have any unread notifications.");
+				
+				echo '<div class="unread">';
+				echo '<h3>Unread Notifications &raquo;</h3>';
+				if($unreadCount == 0) echo "<div align=\"center\">No more notifications.</div>";
 				else {
-					foreach($notifications[$key] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), "<b>" . date("d M Y", strtotime($row->send_date)) . "</b>: " . $row->description . " <a href=\"".site_url($row->module_id."/".$row->path)."\">Know more &raquo;</a>", $row->type);
+					foreach($notifications[$key]["unread"] as $row) {
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y", strtotime($row->send_date)), $row->user_from);
 					}
 				}
-								echo '</div>';
-					echo '<ul>';
+				echo '</div>';
+
+
+				echo '<div class="read">';
+					echo '<h3>Old Notifications &raquo;</h3>';
+				if($unreadCount == 0) echo "<div align=\"center\">No more notifications.</div>";
+				else {
+					foreach($notifications[$key]["read"] as $row) {
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y", strtotime($row->send_date)), $row->user_from);
+					}
+				}
+				echo '</div>';
+				
+				echo '</div>';
+				echo '<ul>';
+
+
+
 				_drawNavbarMenuItem($val);
 					echo '</ul>';
 				echo '</div>';

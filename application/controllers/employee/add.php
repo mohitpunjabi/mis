@@ -464,7 +464,7 @@ class Add extends MY_Controller
 				$user = $this->user_details_model->getUserById($emp_id);
 				$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
 				foreach($res as $row)
-					$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "validation/validate_step/".$emp_id);
+					$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "employee/validation/validate_step/".$emp_id);
 
 				//check for optional forms i.e previous_exp, family, stay details
 				//if optional forms have no records then set them as approved otherwise pending

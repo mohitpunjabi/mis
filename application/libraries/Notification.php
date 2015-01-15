@@ -41,8 +41,8 @@
 			$data['path'] = $this->CI->authorization->strclean($path);
 			$data['type'] = $this->CI->authorization->strclean($type);
 
-			$this->load->model('user_notifications_model','',TRUE);
-			$this->user_notifications_model->insert($data);
+			$this->CI->load->model('user_notifications_model','',TRUE);
+			$this->CI->user_notifications_model->insert($data);
 		}
 
 		function currentModule()

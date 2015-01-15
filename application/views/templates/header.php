@@ -95,8 +95,9 @@
 		if(isset($menu)) {
 			foreach($menu as $key => $val) {
 				$unreadCount = 0;
-
+				$readCount = 0;
 				if($notifications[$key]["unread"]) $unreadCount = count($notifications[$key]["unread"]);
+				if($notifications[$key]["read"]) $readCount = count($notifications[$key]["read"]);
 				echo '<div class="-mis-menu-authtype collapsed">
 						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
 				if($unreadCount > 0) echo '<span class="counter active">'.$unreadCount.'</span>';
@@ -105,25 +106,25 @@
 				echo '<div class="notification-drawer">';
 				
 				echo '<div class="unread">';
-				echo '<h3>Unread Notifications &raquo;</h3>';
-				if($unreadCount == 0) echo "<div align=\"center\">No more notifications.</div>";
-				else {
+				if($unreadCount > 0) {
+					echo '<h3>Unread Notifications &raquo;</h3>';
 					foreach($notifications[$key]["unread"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
 					}
 				}
 				echo '</div>';
 
 
 				echo '<div class="read">';
+				if($readCount > 0) {
 					echo '<h3>Old Notifications &raquo;</h3>';
-				if($unreadCount == 0) echo "<div align=\"center\">No more notifications.</div>";
-				else {
 					foreach($notifications[$key]["read"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
 					}
 				}
 				echo '</div>';
+				
+				if($readCount == 0 && $unreadCount == 0) echo "<center><br />No more notifications.</center>";
 				
 				echo '</div>';
 				echo '<ul>';

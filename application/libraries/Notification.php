@@ -17,10 +17,11 @@
 			$this->CI =& get_instance();
 		}
 
-		function drawNotification($title, $description, $type = "", $path = "", $date = "", $from = null)
+		function drawNotification($title, $description, $type = "", $path = "", $date = "", $image_path = null)
 		{
 			echo '<div class="notification '.$type.'">';
 			if($path != "") echo "<a class=\"-mis-notification-link\" href=\"".site_url($path)."\">";
+			if($image_path) echo "<img src=\"".base_url()."assets/images/developer-icon.png\" />";
 			echo '<h2>'.$title.'</h2>'
 				  .'<p class="description">'.$description.'</p>';
 			if($date != "") echo '<span class="date">'.$date.'</span>';	  

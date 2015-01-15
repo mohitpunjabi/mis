@@ -255,7 +255,7 @@ div.-mis-right-options {
 }
 
 .-mis-profile-photo {
-	width: 180px;
+	width: 210px;
 	position: relative;
 	overflow: hidden;
 	margin-bottom: 20px;
@@ -306,13 +306,17 @@ div.-mis-right-options {
 	line-height: 10px;
 	font-weight: bold;
 	color: #FFF;
-	background: #D00;
+	background: #999;
 	border-radius: 20px;
 	top: 7px;
 	right: 5px;
 	cursor: pointer;
 }
 
+
+.-mis-menu-authtype > .counter.active {
+	background: #D00;
+}
 
 
 
@@ -339,7 +343,13 @@ div.-mis-right-options {
 	font-weight: bold;
 	padding: 5px;
 	display: block;
+	color: #777;
+	font-weight: 600;
 	text-align: center;
+}
+
+.-mis-menu-authtype > .notification-drawer > .read  .-mis-notification-link:hover {
+	background: #F6F6F6 !important;
 }
 .-mis-menu-authtype > .notification-drawer > .read  .-mis-notification-link {
 	color: #777 !important;
@@ -350,6 +360,14 @@ div.-mis-right-options {
 	display: block;
 	padding: 5px;
 	border-bottom: 1px #999 solid;
+}
+
+.-mis-notification-link img{
+	text-decoration: none;
+	float: left;
+	width: 60px;
+	height: 60px;
+	padding: 5px;
 }
 
 

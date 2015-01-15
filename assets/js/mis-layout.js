@@ -22,16 +22,30 @@ $(document).ready(function() {
 		$(this).parent().toggleClass("collapsed");
 	});
 
-	$(".counter").css({
+	$(".counter.active").css({
 		opacity: "0",
 	})
 	.animate({
 		opacity: "1",
 		top: "3px"
-	}, 200)
+	}, 100)
 	.animate({
 		top: "7px"
-	}, 200);
+	}, 100)
+	.animate({
+		opacity: "1",
+		top: "3px"
+	}, 100)
+	.animate({
+		top: "7px"
+	}, 100)
+	.animate({
+		opacity: "1",
+		top: "3px"
+	}, 100)
+	.animate({
+		top: "7px"
+	}, 100);
 
 	$(".-mis-menu-authtype > .counter").click(function(e) {
 		$(".notification-drawer").hide();

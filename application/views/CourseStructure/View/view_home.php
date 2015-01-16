@@ -65,46 +65,46 @@
 	</style>
 </head>
 <body>
+
 <div id="container">
 	<h1>Welcome to Course Structure Page!</h1>
-  <center>		
-  
-  <?php 
- // echo "aggr id = ".$CS_session['aggr_id'];
-  echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h3>"; ?>
-  <h3>Enter number of subjects for Sem <?php echo $CS_session['sem']; ?></h3>
+  <center>
+  <font face="Arial" size="3">
+  <b>View/Print Course Structure</b><br><br>
   <?php
-    echo form_open('CourseStructure/add/EnterSubjects');
+  	$form_attrinutes = array("id"=>"add_course_form");
+    echo form_open('CourseStructure/view/ViewCourseStructure',$form_attrinutes);
   ?>
-  <table>
+  <table id = "form_table">
     <tr>
       <td>
-      <?php
-      	//echo $_SESSION['duration'];
-	  ?>
-        <label for="count_core">Number of Core Subjects</label>
+      <label for="course_name">Name of Course  </label>
       </td>
       <td>
-        <input type="text" name="count_core" id = "count_core"/>
+        <select name="course" id="course_selection">
+          <option value="">Select Course</option>
+          <?php 
+            foreach ($result_course as $row) {
+              echo "<option value='".$row->id."' data-duration='".$row->duration."' >".$row->name."</option>"; 
+            }
+          ?>
+        </select>
       </td>
     </tr>
-    <tr>
-      <td>
-        <label for="count_elective">Number of Elective Subjects</label>
-      </td>
-      <td>
-        <input type="text" name="count_elective"/>
-      </td>
-    </tr>
+    <!--
+        <?php 
+          echo form_dropdown('branch', $branch_options,'Select');
+        ?>
+	    <?php
+          echo form_dropdown('session',$sess_options,'Select');
+        ?>
+        <?php
+          echo form_dropdown('sem',$sem_options,'Select');
+        ?>
+     -->  
     </table>
-      <input type="hidden" name="aggr_id" value="<?php echo $CS_session['aggr_id']; ?>">
-      <input type="hidden" name="sem" value="<?php echo $CS_session['sem']; ?>">
-      <input type="hidden" name="duration" value="<?php echo $CS_session['duration']; ?>">
-      <input type="hidden" name="course_name" value="<?php echo $CS_session['course_name']; ?>">
-      <input type="hidden" name="branch" value="<?php echo $CS_session['branch']; ?>">
-      <input type="hidden" name="session" value="<?php echo $CS_session['session']; ?>">
     <?php
-    echo form_submit('submit', 'Submit');
+    echo form_submit('submit', 'View Course Structure');
     echo form_close();
     ?>
   </font>
@@ -113,4 +113,5 @@
 </div>
 
 </body>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/CourseStructure/add.js"></script>
 </html>

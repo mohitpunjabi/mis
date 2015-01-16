@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Edit extends MY_Controller
+class View extends MY_Controller
 {
 	function __construct()
 	{
@@ -17,11 +17,11 @@ class Edit extends MY_Controller
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
 		$this->drawHeader();
-		$this->load->view('CourseStructure/Edit/edit_home',$data);
+		$this->load->view('CourseStructure/View/view_home',$data);
 		$this->drawFooter();
 	}
 	
-	public function EditCourseStructure()
+	public function ViewCourseStructure()
 	{
 		//$this->load->model('CourseStructure/view_model','',TRUE);
 		
@@ -58,10 +58,9 @@ class Edit extends MY_Controller
 			$end_semester = $semester;
 			//
 		}
-		
 		for($counter=$start_semester;$counter<=$end_semester;$counter++)
 		{
-		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
+			$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
 		  $i=1;
 		  foreach($result_ids as $row)
 		  {
@@ -70,7 +69,7 @@ class Edit extends MY_Controller
 			   id)->sequence;
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
 			   $data["subjects"][$group_id] = 0;
-			   //
+			   
 			   if($group_id != 0)
 			   {
 			   	$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
@@ -78,41 +77,14 @@ class Edit extends MY_Controller
 			   }
 			   $i++;
 		  }
-		  $data["subjects"]["count"][$counter]=$i-1;
+		  $data["subjects"]["count"][$counter]=$i-1;		  
+		  	
 		}	
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  
-		$this->load->view('CourseStructure/edit/edit',$data);
+		$this->load->view('CourseStructure/print_cs',$data);
 		$this->drawFooter();
-	}
-	
-	public function UpdateCourseStructure($subjectdetails)
-	{
-		$this->load->model("basic_model");
-		//$this->basic_model->update
-		//echo $subjectdetails[id];
-		//echo $subjectdetails;
-		
-	}
-	
-	public function DeleteCourseStructure($semester,$aggr_id)
-	{
-		//$this->load->model("basic_model");
-		//$coursestructure_details['semester'] = $semester;
-		//$coursestructure_details['aggr_id'] = $aggr_id;
-		
-		echo trim("hii");
-		//echo $coursestructure_details['semester'];
-		//return $this->basic_model->delete_course_structure($coursestructure_details))
-			//return true;
-		//else 
-			//return false;
-		
-		//$this->basic_model->update
-		//echo $subjectdetails[id];
-		//echo $subjectdetails;
-		
 	}
 	
 }

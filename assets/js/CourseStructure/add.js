@@ -40,19 +40,27 @@ $(document).ready(function(){
 	}
 
 	function add_semester(duration){
-		base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";
+		//base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";
 		//console.log((new Date).getYear()); 
 		//For now i don't remeber the exact function to get the current year
 		// so using counter 20
 		if(duration < 4){
+			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Group</label></td><td><select id=\"semester\" name=\"sem\">";
 			for(counter = 1; counter <= 2*duration ; counter++){
-				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+				if(counter == 1)
+					base_str += "<option value=\""+counter+"\">"+"Physics(Group "+counter+")"+"</option>";
+				else if(counter == 2)
+					base_str += "<option value=\""+counter+"\">"+"Chemistry(Group "+counter+")"+"</option>";
 			}
+			
 		}
 		else{
+			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";
+			base_str += "<option value=\"0\">All"+"</option>";
 			for(counter = 3; counter <= 2*duration ; counter++){
 				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
 			}
+			
 		}
 		base_str +="</select></td></tr>";
 		$form_table.append(base_str);

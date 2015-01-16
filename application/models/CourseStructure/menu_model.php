@@ -16,7 +16,7 @@ class Menu_model extends CI_Model
 		$menu['deo']['Course Structure']=array();
 		$menu['deo']["Course Structure"]["Add Course Structure"] = site_url('CourseStructure/add');
 		$menu['deo']["Course Structure"]["Edit Course Structure"] = site_url('CourseStructure/edit');
-		$menu['deo']["Course Structure"]["Print Course Structure"] = site_url('CourseStructure/print');
+		$menu['deo']["Course Structure"]["View Course Structure"] = site_url('CourseStructure/view');
 
 		return $menu;
 	}

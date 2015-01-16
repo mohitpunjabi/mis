@@ -59,7 +59,8 @@
 		function getNotifications() {
 			$auths = $this->CI->session->userdata('auth');
 			foreach($auths as $i => $auth) {
-				$notifications[$auth] = $this->user_notifications_model->getUserNotifications($this->session->userdata('id'), $auth);
+				$notifications[$auth]['unread'] = $this->user_notifications_model->getUnreadUserNotifications($this->session->userdata('id'), $auth);
+				$notifications[$auth]['read'] = $this->user_notifications_model->getReadUserNotifications($this->session->userdata('id'), $auth);;
 			}
 			return $notifications;
 		}

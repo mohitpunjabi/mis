@@ -90,7 +90,8 @@ class Basic_model extends CI_Model
 
 	function delete_course_structure($coursestructure_details)
 	{
-		return $this->db->delete($this->table_course_structure,array('semester'=>$coursestructure_details["semester"],'aggr_id'=>$coursestructure_details['aggr_id'
+		return $this->db->delete($this->table_course_structure,array('semester'=>$coursestructure_details["semester"],'aggr_id'=>
+		$coursestructure_details['aggr_id'
 		]));
 	}
 }

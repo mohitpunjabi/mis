@@ -6,8 +6,11 @@ class Edit extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
-		$this->load->library('session');
+		$this->addJS("course_structure/edit.js");
+		$this->addJS("course_structure/add.js");
+		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
+		
 	}
 
 	public function index($error='')
@@ -16,6 +19,7 @@ class Edit extends MY_Controller
 		$data = array();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
+		
 		$this->drawHeader();
 		$this->load->view('course_structure/Edit/edit_home',$data);
 		$this->drawFooter();
@@ -23,7 +27,7 @@ class Edit extends MY_Controller
 	
 	public function EditCourseStructure()
 	{
-		//$this->load->model('CourseStructure/view_model','',TRUE);
+		//$this->load->model('course_structure/view_model','',TRUE);
 		
 		$data = array();
 		$data["CS_session"]['course_id'] = $this->input->post("course");
@@ -66,8 +70,8 @@ class Edit extends MY_Controller
 		  foreach($result_ids as $row)
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
-			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
-			   id)->sequence;
+			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"
+			   ][$counter][$i]->id)->sequence;
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
 			   $data["subjects"][$group_id] = 0;
 			   //
@@ -81,7 +85,8 @@ class Edit extends MY_Controller
 		  $data["subjects"]["count"][$counter]=$i-1;
 		}	
 		$this->session->set_userdata($data);
-		
+		$this->addJS("course_structure/edit.js");
+		$this->addCSS("course_structure/cs_layout.css");
 		$this->drawHeader("Course structure");  
 		$this->load->view('course_structure/edit/edit',$data);
 		$this->drawFooter();
@@ -89,8 +94,9 @@ class Edit extends MY_Controller
 	
 	public function UpdateCourseStructure($subjectdetails)
 	{
-		$this->load->model("basic_model");
+		echo $subjectdetails;
 		//$this->basic_model->update
+		
 		//echo $subjectdetails[id];
 		//echo $subjectdetails;
 		
@@ -98,21 +104,14 @@ class Edit extends MY_Controller
 	
 	public function DeleteCourseStructure($semester,$aggr_id)
 	{
-		//$this->load->model("basic_model");
-		//$coursestructure_details['semester'] = $semester;
-		//$coursestructure_details['aggr_id'] = $aggr_id;
-		
-		echo trim("hii");
-		//echo $coursestructure_details['semester'];
-		//return $this->basic_model->delete_course_structure($coursestructure_details))
-			//return true;
-		//else 
-			//return false;
-		
-		//$this->basic_model->update
-		//echo $subjectdetails[id];
-		//echo $subjectdetails;
-		
+		$this->load->model("basic_model");
+		$coursestructure_details['semester'] = $semester;
+		$coursestructure_details['aggr_id'] = $aggr_id;
+
+		if($this->basic_model->delete_course_structure($coursestructure_details))
+			echo true;
+		else 
+			echo false;
 	}
 	
 }

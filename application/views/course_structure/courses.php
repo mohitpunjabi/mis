@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>	
-
-	<style type="text/css">
+<style type="text/css">
 
 	::selection{ background-color: #E13300; color: white; }
 	::moz-selection{ background-color: #E13300; color: white; }
@@ -63,10 +57,6 @@
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
 	</style>
-  <script src="http://localhost/ci/application/third_party/jquery.js"></script>
-</head>
-<body>
-
 <div id="container">
 	<h1>Welcome to Course Structure Page!</h1>
   <center>
@@ -74,7 +64,7 @@
  // echo "Number of course subjects = ".$CS_session['aggr_id'];
    //echo "duration from session ".var_dump($CS_session);
    echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h3>"; 
-   echo form_open('CourseStructure/add/InsertElectiveSubject'); 
+   echo form_open('course_structure/add/InsertElectiveSubject'); 
    if($CS_session['count_core']>0)
    {
   ?>
@@ -206,7 +196,6 @@
   </center>
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
 </div>
-<?php if($CS_session['count_elective'] > 1){ //First check if there are more than 1 elective?>
 <script>
   var core_count = <?php echo $CS_session['count_core']; ?>;  
   var elective_count = <?php echo $CS_session['count_elective']; ?>;
@@ -250,6 +239,4 @@
 
   });  
 </script>
-<?php } ?>
-</body>
-</html>
+

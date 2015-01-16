@@ -6,6 +6,10 @@ class View extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
+		
+		//$this->addJS("course_structure/edit.js");
+		$this->addJS("course_structure/add.js");
+		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
@@ -23,7 +27,7 @@ class View extends MY_Controller
 	
 	public function ViewCourseStructure()
 	{
-		//$this->load->model('CourseStructure/view_model','',TRUE);
+		//$this->load->model('course_structure/view_model','',TRUE);
 		
 		$data = array();
 		$data["CS_session"]['course_id'] = $this->input->post("course");

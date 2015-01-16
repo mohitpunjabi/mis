@@ -129,7 +129,7 @@ class Validation extends MY_Controller
 			//Notify Employee about the same
 			if($user->auth_id == 'emp' && $user->password !='')
 			{
-				$this->notification->notify($emp_id,'emp', "Validation Request Approved", "Your validation request for ".$msg." have been approved.", "view/index/".(($step==0)? $step:($step-1)),"success");
+				$this->notification->notify($emp_id,'emp', "Validation Request Approved", "Your validation request for ".$msg." have been approved.", "employee/view/index/".(($step==0)? $step:($step-1)),"success");
 			}
 		}
 		else if($this->input->post('reject'))
@@ -148,13 +148,13 @@ class Validation extends MY_Controller
 			//Notify Employee about the same
 			if($user->auth_id == 'emp' && $user->password !='')
 			{
-				$this->notification->notify($emp_id,'emp', "Validation Request Rejected", "Your validation request for ".$msg." have been rejected. Contact the Establishment Section for the same.", "view/index/".(($step==0)? $step:($step-1)),"error");
+				$this->notification->notify($emp_id,'emp', "Validation Request Rejected", "Your validation request for ".$msg." have been rejected. Contact the Establishment Section for the same.", "employee/view/index/".(($step==0)? $step:($step-1)),"error");
 			}
 			//Notify Deo of employee about the same
 			$deo = $this->deo_modules_model->getDeoByModuleId('employee');
 			foreach($deo as $row)
 			{
-				$this->notification->notify($row->id,'deo', "Validation Request Rejected", "Validation request for employee ".$emp_id." ".$msg." have been rejected.", "validation","error");
+				$this->notification->notify($row->id,'deo', "Validation Request Rejected", "Validation request for employee ".$emp_id." ".$msg." have been rejected.", "employee/validation","error");
 			}
 		}
 

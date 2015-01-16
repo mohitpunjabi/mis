@@ -46,7 +46,20 @@ class Edit extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch_name']=$row_branch[0]->name;
 		
-		for($counter=1;$counter<=2*$row_course[0]->duration;$counter++)
+		if($semester == 0)
+		{
+			$start_semester = 1;
+			$end_semester = 2*$row_course[0]->duration;
+			//$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+		}
+		else
+		{
+			$start_semester = $semester;
+			$end_semester = $semester;
+			//
+		}
+		
+		for($counter=$start_semester;$counter<=$end_semester;$counter++)
 		{
 		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
 		  $i=1;
@@ -70,8 +83,36 @@ class Edit extends MY_Controller
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  
-		$this->load->view('CourseStructure/print_cs',$data);
+		$this->load->view('CourseStructure/edit/edit',$data);
 		$this->drawFooter();
+	}
+	
+	public function UpdateCourseStructure($subjectdetails)
+	{
+		$this->load->model("basic_model");
+		//$this->basic_model->update
+		//echo $subjectdetails[id];
+		//echo $subjectdetails;
+		
+	}
+	
+	public function DeleteCourseStructure($semester,$aggr_id)
+	{
+		//$this->load->model("basic_model");
+		//$coursestructure_details['semester'] = $semester;
+		//$coursestructure_details['aggr_id'] = $aggr_id;
+		
+		echo trim("hii");
+		//echo $coursestructure_details['semester'];
+		//return $this->basic_model->delete_course_structure($coursestructure_details))
+			//return true;
+		//else 
+			//return false;
+		
+		//$this->basic_model->update
+		//echo $subjectdetails[id];
+		//echo $subjectdetails;
+		
 	}
 	
 }

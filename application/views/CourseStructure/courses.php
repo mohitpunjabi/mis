@@ -71,9 +71,12 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center>
   <?php 
-  echo "Number of course subjects = ".$CS_session['aggr_id'];
+ // echo "Number of course subjects = ".$CS_session['aggr_id'];
    //echo "duration from session ".var_dump($CS_session);
    echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h3>"; 
+   echo form_open('CourseStructure/add/InsertElectiveSubject'); 
+   if($CS_session['count_core']>0)
+   {
   ?>
   <h3>
  	 Add Core Subjects for Semester 
@@ -81,9 +84,6 @@
     echo $CS_session['sem'];
   ?>
   </h3>
-  <?php 
-    echo form_open('CourseStructure/add/InsertElectiveSubject');  
-  ?>
   <table class="table table-condensed" style="width: auto">
       <tr>
         <th>Order</th>
@@ -149,9 +149,14 @@
           </select>
         </td>
         </tr>  
-        <?php } 
+        <?php }
+   			}
         ?>
     </table>
+    <?php 
+		if($CS_session['count_elective']>0)
+		{
+	?>
     <h3>
   Add Details for Elective Subjects of Semester 
   <?php 
@@ -189,7 +194,9 @@
             </select>
           </td>
         </tr>
-      <?php }//end of if statement ?> 
+      <?php 
+		}
+	  }//end of if statement ?> 
     </table>
       
       <button type="submit" name="submit" class="btn btn-primary">Submit</button>

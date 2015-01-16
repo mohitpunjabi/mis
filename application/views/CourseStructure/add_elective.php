@@ -73,7 +73,7 @@
   <h3>
   Add elective courses for Semester 
   <?php 
-  echo "All Session variables are ".var_dump($CS_session);
+  //echo "All Session variables are ".var_dump($CS_session);
     //echo $duration;
     //echo "<br>";
     echo $CS_session['sem'];
@@ -134,6 +134,11 @@
               <option value="<?php echo $i; ?>"><?php echo $i; ?></option> 
             <?php } ?>
           </select>
+        </td>
+      </tr>
+      <tr>
+      	<td>
+        	Credit Hours
         </td>
         <td>
           <input type="text" name="credit_hours<?php echo $counter;?>"/>

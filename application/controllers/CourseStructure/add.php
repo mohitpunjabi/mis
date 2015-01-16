@@ -68,10 +68,14 @@ class Add extends MY_Controller
 		$data['CS_session']['count_elective'] = $this->input->post("count_elective");
 		
 		$this->session->set_userdata($data);
-		
-		$this->drawHeader();
-		$this->load->view('CourseStructure/courses',$data);
-		$this->drawFooter();
+		if($data['CS_session']['count_core'] + $data['CS_session']['count_elective'] == 0)
+			redirect("CourseStructure/add/EnterNumberOfSubjects");
+		else
+		{
+			$this->drawHeader();
+			$this->load->view('CourseStructure/courses',$data);
+			$this->drawFooter();
+		}
   	}
  	 
  	 public function InsertElectiveSubject()

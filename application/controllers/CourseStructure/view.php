@@ -46,9 +46,21 @@ class View extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch_name']=$row_branch[0]->name;
 		
-		for($counter=1;$counter<=2*$row_course[0]->duration;$counter++)
+		if($semester == 0)
 		{
-		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
+			$start_semester = 1;
+			$end_semester = 2*$row_course[0]->duration;
+			//$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+		}
+		else
+		{
+			$start_semester = $semester;
+			$end_semester = $semester;
+			//
+		}
+		for($counter=$start_semester;$counter<=$end_semester;$counter++)
+		{
+			$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
 		  $i=1;
 		  foreach($result_ids as $row)
 		  {
@@ -57,7 +69,7 @@ class View extends MY_Controller
 			   id)->sequence;
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
 			   $data["subjects"][$group_id] = 0;
-			   //
+			   
 			   if($group_id != 0)
 			   {
 			   	$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
@@ -65,7 +77,8 @@ class View extends MY_Controller
 			   }
 			   $i++;
 		  }
-		  $data["subjects"]["count"][$counter]=$i-1;
+		  $data["subjects"]["count"][$counter]=$i-1;		  
+		  	
 		}	
 		$this->session->set_userdata($data);
 		

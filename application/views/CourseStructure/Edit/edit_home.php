@@ -70,7 +70,7 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center>
   <font face="Arial" size="3">
-  <b>Add New Course Structure</b><br><br>
+  <b>Edit Existing Course Structure</b><br><br>
   <?php
   	$form_attrinutes = array("id"=>"add_course_form");
     echo form_open('CourseStructure/edit/EditCourseStructure',$form_attrinutes);

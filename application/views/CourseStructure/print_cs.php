@@ -69,7 +69,7 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center><h3>Course Structure for  
   <?php
- 
+ 	//echo "all session variables are = ".var_dump($CS_session);
     $course_name=$CS_session['course_name'];
     $course_duration=$CS_session['duration'];
     $branch_name=$CS_session['branch_name'];
@@ -81,7 +81,19 @@
   ?>
   </h3>
   <?php
-      for($semester=1;$semester<=2*$course_duration;$semester++)
+  	if($CS_session["semester"] != 0)
+	{
+		$start_semester = $CS_session["semester"];
+		$course_duration = 1;
+		$end_semester = $start_semester;
+	}
+	else
+	{
+		$start_semester = 1;
+		$end_semester = 2*$course_duration;
+	}	
+		
+      for($semester=$start_semester;$semester<=$end_semester;$semester++)
       {
         echo "<h3>Subjects for Semester". $semester."<br></h3>";
   ?>

@@ -70,7 +70,7 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center>
   <font face="Arial" size="3">
-  <b>Add New Course Structure</b><br><br>
+  <b>View/Print Course Structure</b><br><br>
   <?php
   	$form_attrinutes = array("id"=>"add_course_form");
     echo form_open('CourseStructure/view/ViewCourseStructure',$form_attrinutes);
@@ -104,7 +104,7 @@
      -->  
     </table>
     <?php
-    echo form_submit('submit', 'Edit Course Structure');
+    echo form_submit('submit', 'View Course Structure');
     echo form_close();
     ?>
   </font>

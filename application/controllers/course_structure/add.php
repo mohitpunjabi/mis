@@ -7,7 +7,7 @@ class Add extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
 		$this->load->library('session');
-		$this->load->model('CourseStructure/basic_model','',TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -16,7 +16,7 @@ class Add extends MY_Controller
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
 		$this->drawHeader();
-		$this->load->view('CourseStructure/add',$data);
+		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
 	}
 	
@@ -50,7 +50,7 @@ class Add extends MY_Controller
 			$this->basic_model->insert_course_branch($course_branch_mapping);
 		
 		$this->drawHeader();
-		$this->load->view('CourseStructure/count',$data);
+		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();
 	}
     public function EnterSubjects()
@@ -69,18 +69,18 @@ class Add extends MY_Controller
 		
 		$this->session->set_userdata($data);
 		if($data['CS_session']['count_core'] + $data['CS_session']['count_elective'] == 0)
-			redirect("CourseStructure/add/EnterNumberOfSubjects");
+			redirect("course_structure/add/EnterNumberOfSubjects");
 		else
 		{
 			$this->drawHeader();
-			$this->load->view('CourseStructure/courses',$data);
+			$this->load->view('course_structure/courses',$data);
 			$this->drawFooter();
 		}
   	}
  	 
  	 public function InsertElectiveSubject()
   	{
-		$this->load->model('CourseStructure/add_model','',TRUE);
+		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;
 		
@@ -147,14 +147,14 @@ class Add extends MY_Controller
 		}
 		$this->session->set_userdata($data);
 		$this->drawHeader();
-		$this->load->view('CourseStructure/add_elective',$data);
+		$this->load->view('course_structure/add_elective',$data);
 		$this->drawFooter();
   }
   
   public function success()
   {
 	  //this function inserts elective subject in database.
-	$this->load->model('CourseStructure/add_model','',TRUE);  
+	$this->load->model('course_structure/add_model','',TRUE);  
     $session_data = $this->session->userdata("CS_session");
 	$sem = $session_data['sem'];
     $aggr_id = $session_data["aggr_id"];
@@ -221,7 +221,7 @@ class Add extends MY_Controller
 	
 	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted 
 	successfully");
-    redirect("CourseStructure/add");
+    redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
   

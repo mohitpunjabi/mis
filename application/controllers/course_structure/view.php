@@ -7,7 +7,7 @@ class View extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
 		$this->load->library('session');
-		$this->load->model('CourseStructure/basic_model','',TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -17,7 +17,7 @@ class View extends MY_Controller
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
 		$this->drawHeader();
-		$this->load->view('CourseStructure/View/view_home',$data);
+		$this->load->view('course_structure/View/view_home',$data);
 		$this->drawFooter();
 	}
 	
@@ -83,7 +83,7 @@ class View extends MY_Controller
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  
-		$this->load->view('CourseStructure/print_cs',$data);
+		$this->load->view('course_structure/print_cs',$data);
 		$this->drawFooter();
 	}
 	

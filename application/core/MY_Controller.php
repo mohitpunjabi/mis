@@ -35,10 +35,14 @@
 	    		foreach($modules as $row)
 	    		{
 	    			$module = $row->id;
-	    			$this->load->model($module.'/menu_model','',TRUE);
-	    			$model_menu = $this->menu_model->getMenu();
-	    			if(isset($model_menu[$auth]) && is_array($model_menu[$auth]))
-	    				$menu[$auth] = array_merge($menu[$auth], $model_menu[$auth]);
+	    			if(file_exists(APPPATH."models/$module/".$module."_menu_model.php"))
+	    			{
+	    				$this->load->model($module."/".$module."_menu_model",$module,TRUE);
+	    				$model_menu = $this->$module->getMenu();
+
+	    				if(isset($model_menu[$auth]) && is_array($model_menu[$auth]))
+	    					$menu[$auth] = array_merge($menu[$auth], $model_menu[$auth]);
+	    			}
 	    		}
 	    	}
 	    	return $menu;
@@ -55,7 +59,8 @@
 		function getNotifications() {
 			$auths = $this->CI->session->userdata('auth');
 			foreach($auths as $i => $auth) {
-				$notifications[$auth] = $this->user_notifications_model->getUserNotifications($this->session->userdata('id'), $auth);
+				$notifications[$auth]['unread'] = $this->user_notifications_model->getUnreadUserNotifications($this->session->userdata('id'), $auth);
+				$notifications[$auth]['read'] = $this->user_notifications_model->getReadUserNotifications($this->session->userdata('id'), $auth);;
 			}
 			return $notifications;
 		}

@@ -55,8 +55,8 @@
 					
 		?>
                     <tr>
-                        <td><?php echo $subjects["sequence_no"][$semester][$i+$j]?></td>
-                        
+                        <td><?php echo $j+1;?></td>
+           
                         <td><?php echo $subjects["subject_details"][$semester][$i+$j]->subject_id; ?></td>
                         <td><?php echo $subjects["subject_details"][$semester][$i+$j]->name;?></td>
                         <td><?php echo $subjects["subject_details"][$semester][$i+$j]->lecture;?></td>
@@ -74,10 +74,10 @@
                         </td>
                         <td>
                             <?php 
-                              if($subjects["subject_details"][$semester][$i+$j]->type=="Theory") echo "Theory";
-                              if($subjects["subject_details"][$semester][$i+$j]->type=="Practical") echo "Practical";
-                              if($subjects["subject_details"][$semester][$i+$j]->type=="Sessional") echo "Sessional";
-                              if($subjects["subject_details"][$semester][$i+$j]->type =="Non-Contact") echo "Non-Contact";
+                              if($subjects["subject_details"][$semester][$i+$j]->type=="0") echo "Theory";
+                              if($subjects["subject_details"][$semester][$i+$j]->type=="1") echo "Practical";
+                              if($subjects["subject_details"][$semester][$i+$j]->type=="2") echo "Sessional";
+                              if($subjects["subject_details"][$semester][$i+$j]->type =="3") echo "Non-Contact";
                             ?>
                         </td>
                     </tr>
@@ -108,10 +108,10 @@
                     </td>
                     <td>
                         <?php 
-                          if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
-                          if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
-                          if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
-                          if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
+                          if($subjects["subject_details"][$semester][$i]->type=="0") echo "Theory";
+                          if($subjects["subject_details"][$semester][$i]->type=="1") echo "Practical";
+                          if($subjects["subject_details"][$semester][$i]->type=="2") echo "Sessional";
+                          if($subjects["subject_details"][$semester][$i]->type =="3") echo "Non-Contact";
                         ?>
                     </td>
                   </tr>

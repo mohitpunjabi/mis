@@ -12,7 +12,7 @@
   ?>
   </h3>
   <?php 
-    echo form_open('course_structure/add/Success');  
+    echo form_open('course_structure/add/AddElectiveSubjects');  
   ?>
   
       <?php 
@@ -80,10 +80,10 @@
         <td>Type</td>
         <td>
           <select name="type<?php echo $counter; ?>">
-            <option value="Theory">Theory</option>
-            <option value="Practical">Practical</option>
-            <option value="Sessional">Sessional</option>
-            <option value="Non-Contact">Non-Contact</option>
+            <option value="0">Theory</option>
+            <option value="1">Practical</option>
+            <option value="2">Sessional</option>
+            <option value="3">Non-Contact</option>
           </select>
         </td>
       </tr>

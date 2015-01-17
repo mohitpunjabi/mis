@@ -82,7 +82,7 @@ class Add extends MY_Controller
 		}
   	}
  	 
- 	 public function InsertElectiveSubject()
+ 	 public function AddCoreSubjects()
   	{
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
@@ -149,13 +149,22 @@ class Add extends MY_Controller
 				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
 			}
 		}
+    if($count_elective>=1)
+    {
 		$this->session->set_userdata($data);
 		$this->drawHeader();
 		$this->load->view('course_structure/add_elective',$data);
 		$this->drawFooter();
+    }
+    else
+    {
+      $this->session->set_userdata($data);
+      $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted successfully");
+      redirect("course_structure/add");
+    }
   }
   
-  public function success()
+  public function AddElectiveSubjects()
   {
 	  //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
@@ -184,7 +193,7 @@ class Add extends MY_Controller
 		$options = $session_data['options'][$counter];
 		$sequence_elective = $session_data['elective'][$counter];
 		
-		$group_id = uniqid();
+		$group_id = $count_elective.'_'.uniqid();
 		for($i = 1;$i <= $options;$i++)
 		{
 			$subject_details['id'] = uniqid();			

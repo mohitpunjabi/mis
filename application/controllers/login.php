@@ -27,7 +27,7 @@ class Login extends CI_Controller
 	{
     	$user = $this->input->post('username');
      	$pass = $this->input->post('password');
-     	$this->load->model('users_model','',TRUE);
+     	$this->load->model('user/users_model','',TRUE);
 
 		//Ensure values exist for user and pass, and validate the user's credentials
 		if( $user && $pass && $this->users_model->validate_user($user,$pass))

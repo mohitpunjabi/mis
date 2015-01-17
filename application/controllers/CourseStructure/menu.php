@@ -11,6 +11,7 @@ class Menu extends MY_Controller
 	public function index()
 	{
 		$this->load->model('employee/Emp_current_entry_model','',TRUE);
+		$this->load->model('user_model','',TRUE);
 		$data['entry']=$this->Emp_current_entry_model->get_current_entry();
 		$header['title']='Course Structure';
 		$this->load->view('templates/header',$header);

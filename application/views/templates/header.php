@@ -14,17 +14,8 @@
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
-	<script type="text/javascript">
-		function js_base_url()
-		{
-			return "<?= base_url()?>";
-		}
+	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-helper.js"></script>
 
-		function js_site_url(uri)
-		{
-			return js_base_url()+"index.php/"+uri;
-		}
-	</script>
     <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
 <body>

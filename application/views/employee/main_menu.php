@@ -9,7 +9,7 @@
 <h2><a href = "<?php echo site_url('employee/view'); ?>" >View Employee Details</a></h2>
 <br>
 <h2><a href = "<?php echo site_url('employee/validation'); ?>" >Employee Validation Requests</a></h2>
-
+<input type="button" onClick="send_to()" value="Send to" />
 <?php
 	// $password = 'p';
 	// $password = $this->authorization->strclean($password);

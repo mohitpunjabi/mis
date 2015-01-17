@@ -1,8 +1,6 @@
 <div id="container">
 	<h1>Select Electives to offer</h1>
     <?php
-	//echo "aggr _id = ".$aggr_id;
-	//echo "subject = ".var_dump($subject['number_of_options']);
 	$form_attrinutes = array("id"=>"add_course_form");
     echo form_open('elective_offered/elective_offered/CreateMapping',$form_attrinutes);
     	echo '

@@ -228,8 +228,6 @@ class Add extends MY_Controller
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
-  
-  
 	public function json_get_branch()
 	{
 		$this->output->set_content_type('application/json');

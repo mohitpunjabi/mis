@@ -192,8 +192,11 @@ class Add extends MY_Controller
 	 
 		$options = $session_data['options'][$counter];
 		$sequence_elective = $session_data['elective'][$counter];
-		
-		$group_id = $count_elective.'_'.uniqid();
+		if($session_data['list_type'] == 1)
+			$group_id = $session_data["count_elective"].'_'.uniqid();
+		else
+			$group_id = '1_'.uniqid();
+			
 		for($i = 1;$i <= $options;$i++)
 		{
 			$subject_details['id'] = uniqid();			

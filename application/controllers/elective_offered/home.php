@@ -36,7 +36,7 @@ class Home extends MY_Controller
 		$data['curr_session'] = $curr_session;
 		
 		$i = 0;
-		
+		$j=0;
 		foreach($result_courses as $row)
 		{
 			$aggr_id_array = explode('_',$row->aggr_id);
@@ -45,19 +45,22 @@ class Home extends MY_Controller
 			if($curr_session == $session)
 			{
 				$data['curr_session'] = $curr_session;
-				$data['course']['id'][$i] = $aggr_id_array[0];
-				$data['branch']['id'][$i] = $aggr_id_array[1];
-				
-				$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$i]);
-				$result_branch_details = $this->basic_model->get_branch_details_by_id($data['branch']['id'][$i]);
-				
-				$data['course']['name'][$i] = $result_course_details[0]->name;
-				$data['course']['duration'] = $result_course_details[0]->duration;
-				$data['branch']['name'][$i] = $result_branch_details[0]->name;
-				
-								
-						
-				$i++;		
+				if(!in_array($aggr_id_array[0],$data['course']['id']))
+				{
+					$data['course']['id'][$j] = $aggr_id_array[0];
+					$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
+					
+					$data['course']['name'][$j] = $result_course_details[0]->name;
+					$data['course']['duration'] = $result_course_details[0]->duration;
+					$j++;
+				}
+				if(!in_array($aggr_id_array[1],$data['branch']['id']))
+				{
+					$data['branch']['id'][$i] = $aggr_id_array[1];
+					$result_branch_details = $this->basic_model->get_branch_details_by_id($data['branch']['id'][$i]);
+					$data['branch']['name'][$i] = $result_branch_details[0]->name;
+					$i++;
+				}
 			}
 		}
 		
@@ -66,8 +69,8 @@ class Home extends MY_Controller
 			$data['batch'][$i] = "20".(substr($curr_session,2,3)+$i);	
 			
 		}
-		for($i = 1;$i<=8;$i++)
-			$data['semester'][$i] = $i;
+		for($i = 0;$i<8;$i++)
+			$data['semester'][$i] = $i+1;
 		
 		$this->drawHeader();
 		$this->load->view('elective_offered/home',$data);

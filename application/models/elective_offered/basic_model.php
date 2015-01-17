@@ -10,6 +10,7 @@ class Basic_model extends CI_Model
 	var $table_course_structure = 'course_structure';
 	var $table_elective_group = 'elective_group';
 	var $table_course_branch = 'course_branch';
+	var $table_elective_offered = 'elective_offered';
 	
 	function __construct()
 	{
@@ -41,18 +42,33 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}	
 	
-	
+	/*
 	function select_elective_group_details_by_aggr_id($aggr_id)
 	{
 		$query = $this->db->get_where($this->table_elective_group,array('aggr_id'=>$aggr_id));
 		return $query->result();
-	}	
+	}
+	*/
 	
-	function select_elective_by_aggr_id_and_semester($aggr_id,$semester)
+	
+	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{
-		$query = $this->db->query("SELECT * FROM subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id = $aggr_id AND course_structure.semster = $semester GROUP BY elective");
+		$query = $this->db->query("SELECT * FROM subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id = '$aggr_id' AND 
+		course_structure.semester = '$semester'");
 		return $query->result();
 	}	
+	
+	function select_elective_group_by_group_id($group_id)
+	{
+		$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
+		return $query->result();
+	}
+	
+	function insert_elective_offered($data)
+	{
+    	return $this->db->insert($this->table_elective_offered,$data);
+    	//return $this->db->_error_message(); 
+	}
 	
 
 }

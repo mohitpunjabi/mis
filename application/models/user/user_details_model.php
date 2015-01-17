@@ -38,7 +38,6 @@ class User_details_model extends CI_Model
 			return FALSE;
 		else
 		{
-//			$query=$this->db->query("select id,first_name,last_name,auth_id from user_details natural join users where dept_id='".$dept."' and auth_id='emp'");
 			$query=$this->db->select('users.id, salutation, first_name, last_name, dept_id')
 								->from('user_details')
 								->join('users','users.id = user_details.id')
@@ -50,6 +49,7 @@ class User_details_model extends CI_Model
 		}
 	}
 }
+
 
 /* End of file user_details_model.php */
 /* Location: mis/application/models/user_details_model.php */

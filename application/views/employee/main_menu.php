@@ -11,7 +11,6 @@
 <h2><a href = "<?php echo site_url('employee/validation'); ?>" >Employee Validation Requests</a></h2>
 
 <?php
-
 	// $password = 'p';
 	// $password = $this->authorization->strclean($password);
 	// echo $password.'<br>';

@@ -64,7 +64,7 @@
  // echo "Number of course subjects = ".$CS_session['aggr_id'];
    //echo "duration from session ".var_dump($CS_session);
    echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h3>"; 
-   echo form_open('course_structure/add/InsertElectiveSubject'); 
+   echo form_open('course_structure/add/AddCoreSubjects'); 
    if($CS_session['count_core']>0)
    {
   ?>
@@ -132,10 +132,10 @@
         </td>
         <td>
           <select name="type<?php echo $counter; ?>">
-            <option value="Theory">Theory</option>
-            <option value="Practical">Practical</option>
-            <option value="Sessional">Sessional</option>
-            <option value="Non-Contact">Non-Contact</option>
+            <option value="0">Theory</option>
+            <option value="1">Practical</option>
+            <option value="2">Sessional</option>
+            <option value="3">Non-Contact</option>
           </select>
         </td>
         </tr>  

@@ -1,6 +1,5 @@
 <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
-<?php  echo form_open_multipart('student/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
-
+<?php  echo form_open_multipart('student/student_add/insert_basic_details','onSubmit="return form_validation();"');   ?>
 <h1 align="center">Fill up the details of Student</h1>
 
 <table width='90%'>
@@ -21,10 +20,10 @@
         	Salutation        </td>
         <td>
 			<select name="salutation" >
-                <option value="Mr.">Mr.</option>
-                <option value="Mrs.">Mrs.</option>
-                <option value="Ms.">Ms.</option>
-                <option value="Dr.">Dr.</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+                <option value="Dr">Dr</option>
              </select>        </td>
         <td>
         	First Name        </td>
@@ -101,6 +100,12 @@
              <input type="text" id="guardian_relation_name" name="guardian_relation_name" disabled />
 			 <!--<input style="margin-top:2.5px;" type='checkbox' id ="depends_on_relation"  name="depends_on_relation"  onchange="depends_on_whom()"/>         --></td>
     </tr>
+    <tr>
+            <td>Parent/Guardian Mobile No</td>
+            <td><input type="tel" name="parent_mobile" required="required"></td>
+            <td>Parent/Guardian Landline No</td>
+            <td><input type="tel" name="parent_landline" required="required"></td>
+    </tr>
 	 <tr>
 		<td>
         	Gender        </td>
@@ -124,7 +129,7 @@
 		<td>
         	Place of Birth        </td>
     	<td>
-  	      	<input type="text" name="pob" />        </td>
+  	      	<input type="text" name="pob" required="required"/>        </td>
     </tr>
 	<tr>
     			<td>
@@ -147,28 +152,30 @@
     	<td>
 			Admission Based On       	</td>
         <td>
-        	<select name="admn_based_on" >
+        	<select name="admn_based_on" id="id_admn_based_on" onchange="select_exam_scores()">
             	<option value="iitjee" selected="selected" >IIT JEE</option>
-                <option value="ismee">ISM Entrance</option>
+                <option value="isme">ISM Entrance</option>
                 <option value="gate">GATE</option>
 				<option value="cat">CAT</option>
 				<option value="direct">Direct</option>
 				<option value="others">Others</option>
              </select>        </td>
-		
+		<td>
+            Other Mode of Admission </td>
+        <td>
+            <input type="text" id="other_mode_of_admission" name="mode_of_admission" disabled />
+        </td>
          
     </tr>
 	 <tr>
 		<td>
             
 			IIT JEE General Rank<br/>        </td>
-		 <td><input type="text" id="iitjee_rank" name="iitjee_rank" value="0" disabled />
-      <input style="margin-top:2.5px;" type='checkbox' id ="depends_on_iit"  name="depends_on_iit"  onchange="depends_on_iitjee()"/>      </td>
-        
+		 <td><input type="text" id="iitjee_rank" name="iitjee_rank" value="0" />  
    <td>
             
 			IIT JEE Category  Rank<br/>        </td>
-		 <td><input type="text" id="iitjee_cat_rank" name="iitjee_cat_rank" value="0" disabled />
+		 <td><input type="text" id="iitjee_cat_rank" name="iitjee_cat_rank" value="0" />
         </td>
 		
     </tr>
@@ -177,14 +184,10 @@
             
 			GATE Score<br/>        </td>
 		 <td><input type="text" id="gate_score" name="gate_score"  value="0" disabled />
-           <input style="margin-top:2.5px;" type='checkbox' id ="depends_on_gate_score"  name="depends_on_gate_score"  onchange="depends_on_gate()"/>      </td>
-        
-   
-		<td>
-            
+      
+      <td>      
 			CAT Score<br/>        </td>
 		 <td><input type="text" id="cat_score" name="cat_score" value="0" disabled />
-           <input style="margin-top:2.5px;" type='checkbox' id ="depends_on_cat_score"  name="depends_on_cat_score"  onchange="depends_on_cat()"/>      </td>
     </tr>
 	
    <tr>
@@ -192,18 +195,11 @@
 			Identification Mark		</td>
 		<td>
 			<input type="text" name="identification_mark" required="required"/>		</td>
+        <td>
+            Migration Certificate     </td>
+        <td>
+            <input type="text" name="migration_cert" required="required"/>     </td>
 		
-    </tr>
-	 <tr>
-		<td>
-			Bank Name		</td>
-		<td>
-			<input type="text" name="bank_name" required="required"/>		</td>
-		<td>
-			Bank Account No		</td>
-		<td>
-			<input type="text" name="bank_account_no" required="required"/>		</td>
-    	
     </tr>
 	<tr>
     	<td>
@@ -243,10 +239,10 @@
         	Department        </td>
     	<td>
   	      	<!--<select name="department" id="depts" onchange="options_of_branches()">   this is original -->
-			<select name="department" id="depts" onchange="options_of_courses()"><!--We need to switch to select courses offered by the selected department as department offers different courses -->
+			<select name="department" id="depts" onchange="options_of_branches()"><!--We need to switch to select courses offered by the selected department as department offers different courses -->
             	<?php
                     if($academic_departments === FALSE)
-                        echo '<option disabled="disabled" selected>Select Department</option>';
+                        echo '<option disabled="disabled" selected>No Department</option>';
 					else
                         foreach ($academic_departments as $row)
                         {
@@ -257,32 +253,68 @@
     </tr>
     <tr>
         <td>
+            Branch        </td>
+        <td id="branch">
+        
+        <!--div id="branch_div"-->
+        <select name="branch" id="branch_id">
+                <?php
+                    if($branches === FALSE)
+                        echo '<option disabled="disabled" selected>No Department</option>';
+                    else
+                        foreach ($branches as $row)
+                        {
+                            echo '<option value="'.$row->id.'">'.$row->name.'</option>';
+                        }
+                ?>
+            </select>        </td>
+
+        <td>
             Course        </td>
         <td id="course">
 		
             
-            <!--select name="course" id="course">
-                <option disabled="disabled" selected></option>
-            </select-->        </td>
-        <td>
-            Branch        </td>
-        <td id="branch">
-		
-		 <!--select name="branch">
-                <option disabled="disabled" selected>Select Branches</option>
-            </select-->        </td>
+            <select name="course" id="course_id" >
+                <?php
+                    if($courses === FALSE)
+                        echo '<option disabled="disabled" value="none" selected>No Department</option>';
+                    else
+                        foreach ($courses as $row)
+                        {
+                            echo '<option value="'.$row->id.'">'.$row->name.'</option>';
+                        }
+                ?>
+            </select>        </td>
+        
     </tr>
 	<tr>
 		<td>
 			ADHAR Card No :		</td>
 		<td>
 			<input type="text" name="adhar_no" />		</td>
-		<td>
-			Fees Paid	Amount	</td>
-		<td>
-			<input type="text" name="fee_paid_amount" />		</td>
+        <td>
+            Marital Status        </td>
+        <td>
+            <select name="mstatus" >
+                <option value="Unmarried">Unmarried</option>
+                <option value="Married">Married</option>
+                <option value="Widow">Widow</option>
+                <option value="Widower">Widower</option>
+                <option value="Separated">Separated</option>
+                <option value="Divorcee">Divorcee</option>
+             </select>        </td> 
     </tr>
 	<tr>
+        <td>
+            Bank Name       </td>
+        <td>
+            <input type="text" name="bank_name" required="required"/>       </td>
+        <td>
+            Bank Account No     </td>
+        <td>
+            <input type="text" name="bank_account_no" required="required"/>     </td>
+        
+    </tr>
 	<tr>
 		<td>
 			Mode of Payment :		</td>
@@ -296,7 +328,7 @@
              </select>        </td>
 
 		<td>
-			Fees Paid	Date	</td>
+			Fees Paid Date	</td>
 		<td>
   	      	<input type="date" name="fee_paid_date" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?> >        </td>
     </tr>
@@ -304,19 +336,12 @@
 		<td>
 			DD/CHEQUE/ONLINE/CASH  No 		</td>
 		<td>
-			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" />		</td>
-
-	<td>
-        	Marital Status        </td>
-    	<td>
-        	<select name="mstatus" >
-            	<option value="Unmarried">Unmarried</option>
-				<option value="Married">Married</option>
-                <option value="Widow">Widow</option>
-                <option value="Widower">Widower</option>
-                <option value="Separated">Separated</option>
-                <option value="Divorcee">Divorcee</option>
-             </select>        </td>	
+			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" required="required"/>		</td>
+        <td>
+            Fees Paid Amount    </td>
+        <td>
+            <input type="text" name="fee_paid_amount" required="required"/>        </td>
+	
     </tr>
 		<td>
 			Extra-Curricular Activities ( if any):		</td>
@@ -422,43 +447,43 @@
 					<td  align="right">
 						Address Line 1					</td>
 					<td colspan="2">
-						<input type="text" name="line13" />					</td>
+						<input type="text" name="line13" id="line13"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
 						Address Line 2					</td>
 					<td colspan="2">
-						<input type="text" name="line23" />					</td>
+						<input type="text" name="line23" id="line23"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
 						City					</td>
 					<td colspan="2">
-						<input type="text" name="city3" />					</td>
+						<input type="text" name="city3" id="city3"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
 						State					</td>
 					<td colspan="2">
-						<input type="text" name="state3" />					</td>
+						<input type="text" name="state3" id="state3"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
 						Pin code					</td>
 					<td colspan="2">
-						<input type="tel" name="pincode3" />					</td>
+						<input type="tel" name="pincode3" id="pincode3"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
 						Country					</td>
 					<td colspan="2">
-						<input type="text" name="country3" value="India" />					</td>
+						<input type="text" name="country3" id="country3" value="India" />					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
 						Contact No					</td>
 					<td colspan="2">
-						<input type="tel" name="contact3" />					</td>
+						<input type="tel" name="contact3" id="contact3"/>					</td>
 				</tr>
 			</table>
 		</div></td>
@@ -488,12 +513,13 @@
 <table width="90%">
         <tr><th colspan=2 >Photograph</th></tr><tr></tr>
         <tr  height="150">
-            <td width="145" id="preview"><?php echo '<img src="Images/noProfileImage.png" id="view_photo" width="145" height="150"/>'; ?></td>
+            <td width="145" id="preview">
+                <img src="<?php echo base_url(); ?>assets/images/student/noProfileImage.png" id="view_photo" width="145" height="150"/></td>
         	<td align="center">Click on choose file to select picture<br>
             	<input type="file" name="photo" id="photo" required="required" ><br>
-                <input type="button" value="preview" onClick="preview_pic();">	
+                <input type="button" value="Preview" onClick="preview_pic();">	
             </td>
 		</tr>
 </table>
-<input type = "submit" value="Save"/>
+<input type = "submit" value="Next"/>
 <?php echo form_close(); ?>

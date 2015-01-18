@@ -10,4 +10,3 @@
 	            echo '<option value="'.$row->id.'">'.ucwords($row->name).'</option>';
 	        }
 ?>
-

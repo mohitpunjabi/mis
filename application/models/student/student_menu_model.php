@@ -1,6 +1,6 @@
 <?php
 
-class Menu_model extends CI_Model
+class Student_menu_model extends CI_Model
 {
 	function __construct()
 	{
@@ -15,7 +15,7 @@ class Menu_model extends CI_Model
 		//auth ==> deo
 		$menu['deo']=array();
 		$menu['deo']['Manage Students']=array();
-		$menu['deo']["Manage Students"]["Add Student"] = site_url('student/add');
+		$menu['deo']["Manage Students"]["Add Student"] = site_url('student/student_add');
 
 		return $menu;
 	}

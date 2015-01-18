@@ -61,6 +61,7 @@ class Ajax extends CI_Controller
 		$data['empNames'] = $this->user_details_model->getEmpNamesByDept($dept);
 		$this->load->view('ajax/empNameByDept',$data);
 	}
+	
 }
 
 /* End of file ajax.php */

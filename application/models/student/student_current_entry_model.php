@@ -1,6 +1,6 @@
 <?php
 
-class Stu_current_entry_model extends CI_Model
+class Student_current_entry_model extends CI_Model
 {
 	var $table = 'stu_current_entry';
 
@@ -28,8 +28,8 @@ class Stu_current_entry_model extends CI_Model
 		$this->db->update($this->table,$data,$where);
 	}
 
-	function delete($data)
+	function delete($where)
 	{
-		$this->db->delete($this->table,$where);
+		$this->db->empty_table($this->table);
 	}
 }

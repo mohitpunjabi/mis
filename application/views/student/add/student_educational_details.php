@@ -1,21 +1,19 @@
 <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
-<?php  echo form_open_multipart('student/add/insert_basic_details');   ?>
+<?php  echo form_open_multipart('student/student_add/insert_education_details','onSubmit="return onclick_submit();"');   ?>
+<table>
+	<tr>
+		<th>Student Id</th>
+		<td name="student_id"><?php echo $stu_id?></td>
+	</tr>
+</table>
 
-<?php
-	/*echo '<table>
-				<tr>
-					<th>Student Id</th>
-					<td>'.$_SESSION['ADD_STU_ID'].'</td>
-				</tr></table>' ;*/
-?>
-<div id="print" >
 <h1>Step 2 :Please fill up the Educational Qualificatoins</h1>
 <table id="tableid">
      <tr>
      <th>S no.</th>
      <th>Examination</th>
      <th>Branch/Specialization</th>
-   	 <th>College/University/Institute</th>
+   	 <th>School/College/University/Institute</th>
      <th>Year</th>
      <th>Percentage/Grade</th>
      <th>Class/Division</th>
@@ -33,7 +31,5 @@
 <input type="button" name="add" value="Add More" onClick="onclick_add();"/>
 <br>
 <input type="submit" name="submit4" value="Next" />
-</div>
 <br>
 <br>
-<center><button onclick="printContent('print')" >PRINT</button></center>

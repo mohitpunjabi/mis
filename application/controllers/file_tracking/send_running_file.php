@@ -1,5 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-//comment added
 class Send_running_file extends MY_Controller
 {
 

@@ -1,3 +1,4 @@
+<h1>Confirm File to be Closed : </h1>
 <table align="center">
 <tr>
 	<th>File ID</th>
@@ -22,7 +23,7 @@
 <table nozebra>
 	<tr>
 		<td> 
-			<input type="button" value="Confirm" onClick="display_send_notification3()">
+			<input type="button" value="Confirm" onClick="display_send_notification3(<?php echo $row->file_id;?>)">
 		</td>
 	</tr>
 	<tr>

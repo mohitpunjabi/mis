@@ -5,16 +5,8 @@
 		<td>File Subject : </td>
 		<td> 
 			<input type="text" name="file_sub" id="file_sub"> 
-<!--		<input type="button" value="Get Departments" onClick="get_departments()"  />  -->
 		</td>
 	</tr>
-	<!--<tr>
-		<td>
-			<div id="dept"></div>
-		</td>
-		<td>
-		</td>
-	</tr>-->
 	<tr>
 		<td>Department Name : </td>
 		<td>
@@ -47,18 +39,9 @@
 	<tr>
 		<td> 
 			<input type="button" value="Send" onClick="display_send_notification()">
-			<!--<input type="text" name="emp_id" id="emp_id">-->
 		</td>
-	</tr>
-	
-	<tr>
 		<td>
-			<div id="send_notification"></div>
 		</td>
-		<td></td>
 	</tr>
-</table>
-<?php
-//	function drawNotification($title, $description, $type = "")
-//	$this->notification->drawNotification("No more notifications", "You do not have any unread notifications.");
-?>
+</table>	
+<div id="send_notification"></div>

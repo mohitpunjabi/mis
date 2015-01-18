@@ -13,27 +13,23 @@ class Close_file extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('id');
 
-		$this->load->model ('file_tracking/file_move_details');
-		$res = $this->file_move_details->get_pending_files ($emp_id);
-		$data = array (
-						'res' => $res,
-					  	'file_id' => $file_id
-					  );
+//		$this->load->model ('file_tracking/file_move_details');
+//		$res = $this->file_move_details->get_pending_files ($emp_id);
+//		$data = array (
+//						'res' => $res,
+//					  	'file_id' => $file_id
+//					  );
 		
-		$this->drawHeader ("Close File");
-		$this->load->view('file_tracking/close_file/close_file',$data);
-		$this->drawFooter ();
-	}
-	public function get_file_details($file_id)
-	{
-		$emp_id = $this->session->userdata('id');
+//		$this->load->view('file_tracking/close_file/close_file',$data);
+
 		$this->load->model ('file_tracking/file_details');
 		$res = $this->file_details->get_file_details ($file_id);
 		$data = array (
 						'res' => $res
 					  );
-		
+		$this->drawHeader ("Close File");		
 		$this->load->view('file_tracking/close_file/file_details',$data);
+		$this->drawFooter ();
 	}
 	public function insert_close_details ($file_id)
 	{

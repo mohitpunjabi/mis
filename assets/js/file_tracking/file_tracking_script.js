@@ -31,7 +31,7 @@
 			}
 		}
 //		alert (js_base_url()+"file_tracking/send_new_file_ajax/get_dept");
-		xmlhttp.open("POST",js_site_url("file_tracking/send_new_file_ajax/get_dept"),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_dept"),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -52,7 +52,7 @@
 			}
 		}
 //		alert ("Hitesh");
-		xmlhttp.open("POST", js_site_url("file_tracking/send_new_file/insert_file_details/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
+		xmlhttp.open("POST", site_url("file_tracking/send_new_file/insert_file_details/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -72,7 +72,7 @@
 			}
 		}
 //		alert ("Hitesh");
-		xmlhttp.open("POST", js_site_url("file_tracking/receive_file_ajax/send_details/"+file_id+"/"+track_no),true);
+		xmlhttp.open("POST", site_url("file_tracking/receive_file_ajax/send_details/"+file_id+"/"+track_no),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -95,15 +95,15 @@
 			}
 		}
 //		alert ("Hitesh");
-		xmlhttp.open("POST",js_site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+rcvd_emp_id+"/"+remarks),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+rcvd_emp_id+"/"+remarks),true);
 		xmlhttp.send();
 		return false;
 	}
 	
-	function display_send_notification3 ()
+	function display_send_notification3 (file_id)
 	{
-		var file_id = document.getElementById("file_id").value;
-		//alert(file_id);
+//		var file_id = document.getElementById("file_id").value;
+		alert(file_id);
 //		var track_no = document.getElementById("track_num").value;
 //		var file_sub = document.getElementById("file_sub").value;
 //		var rcvd_emp_id = document.getElementById("emp_id").value;
@@ -118,7 +118,7 @@
 			}
 		}
 //		alert ("Hitesh");
-		xmlhttp.open("POST",js_site_url("file_tracking/close_file/insert_close_details/"+file_id),true);
+		xmlhttp.open("POST",site_url("file_tracking/close_file/insert_close_details/"+file_id),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -142,7 +142,7 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",js_site_url("file_tracking/send_running_file/get_file_details/"+file_id),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_running_file/get_file_details/"+file_id),true);
 		xmlhttp.send();
 		return false;
 
@@ -166,35 +166,11 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",js_site_url("file_tracking/send_running_file/get_file_details/"+file_id),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_running_file/get_file_details/"+file_id),true);
 		xmlhttp.send();
 		return false;
 
 	}	
-	function get_close_file_details ()
-	{
-		var file_id = document.getElementById("file_id").value;
-		//alert ("hello");
-		//alert ("hello"+file_id);
-		if(file_id==""){
-			alert("Please Select File ID.");
-			return;
-		}
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				//alert("success");
-				document.getElementById("file_details").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",js_site_url("file_tracking/close_file/get_file_details/"+file_id),true);
-		xmlhttp.send();
-		return false;
-
-	}
 	function get_file_move_details ()
 	{
 		var track_num = document.getElementById("track_num").value;
@@ -214,7 +190,7 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",js_site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
+		xmlhttp.open("POST",site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
 		xmlhttp.send();
 		return false;
 
@@ -231,7 +207,7 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",js_site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
+		xmlhttp.open("POST",site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
 		xmlhttp.send();
 		return false;
 
@@ -247,7 +223,7 @@
 			}
 
 		}
-		xmlhttp.open("POST",js_site_url("file_tracking/send_new_file_ajax/get_faculty_name_by_department_id/"+department_id),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_faculty_name_by_department_id/"+department_id),true);
 		xmlhttp.send();
 	}
 	

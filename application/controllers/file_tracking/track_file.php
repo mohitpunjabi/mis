@@ -38,12 +38,33 @@ class Track_file extends MY_Controller
 			}
 			$this->load->model ('file_tracking/file_move_details');
 			$result = $this->file_move_details->get_move_details ($file_id);
+			$total_rows = $result->num_rows();
+
+			$this->load->model('user_model');
+			
+			$data_array = array();
+			$sno = 1;
+			foreach ($result->result() as $row)
+			{
+				$data_array[$sno]=array();
+				$j=1;
+				$data_array[$sno][$j++] = $row->file_id;
+				$data_array[$sno][$j++] = $row->track_num;
+				$data_array[$sno][$j++] = $this->user_model->getNameById($row->sent_by_emp_id);
+				$data_array[$sno][$j++] = $row->sent_timestamp;
+				$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
+				$data_array[$sno][$j++] = $row->rcvd_timestamp;
+				$data_array[$sno][$j++] = $row->forward_status;
+				$data_array[$sno][$j++] = $row->remarks;
+				$sno++;
+			}
 			$data = array (
 						'file_id' => $file_id,
 						'file_subject' => $file_subject,
 						'start_emp_id' => $start_emp_id,
 						'close_emp_id' => $close_emp_id,
-						'result' => $result
+						'data_array' => $data_array,
+						'total_rows' => $total_rows
 						  );
 			$this->load->view ('file_tracking/track_file/track_table', $data);
 		}

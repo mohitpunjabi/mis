@@ -5,14 +5,12 @@
 		<td>File Id : </td>
 		<td> 
 			<input type="text" name="file_id" id="file_id" value="<?php echo $file_id; ?>" readonly> 
-<!--		<input type="button" value="Get Departments" onClick="get_departments()"  />  -->
 		</td>
 	</tr>
 	<tr>
 		<td>File Subject : </td>
 		<td> 
 			<input type="text" name="file_sub" id="file_sub" value="<?php echo $file_sub; ?>" readonly> 
-<!--		<input type="button" value="Get Departments" onClick="get_departments()"  />  -->
 		</td>
 	</tr>
 	<tr>
@@ -41,20 +39,13 @@
 		<td>Remarks : </td>
 		<td> 
 			<textarea name="remarks" id="remarks"></textarea>
-			<!--<input type="text" name="emp_id" id="emp_id">-->
 		</td>
 	</tr>
 	<tr>
 		<td> 
 			<input type="button" value="Send File" onClick="display_send_notification2()">
-			<!--<input type="text" name="emp_id" id="emp_id">-->
-		</td>
-	</tr>
-	
-	<tr>
-		<td>
-			<div id="send_notification"></div>
 		</td>
 		<td></td>
-	</tr>
+	</tr>	
 </table>
+<div id="send_notification"></div>

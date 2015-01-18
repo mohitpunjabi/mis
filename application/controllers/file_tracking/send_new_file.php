@@ -10,9 +10,6 @@ class Send_new_file extends MY_Controller
 
 	public function index()
 	{
-		$header['title']="Send New File";
-		//Importing helper class, Ask someone
-		//$this->load->helper('string');
 		$this->load->model("file_tracking/file_details");
 
 		$data['department'] = $this->file_details->get_department_by_id();
@@ -25,7 +22,6 @@ class Send_new_file extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('id');
 		$this->load->helper('string');
-		//$track_num = 371235816;
 		$track_num = time();
 		//$track_num 
 		//echo $track_num;

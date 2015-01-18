@@ -2,7 +2,6 @@
 
 class File_details extends CI_Model
 {
-
 	var $table = 'file_details';
 
 	function __construct()
@@ -13,28 +12,7 @@ class File_details extends CI_Model
 
 	function insert($data, $track_num)
 	{
-		//echo print_r($data);
 		$this->db->insert($this->table,$data);
-		//Insert Into Table
-		//random generation of track number
-		//echo random_string('alpha', 2);
-		
-		/*$this->db->select ('file_id');
-		$this->db->get ($this->table);
-		$query = $this->db->where ('emp_id', $emp_id);*/
-		/*$sql_query = "SELECT file_id from file_basic_details where emp_id = ".$emp_id.";";
-		$query = $this->db->query($sql_query);
-		foreach ($query->result() as $row) //last
-				$file_id = $row->file_id;*/
-		//$track_num = $file_id+100;
-		/*$data = array (
-					'track_num' => $track_num
-					 );*/
-//		$this->db->where ('emp_id', $emp_id);
-		//$this->db->where ('file_id', $file_id);
-		//$this->db->update ($this->table, $arr);
-
-		//$this->db->query("UPDATE file_basic_details SET timestamp = now() WHERE file_id=".$file_id.";");
 		$this->db->select('file_id');
 		$this->db->where('track_num', $track_num); 
 		$query = $this->db->get($this->table);

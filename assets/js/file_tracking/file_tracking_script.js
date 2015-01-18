@@ -103,7 +103,7 @@
 	function display_send_notification3 (file_id)
 	{
 //		var file_id = document.getElementById("file_id").value;
-		alert(file_id);
+//		alert(file_id);
 //		var track_no = document.getElementById("track_num").value;
 //		var file_sub = document.getElementById("file_sub").value;
 //		var rcvd_emp_id = document.getElementById("emp_id").value;

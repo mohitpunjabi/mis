@@ -31,10 +31,8 @@ class Send_new_file extends MY_Controller
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$arr = $this->file_details->insert($data, $track_num);
 		$file_id = $arr['file_id'];
-		//$track_num = $arr['track_num'];
 	
 		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id,$remarks);
-		//$this->notification->drawNotification ("", "File Successfully Sent");
 	}
 	public function insert_move_details ($file_id, $rcvd_emp_id, $remarks)
 	{

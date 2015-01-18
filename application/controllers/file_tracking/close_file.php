@@ -49,6 +49,3 @@ class Close_file extends MY_Controller
 		$this->load->view('file_tracking/close_file/close_file_notification');
 	}
 }
-
-/* End of file menu.php */
-/* Location: mis/application/controllers/employee/menu.php */

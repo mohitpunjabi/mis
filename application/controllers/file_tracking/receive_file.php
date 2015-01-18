@@ -9,10 +9,7 @@ class Receive_file extends MY_Controller
 	}
 	public function index()
 	{
-		//$this->load->model('employee/Emp_current_entry_model','',TRUE);
-		//$data['entry']=$this->Emp_current_entry_model->get_current_entry();
 		$emp_id = $this->session->userdata('id');
-		$header['title']='Receive File';
 		
 		$this->load->model('file_tracking/user_notifications');
 		$res = $this->user_notifications->get_user_notifications ($emp_id);
@@ -25,8 +22,6 @@ class Receive_file extends MY_Controller
 	}
 	public function validate_track_num ($file_id)
 	{
-		$header['title']='Send Running File';
-		//$header['javascript']="<script type=\"text/javascript\" src=\"".base_url()."assets/js/file_tracking/file_tracking_script.js \" ></script>";
 		$data = array (
 						'file_id' => $file_id
 					  );
@@ -35,6 +30,3 @@ class Receive_file extends MY_Controller
 		$this->drawFooter ();
 	}
 }
-
-/* End of file menu.php */
-/* Location: mis/application/controllers/employee/menu.php */

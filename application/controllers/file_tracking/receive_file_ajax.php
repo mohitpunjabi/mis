@@ -14,8 +14,6 @@ class Receive_file_ajax extends MY_Controller
 	public function send_details ($file_id, $track_num)
 	{
 		$emp_id = $this->session->userdata('id');
-
-		$header['title']='Send Running File';
 		
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$track_no = $this->file_details->get_track_num ($file_id);
@@ -34,6 +32,3 @@ class Receive_file_ajax extends MY_Controller
 		$this->load->view('file_tracking/receive_file/track_num_notification',$data);
 	}
 }
-
-/* End of file menu.php */
-/* Location: mis/application/controllers/employee/menu.php */

@@ -33,7 +33,7 @@ class Track_file extends MY_Controller
 			{
 				$file_id = $row->file_id;
 				$file_subject = $row->file_subject;
-				$sent_emp_id = $row->emp_id;
+				$start_emp_id = $row->start_emp_id;
 				$close_emp_id = $row->close_emp_id;
 			}
 			$this->load->model ('file_tracking/file_move_details');
@@ -41,7 +41,7 @@ class Track_file extends MY_Controller
 			$data = array (
 						'file_id' => $file_id,
 						'file_subject' => $file_subject,
-						'sent_emp_id' => $sent_emp_id,
+						'start_emp_id' => $start_emp_id,
 						'close_emp_id' => $close_emp_id,
 						'result' => $result
 						  );

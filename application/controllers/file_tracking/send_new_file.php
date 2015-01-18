@@ -24,7 +24,7 @@ class Send_new_file extends MY_Controller
 	public function insert_file_details ($file_sub, $rcvd_emp_id, $remarks)
 	{
 		$emp_id = $this->session->userdata('id');
-		$this->load->helper('string');
+		//$this->load->helper('string');
 		//$track_num = 371235816;
 		$track_num = time();
 		//$track_num 

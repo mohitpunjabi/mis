@@ -1,6 +1,6 @@
 <?php
 
-class File_basic_details extends CI_Model
+class File_details extends CI_Model
 {
 
 	var $table = 'file_details';
@@ -79,6 +79,11 @@ class File_basic_details extends CI_Model
 	{
 		$query = $this->db->query("SELECT id,salutation,first_name,middle_name,last_name FROM user_details WHERE dept_id="."'".$dept_id."'".";");
 		return $query->result_array();
+	}
+	function insert($file_id, $emp_id, $track_num)
+	{
+//		echo "INSERT INTO file_closed_details VALUES (".$emp_id.",".$file_id.",now(),".$track_num.");";
+		$this->db->query("INSERT INTO file_details VALUES (".$emp_id.",".$file_id.",now(),".$track_num.");");
 	}
 }
 

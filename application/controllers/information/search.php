@@ -10,10 +10,10 @@ class Search extends MY_Controller
 
 	public function index()
 	{
-		$header['title']='Search Removed Notice, Circular or Minutes';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Search Removed Notice, Circular or Minutes';
+		$this->drawHeader("Search Removed Notice, Circular or Minutes");
 		$this->load->view('information/search_menu');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

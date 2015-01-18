@@ -4,7 +4,7 @@ class View_notice extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('emp','stu'));
+		parent::__construct();
 	}
 
 	public function index($error='')
@@ -19,8 +19,8 @@ class View_notice extends MY_Controller
 		
 		if ($this->input->post('go') == FALSE && $this->input->post('get_details') == TRUE)
 		{
-			$header['title']='View Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title']='View Notice';
+			$this->drawHeader("View Notice");
 			$data['id'] = $this->view_notice_model->get_notice_ids();
 			
 			$data['selected']  = $this->input->post('notice_id');
@@ -40,8 +40,8 @@ class View_notice extends MY_Controller
 		}
 		else if ($this->input->post('go') == FALSE)
 		{
-			$header['title']='View Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title']='View Notice';
+			$this->drawHeader("View Notice");
 			$data['id'] = $this->view_notice_model->get_notice_ids();
 			
 			if($data['id'] == NULL)
@@ -54,8 +54,8 @@ class View_notice extends MY_Controller
 		}
 		else 
 		{
-			$header['title'] = 'View Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View Notice';
+			$this->drawHeader("View Notice");
 			
 			$data['id'] = $this->view_notice_model->get_notice_ids();
 			$data['selected']  = $this->input->post('notice_id');
@@ -68,7 +68,7 @@ class View_notice extends MY_Controller
 			$this->load->view('information/view_noticeR',$data);
 			$this->load->view('information/click_for_prev_version_notice',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

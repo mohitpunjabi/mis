@@ -10,10 +10,10 @@ class Menu extends MY_Controller
 
 	public function index()
 	{
-		$header['title']='Information Management';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Information Management';
+		$this->drawHeader("Information Management");
 		$this->load->view('information/main_menu');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

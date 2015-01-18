@@ -5,15 +5,15 @@ class View extends MY_Controller
 
 	function __construct()
 	{
-		parent::__construct(array('emp','stu'));
+		parent::__construct();
 	}
 
 	public function index()
 	{
-		$header['title']='View Notice, Minutes or Circular';
-		$this->load->view('templates/header',$header);
+		//$header['title']='View Notice, Minutes or Circular';
+		$this->drawHeader("View Notice, Minutes or Circular");
 		$this->load->view('information/view');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

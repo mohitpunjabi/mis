@@ -20,8 +20,8 @@ class Edit_minute extends MY_Controller
 		$this->load->model('information/edit_minute_model','',TRUE);
 		
 		//title for the page
-		$header['title']='Edit Minutes';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Edit Minutes';
+		$this->drawHeader("Edit Minutes");
 		
 		if ($this->form_validation->run() == FALSE || $this->input->post('editsubmit') == TRUE)
 		{
@@ -104,7 +104,7 @@ class Edit_minute extends MY_Controller
 				redirect('information/menu');
 			}
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	

@@ -20,8 +20,8 @@ class Edit_circular extends MY_Controller
 		$this->load->model('information/edit_circular_model','',TRUE);
 		
 		//title for the page
-		$header['title']='Edit Circular';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Edit Circular';
+		$this->drawHeader("Edit Circular");
 		
 		if ($this->form_validation->run() == FALSE || $this->input->post('editsubmit') == TRUE)
 		{
@@ -89,7 +89,7 @@ class Edit_circular extends MY_Controller
 				redirect('information/menu');
 			}
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	

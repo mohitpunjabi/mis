@@ -20,8 +20,8 @@ class Edit_notice extends MY_Controller
 		$this->load->model('information/edit_notice_model','',TRUE);
 		
 		//title for the page
-		$header['title']='Edit notice';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Edit notice';
+		$this->drawHeader("Edit notice");
 		
 		if ($this->form_validation->run() == FALSE || $this->input->post('editsubmit') == TRUE)
 		{
@@ -89,7 +89,7 @@ class Edit_notice extends MY_Controller
 				redirect('information/menu');
 			}
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	

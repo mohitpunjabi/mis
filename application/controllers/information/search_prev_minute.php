@@ -19,8 +19,8 @@ class Search_prev_minute extends MY_Controller
 		
 		if ($this->input->post('go1') == FALSE && $this->input->post('go2') == FALSE)
 		{
-			$header['title']='Search Previous Versions of Minute';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Previous Versions of Minute';
+			$this->drawHeader("Search Previous Versions of Minute");
 			$data['id'] = $this->search_prev_minute_model->get_minute_ids();
 			
 			if($data['id'] == NULL)
@@ -33,8 +33,8 @@ class Search_prev_minute extends MY_Controller
 		}
 		else if($this->input->post('go1') == TRUE && $this->input->post('go2') == FALSE)
 		{
-			$header['title']='Search Previous Versions of Minute';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Previous Versions of Minute';
+			$this->drawHeader("Search Previous Versions of Minute");
 			$data['id'] = $this->search_prev_minute_model->get_minute_ids();
 			$data['selected_id']  = $this->input->post('minute_id');
 			
@@ -51,8 +51,8 @@ class Search_prev_minute extends MY_Controller
 		}
 		else if($this->input->post('go2') == TRUE)
 		{
-			$header['title'] = 'View minute';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View minute';
+			$this->drawHeader("View Minute");
 			
 			$data['id'] = $this->search_prev_minute_model->get_minute_ids();
 			$data['selected_id']  = $this->input->post('minute_id');
@@ -68,7 +68,7 @@ class Search_prev_minute extends MY_Controller
 			//var_dump($data);
 			$this->load->view('information/view_minuteR',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

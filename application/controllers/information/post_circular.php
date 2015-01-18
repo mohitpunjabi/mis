@@ -20,8 +20,8 @@ class Post_circular extends MY_Controller
 		$this->load->model('information/post_circular_model','',TRUE);
 		
 		//title for the page
-		$header['title']='Post Circular';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Post Circular';
+		$this->drawHeader("Post Circular");
 		
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -52,7 +52,7 @@ class Post_circular extends MY_Controller
 			//$this->load->view('information/post_circular_success');
 			}
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	

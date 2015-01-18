@@ -4,7 +4,7 @@ class View_minute extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('emp','stu'));
+		parent::__construct();
 	}
 
 	public function index($error='')
@@ -19,8 +19,8 @@ class View_minute extends MY_Controller
 		
 		if ($this->input->post('go') == FALSE && $this->input->post('get_details') == TRUE)
 		{
-			$header['title']='View Minute';
-			$this->load->view('templates/header',$header);
+			//$header['title']='View Minute';
+			$this->drawHeader("View Minute");
 			$data['id'] = $this->view_minute_model->get_minute_ids();
 			
 			$data['selected']  = $this->input->post('minute_id');
@@ -40,8 +40,8 @@ class View_minute extends MY_Controller
 		}
 		else if ($this->input->post('go') == FALSE)
 		{
-			$header['title']='View minute';
-			$this->load->view('templates/header',$header);
+			//$header['title']='View minute';
+			$this->drawHeader("View Minute");
 			$data['id'] = $this->view_minute_model->get_minute_ids();
 			
 			if($data['id'] == NULL)
@@ -54,8 +54,8 @@ class View_minute extends MY_Controller
 		}
 		else 
 		{
-			$header['title'] = 'View minute';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View minute';
+			$this->drawHeader("View Minute");
 			
 			$data['id'] = $this->view_minute_model->get_minute_ids();
 			$data['selected']  = $this->input->post('minute_id');
@@ -68,7 +68,7 @@ class View_minute extends MY_Controller
 			$this->load->view('information/view_minuteR',$data);
 			$this->load->view('information/click_for_prev_version_minute',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

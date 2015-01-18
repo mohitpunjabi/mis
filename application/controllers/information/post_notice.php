@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+0<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Post_notice extends MY_Controller
 {
@@ -23,8 +23,8 @@ class Post_notice extends MY_Controller
 		$this->load->model('information/post_notice_model','',TRUE);
 		
 		//title for the page
-		$header['title']='Post Notice';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Post Notice';
+		$this->drawHeader("Post Notice");
 		
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -54,7 +54,7 @@ class Post_notice extends MY_Controller
 			//$this->load->view('information/post_notice_success');
 			}
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	

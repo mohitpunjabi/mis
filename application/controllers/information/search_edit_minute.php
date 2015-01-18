@@ -23,8 +23,8 @@ class Search_edit_minute extends MY_Controller
 		
 		if ($this->input->post('go') == FALSE)
 		{
-			$header['title']='Search Edit Minutes';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Edit Minutes';
+			$this->drawHeader("Search(Edit) Minutes");
 			$data['id'] = $this->search_edit_minute_model->get_minute_ids();
 			//var_dump($data);
 			if($data['id'] == NULL)
@@ -37,8 +37,8 @@ class Search_edit_minute extends MY_Controller
 		}
 		else
 		{
-			$header['title'] = 'View Minutes';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View Minutes';
+			$this->drawHeader("View Minutes");
 			
 			$data['id'] = $this->search_edit_minute_model->get_minute_ids();
 			$data['selected']  = $this->input->post('minute_id');
@@ -49,7 +49,7 @@ class Search_edit_minute extends MY_Controller
 			//var_dump($data);
 			$this->load->view('information/view_minute',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

@@ -10,10 +10,10 @@ class Search_prev extends MY_Controller
 
 	public function index()
 	{
-		$header['title']='Search Previous Versions of Notice, Circular or Minutes';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Search Previous Versions of Notice, Circular or Minutes';
+		$this->drawHeader("Search Previous Versions of Notice, Circular or Minutes");
 		$this->load->view('information/search_prev_menu');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

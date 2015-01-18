@@ -19,8 +19,8 @@ class Search_prev_notice extends MY_Controller
 		
 		if ($this->input->post('go1') == FALSE && $this->input->post('go2') == FALSE)
 		{
-			$header['title']='Search Previous Versions of Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Previous Versions of Notice';
+			$this->drawHeader("Search Previous Versions of Notice");
 			$data['id'] = $this->search_prev_notice_model->get_notice_ids();
 			
 			if($data['id'] == NULL)
@@ -33,8 +33,8 @@ class Search_prev_notice extends MY_Controller
 		}
 		else if($this->input->post('go1') == TRUE && $this->input->post('go2') == FALSE)
 		{
-			$header['title']='Search Previous Versions of Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Previous Versions of Notice';
+			$this->drawHeader("Search Previous Versions of Notice");
 			$data['id'] = $this->search_prev_notice_model->get_notice_ids();
 			$data['selected_id']  = $this->input->post('notice_id');
 			
@@ -51,8 +51,8 @@ class Search_prev_notice extends MY_Controller
 		}
 		else if($this->input->post('go2') == TRUE)
 		{
-			$header['title'] = 'View Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View Notice';
+			$this->drawHeader("View Notice");
 			
 			$data['id'] = $this->search_prev_notice_model->get_notice_ids();
 			$data['selected_id']  = $this->input->post('notice_id');
@@ -68,7 +68,7 @@ class Search_prev_notice extends MY_Controller
 			//var_dump($data);
 			$this->load->view('information/view_noticeR',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

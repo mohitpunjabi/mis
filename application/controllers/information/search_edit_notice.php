@@ -24,8 +24,8 @@ class Search_edit_notice extends MY_Controller
 		
 		if ($this->input->post('go') == FALSE)
 		{
-			$header['title']='Search Edit Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Edit Notice';
+			$this->drawHeader("Search(Edit) Notice");
 			$data['id'] = $this->search_edit_notice_model->get_notice_ids();
 			
 			if($data['id'] == NULL)
@@ -38,8 +38,8 @@ class Search_edit_notice extends MY_Controller
 		}
 		else
 		{
-			$header['title'] = 'View Notice';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View Notice';
+			$this->drawHeader("View Notice");
 			
 			$data['id'] = $this->search_edit_notice_model->get_notice_ids();
 			$data['selected']  = $this->input->post('notice_id');
@@ -50,7 +50,7 @@ class Search_edit_notice extends MY_Controller
 			//var_dump($data);
 			$this->load->view('information/view_notice',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

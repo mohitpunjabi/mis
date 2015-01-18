@@ -10,10 +10,10 @@ class Post extends MY_Controller
 
 	public function index()
 	{
-		$header['title']='Post Notice, Minutes or Circular';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Post Notice, Minutes or Circular';
+		$this->drawHeader("Post Notice, Minutes or Circular");
 		$this->load->view('information/post');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

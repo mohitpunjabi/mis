@@ -21,8 +21,8 @@ class Post_minute extends MY_Controller
 		$this->load->model('information/post_minute_model','',TRUE);
 		
 		//title for the page
-		$header['title']='Post Minutes';
-		$this->load->view('templates/header',$header);
+		//$header['title']='Post Minutes';
+		$this->drawHeader("Post Minutes");
 		
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -65,7 +65,7 @@ class Post_minute extends MY_Controller
 			//$this->load->view('information/post_minute_success');
 			}
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 	

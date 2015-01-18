@@ -4,7 +4,7 @@ class View_circular extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('emp','stu'));
+		parent::__construct();
 	}
 
 	public function index($error='')
@@ -19,8 +19,8 @@ class View_circular extends MY_Controller
 		
 		if ($this->input->post('go') == FALSE && $this->input->post('get_details') == TRUE)
 		{
-			$header['title']='View Circular';
-			$this->load->view('templates/header',$header);
+			//$header['title']='View Circular';
+			$this->drawHeader("View Circular");
 			$data['id'] = $this->view_circular_model->get_circular_ids();
 			
 			$data['selected']  = $this->input->post('circular_id');
@@ -40,8 +40,8 @@ class View_circular extends MY_Controller
 		}
 		else if ($this->input->post('go') == FALSE)
 		{
-			$header['title']='View circular';
-			$this->load->view('templates/header',$header);
+			//$header['title']='View circular';
+			$this->drawHeader("View Circular");
 			$data['id'] = $this->view_circular_model->get_circular_ids();
 			
 			if($data['id'] == NULL)
@@ -54,8 +54,8 @@ class View_circular extends MY_Controller
 		}
 		else 
 		{
-			$header['title'] = 'View Circular';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View Circular';
+			$this->drawHeader("View Circular");
 			
 			$data['id'] = $this->view_circular_model->get_circular_ids();
 			$data['selected']  = $this->input->post('circular_id');
@@ -68,7 +68,7 @@ class View_circular extends MY_Controller
 			$this->load->view('information/view_circularR',$data);
 			$this->load->view('information/click_for_prev_version_circular',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

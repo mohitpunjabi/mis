@@ -19,8 +19,8 @@ class Search_prev_circular extends MY_Controller
 		
 		if ($this->input->post('go1') == FALSE && $this->input->post('go2') == FALSE)
 		{
-			$header['title']='Search Previous Versions of circular';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Previous Versions of circular';
+			$this->drawHeader("Search Previous Versions of Circular");
 			$data['id'] = $this->search_prev_circular_model->get_circular_ids();
 			
 			if($data['id'] == NULL)
@@ -33,8 +33,8 @@ class Search_prev_circular extends MY_Controller
 		}
 		else if($this->input->post('go1') == TRUE && $this->input->post('go2') == FALSE)
 		{
-			$header['title']='Search Previous Versions of circular';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Previous Versions of circular';
+			$this->drawHeader("Search Previous Versions of Circular");
 			$data['id'] = $this->search_prev_circular_model->get_circular_ids();
 			$data['selected_id']  = $this->input->post('circular_id');
 			
@@ -51,8 +51,8 @@ class Search_prev_circular extends MY_Controller
 		}
 		else if($this->input->post('go2') == TRUE)
 		{
-			$header['title'] = 'View circular';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View circular';
+			$this->drawHeader("View Circular");
 			
 			$data['id'] = $this->search_prev_circular_model->get_circular_ids();
 			$data['selected_id']  = $this->input->post('circular_id');
@@ -68,7 +68,7 @@ class Search_prev_circular extends MY_Controller
 			//var_dump($data);
 			$this->load->view('information/view_circularR',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

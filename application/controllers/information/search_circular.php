@@ -19,8 +19,8 @@ class Search_circular extends MY_Controller
 		
 		if ($this->input->post('go') == FALSE)
 		{
-			$header['title']='Search Removed Circular';
-			$this->load->view('templates/header',$header);
+			//$header['title']='Search Removed Circular';
+			$this->drawHeader("Search Removed Circular");
 			$data['id'] = $this->search_circular_model->get_circular_ids();
 			//var_dump($data);
 			if($data['id'] == NULL)
@@ -33,8 +33,8 @@ class Search_circular extends MY_Controller
 		}
 		else
 		{
-			$header['title'] = 'View Circular';
-			$this->load->view('templates/header',$header);
+			//$header['title'] = 'View Circular';
+			$this->drawHeader("View Circular");
 			
 			$data['id'] = $this->search_circular_model->get_circular_ids();
 			$data['selected']  = $this->input->post('circular_id');
@@ -45,7 +45,7 @@ class Search_circular extends MY_Controller
 			//var_dump($data);
 			$this->load->view('information/view_circularR',$data);
 		}
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 	
 }

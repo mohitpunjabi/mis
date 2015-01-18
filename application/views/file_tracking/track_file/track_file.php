@@ -35,7 +35,7 @@
 					<td><?php echo $row->file_id; ?></td>
 					<td><?php echo $row->file_subject; ?></td>
 					<td><?php echo $row->track_num; ?></td>
-					<td><?php echo $row->rcvd_by_emp_id; ?></td>
+					<td><?php echo $row->salutation.' '.$row->first_name.' '.$row->middle_name.' '.$row->last_name; ?></td>
 					<td><?php if ($row->close_emp_id) echo "Closed"; else echo "Active"; ?></td>
 					<td>
 						<input type="button" value="Track File" onClick="get_file_move_details2(<?php echo $row->track_num; ?>)">

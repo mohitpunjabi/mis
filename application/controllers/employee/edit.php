@@ -451,12 +451,17 @@ class Edit extends MY_Controller
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
 		$this->load->model('employee/emp_family_details_model','',TRUE);
+		$fam_array = array('dob'=>$this->input->post('dob'.$row),
+							'profession'=>strtolower($this->input->post('profession'.$row)),
+							'active_inactive'=>$this->input->post('active'.$row),
+							'present_post_addr'=>strtolower($this->input->post('address'.$row)));
 
-		$this->emp_family_details_model->update_record(array('dob'=>$this->input->post('dob'.$row),
-															'profession'=>strtolower($this->input->post('profession'.$row)),
-															'active_inactive'=>$this->input->post('active'.$row),
-															'present_post_addr'=>strtolower($this->input->post('address'.$row))),
-															array('id'=>$emp_id, 'sno'=>$row));
+		if(isset($_FILES['photo3'.$row]['name']) && $_FILES['photo3'.$row]['name']!='')
+		{	$upload = $this->_upload_image($emp_id,'photo3'.$row);
+			if($upload)	$fam_array = array_merge($fam_array,array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']));
+		}
+
+		$this->emp_family_details_model->update_record($fam_array, array('id'=>$emp_id, 'sno'=>$row));
 
 		$this->edit_validation($emp_id,'family_details_status');
 		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' family details updated and sent for validation.');

@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>
@@ -14,16 +11,9 @@
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
-	<script type="text/javascript">
-		function js_base_url()
-		{
-			return "<?= base_url()?>";
-		}
-
-		function js_site_url(uri)
-		{
-			return js_base_url()+"index.php/"+uri;
-		}
+	<script >
+		function base_url()	{	return "<?= base_url()?>";	}
+		function site_url(uri)	{	return base_url()+"index.php/"+uri;	}
 	</script>
     <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
@@ -104,7 +94,7 @@
 				else echo '<span class="counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
-				
+
 				echo '<div class="unread">';
 				if($unreadCount > 0) {
 					echo '<h3>Unread Notifications &raquo;</h3>';
@@ -123,9 +113,9 @@
 					}
 				}
 				echo '</div>';
-				
+
 				if($readCount == 0 && $unreadCount == 0) echo "<center><br />No more notifications.</center>";
-				
+
 				echo '</div>';
 				echo '<ul>';
 

@@ -141,7 +141,7 @@ Fields marked with <span style= "color:red;">*</span> are mandatory.
     	<td>
 	        <select name="designation" id="des"  >
             	<?php
-					$designations=$this->Designations_model->get_designations("type in ('".(($emp->auth_id == 'ft')? 'ft':'nft')."','others')");
+					$designations=$this->designations_model->get_designations("type in ('".(($emp->auth_id == 'ft')? 'ft':'nft')."','others')");
 					if($designations === FALSE)
                         echo '<option value="" disabled="disabled">No designation found</option>';
                     else

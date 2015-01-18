@@ -86,7 +86,7 @@
 				    table.innerHTML=xmlhttp.responseText;
 			    }
 		  	}
-		  	xmlhttp.open("POST",js_site_url("employee/emp_ajax/delete_record/4/"+i),true);
+		  	xmlhttp.open("POST",site_url("employee/emp_ajax/delete_record/4/"+i),true);
 			xmlhttp.send();
 		}
 	}
@@ -94,7 +94,7 @@
 	function onclick_edit(i)
 	{
 		var row=document.getElementsByName("row[]")[i-1];
-		var x = '<form action="'+js_site_url('employee/edit/update_old_education_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
+		var x = '<form action="'+site_url('employee/edit/update_old_education_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
 		x+='<table><tr>';
 		x+='<th>Examination</th><td><select name="exam'+i+'" id="exam'+i+'" onChange="examination_editbtn_handler('+i+');" ><option disabled value="" >Select Examination</option><option value="non-matric" '+((row.cells[1].innerHTML.toLowerCase() == 'non-matric')? 'selected':'')+'>Non-Matric</option><option value="matric" '+((row.cells[1].innerHTML.toLowerCase() == 'matric')? 'selected':'')+'>Matric</option><option value="intermediate" '+((row.cells[1].innerHTML.toLowerCase() == 'intermediate')? 'selected':'')+'>Intermediate</option><option value="graduation" '+((row.cells[1].innerHTML.toLowerCase() == 'graduation')? 'selected':'')+'>Graduation</option><option value="post-graduation" '+((row.cells[1].innerHTML.toLowerCase() == 'post-graduation')? 'selected':'')+'>Post Graduation</option><option value="doctorate" '+((row.cells[1].innerHTML.toLowerCase() == 'doctorate')? 'selected':'')+'>Dropped Away</option><option value="post-doctorate" '+((row.cells[1].innerHTML.toLowerCase() == 'post-doctorate')? 'selected':'')+'>Post Doctorate</option><option value="others" '+((row.cells[1].innerHTML.toLowerCase() == 'others')? 'selected':'')+'>Others</option></select></td></tr>';
 		x+='<tr><th>Course(Specialization)</th><td><input type="text" name="branch'+i+'" id="branch'+i+'" value="'+row.cells[2].innerHTML.toLowerCase()+'" /></td></tr>';

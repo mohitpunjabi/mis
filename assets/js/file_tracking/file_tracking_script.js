@@ -250,24 +250,4 @@
 		xmlhttp.open("POST",js_site_url("file_tracking/send_new_file_ajax/get_faculty_name_by_department_id/"+department_id),true);
 		xmlhttp.send();
 	}
-	function match_track_number(){
-
-		var track_num = document.getElementById("track_num").value;
-		if(track_num==""){
-			alert("Please Enter Track Number.");
-			return;
-		}
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				//alert("success");
-				document.getElementById("send_files").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",js_site_url("file_tracking/track_file/validate_track_number/"+track_num),true);
-		xmlhttp.send();
-		return false;
-	}
+	

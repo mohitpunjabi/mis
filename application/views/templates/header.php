@@ -1,3 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>
@@ -99,7 +102,7 @@
 				if($unreadCount > 0) {
 					echo '<h3>Unread Notifications &raquo;</h3>';
 					foreach($notifications[$key]["unread"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->module_id . "/" . $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
 					}
 				}
 				echo '</div>';
@@ -109,7 +112,7 @@
 				if($readCount > 0) {
 					echo '<h3>Old Notifications &raquo;</h3>';
 					foreach($notifications[$key]["read"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->module_id . "/" . $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
 					}
 				}
 				echo '</div>';

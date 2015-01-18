@@ -44,10 +44,6 @@ class File_details extends CI_Model
 		$res = $this->db->query("SELECT * from file_details where file_id = ".$file_id.";");
 		return $res;
 	}
-	function change_file_status ($file_id)
-	{
-		$this->db->query ("UPDATE file_details SET file_status=1 WHERE file_id=".$file_id.";");
-	}
 	function get_department_by_id()
 	{
 		$query =  $this->db->query("SELECT name,id FROM departments;");
@@ -57,6 +53,10 @@ class File_details extends CI_Model
 	{
 		$query = $this->db->query("SELECT id,salutation,first_name,middle_name,last_name FROM user_details WHERE dept_id="."'".$dept_id."'".";");
 		return $query->result_array();
+	}
+	function insert_close_details($file_id, $emp_id)
+	{
+		$this->db->query("UPDATE file_details SET close_timestamp=now(), close_emp_id='".$emp_id."'WHERE file_id=".$file_id.";");
 	}
 }
 

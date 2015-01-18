@@ -25,7 +25,7 @@
 		{
 			$i++;
 			$user = $this->user_details_model->getUserById($v_row->id);
-			$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
+			$emp_name = ucwords($user->salutation.'. '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
 			echo "<tr>
 					<td align=\"center\" >".$v_row->id."</td>
 					<td align=\"center\">".$emp_name."</td>";

@@ -136,15 +136,14 @@
 		$('#edit_div').remove();
 	}
 
-	function onclick_edit(i, dob)
+	function onclick_edit(i, dob, photopath)
 	{
 		var row=document.getElementsByName("row[]")[i-1];
    		if(row.cells[6].innerHTML=="Active")
 			var style="background:#DFD";
 		else
 			var style="background:#FDD";
-
-		var x = '<form action="'+js_site_url('employee/edit/update_old_fam_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
+		var x = '<form action="'+site_url('employee/edit/update_old_fam_details/'+i)+'" onSubmit="return onclick_save('+i+');" enctype="multipart/form-data" method="post" accept-charset="utf-8" >';
 		x+='<table><tr>';
 		x+='<th>Name</th><td>'+row.cells[1].innerHTML+'</td></tr>';
 		x+='<tr><th>Relationship</th><td>'+row.cells[2].innerHTML+'</td></tr>';
@@ -152,12 +151,14 @@
 		x+='<tr><th>Profession</th><td><input type="text" id="profession'+i+'" name="profession'+i+'" value="'+row.cells[4].innerHTML+'" /></td></tr>';
 		x+='<tr><th>Present Postal Address</th><td><textarea rows=4 cols=25 id="address'+i+'" name="address'+i+'" >'+row.cells[5].innerHTML+'</textarea></td></tr>';
 		x+='<tr><th>Active/Inactive</th><td><input type="text" id="active'+i+'" name="active'+i+'" style="'+style+'" value="'+row.cells[6].innerHTML+'" onClick="change_act(this)" readonly /></td></tr>';
+		x+='<tr><th>Photograph</th><td><img src="'+base_url()+'assets/images/'+photopath+'" name="view_photo3'+i+'" id="view_photo3'+i+'" width="145" height="150"/>';
+		x+='<br><input type="file" id="photo3'+i+'" name="photo3'+i+'" /><input type="button" value="Preview" id="preview3'+i+'" name="preview3'+i+'" onClick="edit_preview_pic('+i+');"></td></tr>';
 		x+='<tr style="background:#00092a;" align="center"><td colspan=2><input type="submit" name="save" value="Save" /><input type="button" name="cancel" value="Cancel" onClick="closeframe();" />';
 		x+='</td></tr></table>';
 		x+='</form>';
 
 		var coverdiv = '<div id="coverdiv" style="height: 100%; width: 100%; top: 0px; left: 0px; opacity: 0.5; position: fixed; z-index: 2000; background: rgb(170, 170, 170);"></div>';
-		var formdiv = '<div id="formdiv" style="height: auto; width: auto; top: 20%; left: 35%; display: block; position: absolute; z-index: 2001; background: #FEFEFE;">';
+		var formdiv = '<div id="formdiv" style="height: auto; width: auto; top: 10%; left: 35%; display: block; position: absolute; z-index: 2001; background: #FEFEFE;">';
 		formdiv+=x+'</div>';
 		var div = document.createElement('div');
 		div.setAttribute("id", "edit_div");
@@ -183,13 +184,28 @@
 		return false;
 	}
 
+	function edit_preview_pic(i)
+	{
+		var file=document.getElementById('photo3'+i).files[0];
+		if(file)
+		{
+			oFReader = new FileReader();
+        	oFReader.onload = function(oFREvent)
+			{
+				var dataURI = oFREvent.target.result;
+				document.getElementById('view_photo3'+i).src = dataURI;
+			};
+			oFReader.readAsDataURL(file);
+		}
+	}
+
 	function preview_pic(sender)
 	{
 		var tr_no=sender.parentNode.parentNode.rowIndex;
 		var row=document.getElementById("tableid").rows;
 		var file=document.getElementsByName("photo3[]")[tr_no-1].files[0];
 		if(!file)
-			document.getElementsByName('view_photo3[]')[tr_no-1].src =  js_base_url()+"assets/images/employee/noProfileImage.png";
+			document.getElementsByName('view_photo3[]')[tr_no-1].src =  base_url()+"assets/images/employee/noProfileImage.png";
 		else
       	{
 			oFReader = new FileReader();

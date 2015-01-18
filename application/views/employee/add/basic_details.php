@@ -8,12 +8,12 @@
 			<td width='20%' id="empId">
     			Employee Id<span style= "color:red;"> *</span>
             </td>
-			<td width='28%' id="empId">
+			<td width='30%' id="empId">
 	        	<input type="text" name="emp_id" required="required" tabindex="1" />
 				<input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()" tabindex="1" />
 				<i class="loading" id="empIdIcon" ></i>
 			</td>
-			<td width='22%'>
+			<td width='20%'>
     			Physically Challenged<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>

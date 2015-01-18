@@ -11,11 +11,11 @@
 	</tr>
 	<tr>
 		<th>Created By</th>
-		<td><?php echo $emp_id;?></td>
+		<td><?php echo $start_emp_id;?></td>
 	</tr>
 	<tr>
 		<th>Current Status</th>
-		<td><?php if($file_status == 0) echo "Active"; else echo "Closed";?></td>
+		<td><?php if($close_emp_id) echo "Closed"; else echo "Active";?></td>
 	</tr>
 </table>
 <br>
@@ -26,6 +26,7 @@
 		<th>Employee Name</th>
 		<th>Received On</th>
 		<th>Sent On</th>
+		<th>Remarks</th>
 	</tr>
 <?php
 	$row = $result->row();
@@ -40,6 +41,7 @@
 		<td><?php echo $row->sent_by_emp_id;?></td>
 		<td><?php echo "File Started"; ?></td>
 		<td><?php echo $row->sent_timestamp;?></td>
+		<td><?php echo $row->remarks;?></td>
 	</tr>
 <?php
 	$prev_row = $row;
@@ -52,6 +54,7 @@
 		<td><?php echo $row->sent_by_emp_id;?></td>
 		<td><?php echo $prev_row->rcvd_timestamp;?></td>
 		<td><?php echo $row->sent_timestamp;?></td>
+		<td><?php echo $row->remarks;?></td>
 	</tr>
 <?php
 		$prev_row = $row;
@@ -64,7 +67,8 @@
 		<td><?php echo $sno++; ?></td>
 		<td><?php echo $prev_row->rcvd_by_emp_id;?></td>
 		<td><?php echo $prev_row->rcvd_timestamp;?></td>
-		<td><?php if($file_status == 1) echo "File Closed"; else echo "Not Forwarded";?></td>
+		<td><?php if($close_emp_id) echo "File Closed"; else echo "Not Forwarded";?></td>
+		<td><?php echo "--";?></td>
 	</tr>
 <?php
 	}
@@ -75,6 +79,7 @@
 		<td><?php echo $sno++; ?></td>
 		<td><?php echo $prev_row->rcvd_by_emp_id;?></td>
 		<td><?php echo "File not Received"; ?> </td>
+		<td><?php echo "--";?></td>
 		<td><?php echo "--";?></td>
 	</tr>	
 <?php

@@ -2,7 +2,6 @@
 
 class File_details extends CI_Model
 {
-
 	var $table = 'file_details';
 
 	function __construct()

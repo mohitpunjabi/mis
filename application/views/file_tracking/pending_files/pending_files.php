@@ -20,7 +20,7 @@
 					<td><?php echo $row->file_subject; ?></td>
 					<td><?php echo $row->salutation.' '.$row->first_name.' '.$row->middle_name.' '.$row->last_name; ?></td>
 					<td>
-						<a href="<?php echo site_url("file_tracking/send_running_file/index/".$row->file_id); ?>"><input type="button" value="Forward This File"></a>
+						<a href="<?php echo site_url("file_tracking/send_running_file/index/".$row->file_id."/".$row->file_subject); ?>"><input type="button" value="Forward This File"></a>
 						<a href="<?php echo site_url("file_tracking/close_file/index/".$row->file_id); ?>"><input type="button" value="Close File"></a>
 					</td>
 				</tr>

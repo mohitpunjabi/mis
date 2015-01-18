@@ -36,7 +36,7 @@ class Send_new_file extends MY_Controller
 		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id,$remarks);
 		//$this->notification->drawNotification ("", "File Successfully Sent");
 	}
-	public function insert_move_details ($file_id, $rcvd_emp_id)
+	public function insert_move_details ($file_id, $rcvd_emp_id, $remarks)
 	{
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$track_num = $this->file_details->get_track_num ($file_id);
@@ -44,7 +44,7 @@ class Send_new_file extends MY_Controller
 		$this->load->model ('file_tracking/file_move_details', '', TRUE);
    		$this->file_move_details->change_forward_status ($file_id);
 		
-		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, "");
+		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, $remarks);
 	}
 	public function insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, $remarks)
 	{

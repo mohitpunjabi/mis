@@ -9,7 +9,7 @@ class Send_running_file extends MY_Controller
 		$this->addJS("file_tracking/file_tracking_script.js");
 	}
 
-	public function index($file_id)
+	public function index($file_id,$file_sub)
 	{
 		$emp_id = $this->session->userdata('id');
 		$header['title']='Send Running File';
@@ -24,6 +24,7 @@ class Send_running_file extends MY_Controller
 		$data['emp_id'] = $emp_id;
 		$data['department'] = $this->file_details->get_department_by_id();
 		$data['file_id'] = $file_id;
+		$data['file_sub'] = $file_sub;
 		$this->drawHeader ("Send Running File");
 		//$this->load->view('templates/header',$header);
 		$this->load->view('file_tracking/send_running_file/send_running_file',$data);

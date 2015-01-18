@@ -1,6 +1,6 @@
 <?php
 
-class File_basic_details extends CI_Model
+class File_details extends CI_Model
 {
 
 	var $table = 'file_details';

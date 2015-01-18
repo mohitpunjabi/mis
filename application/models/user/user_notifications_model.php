@@ -17,22 +17,29 @@ class User_notifications_model extends CI_Model
 
 	function getUnreadUserNotifications($user_to, $auth)
 	{
-		$query = $this->db->where('user_to',$user_to)
+		$query = $this->db->select('user_notifications.*, user_details.photopath as photopath')
+						->where('user_to',$user_to)
 						->where('auth_id',$auth)
 						->where('send_date >= ', date('Y-m-d H:i:s', $this->session->userdata('last_activity')))
+						->from($this->table)
+						->join('user_details', 'user_details.id = user_notifications.user_from')
 						->order_by('send_date','desc')
-						->get($this->table);
+						->get();
 		if($query->num_rows()==0)	return FALSE;
 		return $query->result();
 	}
 
 	function getReadUserNotifications($user_to, $auth)
 	{
-		$query = $this->db->where('user_to',$user_to)
+		$query = $this->db->select('user_notifications.*, user_details.photopath as photopath')
+						->where('user_to',$user_to)
 						->where('auth_id',$auth)
 						->where('send_date < ', date('Y-m-d H:i:s', $this->session->userdata('last_activity')))
+						->from($this->table)
+						->join('user_details', 'user_details.id = user_notifications.user_from')
 						->order_by('send_date','desc')
-						->get($this->table);
+						->get();
+
 		if($query->num_rows()==0)	return FALSE;
 		return $query->result();
 	}

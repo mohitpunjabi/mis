@@ -3,6 +3,8 @@
 class Pay_scales_model extends CI_Model
 {
 
+	var $table = 'pay_scales';
+
 	function __construct()
 	{
 		// Call the Model constructor
@@ -12,7 +14,7 @@ class Pay_scales_model extends CI_Model
 	function get_pay_bands()
 	{
 		$this->db->distinct()->select('pay_band, pay_band_description');
-		$query = $this->db->get('pay_scales');
+		$query = $this->db->get($this->table);
 		if($query->num_rows() > 0)
 			return $query->result();
 		else
@@ -21,14 +23,10 @@ class Pay_scales_model extends CI_Model
 
 	function get_grade_pay($pay_band = '')
 	{
-		$pay_band=urldecode($pay_band);
 		if($pay_band !== '')
 		{
-//			$this->db->query("select pay_code,grade_pay
-//								from pay_scales
-//								where pay_band='".$pay_band."'");
 			$this->db->select('pay_code, grade_pay')->where("pay_band='".$pay_band."'",'',FALSE);
-			$query = $this->db->get('pay_scales');
+			$query = $this->db->get($this->table);
 			if($query->num_rows() > 0)
 				return $query->result();
 			else
@@ -58,4 +56,4 @@ class Pay_scales_model extends CI_Model
 }
 
 /* End of file pay_scales_model.php */
-/* Location: Codeigniter/application/models/pay_scales_model.php */
+/* Location: mis/application/models/pay_scales_model.php */

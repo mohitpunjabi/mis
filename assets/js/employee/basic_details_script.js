@@ -27,7 +27,7 @@
 			    document.getElementById("depts").innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-	  	xmlhttp.open("POST","<?php echo base_url(); ?>index.php/ajax/department/"+auth,true);
+		xmlhttp.open("POST",site_url("ajax/department/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
@@ -51,7 +51,7 @@
 			    gp.innerHTML=xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST","<?php echo base_url(); ?>index.php/ajax/grade_pay/"+pb,true);
+		xmlhttp.open("POST",site_url("ajax/grade_pay/"+pb),true);
 		xmlhttp.send();
 		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
 		gp.style.visibility = "visible";
@@ -128,11 +128,11 @@
 		xmlhttp.onreadystatechange=function()
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		    {
+			{
 			    document.getElementById("des").innerHTML=xmlhttp.responseText;
-		    }
+		    	}
 	  	}
-		xmlhttp.open("POST","<?php echo base_url(); ?>index.php/ajax/designation/"+auth,true);
+		xmlhttp.open("POST",site_url("ajax/designation/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("des").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
@@ -141,7 +141,7 @@
 	{
 		var file=document.getElementById('photo').files[0];
 		if(!file)
-			document.getElementById('view_photo').src =  "Images/noProfileImage.png";
+			document.getElementById('view_photo').src =  base_url()+"assets/images/employee/noProfileImage.png";
       	else
 		{
 			oFReader = new FileReader();
@@ -192,7 +192,7 @@
 		xmlhttp.onreadystatechange=function()
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		    {
+		    	{
 				if(xmlhttp.responseText != "") {
 					var details = eval(xmlhttp.responseText);
 					$("select[name=salutation]").val(details['salutation']);
@@ -215,11 +215,11 @@
 					$("input[name=mobile]").val("");
 				}
 				$("td, th").css("visibility", "visible");
-				$("#fetch_id_btn").show();
+				$("#fetch_id_btn").hide();
 				$("#empIdIcon").hide();
 		    }
 	  	}
-		xmlhttp.open("GET","AJAX_fetch_emp_details.php?emp_id="+emp_id,true);
+		xmlhttp.open("POST",site_url("employee/emp_ajax/feedback_emp_detail/"+emp_id),true);
 		xmlhttp.send();
 	}
 

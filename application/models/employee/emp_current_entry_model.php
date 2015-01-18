@@ -2,8 +2,7 @@
 
 class Emp_current_entry_model extends CI_Model
 {
-	var $id = '';
-	var $curr_step = '';
+	var $table = 'emp_current_entry';
 
 	function __construct()
 	{
@@ -13,30 +12,27 @@ class Emp_current_entry_model extends CI_Model
 
 	function get_current_entry()
 	{
-		$query = $this->db->get('emp_current_entry');
-		if($query->num_rows() > 0)
-	        	return $query->row();
+		$query = $this->db->get($this->table);
+		if($query->num_rows() === 1)
+	        return $query->row();
 		else
 			return FALSE;
 	}
 
-	function insert_entry()
+	function insert($data)
 	{
-		$this->id   = $this->input->post('emp_id');
-	        $this->curr_step = 1;
-
-	        $this->db->insert('emp_current_entry', $this);
+    	$this->db->insert($this->table, $data);
 	}
-/*
-    function update_entry()
-    {
-        $this->title   = $_POST['title'];
-        $this->content = $_POST['content'];
-        $this->date    = time();
 
-        $this->db->update('entries', $this, array('id' => $_POST['id']));
-    }
-*/
+	function update($data, $where)
+	{
+		$this->db->update($this->table,$data,$where);
+	}
+
+	function delete($where)
+	{
+		$this->db->delete($this->table,$where);
+	}
 }
 
 /* End of file emp_current_entry_model.php */

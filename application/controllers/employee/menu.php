@@ -20,3 +20,4 @@ class Menu extends MY_Controller
 
 /* End of file menu.php */
 /* Location: mis/application/controllers/employee/menu.php */
+

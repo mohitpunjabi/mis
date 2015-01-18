@@ -13,7 +13,7 @@
 				<td><?php echo $row->file_id;?></td>
 				<td><?php echo $row->track_num;?></td>
 				<td><?php echo $row->file_subject;?></td>
-				<td><?php echo $row->emp_id;?></td>
+				<td><?php echo $row->start_emp_id; ?></td>
 			</tr>
 <?php
 		}

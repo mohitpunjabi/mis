@@ -15,6 +15,7 @@ class File_details extends CI_Model
 		$this->db->insert($this->table,$data);
 		$this->db->select('file_id');
 		$this->db->where('track_num', $track_num); 
+//		$this->db->query ("INSERT INTO values ();")
 		$query = $this->db->get($this->table);
 		$file = $query->row();
 		$output = array (

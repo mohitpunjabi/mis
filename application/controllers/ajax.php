@@ -63,5 +63,6 @@ class Ajax extends CI_Controller
 	}
 }
 
+
 /* End of file ajax.php */
 /* Location: Codeigniter/application/controllers/ajax.php */

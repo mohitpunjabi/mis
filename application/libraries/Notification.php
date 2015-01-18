@@ -61,4 +61,3 @@
 			return $urlParts[$i+1];
 		}
 	}
-

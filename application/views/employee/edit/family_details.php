@@ -96,4 +96,5 @@
     <input type="submit" name="submit3" value="Save" />
     <?php echo form_close(); ?>
 </div>
+
 <a href= <?= site_url('employee/edit')?> ><button>Back</button></a>

@@ -25,8 +25,9 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
+		$this->addCSS("home/home-style.css");
 		$this->drawHeader("MIS");
-		$this->load->view('home',array('menu'=>parent::getMenu()));
+		$this->load->view('home');
 		$this->drawFooter();
 	}
 }

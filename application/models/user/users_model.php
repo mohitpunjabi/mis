@@ -44,7 +44,6 @@ class Users_model extends CI_Model
 			}
 
 			$password = $this->authorization->encode_password($password, $row->created_date);
-
 			if($password == $row->password)
 			{
 				// Login Successful
@@ -139,4 +138,4 @@ class Users_model extends CI_Model
 }
 
 /* End of file users_model.php */
-/* Location: mis/application/models/users_model.php */
+/* Location: mis/application/models/user/users_model.php */

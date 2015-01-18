@@ -144,7 +144,7 @@
 		else
 			var style="background:#FDD";
 
-		var x = '<form action="'+js_site_url('employee/edit/update_old_fam_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
+		var x = '<form action="'+site_url('employee/edit/update_old_fam_details/'+i)+'" onSubmit="return onclick_save('+i+');" method="post" accept-charset="utf-8" >';
 		x+='<table><tr>';
 		x+='<th>Name</th><td>'+row.cells[1].innerHTML+'</td></tr>';
 		x+='<tr><th>Relationship</th><td>'+row.cells[2].innerHTML+'</td></tr>';
@@ -189,7 +189,7 @@
 		var row=document.getElementById("tableid").rows;
 		var file=document.getElementsByName("photo3[]")[tr_no-1].files[0];
 		if(!file)
-			document.getElementsByName('view_photo3[]')[tr_no-1].src =  js_base_url()+"assets/images/employee/noProfileImage.png";
+			document.getElementsByName('view_photo3[]')[tr_no-1].src =  base_url()+"assets/images/employee/noProfileImage.png";
 		else
       	{
 			oFReader = new FileReader();

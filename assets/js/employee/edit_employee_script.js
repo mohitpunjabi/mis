@@ -25,7 +25,7 @@
 			    emp_name.innerHTML += xmlhttp.responseText;
 		    }
 	  	}
-		xmlhttp.open("POST",js_site_url("ajax/empNameByDept/"+dept),true);
+		xmlhttp.open("POST",site_url("ajax/empNameByDept/"+dept),true);
 		xmlhttp.send();
 		emp_name.innerHTML = "<i class=\"loading\"></i>";
 	}

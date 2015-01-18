@@ -11,7 +11,10 @@
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
-	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-helper.js"></script>
+	<script >
+		function base_url()	{	return "<?= base_url()?>";	}
+		function site_url(uri)	{	return base_url()+"index.php/"+uri;	}
+	</script>
     <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
 <body>

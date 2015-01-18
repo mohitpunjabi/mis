@@ -52,7 +52,7 @@
 			}
 		}
 //		alert ("Hitesh");
-		xmlhttp.open("POST", js_site_url("file_tracking/send_new_file/insert_file_basic_details/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
+		xmlhttp.open("POST", js_site_url("file_tracking/send_new_file/insert_file_details/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -220,13 +220,6 @@
 	}
 	function get_file_move_details2(track_num)
 	{
-		//var track_num = document.getElementById("track_num").value;
-		//alert ("hello");
-		//alert ("hello"+file_id);
-		if(track_num==""){
-			alert("Please Enter Track Number.");
-			return;
-		}
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{

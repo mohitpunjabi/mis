@@ -25,7 +25,7 @@ class Send_new_file extends MY_Controller
 		$data = array(
 				'file_subject' => $file_sub ,
 				'track_num'=> $track_num ,
-				'emp_id' => $emp_id 
+				'start_emp_id' => $emp_id 
 					  );
 		
 		$this->load->model ('file_tracking/file_details', '', TRUE);
@@ -38,13 +38,13 @@ class Send_new_file extends MY_Controller
 	}
 	public function insert_move_details ($file_id, $rcvd_emp_id)
 	{
-		$this->load->model ('file_tracking/File_details', '', TRUE);
+		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$track_num = $this->file_details->get_track_num ($file_id);
+
+		$this->load->model ('file_tracking/file_move_details', '', TRUE);
+   		$this->file_move_details->change_forward_status ($file_id);
 		
-		$this->load->model ('file_tracking/File_move_details', '', TRUE);
-   		$this->File_move_details->change_rcvd_status ($file_id);
-		
-		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id);
+		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, "");
 	}
 	public function insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, $remarks)
 	{
@@ -56,16 +56,15 @@ class Send_new_file extends MY_Controller
 			'sent_timestamp' => '',
 			'rcvd_by_emp_id' => $rcvd_emp_id,
 			'rcvd_timestamp' => '',
-			'rcvd_status' => 0,
+			'forward_status' => 0,
 			'remarks' => $remarks
 				);
 
-		$this->load->model ('file_tracking/File_move_details', '', TRUE);
-		$this->File_move_details->insert ($data_arr);
+		$this->load->model ('file_tracking/file_move_details', '', TRUE);
+		$this->file_move_details->insert ($data_arr);
 
 		$this->notification->notify ($rcvd_emp_id, "emp", "File is Received","", "receive_file/validate_track_num/".$file_id, "");
 		$data_arr2['track_num'] = $track_num;
-		echo $track_num;
 		$this->load->view('file_tracking/send_new_file/send_new_file_ajax2', $data_arr2);
 	}
 }

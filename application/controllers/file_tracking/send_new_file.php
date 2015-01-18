@@ -10,9 +10,6 @@ class Send_new_file extends MY_Controller
 
 	public function index()
 	{
-		$header['title']="Send New File";
-		//Importing helper class, Ask someone
-		//$this->load->helper('string');
 		$this->load->model("file_tracking/file_details");
 
 		$data['department'] = $this->file_details->get_department_by_id();
@@ -24,29 +21,19 @@ class Send_new_file extends MY_Controller
 	public function insert_file_details ($file_sub, $rcvd_emp_id, $remarks)
 	{
 		$emp_id = $this->session->userdata('id');
-		//$this->load->helper('string');
-		//$track_num = 371235816;
 		$track_num = time();
-		//$track_num 
-		//echo $track_num;
-//		$file_sub = $this->input->post ('file_sub');
-//		$rcvd_emp_id = $this->input->post ('emp_id');
-		$file_status = 0;
-		//$timestamp = now();
 		$data = array(
-				'emp_id' => $emp_id ,
 				'file_subject' => $file_sub ,
-				'file_status' => $file_status ,
 				'track_num'=> $track_num ,
-				'remarks' => $remarks
-			);
+				'emp_id' => $emp_id 
+					  );
 		
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$arr = $this->file_details->insert($data, $track_num);
 		$file_id = $arr['file_id'];
 		//$track_num = $arr['track_num'];
 	
-		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id);
+		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id,$remarks);
 		//$this->notification->drawNotification ("", "File Successfully Sent");
 	}
 	public function insert_move_details ($file_id, $rcvd_emp_id)
@@ -59,7 +46,7 @@ class Send_new_file extends MY_Controller
 		
 		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id);
 	}
-	public function insert_file_move_details ($file_id, $track_num, $rcvd_emp_id)
+	public function insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, $remarks)
 	{
 		$emp_id = $this->session->userdata('id');
 		$data_arr = array (
@@ -69,7 +56,8 @@ class Send_new_file extends MY_Controller
 			'sent_timestamp' => '',
 			'rcvd_by_emp_id' => $rcvd_emp_id,
 			'rcvd_timestamp' => '',
-			'rcvd_status' => 0
+			'rcvd_status' => 0,
+			'remarks' => $remarks
 				);
 
 		$this->load->model ('file_tracking/File_move_details', '', TRUE);

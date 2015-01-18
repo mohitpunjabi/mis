@@ -13,7 +13,7 @@ class View extends MY_Controller
 		{
 			$this->addJS('employee/edit_employee_script.js');
 
-			$this->load->model('emp_basic_details_model','',TRUE);
+			$this->load->model('employee/emp_basic_details_model','',TRUE);
 			$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
 
 			$this->load->model('departments_model','',TRUE);
@@ -67,31 +67,19 @@ class View extends MY_Controller
 		$data['emp_id'] = $emp_id;
 		$data['form'] = $form;
 
-		$this->load->model('user_details_model','',TRUE);
-		$this->load->model('user_other_details_model','',TRUE);
-		$this->load->model('emp_basic_details_model','',TRUE);
-		$this->load->model('faculty_details_model','',TRUE);
-		$this->load->model('emp_pay_details_model','',TRUE);
-		$this->load->model('user_address_model','',TRUE);
-		$this->load->model('emp_prev_exp_details_model','',TRUE);
+		$this->load->model('employee_model','',TRUE);
+		$this->load->model('employee/faculty_details_model','',TRUE);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
 		$this->load->model('departments_model','',TRUE);
 		$this->load->model('designations_model','',TRUE);
-		$this->load->model('emp_family_details_model','',TRUE);
-		$this->load->model('emp_education_details_model','',TRUE);
-		$this->load->model('emp_last5yrstay_details_model','',TRUE);
-		$this->load->model('emp_validation_details_model','',TRUE);
 
-		$data['user_details']=$this->user_details_model->getUserById($emp_id);
-		$data['user_other_details']=$this->user_other_details_model->getUserById($emp_id);
-		$data['emp']=$this->emp_basic_details_model->getEmployeeById($emp_id);
+
+		$data['emp']=$this->employee_model->getById($emp_id);
 		$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
-		$data['emp_pay_details']=$this->emp_pay_details_model->getEmpPayDetailsById($emp_id);
-		$data['permanent_address']=$this->user_address_model->getAddrById($emp_id,'permanent');
-		$data['present_address']=$this->user_address_model->getAddrById($emp_id,'present');
-		$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
-		$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
-		$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
-		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
+		$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
+		$data['emp_family_details'] = $this->employee_model->getFamilyDetailsById($emp_id);
+		$data['emp_education_details'] = $this->employee_model->getEducationDetailsById($emp_id);
+		$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
 		$this->drawHeader("View Employee Details");

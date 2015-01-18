@@ -20,7 +20,7 @@
 					$i=1;
 					foreach($emp_prev_exp_details as $row)
 					{
-						if($row->remarks == "")	$remarks='NA';
+						if($row->remarks == "")	$remarks='';
 						else	$remarks = $row->remarks;
 						echo '<tr name="row[]" align="center">
 								<td>'.$i.'</td>

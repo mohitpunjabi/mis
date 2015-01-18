@@ -13,7 +13,7 @@ class Edit extends MY_Controller
 		{
 			$this->addJS("employee/edit_employee_script.js");
 
-			$this->load->model('emp_basic_details_model','',TRUE);
+			$this->load->model('employee/emp_basic_details_model','',TRUE);
 			$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
 
 			$this->load->model('Departments_model','',TRUE);
@@ -26,12 +26,12 @@ class Edit extends MY_Controller
 		else if($this->authorization->is_auth('emp'))
 		{
 			$emp_id=$data['emp_id']=$this->session->userdata('id');
-			$this->load->model('user_details_model','',TRUE);
-			$this->load->model('user_other_details_model','',TRUE);
-			$this->load->model('emp_basic_details_model','',TRUE);
-			$this->load->model('faculty_details_model','',TRUE);
-			$this->load->model('emp_pay_details_model','',TRUE);
-			$this->load->model('user_address_model','',TRUE);
+			$this->load->model('user/user_details_model','',TRUE);
+			$this->load->model('user/user_other_details_model','',TRUE);
+			$this->load->model('employee/emp_basic_details_model','',TRUE);
+			$this->load->model('employee/faculty_details_model','',TRUE);
+			$this->load->model('employee/emp_pay_details_model','',TRUE);
+			$this->load->model('user/user_address_model','',TRUE);
 
 			$data['user_details']=$this->user_details_model->getUserById($emp_id);
 			$data['user_other_details']=$this->user_other_details_model->getUserById($emp_id);
@@ -42,7 +42,7 @@ class Edit extends MY_Controller
 			$data['present_address']=$this->user_address_model->getAddrById($emp_id,'present');
 
 			$this->load->model('departments_model','',TRUE);
-			$this->load->model('Designations_model','',TRUE);
+			$this->load->model('designations_model','',TRUE);
 			// get distinct pay bands
 			$this->load->model('pay_scales_model','',TRUE);
 			$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
@@ -95,7 +95,7 @@ class Edit extends MY_Controller
 	{
 		$this->addJS("employee/emp_profile_picture_script.js");
 
-		$this->load->model('user_details_model','',TRUE);
+		$this->load->model('user/user_details_model','',TRUE);
 		$res=$this->user_details_model->getUserById($emp_id);
 		$data['photopath'] = ($res == FALSE)?	FALSE:$res->photopath;
 		$data['emp_id']=$emp_id;
@@ -109,11 +109,11 @@ class Edit extends MY_Controller
 		$upload = $this->_upload_image($emp_id,'photo');
 		if($upload)
 		{
-			$this->load->model('user_details_model','',TRUE);
+			$this->load->model('user/user_details_model','',TRUE);
 			$res=$this->user_details_model->getUserById($emp_id);
 			$old_photo = ($res == FALSE)?	FALSE:$res->photopath;
-			$this->user_details_model->updateById(array('photopath'=>$upload['file_name']),$emp_id);
-			if($old_photo)	unlink(APPPATH.'../assets/images/employee/'.$emp_id.'/'.$old_photo);
+			$this->user_details_model->updateById(array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']),$emp_id);
+			if($old_photo)	unlink(APPPATH.'../assets/images/'.$old_photo);
 
 			$this->edit_validation($emp_id,'profile_pic_status');
 
@@ -127,12 +127,12 @@ class Edit extends MY_Controller
 		$this->addJS("employee/edit_basic_details_script.js");
 
 		$data['emp_id']=$emp_id;
-		$this->load->model('user_details_model','',TRUE);
-		$this->load->model('user_other_details_model','',TRUE);
-		$this->load->model('emp_basic_details_model','',TRUE);
-		$this->load->model('faculty_details_model','',TRUE);
-		$this->load->model('emp_pay_details_model','',TRUE);
-		$this->load->model('user_address_model','',TRUE);
+		$this->load->model('user/user_details_model','',TRUE);
+		$this->load->model('user/user_other_details_model','',TRUE);
+		$this->load->model('employee/emp_basic_details_model','',TRUE);
+		$this->load->model('employee/faculty_details_model','',TRUE);
+		$this->load->model('employee/emp_pay_details_model','',TRUE);
+		$this->load->model('user/user_address_model','',TRUE);
 
 		$data['user_details']=$this->user_details_model->getUserById($emp_id);
 		$data['user_other_details']=$this->user_other_details_model->getUserById($emp_id);
@@ -143,7 +143,7 @@ class Edit extends MY_Controller
 		$data['present_address']=$this->user_address_model->getAddrById($emp_id,'present');
 
 		$this->load->model('departments_model','',TRUE);
-		$this->load->model('Designations_model','',TRUE);
+		$this->load->model('designations_model','',TRUE);
 		// get distinct pay bands
 		$this->load->model('pay_scales_model','',TRUE);
 		$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
@@ -214,12 +214,12 @@ class Edit extends MY_Controller
 		);
 
 		//loading models
-		$this->load->model('user_details_model','',TRUE);
-		$this->load->model('user_other_details_model','',TRUE);
-		$this->load->model('emp_basic_details_model','',TRUE);
-		$this->load->model('faculty_details_model','',TRUE);
-		$this->load->model('emp_pay_details_model','',TRUE);
-		$this->load->model('user_address_model','',TRUE);
+		$this->load->model('user/user_details_model','',TRUE);
+		$this->load->model('user/user_other_details_model','',TRUE);
+		$this->load->model('employee/emp_basic_details_model','',TRUE);
+		$this->load->model('employee/faculty_details_model','',TRUE);
+		$this->load->model('employee/emp_pay_details_model','',TRUE);
+		$this->load->model('user/user_address_model','',TRUE);
 
 		//starting transaction for insertion in database
 
@@ -280,11 +280,11 @@ class Edit extends MY_Controller
 		);
 
 		//loading models
-		$this->load->model('user_details_model','',TRUE);
-		$this->load->model('user_other_details_model','',TRUE);
-		$this->load->model('emp_basic_details_model','',TRUE);
-		$this->load->model('faculty_details_model','',TRUE);
-		$this->load->model('user_address_model','',TRUE);
+		$this->load->model('user/user_details_model','',TRUE);
+		$this->load->model('user/user_other_details_model','',TRUE);
+		$this->load->model('employee/emp_basic_details_model','',TRUE);
+		$this->load->model('employee/faculty_details_model','',TRUE);
+		$this->load->model('user/user_address_model','',TRUE);
 
 		//starting transaction for insertion in database
 
@@ -309,11 +309,11 @@ class Edit extends MY_Controller
 		$this->addJS("employee/edit_prev_emp_details_script.js");
 
 		$data['emp_id']=$emp_id;
-		$this->load->model('emp_prev_exp_details_model','',TRUE);
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 		$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
 
 		//joining date of the employee
-		$this->load->model('emp_basic_details_model','',TRUE);
+		$this->load->model('employee/emp_basic_details_model','',TRUE);
 		$emp_basic_details = $this->emp_basic_details_model->getEmployeeByID($emp_id);
 		if($emp_basic_details !== FALSE)
 			$data['joining_date'] = $emp_basic_details->joining_date;
@@ -334,10 +334,12 @@ class Edit extends MY_Controller
 		$addr = $this->input->post('addr2');
 		$reason = $this->input->post('reason2');
 
-		$this->load->model('emp_prev_exp_details_model','',TRUE);
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 
 		$n = count($designation);
-		$sno = count($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id));
+		if($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))
+			$sno = count($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id));
+		else $sno = 0;
 		$i=0;
 		while($i<$n && $designation[$i] != '')
 		{
@@ -368,7 +370,7 @@ class Edit extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
-		$this->load->model('emp_prev_exp_details_model','',TRUE);
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 
 		$this->emp_prev_exp_details_model->update_record(array('designation'=>strtolower($this->input->post('designation'.$row)),
 																'from'=>$this->input->post('from'.$row),
@@ -388,7 +390,7 @@ class Edit extends MY_Controller
 		$this->addJS("employee/edit_family_details_script.js");
 
 		$data['emp_id']=$emp_id;
-		$this->load->model('emp_family_details_model','',TRUE);
+		$this->load->model('employee/emp_family_details_model','',TRUE);
 		$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
 
 		$this->drawHeader('Edit Family Details');
@@ -405,10 +407,13 @@ class Edit extends MY_Controller
 		$dob = $this->input->post('dob3');
 		$active = $this->input->post('active3');
 
-		$this->load->model('emp_family_details_model','',TRUE);
+		$this->load->model('employee/emp_family_details_model','',TRUE);
 
 		$n = count($name);
-		$sno = count($this->emp_family_details_model->getEmpFamById($emp_id));
+		if($this->emp_family_details_model->getEmpFamById($emp_id))
+			$sno = count($this->emp_family_details_model->getEmpFamById($emp_id));
+		else $sno = 0;
+
 		$i = 0;
 
 		$upload = $this->_upload_image($emp_id,'photo3',$n);
@@ -423,7 +428,7 @@ class Edit extends MY_Controller
 				$emp_family_details[$i]['relationship'] = $relationship[$i];
 				$emp_family_details[$i]['profession'] = strtolower($profession[$i]);
 				$emp_family_details[$i]['present_post_addr'] = strtolower($addr[$i]);
-				$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? $upload[$i]['file_name'] : '';
+				$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? 'employee/'.$emp_id.'/'.$upload[$i]['file_name'] : '';
 				$emp_family_details[$i]['dob'] = $dob[$i];
 				$emp_family_details[$i]['active_inactive'] = $active[$i];
 				$i++;
@@ -445,7 +450,7 @@ class Edit extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
-		$this->load->model('emp_family_details_model','',TRUE);
+		$this->load->model('employee/emp_family_details_model','',TRUE);
 
 		$this->emp_family_details_model->update_record(array('dob'=>$this->input->post('dob'.$row),
 															'profession'=>strtolower($this->input->post('profession'.$row)),
@@ -463,7 +468,7 @@ class Edit extends MY_Controller
 		$this->addJS("employee/edit_education_details_script.js");
 
 		$data['emp_id']=$emp_id;
-		$this->load->model('emp_education_details_model','',TRUE);
+		$this->load->model('employee/emp_education_details_model','',TRUE);
 		$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
 
 		$this->drawHeader('Edit Educational Qualifications');
@@ -480,10 +485,13 @@ class Edit extends MY_Controller
 		$grade = $this->input->post('grade4');
 		$div = $this->input->post('div4');
 
-		$this->load->model('emp_education_details_model','',TRUE);
+		$this->load->model('employee/emp_education_details_model','',TRUE);
 
 		$n = count($clgname);
-		$sno = count($this->emp_education_details_model->getEmpEduById($emp_id));
+		if($this->emp_education_details_model->getEmpEduById($emp_id))
+			$sno = count($this->emp_education_details_model->getEmpEduById($emp_id));
+		else $sno = 0;
+
 		$i=0;
 		while($i<$n && $clgname[$i] != '')
 			{
@@ -514,7 +522,7 @@ class Edit extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
-		$this->load->model('emp_education_details_model','',TRUE);
+		$this->load->model('employee/emp_education_details_model','',TRUE);
 
 		$this->emp_education_details_model->update_record(array('exam'=>strtolower($this->input->post('exam'.$row)),
 																'branch'=>strtolower($this->input->post('branch'.$row)),
@@ -534,7 +542,7 @@ class Edit extends MY_Controller
 		$this->addJS("employee/edit_last_5yr_stay_details_script.js");
 
 		$data['emp_id']=$emp_id;
-		$this->load->model('emp_last5yrstay_details_model','',TRUE);
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
 
 		$this->drawHeader('Edit last 5 year stay details');
@@ -549,10 +557,13 @@ class Edit extends MY_Controller
 		$addr = $this->input->post('addr5');
 		$district = $this->input->post('dist5');
 
-		$this->load->model('emp_last5yrstay_details_model','',TRUE);
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 
 		$n = count($from);
-		$sno = count($this->emp_last5yrstay_details_model->getEmpStayById($emp_id));
+		if($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))
+			$sno = count($this->emp_last5yrstay_details_model->getEmpStayById($emp_id));
+		else $sno = 0;
+
 		$i=0;
 		while($i<$n && $from[$i] != "")
 		{
@@ -581,7 +592,7 @@ class Edit extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
-		$this->load->model('emp_last5yrstay_details_model','',TRUE);
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 
 		$this->emp_last5yrstay_details_model->update_record(array('from'=>$this->input->post('from'.$row),
 																'to'=>$this->input->post('to'.$row),
@@ -596,7 +607,7 @@ class Edit extends MY_Controller
 
 	private function edit_validation($emp_id,$form)
 	{
-		$this->load->model('emp_validation_details_model','',TRUE);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
 		$res = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		//If no entry in the emp_validation_details table then insert the record else update the record.
 		if($res == FALSE)
@@ -618,7 +629,7 @@ class Edit extends MY_Controller
 		}
 
 		//Notify Employee about the change in details
-		$this->load->model('users_model','',TRUE);
+		$this->load->model('user/users_model','',TRUE);
 		$user = $this->users_model->getUserById($emp_id);
 		if($user->auth_id == 'emp' && $user->password !='')
 		{
@@ -635,10 +646,10 @@ class Edit extends MY_Controller
 			$this->notification->notify($emp_id, 'emp', "Details Edited", $msg, "employee/view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
 		}
 		//Notify Assistant registrar for validation
-		$this->load->model('user_details_model','',TRUE);
+		$this->load->model('user/user_details_model','',TRUE);
 		$user = $this->user_details_model->getUserById($emp_id);
 		$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
-		$this->load->model('user_auth_types_model','',TRUE);
+		$this->load->model('user/user_auth_types_model','',TRUE);
 		$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
 		foreach ($res as $row)
 		{

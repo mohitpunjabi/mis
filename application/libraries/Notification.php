@@ -24,7 +24,7 @@
 			if($image_path) echo "<img src=\"".base_url()."assets/images/developer-icon.png\" />";
 			echo '<h2>'.$title.'</h2>'
 				  .'<p class="description">'.$description.'</p>';
-			if($date != "") echo '<span class="date">'.$date.'</span>';	  
+			if($date != "") echo '<span class="date">'.$date.'</span>';
 			if($path != "") echo "</a>";
 			echo '</div>';
 		}
@@ -42,7 +42,7 @@
 			$data['path'] = $this->CI->authorization->strclean($path);
 			$data['type'] = $this->CI->authorization->strclean($type);
 
-			$this->CI->load->model('user_notifications_model','',TRUE);
+			$this->CI->load->model('user/user_notifications_model','',TRUE);
 			$this->CI->user_notifications_model->insert($data);
 		}
 

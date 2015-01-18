@@ -18,7 +18,7 @@
 
 	    	$this->load->model('modules_model', '', TRUE);
 	    	$this->load->model('auth_types_model', 'auth_types', TRUE);
-			$this->load->model('user_model', '', TRUE);
+			$this->load->model('user/user_notifications_model', '', TRUE);
 	    }
 
 	    function getMenu()

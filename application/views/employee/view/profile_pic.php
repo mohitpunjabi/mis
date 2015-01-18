@@ -9,5 +9,6 @@
             $this->notification->drawNotification("Rejected : Profile Picture","Please contact the Establishment Section for the same.".(($reject)? "<br>Reason behind rejection : ".$reject->reason : ""),"error");
         }
     }
-    echo '<center><img src="'.base_url().'assets/images/employee/'.$user_details->id.'/'.$user_details->photopath.'" width="145" height="150" /></center>';
+
+    echo '<center><img src="'.base_url().'assets/images/'.$emp->photopath.'" width="145" height="150" /></center>';
 ?>

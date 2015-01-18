@@ -35,7 +35,7 @@
 					    <td>'.ucwords($row->profession).'</td>
 					   	<td>'.$row->present_post_addr.'</td>
 					    <td style="'.$style.'">'.$row->active_inactive.'</td>
-					    <td><img src="'.base_url().'assets/images/employee/'.$emp_id.'/'.$row->photopath.'" width="145" height="150"/></td>
+					    <td><img src="'.base_url().'assets/images/'.$row->photopath.'" width="145" height="150"/></td>
 						<td>
 							<input type="button" name="edit[]" value="Edit" onClick="onclick_edit('.$i.',\''.$row->dob.'\')"><br>
 						</td>

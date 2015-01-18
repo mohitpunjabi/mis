@@ -13,7 +13,7 @@
             if($photopath == FALSE || $photopath == "")
                 echo '<img src="'.base_url().'assets/images/employee/noProfileImage.png" id="view_photo" width="145" height="150"/>';
             else
-                echo '<img src="'.base_url().'assets/images/employee/'.$emp_id.'/'.$photopath.'" id="view_photo" width="145" height="150"/>';
+                echo '<img src="'.base_url().'assets/images/'.$photopath.'" id="view_photo" width="145" height="150"/>';
         ?>
         </td>
         <td align="center">Click on choose file to select other picture<br>

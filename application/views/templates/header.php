@@ -22,6 +22,7 @@
 
 		function js_site_url(uri)
 		{
+			if(!uri) uri = "";
 			return js_base_url()+"index.php/"+uri;
 		}
 	</script>

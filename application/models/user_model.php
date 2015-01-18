@@ -6,9 +6,7 @@ class User_model extends CI_Model
 	public $models = array('user/users_model',
 							'user/user_details_model',
 							'user/user_other_details_model',
-							'user/user_address_model',
-							'user/user_notifications_model',
-							'user/user_auth_types_model');
+							'user/user_address_model');
 
 	function __construct()
 	{
@@ -43,7 +41,7 @@ class User_model extends CI_Model
 		if(!$user_details)
 			return FALSE;
 		$name = $user_details->salutation;
-		$name .= ' '.ucwords(trim($user_details->first_name));
+		$name .= '. '.ucwords(trim($user_details->first_name));
 		if($user_details->middle_name != '')
 			$name .= ' '.ucwords(trim($user_details->middle_name));
 		if($user_details->last_name != '')

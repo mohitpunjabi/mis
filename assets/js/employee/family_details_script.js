@@ -34,7 +34,7 @@
 			newrow.innerHTML=document.getElementById("addrow").innerHTML;
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
-			document.getElementsByName('view_photo3[]')[row.length-2].src = js_base_url()+"assets/images/employee/noProfileImage.png";
+			document.getElementsByName('view_photo3[]')[row.length-2].src = base_url()+"assets/images/employee/noProfileImage.png";
 			document.getElementsByName('active3[]')[row.length-2].style.background = "#DFD";
 		}
 	}
@@ -136,7 +136,7 @@
 		var row=document.getElementById("tableid").rows;
 		var file=document.getElementsByName("photo3[]")[tr_no-1].files[0];
 		if(!file)
-			document.getElementsByName('view_photo3[]')[tr_no-1].src =  js_base_url()+"assets/images/employee/noProfileImage.png";
+			document.getElementsByName('view_photo3[]')[tr_no-1].src =  base_url()+"assets/images/employee/noProfileImage.png";
   		else
 		{
 			oFReader = new FileReader();

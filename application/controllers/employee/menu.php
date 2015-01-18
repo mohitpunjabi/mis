@@ -10,8 +10,8 @@ class Menu extends MY_Controller
 
 	public function index()
 	{
-		$this->load->model('employee/Emp_current_entry_model','',TRUE);
-		$data['entry']=$this->Emp_current_entry_model->get_current_entry();
+		$this->load->model('employee/emp_current_entry_model','',TRUE);
+		$data['entry']=$this->emp_current_entry_model->get_current_entry();
 		$this->drawHeader('Employee Management');
 		$this->load->view('employee/main_menu',$data);
 		$this->drawFooter();
@@ -20,4 +20,3 @@ class Menu extends MY_Controller
 
 /* End of file menu.php */
 /* Location: mis/application/controllers/employee/menu.php */
-

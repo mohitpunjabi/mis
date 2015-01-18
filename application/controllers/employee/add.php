@@ -9,8 +9,8 @@ class Add extends MY_Controller
 
 	public function index($error='')
 	{
-		$this->load->model('employee/Emp_current_entry_model','',TRUE);
-		$entry=$this->Emp_current_entry_model->get_current_entry();
+		$this->load->model('employee/emp_current_entry_model','',TRUE);
+		$entry=$this->emp_current_entry_model->get_current_entry();
 		if($entry === FALSE)
 			$this->step(0,'',$error);
 		else
@@ -78,7 +78,7 @@ class Add extends MY_Controller
 				'category' => $this->input->post('category') ,
 				'dob' => $this->input->post('dob') ,
 				'email' => $this->input->post('email') ,
-				'photopath' => $upload['file_name'] ,
+				'photopath' => 'employee/'.$emp_id.'/'.$upload['file_name'] ,
 				'marital_status' => strtolower($this->input->post('mstatus')) ,
 				'physically_challenged' => strtolower($this->input->post('pd')) ,
 				'dept_id' => $this->input->post('department')
@@ -154,28 +154,23 @@ class Add extends MY_Controller
 
 			//loading models
 
-			$this->load->model('Users_model','',TRUE);
-			$this->load->model('User_details_model','',TRUE);
-			$this->load->model('User_other_details_model','',TRUE);
-			$this->load->model('Emp_basic_details_model','',TRUE);
-			$this->load->model('Faculty_details_model','',TRUE);
-			$this->load->model('Emp_pay_details_model','',TRUE);
-			$this->load->model('User_address_model','',TRUE);
-			$this->load->model('employee/Emp_current_entry_model','',TRUE);
+			$this->load->model('employee_model','',TRUE);
+			$this->load->model('employee/faculty_details_model','',TRUE);
+			$this->load->model('employee/emp_current_entry_model','',TRUE);
 
 			//starting transaction for insertion in database
 
 			$this->db->trans_start();
 
-			$this->Users_model->insert($users);
-			$this->User_details_model->insert($user_details);
-			$this->User_other_details_model->insert($user_other_details);
-			$this->Emp_basic_details_model->insert($emp_basic_details);
+			$this->users_model->insert($users);
+			$this->user_details_model->insert($user_details);
+			$this->user_other_details_model->insert($user_other_details);
+			$this->emp_basic_details_model->insert($emp_basic_details);
 			if($this->input->post('tstatus') == 'ft')
 				$this->Faculty_details_model->insert($faculty_details);
-			$this->Emp_pay_details_model->insert($emp_pay_details);
-			$this->User_address_model->insert_batch($user_address);
-			$this->Emp_current_entry_model->insert($emp_current_entry);
+			$this->emp_pay_details_model->insert($emp_pay_details);
+			$this->user_address_model->insert_batch($user_address);
+			$this->emp_current_entry_model->insert($emp_current_entry);
 
 			$this->db->trans_complete();
 			//transaction completed
@@ -190,11 +185,12 @@ class Add extends MY_Controller
 		$data['add_emp_id'] = $emp_id;
 
 		//joining date of the employee
-		$this->load->model('emp_basic_details_model','',TRUE);
+		$this->load->model('employee/emp_basic_details_model','',TRUE);
 		$emp_basic_details=$this->emp_basic_details_model->getEmployeeByID($emp_id);
 		if($emp_basic_details!==FALSE)
 			$data['joining_date']=$emp_basic_details->joining_date;
-		else $data['joining_date']=FALSE;
+		else
+			$data['joining_date']=FALSE;
 
 		//javascript
 		$this->addJS("employee/prev_emp_details_script.js");
@@ -234,7 +230,7 @@ class Add extends MY_Controller
 
 			//loading models
 
-			$this->load->model('emp_prev_exp_details_model','',TRUE);
+			$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 			$this->load->model('employee/emp_current_entry_model','',TRUE);
 
 			//starting transaction for insertion in database
@@ -295,8 +291,8 @@ class Add extends MY_Controller
 					$emp_family_details[$i]['name'] = ucwords(strtolower($name[$i]));
 					$emp_family_details[$i]['relationship'] = $relationship[$i];
 					$emp_family_details[$i]['profession'] = strtolower($profession[$i]);
-					$emp_family_details[$i]['present_post_addr'] = strtolower($addr[$i]);
-					$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? $upload[$i]['file_name'] : '';
+					$emp_family_details[$i]['present_post_addr'] = strtolower($adsdr[$i]);
+					$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? 'employee/'.$emp_id.'/'.$upload[$i]['file_name'] : '';
 					$emp_family_details[$i]['dob'] = $dob[$i];
 					$emp_family_details[$i]['active_inactive'] = $active[$i];
 					$i++;
@@ -306,7 +302,7 @@ class Add extends MY_Controller
 
 			//loading models
 
-			$this->load->model('emp_family_details_model','',TRUE);
+			$this->load->model('employee/emp_family_details_model','',TRUE);
 			$this->load->model('employee/emp_current_entry_model','',TRUE);
 
 			//starting transaction for insertion in database
@@ -371,7 +367,7 @@ class Add extends MY_Controller
 
 			//loading models
 
-			$this->load->model('emp_education_details_model','',TRUE);
+			$this->load->model('employee/emp_education_details_model','',TRUE);
 			$this->load->model('employee/emp_current_entry_model','',TRUE);
 
 			//starting transaction for insertion in database
@@ -431,13 +427,10 @@ class Add extends MY_Controller
 			}
 
 			//loading models
-			$this->load->model('users_model','',TRUE);
-			$this->load->model('user_details_model','',TRUE);
-			$this->load->model('emp_prev_exp_details_model','',TRUE);
-			$this->load->model('emp_family_details_model','',TRUE);
-			$this->load->model('emp_last5yrstay_details_model','',TRUE);
-			$this->load->model('emp_validation_details_model','',TRUE);
-			$this->load->model('user_auth_types_model','',TRUE);
+			$this->load->model('employee_model','',TRUE);
+			$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+			$this->load->model('employee/emp_validation_details_model','',TRUE);
+			$this->load->model('user/user_auth_types_model','',TRUE);
 			$this->load->model('employee/emp_current_entry_model','',TRUE);
 
 			$date = date("Y-m-d H:i:s",time());
@@ -461,15 +454,14 @@ class Add extends MY_Controller
 			else
 			{
 				//notify nodal officers for vaidation.
-				$user = $this->user_details_model->getUserById($emp_id);
-				$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
+				$emp_name = $this->user_model->getNameById($emp_id);
 				foreach($res as $row)
 					$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "employee/validation/validate_step/".$emp_id);
 
 				//check for optional forms i.e previous_exp, family, stay details
 				//if optional forms have no records then set them as approved otherwise pending
-				$prev = ($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))?	'pending':'approved';
-				$fam  = ($this->emp_family_details_model->getEmpFamById($emp_id))?			'pending':'approved';
+				$prev = ($this->employee_model->getPreviousEmploymentDetailsById($emp_id))?	'pending':'approved';
+				$fam  = ($this->employee_model->getFamilyDetailsById($emp_id))?			'pending':'approved';
 				$stay = ($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))?	'pending':'approved';
 				$this->emp_validation_details_model->insert(array(	'id'=>$emp_id,
 																	'profile_pic_status'=> 'pending',
@@ -537,7 +529,7 @@ class Add extends MY_Controller
 					{
 	                    $filename[$i] = $this->security->sanitize_filename(strtolower($_FILES[$name]['name'][$i]));
                     	$ext =  strrchr( $filename[$i], '.' ); // Get the extension from the filename.
-                    	$filename[$i]='emp_'.$emp_id.'_fam_'.($i+1).$ext;
+                    	$filename[$i]='emp_'.$emp_id.'_fam_'.($i+1).date('YmdHis').$ext;
                 	}
 	        	}
 	        	else

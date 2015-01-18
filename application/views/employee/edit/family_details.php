@@ -35,9 +35,9 @@
 					    <td>'.ucwords($row->profession).'</td>
 					   	<td>'.$row->present_post_addr.'</td>
 					    <td style="'.$style.'">'.$row->active_inactive.'</td>
-					    <td><img src="'.base_url().'assets/images/employee/'.$emp_id.'/'.$row->photopath.'" width="145" height="150"/></td>
+					    <td><img src="'.base_url().'assets/images/'.$row->photopath.'" width="145" height="150"/></td>
 						<td>
-							<input type="button" name="edit[]" value="Edit" onClick="onclick_edit('.$i.',\''.$row->dob.'\')"><br>
+							<input type="button" name="edit[]" value="Edit" onClick="onclick_edit('.$i.',\''.$row->dob.'\',\''.$row->photopath.'\')"><br>
 						</td>
 			    </tr>';
 			$i++;
@@ -96,4 +96,5 @@
     <input type="submit" name="submit3" value="Save" />
     <?php echo form_close(); ?>
 </div>
+
 <a href= <?= site_url('employee/edit')?> ><button>Back</button></a>

@@ -4,14 +4,14 @@
 	<tr>
 		<td>File Id : </td>
 		<td> 
-			<input type="text" name="file_id" id="file_id" value="<?php echo $file_id; ?>"> 
+			<input type="text" name="file_id" id="file_id" value="<?php echo $file_id; ?>" readonly> 
 <!--		<input type="button" value="Get Departments" onClick="get_departments()"  />  -->
 		</td>
 	</tr>
 	<tr>
 		<td>File Subject : </td>
 		<td> 
-			<input type="text" name="file_sub" id="file_sub" value="<?php echo $file_sub; ?>"> 
+			<input type="text" name="file_sub" id="file_sub" value="<?php echo $file_sub; ?>" readonly> 
 <!--		<input type="button" value="Get Departments" onClick="get_departments()"  />  -->
 		</td>
 	</tr>

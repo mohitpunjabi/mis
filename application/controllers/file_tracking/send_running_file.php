@@ -22,15 +22,4 @@ class Send_running_file extends MY_Controller
 		$this->load->view('file_tracking/send_running_file/send_running_file',$data);
 		$this->drawFooter ();
 	}
-	public function get_file_details($file_id)
-	{
-		$emp_id = $this->session->userdata('id');
-		$this->load->model ('file_tracking/file_details');
-		$res = $this->file_details->get_file_details($file_id);
-		$data = array (
-						'res' => $res
-					  );
-		
-		$this->load->view('file_tracking/send_running_file/file_details',$data);
-	}
 }

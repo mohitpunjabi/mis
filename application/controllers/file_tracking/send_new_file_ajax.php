@@ -49,10 +49,4 @@ class Send_new_file_ajax extends CI_Controller
 
 		$this->load->view('file_tracking/send_new_file/send_new_file_faculty_name',$data);		
 	}
-	public function get_faculty_name_by_department_id($dept_id)
-	{
-		$this->load->model('file_tracking/file_details');
-		$data['faculty'] = $this->file_details->get_faculty_by_department_id($dept_id);
-		$this->load->view('file_tracking/send_new_file/send_new_file_faculty_name',$data);
-	}
 }

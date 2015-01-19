@@ -34,13 +34,13 @@ class View_notice_model extends CI_Model
 
 		$where = "notice_cat = 'all' OR notice_cat = '".$notice_cat."'";
 		$this->db->where($where);
-		$this->db->order_by('posted_on','asc');
 		$query = $this->db->select("info_notice_details.*, user_details.*, departments.name as department, designations.name as designation")
 						  ->from($this->table)
 						  ->join("user_details", $this->table.".issued_by = user_details.id")
 						  ->join("emp_basic_details", "emp_basic_details.id = user_details.id")
 						  ->join("departments", "user_details.dept_id = departments.id")
 						  ->join("designations", "designations.id = emp_basic_details.designation")
+						  ->order_by("info_notice_details.posted_on", "desc")
 						  ->get();
 
 		return $query->result();

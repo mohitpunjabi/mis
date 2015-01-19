@@ -7,7 +7,7 @@
 <div class="notice">
 	<div class="sender-info">
         <div class="dp">
-            <img src="<?= base_url().$notice->photopath; ?>" />
+            <img src="<?= base_url()."assets/images/".$notice->photopath; ?>" />
         </div>
         <div class="sender">
             <p class="sender-designation"><?= ucwords($notice->designation) ?>, <?= $notice->department ?></p>

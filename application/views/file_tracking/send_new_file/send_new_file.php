@@ -14,7 +14,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>Type : </td>
+		<td>Department/Section : </td>
 		<td> 
 			<select name="type" id="type" onchange="get_departments(this.value)">
 				<option type="text" value="">Select</option>
@@ -24,7 +24,7 @@
 		</td>
 	</tr>
 	<tr>
-	<td>Department Name : </td>
+	<td>Select Department OR Section : </td>
 		<td>
 			<select name="department_name" id="department_name" onchange="get_designation_name(this.value)">
 				<option type="text" value="">Select</option>

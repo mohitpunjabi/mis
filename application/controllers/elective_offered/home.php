@@ -42,8 +42,8 @@ class Home extends MY_Controller
 			$aggr_id_array = explode('_',$row->aggr_id);
 			$session = $aggr_id_array[2];
 			
-			//if($curr_session == $session)
-			//{
+			if($curr_session == $session)
+			{
 				$data['curr_session'] = $curr_session;
 				if(!in_array($aggr_id_array[0],$data['course']['id']))
 				{

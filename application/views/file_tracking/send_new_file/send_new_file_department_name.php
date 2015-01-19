@@ -1,3 +1,4 @@
+<option type="text" value="">Select</option>
 <?php
 	foreach($result as $dept_array)
 	{

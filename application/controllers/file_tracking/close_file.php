@@ -22,8 +22,11 @@ class Close_file extends MY_Controller
 		
 //		$this->load->view('file_tracking/close_file/close_file',$data);
 
+
 		$this->load->model ('file_tracking/file_details');
-		$res = $this->file_details->get_file_details ($file_id);
+		$track_num = $this->file_details->get_track_num ($file_id);
+	
+		$res = $this->file_details->get_file_details ($track_num);
 		$data = array (
 						'res' => $res
 					  );
@@ -40,7 +43,7 @@ class Close_file extends MY_Controller
 		
 		$track_num = $this->file_details->get_track_num ($file_id);
 		$this->file_details->insert_close_details ($file_id, $emp_id);
-		$this->file_move_details->change_forward_status ($file_id);
+		$this->file_move_details->change_forward_status ($track_num);
 		
 		$this->load->view('file_tracking/close_file/close_file_notification');
 	}

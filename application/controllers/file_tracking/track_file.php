@@ -56,7 +56,7 @@ class Track_file extends MY_Controller
 				$close_emp_id = $row->close_emp_id;
 			}
 			$this->load->model ('file_tracking/file_move_details');
-			$result = $this->file_move_details->get_move_details ($file_id);
+			$result = $this->file_move_details->get_move_details ($track_num);
 			$total_rows = $result->num_rows();
 
 			$this->load->model('user_model');
@@ -98,7 +98,7 @@ class Track_file extends MY_Controller
 		else
 		{
 			$emp_id = $this->session->userdata('id');
-			$res = $this->file_details->get_file_details($file->file_id);
+			$res = $this->file_details->get_file_details($track_num);
 			$data = array (
 							'res' => $res
 						  );

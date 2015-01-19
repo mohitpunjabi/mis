@@ -10,22 +10,14 @@ class File_details extends CI_Model
 		parent::__construct();
 	}
 
-	function insert($data, $track_num)
+	function insert($data)
 	{
 		$this->db->insert($this->table,$data);
-		$this->db->select('file_id');
-		$this->db->where('track_num', $track_num); 
 //		$this->db->query ("INSERT INTO values ();")
-		$query = $this->db->get($this->table);
-		$file = $query->row();
-		$output = array (
-					'file_id' => $file->file_id
-					 );
-		return $output;
 	}
 	function get_track_num ($file_id)
 	{
-		$sql_query = "SELECT track_num from file_details where file_id = ".$file_id.";";
+		$sql_query = "SELECT track_num from file_details where file_id = '".$file_id."';";
 		$query = $this->db->query($sql_query);
 		foreach ($query->result() as $row) //last
 				$track_num = $row->track_num;
@@ -40,9 +32,9 @@ class File_details extends CI_Model
 		return $res;
 	}
 	
-	function get_file_details ($file_id)
+	function get_file_details ($track_num)
 	{
-		$res = $this->db->query("SELECT * from file_details where file_id = ".$file_id.";");
+		$res = $this->db->query("SELECT * from file_details where track_num = '".$track_num."';");
 		return $res;
 	}
 	function get_department_by_id()
@@ -73,7 +65,7 @@ class File_details extends CI_Model
 	}
 	function insert_close_details($file_id, $emp_id)
 	{
-		$this->db->query("UPDATE file_details SET close_timestamp=now(), close_emp_id='".$emp_id."'WHERE file_id=".$file_id.";");
+		$this->db->query("UPDATE file_details SET close_timestamp=now(), close_emp_id='".$emp_id."'WHERE file_id='".$file_id."';");
 	}
 }
 

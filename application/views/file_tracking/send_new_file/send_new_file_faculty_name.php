@@ -1,3 +1,4 @@
+<option type="text" value="">Select</option>		
 <?php
 	$sno=1;
 	while ($sno <= $total_rows)

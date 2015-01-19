@@ -159,9 +159,7 @@ class Add extends MY_Controller
     {
       $this->session->set_userdata($data);
       $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted successfully");
-	  var_dump($data);
-	  var_dump($this->session->all_userdata());
-//      redirect("course_structure/add");
+      redirect("course_structure/add");
     }
   }
   
@@ -238,7 +236,11 @@ class Add extends MY_Controller
 	
 	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted 
 	successfully");
-    redirect("course_structure/add");
+
+	  var_dump($data);
+	  var_dump($this->session->all_userdata());
+
+//    redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
 	public function json_get_branch()

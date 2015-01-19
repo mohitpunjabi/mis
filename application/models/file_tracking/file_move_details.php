@@ -35,7 +35,8 @@ class File_move_details extends CI_Model
 		return $res;
 	}
 	function files_to_be_tracked($emp_id){
-		$res = $this->db->query("SELECT file_details.file_id,  file_subject, file_details.track_num, rcvd_by_emp_id, close_emp_id FROM file_move_details INNER JOIN file_details ON file_move_details.file_id = file_details.file_id WHERE sent_by_emp_id = '".$emp_id."';");
+		$res = $this->db->query("SELECT file_details.file_id AS file_id,  file_subject, file_details.track_num AS track_num, rcvd_by_emp_id, close_emp_id FROM file_move_details INNER JOIN file_details ON file_move_details.file_id = file_details.file_id WHERE sent_by_emp_id = '".$emp_id."';");
+		//$res2 = $this->db->query("SELECT file_id, file_subject, track_num where close_emp_id = '".$emp_id."'"); 
 		return $res;
 	}
 }

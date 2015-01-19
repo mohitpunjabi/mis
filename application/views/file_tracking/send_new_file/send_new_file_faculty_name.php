@@ -1,7 +1,10 @@
 <?php
-	foreach($faculty as $faculty_array)
+	$sno=1;
+	while ($sno <= $total_rows)
 	{
-		echo '<option type="text" value="'.$faculty_array['id'].'" >'.$faculty_array['salutation'].' '.$faculty_array['first_name'].' '.$faculty_array['middle_name'].' '.$faculty_array['last_name'].'</option>';
+?>
+		<option type="text" value="<?php echo $data_array[$sno][1]; ?>" ><?php echo $data_array[$sno][2]; ?></option>
+<?php
+		$sno++;	
 	}
-	//echo '<option>right there</option>';
 ?>

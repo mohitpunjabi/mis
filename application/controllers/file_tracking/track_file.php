@@ -15,8 +15,27 @@ class Track_file extends MY_Controller
 
 		$this->load->model('file_tracking/file_move_details');
 		$res = $this->file_move_details->files_to_be_tracked($emp_id);
-		$data['res'] = $res;
+		
+		$this->load->model('user_model');
+		
+		$total_rows = $res->num_rows();
+		$data_array = array();
+		$sno = 1;
+		foreach ($res->result() as $row)
+		{
+			$data_array[$sno]=array();
+			$j=1;
+			$data_array[$sno][$j++] = $row->file_id;
+			$data_array[$sno][$j++] = $row->file_subject;
+			$data_array[$sno][$j++] = $row->track_num;
+			$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
+			$data_array[$sno][$j++] = $row->close_emp_id;
+			$sno++;
+		}
 
+		$data['data_array'] = $data_array;
+		$data['total_rows'] = $total_rows;
+	
 		$this->drawHeader ("File Tracking");
 		$this->load->view('file_tracking/track_file/track_file',$data);
 		$this->drawFooter ();

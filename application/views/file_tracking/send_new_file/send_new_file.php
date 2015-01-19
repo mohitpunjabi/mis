@@ -2,33 +2,51 @@
 <?php echo form_open (); ?> 
 <table nozebra>
 	<tr>
+		<td>File ID : </td>
+		<td> 
+			<input type="text" name="file_id" id="file_id"> 
+		</td>
+	</tr>
+	<tr>
 		<td>File Subject : </td>
 		<td> 
 			<input type="text" name="file_sub" id="file_sub"> 
 		</td>
 	</tr>
 	<tr>
-		<td>Department Name : </td>
+		<td>Type : </td>
+		<td> 
+			<select name="type" id="type" onchange="get_departments(this.value)">
+				<option type="text" value="">Select</option>
+				<option type="text" value="academic">Academic</option>
+				<option type="text" value="nonacademic">Non Academic</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+	<td>Department Name : </td>
 		<td>
-			<select name="department_name" id="department_name" onchange="get_faculty_name(this.value)">
+			<select name="department_name" id="department_name" onchange="get_designation_name(this.value)">
+				<option type="text" value="">Select</option>
+			</select>
+		</td> 
+	</tr>
+	<tr>
+		<td>Designation : </td>
+		<td> 
+			<select name="designation" id="designation" onchange="get_emp_name(this.value)">
 				<option type="text" >Select</option>
-			<?php
-				foreach($department as $department_array)
-				{
-					echo '<option type="text" value="'.$department_array['id'].'" >'.$department_array['name'].'</option>';
-				}
-			?>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<td>Employee Name : </td>
 		<td> 
-			<select name="faculty_name" id="faculty_name">
+			<select name="emp_name" id="emp_name">
 				<option type="text" >Select</option>
 			</select>
 		</td>
-	</tr>
+	</tr> 
 	<tr>
 		<td>Remarks : </td>
 		<td> 
@@ -43,5 +61,6 @@
 		<td>
 		</td>
 	</tr>
-</table>	
+</table>
+	
 <div id="send_notification"></div>

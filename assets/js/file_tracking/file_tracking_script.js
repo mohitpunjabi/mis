@@ -11,7 +11,44 @@
 		return xmlhttp;
 	}
 	
-	function get_departments()
+	function get_designation_name(dept_id)
+	{
+		var xmlhttp = getxmlhttp();
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
+				document.getElementById("designation").innerHTML = xmlhttp.responseText;
+				//$(".loading").hide();
+			}
+		}
+//		alert (js_base_url()+"file_tracking/send_new_file_ajax/get_dept");
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_designation/"+dept_id),true);
+		xmlhttp.send();
+		return false;
+	}
+	
+	function get_emp_name(designation)
+	{
+		var dept_id = document.getElementById("department_name").value; 
+		//alert (designation+" "+dept_id);
+		var xmlhttp = getxmlhttp();
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
+//				alert ("success");
+				document.getElementById("emp_name").innerHTML = xmlhttp.responseText;
+				//$(".loading").hide();
+			}
+		}
+//		alert (js_base_url()+"file_tracking/send_new_file_ajax/get_dept");
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_emp_name/"+designation+"/"+dept_id),true);
+		xmlhttp.send();
+		return false;		
+	}
+	
+	function get_departments(type)
 	{
 //		alert("Please Select departments.");
 //		$("#courseLoad").show();
@@ -20,25 +57,25 @@
 //			alert("Please Select course.");
 //			return;
 //		}
+//		alert ("hello");
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{
 			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
 			{
-				//alert("success");
-				document.getElementById("dept").innerHTML = xmlhttp.responseText;
+//				alert("success");
+				document.getElementById("department_name").innerHTML = xmlhttp.responseText;
 				//$(".loading").hide();
 			}
 		}
 //		alert (js_base_url()+"file_tracking/send_new_file_ajax/get_dept");
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_dept"),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_dept/"+type),true);
 		xmlhttp.send();
 		return false;
 	}
 
 	function display_send_notification ()
-	{
-		
+	{		
 		var file_sub = document.getElementById("file_sub").value;
 		var rcvd_emp_id = document.getElementById("faculty_name").value;
 		var remarks_rcvd = document.getElementById("remarks").value;

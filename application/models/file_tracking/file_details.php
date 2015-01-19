@@ -50,6 +50,22 @@ class File_details extends CI_Model
 		$query =  $this->db->query("SELECT name,id FROM departments;");
 		return $query->result_array();
 	}
+	function get_designation_by_department_id ($dept_id)
+	{
+		$query = $this->db->query("SELECT DISTINCT designations.id, designations.name FROM designations INNER JOIN user_details INNER JOIN emp_basic_details ON designations.id = emp_basic_details.designation AND user_details.id = emp_basic_details.id where dept_id = '".$dept_id."';");
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return FALSE;	 
+	}
+	function get_emp_name ($designation, $dept)
+	{
+		$query = $this->db->query ("SELECT emp_basic_details.id AS id from user_details INNER JOIN emp_basic_details ON user_details.id = emp_basic_details.id where dept_id = '".$dept."' and designation = '".$designation."';");
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return FALSE;	 
+	}
 	function get_faculty_by_department_id($dept_id)
 	{
 		$query = $this->db->query("SELECT id,salutation,first_name,middle_name,last_name FROM user_details WHERE dept_id="."'".$dept_id."'".";");

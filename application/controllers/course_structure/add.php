@@ -242,7 +242,7 @@ class Add extends MY_Controller
 	  var_dump($data);
 	  var_dump($this->session->all_userdata());
 
-//    redirect("course_structure/add");
+    redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
 	public function json_get_branch()

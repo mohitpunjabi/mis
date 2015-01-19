@@ -13,7 +13,7 @@ $(document).ready(function(){
 			success:function(data){
 				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\">";
 				for($d=0 ; $d < data.length;$d++){
-					console.log(data[$d]);
+					//console.log(data[$d]);
 					base_str += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
 				base_str += "</select></td></tr>";
@@ -44,7 +44,7 @@ $(document).ready(function(){
 		//console.log((new Date).getYear()); 
 		//For now i don't remeber the exact function to get the current year
 		// so using counter 20
-		if(duration < 4){
+		if($course_selection.find(':selected').val() == 'ug_comm'){
 			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Group</label></td><td><select id=\"semester\" name=\"sem\">";
 			for(counter = 1; counter <= 2*duration ; counter++){
 				if(counter == 1)
@@ -53,6 +53,12 @@ $(document).ready(function(){
 					base_str += "<option value=\""+counter+"\">"+"Chemistry(Group "+counter+")"+"</option>";
 			}
 			
+		}
+		else if(duration < 4){
+			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";
+			for(counter = 1; counter <= 2*duration ; counter++){
+				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+			}
 		}
 		else{
 			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";
@@ -67,6 +73,7 @@ $(document).ready(function(){
 	}
 
 	$course_selection.change(function(){
+
 		$duration = $course_selection.find(":selected").data('duration');
 		if(parseInt($duration) > 1){
 			//If the value duration is less than 2 then load the branch selection

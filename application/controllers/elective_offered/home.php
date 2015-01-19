@@ -19,6 +19,7 @@ class Home extends MY_Controller
 
 	public function index($error='')
 	{
+		$this->addJS("elective_offered/main.js");
 		$data = array();
 		$userid = $this->session->userdata("id");
 		$data['userid'] = $userid;
@@ -27,7 +28,6 @@ class Home extends MY_Controller
 		$dept = $this->basic_model->Select_Department_By_User_ID($userid);
 		$dept_id = $dept[0]->dept_id;
 		$result_courses = $this->basic_model->Select_courses_by_dept($dept_id);
-		
 		if(date('m') >= 7 && date('m') <=12)
 			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
 		else
@@ -51,30 +51,45 @@ class Home extends MY_Controller
 					$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
 					
 					$data['course']['name'][$j] = $result_course_details[0]->name;
-					$data['course']['duration'] = $result_course_details[0]->duration;
+					$data['course']['duration'][$j] = $result_course_details[0]->duration;
 					$j++;
 				}
-				if(!in_array($aggr_id_array[1],$data['branch']['id']))
-				{
-					$data['branch']['id'][$i] = $aggr_id_array[1];
-					$result_branch_details = $this->basic_model->get_branch_details_by_id($data['branch']['id'][$i]);
-					$data['branch']['name'][$i] = $result_branch_details[0]->name;
-					$i++;
-				}
-			//}
+			}
+
 		}
-		
-		for($i =0;$i< 4;$i++)
-		{
-			$data['batch'][$i] = "20".(substr($curr_session,2,3)+$i);	
-			
-		}
-		for($i = 0;$i<8;$i++)
-			$data['semester'][$i] = $i+1;
 		
 		$this->drawHeader();
 		$this->load->view('elective_offered/home',$data);
 		$this->drawFooter();
 	}	
+
+	public function json_get_branch(){
+		//The brlow gets the course that the user selected
+		$course = "btech";//json_decode($this->input->post("course"));
+		$data = array();
+		$userid = $this->session->userdata("id");		
+		
+		$dept = $this->basic_model->Select_Department_By_User_ID($userid);
+		$dept_id = $dept[0]->dept_id;
+		$this->output->set_content_type('application/json');
+		if(date('m') >= 7 && date('m') <=12)
+			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
+		else
+			$curr_session = (substr(date('Y'),2,3)-1).(substr(date('Y'),2,3));
+		//Get the branches
+		$branches = $this->basic_model->get_branch_by_dept_course_session($dept_id,$course,$curr_session); 				
+		//$this->output->set_output(json_encode($branches));
+
+		$data['branches']=array();
+		foreach($branches as $branch){
+			$branch_id = substr($branch->aggr_id,strlen($course)+1,strlen($branch->aggr_id)-6-strlen($course));
+			$result_branch_details = $this->basic_model->get_branch_details_by_id($branch_id);
+			//$this->output->set_output(json_encode($result_branch_details));
+			$data['branches'][$branch_id] = $result_branch_details[0]->name;
+		}
+
+		
+		$this->output->set_output(json_encode($data));
+	}
 }
 ?>

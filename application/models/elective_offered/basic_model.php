@@ -41,6 +41,10 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}	
 	
+	function get_branch_by_dept_course_session($dept,$course,$session){
+		$query = $this->db->query("SELECT * from dept_course where dept_id='".$dept."' AND aggr_id REGEXP '^".$course.".*".$session."$'");
+		return $query->result();
+	}
 	/*
 	function select_elective_group_details_by_aggr_id($aggr_id)
 	{

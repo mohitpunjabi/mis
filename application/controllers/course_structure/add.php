@@ -5,16 +5,16 @@ class Add extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct(array('deo'));
+		parent::__construct(array('deo', 'hod'));
 		
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
+		$this->load->model('course_structure/basic_model', 'basic_model', TRUE);
 	}
 
 	public function index($error='')
 	{
-		$this->load->model('course_structure/basic_model', 'basic_model', TRUE);
 		$data = array();
 		var_dump($this->session->all_userdata());
 		var_dump($data);
@@ -168,6 +168,7 @@ class Add extends MY_Controller
   
   public function AddElectiveSubjects()
   {
+
 	  //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
     $session_data = $this->session->userdata("CS_session");
@@ -237,8 +238,7 @@ class Add extends MY_Controller
 		
     }
 	
-	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted 
-	successfully");
+	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
 
 	  var_dump($data);
 	  var_dump($this->session->all_userdata());

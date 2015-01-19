@@ -5,7 +5,7 @@ class Add extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct(array('deo'));
+		parent::__construct(array('deo','hod'));
 		
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");

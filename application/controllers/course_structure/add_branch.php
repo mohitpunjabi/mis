@@ -36,6 +36,8 @@ class Add_branch extends MY_Controller
 	$course_branch_details['year'] = $this->input->post("year");
 	$course_branch_details['aggr_id'] = $course_branch_details['course_id']."_".$course_branch_details['branch_id']."_".$course_branch_details['year'];
 	
+	$course_aggr['dept_id'] = $this->input->post("dept");
+	$course_aggr['aggr_id'] = $course_branch_details['aggr_id'];
 	
     $result_branch = $this->basic_model->get_branch_details_by_id($branch_details['id']);
 	

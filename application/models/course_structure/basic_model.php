@@ -31,6 +31,18 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	function select_map_dept_with_aggr_id($dept_id,$aggr_id)
+	{
+		$query = $this->db->get_where($this->table_dept_course,array('dept_id'=>$dept_id,'aggr_id'=>$aggr_id));
+		return $query->num_rows();	
+	}
+	
+	function insert_map_dept_with_aggr_id($dept_course)
+	{
+		$query = $this->db->insert($this->table_dept_course,$dept_course);
+		return true;	
+	}
+	
 	function get_course()
 	{
 		$query = $this->db->get($this->table_course);

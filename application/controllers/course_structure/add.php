@@ -224,10 +224,11 @@ class Add extends MY_Controller
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
-			$this->db->trans_start();
+			
+//			$this->db->trans_start();
 			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
 			$data['error'] = $this->add_model->insert_subjects($subject_details);
-			$this->db->trans_complete();
+//			$this->db->trans_complete();
 		} 
 		
 		//insert into elective_group table.
@@ -238,7 +239,7 @@ class Add extends MY_Controller
 		
     }
 	
-	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
+//	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
 
 	  var_dump($data);
 	  var_dump($this->session->all_userdata());

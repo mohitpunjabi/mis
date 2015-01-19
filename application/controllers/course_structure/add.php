@@ -17,8 +17,6 @@ class Add extends MY_Controller
 	public function index($error='')
 	{
 		$data = array();
-		var_dump($this->session->all_userdata());
-		var_dump($data);
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
 

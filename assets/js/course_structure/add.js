@@ -9,7 +9,7 @@ $(document).ready(function(){
 	$duration = 1;
 
 	function add_branch(){
-		$.ajax({url:"http://localhost/mis/index.php/course_structure/add/json_get_branch",
+		$.ajax({url: site_url("course_structure/add/json_get_branch"),
 			success:function(data){
 				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\">";
 				for($d=0 ; $d < data.length;$d++){

@@ -27,7 +27,7 @@ class File_move_details extends CI_Model
 	}
 	function change_forward_status ($track_num)
 	{
-		$this->db->query ("UPDATE file_move_details SET forward_status=1 WHERE file_id=".$track_num." AND forward_status=0;");
+		$this->db->query ("UPDATE file_move_details SET forward_status=1 WHERE track_num=".$track_num." AND forward_status=0;");
 	}
 	function get_move_details ($track_num)
 	{

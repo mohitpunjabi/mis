@@ -11,11 +11,10 @@
 <h2><a href = "<?php echo site_url('employee/validation'); ?>" >Employee Validation Requests</a></h2>
 
 <?php
-
+	//var_dump($user);
 	// $password = 'p';
 	// $password = $this->authorization->strclean($password);
 	// echo $password.'<br>';
 	// echo $this->authorization->encode_password($password,'2014-12-22 14:30:18');
 	// print_r($this->session->all_userdata());
-
 ?>

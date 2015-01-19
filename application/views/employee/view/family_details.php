@@ -35,7 +35,7 @@ if($emp_family_details)
 				<td>'.date('d M Y', strtotime($row->dob)).'<br>(Age: '.floor((time() - strtotime($row->dob))/(365*24*60*60)).' years)</td>
 			    <td>'.ucwords($row->profession).'</td>
 			   	<td>'.$row->present_post_addr.'</td>
-			    <td><img src="'.base_url().'assets/images/employee/'.$emp_id.'/'.$row->photopath.'" width="145" height="150"/></td>
+			    <td><img src="'.base_url().'assets/images/'.$row->photopath.'" width="145" height="150"/></td>
 				<td style="'.$style.'">'.$row->active_inactive.'</td>
 	    	</tr>';
 	}

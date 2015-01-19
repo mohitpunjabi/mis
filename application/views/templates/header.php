@@ -14,16 +14,9 @@
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
-	<script type="text/javascript">
-		function js_base_url()
-		{
-			return "<?= base_url()?>";
-		}
-
-		function js_site_url(uri)
-		{
-			return js_base_url()+"index.php/"+uri;
-		}
+	<script >
+		function base_url()	{	return "<?= base_url()?>";	}
+		function site_url(uri)	{	return base_url()+"index.php/"+uri;	}
 	</script>
     <?php 	if(isset($javascript))	echo $javascript;	?>
 </head>
@@ -104,12 +97,12 @@
 				else echo '<span class="counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
-				
+
 				echo '<div class="unread">';
 				if($unreadCount > 0) {
 					echo '<h3>Unread Notifications &raquo;</h3>';
 					foreach($notifications[$key]["unread"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->module_id . "/" . $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
 					}
 				}
 				echo '</div>';
@@ -119,13 +112,13 @@
 				if($readCount > 0) {
 					echo '<h3>Old Notifications &raquo;</h3>';
 					foreach($notifications[$key]["read"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->module_id . "/" . $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
 					}
 				}
 				echo '</div>';
-				
+
 				if($readCount == 0 && $unreadCount == 0) echo "<center><br />No more notifications.</center>";
-				
+
 				echo '</div>';
 				echo '<ul>';
 

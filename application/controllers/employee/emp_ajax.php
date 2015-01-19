@@ -21,8 +21,8 @@ class Emp_ajax extends CI_Controller
 		}
 		else
 		{
-			$this->load->model('employee/Feedback_faculty_model','',TRUE);
-			$data['feedback_emp_detail'] = $this->Feedback_faculty_model->get_faculty_info($emp_id);
+			$this->load->model('employee/feedback_faculty_model','',TRUE);
+			$data['feedback_emp_detail'] = $this->feedback_faculty_model->get_faculty_info($emp_id);
 		}
 		if($data['feedback_emp_detail'] !== FALSE)
 			$this->load->view('employee/emp_ajax/fetch_feedback_emp_detail.php',$data);
@@ -32,25 +32,25 @@ class Emp_ajax extends CI_Controller
 	{
 		switch($form)
 		{
-			case 2: $this->load->model('emp_prev_exp_details_model','',TRUE);
+			case 2: $this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 					if($s != -1)	$this->emp_prev_exp_details_model->delete_record(array('id'=>$this->session->userdata('EDIT_EMPLOYEE_ID'), 'sno'=>$s));
 					$this->edit_validation($this->session->userdata('EDIT_EMPLOYEE_ID'),'prev_exp_status');
 					break;
-			case 4: $this->load->model('emp_education_details_model','',TRUE);
+			case 4: $this->load->model('employee/emp_education_details_model','',TRUE);
 					if($s != -1)	$this->emp_education_details_model->delete_record(array('id'=>$this->session->userdata('EDIT_EMPLOYEE_ID'), 'sno'=>$s));
 					$this->edit_validation($this->session->userdata('EDIT_EMPLOYEE_ID'),'educational_status');
 					break;
-			case 5: $this->load->model('emp_last5yrstay_details_model','',TRUE);
+			case 5: $this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 					if($s != -1)	$this->emp_last5yrstay_details_model->delete_record(array('id'=>$this->session->userdata('EDIT_EMPLOYEE_ID'), 'sno'=>$s));
 					$this->edit_validation($this->session->userdata('EDIT_EMPLOYEE_ID'),'stay_status');
 					break;
 		}
 		if($form !=-1 && $s!=-1)
 		{
-			$this->load->model('emp_basic_details_model','',TRUE);
-				$emp_basic_details=$this->emp_basic_details_model->getEmployeeByID($this->session->userdata('EDIT_EMPLOYEE_ID'));
-			if($emp_basic_details)	$data['joining_date']=$emp_basic_details->joining_date;
-			else $data['joining_date']=FALSE;
+			$this->load->model('employee/emp_basic_details_model','',TRUE);
+				$emp_basic_details = $this->emp_basic_details_model->getEmployeeByID($this->session->userdata('EDIT_EMPLOYEE_ID'));
+			if($emp_basic_details)	$data['joining_date'] = $emp_basic_details->joining_date;
+			else $data['joining_date'] = FALSE;
 			$data['form'] = $form;
 			$data['emp_id'] = $this->session->userdata('EDIT_EMPLOYEE_ID');
 			$this->load->view('employee/emp_ajax/delete_record',$data);
@@ -59,7 +59,7 @@ class Emp_ajax extends CI_Controller
 
 	private function edit_validation($emp_id,$form)
 	{
-		$this->load->model('emp_validation_details_model','',TRUE);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
 		$res = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		//If no entry in the emp_validation_details table then insert the record else update the record.
 		if($res == FALSE)
@@ -81,7 +81,7 @@ class Emp_ajax extends CI_Controller
 		}
 
 		//Notify Employee about the change in details
-		$this->load->model('users_model','',TRUE);
+		$this->load->model('user/users_model','',TRUE);
 		$user = $this->users_model->getUserById($emp_id);
 		if($user->auth_id == 'emp' && $user->password !='')
 		{
@@ -98,10 +98,10 @@ class Emp_ajax extends CI_Controller
 			$this->notification->notify($emp_id, 'emp', "Details Edited", $msg, "employee/view/index/".(($this->session->userdata('EDIT_EMPLOYEE_FORM')==0)? $this->session->userdata('EDIT_EMPLOYEE_FORM'):($this->session->userdata('EDIT_EMPLOYEE_FORM')-1)));
 		}
 		//Notify Assistant registrar for validation
-		$this->load->model('user_details_model','',TRUE);
+		$this->load->model('user/user_details_model','',TRUE);
 		$user = $this->user_details_model->getUserById($emp_id);
-		$emp_name = ucwords($user->salutation.' '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
-		$this->load->model('user_auth_types_model','',TRUE);
+		$emp_name = ucwords($user->salutation.'. '.$user->first_name.(($user->middle_name != '')? ' '.$user->middle_name: '').(($user->last_name != '')? ' '.$user->last_name: ''));
+		$this->load->model('user/user_auth_types_model','',TRUE);
 		$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
 		foreach ($res as $row)
 		{

@@ -28,6 +28,7 @@ class Close_file extends MY_Controller
 	
 		$res = $this->file_details->get_file_details ($track_num);
 		$data = array (
+						'file_id' => $file_id,
 						'res' => $res
 					  );
 		$this->drawHeader ("Close File");		

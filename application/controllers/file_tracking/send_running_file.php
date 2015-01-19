@@ -16,7 +16,7 @@ class Send_running_file extends MY_Controller
 		$data['emp_id'] = $emp_id;
 		$data['department'] = $this->file_details->get_department_by_id();
 		$data['file_id'] = $file_id;
-		$data['file_sub'] = $file_sub;
+		$data['file_sub'] = urldecode($file_sub);
 
 		$this->drawHeader ("Send Running File");
 		$this->load->view('file_tracking/send_running_file/send_running_file',$data);

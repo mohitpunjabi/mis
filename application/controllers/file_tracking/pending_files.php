@@ -13,6 +13,10 @@ class Pending_files extends MY_Controller{
 
 		$this->load->model('file_tracking/file_move_details');
 		$res = $this->file_move_details->get_pending_files($emp_id);
+		foreach($res->result() as $row)
+		{
+			$row->file_subject = urldecode($row->file_subject);
+		}
 		$data['res'] = $res;
 
 		$this->drawHeader ("Pending Files");

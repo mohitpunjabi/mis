@@ -27,6 +27,7 @@ class Close_file extends MY_Controller
 		$track_num = $this->file_details->get_track_num ($file_id);
 	
 		$res = $this->file_details->get_file_details ($track_num);
+		$res->row()->file_subject = urldecode($res->row()->file_subject);
 		$data = array (
 						'file_id' => $file_id,
 						'res' => $res

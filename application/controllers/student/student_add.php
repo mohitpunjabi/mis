@@ -92,7 +92,7 @@ class Student_add extends MY_Controller
 				'category' => $this->input->post('category') ,
 				'dob' => $this->input->post('dob') ,
 				'email' => $this->input->post('email') ,
-				'photopath' => $upload['file_name'] ,
+				'photopath' => 'student/'.$stu_id.'/'.$upload['file_name'] ,
 				'marital_status' => strtolower($this->input->post('mstatus')) ,
 				'physically_challenged' => strtolower($this->input->post('pd')) ,
 				'dept_id' => $this->input->post('department')
@@ -115,7 +115,7 @@ class Student_add extends MY_Controller
 				'admn_no' => $stu_id ,
 				'admn_date' => $this->input->post('entrance_date') ,
 				'enrollment_no' => $this->input->post('roll_no') ,
-				'enrollment_year' => '' ,
+				'enrollment_year' => date('Y',strtodate($this->input->post('entrance_date'))) ,
 				'admn_based_on' => $this->input->post('admn_based_on') ,
 				'type' => '' ,
 				'session' => '' ,
@@ -246,10 +246,10 @@ class Student_add extends MY_Controller
 				'curr_step' => 1
 			);
 
-			$this->load->model('Users_model','',TRUE);
-			$this->load->model('User_details_model','',TRUE);
-			$this->load->model('User_other_details_model','',TRUE);
-			$this->load->model('User_address_model','',TRUE);
+			$this->load->model('user/Users_model','',TRUE);
+			$this->load->model('user/User_details_model','',TRUE);
+			$this->load->model('user/User_other_details_model','',TRUE);
+			$this->load->model('user/User_address_model','',TRUE);
 			$this->load->model('student/Student_details_model','',TRUE);
 			$this->load->model('student/Student_other_details_model','',TRUE);
 			$this->load->model('student/Student_fee_details_model','',TRUE);
@@ -328,7 +328,7 @@ class Student_add extends MY_Controller
 			{
                 $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
                 $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                $filename='student/stu_'.$stu_id.'_'.date('YmdHis').$ext;
+                $filename='stu_'.$stu_id.'_'.date('YmdHis').$ext;
             }
         }
         else

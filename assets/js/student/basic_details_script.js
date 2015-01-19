@@ -340,6 +340,7 @@
 
     function options_of_branches()
     {
+    	//alert("hi");
         var tr=document.getElementById('branch_id');
 //        var tr=document.getElementById('branch_div');
         var dept=document.getElementById('depts').value;
@@ -362,7 +363,7 @@
             }
         }
         //xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true); this is original line to select branch we need to select courses
-		xmlhttp.open("POST",js_site_url("student/student_ajax/update_branch/"+dept),true);
+		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }
@@ -392,7 +393,7 @@
             }
         }
         //alert(branch);
-        xmlhttp.open("POST",js_site_url("student/student_ajax/update_courses/"+branch),true);
+        xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+branch),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }

@@ -102,9 +102,9 @@
     </tr>
     <tr>
             <td>Parent/Guardian Mobile No</td>
-            <td><input type="tel" name="parent_mobile" required="required"></td>
+            <td><input type="number" name="parent_mobile" required="required"></td>
             <td>Parent/Guardian Landline No</td>
-            <td><input type="tel" name="parent_landline" required="required"></td>
+            <td><input type="number" name="parent_landline" required="required"></td>
     </tr>
 	 <tr>
 		<td>
@@ -406,11 +406,11 @@
     	<td>
         	Pin code        </td>
     	<td>
-  	      	<input type="tel" name="pincode1" tabindex="14" required="required"/>        </td>
+  	      	<input type="number" name="pincode1" tabindex="14" required="required"/>        </td>
     	<td>
         	Pin code        </td>
     	<td>
-  	      	<input type="tel" name="pincode2" tabindex="19" required="required"/>        </td>
+  	      	<input type="number" name="pincode2" tabindex="19" required="required"/>        </td>
     </tr>
 	<tr>
     	<td>
@@ -426,11 +426,11 @@
     	<td>
         	Contact No        </td>
     	<td>
-  	      	<input type="tel"  tabindex="16" name="contact1" required="required"/>        </td>
+  	      	<input type="number"  tabindex="16" name="contact1" required="required"/>        </td>
     	<td>
         	Contact No        </td>
     	<td>
-  	      	<input type="tel" name="contact2"  tabindex="21" required="required"/>        </td>
+  	      	<input type="number" name="contact2"  tabindex="21" required="required"/>        </td>
     </tr>
     <tr>
 	<td colspan=4 align='center'>
@@ -471,7 +471,7 @@
 					 <td colspan="2" align="right">
 						Pin code					</td>
 					<td colspan="2">
-						<input type="tel" name="pincode3" id="pincode3"/>					</td>
+						<input type="number" name="pincode3" id="pincode3"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
@@ -483,7 +483,7 @@
 					<td colspan="2" align="right">
 						Contact No					</td>
 					<td colspan="2">
-						<input type="tel" name="contact3" id="contact3"/>					</td>
+						<input type="number" name="contact3" id="contact3"/>					</td>
 				</tr>
 			</table>
 		</div></td>
@@ -499,7 +499,7 @@
         </tr>
 		<tr>
         	<td>Mobile No</td>
-        	<td><input type="tel" name="mobile" required="required"></td>
+        	<td><input type="number" name="mobile" required="required"></td>
 			<td>Blood Group</td>
         	<td><input type="text" name="blood_group" required="required"></td>
         </tr>

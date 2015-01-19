@@ -225,10 +225,10 @@ class Add extends MY_Controller
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
 			
-//			$this->db->trans_start();
+			$this->db->trans_start();
 			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
 			$data['error'] = $this->add_model->insert_subjects($subject_details);
-//			$this->db->trans_complete();
+			$this->db->trans_complete();
 		} 
 		
 		//insert into elective_group table.

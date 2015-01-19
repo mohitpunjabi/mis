@@ -25,7 +25,6 @@ class User_notifications_model extends CI_Model
 						->join('user_details', 'user_details.id = user_notifications.user_from')
 						->order_by('send_date','desc')
 						->get();
-		if($query->num_rows()==0)	return FALSE;
 		return $query->result();
 	}
 
@@ -38,9 +37,9 @@ class User_notifications_model extends CI_Model
 						->from($this->table)
 						->join('user_details', 'user_details.id = user_notifications.user_from')
 						->order_by('send_date','desc')
+						->limit(100)
 						->get();
 
-		if($query->num_rows()==0)	return FALSE;
 		return $query->result();
 	}
 

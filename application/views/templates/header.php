@@ -76,12 +76,15 @@
 			foreach($menu as $key => $val) {
 				$unreadCount = 0;
 				$readCount = 0;
-				if($notifications[$key]["unread"]) $unreadCount = count($notifications[$key]["unread"]);
-				if($notifications[$key]["read"]) $readCount = count($notifications[$key]["read"]);
+				
+				if(isset($notifications[$key]["unread"])) $unreadCount = count($notifications[$key]["unread"]);
+				if(isset($notifications[$key]["read"])) $readCount = count($notifications[$key]["read"]);
+
 				echo '<div class="-mis-menu-authtype collapsed">
 						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
+
 				if($unreadCount > 0) echo '<span class="counter active">'.$unreadCount.'</span>';
-				else echo '<span class="counter">'.$unreadCount.'</span>';
+				else 				 echo '<span class="counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
 

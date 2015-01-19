@@ -56,6 +56,20 @@
         </select>
       </td>
     </tr>
+    <tr>
+      <td>
+        <label for="dept">Department running the course</label>
+      </td>
+      <td>
+        <select name="dept" id="dept">
+          <option value="">Select Department</option>
+          <?php
+            foreach ($result_dept as $row) {
+              echo "<option value='".$row->id."' data-duration='".$row->duration."' >".$row->name."</option>"; 
+            }
+          ?>
+      </td>
+    </tr>
     </table>
     <?php
     echo form_submit('submit', 'Add Course Structure');

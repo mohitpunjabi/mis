@@ -11,7 +11,7 @@ class Basic_model extends CI_Model
 	var $table_elective_group = 'elective_group';
 	var $table_course_branch = 'course_branch';
 	var $table_elective_offered = 'elective_offered';
-
+  var $table_depts = 'departments';
 
 	function __construct()
 	{
@@ -27,6 +27,11 @@ class Basic_model extends CI_Model
 	function get_course()
 	{
 		$query = $this->db->get($this->table_course);
+		return $query->result();
+	}
+  function get_depts()
+	{
+		$query = $this->db->get_where($this->table_depts, array('type'=>'academic'));
 		return $query->result();
 	}
 	function get_course_details_by_id($id)

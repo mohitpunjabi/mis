@@ -174,12 +174,15 @@ class Add extends MY_Controller
 	$sem = $session_data['sem'];
     $aggr_id = $session_data["aggr_id"];
     $count_elective = $session_data["count_elective"];
-	
+	$count=$count_elective;
 	if($session_data['list_type'] == 1)
 	{
-		$count_elective = 1;
+    $count_elective = 1;
 	}
-		
+  else
+  {
+    $count=1;
+  }
     for($counter = 1;$counter<=$count_elective;$counter++)
     {
 		$elective_details['elective_name'] = $this->input->post("name".$counter);
@@ -198,7 +201,6 @@ class Add extends MY_Controller
 			$group_id = $session_data["count_elective"].'_'.uniqid();
 		else
 			$group_id = '1_'.uniqid();
-			
 		for($i = 1;$i <= $options;$i++)
 		{
 			$subject_details['id'] = uniqid();			

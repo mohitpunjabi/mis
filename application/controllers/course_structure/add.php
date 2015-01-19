@@ -240,9 +240,7 @@ class Add extends MY_Controller
 	
 //	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
 
-	  var_dump($data);
-	  var_dump($this->session->all_userdata());
-
+	$this->session->set_flashdata("flashSuccess","Course structure added");
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }

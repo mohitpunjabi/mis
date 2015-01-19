@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$course.on('change',function(){
 		$.ajax({
 			type:"POST",
-			url:"http://localhost/mis_now/index.php/elective_offered/home/json_get_branch",
+			url:site_url('elective_offered/home/json_get_branch'),
 			data:JSON.stringify({course:$course.find(":selected").val()}),
 			dataType:"json"
 		}).always(function(){

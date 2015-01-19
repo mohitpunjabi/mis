@@ -170,11 +170,8 @@ class Add extends MY_Controller
   
   public function AddElectiveSubjects()
   {
-<<<<<<< HEAD
-
-=======
   	$this->addJS("course_structure/add.js");
->>>>>>> feature/elective_offered
+
 	  //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
     $session_data = $this->session->userdata("CS_session");

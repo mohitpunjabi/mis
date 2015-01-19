@@ -65,12 +65,16 @@ class Basic_model extends CI_Model
 	function select_course_branch($aggr_id)
 	{
     	$query = $this->db->get_where($this->table_course_branch, array('aggr_id'=>$aggr_id));
-		return $query->result();
+		if($query->num_rows() >= 1)
+			return true;
+		else
+			return false;
 	}
 	
 	function insert_course_branch($course_branch_mapping)
 	{
     	$this->db->insert($this->table_course_branch, $course_branch_mapping);
+		return true;
 	}
 
 	function get_subject_details($id)

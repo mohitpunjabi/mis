@@ -26,6 +26,7 @@
 
 .sender-info .dp img {
 	height: 80px;
+	max-width: 100px;
 }
 
 .sender-info .sender {

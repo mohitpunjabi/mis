@@ -118,7 +118,7 @@
 	
 	function display_send_notification3 (file_id)
 	{
-		alert (file_id+"");
+		//alert (file_id+"");
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{

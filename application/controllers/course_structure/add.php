@@ -18,8 +18,10 @@ class Add extends MY_Controller
 		$data = array();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
+		var_dump($this->session->all_userdata());
+		var_dump($data);
 		$this->drawHeader();
-		$this->load->view('course_structure/add',$data);
+//		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
 	}
 	

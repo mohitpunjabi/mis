@@ -6,17 +6,16 @@ class Add_course extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
-		
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->library('session');
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
 	{
 		$data=array();
-    $this->drawHeader();
+   		$this->drawHeader();
 		$this->load->view('course_structure/add_course',$data);
 		$this->drawFooter();
 	}
@@ -26,8 +25,18 @@ class Add_course extends MY_Controller
     $course_details['id'] = $this->input->post("course_id");
     $course_details['name'] = $this->input->post("course_name");
     $course_details['duration'] = $this->input->post("course_duration");
-    $data['error'] = $this->course_model->insert($course_details);
-    $this->session->set_flashdata("flashSuccess","Course added successfully");
+	$course_result = $this->basic_model->get_course_details_by_id($course_details['id']);
+	//var_dump($course_result);
+	if(!$course_result)
+    	$result = $this->course_model->insert_course($course_details);
+	else
+		$result = false;
+		
+    if($result)
+		$this->session->set_flashdata("flashSuccess","Course added successfully");
+	else
+		$this->session->set_flashdata("flashError","Error in adding Course.This Course ID Already Exist.");
+		
     redirect("course_structure/add_course");
   }
 }

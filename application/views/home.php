@@ -1,54 +1,35 @@
-<h1 class="page-head">You have 2 notices</h1>
+<h1 class="page-head">You have <?= count($notices) ?> notices</h1>
 
 <center>
+
+<?php foreach($notices as $key => $notice) { ?>
+
 <div class="notice">
 	<div class="sender-info">
         <div class="dp">
-            <img src="<?php echo base_url(); ?>assets/images/employee/806/emp_806.png" />
+            <img src="<?= base_url()."assets/images/".$notice->photopath; ?>" />
         </div>
         <div class="sender">
-            <p class="sender-designation">Head of Department, Computer Science and Engineering</p>
-            <p class="sender-name">Dr. Chiranjeev Kumar</p>
-            <p class="notice-date">Jan 11 2015, 2:30 PM</p>
+            <p class="sender-designation"><?= ucwords($notice->designation) ?>, <?= $notice->department ?></p>
+            <p class="sender-name"><?= $notice->salutation ?> <?= $notice->first_name ?> <?= $notice->middle_name ?> <?= $notice->last_name ?></p>
+            <p class="notice-date"><?= date_format(new DateTime($notice->posted_on), "d M Y") ?></p>
         </div>
     </div>
     
     <div class="notice-content">
     	<div class="content">
-        	This is to inform all the students that <em>Buffered Reader v2.0</em> is being released in the Department of Computer Science and Engineering. Everyone is requested to reach <strong>Penman Auditorium on February 1, 2015 at 6:00 pm.</strong>
+			<?= $notice->notice_sub ?>
         </div>
         	
         <div class="attachments">
-        	<a href="#">Download attachment</a>
+        	<a href="<?= base_url()."assets/files/information/notice/".$notice->notice_path ?>">Download attachment</a>
         </div>
     </div>    
     
 </div>
 
 
-<div class="notice">
-	<div class="sender-info">
-        <div class="dp">
-            <img src="<?php echo base_url(); ?>assets/images/employee/806/emp_806.png" />
-        </div>
-        <div class="sender">
-            <p class="sender-designation">Head of Department, Computer Science and Engineering</p>
-            <p class="sender-name">Dr. Chiranjeev Kumar</p>
-            <p class="notice-date">Jan 11 2015, 2:30 PM</p>
-        </div>
-    </div>
-    
-    <div class="notice-content">
-    	<div class="content">
-        	This is to inform all the students that <em>Buffered Reader v2.0</em> is being released in the Department of Computer Science and Engineering. Everyone is requested to reach <strong>Penman Auditorium on February 1, 2015 at 6:00 pm.</strong>
-        </div>
-        	
-        <div class="attachments">
-        	<a href="#">Download attachment</a>
-        </div>
-    </div>    
-    
-</div>
+<?php } ?>
 
 <script type="text/javascript">
 $(document).ready(function() {

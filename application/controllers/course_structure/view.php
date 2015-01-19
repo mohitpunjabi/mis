@@ -5,7 +5,7 @@ class View extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct(array('deo'));
+		parent::__construct(array('deo','hod'));
 		
 		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/add.js");
@@ -14,12 +14,22 @@ class View extends MY_Controller
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
-	public function index($error='')
+	public function index($userid= '')
 	{
-		//edited
 		$data = array();
-		$data["result_course"] = $this->basic_model->get_course();
-		$data["result_branch"] = $this->basic_model->get_branches();
+		if($userid != '')
+		{	
+			$dept = $this->basic_model->Select_Department_By_User_ID($userid);
+			$dept_id = $dept[0]->dept_id;
+			
+			$data["result_course"] = $this->basic_model->get_course_by_dept_id($dept_id);
+			$data["result_branches"] = $this->basic_model->get_branch_by_dept_id($dept_id);
+		}
+		else
+		{
+			$data["result_course"] = $this->basic_model->get_course();
+			$data["result_branch"] = $this->basic_model->get_branches();
+		}
 		$this->drawHeader();
 		$this->load->view('course_structure/View/view_home',$data);
 		$this->drawFooter();

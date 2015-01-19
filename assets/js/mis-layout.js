@@ -49,6 +49,7 @@ $(document).ready(function() {
 		top: "7px"
 	}, 100);
 
+/*
 	$(".notification-drawer").append("<center><br /><a href='#' id='loadOlderNotifs'>Load older notifications</a><br /></center>");
 	
 	$("#loadOlderNotifs").click(function(e) {
@@ -56,19 +57,18 @@ $(document).ready(function() {
 		loadMoreNotifications();
 		e.stopImmediatePropagation();
 	});
-	
+
 	function loadMoreNotifications() {
 		var $readNotifs = $(".notification-drawer .read .-mis-notification-link");
+		console.log($readNotifs);
+		console.log($readNotifs);
 		$readNotifs.show();
-		if($readNotifs.length >= notifsShowing) {
-			for(var i = notifsShowing; i < $readNotifs.length; i++)
-				$($readNotifs[i]).hide();
-		}
-		else
-			$("#loadOlderNotifs").hide();
+		for(var i = notifsShowing; i < $readNotifs.length; i++)
+			$($readNotifs[i]).hide();
 	}
 
 	loadMoreNotifications();
+*/	
 
 	$(".-mis-menu-authtype > .counter").click(function(e) {
 		$(".notification-drawer").hide();

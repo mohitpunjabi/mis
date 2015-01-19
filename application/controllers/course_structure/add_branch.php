@@ -12,7 +12,6 @@ class Add_branch extends MY_Controller
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
-		$this->load->model('course_structure/course_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -43,7 +42,7 @@ class Add_branch extends MY_Controller
 	
 	if(!$result_branch)
 	{
-		$result_insert_branch = $this->course_model->insert_branch($branch_details);
+		$result_insert_branch = $this->basic_model->insert_branch($branch_details);
 		if($result_insert_branch)
 		{
 			$result_course_branch = $this->basic_model->insert_course_branch($course_branch_details);

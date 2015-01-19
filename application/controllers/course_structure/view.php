@@ -22,14 +22,12 @@ class View extends MY_Controller
 			$dept = $this->basic_model->Select_Department_By_User_ID($userid);
 			$dept_id = $dept[0]->dept_id;
 			
-			
-			$data["result_course"] = $this->basic_model->get_course_by_dept_id($dept_id);
-			$data["result_branch"] = $this->basic_model->get_branch_by_dept_id($dept_id);
+			$data["result_course"] = $this->basic_model->get_course_offered_by_dept($dept_id);
+			$data["result_branch"] = $this->basic_model->get_branch_offered_by_dept($dept_id);
 			
 		}
 		else
 		{
-			
 			$data["result_course"] = $this->basic_model->get_course();
 			$data["result_branch"] = $this->basic_model->get_branches();
 		}

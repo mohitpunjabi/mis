@@ -9,7 +9,6 @@ class Add extends MY_Controller
 		
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->model('course_structure/basic_model', 'basic_model', TRUE);
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
@@ -34,6 +33,18 @@ class Add extends MY_Controller
 		$sem=$this->input->post('sem');
 		$aggr_id= $course.'_'.$branch.'_'.$session;
 		
+		if(!$this->basic_model->select_course_branch($aggr_id))
+		{
+			$this->session->set_flashdata("flashError","Invalid Course branch and year combination.");
+			redirect("course_structure/add");
+		}
+		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
+		{
+			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then add new.");
+			redirect("course_structure/add");
+		}
+			
+		
 		$row_course = $this->basic_model->get_course_details_by_id($course);
 		$row_branch = $this->basic_model->get_branch_details_by_id($branch);
 		
@@ -46,21 +57,13 @@ class Add extends MY_Controller
 		$data["CS_session"]['session']=$session;
 		$this->session->set_userdata($data);
 		
-		//insert course branch mapping here.Also check if that mapping exist or not.
-		$course_branch_mapping['course_id'] = $course;
-		$course_branch_mapping['branch_id'] = $branch;
-		$course_branch_mapping['year'] = $session;
-		$course_branch_mapping['aggr_id'] = trim($aggr_id);
-		
-		if(!$this->basic_model->select_course_branch(trim($aggr_id)))
-			$this->basic_model->insert_course_branch($course_branch_mapping);
-		
 		$this->drawHeader();
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();
 	}
     public function EnterSubjects()
   	{
+		
   		$this->addJS("course_structure/add.js");
 		$session_variable = $this->session->userdata("CS_session");
 		
@@ -181,12 +184,12 @@ class Add extends MY_Controller
 	$count=$count_elective;
 	if($session_data['list_type'] == 1)
 	{
-    $count_elective = 1;
+    	$count_elective = 1;
 	}
-  else
-  {
-    $count=1;
-  }
+  	else
+  	{
+   	 	$count=1;
+	}
     for($counter = 1;$counter<=$count_elective;$counter++)
     {
 		$elective_details['elective_name'] = $this->input->post("name".$counter);
@@ -201,10 +204,12 @@ class Add extends MY_Controller
 	 
 		$options = $session_data['options'][$counter];
 		$sequence_elective = $session_data['elective'][$counter];
+		
 		if($session_data['list_type'] == 1)
 			$group_id = $session_data["count_elective"].'_'.uniqid();
 		else
 			$group_id = '1_'.uniqid();
+		
 		for($i = 1;$i <= $options;$i++)
 		{
 			$subject_details['id'] = uniqid();			
@@ -224,7 +229,6 @@ class Add extends MY_Controller
 			$sequence = $this->input->post("sequence".$counter."_".$i);
 			
 			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
-			//$sequence = ;
 			$coursestructure_details['sequence'] = $sequence; 
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			
@@ -245,9 +249,8 @@ class Add extends MY_Controller
     }
 	
 //	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
-      $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted successfully");
+      $this->session->set_flashdata("flashSuccess","Course structure for semester ".$sem." inserted successfully");
 
-//	$this->session->set_flashdata("flashSuccess","Course structure added");
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }

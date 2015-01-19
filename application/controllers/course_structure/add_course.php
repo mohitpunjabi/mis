@@ -20,24 +20,23 @@ class Add_course extends MY_Controller
 		$this->drawFooter();
 	}
 	public function add()
-  {
-    $this->load->model('course_structure/course_model','',TRUE);
-    $course_details['id'] = $this->input->post("course_id");
-    $course_details['name'] = $this->input->post("course_name");
-    $course_details['duration'] = $this->input->post("course_duration");
-	$course_result = $this->basic_model->get_course_details_by_id($course_details['id']);
-	//var_dump($course_result);
-	if(!$course_result)
-    	$result = $this->course_model->insert_course($course_details);
-	else
-		$result = false;
-		
-    if($result)
-		$this->session->set_flashdata("flashSuccess","Course added successfully");
-	else
-		$this->session->set_flashdata("flashError","Error in adding Course.This Course ID Already Exist.");
-		
-    redirect("course_structure/add_course");
-  }
+    {
+		$course_details['id'] = $this->input->post("course_id");
+		$course_details['name'] = $this->input->post("course_name");
+		$course_details['duration'] = $this->input->post("course_duration");
+		$course_result = $this->basic_model->get_course_details_by_id($course_details['id']);
+		//var_dump($course_result);
+		if(!$course_result)
+			$result = $this->basic_model->insert_course($course_details);
+		else
+			$result = false;
+			
+		if($result)
+			$this->session->set_flashdata("flashSuccess","Course added successfully");
+		else
+			$this->session->set_flashdata("flashError","Error in adding Course.This Course ID Already Exist.");
+			
+		redirect("course_structure/add_course");
+	  }
 }
 ?>

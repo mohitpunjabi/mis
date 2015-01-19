@@ -18,6 +18,13 @@ class Basic_model extends CI_Model
 		// Call the Model constructor
 		parent::__construct();
 	}
+	
+ 	function get_depts()
+	{
+		$query = $this->db->get_where($this->table_depts, array('type'=>'academic'));
+		return $query->result();
+	}
+	
 	function Select_Department_By_User_ID($userid)
 	{
     	$query = $this->db->get_where($this->table_userdetails,array('id'=>$userid));
@@ -29,24 +36,24 @@ class Basic_model extends CI_Model
 		$query = $this->db->get($this->table_course);
 		return $query->result();
 	}
-  function get_depts()
-	{
-		$query = $this->db->get_where($this->table_depts, array('type'=>'academic'));
-		return $query->result();
-	}
 	function get_course_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_course,array('id'=>$id));
 		return $query->result();
 	}
 	
-	function get_course_by_dept_id($dept_id)
+	function get_course_offered_by_dept($dept_id)
 	{
 		$query = $this->db->query("SELECT DISTINCT id,name,duration FROM courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
 		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}
-		
+	
+	function insert_course($course_details)
+	{
+    	$this->db->insert($this->table_course, $course_details);
+     	return true; 
+	}
 	
 	function get_branches()
 	{
@@ -60,11 +67,17 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
-	function get_branch_by_dept_id($dept_id)
+	function get_branch_offered_by_dept($dept_id)
 	{
 		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON 
 		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
+	}
+	
+	function insert_branch($branch_details)
+	{
+    	$this->db->insert($this->table_branch, $branch_details);
+      	return true;
 	}
 	
 	function select_course_branch($aggr_id)
@@ -98,7 +111,10 @@ class Basic_model extends CI_Model
 	function get_subjects_by_sem($sem,$aggr_id)
 	{
 		$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
-		return $query->result();
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
 	}
 	
 	function get_course_structure_by_id($id)

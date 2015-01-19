@@ -10,16 +10,17 @@ class Add extends MY_Controller
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
 	{
+		$this->load->model('course_structure/basic_model', 'basic_model', TRUE);
 		$data = array();
-		$data["result_course"] = $this->basic_model->get_course();
-		$data["result_branch"] = $this->basic_model->get_branches();
 		var_dump($this->session->all_userdata());
 		var_dump($data);
+		$data["result_course"] = $this->basic_model->get_course();
+		$data["result_branch"] = $this->basic_model->get_branches();
+
 		$this->drawHeader();
 //		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();

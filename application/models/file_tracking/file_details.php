@@ -10,22 +10,14 @@ class File_details extends CI_Model
 		parent::__construct();
 	}
 
-	function insert($data, $track_num)
+	function insert($data)
 	{
 		$this->db->insert($this->table,$data);
-		$this->db->select('file_id');
-		$this->db->where('track_num', $track_num); 
 //		$this->db->query ("INSERT INTO values ();")
-		$query = $this->db->get($this->table);
-		$file = $query->row();
-		$output = array (
-					'file_id' => $file->file_id
-					 );
-		return $output;
 	}
 	function get_track_num ($file_id)
 	{
-		$sql_query = "SELECT track_num from file_details where file_id = ".$file_id.";";
+		$sql_query = "SELECT track_num from file_details where file_id = '".$file_id."';";
 		$query = $this->db->query($sql_query);
 		foreach ($query->result() as $row) //last
 				$track_num = $row->track_num;
@@ -40,9 +32,9 @@ class File_details extends CI_Model
 		return $res;
 	}
 	
-	function get_file_details ($file_id)
+	function get_file_details ($track_num)
 	{
-		$res = $this->db->query("SELECT * from file_details where file_id = ".$file_id.";");
+		$res = $this->db->query("SELECT * from file_details where track_num = '".$track_num."';");
 		return $res;
 	}
 	function get_department_by_id()
@@ -50,14 +42,25 @@ class File_details extends CI_Model
 		$query =  $this->db->query("SELECT name,id FROM departments;");
 		return $query->result_array();
 	}
-	function get_faculty_by_department_id($dept_id)
+	function get_designation_by_department_id ($dept_id)
 	{
-		$query = $this->db->query("SELECT id,salutation,first_name,middle_name,last_name FROM user_details WHERE dept_id="."'".$dept_id."'".";");
-		return $query->result_array();
+		$query = $this->db->query("SELECT DISTINCT designations.id, designations.name FROM designations INNER JOIN user_details INNER JOIN emp_basic_details ON designations.id = emp_basic_details.designation AND user_details.id = emp_basic_details.id where dept_id = '".$dept_id."';");
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return FALSE;	 
+	}
+	function get_emp_name ($designation, $dept)
+	{
+		$query = $this->db->query ("SELECT emp_basic_details.id AS id from user_details INNER JOIN emp_basic_details ON user_details.id = emp_basic_details.id where dept_id = '".$dept."' and designation = '".$designation."';");
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return FALSE;	 
 	}
 	function insert_close_details($file_id, $emp_id)
 	{
-		$this->db->query("UPDATE file_details SET close_timestamp=now(), close_emp_id='".$emp_id."'WHERE file_id=".$file_id.";");
+		$this->db->query("UPDATE file_details SET close_timestamp=now(), close_emp_id='".$emp_id."'WHERE file_id='".$file_id."';");
 	}
 }
 

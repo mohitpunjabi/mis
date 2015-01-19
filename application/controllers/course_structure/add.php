@@ -10,7 +10,6 @@ class Add extends MY_Controller
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 

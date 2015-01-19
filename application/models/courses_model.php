@@ -34,6 +34,16 @@ class Courses_model extends CI_Model
 			return FALSE;
 		}
 	}
+
+	function get_courses_by_dept($dept_id = '')
+	{
+		$command = 'SELECT * FROM courses INNER JOIN (SELECT DISTINCT course_id FROM course_branch INNER JOIN (SELECT aggr_id FROM dept_course WHERE dept_id="'.$dept_id.'") as temp_table_1 ON course_branch.aggr_id = temp_table_1.aggr_id) as temp_table_2 ON temp_table_2.course_id = courses.id';
+		$query = $this->db->query($command);
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return FALSE;
+	}
 }
 
 ?>

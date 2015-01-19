@@ -342,6 +342,7 @@
     {
     	//alert("hi");
         var tr=document.getElementById('branch_id');
+        var course=document.getElementById('course_id').value;
 //        var tr=document.getElementById('branch_div');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
@@ -359,22 +360,20 @@
             {
             	//alert ("success");
                 tr.innerHTML=xmlhttp.responseText;
-                options_of_courses();
             }
         }
         //xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true); this is original line to select branch we need to select courses
-		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+dept),true);
+		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }
 
     function options_of_courses()
-	//function options_of_courses()
     {
         //set_id_of_branch();
         //alert('reached course');
         var tr=document.getElementById('course_id');
-        var branch=document.getElementById('branch_id').value;
+        var dept=document.getElementById('depts').value;
         var xmlhttp;
         if (window.XMLHttpRequest)
         {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -390,10 +389,11 @@
             {
             	//alert('success');
                 tr.innerHTML=xmlhttp.responseText;
+                options_of_branches();
             }
         }
         //alert(branch);
-        xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+branch),true);
+        xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }

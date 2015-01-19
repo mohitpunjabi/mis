@@ -7,29 +7,29 @@ class Student_ajax extends CI_Controller
         parent::__construct();
     }
 
-	public function update_branch($dept = '')
+	public function update_branch($course = '',$dept = '')
 	{
 		//alert('horror');
 		//var_dump($dept);
-		$this->load->model('Branches_model','',TRUE);
-		$data['branches']=$this->Branches_model->get_branches_by_department($dept);
-		//echo ('hello');
-		$this->load->view('student/ajax/student_update_branches',$data);
-	}
-
-	public function update_courses($branch = '')
-	{
-		if($branch)
+		if($course)
 		{
-			$this->load->model('Courses_model','',TRUE);
-			$data['courses']=$this->Courses_model->get_courses_by_branch($branch);
-			$this->load->view('student/ajax/student_update_courses',$data);
+			$this->load->model('Branches_model','',TRUE);
+			$data['branches']=$this->Branches_model->get_branches_by_courses($course,$dept);
+			//echo ('hello');
+			$this->load->view('student/ajax/student_update_branches',$data);
 		}
 		else
 		{
 			$data['courses']='';
 			$this->load->view('student/ajax/student_update_courses',$data);
 		}
+	}
+
+	public function update_courses($dept = '')
+	{
+		$this->load->model('Courses_model','',TRUE);
+		$data['courses']=$this->Courses_model->get_courses_by_dept($dept);
+		$this->load->view('student/ajax/student_update_courses',$data);
 	}
 }
 ?>

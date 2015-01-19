@@ -37,13 +37,13 @@ class Student_add extends MY_Controller
 		$depts = $data['academic_departments'];
 		//var_dump($depts[0]->id);
 		$this->load->model('Branches_model','',TRUE);
-		$data['branches']=$this->Branches_model->get_branches_by_department($depts[0]->id);
+		$data['branches']=$this->Branches_model->get_branches_by_courses($depts[0]->id);
 		//var_dump($data['branches']);
 
 		$branch = $data['branches'];
 		$this->load->model('Courses_model','',TRUE);
 		if($branch)
-			$data['courses']=$this->Courses_model->get_courses_by_branch($branch[0]->id);
+			$data['courses']=$this->Courses_model->get_courses_by_dept($branch[0]->id);
 		else
 			$data['courses']=FALSE;
 

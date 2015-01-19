@@ -239,8 +239,9 @@ class Add extends MY_Controller
     }
 	
 //	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
+      $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted successfully");
 
-	$this->session->set_flashdata("flashSuccess","Course structure added");
+//	$this->session->set_flashdata("flashSuccess","Course structure added");
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }

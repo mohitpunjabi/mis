@@ -239,7 +239,7 @@
         	Department        </td>
     	<td>
   	      	<!--<select name="department" id="depts" onchange="options_of_branches()">   this is original -->
-			<select name="department" id="depts" onchange="options_of_branches()"><!--We need to switch to select courses offered by the selected department as department offers different courses -->
+			<select name="department" id="depts" onchange="options_of_courses()"><!--We need to switch to select courses offered by the selected department as department offers different courses -->
             	<?php
                     if($academic_departments === FALSE)
                         echo '<option disabled="disabled" selected>No Department</option>';
@@ -253,6 +253,22 @@
     </tr>
     <tr>
         <td>
+            Course        </td>
+        <td id="course">
+        
+            
+            <select name="course" id="course_id" onchange="options_of_branches()">
+                <?php
+                    if($courses === FALSE)
+                        echo '<option disabled="disabled" value="none" selected>No Department</option>';
+                    else
+                        foreach ($courses as $row)
+                        {
+                            echo '<option value="'.$row->id.'">'.$row->name.'</option>';
+                        }
+                ?>
+            </select>        </td>
+        <td>
             Branch        </td>
         <td id="branch">
         
@@ -263,23 +279,6 @@
                         echo '<option disabled="disabled" selected>No Department</option>';
                     else
                         foreach ($branches as $row)
-                        {
-                            echo '<option value="'.$row->id.'">'.$row->name.'</option>';
-                        }
-                ?>
-            </select>        </td>
-
-        <td>
-            Course        </td>
-        <td id="course">
-		
-            
-            <select name="course" id="course_id" >
-                <?php
-                    if($courses === FALSE)
-                        echo '<option disabled="disabled" value="none" selected>No Department</option>';
-                    else
-                        foreach ($courses as $row)
                         {
                             echo '<option value="'.$row->id.'">'.$row->name.'</option>';
                         }

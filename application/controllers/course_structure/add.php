@@ -7,8 +7,8 @@ class Add extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo','hod'));
 		
-		$this->addJS("course_structure/add.js");
-		$this->addJS("course_structure/edit.js");
+//		$this->addJS("course_structure/add.js");
+//		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 	}
 
@@ -18,12 +18,12 @@ class Add extends MY_Controller
 		$data = array();
 		var_dump($this->session->all_userdata());
 		var_dump($data);
-//		$data["result_course"] = $this->basic_model->get_course();
-//		$data["result_branch"] = $this->basic_model->get_branches();
+		$data["result_course"] = $this->basic_model->get_course();
+		$data["result_branch"] = $this->basic_model->get_branches();
 
-//		$this->drawHeader();
-//		$this->load->view('course_structure/add',$data);
-//		$this->drawFooter();
+		$this->drawHeader();
+		$this->load->view('course_structure/add',$data);
+		$this->drawFooter();
 	}
 	
 	public function EnterNumberOfSubjects()

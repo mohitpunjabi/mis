@@ -25,9 +25,12 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
+		$this->load->model("information/view_notice_model", "notice", TRUE);
+		
 		$this->addCSS("home/home-style.css");
 		$this->drawHeader("MIS");
-		$this->load->view('home');
+		
+		$this->load->view('home', array("notices" => $this->notice->get_notices()));
 		$this->drawFooter();
 	}
 }

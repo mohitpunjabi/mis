@@ -21,7 +21,7 @@
 			$this->load->model('user/user_notifications_model', '', TRUE);
 	    }
 
-	    function getMenu()
+	    private function getMenu()
 	    {
 	    	$user_id = $this->CI->session->userdata('id');
 	    	$auths = $this->CI->session->userdata('auth');
@@ -48,7 +48,7 @@
 	    	return $menu;
 	    }
 
-		function getAuthKeys() {
+		private function getAuthKeys() {
 	    	$auths = $this->CI->session->userdata('auth');
 			foreach($auths as $i => $auth) {
 				$keys[$auth] = $this->auth_types->getAuthTypeById($auth);
@@ -56,7 +56,7 @@
 			return $keys;
 		}
 
-		function getNotifications() {
+		private function getNotifications() {
 			$auths = $this->CI->session->userdata('auth');
 			foreach($auths as $i => $auth) {
 				$notifications[$auth]['unread'] = $this->user_notifications_model->getUnreadUserNotifications($this->session->userdata('id'), $auth);

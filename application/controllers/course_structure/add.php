@@ -5,12 +5,12 @@ class Add extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct(array('deo'));
+		parent::__construct(array('deo', 'hod'));
 		
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->library('session');
+		$this->load->model('course_structure/basic_model', 'basic_model', TRUE);
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
@@ -19,6 +19,7 @@ class Add extends MY_Controller
 		$data = array();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
+
 		$this->drawHeader();
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
@@ -166,6 +167,7 @@ class Add extends MY_Controller
   
   public function AddElectiveSubjects()
   {
+
 	  //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
     $session_data = $this->session->userdata("CS_session");
@@ -223,6 +225,7 @@ class Add extends MY_Controller
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
+			
 			$this->db->trans_start();
 			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
 			$data['error'] = $this->add_model->insert_subjects($subject_details);
@@ -237,8 +240,10 @@ class Add extends MY_Controller
 		
     }
 	
-	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted 
-	successfully");
+//	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
+      $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted successfully");
+
+//	$this->session->set_flashdata("flashSuccess","Course structure added");
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }

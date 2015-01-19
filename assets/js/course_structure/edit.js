@@ -50,7 +50,7 @@ function EditSubject(semester,seq_no)
 		subjectdetails['contacthours'] = subjectcontacthours;
 		
 		alert(subjectdetails['name']);
-		xmlhttp.open("GET",js_site_url("course_structure/edit/UpdateCourseStructure/"+subjectdetails),true);
+		xmlhttp.open("GET",site_url("course_structure/edit/UpdateCourseStructure/"+subjectdetails),true);
 		xmlhttp.send();
 		
 		$("#editbutton_"+semester+"_"+seq_no).val("Edit");	
@@ -73,10 +73,10 @@ function DeleteSemester(semester,aggr_id)
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
 			alert("Deleted Successfully");
-			document.location.href = js_site_url("course_structure/edit");
+			document.location.href = site_url("course_structure/edit");
 		}
 	}
 	
-	xmlhttp.open("GET",js_site_url("course_structure/edit/DeleteCourseStructure/"+semester+"/"+aggr_id),true);
+	xmlhttp.open("GET",site_url("course_structure/edit/DeleteCourseStructure/"+semester+"/"+aggr_id),true);
 	xmlhttp.send()	
 }

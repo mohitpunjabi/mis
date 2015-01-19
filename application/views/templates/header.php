@@ -33,41 +33,28 @@
         	<a href="<?= site_url('login/logout') ?>">Logout</a>
         </div>
         <div class="-mis-right-options">
-        	<?php echo "<a href = \"".site_url('home')."\" >".$this->session->userdata('name')."</a>"; ?>
+        	<a href="<?= site_url('home') ?>"><?= $this->session->userdata('name') ?></a>
         </div>
 		<div class="-mis-right-options">
-
-<?php
-			if($this->authorization->is_auth('emp'))
-	        	echo '<img src="'.base_url().'assets/images/employee/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" class="small-profile-thumb" />';
-			else if($this->authorization->is_auth('stu'))
-	        	echo '<img src="'.base_url().'assets/images/student/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" class="small-profile-thumb" />';
-
-?>
+			<img src="<?= base_url()."/assets/images/".$this->session->userdata('photopath') ?>" class="small-profile-thumb" />
         </div>
     </div>
 
 	<div class="-mis-navbar">
     	<div class="-mis-profile-photo">
-<?php
-
-			if($this->authorization->is_auth('emp'))
-	        	echo '<img src="'.base_url().'assets/images/employee/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" />';
-			else if($this->authorization->is_auth('stu'))
-	        	echo '<img src="'.base_url().'assets/images/student/'.$this->session->userdata('id').'/'.$this->session->userdata('photopath').'" />';
-?>
-
+			<img src="<?= base_url()."/assets/images/".$this->session->userdata('photopath'); ?>" />
     		<div class="-mis-profile-details">
+
+            <h2><?= $this->session->userdata('name') ?></h2>
+            <span><strong><?= $this->session->userdata('id') ?></strong></span><br />
+            <span>
 <?php
-        echo "<h2>".$this->session->userdata('name')."</h2>";
-    	echo "<span><strong>".$this->session->userdata('id')."</strong></span><br />";
-
 		if($this->authorization->is_auth('emp'))
-            echo '<span>'.$this->session->userdata('designation').', '.$this->session->userdata('dept_name').'</span><br /><br />';
+			echo $this->session->userdata('designation').', '.$this->session->userdata('dept_name');
 		if($this->authorization->is_auth('stu'))
-            echo '<span>'.$this->session->userdata('dept_name').'</span><br /><br />';
-
+			echo $this->session->userdata('dept_name');
 ?>
+			</span><br /><br />
     		</div>
 		</div>
 		<?php
@@ -89,12 +76,15 @@
 			foreach($menu as $key => $val) {
 				$unreadCount = 0;
 				$readCount = 0;
-				if($notifications[$key]["unread"]) $unreadCount = count($notifications[$key]["unread"]);
-				if($notifications[$key]["read"]) $readCount = count($notifications[$key]["read"]);
+				
+				if(isset($notifications[$key]["unread"])) $unreadCount = count($notifications[$key]["unread"]);
+				if(isset($notifications[$key]["read"])) $readCount = count($notifications[$key]["read"]);
+
 				echo '<div class="-mis-menu-authtype collapsed">
 						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
+
 				if($unreadCount > 0) echo '<span class="counter active">'.$unreadCount.'</span>';
-				else echo '<span class="counter">'.$unreadCount.'</span>';
+				else 				 echo '<span class="counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
 
@@ -102,7 +92,7 @@
 				if($unreadCount > 0) {
 					echo '<h3>Unread Notifications &raquo;</h3>';
 					foreach($notifications[$key]["unread"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->module_id . "/" . $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), base_url().'assets/images/'.$row->photopath);
 					}
 				}
 				echo '</div>';
@@ -112,7 +102,7 @@
 				if($readCount > 0) {
 					echo '<h3>Old Notifications &raquo;</h3>';
 					foreach($notifications[$key]["read"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->module_id . "/" . $row->path, date("d M Y, H:i A", strtotime($row->send_date)), $row->user_from);
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), base_url().'assets/images/'.$row->photopath);
 					}
 				}
 				echo '</div>';

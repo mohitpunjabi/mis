@@ -19,11 +19,7 @@ class Basic_model extends CI_Model
 	}	
 	
 	
-	function Select_courses_by_dept($deptid)
-	{
-    	$query = $this->db->get_where($this->table_dept_course,array('dept_id'=>$deptid));
-		return $query->result();
-	}
+	
 	
 	function get_course_details_by_id($id)
 	{

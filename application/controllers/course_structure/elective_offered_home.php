@@ -11,8 +11,8 @@ class Elective_offered_home extends MY_Controller
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		
-		$this->load->model('elective_offered/basic_model','',TRUE);
-		//$this->load->model('course_structure/basic_model','',TRUE);
+		//$this->load->model('elective_offered/basic_model','',TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -22,42 +22,51 @@ class Elective_offered_home extends MY_Controller
 		$userid = $this->session->userdata("id");
 		$data['userid'] = $userid;
 		
-		
 		$dept = $this->basic_model->Select_Department_By_User_ID($userid);
 		$dept_id = $dept[0]->dept_id;
-		$result_courses = $this->basic_model->Select_courses_by_dept($dept_id);
-		if(date('m') >= 7 && date('m') <=12)
+		
+		$result_course = $this->basic_model->get_course_offered_by_dept($dept_id);
+		//$data['result_courses'] = $data['result_courses'];
+		//$data['aggr_id'] = $result_courses[0]->aggr_id;
+		
+		/*if(date('m') >= 7 && date('m') <=12)
 			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
 		else
 			$curr_session = (substr(date('Y'),2,3)-1).(substr(date('Y'),2,3));
 			
 		$data['curr_session'] = $curr_session;
-		
+		*/
 		$i = 0;
 		$j=0;
-		foreach($result_courses as $row)
+		//$data['course'] = array();
+		//var_dump($result_course);
+		//$data['course']['name'] = array();
+		//$data['course']['duration'] = array();
+		//$data['course']['id'] = array();
+		foreach($result_course as $row)
 		{
 			$aggr_id_array = explode('_',$row->aggr_id);
 			$session = $aggr_id_array[2];
-			
-			if($curr_session == $session)
+			$data['aggr_id'] = $row->aggr_id;
+			//$data['flag'][$j] = $j;
+			//if($curr_session == $session)
 			{
-				$data['curr_session'] = $curr_session;
-				if(!in_array($aggr_id_array[0],$data['course']['id']))
+				//$data['curr_session'] = $curr_session;
+				//if(!in_array($aggr_id_array[0],$data['course']['id']))
 				{
-					$data['course']['id'][$j] = $aggr_id_array[0];
-					$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
+				//	$data['course']['id'][$j] = $aggr_id_array[0];
+					//$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
 					
-					$data['course']['name'][$j] = $result_course_details[0]->name;
-					$data['course']['duration'][$j] = $result_course_details[0]->duration;
-					$j++;
+					//$data['course']['name'][$j] = $result_course_details[0]->name;
+					//$data['course']['duration'][$j] = $result_course_details[0]->duration;
+				//	$j++;
 				}
-			//}
-
+			}
+			
 		}
 		
 		$this->drawHeader();
-		$this->load->view('elective_offered/home',$data);
+		$this->load->view('course_structure/elective_offered_home',$data);
 		$this->drawFooter();
 	}	
 
@@ -85,8 +94,6 @@ class Elective_offered_home extends MY_Controller
 			//$this->output->set_output(json_encode($result_branch_details));
 			$data['branches'][$branch_id] = $result_branch_details[0]->name;
 		}
-
-		
 		$this->output->set_output(json_encode($data));
 	}
 }

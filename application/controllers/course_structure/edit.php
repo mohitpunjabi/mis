@@ -43,6 +43,7 @@ class Edit extends MY_Controller
 		$aggr_id = $course_id.'_'.$branch_id.'_'.$session;
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
+		
 		$row_course = $this->basic_model->get_course_details_by_id($course_id);
 		$row_branch = $this->basic_model->get_branch_details_by_id($branch_id);
 		

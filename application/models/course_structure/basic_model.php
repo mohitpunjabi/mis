@@ -61,6 +61,7 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	
 	function insert_course($course_details)
 	{
     	$this->db->insert($this->table_course, $course_details);

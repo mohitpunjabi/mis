@@ -44,7 +44,7 @@ $(document).ready(function(){
 		//console.log((new Date).getYear()); 
 		//For now i don't remeber the exact function to get the current year
 		// so using counter 20
-		if(duration < 4){
+		if($course_selection.find(':selected').val() == 'ug_comm'){
 			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Group</label></td><td><select id=\"semester\" name=\"sem\">";
 			for(counter = 1; counter <= 2*duration ; counter++){
 				if(counter == 1)
@@ -53,6 +53,12 @@ $(document).ready(function(){
 					base_str += "<option value=\""+counter+"\">"+"Chemistry(Group "+counter+")"+"</option>";
 			}
 			
+		}
+		else if(duration < 4){
+			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";
+			for(counter = 1; counter <= 2*duration ; counter++){
+				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+			}
 		}
 		else{
 			base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";

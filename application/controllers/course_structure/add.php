@@ -11,6 +11,7 @@ class Add extends MY_Controller
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model', 'basic_model', TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')

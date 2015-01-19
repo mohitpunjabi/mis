@@ -1,4 +1,4 @@
-<h1 class="page-head">You have 2 notices</h1>
+<h1 class="page-head">You have <?= count($notices) ?> notices</h1>
 
 <center>
 

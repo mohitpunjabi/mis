@@ -4,6 +4,7 @@
   <font face="Arial" size="3">
   <b>Add New Course Structure</b><br><br>
   <?php
+  //var_dump($courses_1);
   	$form_attrinutes = array("id"=>"add_course_form");
     echo form_open('course_structure/add/EnterNumberOfSubjects',$form_attrinutes);
   ?>

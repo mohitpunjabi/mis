@@ -79,7 +79,7 @@ class Post_minute extends MY_Controller
 	private function upload_file($name ='',$sno = 0)
 	{
 		$config['upload_path'] = 'assets/files/information/minute';
-		$config['allowed_types'] = 'pdf|doc|docx';
+		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
 		$config['max_size']  = '2000';
 
 			if(isset($_FILES[$name]['name']))

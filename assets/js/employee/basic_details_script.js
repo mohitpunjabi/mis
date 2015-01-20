@@ -192,31 +192,48 @@
 		xmlhttp.onreadystatechange=function()
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		    	{
-				if(xmlhttp.responseText != "") {
-					var details = eval(xmlhttp.responseText);
-					$("select[name=salutation]").val(details['salutation']);
-					$("input[name=firstname]").val(details['first_name']);
-					$("input[name=middlename]").val(details['middle_name']);
-					$("input[name=lastname]").val(details['last_name']);
-					$("select[name=tstatus]").val('ft');
-					$("input[name=research_int]").val(details['research_int']);
-					$("select[name=category]").val(details['category']);
-					$("input[name=mobile]").val(details['ph_no']);
+		    {
+				if(xmlhttp.responseText != "")
+				{
+					if(xmlhttp.responseText == 'NO_EMP')
+					{
+						alert('Please select an Employee Id');
+						$("#fetch_id_btn").show();
+					}
+					else if(xmlhttp.responseText == 'NO_AVAIL')
+					{
+						alert('Employee Id is not Available. Please select another Employee Id');
+						$("#fetch_id_btn").show();
+					}
+					else if(xmlhttp.responseText != '')
+					{
+						var details = eval(xmlhttp.responseText);
+						$("select[name=salutation]").val(details['salutation']);
+						$("input[name=firstname]").val(details['first_name']);
+						$("input[name=middlename]").val(details['middle_name']);
+						$("input[name=lastname]").val(details['last_name']);
+						$("select[name=tstatus]").val('ft');
+						$("input[name=research_int]").val(details['research_int']);
+						$("select[name=category]").val(details['category']);
+						$("input[name=mobile]").val(details['ph_no']);
+						$("td, th").css("visibility", "visible");
+						$("#fetch_id_btn").hide();
+					}
+					else
+					{
+						$("select[name=salutation]").val("Dr");
+						$("input[name=firstname]").val("");
+						$("input[name=middlename]").val("");
+						$("input[name=lastname]").val("");
+						$("select[name=tstatus]").val('ft');
+						$("input[name=research_int]").val("");
+						$("select[name=category]").val("");
+						$("input[name=mobile]").val("");
+						$("td, th").css("visibility", "visible");
+						$("#fetch_id_btn").hide();
+					}
+					$("#empIdIcon").hide();
 				}
-				else {
-					$("select[name=salutation]").val("Dr");
-					$("input[name=firstname]").val("");
-					$("input[name=middlename]").val("");
-					$("input[name=lastname]").val("");
-					$("select[name=tstatus]").val('ft');
-					$("input[name=research_int]").val("");
-					$("select[name=category]").val("");
-					$("input[name=mobile]").val("");
-				}
-				$("td, th").css("visibility", "visible");
-				$("#fetch_id_btn").hide();
-				$("#empIdIcon").hide();
 		    }
 	  	}
 		xmlhttp.open("POST",site_url("employee/emp_ajax/feedback_emp_detail/"+emp_id),true);

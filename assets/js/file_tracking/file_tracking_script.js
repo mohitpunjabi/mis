@@ -66,14 +66,14 @@
 		var file_sub = document.getElementById("file_sub").value;
 		var rcvd_emp_id = document.getElementById("emp_name").value;
 		var remarks_rcvd = document.getElementById("remarks").value;
-		if (file_id == "")
-			alert ("Please enter File ID.")
+		/*if (file_id == "")
+			alert ("Please enter File ID.");*/
 		if (file_sub == "")
-			alert ("Please enter File Subject.")
+			alert ("Please enter File Subject.");
 		if (rcvd_emp_id == "")
-			alert ("Please select Employee Name.")
+			alert ("Please select Employee Name.");
 		if (remarks_rcvd == "")
-			alert ("Please enter Remarks OR write NO COMMENTS.")
+			alert ("Please enter Remarks OR write NO COMMENTS.");
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{

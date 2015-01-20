@@ -18,10 +18,7 @@ class Deo_modules_model extends CI_Model
 	function getDeoByModuleId($module_id = '')
 	{
 		$query=$this->db->where('module_id',$module_id)->get($this->table);
-		if($query->num_rows() == 0)
-			return FALSE;
-		else
-			return $query->result();
+		return $query->result();
 	}
 }
 

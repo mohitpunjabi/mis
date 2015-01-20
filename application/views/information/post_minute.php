@@ -10,7 +10,7 @@
 			<td width='20%'>
     			Minutes ID<span style= "color:red;"> *</span>
             </td>
-			<td width='28%'>
+			<td width='58%'>
 	        	<?php 
 				if($id->minutes_id == NULL)
 				{
@@ -56,10 +56,12 @@
 				$minutesno = array(
 							  'name'=> 'minutes_no',
 							  'id'=> 'minutes_no',
-							  'required'=>'required'
+							  'required'=>'required',
+							  'placeholder'=>'Enter Minutes Number'
 							  );
 				echo form_input($minutesno);
 			?>
+			(Ex: EEE_MIN34501)
 			</td>
 		</tr>
 		<tr>
@@ -139,6 +141,7 @@
 						echo <input type="file" name="minutes_path"/>
 					*/
 				?>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)				
 			</td>
 		</tr>
 		<tr>
@@ -147,6 +150,7 @@
 			</td>
 			<td width="30%">
 				<input type="date" name="date_of_meeting" max="<?php echo date("Y-m-d");?>" value = "<?php echo date("Y-m-d");?>"/> 
+			(at max today's date)
 			</td>
 		</tr>
 		<tr>
@@ -154,7 +158,7 @@
 				Place of Meeting<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="text" name="place_of_meeting" required="required"/> 
+				<input type="text" name="place_of_meeting" required="required" placeholder="CSE Department"/> 
 			</td>
 		</tr>
 		<tr>
@@ -175,6 +179,7 @@
 						echo <input type="date" name="valid_upto" min="date("Y-m-d") value="date("Y-m-d")"/>
 					*/
 				?>
+			(at least today's date)
 			</td>
 		</tr>
 	 </table> 

@@ -30,8 +30,8 @@ class View_circular extends MY_Controller
 		{
 			$data['firstLink']  = 'List of Archived Circular';
 			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_circular/index/current">List of Current Circular</a>';
-			$this->load->model('information/viewCircular_model','',TRUE);
-			$data['circulars'] = $this->viewCircular_model->get_circulars();
+			$this->load->model('information/viewcircular_model','',TRUE);
+			$data['circulars'] = $this->viewcircular_model->get_circulars();
 			
 			if(count($data['circulars']) == 0)
 			{
@@ -55,8 +55,8 @@ class View_circular extends MY_Controller
 			redirect('home');
 		}		
 		
-		$this->load->model('information/viewPrevCircular_model','',TRUE);
-		$data['circulars'] = $this->viewPrevCircular_model->get_circulars($circular_id);
+		$this->load->model('information/viewprevcircular_model','',TRUE);
+		$data['circulars'] = $this->viewprevcircular_model->get_circulars($circular_id);
 
 		if(count($data['circulars']) == 0)
 		{

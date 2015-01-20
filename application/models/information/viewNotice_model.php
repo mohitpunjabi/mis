@@ -1,6 +1,6 @@
 <?php
 
-class ViewNotice_model extends CI_Model
+class Viewnotice_model extends CI_Model
 {
 
 	var $table = 'info_notice_archieve_details';

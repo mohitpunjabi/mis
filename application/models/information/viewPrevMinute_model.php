@@ -1,6 +1,6 @@
 <?php
 
-class ViewPrevminute_model extends CI_Model
+class Viewprevminute_model extends CI_Model
 {
 
 	var $table = 'info_minute_modification_details';

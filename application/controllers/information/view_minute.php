@@ -31,8 +31,8 @@ class View_minute extends MY_Controller
 		{
 			$data['firstLink']  = 'List of Archived Meeting Minutes';
 			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_minute/index/current">List of Current Meeting Minutes</a>';
-			$this->load->model('information/viewMinute_model','',TRUE);
-			$data['minutes'] = $this->viewMinute_model->get_minutes();
+			$this->load->model('information/viewminute_model','',TRUE);
+			$data['minutes'] = $this->viewminute_model->get_minutes();
 			
 			if(count($data['minutes']) == 0)
 			{
@@ -54,8 +54,8 @@ class View_minute extends MY_Controller
 			redirect('home');
 		}		
 		
-		$this->load->model('information/viewPrevMinute_model','',TRUE);
-		$data['minutes'] = $this->viewPrevMinute_model->get_minutes($minute_id);
+		$this->load->model('information/viewprevminute_model','',TRUE);
+		$data['minutes'] = $this->viewprevminute_model->get_minutes($minute_id);
 
 		if(count($data['minutes']) == 0)
 		{

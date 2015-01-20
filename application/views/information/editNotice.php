@@ -26,7 +26,7 @@
 					else echo 'Student';
 		echo	'</td>
 				<td align="center">'.date_format( date_create($notice->last_date),'d M Y').'</td>
-				<td align="center">'.date_format( date_create($notice->posted_on),'d M Y g:i a').'</td>
+				<td align="center">'.date('d M Y g:i a',strtotime($notice->posted_on)+19800).'</td>
 				<td align="center">';
 					if ($notice->modification_value == 0 ) echo 'Original'; else echo '<font color="red">Revised '.$notice->modification_value.'</font>';
 		echo	'</td>

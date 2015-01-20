@@ -26,7 +26,7 @@
 					else echo 'Student';
 		echo	'</td>
 				<td align="center">'.date_format( date_create($circular->valid_upto),'d M Y').'</td>
-				<td align="center">'.date_format( date_create($circular->posted_on),'d M Y g:i a').'</td>
+				<td align="center">'.date('d M Y g:i a',strtotime($circular->posted_on)+19800).'</td>
 				<td align="center">';
 					if ($circular->modification_value == 0 ) echo 'Original'; else echo '<font color="red">Revised '.$circular->modification_value.'</font>';
 		echo	'</td>

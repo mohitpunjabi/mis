@@ -23,7 +23,7 @@ if(isset($firstLink))
 				
 				<td align="center">'.$notice->notice_no.'</td>
 				<td>'.$notice->notice_sub.'</td>
-				<td align="center">'.date_format( date_create($notice->posted_on),'d M Y g:i a').'</td>
+				<td align="center">'.date('d M Y g:i a',strtotime($notice->posted_on)+19800).'</td>
 				<td align="center">'.$notice->salutation.' '.$notice->first_name.' '.$notice->middle_name.' '.$notice->last_name.'<br>('.$notice->auth_name.')</td>
 				<td align="center">';
 					if ($notice->modification_value == 0 ) echo 'Original'; else echo '<font color="red">Revised '.$notice->modification_value.'</font>';

@@ -32,7 +32,7 @@
 	<tr>
 		<td>Department Type : </td>
 		<td> 
-			<select name="type" id="type" onchange=get_departments("hii")>
+			<select name="type" id="type" onchange="get_departments(this.value)">
 				<option type="text" value="">Select</option>
 				<option type="text" value="academic">Academic</option>
 				<option type="text" value="nonacademic">Non Academic</option>

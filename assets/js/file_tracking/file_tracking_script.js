@@ -44,7 +44,7 @@
 		return false;		
 	}
 	
-	function get_departments()
+	function get_departments(type)
 	{
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
@@ -122,8 +122,14 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
 		xmlhttp.send();
+		/*$.ajax({
+			url: site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),
+			success:function (result) { 
+				console.log(result);
+			}
+		})*/
 		return false;
 	}
 	

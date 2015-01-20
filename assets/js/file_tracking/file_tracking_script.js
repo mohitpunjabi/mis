@@ -44,7 +44,7 @@
 		return false;		
 	}
 	
-	function get_departments(type)
+	function get_departments()
 	{
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
@@ -62,12 +62,12 @@
 
 	function display_send_notification ()
 	{
-		var file_id = document.getElementById("file_id").value;
+		var file_no = document.getElementById("file_no").value;
 		var file_sub = document.getElementById("file_sub").value;
 		var rcvd_emp_id = document.getElementById("emp_name").value;
 		var remarks_rcvd = document.getElementById("remarks").value;
-		/*if (file_id == "")
-			alert ("Please enter File ID.");*/
+		if (file_no == "")
+			file_no = "NULL";
 		if (file_sub == "")
 			alert ("Please enter File Subject.");
 		if (rcvd_emp_id == "")
@@ -83,7 +83,7 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST", site_url("file_tracking/send_new_file/insert_file_details/"+file_id+"/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
+		xmlhttp.open("POST", site_url("file_tracking/send_new_file/insert_file_details/"+file_no+"/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -108,6 +108,9 @@
 	function display_send_notification2 ()
 	{
 		var file_id = document.getElementById("file_id").value;
+		var file_no = document.getElementById("file_no").value;
+		if (file_no == "")
+			file_no = "NULL";
 		var remarks = document.getElementById("remarks").value;
 		var rcvd_emp_id = document.getElementById("emp_name").value;
 		var xmlhttp = getxmlhttp();
@@ -119,7 +122,7 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+rcvd_emp_id+"/"+remarks),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
 		xmlhttp.send();
 		return false;
 	}
@@ -219,13 +222,17 @@
 		return false;
 
 	}
-	function get_faculty_name(department_id){
-		if(department_id == ''){
+	function get_faculty_name(department_id)
+	{
+		if(department_id == '')
+		{
 			return false;
 		}
 		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function(){
-			if(xmlhttp.readyState == 4 && xmlhttp.status==200){
+		xmlhttp.onreadystatechange = function()
+		{
+			if(xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
 				document.getElementById("faculty_name").innerHTML = xmlhttp.responseText;
 			}
 

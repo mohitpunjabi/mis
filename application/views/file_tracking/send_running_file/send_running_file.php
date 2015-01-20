@@ -2,10 +2,25 @@
 <?php echo form_open (); ?> 
 <table nozebra>
 	<tr>
-		<td>File Id : </td>
+		<td>File No : </td>
+<?php
+		if ($file_no)
+		{
+?>
 		<td> 
-			<input type="text" name="file_id" id="file_id" value="<?php echo $file_id; ?>" readonly> 
+			<input type="text" name="file_no" id="file_no" value="<?php echo $file_no; ?>" readonly> 
 		</td>
+<?php
+		}
+		else
+		{
+?>
+		<td> 
+			<input type="text" name="file_no" id="file_no" value=""> 
+		</td> 
+<?php
+		}
+?>
 	</tr>
 	<tr>
 		<td>File Subject : </td>
@@ -16,7 +31,7 @@
 	<tr>
 		<td>Type : </td>
 		<td> 
-			<select name="type" id="type" onchange="get_departments(this.value)">
+			<select name="type" id="type" onchange=get_departments("hii")>
 				<option type="text" value="">Select</option>
 				<option type="text" value="academic">Academic</option>
 				<option type="text" value="nonacademic">Non Academic</option>

@@ -2,9 +2,9 @@
 <?php echo form_open (); ?> 
 <table nozebra>
 	<tr>
-		<td>File ID : </td>
+		<td>File No. : </td>
 		<td> 
-			<input type="text" name="file_id" id="file_id"> 
+			<input type="text" name="file_no" id="file_no"> 
 		</td>
 	</tr>
 	<tr>
@@ -16,8 +16,8 @@
 	<tr>
 		<td>Department/Section : </td>
 		<td> 
-			<select name="type" id="type" onchange="get_departments(this.value)">
-				<option type="text" value="">Select</option>
+			<select name="type" id="type" onchange="get_departments(this.value)" >
+				<option type="text" value="abc" >Select</option>
 				<option type="text" value="academic">Academic</option>
 				<option type="text" value="nonacademic">Non Academic</option>
 			</select>

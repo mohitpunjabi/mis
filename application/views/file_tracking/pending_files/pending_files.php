@@ -6,7 +6,7 @@
 ?>
 <table align="center">
 	<tr>
-		<th>File ID</th>
+		<th>File No</th>
 		<th>File Subject</th>
 		<th>Sent By</th>
 		<th>File Operations</th>
@@ -16,7 +16,7 @@
 			{
 	?>
 				<tr>
-					<td><?php echo $row->file_id; ?></td>
+					<td><?php if ($row->file_no) echo $row->file_no; else echo "File No. not yet generated"; ?></td>
 					<td><?php echo $row->file_subject; ?></td>
 					<td><?php echo $row->salutation.' '.$row->first_name.' '.$row->middle_name.' '.$row->last_name; ?></td>
 					<td>

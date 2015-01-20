@@ -2,7 +2,7 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center><h3>Course Structure for  
   <?php
- 	//echo "all session variables are = ".var_dump($CS_session);
+ 	//echo "all session variables are = ".var_dump($subjects);
     $course_name=$CS_session['course_name'];
     $course_duration=$CS_session['duration'];
     $branch_name=$CS_session['branch_name'];
@@ -48,6 +48,7 @@
         {
             if(isset($subjects["group_details"][$semester][$i]->group_id))
 			{
+				echo "hii";
 				echo "<tr><td colspan='10' style = 'text-align:center;font-size:20px;'>".$subjects["group_details"][$semester][$i]->elective_name."</td></tr>";
 				$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				for($j = 0;$j<$subjects["elective_count"][$group_id];$j++)

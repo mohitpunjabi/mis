@@ -96,7 +96,7 @@ class Edit extends MY_Controller
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  
-		$this->load->view('course_structure/edit/edit',$data);
+		$this->load->view('course_structure/Edit/edit',$data);
 		$this->drawFooter();
 
 	}

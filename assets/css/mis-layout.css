@@ -295,7 +295,7 @@ div.-mis-right-options {
 	z-index: 1;
 }
 
-.-mis-menu-authtype > .counter {
+.-mis-counter {
 	position: absolute;
 	display: block;
 	text-align: center;
@@ -313,8 +313,7 @@ div.-mis-right-options {
 	cursor: pointer;
 }
 
-
-.-mis-menu-authtype > .counter.active {
+.-mis-counter.active {
 	background: #D00;
 }
 

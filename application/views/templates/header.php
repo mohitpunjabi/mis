@@ -36,13 +36,13 @@
         	<a href="<?= site_url('home') ?>"><?= $this->session->userdata('name') ?></a>
         </div>
 		<div class="-mis-right-options">
-			<img src="<?= base_url()."/assets/images/".$this->session->userdata('photopath') ?>" class="small-profile-thumb" />
+			<img src="<?= base_url()."assets/images/".$this->session->userdata('photopath') ?>" class="small-profile-thumb" />
         </div>
     </div>
 
 	<div class="-mis-navbar">
     	<div class="-mis-profile-photo">
-			<img src="<?= base_url()."/assets/images/".$this->session->userdata('photopath'); ?>" />
+			<img src="<?= base_url()."assets/images/".$this->session->userdata('photopath'); ?>" />
     		<div class="-mis-profile-details">
 
             <h2><?= $this->session->userdata('name') ?></h2>
@@ -83,8 +83,8 @@
 				echo '<div class="-mis-menu-authtype collapsed">
 						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
 
-				if($unreadCount > 0) echo '<span class="counter active">'.$unreadCount.'</span>';
-				else 				 echo '<span class="counter">'.$unreadCount.'</span>';
+				if($unreadCount > 0) echo '<span class="-mis-counter active">'.$unreadCount.'</span>';
+				else 				 echo '<span class="-mis-counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
 

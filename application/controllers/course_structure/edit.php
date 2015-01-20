@@ -69,12 +69,15 @@ class Edit extends MY_Controller
 		$data["subjects"]["subject_details"][$counter] = array();
 		$data["subjects"]["subject_details"][$counter][$i] = array();
 		*/
+		$flag = false;
 		for($counter=$start_semester;$counter<=$end_semester;$counter++) 
 		{
 		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
 		  $i=1;
 		  if($result_ids)
 		  {
+			  $flag = true;
+		  
 			  foreach($result_ids as $row)
 			  {
 				   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
@@ -93,20 +96,23 @@ class Edit extends MY_Controller
 			  $data["subjects"]["count"][$counter]=$i-1;
 		}
 		//if there is no subject added.
-		else	
+		
+	  }
+		if($flag)
+		{	
+			
+			$this->session->set_userdata($data);
+			$this->addJS("course_structure/edit.js");
+			$this->addCSS("course_structure/cs_layout.css");
+			$this->drawHeader("Course structure");  
+			$this->load->view('course_structure/edit/edit',$data);
+			$this->drawFooter();
+		}
+		else
 		{
 			$this->session->set_flashdata("flashError","This Course Structure Does not exist.");
 			redirect("course_structure/edit/index");
 		}
-	  }
-			
-			
-		$this->session->set_userdata($data);
-		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
-		$this->drawHeader("Course structure");  
-		$this->load->view('course_structure/edit/edit',$data);
-		$this->drawFooter();
 	}
 	
 	public function UpdateCourseStructure($subjectdetails)

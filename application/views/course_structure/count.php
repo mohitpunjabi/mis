@@ -4,7 +4,7 @@
   
   <?php 
  // echo "aggr id = ".$CS_session['aggr_id'];
-  echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h3>"; ?>
+  echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session ".$CS_session['session']."</h3>"; ?>
   <h3>Enter number of subjects for Sem <?php echo $CS_session['sem']; ?></h3>
   <?php
     echo form_open('course_structure/add/EnterSubjects');

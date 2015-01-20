@@ -4,8 +4,8 @@
 	$branch_count = 0;
 	$batch_count = 0;
 	$sem_count = 0;
-	//var_dump($aggr_id);
-	//var_dump($result_course);
+	//echo "dept _ id = ".($dept_id);
+	//var_dump($result_dept_course);
 	//echo "curr session = ".$curr_session;
 	foreach($course['name'] as $key=>$val)
 		$course_count++;
@@ -23,9 +23,9 @@
 						<option value="0">Select Course</option>
 					';
 
-						for($i = 0;$i<$course_count;$i++)
+						for($i = 0;$i<4;$i++)
 						{
-							echo '<option data-duration="'.$course['duration'][$i].'" value = "'.$course['id'][$i].'">'.$course['name'][$i].'</option>';	
+							echo '<option  value = "'.$course['id'][$i].'">'.$course['name'][$i].'</option>';	
 						}
 					echo '
 					</select>	

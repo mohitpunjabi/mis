@@ -56,8 +56,8 @@ class Basic_model extends CI_Model
 	
 	function get_course_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT id,name,duration,course_branch.course_id,course_branch.branch_id,course_branch.year,course_branch.aggr_id FROM courses INNER JOIN 
-		course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		$query = $this->db->query("SELECT DISTINCT id,name,duration,course_branch.course_id,course_branch.branch_id,course_branch.year,course_branch.aggr_id FROM courses
+		INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
 		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}
@@ -146,8 +146,8 @@ class Basic_model extends CI_Model
 		$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
 		if($query->num_rows() > 0)
 			return $query->result();
-		else
-			return false;
+		//else
+		//	return false;
 	}
 	
 	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)

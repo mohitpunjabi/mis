@@ -56,12 +56,14 @@
 					$noticeno = array(
 								'name'=>'notice_no',
 								'id'=>'notice_no',
-								'required'=>'required'
+								'required'=>'required',
+								'placeholder'=>'Enter Notice Number'
 								);
 					echo form_input($noticeno);
 					//will produce
 					//echo '<input type="text" name="notice_no" id="notice_no" required="required"/>';
 				?>
+				(Ex: CSE_NOT10185)
 			</td>
 		</tr>
 		<tr>
@@ -96,7 +98,8 @@
 								'name'=>'notice_sub',
 								'rows'=>'3',
 								'cols'=>'80',
-								'required'=>'required'
+								'required'=>'required',
+								'placeholder'=>'Enter the notice Subject in not more than 200 characters'
 								);
 					echo form_textarea($subject);
 					/*
@@ -122,6 +125,7 @@
 						echo <input type="file" name="notice_path"/>
 					*/
 				?>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
 			</td>
 		</tr>
 		<tr>
@@ -130,6 +134,7 @@
 			</td>
 			<td width="30%">
 				<input type="date" name="last_date" id="last_date" min="<?php echo date("Y-m-d");?>" value = "<?php echo date("Y-m-d");?>"/> 
+			(atleast today's date)
 			</td>
 		</tr>
 	 </table> 

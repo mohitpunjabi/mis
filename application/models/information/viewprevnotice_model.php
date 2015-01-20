@@ -1,6 +1,6 @@
 <?php
 
-class ViewPrevNotice_model extends CI_Model
+class Viewprevnotice_model extends CI_Model
 {
 
 	var $table = 'info_notice_modification_details';

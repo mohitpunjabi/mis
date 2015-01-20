@@ -1,6 +1,6 @@
 <?php
 
-class ViewCircular_model extends CI_Model
+class Viewcircular_model extends CI_Model
 {
 
 	var $table = 'info_circular_archieve_details';

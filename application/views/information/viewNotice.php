@@ -6,33 +6,27 @@ if(isset($firstLink))
 ?>
  <table align="center">
 	<tr>
-		<th>Notice ID</th>
+		
 		<th>Notice Number</th>
-		<th width="150px">Notice Subject</th>
-		<th>Viewed By</th>
-		<th width="80px">Last Date</th>
+		<th width="300px">Notice Subject</th>
+		
+		
 		<th>Posted On/ Edited On</th>
 		<th width="150px">Issued By</th>
-		<th>Modification Status</th>
+		<th width="100px">Revision Status</th>
 		<th width="150px">Links</th>
 	</tr>
 	
 	<?php
 	foreach($notices as $key => $notice) { 
 		echo '<tr>
-				<td align="center">'.$notice->notice_id.'</td>
+				
 				<td align="center">'.$notice->notice_no.'</td>
 				<td>'.$notice->notice_sub.'</td>
+				<td align="center">'.date_format( date_create($notice->posted_on),'d M Y g:i a').'</td>
+				<td align="center">'.$notice->salutation.' '.$notice->first_name.' '.$notice->middle_name.' '.$notice->last_name.'<br>('.$notice->auth_name.')</td>
 				<td align="center">';
-					if( $notice->notice_cat == 'emp') echo 'Employee';
-					else if($notice->notice_cat == 'all') echo 'All';
-					else echo 'Student';
-		echo	'</td>
-				<td align="center">'.$notice->last_date.'</td>
-				<td align="center">'.$notice->posted_on.'</td>
-				<td align="center">'.$notice->auth_name.'</br>'.$notice->salutation.' '.$notice->first_name.' '.$notice->middle_name.' '.$notice->last_name.'</td>
-				<td align="center">';
-					if ($notice->modification_value == 0 ) echo 'Unmodified'; else echo '<font color="red">Modified Version '.$notice->modification_value.'</font>';
+					if ($notice->modification_value == 0 ) echo 'Original'; else echo '<font color="red">Revised '.$notice->modification_value.'</font>';
 		echo	'</td>
 				<td align="center">'; ?>
 				
@@ -41,12 +35,12 @@ if(isset($firstLink))
 					  {
 					  ?>
 					  <br>and</br>
-					  <a href="<?= base_url()."/index.php/information/view_notice/prev/".$notice->notice_id ?>">Get Prev Versions</a>
+					  <a href="<?= base_url()."index.php/information/view_notice/prev/".$notice->notice_id ?>">Get Prev Versions</a>
 					  <?php
 					  }
 					  ?>
 				</td>
-			</tr>';
+			</tr>
 	<?php
 	}
 	?>

@@ -6,33 +6,28 @@ if(isset($firstLink))
 ?>
  <table align="center">
 	<tr>
-		<th>Circular ID</th>
+	
 		<th>Circular Number</th>
-		<th width="150px">Circular Subject</th>
-		<th>Viewed By</th>
-		<th width="80px">Valid Upto</th>
+		<th width="300px">Circular Subject</th>
+	
+		
 		<th>Posted On/ Edited On</th>
 		<th width="150px">Issued By</th>
-		<th>Modification Status</th>
-		<th width="150px">Links</th>
+		<th width="100px">Revision Status</th>
+		<th width="120px">Links</th>
 	</tr>
 	
 	<?php
 	foreach($circulars as $key => $circular) { 
 		echo '<tr>
-				<td align="center">'.$circular->circular_id.'</td>
+				
 				<td align="center">'.$circular->circular_no.'</td>
 				<td>'.$circular->circular_sub.'</td>
+				
+				<td align="center">'.date_format( date_create($circular->posted_on),'d M Y g:i a').'</td>
+				<td align="center">'.$circular->salutation.' '.$circular->first_name.' '.$circular->middle_name.' '.$circular->last_name.'<br>('.$circular->auth_name.')</td>
 				<td align="center">';
-					if( $circular->circular_cat == 'emp') echo 'Employee';
-					else if($circular->circular_cat == 'all') echo 'All';
-					else echo 'Student';
-		echo	'</td>
-				<td align="center">'.$circular->valid_upto.'</td>
-				<td align="center">'.$circular->posted_on.'</td>
-				<td align="center">'.$circular->auth_name.'</br>'.$circular->salutation.' '.$circular->first_name.' '.$circular->middle_name.' '.$circular->last_name.'</td>
-				<td align="center">';
-					if ($circular->modification_value == 0 ) echo 'Unmodified'; else echo '<font color="red">Modified Version '.$circular->modification_value.'</font>';
+					if ($circular->modification_value == 0 ) echo 'Original'; else echo '<font color="red">Revised '.$circular->modification_value.'</font>';
 		echo	'</td>
 				<td align="center">'; ?>
 				
@@ -41,12 +36,12 @@ if(isset($firstLink))
 					  {
 					  ?>
 					  <br>and</br>
-					  <a href="<?= base_url()."/index.php/information/view_circular/prev/".$circular->circular_id ?>">Get Prev Versions</a>
+					  <a href="<?= base_url()."index.php/information/view_circular/prev/".$circular->circular_id ?>">Get Prev Versions</a>
 					  <?php
 					  }
 					  ?>
 				</td>
-			</tr>';
+			</tr>
 	<?php
 	}
 	?>

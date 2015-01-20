@@ -38,7 +38,8 @@
 					$minutesno = array(
 								'name'=>'minutes_no',
 								'required'=>'required',
-								'value'=>$minute_row->minutes_no
+								'value'=>$minute_row->minutes_no,
+								'placeholder'=>'Enter Minutes Number'
 								);
 					echo form_input($minutesno);
 					/*
@@ -46,6 +47,7 @@
 						echo <input type="text" name ="minutes_no" required="required"/>
 					*/
 				?>
+				(Ex: EEE_MIN34501)
 			</td>
 		</tr>
 		
@@ -137,6 +139,8 @@
 					*/
 					?>
 					</span>
+					<br>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)				
 			</td>
 		</tr>
 		<tr>
@@ -145,6 +149,7 @@
 			</td>
 			<td width="30%">
 				<input type="date" name="date_of_meeting" max = "<?php echo date("Y-m-d"); ?>" value = "<?php echo $minute_row->date_of_meeting;?>"/> 
+			(at max today's date)
 			</td>
 		</tr>
 		<tr>
@@ -152,7 +157,7 @@
 				Place of Meeting<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="text" name="place_of_meeting" required="required" value="<?php echo $minute_row->place_of_meeting;?>"/> 
+				<input type="text" name="place_of_meeting" required="required" value="<?php echo $minute_row->place_of_meeting;?>" placeholder="CSE Department"/> 
 			</td>
 		</tr>
 		<tr>
@@ -161,6 +166,7 @@
 			</td>
 			<td width="30%">
 				<input type="date" name="valid_upto" min="<?php echo date("Y-m-d");?>" value = "<?php echo $minute_row->valid_upto;?>"/> 
+			(at least today's date)
 			</td>
 		</tr>
 	 </table> 

@@ -38,12 +38,14 @@
 						'name'=>'notice_no',
 						'required'=>'required',
 						'value'=>$notice_row->notice_no,
+						'placeholder'=>'Enter Notice Number'
 						);
 				echo form_input($data);
 					//will produce
 					//echo '<input type="text" name="notice_no" required="required" disabled="disabled"/>';
 			
 				?>
+				(Ex: CSE_NOT10185)
 			</td>
 		</tr>
 		<tr>
@@ -79,7 +81,8 @@
 								'rows'=>'3',
 								'cols'=>'80',
 								'required'=>'required',
-								'value'=>$notice_row->notice_sub
+								'value'=>$notice_row->notice_sub,
+								'placeholder'=>'Enter the notice Subject in not more than 200 characters'				
 								);
 					echo form_textarea($subject);
 					/*
@@ -114,7 +117,9 @@
 						echo <input type="file" name="notice_path" id="notice_path"/>
 					*/
 					?>
-					</span>
+				</span>
+				<br>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)				
 			</td>
 		</tr>
 		<tr>
@@ -131,6 +136,7 @@
 							);
 					echo form_input($date);
 				?>
+				(at least today's date)
 			</td>
 		</tr>
 	 </table> 

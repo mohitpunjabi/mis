@@ -37,7 +37,8 @@
 					$circularno = array(
 								'name'=>'circular_no',
 								'required'=>'required',
-								'value'=>$circular_row->circular_no
+								'value'=>$circular_row->circular_no,
+								'placeholder'=>'Enter Circular Number'
 								);
 					echo form_input($circularno);
 					/*
@@ -45,6 +46,7 @@
 						echo <input type="text" name ="circular_no" required="required"/>
 					*/
 				?>
+			(Ex: MIN_CIR29292)
 			</td>
 		</tr>
 		<tr>
@@ -80,7 +82,8 @@
 								'rows'=>'3',
 								'cols'=>'80',
 								'required'=>'required',
-								'value'=>$circular_row->circular_sub
+								'value'=>$circular_row->circular_sub,
+								'placeholder'=>'Enter the Circular Subject in not more than 200 characters'					
 								);
 					echo form_textarea($subject);
 					/*
@@ -116,6 +119,8 @@
 					*/
 					?>
 					</span>
+					<br>
+					(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
 			</td>
 		</tr>
 		<tr>
@@ -132,6 +137,7 @@
 							);
 					echo form_input($date);
 				?>
+				(at least today's date)
 			</td>
 		</tr>
 	 </table> 

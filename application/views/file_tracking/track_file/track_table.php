@@ -36,10 +36,10 @@
 ?>
 	<tr align="center">
 		<td><?php echo $sno; ?></td>
-		<td><?php echo $data_array[$sno][3]//$row->sent_by_emp_id;?></td>
+		<td><?php echo $data_array[$sno][3];//$row->sent_by_emp_id;?></td>
 		<td><?php echo "File Started"; ?></td>
-		<td><?php echo $data_array[$sno][4]//echo $row->sent_timestamp;?></td>
-		<td><?php echo $data_array[$sno][8]//echo $row->remarks;?></td>
+		<td><?php echo $data_array[$sno][4];//echo $row->sent_timestamp;?></td>
+		<td><?php echo $data_array[$sno][8];//echo $row->remarks;?></td>
 	</tr>
 <?php
 //	$prev_row = $row;

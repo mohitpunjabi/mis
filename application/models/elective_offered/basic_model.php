@@ -16,8 +16,7 @@ class Basic_model extends CI_Model
 	{
 		// Calling the Model parent constructor
 		parent::__construct();
-	}
-	
+	}	
 	function Select_Department_By_User_ID($userid)
 	{
     	$query = $this->db->get_where($this->table_userdetails,array('id'=>$userid));

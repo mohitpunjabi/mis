@@ -25,9 +25,37 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
+		$this->load->model("information/view_notice_model", "notice", TRUE);
+		
+		$this->addCSS("home/home-style.css");
 		$this->drawHeader("MIS");
-		$this->load->view('home',array('menu'=>parent::getMenu()));
+		
+		//related to notice, minutes or circular module
+		$this->checkCircularValidity();
+		$this->checkNoticeValidity();
+		$this->checkMinuteValidity();
+		
+		$this->load->view('home', array("notices" => $this->notice->get_notices()));
 		$this->drawFooter();
+	}
+	
+	
+	private function checkCircularValidity()
+	{
+		$this->load->model('information/search_edit_circular_model','',TRUE);
+		$this->search_edit_circular_model->remove();
+	}
+	
+	private function checkNoticeValidity()
+	{
+		$this->load->model('information/search_edit_notice_model','',TRUE);
+		$this->search_edit_notice_model->remove();
+	}
+	
+	private function checkMinuteValidity()
+	{
+		$this->load->model('information/search_edit_minute_model','',TRUE);
+		$this->search_edit_minute_model->remove();
 	}
 }
 

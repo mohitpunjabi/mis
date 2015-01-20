@@ -1,4 +1,4 @@
-0<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Post_notice extends MY_Controller
 {
@@ -7,9 +7,13 @@ class Post_notice extends MY_Controller
 		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
 	}
 
-	public function index($error='')
+	public function index($auth_id='')
 	{
-		$data['error']=$error;
+		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
@@ -29,6 +33,7 @@ class Post_notice extends MY_Controller
 		if ($this->form_validation->run() == FALSE)
 		{
 			$data['id'] = $this->post_notice_model->get_max_notice_id();
+			$data['auth_id'] = $auth_id;
 			$this->load->view('information/post_notice',$data);
 		}
 		else
@@ -36,13 +41,14 @@ class Post_notice extends MY_Controller
 			$upload=$this->upload_file('notice_path',$this->input->post('notice_id'));
 			if($upload)
 			{
-				$date = date("Y-m-d");
+				$date = date("Y-m-d H:m:s");
 				$data = array('notice_id'=>$this->input->post('notice_id'),
 						  'notice_no'=>$this->input->post('notice_no'),
 						  'notice_cat'=>$this->input->post('notice_cat'), 
 						  'notice_sub'=>$this->input->post('notice_sub'),
 						  'notice_path'=>$upload['file_name'],
 						  'issued_by'=>$this->session->userdata('id'),
+						  'auth_id'=>$auth_id,
 						  'posted_on'=>$date,
 						  'last_date'=>$this->input->post('last_date'),
 						  'modification_value'=>0
@@ -50,7 +56,7 @@ class Post_notice extends MY_Controller
 			
 			$this->post_notice_model->insert($data);
 			$this->session->set_flashdata('flashSuccess','Notice has been successfully posted.');
-			redirect('information/post');
+			redirect('home');
 			//$this->load->view('information/post_notice_success');
 			}
 		}

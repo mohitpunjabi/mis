@@ -23,17 +23,7 @@
         </select>
       </td>
     </tr>
-    <!--
-        <?php 
-          echo form_dropdown('branch', $branch_options,'Select');
-        ?>
-          <?php
-            echo form_dropdown('session',$sess_options,'Select');
-          ?>
-          <?php
-            echo form_dropdown('sem',$sem_options,'Select');
-          ?>
-    -->
+    
     </table>
     <?php
     echo form_submit('submit', 'Add Course Structure');

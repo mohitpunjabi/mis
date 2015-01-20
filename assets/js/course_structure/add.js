@@ -11,7 +11,7 @@ $(document).ready(function(){
 	function add_branch(){
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()),
 			success:function(data){
-				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\">";
+				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\"><option>Select Branch</option>";
 				for($d=0 ; $d < data.length;$d++){
 					base_str += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}

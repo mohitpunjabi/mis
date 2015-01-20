@@ -11,7 +11,7 @@ $(document).ready(function(){
 	function add_branch(){
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()),
 			success:function(data){
-				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\">";
+				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\"><option>Select Branch</option>";
 				for($d=0 ; $d < data.length;$d++){
 					base_str += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
@@ -19,6 +19,7 @@ $(document).ready(function(){
 				$form_table.append(base_str);
 				$select_branch = $('select#branch');
 				$select_branch.on('change',function(){
+					//alert("hii");
 					add_session($course_selection.find(':selected').val(),$select_branch.find(':selected').val());
 				});
 			},
@@ -35,7 +36,7 @@ $(document).ready(function(){
 		$.ajax({url:site_url("course_structure/add/json_get_session/"+$course+"/"+$branch),
 			success:function(data){
 				//console.log(data);
-				base_str = "<tr class=\"session_selection\"><td> <label for=\"session\">Session</label></td><td><select id=\"session\" name=\"session\">";
+				base_str = "<tr class=\"session_selection\"><td> <label for=\"session\">Session</label></td><td><select id=\"session\" name=\"session\"><option>Select Session</option>";
 				for(counter = 0; counter <data.length ; counter++){
 					first = parseInt(parseInt(data[counter].year)/100);
 					second = parseInt(data[counter].year) - first*100;

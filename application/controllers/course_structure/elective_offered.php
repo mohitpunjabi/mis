@@ -7,11 +7,11 @@ class Elective_offered extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('hod'));
 		
-		$this->addJS("course_structure/add.js");
+		$this->addJS("course_structure/edit_view_cs.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->library('session');
-		$this->load->model('elective_offered/basic_model','',TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -72,7 +72,7 @@ class Elective_offered extends MY_Controller
 		
 		$this->session->set_userdata($data);
 		$this->drawHeader();
-		$this->load->view('elective_offered/LoadOfferedElective',$data);
+		$this->load->view('course_structure/LoadOfferedElective',$data);
 		$this->drawFooter();
 	}
 	

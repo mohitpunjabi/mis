@@ -48,7 +48,6 @@
         {
             if(isset($subjects["group_details"][$semester][$i]->group_id))
 			{
-				echo "hii";
 				echo "<tr><td colspan='10' style = 'text-align:center;font-size:20px;'>".$subjects["group_details"][$semester][$i]->elective_name."</td></tr>";
 				$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				for($j = 0;$j<$subjects["elective_count"][$group_id];$j++)

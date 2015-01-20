@@ -60,11 +60,8 @@
 	//	$prev_row = $row;
 	//	$row = $result->next_row();
 	}
-<<<<<<< HEAD
-	if ($data_array[$sno-1][6]!=date('j M Y g:i A', strtotime(NULL)))
-=======
 	if ($data_array[$sno-1][6])
->>>>>>> dev
+
 	//if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
 	{
 ?>

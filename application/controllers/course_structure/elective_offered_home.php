@@ -7,7 +7,8 @@ class Elective_offered_home extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('hod'));
 		
-		$this->addJS("course_structure/edit_view_cs.js");
+		$this->addJS("course_structure/add.js");
+		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		
 		//$this->load->model('elective_offered/basic_model','',TRUE);
@@ -16,7 +17,7 @@ class Elective_offered_home extends MY_Controller
 
 	public function index($error='')
 	{
-		$this->addJS("course_structure/elective_offered.js");
+		$this->addJS("elective_offered/main.js");
 		$data = array();
 		$userid = $this->session->userdata("id");
 		$data['userid'] = $userid;
@@ -26,7 +27,6 @@ class Elective_offered_home extends MY_Controller
 		$data['dept_id'] = $dept_id;
 		$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
 		$result_course = $data['result_course'];
-		
 		if(date('m') >= 7 && date('m') <=12)
 			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
 		else

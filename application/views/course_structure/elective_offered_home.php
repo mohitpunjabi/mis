@@ -11,7 +11,7 @@
 		$course_count++;
 		
 	echo "course _count = ".$course_count;
-	echo form_open('course_structure/elective_offered');
+	echo form_open('elective_offered/elective_offered');
 	echo '
 		<table id="form_table">
 			<tr>

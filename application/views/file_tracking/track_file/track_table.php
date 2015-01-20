@@ -20,7 +20,7 @@
 </table> -->
 <br>
 <h1>Movement Details (Current Status : <?php if($close_emp_id) echo "Closed"; else echo "Active";?>)</h1>
-<table align = "center">
+<table align="center">
 	<tr>
 		<th>S.No.</th>
 		<th>Employee Name</th>

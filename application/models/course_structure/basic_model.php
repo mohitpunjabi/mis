@@ -40,7 +40,7 @@ class Basic_model extends CI_Model
 	function insert_map_dept_with_aggr_id($dept_course)
 	{
 		$query = $this->db->insert($this->table_dept_course,$dept_course);
-		return true;	
+		return true;
 	}
 	
 	function get_course()
@@ -56,7 +56,8 @@ class Basic_model extends CI_Model
 	
 	function get_course_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT id,name,duration FROM courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		$query = $this->db->query("SELECT DISTINCT id,name,duration,course_branch.course_id,course_branch.branch_id,course_branch.year,course_branch.aggr_id FROM courses INNER JOIN 
+		course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
 		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}

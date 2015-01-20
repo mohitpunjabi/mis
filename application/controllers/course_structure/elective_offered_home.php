@@ -24,18 +24,18 @@ class Elective_offered_home extends MY_Controller
 		
 		$dept = $this->basic_model->Select_Department_By_User_ID($userid);
 		$dept_id = $dept[0]->dept_id;
-		
-		$result_course = $this->basic_model->get_course_offered_by_dept($dept_id);
-		//$data['result_courses'] = $data['result_courses'];
+		$data['dept_id'] = $dept_id;
+		$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
+		//$data['result_courses'] = $result_courses;
 		//$data['aggr_id'] = $result_courses[0]->aggr_id;
 		
-		/*if(date('m') >= 7 && date('m') <=12)
+		if(date('m') >= 7 && date('m') <=12)
 			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
 		else
 			$curr_session = (substr(date('Y'),2,3)-1).(substr(date('Y'),2,3));
 			
 		$data['curr_session'] = $curr_session;
-		*/
+		
 		$i = 0;
 		$j=0;
 		//$data['course'] = array();
@@ -43,23 +43,24 @@ class Elective_offered_home extends MY_Controller
 		//$data['course']['name'] = array();
 		//$data['course']['duration'] = array();
 		//$data['course']['id'] = array();
+		
 		foreach($result_course as $row)
 		{
 			$aggr_id_array = explode('_',$row->aggr_id);
 			$session = $aggr_id_array[2];
 			$data['aggr_id'] = $row->aggr_id;
 			//$data['flag'][$j] = $j;
-			//if($curr_session == $session)
+			if($curr_session == $session)
 			{
-				//$data['curr_session'] = $curr_session;
-				//if(!in_array($aggr_id_array[0],$data['course']['id']))
+				$data['curr_session'] = $curr_session;
+				if(!in_array($aggr_id_array[0],$data['course']['id']))
 				{
-				//	$data['course']['id'][$j] = $aggr_id_array[0];
-					//$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
+					$data['course']['id'][$j] = $aggr_id_array[0];
+					$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
 					
-					//$data['course']['name'][$j] = $result_course_details[0]->name;
-					//$data['course']['duration'][$j] = $result_course_details[0]->duration;
-				//	$j++;
+					$data['course']['name'][$j] = $result_course_details[0]->name;
+					$data['course']['duration'][$j] = $result_course_details[0]->duration;
+					$j++;
 				}
 			}
 			

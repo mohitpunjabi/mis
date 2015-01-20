@@ -37,8 +37,18 @@ class Map_dept extends MY_Controller
 	{
 		$dept_course['dept_id'] = $dept_id;
 		$dept_course['aggr_id'] = $aggr_id;
-		$this->basic_model->insert_map_dept_with_aggr_id($dept_course);
-		$this->session->set_flashdata("flashSuccess","Mapping Created Successfully.");
+		//check if that course is mapped with branch. then only it can be offered by department.
+		if($this->basic_model->select_course_branch($dept_course['aggr_id']))
+		{
+			if($this->basic_model->insert_map_dept_with_aggr_id($dept_course)) 	//if inserted successfully.
+				$this->session->set_flashdata("flashSuccess","Mapping Created Successfully.");
+			else
+				$this->session->set_flashdata("flashError","Error in mapping.Please try after some time.");
+		}
+			
+		else
+			$this->session->set_flashdata("flashError","This course is not allowed with this branch.Please Map course with branch first.");
+			
 	}
 	
 	

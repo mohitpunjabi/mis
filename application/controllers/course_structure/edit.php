@@ -64,27 +64,43 @@ class Edit extends MY_Controller
 			//
 		}
 		
-		for($counter=$start_semester;$counter<=$end_semester;$counter++)
+		/*$data["subjects"] = array();
+		$data["subjects"]["subject_details"] = array();
+		$data["subjects"]["subject_details"][$counter] = array();
+		$data["subjects"]["subject_details"][$counter][$i] = array();
+		*/
+		for($counter=$start_semester;$counter<=$end_semester;$counter++) 
 		{
 		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
 		  $i=1;
-		  foreach($result_ids as $row)
+		  if($result_ids)
 		  {
-		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
-			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"
-			   ][$counter][$i]->id)->sequence;
-			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-			   $data["subjects"][$group_id] = 0;
-			   //
-			   if($group_id != 0)
-			   {
-			   	$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
-			    $data["subjects"]["elective_count"][$group_id]++;
-			   }
-			   $i++;
-		  }
-		  $data["subjects"]["count"][$counter]=$i-1;
-		}	
+			  foreach($result_ids as $row)
+			  {
+				   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+				   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"
+				   ][$counter][$i]->id)->sequence;
+				   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+				   $data["subjects"][$group_id] = 0;
+				   //
+				   if($group_id != 0)
+				   {
+					$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
+					$data["subjects"]["elective_count"][$group_id]++;
+				   }
+				   $i++;
+			  }
+			  $data["subjects"]["count"][$counter]=$i-1;
+		}
+		//if there is no subject added.
+		else	
+		{
+			$this->session->set_flashdata("flashError","This Course Structure Does not exist.");
+			redirect("course_structure/edit/index");
+		}
+	  }
+			
+			
 		$this->session->set_userdata($data);
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");

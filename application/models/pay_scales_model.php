@@ -27,10 +27,7 @@ class Pay_scales_model extends CI_Model
 		{
 			$this->db->select('pay_code, grade_pay')->where("pay_band='".$pay_band."'",'',FALSE);
 			$query = $this->db->get($this->table);
-			if($query->num_rows() > 0)
-				return $query->result();
-			else
-				return FALSE;
+			return $query->result();
 		}
 		else
 			return 'Error: No Pay Band selected';

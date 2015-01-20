@@ -3,7 +3,7 @@
 	<h1>File Details</h1>
 	<FIELDSET>
 	<table align="center" nozebra>
-	<LEGEND><b>Step One: Personal Information</b></LEGEND>
+	<LEGEND><b>File Details : </b></LEGEND>
 		<tr>
 			<td>File Number : </td>
 			<td> 
@@ -19,9 +19,9 @@
 	</FIELDSET>
 	<FIELDSET>
 	<table align="center" nozebra>
-	<LEGEND><b>Step One: Personal Information</b></LEGEND>
+	<LEGEND><b>File will be Sent to : </b></LEGEND>
 		<tr>
-			<td>Department/Section : </td>
+			<td>Department Type : </td>
 			<td> 
 				<select name="type" id="type" onchange="get_departments(this.value)">
 					<option type="text" value="">Select</option>
@@ -29,7 +29,7 @@
 					<option type="text" value="nonacademic">Non Academic</option>
 				</select>
 			</td>
-		<td>Select Department OR Section : </td>
+		<td>Select Department : </td>
 			<td>
 				<select name="department_name" id="department_name" onchange="get_designation_name(this.value)">
 					<option type="text" value="">Select</option>
@@ -54,7 +54,7 @@
 	</FIELDSET>
 	<FIELDSET>
 	<table align="center" nozebra>
-	<LEGEND><b>Step One: Personal Information</b></LEGEND>
+	<LEGEND><b>Add Remarks : </b></LEGEND>
 		<tr>
 			<td>Remarks : </td>
 			<td> 

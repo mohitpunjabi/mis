@@ -45,6 +45,7 @@ class Track_file extends MY_Controller
 	{
 		$this->load->model ('file_tracking/file_details');
 		$res = $this->file_details->get_file_id ($track_num);
+		//The function is Returning File ID ONLY!!
 		if(!$res || $res->num_rows() == 0) 
 			$this->notification->drawNotification("Enter valid Track Number", "");
 		else

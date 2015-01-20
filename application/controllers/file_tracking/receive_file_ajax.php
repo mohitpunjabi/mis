@@ -21,7 +21,7 @@ class Receive_file_ajax extends MY_Controller
 		if ($track_num == $track_no)
 		{
 			$this->load->model('file_tracking/file_move_details', '', TRUE);
-			$this->file_move_details->change_rcvd_timestamp ($file_id);
+			$this->file_move_details->change_rcvd_timestamp ($track_num);
 			$this->load->model('file_tracking/user_notifications', '', TRUE);
 			$this->user_notifications->set_rec_date ($file_id, $emp_id);
 			$verify = 1;

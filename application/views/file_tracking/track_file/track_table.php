@@ -61,6 +61,7 @@
 	//	$row = $result->next_row();
 	}
 	if ($data_array[$sno-1][6])
+
 	//if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
 	{
 ?>

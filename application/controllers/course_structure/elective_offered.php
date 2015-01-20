@@ -11,7 +11,7 @@ class Elective_offered extends MY_Controller
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->library('session');
-		$this->load->model('elective_offered/basic_model','',TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -32,18 +32,18 @@ class Elective_offered extends MY_Controller
 		$data['semester'] = $semester;
 		$data['aggr_id'] = $aggr_id;
 		
-		
 		$subject_details = $this->basic_model->select_all_subject_by_aggr_id_and_semester($aggr_id,$semester);
-		
 		$i =0;
 		$j = 0;
 		
 		$data['group_id'] = array();
 		$data['elective_count'] = 0;
+		
 		foreach($subject_details as $row)
 		{
 			if($row->elective != 0)
 			{
+				
 				$group_id = $row->elective;
 				if(!in_array($group_id,$data['group_id']))
 				{

@@ -77,6 +77,7 @@ class Track_file extends MY_Controller
 				else
 					$data_array[$sno][$j++] = $row->rcvd_timestamp;
 				//$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->rcvd_timestamp));
+
 				$data_array[$sno][$j++] = $row->forward_status;
 				$data_array[$sno][$j++] = urldecode($row->remarks);
 				$sno++;

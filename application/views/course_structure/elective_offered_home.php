@@ -4,34 +4,42 @@
 	$branch_count = 0;
 	$batch_count = 0;
 	$sem_count = 0;
+	//var_dump($aggr_id);
+	//var_dump($result_course);
+	//echo "curr session = ".$curr_session;
 	foreach($course['name'] as $key=>$val)
 		$course_count++;
-	foreach($branch['name'] as $key=>$val)
-		$branch_count++;
-	foreach($batch as $key=>$val)
-		$batch_count++;
-	foreach($semester as $key=>$val)
-		$sem_count++;
-	
-	//echo $batch_count;
-	echo form_open('elective_offered/elective_offered');
+		
+	echo "course _count = ".$course_count;
+	echo form_open('course_structure/elective_offered');
 	echo '
-		<table>
+		<table id="form_table">
 			<tr>
 				<td>
 					Choose Course
 				</td>
 				<td>
-					<select name = "course">';
+					<select id="course" name = "course">
+						<option value="0">Select Course</option>
+					';
+
 						for($i = 0;$i<$course_count;$i++)
 						{
-							echo '<option value = "'.$course['id'][$i].'">'.$course['name'][$i].'</option>';	
+							echo '<option data-duration="'.$course['duration'][$i].'" value = "'.$course['id'][$i].'">'.$course['name'][$i].'</option>';	
 						}
 					echo '
 					</select>	
 				</td>
 			</tr>
-			<tr>
+			
+		</table>
+		<input type = "submit" value = "Submit" />
+	';
+
+?>
+</div>
+
+<!-- <tr>
 				<td>
 					Choose Branch
 				</td>
@@ -69,14 +77,4 @@
 						}
 					echo '
 				</td>
-			</tr>
-			<tr>
-				<td colspan = "2">
-					<input type = "submit" value = "Submit" />
-				</td>
-			</tr>
-		</table>
-	';
-
-?>
-</div>
+			</tr> -->

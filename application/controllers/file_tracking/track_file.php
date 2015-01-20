@@ -44,12 +44,12 @@ class Track_file extends MY_Controller
 	public function validate_track_num ($track_num)
 	{
 		$this->load->model ('file_tracking/file_details');
-		$res = $this->file_details->get_file_id ($track_num);
-		//The function is Returning File ID ONLY!!
-		if(!$res || $res->num_rows() == 0) 
+		$file_id = $this->file_details->get_file_id ($track_num);
+		if(!$file_id)
 			$this->notification->drawNotification("Enter valid Track Number", "");
 		else
 		{
+			$res = $this->file_details->get_file_details ($track_num);
 			foreach($res->result() as $row) 
 			{
 				$file_id = $row->file_id;

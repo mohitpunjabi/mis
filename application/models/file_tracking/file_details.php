@@ -35,6 +35,8 @@ class File_details extends CI_Model
 	{
 		$sql_query = "SELECT file_id from file_details where track_num = ".$track_num.";";
 		$query = $this->db->query($sql_query);
+		if($query->num_rows() == 0) 
+			return false;
 		foreach ($query->result() as $row) //last
 				$file_id = $row->file_id;
 		return $file_id;

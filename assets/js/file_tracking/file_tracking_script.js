@@ -105,9 +105,8 @@
 		return false;
 	}
 	
-	function display_send_notification2 ()
+	function display_send_notification2 (file_id)
 	{
-		var file_id = document.getElementById("file_id").value;
 		var file_no = document.getElementById("file_no").value;
 		if (file_no == "")
 			file_no = "NULL";
@@ -248,6 +247,9 @@
 	}
 	function display_send_notification4(file_id,rcvd_emp_id)
 	{
+		var file_no = document.getElementById("file_no").value;
+		if (file_no == "")
+			file_no = "NULL";
 		//var file_id = document.getElementById("file_id").value;
 		var remarks = document.getElementById("remarks2").value;
 		//var rcvd_emp_id = document.getElementById("emp_name").value;
@@ -260,7 +262,7 @@
 				//$(".loading").hide();
 			}
 		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+rcvd_emp_id+"/"+remarks),true);
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
 		xmlhttp.send();
 		return false;
 	}

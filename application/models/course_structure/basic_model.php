@@ -119,7 +119,7 @@ class Basic_model extends CI_Model
 	function get_branch_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_branch,array('id'=>$id));
-		if($query->num_rows()>0)
+		//if($query->num_rows()>0)
 			return $query->result();
 	}
 	
@@ -165,7 +165,7 @@ class Basic_model extends CI_Model
 	function get_subjects_by_sem($sem,$aggr_id)
 	{
 		$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
-		if($query->num_rows() > 0)
+		//if($query->num_rows() > 0)
 			return $query->result();
 	}
 	

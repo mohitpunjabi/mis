@@ -29,7 +29,6 @@ class Edit extends MY_Controller
 	
 	public function EditCourseStructure()
 	{
-		//$this->load->model('course_structure/view_model','',TRUE);
 		$data = array();
 		$data["CS_session"]['dept_id'] = $this->input->post("dept");
 		$data["CS_session"]['course_id'] = $this->input->post("course");
@@ -80,7 +79,7 @@ class Edit extends MY_Controller
 			   id)->sequence;
 			   
 			   
-			   $data["subjects"][$group_id] = 0;
+			   $data["subjects"]['elective_count'][$group_id] = 0;
 			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
 			   if($group_id != 0)
 			   {

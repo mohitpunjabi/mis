@@ -4,19 +4,13 @@
 	$branch_count = 0;
 	$batch_count = 0;
 	$sem_count = 0;
-	var_dump($result_course);
-	echo "curr session = ".$curr_session;
-	foreach($course['id'] as $key=>$val)
+	//var_dump($aggr_id);
+	//var_dump($result_course);
+	//echo "curr session = ".$curr_session;
+	foreach($course['name'] as $key=>$val)
 		$course_count++;
-	echo "course _count = ".$aggr_id;
-	foreach($branch['name'] as $key=>$val)
-		$branch_count++;
-	foreach($batch as $key=>$val)
-		$batch_count++;
-	foreach($semester as $key=>$val)
-	$sem_count++;
-	
-	//echo $batch_count;
+		
+	echo "course _count = ".$course_count;
 	echo form_open('elective_offered/elective_offered');
 	echo '
 		<table id="form_table">

@@ -26,9 +26,7 @@ class Elective_offered_home extends MY_Controller
 		$dept_id = $dept[0]->dept_id;
 		$data['dept_id'] = $dept_id;
 		$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
-		//$data['result_courses'] = $result_courses;
-		//$data['aggr_id'] = $result_courses[0]->aggr_id;
-		
+		$result_course = $data['result_course'];
 		if(date('m') >= 7 && date('m') <=12)
 			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
 		else
@@ -38,18 +36,18 @@ class Elective_offered_home extends MY_Controller
 		
 		$i = 0;
 		$j=0;
-		//$data['course'] = array();
-		//var_dump($result_course);
-		//$data['course']['name'] = array();
-		//$data['course']['duration'] = array();
-		//$data['course']['id'] = array();
+		$k = 0;
+		//$data['aggr_id'] = array();
+		$data['course'] = array();
+		$data['course']['name'] = array();
+		$data['course']['duration'] = array();
+		$data['course']['id'] = array();
 		
 		foreach($result_course as $row)
 		{
 			$aggr_id_array = explode('_',$row->aggr_id);
 			$session = $aggr_id_array[2];
-			$data['aggr_id'] = $row->aggr_id;
-			//$data['flag'][$j] = $j;
+			
 			if($curr_session == $session)
 			{
 				$data['curr_session'] = $curr_session;
@@ -63,7 +61,6 @@ class Elective_offered_home extends MY_Controller
 					$j++;
 				}
 			}
-			
 		}
 		
 		$this->drawHeader();

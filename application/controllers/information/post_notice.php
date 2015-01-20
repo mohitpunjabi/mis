@@ -68,7 +68,7 @@ class Post_notice extends MY_Controller
 	{
 		$config['upload_path'] = 'assets/files/information/notice';
 		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
-		$config['max_size']  = '2000';
+		$config['max_size']  = '1050';
 
 			if(isset($_FILES[$name]['name']))
         	{

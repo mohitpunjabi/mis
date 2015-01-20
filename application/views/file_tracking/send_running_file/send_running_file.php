@@ -69,7 +69,7 @@
 <table align="center" nozebra>
 	<tr>
 		<td> 
-			<input type="button" value="Send File" onClick="display_send_notification2()">
+			<input type="button" value="Send File" onClick="display_send_notification2(<?php echo $file_id; ?>)">
 		</td>
 	</tr>
 </table>

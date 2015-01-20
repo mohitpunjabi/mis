@@ -7,7 +7,7 @@ class Edit extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
 		$this->addJS("course_structure/edit.js");
-		$this->addJS("course_structure/add.js");
+		$this->addJS("course_structure/edit_view_cs.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		

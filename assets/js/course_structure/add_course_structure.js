@@ -9,6 +9,9 @@ $(document).ready(function(){
 	$duration = 1;
 
 	function add_branch(){
+		$(".branch_selection").remove();
+		$(".session_selection").remove();
+		$(".semester_selection").remove();
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()),
 			success:function(data){
 				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\"><option>Select Branch</option>";
@@ -20,6 +23,8 @@ $(document).ready(function(){
 				$select_branch = $('select#branch');
 				$select_branch.on('change',function(){
 					//alert("hii");
+					$(".session_selection").remove();
+					$(".semester_selection").remove();
 					add_session($course_selection.find(':selected').val(),$select_branch.find(':selected').val());
 				});
 			},

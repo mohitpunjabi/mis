@@ -449,7 +449,6 @@ class CI_DB_driver {
 		{
 			$this->initialize();
 		}
-
 		return $this->_execute($sql);
 	}
 

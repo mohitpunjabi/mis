@@ -73,7 +73,7 @@ class Edit extends MY_Controller
 		{
 		  $result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);
 		  $i=1;
-		  if($result_ids)
+		  //if($result_ids)
 		  {
 			  foreach($result_ids as $row)
 			  {
@@ -93,10 +93,10 @@ class Edit extends MY_Controller
 			  $data["subjects"]["count"][$counter]=$i-1;
 		}
 		//if there is no subject added.
-		else	
+		//else	
 		{
-			$this->session->set_flashdata("flashError","This Course Structure Does not exist.");
-			redirect("course_structure/edit/index");
+			//$this->session->set_flashdata("flashError","This Course Structure Does not exist.");
+			//redirect("course_structure/edit/index");
 		}
 	  }
 			

@@ -22,14 +22,8 @@ class Emp_prev_exp_details_model extends CI_Model
 
 	function getEmpPrevExpById($id = '')
 	{
-		if($id != '')
-		{
-			$query = $this->db->where('id',$id)->get($this->table);
-			if($query->num_rows() == 0)	return FALSE;
-			return $query->result();
-		}
-		else
-			return FALSE;
+		$query = $this->db->where('id',$id)->get($this->table);
+		return $query->result();
 	}
 
 	function delete_record($where_array)

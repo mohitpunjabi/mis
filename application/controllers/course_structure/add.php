@@ -5,20 +5,20 @@ class Add extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct(array('deo'));
+		parent::__construct(array('deo', 'hod'));
 		
-		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
 	{
+		$this->addJS("course_structure/add_course_structure.js");
 		$data = array();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
+
 		$this->drawHeader();
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
@@ -26,11 +26,24 @@ class Add extends MY_Controller
 	
 	public function EnterNumberOfSubjects()
 	{
+		$this->addJS("course_structure/add.js");
 		$course= $this->input->post('course');
 		$branch= $this->input->post('branch');
 		$session= $this->input->post('session');
 		$sem=$this->input->post('sem');
 		$aggr_id= $course.'_'.$branch.'_'.$session;
+		
+		if(!$this->basic_model->select_course_branch($aggr_id))
+		{
+			$this->session->set_flashdata("flashError","Invalid Course branch and year combination.");
+			redirect("course_structure/add");
+		}
+		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
+		{
+			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then add new.");
+			redirect("course_structure/add");
+		}
+			
 		
 		$row_course = $this->basic_model->get_course_details_by_id($course);
 		$row_branch = $this->basic_model->get_branch_details_by_id($branch);
@@ -44,21 +57,14 @@ class Add extends MY_Controller
 		$data["CS_session"]['session']=$session;
 		$this->session->set_userdata($data);
 		
-		//insert course branch mapping here.Also check if that mapping exist or not.
-		$course_branch_mapping['course_id'] = $course;
-		$course_branch_mapping['branch_id'] = $branch;
-		$course_branch_mapping['year'] = $session;
-		$course_branch_mapping['aggr_id'] = trim($aggr_id);
-		
-		if(!$this->basic_model->select_course_branch(trim($aggr_id)))
-			$this->basic_model->insert_course_branch($course_branch_mapping);
-		
 		$this->drawHeader();
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();
 	}
     public function EnterSubjects()
   	{
+		
+  		$this->addJS("course_structure/add.js");
 		$session_variable = $this->session->userdata("CS_session");
 		
 		$data['CS_session']["duration"] = $session_variable["duration"];
@@ -84,6 +90,7 @@ class Add extends MY_Controller
  	 
  	 public function AddCoreSubjects()
   	{
+  		$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;
@@ -166,18 +173,23 @@ class Add extends MY_Controller
   
   public function AddElectiveSubjects()
   {
+  	$this->addJS("course_structure/add.js");
+
 	  //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
     $session_data = $this->session->userdata("CS_session");
 	$sem = $session_data['sem'];
     $aggr_id = $session_data["aggr_id"];
     $count_elective = $session_data["count_elective"];
-	
+	$count=$count_elective;
 	if($session_data['list_type'] == 1)
 	{
-		$count_elective = 1;
+    	$count_elective = 1;
 	}
-		
+  	else
+  	{
+   	 	$count=1;
+	}
     for($counter = 1;$counter<=$count_elective;$counter++)
     {
 		$elective_details['elective_name'] = $this->input->post("name".$counter);
@@ -192,11 +204,12 @@ class Add extends MY_Controller
 	 
 		$options = $session_data['options'][$counter];
 		$sequence_elective = $session_data['elective'][$counter];
+		
 		if($session_data['list_type'] == 1)
 			$group_id = $session_data["count_elective"].'_'.uniqid();
 		else
 			$group_id = '1_'.uniqid();
-			
+		
 		for($i = 1;$i <= $options;$i++)
 		{
 			$subject_details['id'] = uniqid();			
@@ -216,11 +229,11 @@ class Add extends MY_Controller
 			$sequence = $this->input->post("sequence".$counter."_".$i);
 			
 			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
-			//$sequence = ;
 			$coursestructure_details['sequence'] = $sequence; 
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
+			
 			$this->db->trans_start();
 			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
 			$data['error'] = $this->add_model->insert_subjects($subject_details);
@@ -235,15 +248,28 @@ class Add extends MY_Controller
 		
     }
 	
-	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted 
-	successfully");
+//	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
+      $this->session->set_flashdata("flashSuccess","Course structure for semester ".$sem." inserted successfully");
+
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
-	public function json_get_branch()
+	public function json_get_branch($course='')
 	{
-		$this->output->set_content_type('application/json');
-		$this->output->set_output(json_encode($this->basic_model->get_branches()));
+		if($course != ''){
+			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course($course)));
+		}
+	}
+
+	public function json_get_session($course='',$branch='')
+	{
+		if($course != '' && $branch!=''){
+			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_session_by_course_and_branch($course,$branch)));
+		}
 	}
 }
 ?>

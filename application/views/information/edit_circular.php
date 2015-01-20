@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/edit_circular');   ?>
+	<?php  echo form_open_multipart('information/edit_circular/edit/'.$circular_row->circular_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -16,7 +15,7 @@
 				$data = array(
 						'name'=>'circular_ids',
 						'required'=>'required',
-						'value'=>$circular_id,
+						'value'=>$circular_row->circular_id,
 						'disabled'=>'disabled'
 						);
 				echo form_input($data);
@@ -24,7 +23,7 @@
 					//echo '<input type="text" name="circular_ids" required="required" disabled="disabled"/>';
 			
 				//hidden field because disabled input has 0 value only
-				echo form_hidden('circular_id',$circular_id);
+				echo form_hidden('circular_id',$circular_row->circular_id);
 				
 				?>
 			</td>
@@ -38,7 +37,8 @@
 					$circularno = array(
 								'name'=>'circular_no',
 								'required'=>'required',
-								'value'=>$circular_no
+								'value'=>$circular_row->circular_no,
+								'placeholder'=>'Enter Circular Number'
 								);
 					echo form_input($circularno);
 					/*
@@ -46,6 +46,7 @@
 						echo <input type="text" name ="circular_no" required="required"/>
 					*/
 				?>
+			(Ex: MIN_CIR29292)
 			</td>
 		</tr>
 		<tr>
@@ -59,7 +60,7 @@
 							  'stu'=>'Student',
 							  'all'=>'All'
 							   );
-				echo form_dropdown('circular_cat',$categories,$circular_cat);
+				echo form_dropdown('circular_cat',$categories,$circular_row->circular_cat);
 				/*will produce
 				echo '<select name="circular_cat">
 						<option value="emp">Employee</option>
@@ -81,7 +82,8 @@
 								'rows'=>'3',
 								'cols'=>'80',
 								'required'=>'required',
-								'value'=>$circular_sub
+								'value'=>$circular_row->circular_sub,
+								'placeholder'=>'Enter the Circular Subject in not more than 200 characters'					
 								);
 					echo form_textarea($subject);
 					/*
@@ -97,7 +99,7 @@
 			</td>
 			<td width="30%">
 				<?php
-				echo '<a href="'.base_url().'assets/files/information/circular/'.$circular_path.'" title="download file">'.$circular_path.'</a>';
+				echo '<a href="'.base_url().'assets/files/information/circular/'.$circular_row->circular_path.'" title="download file">'.$circular_row->circular_path.'</a>';
 				$js = 'onclick="javascript:document.getElementById(\'filebox\').style.visibility=\'visible\';
 										   document.getElementById(\'circular_path\').required = true;
 								"';
@@ -117,6 +119,8 @@
 					*/
 					?>
 					</span>
+					<br>
+					(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
 			</td>
 		</tr>
 		<tr>
@@ -129,14 +133,15 @@
 							'type'=>'date',
 							'name'=>'valid_upto',
 							'min'=>date("Y-m-d"),
-							'value'=>$valid_upto
+							'value'=>$circular_row->valid_upto
 							);
 					echo form_input($date);
 				?>
+				(at least today's date)
 			</td>
 		</tr>
 	 </table> 
     <?php 
-	echo form_hidden('modification_value',$modification_value);
+	echo form_hidden('modification_value',$circular_row->modification_value);
 	echo form_submit('savesubmit','Save');
 	echo form_close(); ?>

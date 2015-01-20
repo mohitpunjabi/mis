@@ -17,10 +17,7 @@ class Designations_model extends CI_Model
 			$this->db->where($where_clause,'',FALSE);
 		$this->db->order_by('type asc,name asc');
 		$query = $this->db->get($this->table);
-		if($query->num_rows() > 0)
-			return $query->result();
-		else
-			return FALSE;
+		return $query->result();
 	}
 
 	function getDesignationById($id = '')
@@ -31,7 +28,6 @@ class Designations_model extends CI_Model
 		else
 			return false;
 	}
-
 }
 
 /* End of file designations_model.php */

@@ -5,7 +5,7 @@ class View extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct(array('deo'));
+		parent::__construct(array('deo','hod'));
 		
 		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/add.js");
@@ -14,12 +14,23 @@ class View extends MY_Controller
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
-	public function index($error='')
+	public function index($userid= '')
 	{
-		//edited
 		$data = array();
-		$data["result_course"] = $this->basic_model->get_course();
-		$data["result_branch"] = $this->basic_model->get_branches();
+		if($userid != '')
+		{	
+			$dept = $this->basic_model->Select_Department_By_User_ID($userid);
+			$dept_id = $dept[0]->dept_id;
+			
+			$data["result_course"] = $this->basic_model->get_course_offered_by_dept($dept_id);
+			$data["result_branch"] = $this->basic_model->get_branch_offered_by_dept($dept_id);
+			
+		}
+		else
+		{
+			$data["result_course"] = $this->basic_model->get_course();
+			$data["result_branch"] = $this->basic_model->get_branches();
+		}
 		$this->drawHeader();
 		$this->load->view('course_structure/View/view_home',$data);
 		$this->drawFooter();
@@ -62,22 +73,27 @@ class View extends MY_Controller
 			$end_semester = $semester;
 			//
 		}
+		$data['flag'] = 1;
 		for($counter=$start_semester;$counter<=$end_semester;$counter++)
 		{
 			$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
-		  $i=1;
+		  	$i=1;
 		  foreach($result_ids as $row)
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+			   
 			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
 			   id)->sequence;
-			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-			   $data["subjects"][$group_id] = 0;
 			   
+			   
+			   $data["subjects"][$group_id] = 0;
+			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
 			   if($group_id != 0)
 			   {
-			   	$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
-			    $data["subjects"]["elective_count"][$group_id]++;
+				    //$data['flag']['group_id'][$i] = $group_id;
+			   		$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
+			    	$data["subjects"]["elective_count"][$group_id]++;
 			   }
 			   $i++;
 		  }

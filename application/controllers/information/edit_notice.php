@@ -7,9 +7,54 @@ class Edit_notice extends MY_Controller
 		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
 	}
 
-	public function index($error='')
+	public function index($auth_id='',$notice_id='')
 	{
-		$data['error']=$error;
+		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
+		if($notice_id=='')
+		{
+			$this->load->model('information/edit_notice_model','',TRUE);
+			//$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_notice/index/archieved">List of Archieved Notices</a>';
+			
+			$data['notices'] = $this->edit_notice_model->get_notices($auth_id);
+			$data['auth_id'] = $auth_id;
+			
+			if(count($data['notices']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no any notice to edit.');
+				redirect('home');
+			}
+				
+			$this->drawHeader('Edit Notice');
+			$this->load->view('information/editNotice',$data);
+			$this->drawFooter();
+		}
+		else
+		{
+			$this->load->model('information/view_notice_model','',TRUE);
+			$data['notice_row'] = $this->view_notice_model->get_notice_row($notice_id);
+			if(count($data['notice_row']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no notice available with the notice id ('.$notice_id.')');
+				redirect('home');
+			}
+			
+			$this->drawHeader('Edit Notice');
+			$this->load->view('information/edit_notice',$data);
+			$this->drawFooter();
+		}
+	}
+
+	public function edit($notice_id)
+	{
+		if($notice_id =='')
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
@@ -19,85 +64,71 @@ class Edit_notice extends MY_Controller
 		
 		$this->load->model('information/edit_notice_model','',TRUE);
 		
-		//title for the page
-		//$header['title']='Edit notice';
-		$this->drawHeader("Edit notice");
+		$notice=$this->edit_notice_model->getnoticesByMinId($this->input->post('notice_id'));
 		
-		if ($this->form_validation->run() == FALSE || $this->input->post('editsubmit') == TRUE)
+		if(count($notice) == 0)
 		{
-			//notice id can't be changed
-			$data['notice_id'] = $this->input->post('notice_id');
-			$data['notice_no'] = $this->input->post('notice_no');
-			$data['notice_sub'] = $this->input->post('notice_sub');
-			$data['notice_cat'] = $this->input->post('notice_cat');
-			$data['notice_path'] = $this->input->post('notice_path');
-			$data['last_date'] = $this->input->post('last_date');
-			$data['modification_value']=$this->input->post('modification_value');
-			$this->load->view('information/edit_notice',$data);
+			$this->session->set_flashdata('flashError','There is no notice with the notice id ('.$notice_id.') to edit');
+			redirect('home');
+		}
+		
+		if($_FILES['notice_path']['name'] != '')
+		{
+			
+			$upload=$this->upload_file('notice_path',$this->input->post('notice_id'),$this->input->post('modification_value'));
+			if($upload)
+			{
+				//current date
+				$date = date("Y-m-d h:m:s");
+				
+				$notice=$this->edit_notice_model->getnoticesByMinId($this->input->post('notice_id'));
+				$old_file = $notice->notice_path;
+				
+				$data = array('notice_id'=>$this->input->post('notice_id'),
+						  'notice_no'=>$this->input->post('notice_no'),
+						  'notice_sub'=>$this->input->post('notice_sub'),
+						  'notice_cat'=>$this->input->post('notice_cat'),
+						  'notice_path'=>$upload['file_name'],
+						  'last_date'=>$this->input->post('last_date'),
+						  'posted_on'=>$date,
+						  'modification_value'=>$this->input->post('modification_value') + 1
+						  );
+			    
+				$this->edit_notice_model->insertM($data['notice_id']);
+				$this->edit_notice_model->update($data);
+				//if($old_file)	unlink(APPPATH.'../assets/files/information/notice/'.$old_file);
+				$this->session->set_flashdata('flashSuccess','Notice has been successfully updated.');
+				redirect('home');
+			
+			}
 		}
 		else
 		{
-			if($_FILES['notice_path']['name'] != '')
-			{
-				
-				$upload=$this->upload_file('notice_path',$this->input->post('notice_id'),$this->input->post('modification_value'));
-				if($upload)
-				{
-					//current date
-					$date = date("Y-m-d");
-					
-					$notice=$this->edit_notice_model->getnoticesByMinId($this->input->post('notice_id'));
-					$old_file = $notice->notice_path;
-					
-					$data = array('notice_id'=>$this->input->post('notice_id'),
-							  'notice_no'=>$this->input->post('notice_no'),
-							  'notice_sub'=>$this->input->post('notice_sub'),
-							  'notice_cat'=>$this->input->post('notice_cat'),
-							  'notice_path'=>$upload['file_name'],
-							  'last_date'=>$this->input->post('last_date'),
-							  'posted_on'=>$date,
-							  'modification_value'=>$this->input->post('modification_value') + 1
-							  );
-				    
-					$this->edit_notice_model->insertM($data['notice_id']);
-					$this->edit_notice_model->update($data);
-					//if($old_file)	unlink(APPPATH.'../assets/files/information/notice/'.$old_file);
-					$this->session->set_flashdata('flashSuccess','Notice has been successfully updated.');
-					redirect('information/menu');
-				
-					//$this->load->view('information/edit_notice_success');
-				}
-			}
-			else
-			{
 				//current date
-					$date = date("Y-m-d");
-					
-					
-					$data = array('notice_id'=>$this->input->post('notice_id'),
-							  'notice_no'=>$this->input->post('notice_no'),
-							  'notice_sub'=>$this->input->post('notice_sub'),
-							  'notice_cat'=>$this->input->post('notice_cat'),
-							  'last_date'=>$this->input->post('last_date'),
-							  'posted_on'=>$date,
-							  'modification_value'=>$this->input->post('modification_value') + 1
-							  );
+			$date = date("Y-m-d h:m:s");
+			
+			$data = array('notice_id'=>$this->input->post('notice_id'),
+					  'notice_no'=>$this->input->post('notice_no'),
+					  'notice_sub'=>$this->input->post('notice_sub'),
+					  'notice_cat'=>$this->input->post('notice_cat'),
+					  'last_date'=>$this->input->post('last_date'),
+					  'posted_on'=>$date,
+					  'modification_value'=>$this->input->post('modification_value') + 1
+					  );
 				
-				$this->edit_notice_model->insertM($data['notice_id']);
-				$this->edit_notice_model->update($data);
-				$this->session->set_flashdata('flashSuccess','Notice has been successfully updated.');
-				redirect('information/menu');
-			}
-		}
-		$this->drawFooter();
-	}
-	
+			$this->edit_notice_model->insertM($data['notice_id']);
+			$this->edit_notice_model->update($data);
+			$this->session->set_flashdata('flashSuccess','Notice has been successfully updated.');
+			redirect('home');
+		}		
+	}	
+
 	
 	private function upload_file($name ='',$sno = 0)
 	{
 		$config['upload_path'] = 'assets/files/information/notice';
-		$config['allowed_types'] = 'pdf|doc|docx';
-		$config['max_size']  = '2000';
+		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
+		$config['max_size']  = '1050';
 		
 			if(isset($_FILES[$name]['name']))
         	{

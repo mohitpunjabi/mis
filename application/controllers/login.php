@@ -32,12 +32,14 @@ class Login extends CI_Controller
 		//Ensure values exist for user and pass, and validate the user's credentials
 		if( $user && $pass && $this->users_model->validate_user($user,$pass))
 		{
-
-			echo $this->session->userdata('last_login');
-			/*if($this->session->userdata('last_login') == '0000-00-00 00:00:00')
+			//echo $this->session->userdata('last_login');
+			if($this->session->userdata('last_login') == '0000-00-00 00:00:00')
 				redirect('change_password');
 			else
-				redirect('home');*/
+			{
+				$this->db->insert("user_login_attempts", array("id" => $this->session->userdata('id'), "time" => date('Y-m-d H:i:s')));
+				redirect('home');
+			}
 		}
 		else
 			$this->showlogin(1);

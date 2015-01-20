@@ -15,17 +15,20 @@ class User_notifications_model extends CI_Model
 		$this->db->insert($this->table,$data);
 	}
 
+	function updateNotification($data, $where) {
+		$this->db->update($this->table, $data, $where);
+	}
+	
 	function getUnreadUserNotifications($user_to, $auth)
 	{
 		$query = $this->db->select('user_notifications.*, user_details.photopath as photopath')
 						->where('user_to',$user_to)
 						->where('auth_id',$auth)
-						->where('send_date >= ', date('Y-m-d H:i:s', $this->session->userdata('last_activity')))
+						->where('send_date >= ', $this->session->userdata('last_login'))
 						->from($this->table)
 						->join('user_details', 'user_details.id = user_notifications.user_from')
 						->order_by('send_date','desc')
 						->get();
-		if($query->num_rows()==0)	return FALSE;
 		return $query->result();
 	}
 
@@ -34,13 +37,13 @@ class User_notifications_model extends CI_Model
 		$query = $this->db->select('user_notifications.*, user_details.photopath as photopath')
 						->where('user_to',$user_to)
 						->where('auth_id',$auth)
-						->where('send_date < ', date('Y-m-d H:i:s', $this->session->userdata('last_activity')))
+						->where('send_date < ', $this->session->userdata('last_login'))
 						->from($this->table)
 						->join('user_details', 'user_details.id = user_notifications.user_from')
 						->order_by('send_date','desc')
+						->limit(100)
 						->get();
 
-		if($query->num_rows()==0)	return FALSE;
 		return $query->result();
 	}
 

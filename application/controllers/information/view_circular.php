@@ -7,67 +7,66 @@ class View_circular extends MY_Controller
 		parent::__construct();
 	}
 
-	public function index($error='')
+	public function index($link='')
 	{
-		$data['error']=$error;
-		
-		$this->load->model('information/view_circular_model','',TRUE);
-		
-		//title for the page
-		//$header['title']='Search Removed circular';
-		//$this->load->view('templates/header',$header);
-		
-		if ($this->input->post('go') == FALSE && $this->input->post('get_details') == TRUE)
+		if($link=='' || $link== 'current')
 		{
-			//$header['title']='View Circular';
-			$this->drawHeader("View Circular");
-			$data['id'] = $this->view_circular_model->get_circular_ids();
+			$data['firstLink']  = 'List of Current Circular';
+			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_circular/index/archieved">List of Archived Circular</a>';
+			$this->load->model('information/view_circular_model','',TRUE);
+			$data['circulars'] = $this->view_circular_model->get_circulars();
 			
-			$data['selected']  = $this->input->post('circular_id');
-			
-			$this->load->view('information/view_circularV',$data);
-			
-			$data['circular_row'] = $this->view_circular_model->get_circular_row($data['selected']);
-			//var_dump($data);
-			$data['prev_ver'] = $this->view_circular_model->get_prev_versions($data['selected']);
-			$data['selected_ver'] = $this->input->post('pre_ver');
-			
-			$this->load->view('information/view_circularR',$data);
-			$this->load->view('information/click_for_prev_version_circular',$data);
-			
-			$data['circular_row'] = $this->view_circular_model->get_circular_row2($data['selected'],$data['selected_ver']);
-			$this->load->view('information/view_circularR',$data);
-		}
-		else if ($this->input->post('go') == FALSE)
-		{
-			//$header['title']='View circular';
-			$this->drawHeader("View Circular");
-			$data['id'] = $this->view_circular_model->get_circular_ids();
-			
-			if($data['id'] == NULL)
+			if(count($data['circulars']) == 0)
 			{
-				$this->session->set_flashdata('flashError','There is no any circular.');
-				redirect('information/view');
-			
+				$this->session->set_flashdata('flashError','There is no any circular to view.');
+				redirect('home');
 			}
-			$this->load->view('information/view_circularV',$data);
+				
+			$this->drawHeader('View Circular');
+			$this->load->view('information/viewCircular',$data);
+			$this->drawFooter();
 		}
-		else 
+		else if ($link =='archieved')
 		{
-			//$header['title'] = 'View Circular';
-			$this->drawHeader("View Circular");
+			$data['firstLink']  = 'List of Archived Circular';
+			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_circular/index/current">List of Current Circular</a>';
+			$this->load->model('information/viewcircular_model','',TRUE);
+			$data['circulars'] = $this->viewcircular_model->get_circulars();
 			
-			$data['id'] = $this->view_circular_model->get_circular_ids();
-			$data['selected']  = $this->input->post('circular_id');
-			
-			$this->load->view('information/view_circularV',$data);
-			
-			$data['circular_row'] = $this->view_circular_model->get_circular_row($data['selected']);
-			//var_dump($data);
-			$data['prev_ver'] = $this->view_circular_model->get_prev_versions($data['selected']);
-			$this->load->view('information/view_circularR',$data);
-			$this->load->view('information/click_for_prev_version_circular',$data);
+			if(count($data['circulars']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no any circular to view.');
+				redirect('home');
+			}
+				
+			$this->drawHeader('View Circular');
+			$this->load->view('information/viewCircular',$data);
+			$this->drawFooter();
 		}
+		
+	}
+	
+	
+	public function prev($circular_id='')
+	{
+		if($circular_id=='')
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}		
+		
+		$this->load->model('information/viewprevcircular_model','',TRUE);
+		$data['circulars'] = $this->viewprevcircular_model->get_circulars($circular_id);
+
+		if(count($data['circulars']) == 0)
+		{
+			$this->session->set_flashdata('flashError','There is no any circular to view.');
+			redirect('home');
+		}
+	
+		$data['prevcircular'] = $circular_id;
+		$this->drawHeader('View circular');
+		$this->load->view('information/viewCircular',$data);
 		$this->drawFooter();
 	}
 	

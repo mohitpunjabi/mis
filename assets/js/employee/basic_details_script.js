@@ -178,6 +178,7 @@
 	function fetch_details()
 	{
 		var emp_id = document.getElementsByName("emp_id")[0].value;
+
 		$("#fetch_id_btn").hide();
 		$("#empIdIcon").show();
 		var xmlhttp;
@@ -192,8 +193,21 @@
 		xmlhttp.onreadystatechange=function()
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		    	{
-				if(xmlhttp.responseText != "") {
+		    {
+				console.log("'"+xmlhttp.responseText+"'");
+				if(xmlhttp.responseText == 'NO_EMP')
+				{
+					alert('Please select an Employee Id');
+					$("#fetch_id_btn").show();
+				}
+				else if(xmlhttp.responseText == 'NO_AVAIL')
+				{
+					alert('Employee Id is not Available. Please select another Employee Id');
+					$("#fetch_id_btn").show();
+				}
+				else if(xmlhttp.responseText != '')
+				{
+
 					var details = eval(xmlhttp.responseText);
 					$("select[name=salutation]").val(details['salutation']);
 					$("input[name=firstname]").val(details['first_name']);
@@ -203,8 +217,11 @@
 					$("input[name=research_int]").val(details['research_int']);
 					$("select[name=category]").val(details['category']);
 					$("input[name=mobile]").val(details['ph_no']);
+					$("td, th").css("visibility", "visible");
+					$("#fetch_id_btn").hide();
 				}
-				else {
+				else
+				{
 					$("select[name=salutation]").val("Dr");
 					$("input[name=firstname]").val("");
 					$("input[name=middlename]").val("");
@@ -213,9 +230,9 @@
 					$("input[name=research_int]").val("");
 					$("select[name=category]").val("");
 					$("input[name=mobile]").val("");
+					$("td, th").css("visibility", "visible");
+					$("#fetch_id_btn").hide();
 				}
-				$("td, th").css("visibility", "visible");
-				$("#fetch_id_btn").hide();
 				$("#empIdIcon").hide();
 		    }
 	  	}

@@ -7,9 +7,14 @@ class Post_circular extends MY_Controller
 		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
 	}
 
-	public function index($error='')
+	public function index($auth_id='')
 	{
-		$data['error']=$error;
+		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
+		
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
@@ -26,6 +31,7 @@ class Post_circular extends MY_Controller
 		if ($this->form_validation->run() == FALSE)
 		{
 			$data['id'] = $this->post_circular_model->get_max_circular_id();
+			$data['auth_id'] = $auth_id;
 			$this->load->view('information/post_circular',$data);
 		}
 		else
@@ -33,13 +39,14 @@ class Post_circular extends MY_Controller
 			$upload=$this->upload_file('circular_path',$this->input->post('circular_id'));
 			if($upload)
 			{
-				$date = date("Y-m-d");
+				$date = date("Y-m-d h:m:s");
 				$data = array('circular_id'=>$this->input->post('circular_id'),
 						  'circular_no'=>$this->input->post('circular_no'),
 						  'circular_cat'=>$this->input->post('circular_cat'), 
 						  'circular_sub'=>$this->input->post('circular_sub'),
 						  'circular_path'=>$upload['file_name'],
 						  'issued_by'=>$this->session->userdata('id'),
+						  'auth_id'=>$auth_id,
 						  'valid_upto'=>$this->input->post('valid_upto'),
 						  'posted_on'=>$date,
 						  'modification_value'=>0
@@ -47,7 +54,7 @@ class Post_circular extends MY_Controller
 			
 			$this->post_circular_model->insert($data);
 			$this->session->set_flashdata('flashSuccess','Circular has been successfully posted.');
-			redirect('information/post');
+			redirect('home');
 			
 			//$this->load->view('information/post_circular_success');
 			}
@@ -59,8 +66,8 @@ class Post_circular extends MY_Controller
 	private function upload_file($name ='',$sno = 0)
 	{
 		$config['upload_path'] = 'assets/files/information/circular';
-		$config['allowed_types'] = 'pdf|doc|docx';
-		$config['max_size']  = '2000';
+		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
+		$config['max_size']  = '1050';
 
 			if(isset($_FILES[$name]['name']))
         	{

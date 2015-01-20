@@ -27,6 +27,10 @@ class Employee_menu_model extends CI_Model
 		$menu['est_ar']=array();
 		$menu['est_ar']['Employee Details']=array();
 		$menu['est_ar']["Employee Details"]["Validation Requests"]=site_url('employee/validation');
+		$menu['est_ar']["Employee Details"]["Database Queries"]=array();
+		$menu['est_ar']["Employee Details"]["Database Queries"]["Get Employee By Category"]=site_url('employee/queries/queryByCategory');
+		$menu['est_ar']["Employee Details"]["Database Queries"]["Get Employee By Department"]=site_url('employee/queries/queryByDepartment');
+		$menu['est_ar']["Employee Details"]["Database Queries"]["Get Employee By Designation"]=site_url('employee/queries/queryByDesignation');
 
 		//auth ==> deo
 		$menu['deo']=array();

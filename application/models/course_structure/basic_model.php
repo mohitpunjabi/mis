@@ -2,13 +2,15 @@
 
 class Basic_model extends CI_Model
 {
+	var $table_userdetails = 'user_details';
+	var $table_dept_course = 'dept_course';
 	var $table_course = 'courses';
 	var $table_branch = 'branches';
 	var $table_subject = 'subjects';
 	var $table_course_structure = 'course_structure';
 	var $table_elective_group = 'elective_group';
 	var $table_course_branch = 'course_branch';
-	
+	var $table_elective_offered = 'elective_offered';
 
 
 	function __construct()
@@ -16,7 +18,12 @@ class Basic_model extends CI_Model
 		// Call the Model constructor
 		parent::__construct();
 	}
-
+	function Select_Department_By_User_ID($userid)
+	{
+    	$query = $this->db->get_where($this->table_userdetails,array('id'=>$userid));
+		return $query->result();
+	}
+	
 	function get_course()
 	{
 		$query = $this->db->get($this->table_course);
@@ -27,6 +34,14 @@ class Basic_model extends CI_Model
 		$query = $this->db->get_where($this->table_course,array('id'=>$id));
 		return $query->result();
 	}
+	
+	function get_course_by_dept_id($dept_id)
+	{
+		$query = $this->db->query("SELECT DISTINCT id,name,duration FROM courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
+		return $query->result();
+	}
+		
 	
 	function get_branches()
 	{
@@ -40,6 +55,12 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	function get_branch_by_dept_id($dept_id)
+	{
+		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON 
+		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
+		return $query->result();
+	}
 	
 	function select_course_branch($aggr_id)
 	{

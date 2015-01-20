@@ -23,7 +23,7 @@
 <table nozebra>
 	<tr>
 		<td> 
-			<input type="button" value="Confirm" onClick="display_send_notification3(<?php echo $row->file_id;?>)">
+			<input type="button" value="Confirm" onClick=display_send_notification3('<?php echo $file_id;?>')>
 		</td>
 	</tr>
 	<tr>

@@ -2,10 +2,11 @@ $(document).ready(function(){
 	$course = $("#course");
 	$form_table = $("#form_table");
 	$course.on('change',function(){
+		//console.log(JSON.stringify({course:$course.find(":selected").val()}));
 		$.ajax({
 			type:"POST",
-			url:site_url('elective_offered/home/json_get_branch'),
-			data:JSON.stringify({course:$course.find(":selected").val()}),
+			url:site_url('elective_offered/home/json_get_branch/'+$course.find(":selected").val()),
+			//data:{course:$course.find(":selected").val()},
 			dataType:"json"
 		}).always(function(){
 			$('.branch_option').remove();
@@ -43,6 +44,8 @@ $(document).ready(function(){
 				$form_table.append(base_str);
 				//console.log(data);
 			}
+		}).fail(function(err,hr){
+			console.log(err,hr);
 		});
 	});
 });

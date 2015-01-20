@@ -254,10 +254,22 @@ class Add extends MY_Controller
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
-	public function json_get_branch()
+	public function json_get_branch($course='')
 	{
-		$this->output->set_content_type('application/json');
-		$this->output->set_output(json_encode($this->basic_model->get_branches()));
+		if($course != ''){
+			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course($course)));
+		}
+	}
+
+	public function json_get_session($course='',$branch='')
+	{
+		if($course != '' && $branch!=''){
+			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_session_by_course_and_branch($course,$branch)));
+		}
 	}
 }
 ?>

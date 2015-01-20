@@ -11,7 +11,7 @@ class Basic_model extends CI_Model
 	var $table_elective_group = 'elective_group';
 	var $table_course_branch = 'course_branch';
 	var $table_elective_offered = 'elective_offered';
-  var $table_depts = 'departments';
+  	var $table_depts = 'departments';
 
 	function __construct()
 	{
@@ -73,7 +73,26 @@ class Basic_model extends CI_Model
 		$query = $this->db->get($this->table_branch);
 		return $query->result();
 	}
-	
+
+	/**
+	* Below query will return the details of the branches according the course_id in the
+	* `course_branch` table
+	*/
+	function get_branches_by_course($course){
+		$query = $this->db->query("SELECT DISTINCT c.branch_id as id,b.name as name from course_branch as c INNER JOIN branches as b ON c.branch_id = b.id WHERE c.course_id = '{$course}'");
+		return $query->result();
+	}
+
+	/**
+	* Below query will return the session according the `course_id` and `branch_id` in the
+	* `course_branch` table
+	*/
+	function get_session_by_course_and_branch($course,$branch){
+		$this->db->select('year');
+		$query = $this->db->get_where($this->table_course_branch,array("course_id"=>$course,"branch_id"=>$branch));
+		return $query->result();
+	}
+
 	function get_branch_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_branch,array('id'=>$id));

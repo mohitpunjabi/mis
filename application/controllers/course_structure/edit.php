@@ -85,6 +85,7 @@ class Edit extends MY_Controller
 			   if($group_id != 0)
 			   {
 				    //$data['flag']['group_id'][$i] = $group_id;
+					//$result_group_id = $this->basic_model->select_elective_group_by_group_id($group_id)
 			   		$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
 			    	$data["subjects"]["elective_count"][$group_id]++;
 			   }

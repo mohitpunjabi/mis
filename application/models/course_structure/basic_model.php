@@ -185,7 +185,7 @@ class Basic_model extends CI_Model
 	function select_elective_group_by_group_id($group_id)
 	{
 		$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
-		return $query->row();
+		return $query->result();
 	}
 	
 	function update($data, $where)

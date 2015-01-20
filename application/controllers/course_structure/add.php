@@ -7,7 +7,7 @@ class Add extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo', 'hod'));
 		
-		$this->addJS("course_structure/edit_subject_details.js");
+		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
@@ -26,7 +26,7 @@ class Add extends MY_Controller
 	
 	public function EnterNumberOfSubjects()
 	{
-		$this->addJS("course_structure/edit_subject_details.js");
+		$this->addJS("course_structure/add.js");
 		$course= $this->input->post('course');
 		$branch= $this->input->post('branch');
 		$session= $this->input->post('session');
@@ -64,7 +64,7 @@ class Add extends MY_Controller
     public function EnterSubjects()
   	{
 		
-  		$this->addJS("course_structure/edit_subject_details.js");
+  		$this->addJS("course_structure/add.js");
 		$session_variable = $this->session->userdata("CS_session");
 		
 		$data['CS_session']["duration"] = $session_variable["duration"];
@@ -90,7 +90,7 @@ class Add extends MY_Controller
  	 
  	 public function AddCoreSubjects()
   	{
-  		$this->addJS("course_structure/edit_subject_details.js");
+  		$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;

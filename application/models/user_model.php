@@ -81,6 +81,17 @@ class User_model extends CI_Model
 								'permanent_pretty'=>$permanent_pretty,
 								'present_pretty'=>$present_pretty));
 	}
+
+	function getEmpByCategory($category)
+	{
+		$query = $this->db->select('users.id, salutation, first_name, middle_name, last_name')
+							->from('user_details')
+							->join('users','users.id = user_details.id')
+							->where('category',$category)
+							->where('auth_id','emp')
+							->get();
+		return $query->result();
+	}
 }
 
 /* End of file user_model.php */

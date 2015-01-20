@@ -20,6 +20,12 @@ class Auth_types_model extends CI_Model
 		$query = $this->db->where('id', $id)->get($this->table);
 		return $query->row()->type;
 	}
+
+	function getAllAuths()
+	{
+		$query = $this->db->get($this->table);
+		return $query->result();
+	}
 }
 
 /* End of file auth_types_model.php */

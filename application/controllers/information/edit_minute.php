@@ -7,6 +7,127 @@ class Edit_minute extends MY_Controller
 		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
 	}
 
+	
+	public function index($auth_id='',$minute_id='')
+	{
+		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
+		if($minute_id=='')
+		{
+			$this->load->model('information/edit_minute_model','',TRUE);
+			//$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_minute/index/archieved">List of Archieved minutes</a>';
+			
+			$data['minutes'] = $this->edit_minute_model->get_minutes($auth_id);
+			$data['auth_id'] = $auth_id;
+			
+			if(count($data['minutes']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no any Meeting Minutes to edit.');
+				redirect('home');
+			}
+				
+			$this->drawHeader('Edit Meeting Minutes');
+			$this->load->view('information/editMinute',$data);
+			$this->drawFooter();
+		}
+		else
+		{
+			$this->load->model('information/view_minute_model','',TRUE);
+			$data['minute_row'] = $this->view_minute_model->get_minute_row($minute_id);
+			if(count($data['minute_row']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no meeting minutes available with the minute id ('.$minute_id.')');
+				redirect('home');
+			}
+			
+			$this->drawHeader('Edit Meeting Minutes');
+			$this->load->view('information/edit_minute',$data);
+			$this->drawFooter();
+		}
+	}
+
+	public function edit($minute_id)
+	{
+		if($minute_id =='')
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
+		$this->load->helper(array('form', 'url'));
+
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('minute_sub', 'Minute Subject', 'required');
+		$this->form_validation->set_rules('minutes_no', 'Minute Number', 'required');
+		
+		$this->load->model('information/edit_minute_model','',TRUE);
+		
+		$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minute_id'));
+		
+		if(count($minute) == 0)
+		{
+			$this->session->set_flashdata('flashError','There is no meeting minutes with the minute id ('.$minute_id.') to edit');
+			redirect('home');
+		}
+		
+		if($_FILES['minute_path']['name'] != '')
+		{
+			
+			$upload=$this->upload_file('minute_path',$this->input->post('minute_id'),$this->input->post('modification_value'));
+			if($upload)
+			{
+				//current date
+				$date = date("Y-m-d h:m:s");
+				
+				$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minute_id'));
+				$old_file = $minute->minute_path;
+				
+				$data = array('minutes_id'=>$this->input->post('minute_id'),
+						  'minutes_no'=>$this->input->post('minute_no'),
+						  'meeting_type'=>$this->input->post('meeting_type'),
+						  'meeting_cat'=>$this->input->post('meeting_cat'),
+						  'minutes_path'=>$upload['file_name'],
+						  'valid_upto'=>$this->input->post('valid_upto'),
+						  'date_of_meeting'=>$this->input->post('date_of_meeting'),
+						  'place_of_meeting'=>$this->input->post('place_of_meeting'),
+						  'posted_on'=>$date,
+						  'modification_value'=>$this->input->post('modification_value') + 1
+						  );
+			    
+				$this->edit_minute_model->insertM($data['minutes_id']);
+				$this->edit_minute_model->update($data);
+				//if($old_file)	unlink(APPPATH.'../assets/files/information/minute/'.$old_file);
+				$this->session->set_flashdata('flashSuccess','Meeting minutes has been successfully updated.');
+				redirect('home');
+			
+			}
+		}
+		else
+		{
+				//current date
+			$date = date("Y-m-d h:m:s");
+			
+			$data = array('minutes_id'=>$this->input->post('minute_id'),
+						  'minutes_no'=>$this->input->post('minute_no'),
+						  'meeting_type'=>$this->input->post('meeting_type'),
+						  'meeting_cat'=>$this->input->post('meeting_cat'),
+						  'valid_upto'=>$this->input->post('valid_upto'),
+						  'date_of_meeting'=>$this->input->post('date_of_meeting'),
+						  'place_of_meeting'=>$this->input->post('place_of_meeting'),
+						  'posted_on'=>$date,
+						  'modification_value'=>$this->input->post('modification_value') + 1
+						  );
+				
+			$this->edit_minute_model->insertM($data['minutes_id']);
+			$this->edit_minute_model->update($data);
+			$this->session->set_flashdata('flashSuccess','Meeting Minutes has been successfully updated.');
+			redirect('home');
+		}		
+	}	
+	/*
 	public function index($error='')
 	{
 		$data['error']=$error;
@@ -106,12 +227,12 @@ class Edit_minute extends MY_Controller
 		}
 		$this->drawFooter();
 	}
-	
+	*/
 	
 	private function upload_file($name ='',$sno = 0)
 	{
 		$config['upload_path'] = 'assets/files/information/minute';
-		$config['allowed_types'] = 'pdf|doc|docx';
+		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
 		$config['max_size']  = '2000';
 
 			if(isset($_FILES[$name]['name']))

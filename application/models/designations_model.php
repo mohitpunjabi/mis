@@ -31,7 +31,6 @@ class Designations_model extends CI_Model
 		else
 			return false;
 	}
-
 }
 
 /* End of file designations_model.php */

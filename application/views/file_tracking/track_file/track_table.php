@@ -36,10 +36,10 @@
 ?>
 	<tr align="center">
 		<td><?php echo $sno; ?></td>
-		<td><?php echo $data_array[$sno][3]//$row->sent_by_emp_id;?></td>
+		<td><?php echo $data_array[$sno][3];//$row->sent_by_emp_id;?></td>
 		<td><?php echo "File Started"; ?></td>
-		<td><?php echo $data_array[$sno][4]//echo $row->sent_timestamp;?></td>
-		<td><?php echo $data_array[$sno][8]//echo $row->remarks;?></td>
+		<td><?php echo $data_array[$sno][4];//echo $row->sent_timestamp;?></td>
+		<td><?php echo $data_array[$sno][8];//echo $row->remarks;?></td>
 	</tr>
 <?php
 //	$prev_row = $row;
@@ -60,7 +60,11 @@
 	//	$prev_row = $row;
 	//	$row = $result->next_row();
 	}
+<<<<<<< HEAD
 	if ($data_array[$sno-1][6]!=date('j M Y g:i A', strtotime(NULL)))
+=======
+	if ($data_array[$sno-1][6])
+>>>>>>> dev
 	//if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
 	{
 ?>

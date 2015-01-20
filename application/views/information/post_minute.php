@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/post_minute');   ?>
+	<?php  echo form_open_multipart('information/post_minute/index/'.$auth_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -104,7 +103,7 @@
 		</tr>
 		<tr>
 			<td width='20%'>
-    			Meeting Category<span style= "color:red;"> *</span>
+    			Viewed By<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
 			<?php

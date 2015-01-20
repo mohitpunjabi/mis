@@ -14,7 +14,7 @@
       </td>
       <td>
         <select name="course" id="course_selection">
-          <option value="">Select Course</option>
+          <option value="0">Select Course</option>
           <?php 
             foreach ($result_course as $row) {
               echo "<option value='".$row->id."' data-duration='".$row->duration."' >".$row->name."</option>"; 

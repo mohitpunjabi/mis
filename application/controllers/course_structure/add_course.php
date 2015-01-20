@@ -22,6 +22,7 @@ class Add_course extends MY_Controller
 	public function add()
     {
 		$course_details['id'] = $this->input->post("course_id");
+		$course_details['id'] = strtolower(trim($course_details['id']));
 		$course_details['name'] = $this->input->post("course_name");
 		$course_details['duration'] = $this->input->post("course_duration");
 		$course_result = $this->basic_model->get_course_details_by_id($course_details['id']);

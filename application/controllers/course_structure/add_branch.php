@@ -28,6 +28,7 @@ class Add_branch extends MY_Controller
   {
     
     $branch_details['id'] = $this->input->post("branch_id");
+	$branch_details['id'] = strtolower(trim($branch_details['id']));
     $branch_details['name'] = $this->input->post("branch_name");
 	
 	$course_branch_details['course_id'] = $this->input->post("course");

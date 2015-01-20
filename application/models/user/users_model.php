@@ -135,6 +135,26 @@ class Users_model extends CI_Model
 			$this->session->set_userdata('auth',$auths);
 		}
 	}
+
+	function change_password($old_pass , $new_pass)
+	{
+		$query = $this->db->get_where($this->table,array('id'=>$this->session->userdata('id')));
+
+		$old_pass=$this->authorization->strclean($old_pass);
+		$old_hash=$this->authorization->encode_password($old_pass, $query->row()->created_date);
+
+		if($query->num_rows() == 1 && $query->row()->password == $old_hash)
+		{
+			$new_pass=$this->authorization->strclean($new_pass);
+			$new_hash=$this->authorization->encode_password($new_pass,$query->row()->created_date);
+			$this->update(array('password'=>$new_hash),array('id'=>$this->session->userdata('id')));
+		}
+		else
+		{
+			$this->session->set_flashdata('flashError','Old Password do not match.');
+			redirect('change_password');
+		}
+	}
 }
 
 /* End of file users_model.php */

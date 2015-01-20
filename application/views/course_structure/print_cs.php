@@ -2,7 +2,7 @@
 	<h1>Welcome to Course Structure Page!</h1>
   <center><h3>Course Structure for  
   <?php
- 	//echo "all session variables are = ".var_dump($CS_session);
+ 	//echo "all session variables are = ".var_dump($subjects);
     $course_name=$CS_session['course_name'];
     $course_duration=$CS_session['duration'];
     $branch_name=$CS_session['branch_name'];

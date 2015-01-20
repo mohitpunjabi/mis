@@ -12,20 +12,37 @@ class Emp_ajax extends CI_Controller
 		// Will never be used
 	}
 
+	public function check_availability($emp_id = '')
+	{
+		$this->load->model('user/users_model','',TRUE);
+		$result = $this->users_model->getUserById($emp_id);
+		if($result)	return false;
+		return true;
+	}
+
 	public function feedback_emp_detail($emp_id = '')
 	{
-		// fetching employee details from feedback_faculty from feedback_mis database
-		if($emp_id === '')
+		//if emp_id is available
+		if($this->check_availability($emp_id))
 		{
-			$data['feedback_emp_detail'] = FALSE;
+			// fetching employee details from feedback_faculty from feedback_mis database
+			if($emp_id === '')
+			{
+				$data['feedback_emp_detail'] = FALSE;
+				$data['error'] = 'NO_EMP';
+			}
+			else
+			{
+				$this->load->model('employee/feedback_faculty_model','',TRUE);
+				$data['feedback_emp_detail'] = $this->feedback_faculty_model->get_faculty_info($emp_id);
+			}
 		}
 		else
 		{
-			$this->load->model('employee/feedback_faculty_model','',TRUE);
-			$data['feedback_emp_detail'] = $this->feedback_faculty_model->get_faculty_info($emp_id);
+			$data['feedback_emp_detail'] = FALSE;
+			$data['error'] = 'NO_AVAIL';
 		}
-		if($data['feedback_emp_detail'] !== FALSE)
-			$this->load->view('employee/emp_ajax/fetch_feedback_emp_detail.php',$data);
+		$this->load->view('employee/emp_ajax/fetch_feedback_emp_detail.php',$data);
 	}
 
 	public function delete_record($form = -1, $s = -1)

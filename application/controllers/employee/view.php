@@ -34,7 +34,7 @@ class View extends MY_Controller
 		if(!$this->authorization->is_auth('deo'))
 		{
 			$this->session->set_flashdata('flashError','You are not authorized.');
-			redirect('employee/menu');
+			redirect('home');
 			return;
 		}
 

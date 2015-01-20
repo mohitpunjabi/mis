@@ -17,17 +17,9 @@ class Basic_model extends CI_Model
 		// Calling the Model parent constructor
 		parent::__construct();
 	}	
-	function Select_Department_By_User_ID($userid)
-	{
-    	$query = $this->db->get_where($this->table_userdetails,array('id'=>$userid));
-		return $query->result();
-	}
 	
-	function Select_courses_by_dept($deptid)
-	{
-    	$query = $this->db->get_where($this->table_dept_course,array('dept_id'=>$deptid));
-		return $query->result();
-	}
+	
+	
 	
 	function get_course_details_by_id($id)
 	{
@@ -41,6 +33,10 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}	
 	
+	function get_branch_by_dept_course_session($dept,$course,$session){
+		$query = $this->db->query("SELECT * from dept_course where dept_id='".$dept."' AND aggr_id REGEXP '^".$course.".*".$session."$'");
+		return $query->result();
+	}
 	/*
 	function select_elective_group_details_by_aggr_id($aggr_id)
 	{
@@ -50,12 +46,7 @@ class Basic_model extends CI_Model
 	*/
 	
 	
-	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)
-	{
-		$query = $this->db->query("SELECT * FROM subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id = '$aggr_id' AND 
-		course_structure.semester = '$semester'");
-		return $query->result();
-	}	
+	
 	
 	function select_elective_group_by_group_id($group_id)
 	{

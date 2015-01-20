@@ -1,9 +1,10 @@
- <?php 
+<?php 
 	if($res->num_rows() == 0){
-		echo "<h1>No Files Pending:)</h1>";
+		echo "<h2>No Files Pending:)</h2>";
 		return;
 	}
 ?>
+<div id="container">
 <table align="center">
 	<tr>
 		<th>File ID</th>
@@ -29,3 +30,4 @@
 	?>
 	<h1>Pending File Details : </h1>
 </table>
+</div>

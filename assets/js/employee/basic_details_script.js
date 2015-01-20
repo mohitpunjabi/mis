@@ -195,7 +195,6 @@
 		    {
 				if(xmlhttp.responseText != "")
 				{
-					console.log('"'+xmlhttp.responseText + '"');
 					if(xmlhttp.responseText == 'NO_EMP')
 					{
 						alert('Please select an Employee Id');

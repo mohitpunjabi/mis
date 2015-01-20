@@ -240,4 +240,22 @@
 		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_faculty_name_by_department_id/"+department_id),true);
 		xmlhttp.send();
 	}
+	function display_send_notification4(file_id,rcvd_emp_id)
+	{
+		//var file_id = document.getElementById("file_id").value;
+		var remarks = document.getElementById("remarks2").value;
+		//var rcvd_emp_id = document.getElementById("emp_name").value;
+		var xmlhttp = getxmlhttp();
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
+				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
+				//$(".loading").hide();
+			}
+		}
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+rcvd_emp_id+"/"+remarks),true);
+		xmlhttp.send();
+		return false;
+	}
 	

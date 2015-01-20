@@ -102,8 +102,8 @@ class Basic_model extends CI_Model
 	
 	function get_branch_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON 
-		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
+		$query = $this->db->query("SELECT DISTINCT branches.id,branches.name,course_branch.course_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id 
+		INNER JOIN dept_course ON dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}
 	
@@ -150,6 +150,13 @@ class Basic_model extends CI_Model
 			return false;
 	}
 	
+	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)
+	{
+		$query = $this->db->query("SELECT * FROM subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id = '$aggr_id' AND 
+		course_structure.semester = '$semester'");
+		return $query->result();
+	}	
+	
 	function get_course_structure_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_course_structure,array('id'=>$id));
@@ -159,7 +166,7 @@ class Basic_model extends CI_Model
 	function select_elective_group_by_group_id($group_id)
 	{
 		$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
-		return $query->row();
+		return $query->result();
 	}
 	
 	function update($data, $where)

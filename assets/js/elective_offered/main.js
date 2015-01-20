@@ -2,17 +2,19 @@ $(document).ready(function(){
 	$course = $("#course");
 	$form_table = $("#form_table");
 	$course.on('change',function(){
+		//alert("hii");
 		//console.log(JSON.stringify({course:$course.find(":selected").val()}));
 		$.ajax({
 			type:"POST",
-			url:site_url('elective_offered/home/json_get_branch/'+$course.find(":selected").val()),
+			url:site_url('course_structure/elective_offered_home/json_get_branch/'+$course.find(":selected").val()),
 			//data:{course:$course.find(":selected").val()},
 			dataType:"json"
 		}).always(function(){
 			$('.branch_option').remove();
 		}).done(function(data){
+			//alert("hii");
 			if(parseInt($course.find(':selected').val())!=0){
-				var base_str = '<tr class="branch_option"><td>Choose Branch</td><td><select name = "branch">';
+				var base_str = '<tr class="branch_option"><td>Choose Branch</td><td><select name = "branch"><option value = "0">Select Branch</option>';
 				for(branch in data.branches){
 					//console.log(branch,data.branches[branch]);
 					base_str+='<option value="'+branch+'">'+data.branches[branch]+'</option>';
@@ -26,7 +28,7 @@ $(document).ready(function(){
 					base_str += '<option value="'+i+'">'+i+'</option>';
 				}
 				base_str += '</select></td></tr>';
-				base_str += '<tr class="branch_option"><td>Choose Semester</td><td><select name = "semester">';			
+				base_str += '<tr class="branch_option"><td>Choose Semester</td><td><select name = "semester"><option value = "0">All</option>';			
 				for(var i=1;i<=duration*2;i++){
 					base_str += '<option calue="'+i+'">'+i+'</option>';
 				}
@@ -45,7 +47,7 @@ $(document).ready(function(){
 				//console.log(data);
 			}
 		}).fail(function(err,hr){
-			console.log(err,hr);
+			//console.log(err,hr);
 		});
 	});
 });

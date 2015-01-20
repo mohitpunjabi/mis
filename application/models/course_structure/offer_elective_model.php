@@ -46,12 +46,7 @@ class Basic_model extends CI_Model
 	*/
 	
 	
-	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)
-	{
-		$query = $this->db->query("SELECT * FROM subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id = '$aggr_id' AND 
-		course_structure.semester = '$semester'");
-		return $query->result();
-	}	
+	
 	
 	function select_elective_group_by_group_id($group_id)
 	{

@@ -80,7 +80,7 @@ class Edit_minute extends MY_Controller
 			if($upload)
 			{
 				//current date
-				$date = date("Y-m-d h:m:s");
+				$date = date("Y-m-d H:i:s");
 				
 				$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minute_id'));
 				$old_file = $minute->minute_path;
@@ -108,7 +108,7 @@ class Edit_minute extends MY_Controller
 		else
 		{
 				//current date
-			$date = date("Y-m-d h:m:s");
+			$date = date("Y-m-d H:i:s");
 			
 			$data = array('minutes_id'=>$this->input->post('minute_id'),
 						  'minutes_no'=>$this->input->post('minute_no'),

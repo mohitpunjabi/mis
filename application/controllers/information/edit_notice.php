@@ -79,7 +79,7 @@ class Edit_notice extends MY_Controller
 			if($upload)
 			{
 				//current date
-				$date = date("Y-m-d h:m:s");
+				$date = date("Y-m-d H:i:s");
 				
 				$notice=$this->edit_notice_model->getnoticesByMinId($this->input->post('notice_id'));
 				$old_file = $notice->notice_path;
@@ -105,7 +105,7 @@ class Edit_notice extends MY_Controller
 		else
 		{
 				//current date
-			$date = date("Y-m-d h:m:s");
+			$date = date("Y-m-d H:i:s");
 			
 			$data = array('notice_id'=>$this->input->post('notice_id'),
 					  'notice_no'=>$this->input->post('notice_no'),

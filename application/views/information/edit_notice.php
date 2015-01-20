@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/edit_notice');   ?>
+	<?php  echo form_open_multipart('information/edit_notice/edit/'.$notice_row->notice_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -16,7 +15,7 @@
 				$data = array(
 						'name'=>'notice_ids',
 						'required'=>'required',
-						'value'=>$notice_id,
+						'value'=>$notice_row->notice_id,
 						'disabled'=>'disabled'
 						);
 				echo form_input($data);
@@ -24,7 +23,7 @@
 					//echo '<input type="text" name="notice_ids" required="required" disabled="disabled"/>';
 			
 				//hidden field because disabled input has 0 value only
-				echo form_hidden('notice_id',$notice_id);
+				echo form_hidden('notice_id',$notice_row->notice_id);
 				
 				?>
 			</td>
@@ -38,7 +37,7 @@
 				$data = array(
 						'name'=>'notice_no',
 						'required'=>'required',
-						'value'=>$notice_no,
+						'value'=>$notice_row->notice_no,
 						);
 				echo form_input($data);
 					//will produce
@@ -49,7 +48,7 @@
 		</tr>
 		<tr>
 			<td width='20%'>
-    			Notice Category<span style= "color:red;"> *</span>
+    			Viewed By<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
 			<?php
@@ -58,7 +57,7 @@
 							  'stu'=>'Student',
 							  'all'=>'All'
 							   );
-				echo form_dropdown('notice_cat',$categories,$notice_cat);
+				echo form_dropdown('notice_cat',$categories,$notice_row->notice_cat);
 				/*will produce
 				echo '<select name="notice_cat">
 						<option value="emp">Employee</option>
@@ -80,7 +79,7 @@
 								'rows'=>'3',
 								'cols'=>'80',
 								'required'=>'required',
-								'value'=>$notice_sub
+								'value'=>$notice_row->notice_sub
 								);
 					echo form_textarea($subject);
 					/*
@@ -96,7 +95,7 @@
 			</td>
 			<td width="30%">
 				<?php
-				echo '<a href="'.base_url().'assets/files/information/notice/'.$notice_path.'" title="download file">'.$notice_path.'</a>';
+				echo '<a href="'.base_url().'assets/files/information/notice/'.$notice_row->notice_path.'" title="download file">'.$notice_row->notice_path.'</a>';
 				$js = 'onclick="javascript:document.getElementById(\'filebox\').style.visibility=\'visible\';
 										   document.getElementById(\'notice_path\').required = true;
 								"';
@@ -128,7 +127,7 @@
 							'type'=>'date',
 							'name'=>'last_date',
 							'min'=>date("Y-m-d"),
-							'value'=>$last_date
+							'value'=>$notice_row->last_date
 							);
 					echo form_input($date);
 				?>
@@ -136,6 +135,6 @@
 		</tr>
 	 </table> 
     <?php 
-	echo form_hidden('modification_value',$modification_value);
+	echo form_hidden('modification_value',$notice_row->modification_value);
 	echo form_submit('savesubmit','Save');
 	echo form_close(); ?>

@@ -1,9 +1,9 @@
 <?php
 
-class View_circular_model extends CI_Model
+class ViewPrevcircular_model extends CI_Model
 {
 
-	var $table = 'info_circular_details';
+	var $table = 'info_circular_modification_details';
 
 	function __construct()
 	{
@@ -14,14 +14,36 @@ class View_circular_model extends CI_Model
 	//return a list of minute number for a particular employee
 	function get_circular_ids()
 	{
+		
 		$auth_id = $this->db->select('auth_id')->where('id',$this->session->userdata('id'))->get('users');
 		$circular_cat = $auth_id->row()->auth_id;
 		
 		$this->db->select('circular_id');
 		$where = "circular_cat = 'all' OR circular_cat = '".$circular_cat."'";
 		$this->db->where($where);
-		$this->db->order_by('posted_on','desc');
+		$this->db->order_by('posted_on','asc');
 		$query = $this->db->get($this->table);
+
+		return $query->result();
+	}
+	
+	function get_circulars($circular_id)
+	{
+		//$auth_id = $this->db->select('auth_id')->where('id',$this->session->userdata('id'))->get('users');
+		//$circular_cat = $auth_id->row()->auth_id;
+
+		//$where = "circular_id = '".$circular_id."'";
+		//$this->db->where($where);
+		$this->db->where('circular_id',$circular_id);
+		$query = $this->db->select("info_circular_modification_details.*, user_details.*, auth_types.type as auth_name, departments.name as department, designations.name as designation")
+						  ->from($this->table)
+						  ->join("user_details", $this->table.".issued_by = user_details.id")
+						  ->join("auth_types", $this->table.".auth_id = auth_types.id")
+						  ->join("emp_basic_details", "emp_basic_details.id = user_details.id")
+						  ->join("departments", "user_details.dept_id = departments.id")
+						  ->join("designations", "designations.id = emp_basic_details.designation")
+						  ->order_by("info_circular_modification_details.posted_on", "desc")
+						  ->get();
 
 		return $query->result();
 	}
@@ -53,26 +75,6 @@ class View_circular_model extends CI_Model
 		$query = $this->db->get($table);
 		
 		return $query->row();
-	}
-	
-	function get_circulars()
-	{
-		$auth_id = $this->db->select('auth_id')->where('id',$this->session->userdata('id'))->get('users');
-		$circular_cat = $auth_id->row()->auth_id;
-
-		$where = "circular_cat = 'all' OR circular_cat = '".$circular_cat."'";
-		$this->db->where($where);
-		$query = $this->db->select("info_circular_details.*, user_details.*, auth_types.type as auth_name, departments.name as department, designations.name as designation")
-						  ->from($this->table)
-						  ->join("user_details", $this->table.".issued_by = user_details.id")
-						  ->join("auth_types", $this->table.".auth_id = auth_types.id")
-						  ->join("emp_basic_details", "emp_basic_details.id = user_details.id")
-						  ->join("departments", "user_details.dept_id = departments.id")
-						  ->join("designations", "designations.id = emp_basic_details.designation")
-						  ->order_by("info_circular_details.posted_on", "desc")
-						  ->get();
-
-		return $query->result();
 	}
 	
 }

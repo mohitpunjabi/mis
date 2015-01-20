@@ -10,6 +10,21 @@
   <table id = "form_table">
     <tr>
       <td>
+      <label for="dept_name">Select Department </label>
+      </td>
+      <td>
+        <select name="dept" id="dept_selection">
+          <option value="">Select Branch</option>
+          <?php 
+            foreach ($result_dept as $row) {
+              echo "<option value='".$row->id."' >".$row->name."</option>"; 
+            }
+          ?>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
       <label for="course_name">Name of Course  </label>
       </td>
       <td>
@@ -23,7 +38,7 @@
         </select>
       </td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>
       <label for="branch_name">Select Branch  </label>
       </td>
@@ -52,23 +67,7 @@
           ?>
         </select>
       </td>
-    </tr>
-    <tr>
-      <td>
-      <label for="dept_name">Select Department </label>
-      </td>
-      <td>
-        <select name="dept" id="dept_selection">
-          <option value="">Select Branch</option>
-          <?php 
-            foreach ($result_dept as $row) {
-              echo "<option value='".$row->id."' >".$row->name."</option>"; 
-            }
-          ?>
-        </select>
-      </td>
-    </tr>
-    
+    </tr> -->
     </table>
     <?php
     echo form_submit('submit', 'Map Department');

@@ -17,7 +17,6 @@ class User_auth_types_model extends CI_Model
 
 	function getUserIdByAuthId($auth_id = '')
 	{
-
 		$query=$this->db->where('auth_id',$auth_id)->get($this->table);
 		if($query->num_rows()==0)
 			return FALSE;

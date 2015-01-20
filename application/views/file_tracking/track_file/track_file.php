@@ -1,3 +1,4 @@
+<div id="container">
 <h1>Enter Track Number :</h1>
 <?php echo form_open (); ?> 
 <table align="center" nozebra>
@@ -11,13 +12,9 @@
 	</tr>
 </table>
 <?php 
-	if($total_rows == 0){
-		echo "<h1>No Files to be Tracked:)</h1>";
-	}
-	else
-	{
+	if($total_rows != 0){
 ?>
-<h1 align="center">OR</h1>
+<h2 align="center">OR</h2>
 <table align="center">
 	<tr>
 		<th>File ID</th>
@@ -48,9 +45,11 @@
 ?>
 	<h1>Select File :</h1>
 </table>
+
 <?php
 	}
 ?>
 
 <div id="move_details">
+</div>
 </div>

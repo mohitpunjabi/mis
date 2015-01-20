@@ -39,7 +39,7 @@ class Post_circular extends MY_Controller
 			$upload=$this->upload_file('circular_path',$this->input->post('circular_id'));
 			if($upload)
 			{
-				$date = date("Y-m-d h:m:s");
+				$date = date("Y-m-d H:i:s");
 				$data = array('circular_id'=>$this->input->post('circular_id'),
 						  'circular_no'=>$this->input->post('circular_no'),
 						  'circular_cat'=>$this->input->post('circular_cat'), 
@@ -67,7 +67,7 @@ class Post_circular extends MY_Controller
 	{
 		$config['upload_path'] = 'assets/files/information/circular';
 		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
-		$config['max_size']  = '2000';
+		$config['max_size']  = '1050';
 
 			if(isset($_FILES[$name]['name']))
         	{

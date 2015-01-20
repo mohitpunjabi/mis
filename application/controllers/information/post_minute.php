@@ -43,7 +43,7 @@ class Post_minute extends MY_Controller
 				//deparment of logged in employee
 				$department = $this->post_minute_model->get_department();
 				//current date
-				$date = date("Y-m-d h:m:s");
+				$date = date("Y-m-d H:i:s");
 				
 				$others = $this->input->post('meeting_type');
 				//checking for others meeting type
@@ -80,7 +80,7 @@ class Post_minute extends MY_Controller
 	{
 		$config['upload_path'] = 'assets/files/information/minute';
 		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
-		$config['max_size']  = '2000';
+		$config['max_size']  = '1050';
 
 			if(isset($_FILES[$name]['name']))
         	{

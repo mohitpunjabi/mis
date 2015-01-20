@@ -118,60 +118,63 @@
 				}//if closed.
 				else
 				{
-				echo '
-					<tr>
-						<td>';
-							echo $subjects["sequence_no"][$semester][$i];
+					if(isset($subjects["subject_details"][$semester]))
+					{
+						echo '
+							<tr>
+								<td>';
+									echo $subjects["sequence_no"][$semester][$i];
+									echo '
+								</td>
+								<td>
+									<input disabled style = "width:70px;" type = "text" name = "subjectid_'.$semester.'_'.$i.'" value = "'.$subjects[
+									"subject_details"][$semester][$i]->subject_id.'" ></input>
+								</td>
+								<td>
+									<input disabled style = "width:120px;" type = "text" name = "subjectname_'.$semester.'_'.$i.'" value = "'.$subjects[
+									"subject_details"][$semester][$i]->name.'"></input>
+								</td>
+								<td>
+									<input disabled type = "text" name = "subjectL_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"][$semester
+									][$i]->lecture.'"></input>
+								</td>
+								<td>
+									<input disabled type = "text" name = "subjectT_'.$semester.'_'.$i.'" vlaue = "'.$subjects["subject_details"][$semester
+									][$i]->tutorial.'"></input>
+								</td>
+								<td>
+									<input disabled type = "text" name = "subjectP_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"][$semester
+									][$i]->practical.'"></input>
+								</td>
+								<td>
+									<input disabled type = "text" name = "subjectcredithours_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"][
+									$semester][$i]->credit_hours.'"></input>
+								</td>
+								<td>
+									<input disabled type = "text" name = "subjectcontacthours_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"
+									][$semester][$i]->contact_hours.'"></input>
+								</td>
+								<td>';
+								 
+									  if($subjects["subject_details"][$semester][$i]->elective==0) 
+										 echo "No";
+									  else 
+										echo "Yes";
 							echo '
-						</td>
-						<td>
-							<input disabled style = "width:70px;" type = "text" name = "subjectid_'.$semester.'_'.$i.'" value = "'.$subjects[
-							"subject_details"][$semester][$i]->subject_id.'" ></input>
-						</td>
-						<td>
-							<input disabled style = "width:120px;" type = "text" name = "subjectname_'.$semester.'_'.$i.'" value = "'.$subjects[
-							"subject_details"][$semester][$i]->name.'"></input>
-						</td>
-						<td>
-							<input disabled type = "text" name = "subjectL_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"][$semester
-							][$i]->lecture.'"></input>
-						</td>
-						<td>
-							<input disabled type = "text" name = "subjectT_'.$semester.'_'.$i.'" vlaue = "'.$subjects["subject_details"][$semester
-							][$i]->tutorial.'"></input>
-						</td>
-						<td>
-							<input disabled type = "text" name = "subjectP_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"][$semester
-							][$i]->practical.'"></input>
-						</td>
-						<td>
-							<input disabled type = "text" name = "subjectcredithours_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"][
-							$semester][$i]->credit_hours.'"></input>
-						</td>
-						<td>
-							<input disabled type = "text" name = "subjectcontacthours_'.$semester.'_'.$i.'" value = "'.$subjects["subject_details"
-							][$semester][$i]->contact_hours.'"></input>
-						</td>
-						<td>';
-						 
-							  if($subjects["subject_details"][$semester][$i]->elective==0) 
-								 echo "No";
-							  else 
-								echo "Yes";
-					echo '
-						</td>
-						<td>';
-						  if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
-						  if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
-						  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
-						  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
-					echo '
-						</td>	
-						<td>
-								<input id = "editbutton_'.$semester.'_'.$i.'" type = "button" name = "editbutton()" value = "Edit" style = "width:50px;" onclick = 
-								EditSubject("'.$semester.'","'.$i.'")></input>
-						</td>		
-					</tr>';
+								</td>
+								<td>';
+								  if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
+								  if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
+								  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
+								  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
+							echo '
+								</td>	
+								<td>
+										<input id = "editbutton_'.$semester.'_'.$i.'" type = "button" name = "editbutton()" value = "Edit" style = "width:50px;" onclick = 
+										EditSubject("'.$semester.'","'.$i.'")></input>
+								</td>		
+							</tr>';
+					}
 				}//else closed
            }//inner for loop 
 		   $aggr_id = $CS_session['aggr_id'];

@@ -10,27 +10,28 @@ class View extends MY_Controller
 		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/add.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($userid= '')
 	{
 		$data = array();
-		if($userid != '')
-		{	
+		
+		//if($userid != '')
+		//{	
 			$dept = $this->basic_model->Select_Department_By_User_ID($userid);
 			$dept_id = $dept[0]->dept_id;
+			$data['result_dept'] = $this->basic_model->get_depts();
+			//$data["result_course"] = $this->basic_model->get_course_offered_by_dept($dept_id);
+			//$data["result_branch"] = $this->basic_model->get_branch_offered_by_dept($dept_id);
 			
-			$data["result_course"] = $this->basic_model->get_course_offered_by_dept($dept_id);
-			$data["result_branch"] = $this->basic_model->get_branch_offered_by_dept($dept_id);
+		//}
+		//else
+		//{
 			
-		}
-		else
-		{
-			$data["result_course"] = $this->basic_model->get_course();
-			$data["result_branch"] = $this->basic_model->get_branches();
-		}
+			//$data["result_course"] = $this->basic_model->get_course();
+			//$data["result_branch"] = $this->basic_model->get_branches();
+		//}
 		$this->drawHeader();
 		$this->load->view('course_structure/View/view_home',$data);
 		$this->drawFooter();
@@ -38,20 +39,22 @@ class View extends MY_Controller
 	
 	public function ViewCourseStructure()
 	{
-		//$this->load->model('course_structure/view_model','',TRUE);
 		
 		$data = array();
+		$data["CS_session"]['dept_id'] = $this->input->post("dept");
 		$data["CS_session"]['course_id'] = $this->input->post("course");
 		$data["CS_session"]['branch_id'] = $this->input->post("branch");
 		$data["CS_session"]['semester'] = $this->input->post("sem");
 		$data["CS_session"]['session'] = $this->input->post("session");
 		
+		$dept_id = $data["CS_session"]['dept_id'];
 		$course_id = $data["CS_session"]['course_id'];
 		$branch_id = $data["CS_session"]['branch_id'];
 		$semester = $data["CS_session"]['semester'];
 		$session = $data["CS_session"]['session'];
 		
 		$aggr_id = $course_id.'_'.$branch_id.'_'.$session;
+		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
 		$row_course = $this->basic_model->get_course_details_by_id($course_id);

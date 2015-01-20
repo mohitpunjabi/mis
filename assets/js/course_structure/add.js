@@ -9,17 +9,21 @@ $(document).ready(function(){
 	$duration = 1;
 
 	function add_branch(){
-		$.ajax({url: site_url("course_structure/add/json_get_branch"),
+		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()),
 			success:function(data){
 				base_str = "<tr class=\"branch_selection\"><td><label for=\"branch\">Branch</label></td><td><select id=\"branch\" name=\"branch\">";
 				for($d=0 ; $d < data.length;$d++){
-					//console.log(data[$d]);
 					base_str += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
 				base_str += "</select></td></tr>";
 				$form_table.append(base_str);
+				$select_branch = $('select#branch');
+				$select_branch.on('change',function(){
+					add_session($course_selection.find(':selected').val(),$select_branch.find(':selected').val());
+				});
 			},
-			type:"GET",
+			type:"POST",
+			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
 			dataType:"json",
 			fail:function(error){
 				console.log(error);
@@ -27,16 +31,28 @@ $(document).ready(function(){
 		});
 	}
 
-	function add_session(){
-		base_str = "<tr class=\"session_selection\"><td> <label for=\"session\">Session</label></td><td><select id=\"session\" name=\"session\">";
-		//console.log((new Date).getYear()); 
-		//For now i don't remeber the exact function to get the current year
-		// so using counter 20
-		for(counter = 10; counter <=20 ; counter++){
-			base_str += "<option value=\""+counter+''+(parseInt(counter)+1)+"\">20"+counter+" - 20"+(parseInt(counter)+1)+"</option>";
-		}
-		base_str +="</select></td></tr>";
-		$form_table.append(base_str);
+	function add_session($course,$branch){
+		$.ajax({url:site_url("course_structure/add/json_get_session/"+$course+"/"+$branch),
+			success:function(data){
+				//console.log(data);
+				base_str = "<tr class=\"session_selection\"><td> <label for=\"session\">Session</label></td><td><select id=\"session\" name=\"session\">";
+				for(counter = 0; counter <data.length ; counter++){
+					first = parseInt(parseInt(data[counter].year)/100);
+					second = parseInt(data[counter].year) - first*100;
+					//console.log(first,second);
+					base_str += "<option value=\""+data[counter].year+"\">20"+first+" - 20"+second+"</option>";
+				}
+				base_str +="</select></td></tr>";
+				$form_table.append(base_str);
+				add_semester(parseInt($course_selection.find(':selected').data('duration')));
+			},
+			type:"POST",
+			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
+			dataType:"json",
+			fail:function(error){
+				console.log(error);
+			}
+		});
 	}
 
 	function add_semester(duration){
@@ -73,24 +89,10 @@ $(document).ready(function(){
 	}
 
 	$course_selection.change(function(){
-
-		$duration = $course_selection.find(":selected").data('duration');
-		if(parseInt($duration) > 1){
-			//If the value duration is less than 2 then load the branch selection
-			$(".branch_selection").remove();
-			$(".session_selection").remove();
-			$(".semester_selection").remove();
-			add_branch();
-			add_session();
-			add_semester(parseInt($duration));
-		}
-		else{
-			$(".branch_selection").remove();
-			$(".session_selection").remove();
-			$(".semester_selection").remove();
-			add_session();
-			add_semester(parseInt($duration));
-		}
+		$(".branch_selection").remove();
+		$(".session_selection").remove();
+		$(".semester_selection").remove();
+		add_branch();		
 	});
 
 });

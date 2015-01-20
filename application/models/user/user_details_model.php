@@ -38,13 +38,12 @@ class User_details_model extends CI_Model
 			return FALSE;
 		else
 		{
-			$query=$this->db->select('users.id, salutation, first_name, last_name, dept_id')
+			$query=$this->db->select('users.id, salutation, first_name, middle_name, last_name, dept_id')
 								->from('user_details')
 								->join('users','users.id = user_details.id')
 								->where('dept_id',$dept)
 								->where('auth_id','emp')
 								->get();
-			if($query->num_rows() == 0)	return FALSE;
 			return $query->result();
 		}
 	}

@@ -109,6 +109,27 @@ class Emp_ajax extends CI_Controller
 			$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "employee/validation/validate_step/".$emp_id);
 		}
 	}
+
+	public function getEmpByCategory($category)
+	{
+		$this->load->model('user_model','',TRUE);
+		$data['emp']=$this->user_model->getEmpByCategory($category);
+		$this->load->view('employee/emp_ajax/queries/query_view',$data);
+	}
+
+	public function getEmpByDepartment($dept_id)
+	{
+		$this->load->model('user/user_details_model','',TRUE);
+		$data['emp']=$this->user_details_model->getEmpNamesByDept($dept_id);
+		$this->load->view('employee/emp_ajax/queries/query_view',$data);
+	}
+
+	public function getEmpByDesignation($des_id)
+	{
+		$this->load->model('employee_model','',TRUE);
+		$data['emp']=$this->employee_model->getEmpByDesignation($des_id);
+		$this->load->view('employee/emp_ajax/queries/query_view',$data);
+	}
 }
 
 /* End of file Emp_ajax.php */

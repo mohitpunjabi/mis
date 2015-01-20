@@ -12,16 +12,41 @@ class Send_new_file_ajax extends CI_Controller
 		// Will never be used
 	}
 
-	public function get_dept()
+	public function get_dept($type)
 	{
-		$this->load->model('departments_model','',TRUE);
-		$data['dept'] = $this->departments_model->get_departments ();
-		$this->load->view('file_tracking/send_new_file/send_new_file_ajax',$data);
+		$this->load->model('departments_model');
+		$result = $this->departments_model->get_departments ($type);
+		$data['result'] = $result;
+		$this->load->view('file_tracking/send_new_file/send_new_file_department_name',$data);
 	}
-	public function get_faculty_name_by_department_id($dept_id)
+	public function get_designation ($dept)
 	{
 		$this->load->model('file_tracking/file_details');
-		$data['faculty'] = $this->file_details->get_faculty_by_department_id($dept_id);
-		$this->load->view('file_tracking/send_new_file/send_new_file_faculty_name',$data);
+		$result = $this->file_details->get_designation_by_department_id ($dept);
+		$data['result'] = $result;
+		$this->load->view('file_tracking/send_new_file/send_new_file_designation',$data);
+	}
+	public function get_emp_name ($designation, $dept_id)
+	{
+		$this->load->model('file_tracking/file_details');
+		$result = $this->file_details->get_emp_name ($designation, $dept_id);
+
+		$this->load->model('user_model');
+		
+		$data_array = array();
+		$sno = 1;
+		if ($result)
+		{
+			foreach ($result as $row)
+			{			
+				$data_array[$sno][1] = $row->id;
+				$data_array[$sno++][2] = $this->user_model->getNameById($row->id);
+			}
+		}
+		$total_rows = ($sno-1);		
+		$data['data_array'] = $data_array;
+		$data['total_rows'] = $total_rows;
+
+		$this->load->view('file_tracking/send_new_file/send_new_file_faculty_name',$data);		
 	}
 }

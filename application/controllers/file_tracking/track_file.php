@@ -72,7 +72,10 @@ class Track_file extends MY_Controller
 				$data_array[$sno][$j++] = $this->user_model->getNameById($row->sent_by_emp_id);
 				$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->sent_timestamp));
 				$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
-				$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->rcvd_timestamp));
+				if ($row->rcvd_timestamp)
+					$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->rcvd_timestamp));
+				else 
+					$data_array[$sno][$j++] = ($row->rcvd_timestamp);
 				$data_array[$sno][$j++] = $row->forward_status;
 				$data_array[$sno][$j++] = urldecode($row->remarks);
 				$sno++;

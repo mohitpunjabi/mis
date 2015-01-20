@@ -80,11 +80,19 @@ class Users_model extends CI_Model
 											'auth'=>array()));
 		if($data)
 		{
+			$last_login = $this->db->query("SELECT min(t.time) as lastLogin
+                                           FROM (SELECT `time`
+                                                     FROM user_login_attempts
+                                                     WHERE id = '$user_id'
+                                                     ORDER BY `time` DESC
+                                                     LIMIT 2 ) as t")->row()->lastLogin;
+
 			$this->session->set_userdata( array('name'		=>ucwords($data->salutation.' '.
 																	  $data->first_name.
 																	  (($data->middle_name != '')? ' '.$data->middle_name: '').
 																	  (($data->last_name != '')? ' '.$data->last_name: '')),
 												'sex'		=> $data->sex,
+ 												'last_login'  => $last_login,
 												'category'	=> $data->category,
 												'dob' 		=> $data->dob,
 												'email'		=> $data->email,

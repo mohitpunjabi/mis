@@ -54,8 +54,19 @@
 		<td> 
 			<input type="button" value="Send File" onClick="display_send_notification2()">
 		</td>
-		<td></td>
 	</tr>
+</table>
+<h2 align="center">OR</h2>
+<table align="center" nozebra>
+	<tr>
+		<td>Remarks: </td>
+		<td> 
+			<textarea name="remarks2" id="remarks2"></textarea>
+		</td>
+		<td> 
+			<input type="button" value="Send File Back" onClick="display_send_notification4(<?php echo $file_id; ?>,<?php echo $sent_by_emp_id ?>)">
+		</td>
+	</tr>	
 </table>
 </div>
 <div id="send_notification"></div>

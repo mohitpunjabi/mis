@@ -6,7 +6,7 @@ class Edit extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
-		$this->addJS("course_structure/edit.js");
+		$this->addJS("course_structure/edit_subject_details.js");
 		$this->addJS("course_structure/edit_view_cs.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
@@ -86,7 +86,7 @@ class Edit extends MY_Controller
 		  $data["subjects"]["count"][$counter]=$i-1;
 		}	
 		$this->session->set_userdata($data);
-		$this->addJS("course_structure/edit.js");
+		$this->addJS("course_structure/edit_view_cs.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		$this->drawHeader("Course structure");  
 		$this->load->view('course_structure/edit/edit',$data);

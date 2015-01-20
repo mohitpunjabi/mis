@@ -5,9 +5,49 @@ $(document).ready(function(){
 
 	$add_course_form = $("#add_course_form");
 	$form_table = $("#form_table");
+	$dept_selection = $('#dept_selection');
+	
 	$course_selection = $('#course_selection');
 	$duration = 1;
-
+	
+	function add_course(){
+		//$(".course_selection").remove();
+		//$(".branch_selection").remove();
+		//$(".session_selection").remove();
+		//$(".semester_selection").remove();
+		
+		
+		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
+			success:function(data){
+				alert("hii");
+				//base_str = "<tr class=\"course_selection\"><td><label for=\"course\">Courses</label></td><td><select id=\"course\" name=\"Course\"><option>Select Course</option>";
+				//for($d=0 ; $d < data.length;$d++){
+					//base_str += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
+				//}
+				//base_str += "</select></td></tr>";
+				//$form_table.append(base_str);
+				//$select_dept = $('select#dept_selection');
+				$select_dept.on('change',function(){
+					alert($('select#dept_selection').val());
+					alert("hii123");
+					//$(".session_selection").remove();
+					//$(".semester_selection").remove();
+					//add_course($dept_selection.find(':selected').val(),$select_course.find(':selected').val());
+				});
+			},
+			type:"POST",
+			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
+			dataType:"json",
+			fail:function(error){
+				
+				console.log(error);
+			}
+		});
+		alert("fail");
+	}
+	
+	/*
+	
 	function add_branch(){
 		$(".branch_selection").remove();
 		$(".session_selection").remove();
@@ -99,5 +139,5 @@ $(document).ready(function(){
 		$(".semester_selection").remove();
 		add_branch();
 	});
-
+*/
 });

@@ -31,13 +31,14 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	//adfadfaf
 	function select_map_dept_with_aggr_id($dept_id,$aggr_id)
 	{
 		$query = $this->db->get_where($this->table_dept_course,array('dept_id'=>$dept_id,'aggr_id'=>$aggr_id));
 		return $query->num_rows();	
 	}
 	
-	function insert_map_dept_with_aggr_id($dept_course)
+	function insert_dept_course($dept_course)
 	{
 		$query = $this->db->insert($this->table_dept_course,$dept_course);
 		return true;
@@ -48,6 +49,7 @@ class Basic_model extends CI_Model
 		$query = $this->db->get($this->table_course);
 		return $query->result();
 	}
+	
 	function get_course_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_course,array('id'=>$id));
@@ -56,9 +58,9 @@ class Basic_model extends CI_Model
 	
 	function get_course_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT id,name,duration,course_branch.course_id,course_branch.branch_id,course_branch.year,course_branch.aggr_id FROM courses
-		INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
-		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
+		$query = $this->db->query("SELECT DISTINCT id,name,duration FROM 
+		courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}
 	
@@ -97,7 +99,8 @@ class Basic_model extends CI_Model
 	function get_branch_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_branch,array('id'=>$id));
-		return $query->result();
+		if($query->num_rows()>0)
+			return $query->result();
 	}
 	
 	function get_branch_offered_by_dept($dept_id)
@@ -113,9 +116,9 @@ class Basic_model extends CI_Model
       	return true;
 	}
 	
-	function select_course_branch($aggr_id)
+	function select_course_branch($course_id,$branch_id)
 	{
-    	$query = $this->db->get_where($this->table_course_branch, array('aggr_id'=>$aggr_id));
+    	$query = $this->db->get_where($this->table_course_branch, array('course_id'=>$course_id,'branch_id'=>$branch_id));
 		if($query->num_rows() >= 1)
 			return true;
 		else

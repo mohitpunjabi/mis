@@ -8,21 +8,22 @@
     echo form_open('course_structure/add/EnterNumberOfSubjects',$form_attrinutes);
   ?>
   <table id = "form_table">
-    <tr>
+   	<tr>
       <td>
-      <label for="course_name">Name of Course  </label>
+      <label for="dept_name">Department  </label>
       </td>
       <td>
-        <select name="course" id="course_selection">
-          <option value="0">Select Course</option>
+        <select name="dept" id="dept_selection">
+          <option value="0">Select Department</option>
           <?php 
-            foreach ($result_course as $row) {
-              echo "<option value='".$row->id."' data-duration='".$row->duration."' >".$row->name."</option>"; 
+            foreach ($result_dept as $row) {
+              echo "<option value='".$row->id."' >".$row->name."</option>"; 
             }
           ?>
         </select>
       </td>
     </tr>
+    
     
     </table>
     <?php

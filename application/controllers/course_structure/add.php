@@ -16,6 +16,7 @@ class Add extends MY_Controller
 	{
 		$this->addJS("course_structure/add_course_structure.js");
 		$data = array();
+		$data["result_dept"] = $this->basic_model->get_depts();
 		$data["result_course"] = $this->basic_model->get_course();
 		$data["result_branch"] = $this->basic_model->get_branches();
 
@@ -33,7 +34,7 @@ class Add extends MY_Controller
 		$sem=$this->input->post('sem');
 		$aggr_id= $course.'_'.$branch.'_'.$session;
 		
-		if(!$this->basic_model->select_course_branch($aggr_id))
+		if(!$this->basic_model->select_course_branch_by_course($aggr_id))
 		{
 			$this->session->set_flashdata("flashError","Invalid Course branch and year combination.");
 			redirect("course_structure/add");
@@ -254,6 +255,16 @@ class Add extends MY_Controller
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
+  
+  	public function json_get_course($dept='')
+	{
+		if($dept != ''){
+			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_course_offered_by_dept($dept)));
+		}
+	}
+
 	public function json_get_branch($course='')
 	{
 		if($course != ''){

@@ -28,7 +28,7 @@ if(isset($firstLink))
 				<td align="center">'.date_format( date_create($minute->date_of_meeting),'d M Y').'</td>
 				<td align="center">'.$minute->place_of_meeting.'</td>
 				<td align="center">'.$minute->salutation.' '.$minute->first_name.' '.$minute->middle_name.' '.$minute->last_name.'</br>('.$minute->auth_name.')</td>
-				<td align="center">'.date_format( date_create($minute->posted_on),'d M Y g:i a').'</td>
+				<td align="center">'.date('d M Y g:i a',strtotime($minute->posted_on)+19800).'</td>
 			
 				<td align="center">';
 					if ($minute->modification_value == 0 ) echo 'Original'; else echo '<font color="red">Revised '.$minute->modification_value.'</font>';

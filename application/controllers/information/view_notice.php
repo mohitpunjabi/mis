@@ -30,8 +30,8 @@ class View_notice extends MY_Controller
 		{
 			$data['firstLink']  = 'List of Archived Notices';
 			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_notice/index/current">List of Current Notices</a>';
-			$this->load->model('information/viewNotice_model','',TRUE);
-			$data['notices'] = $this->viewNotice_model->get_notices();
+			$this->load->model('information/viewnotice_model','',TRUE);
+			$data['notices'] = $this->viewnotice_model->get_notices();
 			
 			if(count($data['notices']) == 0)
 			{
@@ -54,8 +54,8 @@ class View_notice extends MY_Controller
 			redirect('home');
 		}		
 		
-		$this->load->model('information/viewPrevNotice_model','',TRUE);
-		$data['notices'] = $this->viewPrevNotice_model->get_notices($notice_id);
+		$this->load->model('information/viewprevnotice_model','',TRUE);
+		$data['notices'] = $this->viewprevnotice_model->get_notices($notice_id);
 
 		if(count($data['notices']) == 0)
 		{

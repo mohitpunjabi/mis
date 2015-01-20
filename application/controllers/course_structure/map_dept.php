@@ -14,6 +14,7 @@ class Map_dept extends MY_Controller
 	public function index($error='')
 	{
 		$data=array();
+		$this->addJS("course_structure/map_course_department.js");
 		$data['result_course'] = $this->basic_model->get_course();
 		$data['result_branch'] = $this->basic_model->get_branches();
 		$data['result_dept'] = $this->basic_model->get_depts();

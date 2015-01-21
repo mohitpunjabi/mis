@@ -5,8 +5,8 @@ class Home extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
-		parent::__construct();
-
+		parent::__construct(array('hod'));
+		
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");

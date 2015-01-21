@@ -139,9 +139,9 @@
             <img src="<?= base_url()."assets/images/".$notice->photopath; ?>" />
         </div>
         <div class="sender">
-            <p class="sender-designation"><?= ucwords($notice->designation) ?>, <?= $notice->department ?></p>
+            <p class="sender-designation"><?= ucwords($notice->auth_name) ?>, <?= $notice->department ?></p>
             <p class="sender-name"><?= $notice->salutation ?> <?= $notice->first_name ?> <?= $notice->middle_name ?> <?= $notice->last_name ?></p>
-            <p class="notice-date"><?= date_format(new DateTime($notice->posted_on), "d M Y") ?></p>
+            <p class="notice-date"><?= date_format(new DateTime($notice->posted_on), "d M Y h:m:s") ?></p>
         </div>
     </div>
     
@@ -158,7 +158,8 @@
 </div>
 
 
-<?php } ?>
+<?php } 
+?>
 
 <script type="text/javascript">
 $(document).ready(function() {

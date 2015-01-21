@@ -38,8 +38,6 @@ class Emp_basic_details_model extends CI_Model
 		$query = $this->db->select('id')->order_by('id')->get($this->table);
 		if($query->num_rows() > 0)
 			return $query->result();
-		else
-			return FALSE;
 	}
 }
 

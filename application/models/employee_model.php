@@ -53,6 +53,15 @@ class Employee_model extends User_Model
 		return $this->emp_last5yrstay_details_model->getEmpStayById($id);
 	}
 
+	function getEmpByDesignation($des_id = '')
+	{
+		$query = $this->db->select('user_details.id, salutation, first_name, middle_name, last_name')
+								->from('emp_basic_details')
+								->join('user_details','emp_basic_details.id = user_details.id')
+								->where('designation',$des_id)
+								->get();
+		return $query->result();
+	}
 }
 
 /* End of file employee_model.php */

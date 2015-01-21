@@ -7,67 +7,65 @@ class View_notice extends MY_Controller
 		parent::__construct();
 	}
 
-	public function index($error='')
-	{
-		$data['error']=$error;
-		
-		$this->load->model('information/view_notice_model','',TRUE);
-		
-		//title for the page
-		//$header['title']='Search Removed Notice';
-		//$this->load->view('templates/header',$header);
-		
-		if ($this->input->post('go') == FALSE && $this->input->post('get_details') == TRUE)
+	public function index($link='')
+	{	
+		if($link=='' || $link== 'current')
 		{
-			//$header['title']='View Notice';
-			$this->drawHeader("View Notice");
-			$data['id'] = $this->view_notice_model->get_notice_ids();
+			$data['firstLink']  = 'List of Current Notices';
+			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_notice/index/archieved">List of Archived Notices</a>';
+			$this->load->model('information/view_notice_model','',TRUE);
+			$data['notices'] = $this->view_notice_model->get_notices();
 			
-			$data['selected']  = $this->input->post('notice_id');
-			
-			$this->load->view('information/view_noticeV',$data);
-			
-			$data['notice_row'] = $this->view_notice_model->get_notice_row($data['selected']);
-			//var_dump($data);
-			$data['prev_ver'] = $this->view_notice_model->get_prev_versions($data['selected']);
-			$data['selected_ver'] = $this->input->post('pre_ver');
-			
-			$this->load->view('information/view_noticeR',$data);
-			$this->load->view('information/click_for_prev_version_notice',$data);
-			
-			$data['notice_row'] = $this->view_notice_model->get_notice_row2($data['selected'],$data['selected_ver']);
-			$this->load->view('information/view_noticeR',$data);
-		}
-		else if ($this->input->post('go') == FALSE)
-		{
-			//$header['title']='View Notice';
-			$this->drawHeader("View Notice");
-			$data['id'] = $this->view_notice_model->get_notice_ids();
-			
-			if($data['id'] == NULL)
+			if(count($data['notices']) == 0)
 			{
-				$this->session->set_flashdata('flashError','There is no any notice.');
-				redirect('information/view');
-			
+				$this->session->set_flashdata('flashError','There is no any notice to view.');
+				redirect('home');
 			}
-			$this->load->view('information/view_noticeV',$data);
+				
+			$this->drawHeader('View Notice');
+			$this->load->view('information/viewNotice',$data);
+			$this->drawFooter();
 		}
-		else 
+		else if ($link =='archieved')
 		{
-			//$header['title'] = 'View Notice';
-			$this->drawHeader("View Notice");
+			$data['firstLink']  = 'List of Archived Notices';
+			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_notice/index/current">List of Current Notices</a>';
+			$this->load->model('information/viewnotice_model','',TRUE);
+			$data['notices'] = $this->viewnotice_model->get_notices();
 			
-			$data['id'] = $this->view_notice_model->get_notice_ids();
-			$data['selected']  = $this->input->post('notice_id');
-			
-			$this->load->view('information/view_noticeV',$data);
-			
-			$data['notice_row'] = $this->view_notice_model->get_notice_row($data['selected']);
-			//var_dump($data);
-			$data['prev_ver'] = $this->view_notice_model->get_prev_versions($data['selected']);
-			$this->load->view('information/view_noticeR',$data);
-			$this->load->view('information/click_for_prev_version_notice',$data);
+			if(count($data['notices']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no any notice to view.');
+				redirect('home');
+			}
+				
+			$this->drawHeader('View Notice');
+			$this->load->view('information/viewNotice',$data);
+			$this->drawFooter();
 		}
+
+	}
+	
+	public function prev($notice_id='')
+	{
+		if($notice_id=='')
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}		
+		
+		$this->load->model('information/viewprevnotice_model','',TRUE);
+		$data['notices'] = $this->viewprevnotice_model->get_notices($notice_id);
+
+		if(count($data['notices']) == 0)
+		{
+			$this->session->set_flashdata('flashError','There is no any notice to view.');
+			redirect('home');
+		}
+	
+		$data['prevnotice'] = $notice_id;
+		$this->drawHeader('View Notice');
+		$this->load->view('information/viewNotice',$data);
 		$this->drawFooter();
 	}
 	

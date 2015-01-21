@@ -6,6 +6,7 @@ class Receive_file extends MY_Controller
 	{
 		parent::__construct(array('emp','deo'));
 		$this->addJS ("file_tracking/file_tracking_script.js");
+		$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 	public function index()
 	{

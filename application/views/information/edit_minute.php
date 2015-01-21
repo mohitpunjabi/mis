@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/edit_minute');   ?>
+	<?php  echo form_open_multipart('information/edit_minute/edit/'.$minute_row->minutes_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -16,7 +15,7 @@
 				$data = array(
 						'name'=>'minutes_ids',
 						'required'=>'required',
-						'value'=>$minutes_id,
+						'value'=>$minute_row->minutes_id,
 						'disabled'=>'disabled'
 						);
 				echo form_input($data);
@@ -25,7 +24,7 @@
 				
 				
 				//hidden field because disabled input has 0 value only
-				echo form_hidden('minutes_id',$minutes_id);
+				echo form_hidden('minutes_id',$minute_row->minutes_id);
 				
 				?>
 			</td>
@@ -39,7 +38,8 @@
 					$minutesno = array(
 								'name'=>'minutes_no',
 								'required'=>'required',
-								'value'=>$minutes_no
+								'value'=>$minute_row->minutes_no,
+								'placeholder'=>'Enter Minutes Number'
 								);
 					echo form_input($minutesno);
 					/*
@@ -47,6 +47,7 @@
 						echo <input type="text" name ="minutes_no" required="required"/>
 					*/
 				?>
+				(Ex: EEE_MIN34501)
 			</td>
 		</tr>
 		
@@ -74,7 +75,7 @@
 								"
 						';			
 
-				echo form_dropdown('meeting_type',$categories,$meeting_type,$js);
+				echo form_dropdown('meeting_type',$categories,$minute_row->meeting_type,$js);
 				/*will produce
 				echo '<select name="meeting_type">
 						<option value="Dean\'s Meeting">Dean\'s Meeting</option>
@@ -100,7 +101,7 @@
 							  'stu'=>'Student',
 							  'all'=>'All'
 							   );
-				echo form_dropdown('meeting_cat',$categories,$meeting_cat);
+				echo form_dropdown('meeting_cat',$categories,$minute_row->meeting_cat);
 				/*will produce
 				echo '<select name="meeting_cat">
 						<option value="emp">Employee</option>
@@ -117,7 +118,7 @@
 			</td>
 			<td width="30%">
 				<?php
-				echo '<a href="'.base_url().'assets/files/information/minute/'.$minutes_path.'" title="download file">'.$minutes_path.'</a>';
+				echo '<a href="'.base_url().'assets/files/information/minute/'.$minute_row->minutes_path.'" title="download file">'.$minute_row->minutes_path.'</a>';
 				$js = 'onclick="javascript:document.getElementById(\'filebox\').style.visibility=\'visible\';
 										   document.getElementById(\'minutes_path\').required = true;
 								"';
@@ -138,6 +139,8 @@
 					*/
 					?>
 					</span>
+					<br>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)				
 			</td>
 		</tr>
 		<tr>
@@ -145,7 +148,8 @@
 				Date of Meeting<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="date" name="date_of_meeting" max = "<?php echo date("Y-m-d"); ?>" value = "<?php echo $date_of_meeting;?>"/> 
+				<input type="date" name="date_of_meeting" max = "<?php echo date("Y-m-d"); ?>" value = "<?php echo $minute_row->date_of_meeting;?>"/> 
+			(at max today's date)
 			</td>
 		</tr>
 		<tr>
@@ -153,7 +157,7 @@
 				Place of Meeting<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="text" name="place_of_meeting" required="required" value="<?php echo $place_of_meeting;?>"/> 
+				<input type="text" name="place_of_meeting" required="required" value="<?php echo $minute_row->place_of_meeting;?>" placeholder="CSE Department"/> 
 			</td>
 		</tr>
 		<tr>
@@ -161,11 +165,12 @@
 				Valid Upto<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="date" name="valid_upto" min="<?php echo date("Y-m-d");?>" value = "<?php echo $valid_upto;?>"/> 
+				<input type="date" name="valid_upto" min="<?php echo date("Y-m-d");?>" value = "<?php echo $minute_row->valid_upto;?>"/> 
+			(at least today's date)
 			</td>
 		</tr>
 	 </table> 
     <?php 
-	echo form_hidden('modification_value',$modification_value);
+	echo form_hidden('modification_value',$minute_row->modification_value);
 	echo form_submit('savesubmit','Save');
 	echo form_close(); ?>

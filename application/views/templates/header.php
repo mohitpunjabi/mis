@@ -36,13 +36,13 @@
         	<a href="<?= site_url('home') ?>"><?= $this->session->userdata('name') ?></a>
         </div>
 		<div class="-mis-right-options">
-			<img src="<?= base_url()."/assets/images/".$this->session->userdata('photopath') ?>" class="small-profile-thumb" />
+			<img src="<?= base_url()."assets/images/".$this->session->userdata('photopath') ?>" class="small-profile-thumb" />
         </div>
     </div>
 
 	<div class="-mis-navbar">
     	<div class="-mis-profile-photo">
-			<img src="<?= base_url()."/assets/images/".$this->session->userdata('photopath'); ?>" />
+			<img src="<?= base_url()."assets/images/".$this->session->userdata('photopath'); ?>" />
     		<div class="-mis-profile-details">
 
             <h2><?= $this->session->userdata('name') ?></h2>
@@ -73,9 +73,13 @@
 		}
 
 		if(isset($menu)) {
+			$dateTimeZone = new DateTimeZone('Asia/Kolkata');
+
 			foreach($menu as $key => $val) {
 				$unreadCount = 0;
 				$readCount = 0;
+				
+				if(count($val) == 0) continue;
 				
 				if(isset($notifications[$key]["unread"])) $unreadCount = count($notifications[$key]["unread"]);
 				if(isset($notifications[$key]["read"])) $readCount = count($notifications[$key]["read"]);
@@ -83,8 +87,8 @@
 				echo '<div class="-mis-menu-authtype collapsed">
 						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
 
-				if($unreadCount > 0) echo '<span class="counter active">'.$unreadCount.'</span>';
-				else 				 echo '<span class="counter">'.$unreadCount.'</span>';
+				if($unreadCount > 0) echo '<span class="-mis-counter active">'.$unreadCount.'</span>';
+				else 				 echo '<span class="-mis-counter">'.$unreadCount.'</span>';
 
 				echo '<div class="notification-drawer">';
 
@@ -92,7 +96,13 @@
 				if($unreadCount > 0) {
 					echo '<h3>Unread Notifications &raquo;</h3>';
 					foreach($notifications[$key]["unread"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), base_url().'assets/images/'.$row->photopath);
+					
+					$dateTime = new DateTime();
+					$dateTime->setTimestamp(strtotime($row->send_date));
+					$dateTime->setTimeZone($dateTimeZone);
+					
+					
+					$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, $dateTime->format('m/d/Y H:i A'), base_url().'assets/images/'.$row->photopath);
 					}
 				}
 				echo '</div>';
@@ -102,7 +112,11 @@
 				if($readCount > 0) {
 					echo '<h3>Old Notifications &raquo;</h3>';
 					foreach($notifications[$key]["read"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), base_url().'assets/images/'.$row->photopath);
+						$dateTime = new DateTime();
+						$dateTime->setTimestamp(strtotime($row->send_date));
+						$dateTime->setTimeZone($dateTimeZone);
+
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, $dateTime->format('m/d/Y H:i A'), base_url().'assets/images/'.$row->photopath);
 					}
 				}
 				echo '</div>';

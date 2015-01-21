@@ -24,7 +24,7 @@ $(document).ready(function() {
 		$(this).parent().toggleClass("collapsed");
 	});
 
-	$(".counter.active").css({
+	$(".-mis-counter.active").css({
 		opacity: "0",
 	})
 	.animate({
@@ -70,7 +70,7 @@ $(document).ready(function() {
 	loadMoreNotifications();
 */	
 
-	$(".-mis-menu-authtype > .counter").click(function(e) {
+	$(".-mis-menu-authtype > .-mis-counter").click(function(e) {
 		$(".notification-drawer").hide();
 		$(this).parent().find(".notification-drawer").fadeIn("fast");
 		e.stopImmediatePropagation();

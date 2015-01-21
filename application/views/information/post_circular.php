@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/post_circular');   ?>
+	<?php  echo form_open_multipart('information/post_circular/index/'.$auth_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -57,15 +56,17 @@
 				$circularno = array(
 							  'name'=> 'circular_no',
 							  'id'=> 'circular_no',
-							  'required'=>'required'
+							  'required'=>'required',
+							  'placeholder'=>'Enter Circular Number'
 							  );
 				echo form_input($circularno);
 			?>
+			(Ex: MIN_CIR29292)
 			</td>
 		</tr>
 		<tr>
 			<td width='20%'>
-    			Circular Category<span style= "color:red;"> *</span>
+    			Viewed By<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
 			<?php
@@ -95,7 +96,8 @@
 								'name'=>'circular_sub',
 								'rows'=>'3',
 								'cols'=>'80',
-								'required'=>'required'
+								'required'=>'required',
+								'placeholder'=>'Enter the Circular Subject in not more than 200 characters'
 								);
 					echo form_textarea($subject);
 					/*
@@ -121,6 +123,7 @@
 						echo <input type="file" name="circular_path"/>
 					*/
 				?>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
 			</td>
 		</tr>
 		<tr>
@@ -141,6 +144,7 @@
 						echo <input type="date" name="valid_upto" min="date("Y-m-d") value="date("Y-m-d")"/>
 					*/
 				?>
+				(atleast today's date)
 			</td>
 		</tr>
 	 </table> 

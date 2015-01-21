@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/post_minute');   ?>
+	<?php  echo form_open_multipart('information/post_minute/index/'.$auth_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -11,7 +10,7 @@
 			<td width='20%'>
     			Minutes ID<span style= "color:red;"> *</span>
             </td>
-			<td width='28%'>
+			<td width='58%'>
 	        	<?php 
 				if($id->minutes_id == NULL)
 				{
@@ -57,10 +56,12 @@
 				$minutesno = array(
 							  'name'=> 'minutes_no',
 							  'id'=> 'minutes_no',
-							  'required'=>'required'
+							  'required'=>'required',
+							  'placeholder'=>'Enter Minutes Number'
 							  );
 				echo form_input($minutesno);
 			?>
+			(Ex: EEE_MIN34501)
 			</td>
 		</tr>
 		<tr>
@@ -104,7 +105,7 @@
 		</tr>
 		<tr>
 			<td width='20%'>
-    			Meeting Category<span style= "color:red;"> *</span>
+    			Viewed By<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
 			<?php
@@ -140,6 +141,7 @@
 						echo <input type="file" name="minutes_path"/>
 					*/
 				?>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)				
 			</td>
 		</tr>
 		<tr>
@@ -148,6 +150,7 @@
 			</td>
 			<td width="30%">
 				<input type="date" name="date_of_meeting" max="<?php echo date("Y-m-d");?>" value = "<?php echo date("Y-m-d");?>"/> 
+			(at max today's date)
 			</td>
 		</tr>
 		<tr>
@@ -155,7 +158,7 @@
 				Place of Meeting<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="text" name="place_of_meeting" required="required"/> 
+				<input type="text" name="place_of_meeting" required="required" placeholder="CSE Department"/> 
 			</td>
 		</tr>
 		<tr>
@@ -176,6 +179,7 @@
 						echo <input type="date" name="valid_upto" min="date("Y-m-d") value="date("Y-m-d")"/>
 					*/
 				?>
+			(at least today's date)
 			</td>
 		</tr>
 	 </table> 

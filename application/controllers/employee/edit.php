@@ -58,7 +58,7 @@ class Edit extends MY_Controller
 		if(!$this->authorization->is_auth('deo'))
 		{
 			$this->session->set_flashdata('flashError','You are not authorized.');
-			redirect('employee/menu');
+			redirect('home');
 			return;
 		}
 
@@ -301,7 +301,7 @@ class Edit extends MY_Controller
 		//transaction completed
 
 		$this->session->set_flashdata('flashSuccess','Your basic details have been updated.');
-		redirect('employee/menu');
+		redirect('home');
 	}
 
 	private function _edit_prev_emp_details($emp_id)

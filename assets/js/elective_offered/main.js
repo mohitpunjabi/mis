@@ -1,18 +1,15 @@
-$(document).ready(function(){
+$(document).ready(function()
+{
 	$course = $("#course");
 	$form_table = $("#form_table");
+	
 	$course.on('change',function(){
-		//alert("hii");
+		//alert($course.find(":selected").val());
 		//console.log(JSON.stringify({course:$course.find(":selected").val()}));
-		$.ajax({
-			type:"POST",
-			url:site_url('course_structure/elective_offered_home/json_get_branch/'+$course.find(":selected").val()),
-			//data:{course:$course.find(":selected").val()},
-			dataType:"json"
-		}).always(function(){
-			$('.branch_option').remove();
-		}).done(function(data){
-			//alert("hii");
+		$.ajax({url:site_url('course_structure/elective_offered_home/json_get_branch/'+$course.find(":selected").val()),
+			success:function(data){
+			alert("hii");
+			/*
 			if(parseInt($course.find(':selected').val())!=0){
 				var base_str = '<tr class="branch_option"><td>Choose Branch</td><td><select name = "branch"><option value = "0">Select Branch</option>';
 				for(branch in data.branches){
@@ -43,11 +40,10 @@ $(document).ready(function(){
 				}*/
 				//console.log(curr_sess);
 				//console.log(base_str);
-				$form_table.append(base_str);
+				//$form_table.append(base_str);
 				//console.log(data);
 			}
 		}).fail(function(err,hr){
 			//console.log(err,hr);
 		});
-	});
 });

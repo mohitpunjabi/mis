@@ -24,39 +24,49 @@ class Elective_offered_home extends MY_Controller
 		
 		$dept = $this->basic_model->Select_Department_By_User_ID($userid);
 		$dept_id = $dept[0]->dept_id;
+		
 		$data['dept_id'] = $dept_id;
-		$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
-		$result_course = $data['result_course'];
+		
+		
+		$data['result_dept_course'] = $this->basic_model->select_dept_course_by_dept_id($dept_id);
+		$result_dept_course = $data['result_dept_course'];
+		
+		
+		//$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
+		//$result_course = $data['result_course'];
+		
 		if(date('m') >= 7 && date('m') <=12)
-			$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
+			$curr_session = (substr(date('Y'),2,3)+1);
 		else
-			$curr_session = (substr(date('Y'),2,3)-1).(substr(date('Y'),2,3));
+			$curr_session = (substr(date('Y'),2,3));
 			
 		$data['curr_session'] = $curr_session;
 		
 		$i = 0;
 		$j=0;
-		//$data['aggr_id'] = array();
+		$data['aggr_id'] = array();
 		$data['course'] = array();
 		$data['course']['name'] = array();
 		$data['course']['duration'] = array();
 		$data['course']['id'] = array();
 		
-		foreach($result_course as $row)
+		foreach($result_dept_course as $row)
 		{
 			$aggr_id_array = explode('_',$row->aggr_id);
-			$session = $aggr_id_array[2];
+			$course_id = $aggr_id_array[0];
+			$branch_id = $aggr_id_array[1];
+			$session = $aggr_id_array[3];
 			
-			if($curr_session == $session)
+			$data['course_detail'] = $this->basic_model->get_course_details_by_id($course_id);
+			$result_course_detail = $data['course_detail'];
+			
+			if(($curr_session - $session) <= $result_course_detail[0]->duration)
 			{
-				$data['curr_session'] = $curr_session;
 				if(!in_array($aggr_id_array[0],$data['course']['id']))
 				{
-					$data['course']['id'][$j] = $aggr_id_array[0];
-					$result_course_details = $this->basic_model->get_course_details_by_id($data['course']['id'][$j]);
-					
-					$data['course']['name'][$j] = $result_course_details[0]->name;
-					$data['course']['duration'][$j] = $result_course_details[0]->duration;
+					$data['course']['id'][$j] = $result_course_detail[0]->id;
+					$data['course']['name'][$j] = $result_course_detail[0]->name;
+					$data['course']['duration'][$j] = $result_course_detail[0]->duration;
 					$j++;
 				}
 			}
@@ -70,7 +80,6 @@ class Elective_offered_home extends MY_Controller
 	public function json_get_branch($course =''){
 		//The brlow gets the course that the user selected
 		if($course!=''){
-			//$course = $this->input->post("course");//json_decode(html_entity_decode($this->input->post("course")));
 			$data = array();
 			$userid = $this->session->userdata("id");		
 			
@@ -79,22 +88,16 @@ class Elective_offered_home extends MY_Controller
 			
 			$this->output->set_content_type('application/json');
 			
-			if(date('m') >= 7 && date('m') <=12)
-				$curr_session = substr(date('Y'),2,3).(substr(date('Y'),2,3)+1);
-			else
-				$curr_session = (substr(date('Y'),2,3)-1).(substr(date('Y'),2,3));
 			//Get the branches
-			$branches = $this->basic_model->get_branch_offered_by_dept($dept_id); 				
-			//$this->output->set_output(json_encode($branches));
-			//var_dump($branches);
-			$data['branches']=array();
-			foreach($branches as $branch){
-				if($branch->course_id == $course)
-				{
-					$branch_id = $branch->id;
-					$result_branch_details = $branch->name;
-					$data['branches'][$branch_id] = $result_branch_details;
-				}
+			$branches = $this->basic_model->get_branches_by_course_and_dept($course,$dept_id);
+			$i = 0;
+			$data['count'] = 0;
+			foreach($branches as $row)
+			{
+				$data['branch_id'][$i] = $row->id;
+				$data['branch_name'][$i] =$branch->name;
+				$i++;
+				$data['count']++;
 			}
 
 			$this->output->set_output(json_encode($data));

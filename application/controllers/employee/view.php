@@ -4,10 +4,10 @@ class View extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('emp','deo'));
+		parent::__construct(array('emp','deo','est_ar'));
 	}
 
-	public function index($form_no = 5)
+	public function index($form_no = 5, $emp_id = '')
 	{
 		if($this->authorization->is_auth('deo'))
 		{
@@ -25,7 +25,10 @@ class View extends MY_Controller
 		}
 		else if($this->authorization->is_auth('emp'))
 		{
-			$this->_load_view($this->session->userdata('id'),$form_no);
+			if($emp_id !='')
+				$this->_load_view($emp_id,0);
+			else
+				$this->_load_view($this->session->userdata('id'),$form_no);
 		}
 	}
 

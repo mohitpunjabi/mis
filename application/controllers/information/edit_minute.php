@@ -65,7 +65,7 @@ class Edit_minute extends MY_Controller
 		
 		$this->load->model('information/edit_minute_model','',TRUE);
 		
-		$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minute_id'));
+		$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minutes_id'));
 		
 		if(count($minute) == 0)
 		{
@@ -73,20 +73,20 @@ class Edit_minute extends MY_Controller
 			redirect('home');
 		}
 		
-		if($_FILES['minute_path']['name'] != '')
+		if($_FILES['minutes_path']['name'] != '')
 		{
 			
-			$upload=$this->upload_file('minute_path',$this->input->post('minute_id'),$this->input->post('modification_value'));
+			$upload=$this->upload_file('minutes_path',$this->input->post('minutes_id'),$this->input->post('modification_value'));
 			if($upload)
 			{
 				//current date
-				$date = date("Y-m-d h:m:s");
+				$date = date("Y-m-d H:i:s");
 				
-				$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minute_id'));
+				$minute=$this->edit_minute_model->getminutesByMinId($this->input->post('minutes_id'));
 				$old_file = $minute->minute_path;
 				
-				$data = array('minutes_id'=>$this->input->post('minute_id'),
-						  'minutes_no'=>$this->input->post('minute_no'),
+				$data = array('minutes_id'=>$this->input->post('minutes_id'),
+						  'minutes_no'=>$this->input->post('minutes_no'),
 						  'meeting_type'=>$this->input->post('meeting_type'),
 						  'meeting_cat'=>$this->input->post('meeting_cat'),
 						  'minutes_path'=>$upload['file_name'],
@@ -108,10 +108,10 @@ class Edit_minute extends MY_Controller
 		else
 		{
 				//current date
-			$date = date("Y-m-d h:m:s");
+			$date = date("Y-m-d H:i:s");
 			
-			$data = array('minutes_id'=>$this->input->post('minute_id'),
-						  'minutes_no'=>$this->input->post('minute_no'),
+			$data = array('minutes_id'=>$this->input->post('minutes_id'),
+						  'minutes_no'=>$this->input->post('minutes_no'),
 						  'meeting_type'=>$this->input->post('meeting_type'),
 						  'meeting_cat'=>$this->input->post('meeting_cat'),
 						  'valid_upto'=>$this->input->post('valid_upto'),

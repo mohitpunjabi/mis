@@ -22,14 +22,8 @@ class Emp_education_details_model extends CI_Model
 
 	function getEmpEduById($id = '')
 	{
-		if($id != '')
-		{
-			$query = $this->db->where('id',$id)->get($this->table);
-			if($query->num_rows() == 0)	return FALSE;
-			return $query->result();
-		}
-		else
-			return FALSE;
+		$query = $this->db->where('id',$id)->get($this->table);
+		return $query->result();
 	}
 
 	function delete_record($where_array)

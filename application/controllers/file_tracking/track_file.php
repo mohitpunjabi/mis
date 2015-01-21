@@ -7,6 +7,7 @@ class Track_file extends MY_Controller
 	{
 		parent::__construct(array('emp','deo'));
 		$this->addJS("file_tracking/file_tracking_script.js");
+		$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
 	public function index()
@@ -15,8 +16,27 @@ class Track_file extends MY_Controller
 
 		$this->load->model('file_tracking/file_move_details');
 		$res = $this->file_move_details->files_to_be_tracked($emp_id);
-		$data['res'] = $res;
+		
+		$this->load->model('user_model');
+		
+		$total_rows = $res->num_rows();
+		$data_array = array();
+		$sno = 1;
+		foreach ($res->result() as $row)
+		{
+			$data_array[$sno]=array();
+			$j=1;
+			$data_array[$sno][$j++] = $row->file_id;
+			$data_array[$sno][$j++] = urldecode($row->file_subject);
+			$data_array[$sno][$j++] = $row->track_num;
+			$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
+			$data_array[$sno][$j++] = $row->close_emp_id;
+			$sno++;
+		}
 
+		$data['data_array'] = $data_array;
+		$data['total_rows'] = $total_rows;
+	
 		$this->drawHeader ("File Tracking");
 		$this->load->view('file_tracking/track_file/track_file',$data);
 		$this->drawFooter ();
@@ -24,11 +44,12 @@ class Track_file extends MY_Controller
 	public function validate_track_num ($track_num)
 	{
 		$this->load->model ('file_tracking/file_details');
-		$res = $this->file_details->get_file_id ($track_num);
-		if(!$res || $res->num_rows() == 0) 
+		$file_id = $this->file_details->get_file_id ($track_num);
+		if(!$file_id)
 			$this->notification->drawNotification("Enter valid Track Number", "");
 		else
 		{
+			$res = $this->file_details->get_file_details ($track_num);
 			foreach($res->result() as $row) 
 			{
 				$file_id = $row->file_id;
@@ -37,7 +58,7 @@ class Track_file extends MY_Controller
 				$close_emp_id = $row->close_emp_id;
 			}
 			$this->load->model ('file_tracking/file_move_details');
-			$result = $this->file_move_details->get_move_details ($file_id);
+			$result = $this->file_move_details->get_move_details ($track_num);
 			$total_rows = $result->num_rows();
 
 			$this->load->model('user_model');
@@ -51,11 +72,16 @@ class Track_file extends MY_Controller
 				$data_array[$sno][$j++] = $row->file_id;
 				$data_array[$sno][$j++] = $row->track_num;
 				$data_array[$sno][$j++] = $this->user_model->getNameById($row->sent_by_emp_id);
-				$data_array[$sno][$j++] = $row->sent_timestamp;
+				$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->sent_timestamp));
 				$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
-				$data_array[$sno][$j++] = $row->rcvd_timestamp;
+				if ($row->rcvd_timestamp)
+					$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->rcvd_timestamp));
+				else
+					$data_array[$sno][$j++] = $row->rcvd_timestamp;
+				//$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->rcvd_timestamp));
+
 				$data_array[$sno][$j++] = $row->forward_status;
-				$data_array[$sno][$j++] = $row->remarks;
+				$data_array[$sno][$j++] = urldecode($row->remarks);
 				$sno++;
 			}
 			$data = array (
@@ -79,7 +105,7 @@ class Track_file extends MY_Controller
 		else
 		{
 			$emp_id = $this->session->userdata('id');
-			$res = $this->file_details->get_file_details($file->file_id);
+			$res = $this->file_details->get_file_details($track_num);
 			$data = array (
 							'res' => $res
 						  );

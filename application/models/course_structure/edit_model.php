@@ -13,7 +13,6 @@ class Add_model extends CI_Model
 		parent::__construct();
 	}
 
-	
 	function insert_subjects($subject_details)
 	{
     	$this->db->insert($this->table_subject, $subject_details);

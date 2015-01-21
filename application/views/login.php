@@ -24,9 +24,9 @@
                 $errorMessage = "An error occured while logging in. Please try again.";
                 if($error_code == 1) $errorMessage = "Invalid username or password. Please try again.";
                 if($error_code == 2) $errorMessage = "You do not have access to that location.";
-
                 if($error_code == 0) $this->notification->drawNotification("Login", "Please enter your username and password");
-                else                 $this->notification->drawNotification($errorHead, $errorMessage, "error");
+                if($error_code == 4) $this->notification->drawNotification("Password Changed", "Your Password has been changed. Please login again to continue.","success");
+                else $this->notification->drawNotification($errorHead, $errorMessage, "error");
 
                 echo form_open('login/login_user',"'id'='login'");   ?>
             	<table align="center" nozebra>

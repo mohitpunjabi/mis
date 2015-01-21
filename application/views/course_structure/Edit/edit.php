@@ -1,3 +1,8 @@
+<style>
+#container input[type=text] {
+	width: 30px;
+}
+</style>
 <div id="container">
 	<h1>Welcome to Course Structure Page!</h1>
   <center><h3>Course Structure for  
@@ -48,6 +53,7 @@
         {
             if(isset($subjects["group_details"][$semester][$i]->group_id))
 			{
+				echo "hii";
 				echo "<tr><td colspan='10' style = 'text-align:center;font-size:16px;font-weight:bold;'>".$subjects["group_details"][$semester][$i]
 				->elective_name."</td></tr>";
 				$group_id = $subjects["group_details"][$semester][$i]->group_id;
@@ -118,7 +124,7 @@
 				}//if closed.
 				else
 				{
-					if(isset($subjects["subject_details"][$semester]))
+					//if(isset($subjects["subject_details"][$semester]))
 					{
 						echo '
 							<tr>
@@ -181,7 +187,7 @@
 	echo '
 					<tr>
 						<td>
-							<input type = "button" onclick = DeleteSemester("'.$semester.'","'.$aggr_id.'") value = "Delete" ></input>
+							<input type = "button" class="error" onclick = DeleteSemester("'.$semester.'","'.$aggr_id.'") value = "Delete" ></input>
 						</td>
 					</tr>
   	</table>';

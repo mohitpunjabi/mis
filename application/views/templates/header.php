@@ -79,6 +79,8 @@
 				$unreadCount = 0;
 				$readCount = 0;
 				
+				if(count($val) == 0) continue;
+				
 				if(isset($notifications[$key]["unread"])) $unreadCount = count($notifications[$key]["unread"]);
 				if(isset($notifications[$key]["read"])) $readCount = count($notifications[$key]["read"]);
 

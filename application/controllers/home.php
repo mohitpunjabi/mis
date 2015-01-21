@@ -28,9 +28,12 @@ class Home extends MY_Controller {
 		$this->load->model("information/view_notice_model", "notice", TRUE);
 		
 		$this->addCSS("home/home-style.css");
-		$this->addJS("home/home-script.js");
 		$this->addCSS("home/home-feed-style.css");
+		$this->addCSS("home/home-calendar.css");
+	
+		$this->addJS("home/home-script.js");
 		$this->addJS("home/home-feed-script.js");
+		$this->addJS("home/home-calendar.js");
 		$this->drawHeader("MIS");
 		
 		//related to notice, minutes or circular module

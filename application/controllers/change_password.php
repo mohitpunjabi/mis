@@ -32,7 +32,7 @@ class Change_Password extends MY_Controller
 		{
 			$this->users_model->change_password($old_pass,$new_pass);
 			$this->session->set_flashdata('flashSuccess','Password changed successfully');
-			redirect('change_password');
+			redirect('login/logout/4');
 		}
 		else
 		{

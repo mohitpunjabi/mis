@@ -384,7 +384,7 @@ div.-mis-right-options {
 	background: #FEE;
 }
 
-.notification.error > .-mis-notification-link.error {
+.notification.error > .-mis-notification-link {
 	background: #FFF9F9;
 	color: #722;
 }

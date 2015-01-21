@@ -73,6 +73,8 @@
 		}
 
 		if(isset($menu)) {
+			$dateTimeZone = new DateTimeZone('Asia/Kolkata');
+
 			foreach($menu as $key => $val) {
 				$unreadCount = 0;
 				$readCount = 0;
@@ -92,7 +94,13 @@
 				if($unreadCount > 0) {
 					echo '<h3>Unread Notifications &raquo;</h3>';
 					foreach($notifications[$key]["unread"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), base_url().'assets/images/'.$row->photopath);
+					
+					$dateTime = new DateTime();
+					$dateTime->setTimestamp(strtotime($row->send_date));
+					$dateTime->setTimeZone($dateTimeZone);
+					
+					
+					$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, $dateTime->format('m/d/Y H:i A'), base_url().'assets/images/'.$row->photopath);
 					}
 				}
 				echo '</div>';
@@ -102,7 +110,11 @@
 				if($readCount > 0) {
 					echo '<h3>Old Notifications &raquo;</h3>';
 					foreach($notifications[$key]["read"] as $row) {
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, date("d M Y, H:i A", strtotime($row->send_date)), base_url().'assets/images/'.$row->photopath);
+						$dateTime = new DateTime();
+						$dateTime->setTimestamp(strtotime($row->send_date));
+						$dateTime->setTimeZone($dateTimeZone);
+
+						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, $dateTime->format('m/d/Y H:i A'), base_url().'assets/images/'.$row->photopath);
 					}
 				}
 				echo '</div>';

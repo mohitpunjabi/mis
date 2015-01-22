@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-application/config/database.php
-application/config/config.php
-application/logs
-assets/images/employee
-application/config/config.php
-=======
 application/config/database.php
 application/config/config.php
 application/logs
 application/config/config.php
->>>>>>> dev

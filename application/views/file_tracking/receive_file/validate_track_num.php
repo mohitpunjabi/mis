@@ -1,6 +1,5 @@
 <div id="container">
 <h1>File Details</h1>
-<?php echo form_open (''); ?> 
 <input type="hidden" id="file_id" value="<?php echo $file_id; ?>">
 <table nozebra>
 	<tr>

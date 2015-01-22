@@ -14,6 +14,10 @@ class Receive_file extends MY_Controller
 		
 		$this->load->model('file_tracking/user_notifications');
 		$res = $this->user_notifications->get_user_notifications ($emp_id);
+		foreach($res->result() as $row)
+		{
+			$row->description = urldecode($row->description);
+		}
 		$data = array (
 						'res' => $res
 					  );

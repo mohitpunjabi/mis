@@ -41,17 +41,31 @@
     </tr>
     <tr>
       <td>
-      <label for="year">Year</label>
+      <label for="dept_name">Select Department </label>
+      </td>
+      <td>
+        <select name="dept" id="dept_selection">
+          <option value="">Offered By</option>
+          <?php 
+            foreach ($result_dept as $row) {
+              echo "<option value='".$row->id."' >".$row->name."</option>"; 
+            }
+          ?>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <label for="year">Session of Starting</label>
       </td>
       <td>
         <select name="year" id="year_selection">
-          <option value="">Select Year</option>
+          <option value="">Select Session</option>
           <?php 
-            for($counter=10;$counter<=20;$counter++) 
+            for($counter=1926;$counter<=date('Y');$counter++) 
             {
-              $ss=$counter.($counter+1);
-              $sess= '20'.$counter."-".'20'.($counter+1);
-              echo "<option value='".$ss."' data-duration='".$ss."' >".$sess."</option>";
+				$val = $counter."_".($counter+1);
+              	echo "<option value='".$val."'>".$counter."-".($counter+1)."</option>";
             }
           ?>
         </select>

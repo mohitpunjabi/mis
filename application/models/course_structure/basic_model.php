@@ -31,13 +31,31 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
-	function select_map_dept_with_aggr_id($dept_id,$aggr_id)
+	function count_dept_course_by_aggr_id($aggr_id)
 	{
-		$query = $this->db->get_where($this->table_dept_course,array('dept_id'=>$dept_id,'aggr_id'=>$aggr_id));
+		$query = $this->db->get_where($this->table_dept_course,array('aggr_id'=>$aggr_id));
 		return $query->num_rows();	
 	}
 	
-	function insert_map_dept_with_aggr_id($dept_course)
+	
+	function select_dept_course()
+	{
+		$query = $this->db->get($this->table_dept_course);
+		if($query->num_rows() > 0)
+			return $query->result();	
+	}
+	
+	
+	function select_dept_course_by_dept_id($dept_id)
+	{
+		$query = $this->db->get_where($this->table_dept_course,array('dept_id'=>$dept_id));
+		if($query->num_rows() > 0)
+			return $query->result();	
+	}
+	
+	
+	
+	function insert_dept_course($dept_course)
 	{
 		$query = $this->db->insert($this->table_dept_course,$dept_course);
 		return true;
@@ -48,17 +66,19 @@ class Basic_model extends CI_Model
 		$query = $this->db->get($this->table_course);
 		return $query->result();
 	}
+	
 	function get_course_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_course,array('id'=>$id));
-		return $query->result();
+		//if($query->num_rows() > 0) 
+			return $query->result();
 	}
 	
 	function get_course_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT id,name,duration,course_branch.course_id,course_branch.branch_id,course_branch.year,course_branch.aggr_id FROM courses INNER JOIN 
-		course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
-		dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
+		$query = $this->db->query("SELECT DISTINCT course_branch.course_id,id,name,duration FROM 
+		courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}
 	
@@ -75,35 +95,38 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 
-	/**
-	* Below query will return the details of the branches according the course_id in the
-	* `course_branch` table
-	*/
+	
 	function get_branches_by_course($course){
-		$query = $this->db->query("SELECT DISTINCT c.branch_id as id,b.name as name from course_branch as c INNER JOIN branches as b ON c.branch_id = b.id WHERE c.course_id = '{$course}'");
+		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id WHERE course_branch.course_id = '$course'"
+		);
 		return $query->result();
 	}
-
-	/**
-	* Below query will return the session according the `course_id` and `branch_id` in the
-	* `course_branch` table
-	*/
+	
+	
+	function get_branches_by_course_and_dept($course,$dept){
+		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '$course' AND dept_course.dept_id = '$dept'");
+		return $query->result();
+	}
+	
+	//dgfhvgjfchvgjhhfcv
 	function get_session_by_course_and_branch($course,$branch){
 		$this->db->select('year');
 		$query = $this->db->get_where($this->table_course_branch,array("course_id"=>$course,"branch_id"=>$branch));
 		return $query->result();
 	}
 
+	
 	function get_branch_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_branch,array('id'=>$id));
-		return $query->result();
+		//if($query->num_rows()>0)
+			return $query->result();
 	}
 	
 	function get_branch_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT branches.id,branches.name,course_branch.course_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id 
-		INNER JOIN dept_course ON dept_course.aggr_id = course_branch.aggr_id WHERE dept_course.dept_id = '$dept_id'");
+		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id 
+		INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}
 	
@@ -113,13 +136,11 @@ class Basic_model extends CI_Model
       	return true;
 	}
 	
-	function select_course_branch($aggr_id)
+	function select_course_branch($course_id,$branch_id)
 	{
-    	$query = $this->db->get_where($this->table_course_branch, array('aggr_id'=>$aggr_id));
+    	$query = $this->db->get_where($this->table_course_branch, array('course_id'=>$course_id,'branch_id'=>$branch_id));
 		if($query->num_rows() >= 1)
-			return true;
-		else
-			return false;
+			return $query->result();
 	}
 	
 	function insert_course_branch($course_branch_mapping)
@@ -144,10 +165,8 @@ class Basic_model extends CI_Model
 	function get_subjects_by_sem($sem,$aggr_id)
 	{
 		$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
-		if($query->num_rows() > 0)
+		//if($query->num_rows() > 0)
 			return $query->result();
-		else
-			return false;
 	}
 	
 	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)

@@ -80,7 +80,7 @@ class Edit_circular extends MY_Controller
 			if($upload)
 			{
 				//current date
-				$date = date("Y-m-d h:m:s");
+				$date = date("Y-m-d H:i:s");
 				
 				$circular=$this->edit_circular_model->getcircularsByMinId($this->input->post('circular_id'));
 				$old_file = $circular->circular_path;
@@ -90,7 +90,7 @@ class Edit_circular extends MY_Controller
 						  'circular_sub'=>$this->input->post('circular_sub'),
 						  'circular_cat'=>$this->input->post('circular_cat'),
 						  'circular_path'=>$upload['file_name'],
-						  'valid_upto'=>$this->input->post('last_date'),
+						  'valid_upto'=>$this->input->post('valid_upto'),
 						  'posted_on'=>$date,
 						  'modification_value'=>$this->input->post('modification_value') + 1
 						  );
@@ -106,13 +106,13 @@ class Edit_circular extends MY_Controller
 		else
 		{
 				//current date
-			$date = date("Y-m-d h:m:s");
+			$date = date("Y-m-d H:i:s");
 			
 			$data = array('circular_id'=>$this->input->post('circular_id'),
 					  'circular_no'=>$this->input->post('circular_no'),
 					  'circular_sub'=>$this->input->post('circular_sub'),
 					  'circular_cat'=>$this->input->post('circular_cat'),
-					  'valid_upto'=>$this->input->post('last_date'),
+					  'valid_upto'=>$this->input->post('valid_upto'),
 					  'posted_on'=>$date,
 					  'modification_value'=>$this->input->post('modification_value') + 1
 					  );

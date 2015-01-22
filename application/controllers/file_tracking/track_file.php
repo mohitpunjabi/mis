@@ -43,10 +43,15 @@ class Track_file extends MY_Controller
 	}
 	public function validate_track_num ($track_num)
 	{
-		$this->load->model ('file_tracking/file_details');
+		$this->load->model ('file_tracking/file_details','',TRUE);
+		echo "hi";
 		$file_id = $this->file_details->get_file_id ($track_num);
-		if(!$file_id)
-			$this->notification->drawNotification("Enter valid Track Number", "");
+		if($file_id == false)
+		{
+			//$this->notification->drawNotification("Enter valid Track Number", "");
+			$this->session->set_flashdata('flashError','Enter correct Track Number.'.$track_num);
+			redirect('file_tracking/track_file');
+		}
 		else
 		{
 			$res = $this->file_details->get_file_details ($track_num);
@@ -93,24 +98,6 @@ class Track_file extends MY_Controller
 						'total_rows' => $total_rows
 						  );
 			$this->load->view ('file_tracking/track_file/track_table', $data);
-		}
-	}
-	public function validate_track_number ($track_num)
-	{
-		$this->load->model ('file_tracking/file_details');
-		$res = $this->file_details->get_file_id($track_num);
-		$file = $res->row();
-		if(!$res || $res->num_rows() == 0) 
-			$this->notification->drawNotification("Enter valid Track Number", "");
-		else
-		{
-			$emp_id = $this->session->userdata('id');
-			$res = $this->file_details->get_file_details($track_num);
-			$data = array (
-							'res' => $res
-						  );
-			
-			$this->load->view('file_tracking/send_running_file/file_details',$data);
 		}
 	}
 }

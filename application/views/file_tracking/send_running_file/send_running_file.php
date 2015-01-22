@@ -62,7 +62,7 @@
 	<tr>
 		<td>Remarks : </td>
 		<td> 
-			<textarea name="remarks" id="remarks"></textarea>
+			<textarea name="remarks" id="remarks" ></textarea>
 		</td>
 	</tr>
 </table>
@@ -78,7 +78,7 @@
 	<tr>
 		<td>Remarks: </td>
 		<td> 
-			<textarea name="remarks2" id="remarks2"></textarea>
+			<textarea name="remarks2" id="remarks2" ></textarea>
 		</td>
 		<td> 
 			<input type="button" value="Send File Back" onClick="display_send_notification4(<?php echo $file_id; ?>,<?php echo $sent_by_emp_id ?>)">

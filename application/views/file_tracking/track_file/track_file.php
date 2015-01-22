@@ -1,14 +1,12 @@
 <div id="container">
 <h1>Enter Track Number :</h1>
-<?php echo form_open (); ?> 
 <table align="center" nozebra>
 	<tr>
 		<td>Track Number : </td>
 		<td> 
 			<input type="text" name="track_num" id="track_num"> 
-			<input type="button" value="Track File" onClick="get_file_move_details()">
+			<input type="button" value="Track File" onClick="get_file_move_details();">
 		</td>
-
 	</tr>
 </table>
 <?php 

@@ -11,6 +11,22 @@
 		return xmlhttp;
 	}
 	
+	function get_departments(type)
+	{
+		var xmlhttp = getxmlhttp();
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
+				document.getElementById("department_name").innerHTML = xmlhttp.responseText;
+				//$(".loading").hide();
+			}
+		}
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_dept/"+type),true);
+		xmlhttp.send();
+		return false;
+	}
+
 	function get_designation_name(dept_id)
 	{
 		var xmlhttp = getxmlhttp();
@@ -44,49 +60,6 @@
 		return false;		
 	}
 	
-	function get_departments(type)
-	{
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("department_name").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_dept/"+type),true);
-		xmlhttp.send();
-		return false;
-	}
-
-	function display_send_notification ()
-	{
-		var file_no = document.getElementById("file_no").value;
-		var file_sub = document.getElementById("file_sub").value;
-		var rcvd_emp_id = document.getElementById("emp_name").value;
-		var remarks_rcvd = document.getElementById("remarks").value;
-		if (file_no == "")
-			file_no = "NULL";
-		if (file_sub == "")
-			alert ("Please enter File Subject.");
-		if (rcvd_emp_id == "")
-			alert ("Please select Employee Name.");
-		if (remarks_rcvd == "")
-			alert ("Please enter Remarks OR write NO COMMENTS.");
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST", site_url("file_tracking/send_new_file/insert_file_details/"+file_no+"/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
-		xmlhttp.send();
-		return false;
-	}
 	function validate_track_num ()
 	{	
 		var file_id = document.getElementById("file_id").value;
@@ -105,6 +78,42 @@
 		return false;
 	}
 	
+	function display_send_notification ()
+	{
+		var file_no = document.getElementById("file_no").value;
+		var file_sub = document.getElementById("file_sub").value;
+		var rcvd_emp_id = document.getElementById("emp_name").value;
+		var remarks_rcvd = document.getElementById("remarks").value;
+		if (file_no == "")
+			file_no = "NULL";
+		if (file_sub == "")
+		{
+			alert ("Please enter File Subject.");
+			return false;
+		}
+		if (rcvd_emp_id == "")
+		{
+			alert ("Please select Employee Name.");
+			return false;
+		}
+		if (remarks_rcvd == "")
+		{
+			remarks_rcvd = "No Comments"
+		}
+
+		var xmlhttp = getxmlhttp();
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
+				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
+				//$(".loading").hide();
+			}
+		}
+		xmlhttp.open("POST", site_url("file_tracking/send_new_file/insert_file_details/"+file_no+"/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
+		xmlhttp.send();
+		return false;
+	}
 	function display_send_notification2 (file_id)
 	{
 		var file_no = document.getElementById("file_no").value;
@@ -112,6 +121,16 @@
 			file_no = "NULL";
 		var remarks = document.getElementById("remarks").value;
 		var rcvd_emp_id = document.getElementById("emp_name").value;
+		if (rcvd_emp_id == "")
+		{
+			alert ("Please select Employee Name.");
+			return false;
+		}
+		if (remarks == "")
+		{
+			remarks = "No Comments"
+		}
+
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{
@@ -148,6 +167,31 @@
 		return false;
 	}
 	
+	function display_send_notification4(file_id,rcvd_emp_id)
+	{
+		var file_no = document.getElementById("file_no").value;
+		if (file_no == "")
+			file_no = "NULL";
+		//var file_id = document.getElementById("file_id").value;
+		var remarks = document.getElementById("remarks2").value;
+		//var rcvd_emp_id = document.getElementById("emp_name").value;
+		if (remarks == "")
+		{
+			remarks = "NoComments."
+		}
+		var xmlhttp = getxmlhttp();
+		xmlhttp.onreadystatechange = function()
+		{
+			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+			{
+				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
+				//$(".loading").hide();
+			}
+		}
+		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
+		xmlhttp.send();
+		return false;
+	}
 	function get_file_details ()
 	{
 		var file_id = document.getElementById("file_id").value;
@@ -169,27 +213,7 @@
 		return false;
 
 	}	
-	function get_file_details ()
-	{
-		var file_id = document.getElementById("file_id").value;
-		if(file_id==""){
-			alert("Please Select File ID.");
-			return;
-		}
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("file_details").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",site_url("file_tracking/send_running_file/get_file_details/"+file_id),true);
-		xmlhttp.send();
-		return false;
 
-	}	
 	function get_file_move_details ()
 	{
 		var track_num = document.getElementById("track_num").value;
@@ -244,26 +268,5 @@
 		}
 		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_faculty_name_by_department_id/"+department_id),true);
 		xmlhttp.send();
-	}
-	function display_send_notification4(file_id,rcvd_emp_id)
-	{
-		var file_no = document.getElementById("file_no").value;
-		if (file_no == "")
-			file_no = "NULL";
-		//var file_id = document.getElementById("file_id").value;
-		var remarks = document.getElementById("remarks2").value;
-		//var rcvd_emp_id = document.getElementById("emp_name").value;
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
-		xmlhttp.send();
-		return false;
 	}
 	

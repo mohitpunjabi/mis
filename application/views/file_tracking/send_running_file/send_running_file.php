@@ -1,7 +1,9 @@
 <div id="container">
 <h1>File Details</h1>
 <?php echo form_open (); ?> 
-<table align="center" nozebra>
+<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>File Details : </b></LEGEND>
 	<tr>
 		<td>File No : </td>
 <?php
@@ -22,13 +24,16 @@
 <?php
 		}
 ?>
-	</tr>
-	<tr>
 		<td>File Subject : </td>
 		<td> 
 			<input type="text" name="file_sub" id="file_sub" value="<?php echo $file_sub; ?>" readonly> 
 		</td>
 	</tr>
+	</table>
+	</FIELDSET>
+	<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>File will be Sent to : </b></LEGEND>
 	<tr>
 		<td>Department Type : </td>
 		<td> 
@@ -59,22 +64,26 @@
 			</select>
 		</td>
 	</tr>
+	</table>
+	</FIELDSET>
+	<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>Add Remarks : </b></LEGEND>
 	<tr>
 		<td>Remarks : </td>
 		<td> 
 			<textarea name="remarks" id="remarks" ></textarea>
 		</td>
-	</tr>
-</table>
-<table align="center" nozebra>
-	<tr>
 		<td> 
 			<input type="button" value="Send File" onClick="display_send_notification2(<?php echo $file_id; ?>)">
 		</td>
 	</tr>
 </table>
+</FIELDSET>
 <h2 align="center">OR</h2>
-<table align="center" nozebra>
+<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>Enter Remarks and Send Back : </b></LEGEND>
 	<tr>
 		<td>Remarks: </td>
 		<td> 
@@ -85,5 +94,6 @@
 		</td>
 	</tr>	
 </table>
+</FIELDSET>
 </div>
 <div id="send_notification"></div>

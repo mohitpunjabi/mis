@@ -12,24 +12,43 @@ class File_details extends CI_Model
 
 	function insert($data)
 	{
-		$this->db->insert($this->table,$data);
-//		$this->db->query ("INSERT INTO values ();")
+		if ($data['file_no']=="NULL")
+			$this->db->query ("INSERT INTO file_details (file_subject, track_num, start_emp_id) VALUES ('".$data['file_subject']."',".$data['track_num'].",'".$data['start_emp_id']."');");
+		else 
+			$this->db->query ("INSERT INTO file_details (file_no, file_subject, track_num, start_emp_id) VALUES ('".$data['file_no']."','".$data['file_subject']."',".$data['track_num'].",'".$data['start_emp_id']."');");
+	}
+	function insert_file_num ($file_no, $file_id)
+	{
+		$this->db->query("UPDATE file_details SET file_no = '".$file_no."' WHERE file_id=".$file_id.";");
+		
 	}
 	function get_track_num ($file_id)
 	{
 		$sql_query = "SELECT track_num from file_details where file_id = '".$file_id."';";
 		$query = $this->db->query($sql_query);
+		if($query->num_rows() == 0) 
+			return false;
 		foreach ($query->result() as $row) //last
 				$track_num = $row->track_num;
-		return $track_num;
-		
+		return $track_num;		
 	}
 	
 	function get_file_id ($track_num)
 	{
-		$sql_query = "SELECT * from file_details where track_num = ".$track_num.";";
-		$res = $this->db->query($sql_query);
-		return $res;
+		$sql_query = "SELECT file_id from file_details where track_num = ".$track_num.";";
+		$query = $this->db->query($sql_query);
+		if($query->num_rows() == 0) 
+			return false;
+		foreach ($query->result() as $row) //last
+				$file_id = $row->file_id;
+		return $file_id;
+	}
+	
+	function get_file_num ($file_id)
+	{
+		$sql_query = "SELECT file_no from file_details where file_id = ".$file_id.";";
+		$query = $this->db->query($sql_query);
+		return $query;
 	}
 	
 	function get_file_details ($track_num)

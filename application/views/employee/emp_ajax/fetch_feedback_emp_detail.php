@@ -1,6 +1,6 @@
 <?php
-	if($feedback_emp_detail !== FALSE)
-        {
+	if($feedback_emp_detail)
+	{
 		echo "({";
 		foreach($feedback_emp_detail as $key => $val) {
 			echo "'$key': '$val'";
@@ -8,5 +8,8 @@
 		}
 		echo "})";
 	}
+	else
+	{
+		if(isset($error))	echo $error;
+	}
 ?>
-

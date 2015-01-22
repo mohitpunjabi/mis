@@ -22,14 +22,8 @@ class Emp_last5yrstay_details_model extends CI_Model
 
 	function getEmpStayById($id = '')
 	{
-		if($id != '')
-		{
-			$query = $this->db->where('id',$id)->get($this->table);
-			if($query->num_rows() == 0)	return FALSE;
-			return $query->result();
-		}
-		else
-			return FALSE;
+		$query = $this->db->where('id',$id)->get($this->table);
+		return $query->result();
 	}
 
 	function delete_record($where_array)

@@ -19,7 +19,7 @@
 	</tr>
 </table> -->
 <br>
-<h1>Movement Details (Current Status : <?php if($close_emp_id) echo "Closed"; else echo "Active";?>)</h1>
+<h1>Movement Details  (Track Number : <?php echo $track_num; ?>) </h1>
 <table align = "center">
 	<tr>
 		<th>S.No.</th>
@@ -61,6 +61,7 @@
 	//	$row = $result->next_row();
 	}
 	if ($data_array[$sno-1][6])
+
 	//if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
 	{
 ?>

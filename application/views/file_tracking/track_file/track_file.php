@@ -9,13 +9,14 @@
 		</td>
 	</tr>
 </table>
+<div id="notification">
 <?php 
 	if($total_rows != 0){
 ?>
 <h2 align="center">OR</h2>
 <table align="center">
 	<tr>
-		<th>File ID</th>
+<!--		<th>File No.</th> -->
 		<th>File Subject</th>
 		<th>File Track Number</th>
 		<th>Sent To</th>
@@ -28,7 +29,7 @@
 			{
 	?>
 				<tr>
-					<td><?php echo $data_array[$sno][1];//$row->file_id; ?></td>
+<!--					<td>// //$row->file_id; </td> -->
 					<td><?php echo $data_array[$sno][2];//$row->file_subject; ?></td>
 					<td><?php echo $data_array[$sno][3];//echo $row->track_num; ?></td>
 					<td><?php echo $data_array[$sno][4];//echo $row->rcvd_by_emp_id; ?></td>

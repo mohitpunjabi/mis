@@ -49,13 +49,13 @@
 		<td>Designation : </td>
 		<td> 
 			<select name="designation" id="designation" onchange="get_emp_name(this.value)">
-				<option type="text" >Select</option>
+				<option type="text" value="">Select</option>
 			</select>
 		</td>
 		<td>Employee Name : </td>
 		<td> 
 			<select name="emp_name" id="emp_name">
-				<option type="text" >Select</option>
+				<option type="text" value="">Select</option>
 			</select>
 		</td>
 	</tr>

@@ -65,6 +65,15 @@
 		var file_id = document.getElementById("file_id").value;
 		var track_no = document.getElementById("track_num").value;
 		var xmlhttp = getxmlhttp();
+		if(track_no==""){
+			alert("Please Enter Track Number.");
+			return;
+		}
+		if (isNaN(track_no))
+		{
+			alert ("Please Enter digits only!!");
+			return;
+		}		
 		xmlhttp.onreadystatechange = function()
 		{
 			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
@@ -89,16 +98,16 @@
 		if (file_sub == "")
 		{
 			alert ("Please enter File Subject.");
-			return false;
+			return ;
 		}
 		if (rcvd_emp_id == "")
 		{
 			alert ("Please select Employee Name.");
-			return false;
+			return ;
 		}
 		if (remarks_rcvd == "")
 		{
-			remarks_rcvd = "No Comments"
+			remarks_rcvd = "No Comments";
 		}
 
 		var xmlhttp = getxmlhttp();
@@ -124,7 +133,7 @@
 		if (rcvd_emp_id == "")
 		{
 			alert ("Please select Employee Name.");
-			return false;
+			return;
 		}
 		if (remarks == "")
 		{
@@ -221,6 +230,11 @@
 			alert("Please Enter Track Number.");
 			return;
 		}
+		if (isNaN(track_num))
+		{
+			alert ("Please Enter digits only!!");
+			return;
+		}		
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{

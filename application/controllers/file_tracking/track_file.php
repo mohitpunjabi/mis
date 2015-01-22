@@ -44,13 +44,13 @@ class Track_file extends MY_Controller
 	public function validate_track_num ($track_num)
 	{
 		$this->load->model ('file_tracking/file_details','',TRUE);
-		echo "hi";
 		$file_id = $this->file_details->get_file_id ($track_num);
 		if($file_id == false)
 		{
 			//$this->notification->drawNotification("Enter valid Track Number", "");
-			$this->session->set_flashdata('flashError','Enter correct Track Number.'.$track_num);
-			redirect('file_tracking/track_file');
+			//$this->session->set_flashdata('flashError','Enter correct Track Number.'.$track_num);
+			//redirect('file_tracking/track_file');
+			$this->notification->drawNotification("Enter Correct Track Number", "");
 		}
 		else
 		{
@@ -58,6 +58,7 @@ class Track_file extends MY_Controller
 			foreach($res->result() as $row) 
 			{
 				$file_id = $row->file_id;
+				$file_no = $row->file_no;
 				$file_subject = $row->file_subject;
 				$start_emp_id = $row->start_emp_id;
 				$close_emp_id = $row->close_emp_id;
@@ -91,6 +92,8 @@ class Track_file extends MY_Controller
 			}
 			$data = array (
 						'file_id' => $file_id,
+						'file_no' => $file_no,
+						'track_num' => $track_num,
 						'file_subject' => $file_subject,
 						'start_emp_id' => $start_emp_id,
 						'close_emp_id' => $close_emp_id,

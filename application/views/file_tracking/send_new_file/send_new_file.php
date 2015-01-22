@@ -11,7 +11,7 @@
 			</td>
 			<td>File Subject : </td>
 			<td> 
-				<input type="text" name="file_sub" id="file_sub"> 
+				<input type="text" name="file_sub" id="file_sub" size="55"> 
 			</td>
 		</tr>
 	

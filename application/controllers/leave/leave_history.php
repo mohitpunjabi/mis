@@ -10,10 +10,9 @@ class Leave_history extends MY_Controller
 	
 	public function index()
 	{
-		$header['title']='Leave History';
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Leave History");
 		$this->load->view('leave/leave_history');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 ?>

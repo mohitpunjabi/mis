@@ -145,18 +145,16 @@ class Leave_Application extends MY_Controller
 				$data['var']=$desc[0];
 				$data['desc']=$desc[1];
 			}}
-			$header['title']='Leave Application Notification';
-			$this->load->view('templates/header',$header);
+			$this->drawHeader("Leave Application Notification");
 			$this->load->view('leave/leave_application',$data);
-			$this->load->view('templates/footer');
+			$this->drawFooter();
 		}
 		else
 		{
-			$header['title']='Leave Management';
-			$this->load->view('templates/header',$header);
+			$this->drawHeader("Apply For Leave");
 			$data['set']=FALSE;
 			$this->load->view('leave/leave_application',$data);
-			$this->load->view('templates/footer');
+			$this->drawFooter();
 		}
 	
 		/*$header['title']='Leave Management';

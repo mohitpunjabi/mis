@@ -10,10 +10,9 @@ class Leave_status extends MY_Controller
 	
 	public function index()
 	{
-		$header['title']='Leave History';
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Leave Status");
 		$this->load->view('leave/leave_status');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 ?>

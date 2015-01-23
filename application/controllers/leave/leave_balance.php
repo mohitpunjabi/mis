@@ -11,7 +11,7 @@ class Leave_balance extends MY_Controller
 	public function index()
 	{
 		
-		$header['title']='Leave Balance';
+		
 		$this->load->model('leave/leave_balance_model','',TRUE);
 		$desc=$this->leave_balance_model->get_leave_balance();
 		$data['casual']=$desc[0];
@@ -20,9 +20,9 @@ class Leave_balance extends MY_Controller
 		$data['half_pay']=$desc[3];
 		$data['commuted']=$desc[4];
 		$data['vacation']=$desc[5];
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Leave Balance");
 		$this->load->view('leave/leave_balance_view',$data);
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 ?>

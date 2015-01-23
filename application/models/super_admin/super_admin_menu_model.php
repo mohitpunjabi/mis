@@ -13,9 +13,9 @@ class Super_admin_menu_model extends CI_Model
 		$menu=array();
 		//auth ==> emp
 		$menu['admin']=array();
-		$menu['admin']['Change Password']= site_url('super_admin/admin/change_password');;
+		$menu['admin']['Change Password']= site_url('super_admin/admin/change_password');
 		$menu['admin']['Assign Authorizations'] = site_url('super_admin/admin/assign_auths');
-
+		$menu['admin']['Deny Authorizations'] = site_url('super_admin/admin/deny_auths');
 		return $menu;
 	}
 }

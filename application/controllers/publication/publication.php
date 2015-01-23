@@ -138,7 +138,7 @@ class Publication extends MY_Controller{
 			$this->drawFooter();
 		}
 		else{
-			$temp['publications'] = $this->basic_model->get_all_approved_user_pub($this->session->userdata('id'));
+			$temp['publications'] = $this->basic_model->get_all_user_pub($this->session->userdata('id'));
 			$data = array();
 			if(count($temp['publications']) > 0){
 				$i=0;
@@ -264,11 +264,16 @@ class Publication extends MY_Controller{
 		}
 	}
 
-	public function approve($rec_id){
+	public function approve($rec_id=''){
 		if($rec_id != ''){
+			//var_dump($this->basic_model->approve_user_pub($rec_id,$this->session->userdata('id')));
 			if($this->basic_model->approve_user_pub($rec_id,$this->session->userdata('id'))){
 				$this->session->set_flashdata("flashSuccess","You Approved the Publication");
 				redirect('publication/publication/approve');
+			}
+			else{
+				$this->session->set_flashdata("flashError","There was some Error. Please try again later");
+				redirect('publication/publication/approve');	
 			}
 		}
 		else{

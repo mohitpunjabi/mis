@@ -39,8 +39,6 @@ $(document).ready(function(){
 		}
 		else{
 			$('.search_faculty_wrapper').remove();
-			//$('#search_faculty_wrapper').show();
-			//console.log();
 			get_emp(function(data){
 				$("#search_table tr:nth-child(1)").after(data);
 			});

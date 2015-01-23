@@ -9,12 +9,11 @@ class Publication extends MY_Controller{
 	}
 
 	public function index(){
+		/*var_dump($temp[0]->type_name);
+		var_dump($this->session->userdata("name"));*/
 		$this->addJS("publication/add_publication.js");
 		$data= array();
 		$data['prk_types'] = $this->basic_model->get_prk_types();
-		//$data['departments']= $this->basic_model->get_all_departments();
-		/*$this->output->set_content_type('application/json');
-		$this->output->set_output(json_encode($data['departments']));*/
 		$this->drawHeader();
 		$this->load->view('publication/add',$data);
 		$this->drawFooter();
@@ -94,6 +93,16 @@ class Publication extends MY_Controller{
 		}
 		$data['other_authors']=$count;
 		$data['no_of_approval'] = $data['other_authors']+1;
+
+		for($i=0;$i<$data['no_of_authors']-$data['other_authors'];$i++){
+			if($authors['ism'][$i]['emp_id'] != $this->session->userdata('id')){
+				$pub_name = $this->basic_model->get_prk_types($data['type_id']);
+				$description = $this->session->userdata("name")." has added a ".$pub_name[0]->type_name." with title: ".$data['title']." and wants to add you as a co-author.";
+				$title = "You have a Publication to Approve";
+				$link = "publication/publication/approve";
+				$this->notification->notify($authors['ism'][$i]['emp_id'],"emp",$title,$description,$link,"");
+			}
+		}
 
 		$this->basic_model->insert_publication_record($data);
 		//var_dump($authors);
@@ -202,9 +211,18 @@ class Publication extends MY_Controller{
 		$data['no_of_authors'] = $sess['no_of_authors'];
 		$data['other_authors'] = $sess['other_authors'];
 		$data['no_of_approval'] = $sess['other_authors'] + 1;
-		//$data['current_user_emp_id'] = $this->session->userdata('id');
-		//to check the no of authors outside ism
 		
+		//send notification to co-authors to ask approval
+		$co_authors = $this->basic_model->get_ism_author_detail_by_pub($sess['rec_id']);
+		for($i=0;$i<$data['no_of_authors']-$data['other_authors'];$i++){
+			if($this->session->userdata('id') != $co_authors[$i]->id){
+				$pub_name = $this->basic_model->get_prk_types($data['type_id']);
+				$description = $this->session->userdata("name")." has edited a ".$pub_name[0]->type_name." with title: ".$data['title'].". Please check the content and approve the edit.";
+				$title = "Edited Publication needs Approval";
+				$link = "publication/publication/approve";
+				$this->notification->notify($co_authors[$i]->id,"emp",$title,$description,$link,"");
+			}
+		}
 		if($this->basic_model->update_publication_record($data)){
 			$data['current_user_emp_id'] = $this->session->userdata('id');
 			if($this->basic_model->update_ism_authors($data)){

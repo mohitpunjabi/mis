@@ -273,7 +273,7 @@ class Publication extends MY_Controller{
 			}
 			else{
 				$this->session->set_flashdata("flashError","There was some Error. Please try again later");
-				redirect('publication/publication/approve');	
+				redirect('publication/publication/approve');
 			}
 		}
 		else{

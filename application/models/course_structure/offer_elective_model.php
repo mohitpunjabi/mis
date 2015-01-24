@@ -16,9 +16,15 @@ var $table_elective_group = 'elective_group';
 		return $query->result();
 	}
 	
+	function select_elective_offered($aggr_id,$id)
+	{
+    	$query = $this->db->get_where($this->table_elective_offered,array('aggr_id'=>$aggr_id,'id'=>$id));
+    	if($query->num_rows() > 0)
+			return true;	
+	}
 	function insert_elective_offered($data)
 	{
-    	return $this->db->insert($this->table_elective_offered,$data);
+    	$this->db->insert($this->table_elective_offered,$data);
     	return $this->db->_error_message(); 
 	}
 	

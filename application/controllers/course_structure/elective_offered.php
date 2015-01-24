@@ -25,7 +25,11 @@ class Elective_offered extends MY_Controller
 		$result_course_details = $this->basic_model->get_course_details_by_id($course);
 		$duration = $result_course_details[0]->duration;
 		
-		$aggr_id = $course."_".$branch."_".($batch-$duration)."_".($batch-$duration+1);
+		$expected_aggr_id = $course."_".$branch."_".($batch-$duration)."_".($batch-$duration+1);
+		
+		$result_aggr_id = $this->basic_model->get_latest_aggr_id($course,$branch,$expected_aggr_id);
+		$aggr_id = $result_aggr_id[0]->aggr_id;
+		
 		$data['course'] = $course;
 		$data['branch'] = $branch;
 		$data['batch'] = $batch;
@@ -78,7 +82,8 @@ class Elective_offered extends MY_Controller
 		*/
 
 		
-		$this->session->set_userdata($data);
+		$this->session->set_userdata('aggr_id',$aggr_id);
+		//var_dump($this->session->all_userdata());
 		$this->drawHeader();
 		$this->load->view('course_structure/LoadOfferedElective',$data);
 		$this->drawFooter();
@@ -88,13 +93,16 @@ class Elective_offered extends MY_Controller
 	{
 		$formValues = $this->input->post('checkbox');
 		$aggr_id = $this->session->userdata('aggr_id');
+		//var_dump($this->session->all_userdata());
 		foreach($formValues as $key=>$val)
 		{
 			$data['aggr_id'] = $aggr_id;
+		
 			$data['id'] = $val;
-			if(!$this->basic_model->select_elective_offered($data['aggr_id'],$data['id']))
+			//var_dump($data);
+			if(!$this->offer_elective_model->select_elective_offered($data['aggr_id'],$data['id']))
 			{
-				$this->basic_model->insert_elective_offered($data);
+				$this->offer_elective_model->insert_elective_offered($data);
 			}
 				
 		}

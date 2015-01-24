@@ -203,17 +203,17 @@ class Basic_model extends CI_Model
 	function delete_course_structure($coursestructure_details)
 	{
 		return $this->db->delete($this->table_course_structure,array('semester'=>$coursestructure_details["semester"],'aggr_id'=>
-		$coursestructure_details['aggr_id'
-		]));
+		$coursestructure_details['aggr_id']));
 	}
 	
 	
-	function select_elective_offered($aggr_id,$id)
+	function get_latest_aggr_id($course,$branch,$expected_aggr_id)
 	{
-    	$query = $this->db->get_where($this->table_elective_offered,array('aggr_id'=>$aggr_id,'id'=>$id));
-    	if($query->num_rows() > 0)
-			return true;	
+		$query = $this->db->query("SELECT aggr_id FROM dept_course INNER JOIN course_branch ON course_branch.course_branch_id = dept_course.course_branch_id WHERE course_branch.course_id = '$course' AND course_branch.branch_id = '$branch' AND aggr_id <= '$expected_aggr_id'  ORDER BY aggr_id DESC");
+		return $query->result();
 	}
+	
+	
 	
 	
 }

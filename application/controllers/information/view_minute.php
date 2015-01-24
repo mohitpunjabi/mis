@@ -34,10 +34,19 @@ class View_minute extends MY_Controller
 			$this->load->model('information/viewminute_model','',TRUE);
 			$data['minutes'] = $this->viewminute_model->get_minutes();
 			
-			if(count($data['minutes']) == 0)
+			$this->load->model('information/view_minute_model','',TRUE);
+			$data['minutes1'] = $this->view_minute_model->get_minutes();
+			
+			if(count($data['minutes']) == 0 && count($data['minutes1']) == 0)
 			{
 				$this->session->set_flashdata('flashError','There is no any meeting minutes to view.');
 				redirect('home');
+			}
+			
+			if(count($data['minutes']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no archived meeting minutes to view.');
+				redirect('information/view_minute');
 			}
 				
 			$this->drawHeader('View Meeting Minutes');

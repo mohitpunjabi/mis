@@ -29,7 +29,6 @@ class Edit extends MY_Controller
 	
 	public function EditCourseStructure()
 	{
-		//$this->load->model('course_structure/view_model','',TRUE);
 		$data = array();
 		$data["CS_session"]['dept_id'] = $this->input->post("dept");
 		$data["CS_session"]['course_id'] = $this->input->post("course");
@@ -79,13 +78,8 @@ class Edit extends MY_Controller
 			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
 			   id)->sequence;
 			   
-			   
-			   $data["subjects"][$group_id] = 0;
-			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
 			   if($group_id != 0)
 			   {
-				    //$data['flag']['group_id'][$i] = $group_id;
-					//$result_group_id = $this->basic_model->select_elective_group_by_group_id($group_id)
 			   		$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
 			    	$data["subjects"]["elective_count"][$group_id]++;
 			   }
@@ -97,7 +91,7 @@ class Edit extends MY_Controller
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  
-		$this->load->view('course_structure/edit/edit',$data);
+		$this->load->view('course_structure/Edit/edit',$data);
 		$this->drawFooter();
 
 	}

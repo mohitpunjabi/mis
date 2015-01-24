@@ -7,11 +7,11 @@
 		<tr>
 			<td>File Number : </td>
 			<td> 
-				<input type="text" name="file_no" id="file_no"> 
+				<input type="text" name="file_no" id="file_no" > 
 			</td>
 			<td>File Subject : </td>
 			<td> 
-				<input type="text" name="file_sub" id="file_sub"> 
+				<input type="text" name="file_sub" id="file_sub" size="55"> 
 			</td>
 		</tr>
 	
@@ -58,7 +58,7 @@
 		<tr>
 			<td>Remarks : </td>
 			<td> 
-				<textarea name="remarks" id="remarks"></textarea>
+				<textarea name="remarks" id="remarks" ></textarea>
 				<!--<input type="text" name="emp_id" id="emp_id">-->
 			</td>
 			<td> 

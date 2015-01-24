@@ -92,6 +92,19 @@ class User_model extends CI_Model
 							->get();
 		return $query->result();
 	}
+
+	function getUsersByDeptAuth($dept = 'all',$auth = 'all')
+	{
+		$query = $this->db->select('user_details.id, salutation, first_name, middle_name, last_name, departments.name as dept_name')
+							->from('user_details')
+							->join('departments','user_details.dept_id = departments.id');
+
+		if($auth != 'all')	$query = $this->db->join('user_auth_types','user_details.id = user_auth_types.id')
+												->where('user_auth_types.auth_id',$auth);
+		if($dept != 'all')	$query = $this->db->where('user_details.dept_id',$dept);
+
+		return $query->get()->result();
+	}
 }
 
 /* End of file user_model.php */

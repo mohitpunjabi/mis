@@ -18,8 +18,8 @@ class View_circular extends MY_Controller
 			
 			if(count($data['circulars']) == 0)
 			{
-				$this->session->set_flashdata('flashError','There is no any circular to view.');
-				redirect('home');
+				$this->session->set_flashdata('flashError','There is no current circular to view.');
+				redirect('information/view_circular/index/archieved');
 			}
 				
 			$this->drawHeader('View Circular');
@@ -33,10 +33,19 @@ class View_circular extends MY_Controller
 			$this->load->model('information/viewcircular_model','',TRUE);
 			$data['circulars'] = $this->viewcircular_model->get_circulars();
 			
-			if(count($data['circulars']) == 0)
+			$this->load->model('information/view_circular_model','',TRUE);
+			$data['circulars1'] = $this->view_circular_model->get_circulars();
+			
+			if(count($data['circulars']) == 0 && count($data['circulars1']) == 0)
 			{
 				$this->session->set_flashdata('flashError','There is no any circular to view.');
 				redirect('home');
+			}
+			
+			if(count($data['circulars']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no archived circular to view.');
+				redirect('information/view_circular');
 			}
 				
 			$this->drawHeader('View Circular');

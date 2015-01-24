@@ -1,7 +1,9 @@
 <div id="container">
 <h1>File Details</h1>
 <?php echo form_open (); ?> 
-<table align="center" nozebra>
+<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>File Details : </b></LEGEND>
 	<tr>
 		<td>File No : </td>
 <?php
@@ -22,13 +24,16 @@
 <?php
 		}
 ?>
-	</tr>
-	<tr>
 		<td>File Subject : </td>
 		<td> 
 			<input type="text" name="file_sub" id="file_sub" value="<?php echo $file_sub; ?>" readonly> 
 		</td>
 	</tr>
+	</table>
+	</FIELDSET>
+	<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>File will be Sent to : </b></LEGEND>
 	<tr>
 		<td>Department Type : </td>
 		<td> 
@@ -49,41 +54,46 @@
 		<td>Designation : </td>
 		<td> 
 			<select name="designation" id="designation" onchange="get_emp_name(this.value)">
-				<option type="text" >Select</option>
+				<option type="text" value="">Select</option>
 			</select>
 		</td>
 		<td>Employee Name : </td>
 		<td> 
 			<select name="emp_name" id="emp_name">
-				<option type="text" >Select</option>
+				<option type="text" value="">Select</option>
 			</select>
 		</td>
 	</tr>
+	</table>
+	</FIELDSET>
+	<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>Add Remarks : </b></LEGEND>
 	<tr>
 		<td>Remarks : </td>
 		<td> 
-			<textarea name="remarks" id="remarks"></textarea>
+			<textarea name="remarks" id="remarks" ></textarea>
 		</td>
-	</tr>
-</table>
-<table align="center" nozebra>
-	<tr>
 		<td> 
 			<input type="button" value="Send File" onClick="display_send_notification2(<?php echo $file_id; ?>)">
 		</td>
 	</tr>
 </table>
+</FIELDSET>
 <h2 align="center">OR</h2>
-<table align="center" nozebra>
+<FIELDSET>
+	<table align="center" nozebra>
+	<LEGEND><b>Enter Remarks and Send Back : </b></LEGEND>
 	<tr>
 		<td>Remarks: </td>
 		<td> 
-			<textarea name="remarks2" id="remarks2"></textarea>
+			<textarea name="remarks2" id="remarks2" ></textarea>
 		</td>
 		<td> 
 			<input type="button" value="Send File Back" onClick="display_send_notification4(<?php echo $file_id; ?>,<?php echo $sent_by_emp_id ?>)">
 		</td>
 	</tr>	
 </table>
+</FIELDSET>
 </div>
 <div id="send_notification"></div>

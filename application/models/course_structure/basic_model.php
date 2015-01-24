@@ -107,13 +107,6 @@ class Basic_model extends CI_Model
 		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '$course' AND dept_course.dept_id = '$dept'");
 		return $query->result();
 	}
-	
-	//dgfhvgjfchvgjhhfcv
-	function get_session_by_course_and_branch($course,$branch){
-		$this->db->select('year');
-		$query = $this->db->get_where($this->table_course_branch,array("course_id"=>$course,"branch_id"=>$branch));
-		return $query->result();
-	}
 
 	
 	function get_branch_details_by_id($id)
@@ -136,6 +129,12 @@ class Basic_model extends CI_Model
       	return true;
 	}
 	
+	function get_session_by_course_and_branch($course,$branch){
+		$this->db->select('year');
+		$query = $this->db->get_where($this->table_course_branch,array("course_id"=>$course,"branch_id"=>$branch));
+		return $query->result();
+	}
+
 	function select_course_branch($course_id,$branch_id)
 	{
     	$query = $this->db->get_where($this->table_course_branch, array('course_id'=>$course_id,'branch_id'=>$branch_id));
@@ -169,6 +168,14 @@ class Basic_model extends CI_Model
 			return $query->result();
 	}
 	
+	
+	function select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester)
+	{
+		$query = $this->db->query("SELECT subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 
+		subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id <= '$aggr_id' AND 
+		course_structure.semester = '$semester' AND elective != '0' ORDER BY course_structure.aggr_id DESC");
+		return $query->result();
+	}
 	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{
 		$query = $this->db->query("SELECT * FROM subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id = '$aggr_id' AND 
@@ -185,7 +192,7 @@ class Basic_model extends CI_Model
 	function select_elective_group_by_group_id($group_id)
 	{
 		$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
-		return $query->row();
+		return $query->result();
 	}
 	
 	function update($data, $where)
@@ -199,6 +206,16 @@ class Basic_model extends CI_Model
 		$coursestructure_details['aggr_id'
 		]));
 	}
+	
+	
+	function select_elective_offered($aggr_id,$id)
+	{
+    	$query = $this->db->get_where($this->table_elective_offered,array('aggr_id'=>$aggr_id,'id'=>$id));
+    	if($query->num_rows() > 0)
+			return true;	
+	}
+	
+	
 }
 
 /* End of file emp_current_entry_model.php */

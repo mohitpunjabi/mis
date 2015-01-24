@@ -88,32 +88,6 @@ $(document).ready(function(){
 		});
 	}
 	
-	/*
-	function add_session($course,$branch){
-		alert();
-		$.ajax({url:site_url("course_structure/add/json_get_session/"+$course+"/"+$branch),
-			success:function(data){
-				//console.log(data);
-				base_str = "<tr class=\"session_selection\"><td> <label for=\"session\">Session</label></td><td><select id=\"session\" name=\"session\"><option>Select Session</option>";
-				for(counter = 0; counter <data.length ; counter++){
-					first = parseInt(parseInt(data[counter].year)/100);
-					second = parseInt(data[counter].year) - first*100;
-					//console.log(first,second);
-					base_str += "<option value=\""+data[counter].year+"\">20"+first+" - 20"+second+"</option>";
-				}
-				base_str +="</select></td></tr>";
-				$form_table.append(base_str);
-				add_semester(parseInt($course_selection.find(':selected').data('duration')));
-			},
-			type:"POST",
-			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
-			dataType:"json",
-			fail:function(error){
-				console.log(error);
-			}
-		});
-	}
-*/
 	function add_semester(duration){
 		//alert(duration);
 		//base_str = "<tr class=\"session_selection\"><td> <label for=\"semester\">Semester</label></td><td><select id=\"semester\" name=\"sem\">";

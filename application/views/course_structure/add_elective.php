@@ -1,7 +1,7 @@
 <div id="container">
 	<h1>Welcome to Course Structure Page!</h1>
   <center>
--  <?php echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h3>"; ?>
+ <?php echo "<h3>".$CS_session['course_name']." (".$CS_session['branch'].") for Session ".$CS_session['session']."</h3>"; ?>
   <h3>
   Add elective courses for Semester 
   <?php 

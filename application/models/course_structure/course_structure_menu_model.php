@@ -28,7 +28,7 @@ class Course_structure_menu_model extends CI_Model
 			
 		//$menu['hod']=array();
 		//$menu['hod']['Choose Elective']=array();
-		//$menu['hod']['Course Structure']["Offer Elective"] = site_url('course_structure/elective_offered_home');
+		$menu['hod']['Course Structure']["Offer Elective"] = site_url('course_structure/elective_offered_home');
 
 		return $menu;
 	}

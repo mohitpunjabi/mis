@@ -10,8 +10,8 @@ class Elective_offered extends MY_Controller
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
 		$this->addCSS("course_structure/cs_layout.css");
-		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
+		$this->load->model('course_structure/offer_elective_model','',TRUE);
 	}
 
 	public function index($error='')
@@ -25,54 +25,62 @@ class Elective_offered extends MY_Controller
 		$result_course_details = $this->basic_model->get_course_details_by_id($course);
 		$duration = $result_course_details[0]->duration;
 		
-		$aggr_id = $course."_".$branch."_".substr(($batch-$duration),2,3).(substr(($batch-$duration),2,3)+1);
+		$aggr_id = $course."_".$branch."_".($batch-$duration)."_".($batch-$duration+1);
 		$data['course'] = $course;
 		$data['branch'] = $branch;
 		$data['batch'] = $batch;
 		$data['semester'] = $semester;
 		$data['aggr_id'] = $aggr_id;
+		//var_dump($data);
+		$subject_details = $this->basic_model->select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester);
 		
-		$subject_details = $this->basic_model->select_all_subject_by_aggr_id_and_semester($aggr_id,$semester);
+				
 		$i =0;
 		$j = 0;
-		
 		$data['group_id'] = array();
 		$data['elective_count'] = 0;
 		
 		foreach($subject_details as $row)
 		{
-			if($row->elective != 0)
+			//$j = 0;	
+			$group_id = $row->elective;
+			if(!in_array($group_id,$data['group_id']))
 			{
-				
-				$group_id = $row->elective;
-				if(!in_array($group_id,$data['group_id']))
-				{
-					$data['group_id'][$j] = $group_id;
-					$data['subjects'][$group_id]['number_of_options'] = substr($group_id,0,1);
-					$group_details  = $this->basic_model->select_elective_group_by_group_id($group_id);
-					$data['elective_name'][$j] = $group_details[0]->elective_name;					
-					$data['elective_count']++;
-					$data['subject'][$group_id]['count'] = 0;
-					$i = 0;
-					$j++;	
-				}
-				
-				$data['subject'][$group_id]['id'][$i] = $row->id;
-				$data['subject'][$group_id]['subject_id'][$i] = $row->subject_id;
-				$data['subject'][$group_id]['subject_name'][$i] = $row->name;
-				$data['subject'][$group_id]['lecture'][$i] = $row->lecture;
-				$data['subject'][$group_id]['tutorial'][$i]= $row->tutorial;
-				$data['subject'][$group_id]['practical'][$i]= $row->practical;
-				$data['subject'][$group_id]['credit_hours'][$i]= $row->credit_hours;
-				$data['subject'][$group_id]['contact_hours'][$i]= $row->contact_hours;
-				$data['subject'][$group_id]['count']++;
-				$i++;
-			}			
+				$data['group_id'][$j] = $group_id;
+				$data['subjects'][$group_id]['number_of_options'] = substr($group_id,0,1);
+				$group_details  = $this->basic_model->select_elective_group_by_group_id($group_id);
+				$data['subject']['elective_name'][$j] = $group_details[0]->elective_name;					
+				$data['elective_count']++;
+				$data['subject'][$group_id]['count'] = 0;
+				$i = 0;
+				$j++;	
+			}
+			
+			$data['subject'][$group_id]['id'][$i] = $row->id;
+			$data['subject'][$group_id]['subject_id'][$i] = $row->subject_id;
+			$data['subject'][$group_id]['subject_name'][$i] = $row->name;
+			$data['subject'][$group_id]['lecture'][$i] = $row->lecture;
+			$data['subject'][$group_id]['tutorial'][$i]= $row->tutorial;
+			$data['subject'][$group_id]['practical'][$i]= $row->practical;
+			$data['subject'][$group_id]['credit_hours'][$i]= $row->credit_hours;
+			$data['subject'][$group_id]['contact_hours'][$i]= $row->contact_hours;
+			$data['subject'][$group_id]['count']++;
+			$i++;			
 		}
+		
+		
+		//show the list of already selected elective ..
+		/*$already_selected_elective = $this->basic_model->select_elective_offered_by_aggr_id($aggr_id);	
+		foreach($already_selected_elective as $row)
+		{
+			
+		}
+		*/
+
 		
 		$this->session->set_userdata($data);
 		$this->drawHeader();
-		$this->load->view('elective_offered/LoadOfferedElective',$data);
+		$this->load->view('course_structure/LoadOfferedElective',$data);
 		$this->drawFooter();
 	}
 	
@@ -84,10 +92,14 @@ class Elective_offered extends MY_Controller
 		{
 			$data['aggr_id'] = $aggr_id;
 			$data['id'] = $val;
-			$this->basic_model->insert_elective_offered($data);		
+			if(!$this->basic_model->select_elective_offered($data['aggr_id'],$data['id']))
+			{
+				$this->basic_model->insert_elective_offered($data);
+			}
+				
 		}
 		$this->session->set_flashdata("flashSuccess","Elective Added Successfully");
-   		redirect("elective_offered/home");
+   		redirect("course_structure/elective_offered_home");
 	}
 }
 ?>

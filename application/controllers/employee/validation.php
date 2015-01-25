@@ -25,7 +25,7 @@ class Validation extends MY_Controller
 		if(!$this->authorization->is_auth('est_ar'))
 		{
 			$this->session->set_flashdata('flashError','You are not authorized.');
-			redirect('employee/menu');
+			redirect('home');
 			return;
 		}
 
@@ -86,7 +86,7 @@ class Validation extends MY_Controller
 		if(!$this->authorization->is_auth('est_ar'))
 		{
 			$this->session->set_flashdata('flashError','You are not authorized.');
-			redirect('employee/menu');
+			redirect('home');
 			return;
 		}
 

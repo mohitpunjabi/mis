@@ -15,14 +15,15 @@ class User_auth_types_model extends CI_Model
 		$this->db->insert($this->table,$data);
 	}
 
+	function delete($data)
+	{
+		$this->db->delete($this->table,$data);
+	}
+
 	function getUserIdByAuthId($auth_id = '')
 	{
-
 		$query=$this->db->where('auth_id',$auth_id)->get($this->table);
-		if($query->num_rows()==0)
-			return FALSE;
-		else
-			return $query->result();
+		return $query->result();
 	}
 }
 

@@ -19,18 +19,12 @@ class Departments_model extends CI_Model
 					 ->where('type="'.$type.'"','',FALSE)
 					 ->order_by('name');
 			$query = $this->db->get($this->table);
-			if($query->num_rows() > 0)
-				return $query->result();
-			else
-				return FALSE;
+			return $query->result();
 		}
 		else
 		{
 			$query = $this->db->get($this->table);
-			if($query->num_rows() > 0)
-				return $query->result();
-			else
-				return FALSE;
+			return $query->result();
 		}
 	}
 

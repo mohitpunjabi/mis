@@ -458,18 +458,14 @@ class Add extends MY_Controller
 				foreach($res as $row)
 					$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "employee/validation/validate_step/".$emp_id);
 
-				//check for optional forms i.e previous_exp, family, stay details
-				//if optional forms have no records then set them as approved otherwise pending
-				$prev = ($this->employee_model->getPreviousEmploymentDetailsById($emp_id))?	'pending':'approved';
-				$fam  = ($this->employee_model->getFamilyDetailsById($emp_id))?			'pending':'approved';
-				$stay = ($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))?	'pending':'approved';
+				//set status of all forms as pending
 				$this->emp_validation_details_model->insert(array(	'id'=>$emp_id,
 																	'profile_pic_status'=> 'pending',
 																	'basic_details_status'=> 'pending',
-																	'prev_exp_status'=> $prev,
-																	'family_details_status'=> $fam,
+																	'prev_exp_status'=> 'pending',
+																	'family_details_status'=> 'pending',
 																	'educational_status'=> 'pending',
-																	'stay_status'=> $stay,
+																	'stay_status'=> 'pending',
 																	'created_date'=> $date));
 
 				$this->session->set_flashdata('flashSuccess','Employee \''.$emp_id.'\' successfully created and sent for validation.');

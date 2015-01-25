@@ -7,9 +7,14 @@ class Post_minute extends MY_Controller
 		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
 	}
 
-	public function index($error='')
+	public function index($auth_id='')
 	{
-		$data['error']=$error;
+		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
+		
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->library('form_validation');
@@ -27,6 +32,7 @@ class Post_minute extends MY_Controller
 		if ($this->form_validation->run() == FALSE)
 		{
 			$data['id'] = $this->post_minute_model->get_max_minute_id();
+			$data['auth_id'] = $auth_id;
 			$this->load->view('information/post_minute',$data);
 		}
 		else
@@ -37,7 +43,7 @@ class Post_minute extends MY_Controller
 				//deparment of logged in employee
 				$department = $this->post_minute_model->get_department();
 				//current date
-				$date = date("Y-m-d");
+				$date = date("Y-m-d H:i:s");
 				
 				$others = $this->input->post('meeting_type');
 				//checking for others meeting type
@@ -53,14 +59,15 @@ class Post_minute extends MY_Controller
 						  'date_of_meeting'=>$this->input->post('date_of_meeting'),
 						  'place_of_meeting'=>$this->input->post('place_of_meeting'),
 						  'issued_by'=>$this->session->userdata('id'),
+						  'auth_id'=>$auth_id,
 						  'posted_on'=>$date,
 						  'valid_upto'=>$this->input->post('valid_upto'),
 						  'modification_value'=>0
 						  );
 			
 			$this->post_minute_model->insert($data);
-			$this->session->set_flashdata('flashSuccess','Minutes has been successfully posted.');
-			redirect('information/post');
+			$this->session->set_flashdata('flashSuccess','Meeting minutes has been successfully posted.');
+			redirect('home');
 			
 			//$this->load->view('information/post_minute_success');
 			}
@@ -72,8 +79,8 @@ class Post_minute extends MY_Controller
 	private function upload_file($name ='',$sno = 0)
 	{
 		$config['upload_path'] = 'assets/files/information/minute';
-		$config['allowed_types'] = 'pdf|doc|docx';
-		$config['max_size']  = '2000';
+		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';
+		$config['max_size']  = '1050';
 
 			if(isset($_FILES[$name]['name']))
         	{

@@ -1,9 +1,8 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
 	<?php 
 	$errors=validation_errors();
 	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
 	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/post_notice');   ?>
+	<?php  echo form_open_multipart('information/post_notice/index/'.$auth_id);   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.
 	<table width='90%'>
 		<tr><th colspan=2></th></tr>
@@ -57,17 +56,19 @@
 					$noticeno = array(
 								'name'=>'notice_no',
 								'id'=>'notice_no',
-								'required'=>'required'
+								'required'=>'required',
+								'placeholder'=>'Enter Notice Number'
 								);
 					echo form_input($noticeno);
 					//will produce
 					//echo '<input type="text" name="notice_no" id="notice_no" required="required"/>';
 				?>
+				(Ex: CSE_NOT10185)
 			</td>
 		</tr>
 		<tr>
 			<td width='20%'>
-    			Notice Category<span style= "color:red;"> *</span>
+    			Viewed By<span style= "color:red;"> *</span>
 	        </td>
 	        <td width='30%'>
 			<?php
@@ -97,7 +98,8 @@
 								'name'=>'notice_sub',
 								'rows'=>'3',
 								'cols'=>'80',
-								'required'=>'required'
+								'required'=>'required',
+								'placeholder'=>'Enter the notice Subject in not more than 200 characters'
 								);
 					echo form_textarea($subject);
 					/*
@@ -123,6 +125,7 @@
 						echo <input type="file" name="notice_path"/>
 					*/
 				?>
+				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
 			</td>
 		</tr>
 		<tr>
@@ -130,10 +133,11 @@
 				Last Date<span style="color:red;">*</span>
 			</td>
 			<td width="30%">
-				<input type="date" name="last_date" min="<?php echo date("Y-m-d");?>" value = "<?php echo date("Y-m-d");?>"/> 
+				<input type="date" name="last_date" id="last_date" min="<?php echo date("Y-m-d");?>" value = "<?php echo date("Y-m-d");?>"/> 
+			(atleast today's date)
 			</td>
 		</tr>
 	 </table> 
-    <?php 
+	<?php 
 	echo form_submit('mysubmit','Post Notice');
 	echo form_close(); ?>

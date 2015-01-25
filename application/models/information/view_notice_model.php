@@ -34,9 +34,10 @@ class View_notice_model extends CI_Model
 
 		$where = "notice_cat = 'all' OR notice_cat = '".$notice_cat."'";
 		$this->db->where($where);
-		$query = $this->db->select("info_notice_details.*, user_details.*, departments.name as department, designations.name as designation")
+		$query = $this->db->select("info_notice_details.*, user_details.*, auth_types.type as auth_name, departments.name as department, designations.name as designation")
 						  ->from($this->table)
 						  ->join("user_details", $this->table.".issued_by = user_details.id")
+						  ->join("auth_types", $this->table.".auth_id = auth_types.id")
 						  ->join("emp_basic_details", "emp_basic_details.id = user_details.id")
 						  ->join("departments", "user_details.dept_id = departments.id")
 						  ->join("designations", "designations.id = emp_basic_details.designation")

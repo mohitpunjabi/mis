@@ -19,7 +19,7 @@
 	</tr>
 </table> -->
 <br>
-<h1>Movement Details</h1>
+<h1>Movement Details  (Track Number : <?php echo $track_num; ?>) </h1>
 <table align = "center">
 	<tr>
 		<th>S.No.</th>
@@ -36,10 +36,10 @@
 ?>
 	<tr align="center">
 		<td><?php echo $sno; ?></td>
-		<td><?php echo $data_array[$sno][3]//$row->sent_by_emp_id;?></td>
+		<td><?php echo $data_array[$sno][3];//$row->sent_by_emp_id;?></td>
 		<td><?php echo "File Started"; ?></td>
-		<td><?php echo $data_array[$sno][4]//echo $row->sent_timestamp;?></td>
-		<td><?php echo $data_array[$sno][8]//echo $row->remarks;?></td>
+		<td><?php echo $data_array[$sno][4];//echo $row->sent_timestamp;?></td>
+		<td><?php echo $data_array[$sno][8];//echo $row->remarks;?></td>
 	</tr>
 <?php
 //	$prev_row = $row;
@@ -60,7 +60,9 @@
 	//	$prev_row = $row;
 	//	$row = $result->next_row();
 	}
-	if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
+	if ($data_array[$sno-1][6])
+
+	//if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
 	{
 ?>
 	<tr align="center">

@@ -7,67 +7,74 @@ class View_minute extends MY_Controller
 		parent::__construct();
 	}
 
-	public function index($error='')
+	public function index($link='')
 	{
-		$data['error']=$error;
-		
-		$this->load->model('information/view_minute_model','',TRUE);
-		
-		//title for the page
-		//$header['title']='View Minutes';
-		//$this->load->view('templates/header',$header);
-		
-		if ($this->input->post('go') == FALSE && $this->input->post('get_details') == TRUE)
+	
+		if($link=='' || $link== 'current')
 		{
-			//$header['title']='View Minute';
-			$this->drawHeader("View Minute");
-			$data['id'] = $this->view_minute_model->get_minute_ids();
+			$data['firstLink']  = 'List of Current Meeting Minutes';
+			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_minute/index/archieved">List of Archived Meeting Minutes</a>';
+			$this->load->model('information/view_minute_model','',TRUE);
+			$data['minutes'] = $this->view_minute_model->get_minutes();
 			
-			$data['selected']  = $this->input->post('minute_id');
-			
-			$this->load->view('information/view_minuteV',$data);
-			
-			$data['minute_row'] = $this->view_minute_model->get_minute_row($data['selected']);
-			//var_dump($data);
-			$data['prev_ver'] = $this->view_minute_model->get_prev_versions($data['selected']);
-			$data['selected_ver'] = $this->input->post('pre_ver');
-			
-			$this->load->view('information/view_minuteR',$data);
-			$this->load->view('information/click_for_prev_version_minute',$data);
-			
-			$data['minute_row'] = $this->view_minute_model->get_minute_row2($data['selected'],$data['selected_ver']);
-			$this->load->view('information/view_minuteR',$data);
-		}
-		else if ($this->input->post('go') == FALSE)
-		{
-			//$header['title']='View minute';
-			$this->drawHeader("View Minute");
-			$data['id'] = $this->view_minute_model->get_minute_ids();
-			
-			if($data['id'] == NULL)
+			if(count($data['minutes']) == 0)
 			{
-				$this->session->set_flashdata('flashError','There is no any minute.');
-				redirect('information/view');
-			
+				$this->session->set_flashdata('flashError','There is no any meeting minutes to view.');
+				redirect('home');
 			}
-			$this->load->view('information/view_minuteV',$data);
+				
+			$this->drawHeader('View Meeting Minutes');
+			$this->load->view('information/viewMinute',$data);
+			$this->drawFooter();
 		}
-		else 
+		else if ($link =='archieved')
 		{
-			//$header['title'] = 'View minute';
-			$this->drawHeader("View Minute");
+			$data['firstLink']  = 'List of Archived Meeting Minutes';
+			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_minute/index/current">List of Current Meeting Minutes</a>';
+			$this->load->model('information/viewminute_model','',TRUE);
+			$data['minutes'] = $this->viewminute_model->get_minutes();
 			
-			$data['id'] = $this->view_minute_model->get_minute_ids();
-			$data['selected']  = $this->input->post('minute_id');
+			$this->load->model('information/view_minute_model','',TRUE);
+			$data['minutes1'] = $this->view_minute_model->get_minutes();
 			
-			$this->load->view('information/view_minuteV',$data);
+			if(count($data['minutes']) == 0 && count($data['minutes1']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no any meeting minutes to view.');
+				redirect('home');
+			}
 			
-			$data['minute_row'] = $this->view_minute_model->get_minute_row($data['selected']);
-			//var_dump($data);
-			$data['prev_ver'] = $this->view_minute_model->get_prev_versions($data['selected']);
-			$this->load->view('information/view_minuteR',$data);
-			$this->load->view('information/click_for_prev_version_minute',$data);
+			if(count($data['minutes']) == 0)
+			{
+				$this->session->set_flashdata('flashError','There is no archived meeting minutes to view.');
+				redirect('information/view_minute');
+			}
+				
+			$this->drawHeader('View Meeting Minutes');
+			$this->load->view('information/viewMinute',$data);
+			$this->drawFooter();
 		}
+	}
+	
+	public function prev($minute_id='')
+	{
+		if($minute_id=='')
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}		
+		
+		$this->load->model('information/viewprevminute_model','',TRUE);
+		$data['minutes'] = $this->viewprevminute_model->get_minutes($minute_id);
+
+		if(count($data['minutes']) == 0)
+		{
+			$this->session->set_flashdata('flashError','There is no any meeting minutes to view.');
+			redirect('home');
+		}
+	
+		$data['prevminute'] = $minute_id;
+		$this->drawHeader('View Meeting Minutes');
+		$this->load->view('information/viewMinute',$data);
 		$this->drawFooter();
 	}
 	

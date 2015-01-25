@@ -31,5 +31,16 @@ class Student_ajax extends CI_Controller
 		$data['courses']=$this->Courses_model->get_courses_by_dept($dept);
 		$this->load->view('student/ajax/student_update_courses',$data);
 	}
+
+	function check_if_user_exists($id = '')
+	{
+		if($id !== '')
+		{
+			$this->load->model('User/Users_model','',TRUE);
+			$data['user'] = $this->Users_model->getUserById($id);
+			if($data['user'])
+				$this->load->view('student/ajax/student_update_user_id',$data);
+		}
+	}
 }
 ?>

@@ -1,3 +1,51 @@
+	// $(document).ready(function() {
+	// 	$("td, th").css("visibility", "hidden");
+	// 	$("td#stuId").css("visibility", "visible");
+	// 	$("#stuIdIcon").hide();
+	// });
+
+	function fetch_details()
+	{
+		var stu_id = document.getElementsByName("stu_id")[0].value;
+		$("#fetch_id_btn").hide();
+		$("#stuIdIcon").show();
+		//alert(stu_id);
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp=new XMLHttpRequest();
+		}
+		else
+	  	{// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+	  	{
+	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+		    	//alert("success");
+		    	//alert(xmlhttp.responseText);
+		    	//td.innerHTML = xmlhttp.responseText;
+				if(xmlhttp.responseText != '')
+				{
+				 	alert('User Already exists.');
+				 	$("#fetch_id_btn").show();
+				 	$("#stuIdIcon").hide();
+				}
+				else
+				{
+					$("td, th").css("visibility", "visible");
+					$("#fetch_id_btn").hide();
+					$("#stuIdIcon").hide();
+				}
+		    }
+		    //else
+		    //	alert("failed");
+	  	}
+		xmlhttp.open("POST",site_url("student/student_ajax/check_if_user_exists/"+stu_id),true);
+		xmlhttp.send();
+	}
+
 	function preview_pic()
 	{
 		var file=document.getElementById('photo').files[0];
@@ -15,14 +63,43 @@
 		}
 	}
 
+	function check_if_student_type_others()
+    {
+    	var student_type = document.getElementById('stu_type').value;
+    	var student_other_type = document.getElementById('student_other_type');
+    	if(student_type == 'others')
+    		student_other_type.disabled = false;
+    	else
+    		student_other_type.disabled = true;
+    }
+
 	function form_validation()
 	{
-		var pgv = parent_gaurdian_validation();
+		/*var pgv = parent_gaurdian_validation();
 		var abov = admission_based_on_validation();
 		var cb = course_branch_validation();
 		var cav = correspondence_addr_validation();
+		var stv = student_type_validation();
+		var anv = all_number_validation();
 		var iv = image_validation();
-		return pgv && abov && cb && cav && iv;
+		return pgv && abov && cb && cav && stv && iv;*/
+		if(!parent_guardian_validation())
+			return false;
+		if(!admission_based_on_validation())
+			return false;
+		if(!correspondence_addr_validation())
+			return false;
+		if(!student_type_validation())
+			return false;
+		if(!all_number_validation())
+			return false;
+		if(!mobile_number_size_validation())
+			return false;
+		if(!course_branch_validation())
+			return false;
+		if(!image_validation())
+			return false;
+		return true;
 	}
 
 	function correspondence_addr_validation()
@@ -39,13 +116,27 @@
 			var pincode = document.getElementById("pincode3").value;
 			var country = document.getElementById("country3").value;
 			var contact = document.getElementById("contact3").value;
-			if(line1 == '' || line2 == '' || city =='' || state == ''|| pincode == ''|| country == ''|| contact == '')
+			if(line1 == '' || line2 == '' || city =='' || pincode == '' || state == '' || country == ''|| contact == '')
 			{
-				alert("Please fill all the fields of correspondence address.")
+				alert("Please fill all the fields of correspondence address.");
 				return false;
 			}
-			else
-				return true;
+			else if(isNaN(pincode))
+			{
+				alert("Pincode can contain only numbers.");
+				return false;
+			}
+			if(isNaN(contact))
+			{
+				alert("Correspondance Contact can contain only numbers.");
+				return false;
+			}
+			else if(contact >= 10000000000 || contact < 1000000000)
+			{
+				alert("Correspondence mobile number not in range.");
+				return false;
+			}
+			return true;
 		}
 	}
 
@@ -62,7 +153,7 @@
 			return true;
 	}
 
-	function parent_gaurdian_validation()
+	function parent_guardian_validation()
 	{
 		var dpe = document.getElementById("depends_on").checked;
 		/*if(dpe)
@@ -127,7 +218,7 @@
 		else if(admission_based_on == 'gate')
 		{
 			var gate_score = document.getElementById('gate_score').value;
-			if(gate_score == '' || gate_score == 0)
+			if(gate_score == '' || gate_score == 0 || isNaN(gate_score))
 			{
 				alert("Please fill the gate score.")
 				return false;
@@ -138,7 +229,7 @@
 		else if(admission_based_on == 'cat')
 		{
 			var cat_score = document.getElementById('cat_score').value;
-			if(cat_score ==0 || cat_score == '')
+			if(cat_score ==0 || cat_score == '' || isNaN(cat_score))
 			{
 				alert("Please fill the cat score.")
 				return false;
@@ -152,6 +243,23 @@
 			if(other_mode_of_admission == '')
 			{
 				alert("Please fill the other mode of admission.")
+				return false;
+			}
+			else
+				return true;
+		}
+		return true;
+	}
+
+	function student_type_validation()
+	{
+		var student_type = document.getElementById('stu_type').value;
+		if(student_type == 'others')
+		{
+			var student_other_type = document.getElementById('student_other_type').value;
+			if(student_other_type == '')
+			{
+				alert('Please enter the other "Student Other Type".');
 				return false;
 			}
 			else
@@ -397,6 +505,102 @@
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }
+
+    function all_number_validation()
+	{
+		if(isNaN(document.getElementById('father_gross_income').value))
+		{
+			alert("Father's Gross Income can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('mother_gross_income').value))
+		{
+			alert("Mother's Gross Income can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('parent_mobile').value))
+		{
+			alert("Parent Mobile number can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('parent_landline').value))
+		{
+			alert("Paerent Landline number can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('pincode1').value))
+		{
+			alert("Pincode of present address can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('pincode2').value))
+		{
+			alert("Pincode of premanent address can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('contact1').value))
+		{
+			alert("Contact of present address can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('contact2').value))
+		{
+			alert("Contact of permanent address can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('mobile').value))
+		{
+			alert("Mobile number can contain only digits.");
+			return false;
+		}
+		if(document.getElementById('alternate_mobile').value != '' && isNaN(document.getElementById('alternate_mobile').value))
+		{
+			alert("Alternate Mobile number can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('iitjee_cat_rank').value) && isNaN(document.getElementById('iitjee_rank').value))
+		{
+			alert("Rank can only contain digits.")
+			return false;
+		}
+		return true;
+	}
+
+	function mobile_number_size_validation()
+	{
+		var parent_mobile_no = document.getElementById('parent_mobile').value;
+		var present_contact_no = document.getElementById('contact1').value;
+		var permanent_contact_no = document.getElementById('contact2').value;
+		var correspondence_contact_no = document.getElementById('contact3').value;
+		var mobile_no = document.getElementById('mobile').value;
+		var alternate_mobile_no = document.getElementById('alternate_mobile').value;
+		if(parent_mobile_no >= 10000000000 || parent_mobile_no < 1000000000)
+		{
+			alert("Parent mobile number not in range");
+			return false;
+		}
+		else if(present_contact_no >= 10000000000 || present_contact_no < 1000000000)
+		{
+			alert("Present address mobile number not in range");
+			return false;
+		}
+		else if(permanent_contact_no >= 10000000000 || permanent_contact_no < 1000000000)
+		{
+			alert("Permanent address mobile number not in range");
+			return false;
+		}
+		else if(mobile_no >= 10000000000 || mobile_no < 1000000000)
+		{
+			alert("Your mobile number not in range");
+			return false;
+		}
+		else if(alternate_mobile_no != '' && (alternate_mobile_no >= 10000000000 || alternate_mobile_no < 1000000000))
+		{
+			alert("Your alternate mobile number not in range");
+			return false;
+		}
+		return true;
+	}
 
     /*function set_id_of_branch()
     {

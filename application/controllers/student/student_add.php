@@ -22,7 +22,10 @@ class Student_add extends MY_Controller
 		switch($num)
 		{
 			case 0: $this->add_basic_details($error);break;
-			case 1: $this->add_student_education_details($student,$error);break;
+			case 1: 
+					$this->load->model('student/Student_details_model','',TRUE);
+					$student_type = $this->Student_details_model->get_student_type_a_student($student);
+					$this->add_student_education_details($student,$student_type,$error);break;
 		}
 	}
 
@@ -31,21 +34,40 @@ class Student_add extends MY_Controller
 		//Handling Error
 		$data['error'] = $error;
 
+		//Fetching Student types
+		$this->load->model('student/student_type_model','',TRUE);
+		$data['stu_type'] = $this->student_type_model->get_all_types();
+
+		//Fetching all States
+		//$this->load->model('student/student_states_model','',TRUE);
+		//$data['states'] = $this->student_states_model->get_all_states();
+
 		//Fetching Departments
 		$this->load->model('Departments_model','',TRUE);
 		$data['academic_departments']=$this->Departments_model->get_departments('academic');
 		$depts = $data['academic_departments'];
-		//var_dump($depts[0]->id);
-		$this->load->model('Branches_model','',TRUE);
-		$data['branches']=$this->Branches_model->get_branches_by_courses($depts[0]->id);
-		//var_dump($data['branches']);
 
-		$branch = $data['branches'];
+		//var_dump($depts[0]->id);
+		$this->load->model('Courses_model','',TRUE);
+		$data['courses']=$this->Courses_model->get_courses_by_dept($depts[0]->id);
+
+		$this->load->model('Branches_model','',TRUE);
+		$course = $data['courses'];
+		if($course)
+			$data['branches'] = $this->Branches_model->get_branches_by_courses($courses[0]->id,$depts[0]->id);
+		else
+			$data['branches'] = FALSE;
+		
+		/*old   $this->load->model('Branches_model','',TRUE);
+		old   $data['branches']=$this->Branches_model->get_branches_by_courses($depts[0]->id);
+		var_dump($data['branches']);
+
+		old   $branch = $data['branches'];
 		$this->load->model('Courses_model','',TRUE);
 		if($branch)
 			$data['courses']=$this->Courses_model->get_courses_by_dept($branch[0]->id);
 		else
-			$data['courses']=FALSE;
+			$data['courses']=FALSE;*/
 
 		//javascript
 		$this->addJS('student/basic_details_script.js');
@@ -58,10 +80,11 @@ class Student_add extends MY_Controller
 
 	}
 
-	public function add_student_education_details($stu_id = '' ,$error = '')
+	public function add_student_education_details($stu_id = '' ,$student_type = '' ,$error = '')
 	{
 		$data['error'] = $error;
 		$data['stu_id'] = $stu_id;
+		$data['stu_type'] = $student_type;
 		$this->addJS("student/education_details_script.js");
 		$this->drawHeader('Add Education Details');
 		$this->load->view('student/add/student_educational_details',$data);
@@ -111,30 +134,82 @@ class Student_add extends MY_Controller
 				'mother_name' => ucwords(strtolower($this->input->post('mother_name')))
 			);
 
+			/*if($this->input->post('stu_type') === 'others')
+			{
+				$student_type = $this->input->post('student_other_type');
+				$this->load->model('student/student_new_student_type','',TRUE);
+				$new_student_type_id = $this->student_new_student_type->get_new_id();
+				$stu_type = array(
+					'id' => $new_student_type ,
+					'name' => $student_type
+				);
+			}
+			else
+			{
+				$student_type = $this->input->post('stu_type');
+				$stu_type = false;
+			}*/
+
+			$admn_based_on = $this->input->post('admn_based_on');
+			$iit_jee_rank = $this->input->post('iitjee_rank');
+			$iit_jee_cat_rank = $this->input->post('iitjee_cat_rank');
+			$cat_score = $this->input->post('cat_score');
+			$gate_score = $this->input->post('gate_score');
+			if($admn_based_on === 'others')
+			{
+				$admn_based_on = $this->input->post('other_mode_of_admission');
+				$iit_jee_rank = '0';
+				$iit_jee_cat_rank = '0';
+				$cat_score = '0';
+				$gate_score = '0';
+			}
+			else if($admn_based_on === 'iitjee')
+			{
+				$cat_score = '0';
+				$gate_score = '0';
+			}
+			else if($admn_based_on === 'gate')
+			{
+				$iit_jee_rank = '0';
+				$iit_jee_cat_rank = '0';
+				$cat_score = '0';
+			}
+			else if($admn_based_on === 'cat')
+			{
+				$iit_jee_rank = '0';
+				$iit_jee_cat_rank = '0';
+				$gate_score = '0';
+			}
+			else
+			{
+				$iit_jee_rank = '0';
+				$iit_jee_cat_rank = '0';
+				$cat_score = '0';
+				$gate_score = '0';
+			}
+
 			$stu_details = array(
 				'admn_no' => $stu_id ,
 				'admn_date' => $this->input->post('entrance_date') ,
 				'enrollment_no' => $this->input->post('roll_no') ,
-				'enrollment_year' => date('Y',strtodate($this->input->post('entrance_date'))) ,
-				'admn_based_on' => $this->input->post('admn_based_on') ,
-				'type' => '' ,
+				'type' => $this->input->post('stu_type') ,
 				'session' => '' ,
 				'identification_mark' => strtolower($this->input->post('identification_mark')) ,
 				'parent_mobile_no' => $this->input->post('parent_mobile') ,
 				'parent_landline_no' => $this->input->post('parent_landline') ,
+				'alternate_mobile_no' => $this->input->post('alternate_mobile') ,
 				'alternate_email_id' => $this->input->post('alternate_email_id') ,
-				'migration_cert' => $this->input->post('migration_cert')
+				'migration_cert' => $this->input->post('migration_cert') ,
+				'name_in_hindi' => $this->input->post('stud_name_hindi') ,
+				'blood_group' => $this->input->post('blood_group')
 			);
 
 			$stu_fee_details = array(
 				'id' => $stu_id ,
 				'fee_mode' => $this->input->post('fee_paid_mode') ,
-				'account_no' => $this->input->post('bank_account_no') ,
-				'fee_date' => $this->input->post('fee_paid_date') ,
 				'fee_amount' => $this->input->post('fee_paid_amount') ,
 				'fee_in_favour' => 'Indian School of Mines' ,
 				'payment_made_on' => $this->input->post('fee_paid_date') ,
-				'bank_name' => $this->input->post('bank_name') ,
 				'transaction_id' => $this->input->post('fee_paid_dd_chk_onlinetransaction_cashreceipt_no')
 			);
 
@@ -144,38 +219,31 @@ class Student_add extends MY_Controller
 				'mothers_occupation' => $this->input->post('mother_occupation') ,
 				'fathers_annual_income' => $this->input->post('father_gross_income') ,
 				'mothers_annual_income' => $this->input->post('mother_gross_income') ,
-				'gaurdian_name' => $this->input->post('guardian_name') ,
-				'gaurdian_relation' => $this->input->post('guardian_relation_name')
+				'guardian_name' => $this->input->post('guardian_name') ,
+				'guardian_relation' => $this->input->post('guardian_relation_name'),
+				'bank_name' => $this->input->post('bank_name') ,
+				'account_no' => $this->input->post('bank_account_no') ,
+				'extra_curricular_activity' => $this->input->post('extra_activity') ,
+				'other_relevant_info' => $this->input->post('any_other_information')
 			);
 
-			if($this->input->post('admn_based_on') == 'others')
-			{
-				$stu_academic = array(
-					'id' => $stu_id ,
-					'auth_id' => $this->input->post('stu_type') ,
-					'course_id' => $this->input->post('course') ,
-					'branch_id' => $this->input->post('branch') ,
-					'course_year' => '' ,
-					'semester' => '' ,
-					'section' => '' ,
-					'admission_based_on' => $this->input->post('other_mode_of_admission')
-				);
-			}
-			else
-			{
-				$stu_academic = array(
-					'id' => $stu_id ,
-					'auth_id' => $this->input->post('stu_type') ,
-					'course_id' => $this->input->post('course') ,
-					'branch_id' => $this->input->post('branch') ,
-					'course_year' => '' ,
-					'semester' => '' ,
-					'section' => '' ,
-					'admission_based_on' => $this->input->post('admn_based_on')
-				);
-			}
+			$stu_academic = array(
+				'id' => $stu_id ,
+				'auth_id' => $this->input->post('stu_type') ,
+				'enrollment_year' => date('Y',strtotime($this->input->post('entrance_date'))) ,
+				'admn_based_on' => $admn_based_on ,
+				'iit_jee_rank' => $iit_jee_rank ,
+				'iit_jee_cat_rank' => $iit_jee_cat_rank ,
+				'cat_score' => $cat_score ,
+				'gate_score' => $gate_score ,
+				'course_id' => $this->input->post('course') ,
+				'branch_id' => $this->input->post('branch') ,
+				'course_year' => '' ,
+				'semester' => '' ,
+				'section' => ''
+			);
 
-			if($this->input->post('corresopndence_addr'))
+			if($this->input->post('correspondence_addr'))
 			{
 				$user_address = array(
 					array(
@@ -255,6 +323,8 @@ class Student_add extends MY_Controller
 			$this->load->model('student/Student_fee_details_model','',TRUE);
 			$this->load->model('student/Student_academic_model','',TRUE);
 			$this->load->model('student/Student_current_entry_model','',TRUE);
+			//$this->load->model('student/Student_type_model','',TRUE);
+			//$this->load->model('student/Student_new_student_type','',TRUE);
 
 			$this->db->trans_start();
 
@@ -267,6 +337,8 @@ class Student_add extends MY_Controller
 			$this->Student_other_details_model->insert($stu_other_details);
 			$this->Student_fee_details_model->insert($stu_fee_details);
 			$this->Student_current_entry_model->insert($stu_current_entry);
+			//$this->Student_type_model->insert($stu_type);
+			//$this->Student_new_student_type->update();
 
 			$this->db->trans_complete();
 
@@ -274,9 +346,9 @@ class Student_add extends MY_Controller
 		}
 	}
 
-	function insert_education_details()
+	function insert_education_details($stu_id = '')
 	{
-		$stu_id = strtolower($this->input->post('student_id'));
+		//$stu_id = strtolower($this->input->post('student_id'));
 		$exam = $this->input->post('exam4');
 		$branch = $this->input->post('branch4');
 		$clgname = $this->input->post('clgname4');
@@ -286,12 +358,26 @@ class Student_add extends MY_Controller
 
 		$n = count($exam);
 		$i = 0;
+		$class = '10';
+		while($i<2)
+		{
+			$stu_education_details[$i]['id'] = $stu_id;
+			$stu_education_details[$i]['sno'] = $i+1;
+			$stu_education_details[$i]['exam'] = strtolower($exam[$i]);
+			$stu_education_details[$i]['branch'] = $class;
+			$stu_education_details[$i]['institute'] = strtolower($clgname[$i]);
+			$stu_education_details[$i]['year'] = $year[$i];
+			$stu_education_details[$i]['grade'] = strtolower($grade[$i]);
+			$stu_education_details[$i]['division'] = strtolower($div[$i]);
+			$class = '12';
+			$i++;
+		}
 		while($i<$n)
 		{
 			$stu_education_details[$i]['id'] = $stu_id;
 			$stu_education_details[$i]['sno'] = $i+1;
 			$stu_education_details[$i]['exam'] = strtolower($exam[$i]);
-			$stu_education_details[$i]['branch'] = strtolower($branch[$i]);
+			$stu_education_details[$i]['branch'] = strtolower($branch[$i-2]);
 			$stu_education_details[$i]['institute'] = strtolower($clgname[$i]);
 			$stu_education_details[$i]['year'] = $year[$i];
 			$stu_education_details[$i]['grade'] = strtolower($grade[$i]);

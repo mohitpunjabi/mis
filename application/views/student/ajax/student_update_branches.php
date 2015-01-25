@@ -1,8 +1,4 @@
-<!--select-->
 <?php
-
-	// Ajax giving branches options of a particular type
-	//alert('hello');
 	if($branches === FALSE)
         echo '<option value="none" disabled="disabled">No department found</option>';
     else
@@ -11,4 +7,3 @@
             echo '<option value="'.$row->id.'">'.$row->name.'</option>';
         }
 ?>
-<!--/select-->

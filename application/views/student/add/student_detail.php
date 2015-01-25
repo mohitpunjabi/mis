@@ -1,29 +1,40 @@
 <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
-<?php  echo form_open_multipart('student/student_add/insert_basic_details','onSubmit="return form_validation();"');   ?>
+<?php  echo form_open_multipart('student/student_add/insert_basic_details','onSubmit="return form_validation();"');?>
 <h1 align="center">Fill up the details of Student</h1>
-
 <table width='90%'>
 	<th colspan=4></th>
     <tr>
-    	<td width='15%'>
+    	<td width='15%' id="stuId">
         	Admission No.        </td>
-        <td width='35%'>
+        <td width='35%' id="stuId">
         	<input type="text" name="stu_id" required="required" /> 
-            <!-- <input type="button" value="Go" id="fetch_id_btn" />-->        </td>
-			<td>
-        	Date of Admission        </td>
-    	<td>
-			<input type="date" name="entrance_date" value="<?php echo date("Y-m-d",time()+(19800));?>" required="required" >        </td>
+            <!--input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/>
+            <i class="loading" id="stuIdIcon" ></i-->
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Password
+        </td>
+        <td>
+            <input type="password" name="password" id="password" required />
+        </td>
+        <td>
+            Confirm Password
+        </td>
+        <td>
+            <input type="password" name="confirm_password" id="confirm_password" required />
+        </td>
     </tr>
 	<tr>
     	<td>
         	Salutation        </td>
         <td>
 			<select name="salutation" >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Ms">Ms</option>
-                <option value="Dr">Dr</option>
+                <option value="mr">Mr</option>
+                <option value="mrs">Mrs</option>
+                <option value="ms">Ms</option>
+                <option value="dr">Dr</option>
              </select>        </td>
         <td>
         	First Name        </td>
@@ -62,7 +73,7 @@
    </tr>
    <tr>
        <td>
-            Father's Gross Anual Income        </td>
+            Father's Gross Annual Income        </td>
         <td>
             <input type="text" id="father_gross_income" name="father_gross_income"  />        </td>
 	   
@@ -81,7 +92,7 @@
         <td>
             <input type="text" id="mother_occupation" name="mother_occupation" />        </td>
 		<td>
-            Mother's Gross Anual Income        </td>
+            Mother's Gross Annual Income        </td>
         <td>
             <input type="text" id="mother_gross_income" name="mother_gross_income"  />        </td>
         
@@ -102,9 +113,9 @@
     </tr>
     <tr>
             <td>Parent/Guardian Mobile No</td>
-            <td><input type="number" name="parent_mobile" required="required"></td>
+            <td><input type="text" name="parent_mobile" id="parent_mobile" required="required"></td>
             <td>Parent/Guardian Landline No</td>
-            <td><input type="number" name="parent_landline" required="required"></td>
+            <td><input type="text" name="parent_landline" id="parent_landline"></td>
     </tr>
 	 <tr>
 		<td>
@@ -135,18 +146,40 @@
     			<td>
         	Kashmiri Immigrant        </td>
     	<td>
-			<input type="radio" name="kashmiri" value="Yes"/>Yes
-            <input type="radio" name="kashmiri" checked value="No"/>No        </td>
+			<input type="radio" name="kashmiri" value="yes"/>Yes
+            <input type="radio" name="kashmiri" checked value="no"/>No        </td>
+        <td>Blood Group</td>
         <td>
-			Student Type       	</td>
+                <select name="blood_group">
+                    <option value="apos">A+</option>
+                    <option value="aneg">A-</option>
+                    <option value="bpos">B+</option>
+                    <option value="bneg">B-</option>
+                    <option value="ops">O+</option>
+                    <option value="oneg">O-</option>
+                    <option value="abpos">AB+</option>
+                    <option value="abneg">AB-</option>
+                </select></td>
+    </tr>
+    <tr>
         <td>
-        	<select name="stu_type"  >
-            	<option value="ug" selected="selected" >Under Graduate</option>
-                <option value="pg">Post Graduate</option>
-                <option value="jrf">Junior Research Fellow</option>
-				<option value="pdf">Post Doctoral Fellow</option>
-				<option value="others">Others</option>
+            Date of Admission        </td>
+        <td>
+            <input type="date" name="entrance_date" value="<?php echo date("Y-m-d",time()+(19800));?>" required="required" >        </td>
+        <td>
+            Student Type        </td>
+        <td>
+            <select name="stu_type" id="stu_type" ><!--onchange="check_if_student_type_others()" -->
+                <?php
+                    foreach($stu_type as $row)
+                        echo '<option value="'.$row->id.'">'.$row->name.'</option>';
+                ?>
+                <!--option value="others">Others</option-->
              </select>        </td>
+        <!--td>
+            Student Other type   </td>
+        <td>
+            <input type="text" name="student_other_type" id="student_other_type" disabled/></td-->
     </tr>
 <tr>
     	<td>
@@ -314,16 +347,28 @@
             <input type="text" name="bank_account_no" required="required"/>     </td>
         
     </tr>
+    </tr>
+        <td>
+            Extra-Curricular Activities ( if any):      </td>
+        <td>
+            <input type="text" name="extra_activity" />     </td>
+        <td>
+            Any other relevant information      </td>
+        <td>
+            <input type="text" name="any_other_information" />      </td>
+        
+    </tr>
+    <tr><th colspan=4 >Details of Fees PAyment at the time of Admission</th></tr><tr></tr>
 	<tr>
 		<td>
 			Mode of Payment :		</td>
 		<td>
         	<select name="fee_paid_mode" >
-				<option value="DD">Demand Draft</option>
-                <option value="CHEQUE">CHEQUE</option>
-                <option value="CASH">CASH</option>
-                <option value="ONLINE">ONLINE TRANSFER </option>
-				<option value="Others">Others</option>
+				<option value="dd">Demand Draft</option>
+                <option value="cheque">CHEQUE</option>
+                <option value="cash">CASH</option>
+                <option value="online">ONLINE TRANSFER </option>
+                <option value="none">NONE </option>
              </select>        </td>
 
 		<td>
@@ -335,23 +380,11 @@
 		<td>
 			DD/CHEQUE/ONLINE/CASH  No 		</td>
 		<td>
-			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" required="required"/>		</td>
+			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" />		</td>
         <td>
             Fees Paid Amount    </td>
         <td>
-            <input type="text" name="fee_paid_amount" required="required"/>        </td>
-	
-    </tr>
-		<td>
-			Extra-Curricular Activities ( if any):		</td>
-		<td>
-			<input type="text" name="extra_activity" />		</td>
-		<td>
-			Any other relevant information		</td>
-		<td>
-			<input type="text" name="any_other_information" />		</td>
-    	
-    </tr>
+            <input type="text" name="fee_paid_amount" />        </td>
 	
     <!--tr >
     </tr!-->
@@ -395,21 +428,23 @@
     	<td>
         	State        </td>
     	<td>
-  	      	<input type="text" name="state1" tabindex="13" required="required"/>        </td>
+            <input type="text" name="state1" tabindex="13" required="required"/>
+  	    </td>
     	<td>
         	State        </td>
     	<td>
-  	      	<input type="text" name="state2" tabindex="19" required="required"/>        </td>
+            <input type="text" name="state2" tabindex="19" required="required"/>
+  	     </td>
     </tr>
     <tr>
     	<td>
         	Pin code        </td>
     	<td>
-  	      	<input type="number" name="pincode1" tabindex="14" required="required"/>        </td>
+  	      	<input type="text" name="pincode1" id="pincode1" tabindex="14" required="required"/>        </td>
     	<td>
         	Pin code        </td>
     	<td>
-  	      	<input type="number" name="pincode2" tabindex="19" required="required"/>        </td>
+  	      	<input type="text" name="pincode2" id="pincode2" tabindex="19" required="required"/>        </td>
     </tr>
 	<tr>
     	<td>
@@ -425,11 +460,11 @@
     	<td>
         	Contact No        </td>
     	<td>
-  	      	<input type="number"  tabindex="16" name="contact1" required="required"/>        </td>
+  	      	<input type="text"  tabindex="16" name="contact1" id="contact1" required="required"/>        </td>
     	<td>
         	Contact No        </td>
     	<td>
-  	      	<input type="number" name="contact2"  tabindex="21" required="required"/>        </td>
+  	      	<input type="text" name="contact2" id="contact2"  tabindex="21" required="required"/>        </td>
     </tr>
     <tr>
 	<td colspan=4 align='center'>
@@ -464,13 +499,14 @@
 					 <td colspan="2" align="right">
 						State					</td>
 					<td colspan="2">
-						<input type="text" name="state3" id="state3"/>					</td>
+                        <input type="text" name="state3" id="state3"/>
+				   </td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
 						Pin code					</td>
 					<td colspan="2">
-						<input type="number" name="pincode3" id="pincode3"/>					</td>
+						<input type="text" name="pincode3" id="pincode3"/>					</td>
 				</tr>
 				<tr>
 					 <td colspan="2" align="right">
@@ -482,13 +518,13 @@
 					<td colspan="2" align="right">
 						Contact No					</td>
 					<td colspan="2">
-						<input type="number" name="contact3" id="contact3"/>					</td>
+						<input type="text" name="contact3" id="contact3"/>					</td>
 				</tr>
 			</table>
 		</div></td>
 	</tr>
-    
-	<tr><th colspan=4></th></tr>
+    <tr><th colspan=4 >Editable Section</th></tr><tr></tr>
+	<!--tr><th colspan=4></th></tr-->
         <tr>
         	<td>Email</td>
         	<td><input type="email" name="email" required="required"></td>
@@ -498,9 +534,9 @@
         </tr>
 		<tr>
         	<td>Mobile No</td>
-        	<td><input type="number" name="mobile" required="required"></td>
-			<td>Blood Group</td>
-        	<td><input type="text" name="blood_group" required="required"></td>
+        	<td><input type="text" name="mobile" id="mobile" required="required"></td>
+            <td>Alternate Mobile No</td>
+            <td><input type="text" name="alternate_mobile" id="alternate_mobile"></td>
         </tr>
 		<tr>
         	<td>Hobbies</td>

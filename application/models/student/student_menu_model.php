@@ -16,6 +16,7 @@ class Student_menu_model extends CI_Model
 		$menu['deo']=array();
 		$menu['deo']['Manage Students']=array();
 		$menu['deo']["Manage Students"]["Add Student"] = site_url('student/student_add');
+		$menu['deo']['Manage Students']["Edit Student Details"] = site_url('student/student_edit');
 
 		return $menu;
 	}

@@ -4,7 +4,7 @@ class Student_add extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('deo'));
+		parent::__construct();
 	}
 
 	public function index($error='')
@@ -100,9 +100,9 @@ class Student_add extends MY_Controller
 			//.var_dump($upload);return;
 			$users = array(
 				'id' => $stu_id ,
-				'password' => '' ,
+				'password' => $this->input->post('password') ,
 				'auth_id' => 'stu' ,
-				'created_date' => ''
+				'created_date' => date("Y-m-d H:i:s")
 			);
 
 			$user_details = array(

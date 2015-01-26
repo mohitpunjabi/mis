@@ -11,6 +11,23 @@
             <!--input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/>
             <i class="loading" id="stuIdIcon" ></i-->
         </td>
+        <td>
+            Present Semester
+        </td>
+        <td>
+            <select name="semester">
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+            </select>
+        </td>
     </tr>
     <tr>
         <td>
@@ -18,6 +35,7 @@
         </td>
         <td>
             <input type="password" name="password" id="password" required />
+            <?php echo form_error('password'); ?>
         </td>
         <td>
             Confirm Password
@@ -45,21 +63,21 @@
     	<td>
         	Middle Name        </td>
         <td>
-        	<input type="text" name = "middlename" />        </td>
+        	<input type="text" name = "middlename" id = "middlename"/>        </td>
         <td>
         	Last Name        </td>
         <td>
-        	<input type="text" name = "lastname" />        </td>
+        	<input type="text" name = "lastname" id = "lastname"/>        </td>
    </tr>
    <tr>
         <td>
           पूरा नाम हिन्दी में        </td>
         <td>
-            <input type="text" id="stud_name_hindi" name="stud_name_hindi"  />        </td>
+            <input type="text" id="stud_name_hindi" name="stud_name_hindi"  required/>        </td>
          <td>
         	Roll No.        </td>
         <td>
-        	<input type="text" name = "roll_no" />        </td>
+        	<input type="text" name = "roll_no" id = "roll_no"/>        </td>
    </tr>
       <tr>
         <td>
@@ -323,17 +341,17 @@
 		<td>
 			ADHAR Card No :		</td>
 		<td>
-			<input type="text" name="adhar_no" />		</td>
+			<input type="text" name="adhar_no" id="adhar_no"/>		</td>
         <td>
             Marital Status        </td>
         <td>
             <select name="mstatus" >
-                <option value="Unmarried">Unmarried</option>
-                <option value="Married">Married</option>
-                <option value="Widow">Widow</option>
-                <option value="Widower">Widower</option>
-                <option value="Separated">Separated</option>
-                <option value="Divorcee">Divorcee</option>
+                <option value="unmarried">Unmarried</option>
+                <option value="married">Married</option>
+                <option value="widow">Widow</option>
+                <option value="widower">Widower</option>
+                <option value="separated">Separated</option>
+                <option value="divorcee">Divorcee</option>
              </select>        </td> 
     </tr>
 	<tr>
@@ -351,11 +369,11 @@
         <td>
             Extra-Curricular Activities ( if any):      </td>
         <td>
-            <input type="text" name="extra_activity" />     </td>
+            <input type="text" name="extra_activity" id="extra_activity"/>     </td>
         <td>
             Any other relevant information      </td>
         <td>
-            <input type="text" name="any_other_information" />      </td>
+            <input type="text" name="any_other_information" id="any_other_information"/>      </td>
         
     </tr>
     <tr><th colspan=4 >Details of Fees PAyment at the time of Admission</th></tr><tr></tr>
@@ -380,11 +398,11 @@
 		<td>
 			DD/CHEQUE/ONLINE/CASH  No 		</td>
 		<td>
-			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" />		</td>
+			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" id="fee_paid_dd_chk_onlinetransaction_cashreceipt_no"/>		</td>
         <td>
             Fees Paid Amount    </td>
         <td>
-            <input type="text" name="fee_paid_amount" />        </td>
+            <input type="text" name="fee_paid_amount" id="fee_paid_amount" />        </td>
 	
     <!--tr >
     </tr!-->
@@ -529,7 +547,7 @@
         	<td>Email</td>
         	<td><input type="email" name="email" required="required"></td>
 			<td>Alternate Email</td>
-        	<td><input type="email" name="alternate_email_id" ></td>
+        	<td><input type="email" name="alternate_email_id" id="alternate_email_id" ></td>
             
         </tr>
 		<tr>
@@ -540,9 +558,9 @@
         </tr>
 		<tr>
         	<td>Hobbies</td>
-        	<td><input type="text" name="hobbies" ></td>
+        	<td><input type="text" name="hobbies" id="hobbies"></td>
             <td>Favourite Pass Time</td>
-        	<td><input type="text" name="favpast" ></td>
+        	<td><input type="text" name="favpast" id="favpast"></td>
         </tr>
 </table>
 <table width="90%">

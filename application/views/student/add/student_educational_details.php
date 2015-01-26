@@ -4,7 +4,6 @@
 	<tr>
 		<th>Student Id</th>
 		<td><?php echo $stu_id?></td>
-        <td><?php echo $stu_type?></td>
 	</tr>
 </table>
 <input type="hidden" id="student_type" value="<?php echo $stu_type?>"/>

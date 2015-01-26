@@ -83,6 +83,8 @@
 		var anv = all_number_validation();
 		var iv = image_validation();
 		return pgv && abov && cb && cav && stv && iv;*/
+		if(!password_validation())
+			return false;
 		if(!parent_guardian_validation())
 			return false;
 		if(!admission_based_on_validation())
@@ -99,6 +101,40 @@
 			return false;
 		if(!image_validation())
 			return false;
+		push_na_in_empty();
+		return true;
+	}
+
+	function password_validation()
+	{
+		var pass = document.getElementById('password').value;
+		var c_pass = document.getElementById('confirm_password').value;
+		if(pass == '')
+		{
+			alert("Please enter the password.");
+			return false;
+		}
+		if(c_pass == '')
+		{
+			alert("Please enter the Confirm Password field.");
+			return false;
+		}
+		var pass_pattern = /^\S+$/;//([a-z]|[A-Z]|[0-9]|@|.|*|$);
+		if(!pass_pattern.test(pass))
+		{
+			alert("Password must contain only alphabets, numbers, @, ., *, _ and $");
+			return false;
+		}
+		if(!pass_pattern.test(c_pass))
+		{
+			alert("Confirm Password must contain only alphabets, numbers, @, ., *, _ and $");
+			return false;
+		}
+		if(c_pass != pass)
+		{
+			alert("Password and Confirm Password must be same.");
+			return false;
+		}
 		return true;
 	}
 
@@ -116,7 +152,7 @@
 			var pincode = document.getElementById("pincode3").value;
 			var country = document.getElementById("country3").value;
 			var contact = document.getElementById("contact3").value;
-			if(line1 == '' || line2 == '' || city =='' || pincode == '' || state == '' || country == ''|| contact == '')
+			if(line1.trim() == '' || line2.trim() == '' || city.trim() =='' || pincode.trim() == '' || state.trim() == '' || country.trim() == ''|| contact.trim() == '')
 			{
 				alert("Please fill all the fields of correspondence address.");
 				return false;
@@ -178,7 +214,7 @@
 			var mo=document.getElementById("mother_occupation").value;
 			var fgai=document.getElementById("father_gross_income").value;
 			var mgai=document.getElementById("mother_gross_income").value;
-			if(m == '' || f == '' || fo == '' || mo == '' || fgai == '' || mgai == '')
+			if(m.trim() == '' || f.trim() == '' || fo.trim() == '' || mo.trim() == '' || fgai.trim() == '' || mgai.trim() == '')
 			{
 				alert("Please fill all details of parents.")
 				return false;
@@ -190,7 +226,7 @@
 		{
 			var g=document.getElementById("guardian_name").value;
 			var r=document.getElementById("guardian_relation_name").value;
-			if(g == '' || r == '')
+			if(g.trim() == '' || r.trim() == '')
 			{
 				alert("Please fill all details of guardian.")
 				return false;
@@ -207,7 +243,7 @@
 		{
 			var iitjee_rank = document.getElementById('iitjee_rank').value;
 			var iitjee_cat_rank = document.getElementById('iitjee_cat_rank').value;
-			if((iitjee_cat_rank == 0 || iitjee_cat_rank == '') && (iitjee_rank == 0 || iitjee_rank == ''))
+			if((iitjee_cat_rank == 0 || iitjee_cat_rank.trim() == '') && (iitjee_rank == 0 || iitjee_rank.trim() == ''))
 			{
 				alert("Please fill the IIT-JEE rank or the category rank.")
 				return false;
@@ -218,7 +254,7 @@
 		else if(admission_based_on == 'gate')
 		{
 			var gate_score = document.getElementById('gate_score').value;
-			if(gate_score == '' || gate_score == 0 || isNaN(gate_score))
+			if(gate_score.trim() == '' || gate_score == 0 || isNaN(gate_score))
 			{
 				alert("Please fill the gate score.")
 				return false;
@@ -229,7 +265,7 @@
 		else if(admission_based_on == 'cat')
 		{
 			var cat_score = document.getElementById('cat_score').value;
-			if(cat_score ==0 || cat_score == '' || isNaN(cat_score))
+			if(cat_score ==0 || cat_score.trim() == '' || isNaN(cat_score))
 			{
 				alert("Please fill the cat score.")
 				return false;
@@ -240,7 +276,7 @@
 		else if(admission_based_on == 'others')
 		{
 			var other_mode_of_admission = document.getElementById('other_mode_of_admission').value;
-			if(other_mode_of_admission == '')
+			if(other_mode_of_admission.trim() == '')
 			{
 				alert("Please fill the other mode of admission.")
 				return false;
@@ -257,7 +293,7 @@
 		if(student_type == 'others')
 		{
 			var student_other_type = document.getElementById('student_other_type').value;
-			if(student_other_type == '')
+			if(student_other_type.trim() == '')
 			{
 				alert('Please enter the other "Student Other Type".');
 				return false;
@@ -553,12 +589,17 @@
 			alert("Mobile number can contain only digits.");
 			return false;
 		}
+		if(isNaN(document.getElementById('fee_paid_amount').value))
+		{
+			alert("Fee Paid Amount field can contain only digits.");
+			return false;
+		}
 		if(document.getElementById('alternate_mobile').value != '' && isNaN(document.getElementById('alternate_mobile').value))
 		{
 			alert("Alternate Mobile number can contain only digits.");
 			return false;
 		}
-		if(isNaN(document.getElementById('iitjee_cat_rank').value) && isNaN(document.getElementById('iitjee_rank').value))
+		if(isNaN(document.getElementById('iitjee_cat_rank').value) || isNaN(document.getElementById('iitjee_rank').value))
 		{
 			alert("Rank can only contain digits.")
 			return false;
@@ -600,6 +641,36 @@
 			return false;
 		}
 		return true;
+	}
+
+	function push_na_in_empty()
+	{
+		if( document.getElementById('middlename').value.trim() == '')
+			document.getElementById('middlename').value = 'na';
+		if( document.getElementById('lastname').value.trim() == '')
+			document.getElementById('lastname').value = 'na';
+		if( document.getElementById('roll_no').value.trim() == '')
+			document.getElementById('roll_no').value = 'na';
+		if( document.getElementById('parent_landline').value.trim() == '')
+			document.getElementById('parent_landline').value = 0;
+		if( document.getElementById('adhar_no').value.trim() == '')
+			document.getElementById('adhar_no').value = 'na';
+		if( document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value.trim() == '')
+			document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = 'na';
+		if( document.getElementById('fee_paid_amount').value.trim() == '')
+			document.getElementById('fee_paid_amount').value = 0;
+		if( document.getElementById('alternate_email_id').value.trim() == '')
+			document.getElementById('alternate_email_id').value = 'na';
+		if( document.getElementById('alternate_mobile').value == '')
+			document.getElementById('alternate_mobile').value = 0;
+		if( document.getElementById('hobbies').value.trim() == '')
+			document.getElementById('hobbies').value = 'na';
+		if( document.getElementById('favpast').value.trim() == '')
+			document.getElementById('favpast').value = 'na';
+		if(document.getElementById('any_other_information').value.trim() == '')
+			document.getElementById('any_other_information').value = 'na';
+		if(document.getElementById('extra_activity').value.trim() == '')
+			document.getElementById('extra_activity').value = 'na';
 	}
 
     /*function set_id_of_branch()

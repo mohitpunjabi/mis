@@ -1,9 +1,11 @@
-	// $(document).ready(function() {
-	// 	$("td, th").css("visibility", "hidden");
-	// 	$("td#stuId").css("visibility", "visible");
-	// 	$("#stuIdIcon").hide();
-	// });
-	$( document ).ready(function() {
+	$(document).ready(function() {
+		$("td, th").css("visibility", "hidden");
+		$("td#stuId").css("visibility", "visible");
+		$("#stuIdIcon").hide();
+	});
+
+	function add_row_on_page_load()
+	{
 		onclick_add_row();
 		var student_type = document.getElementById('stu_type').value;
 		//<?php echo $stu_type; ?>
@@ -18,14 +20,18 @@
 		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
 		document.getElementsByName('branch4[]')[row.length-2].value = '12';
 		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
-	});
+	}
 
 	function fetch_details()
 	{
 		var stu_id = document.getElementsByName("stu_id")[0].value;
+		if(stu_id.trim() == '')
+		{
+			alert('Please fill valid details in the field');
+			return ;
+		}
 		$("#fetch_id_btn").hide();
 		$("#stuIdIcon").show();
-		//alert(stu_id);
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -39,8 +45,6 @@
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
-		    	//alert("success");
-		    	//alert(xmlhttp.responseText);
 		    	//td.innerHTML = xmlhttp.responseText;
 				if(xmlhttp.responseText != '')
 				{
@@ -53,6 +57,7 @@
 					$("td, th").css("visibility", "visible");
 					$("#fetch_id_btn").hide();
 					$("#stuIdIcon").hide();
+					add_row_on_page_load();
 				}
 		    }
 		    //else
@@ -99,8 +104,6 @@
 		var anv = all_number_validation();
 		var iv = image_validation();
 		return pgv && abov && cb && cav && stv && iv;*/
-		if(!password_validation())
-			return false;
 		if(!parent_guardian_validation())
 			return false;
 		if(!admission_based_on_validation())
@@ -120,39 +123,6 @@
 		if(!image_validation())
 			return false;
 		push_na_in_empty();
-		return true;
-	}
-
-	function password_validation()
-	{
-		var pass = document.getElementById('password').value;
-		var c_pass = document.getElementById('confirm_password').value;
-		if(pass == '')
-		{
-			alert("Please enter the password.");
-			return false;
-		}
-		if(c_pass == '')
-		{
-			alert("Please enter the Confirm Password field.");
-			return false;
-		}
-		var pass_pattern = /^\S+$/;//([a-z]|[A-Z]|[0-9]|@|.|*|$);
-		if(!pass_pattern.test(pass))
-		{
-			alert("Password must contain only alphabets, digits and special characters.");
-			return false;
-		}
-		if(!pass_pattern.test(c_pass))
-		{
-			alert("Confirm Password must contain only alphabets, digits and special characters.");
-			return false;
-		}
-		if(c_pass != pass)
-		{
-			alert("Password and Confirm Password must be same.");
-			return false;
-		}
 		return true;
 	}
 

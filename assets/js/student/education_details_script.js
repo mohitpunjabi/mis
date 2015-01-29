@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 	onclick_add_row();
-	var student_type = document.getElementById('student_type').value;
+	var student_type = document.getElementById('stu_type').value;
 	//<?php echo $stu_type; ?>
 	//var abcd = <?php echo $stu_type; ?>;
 	//console.log(abcd);
@@ -20,6 +20,18 @@ $( document ).ready(function() {
 			if(<?$stu_type?> == 'ug')
 				document.getElementById('add').style.display='none';
 	});*/
+
+	// function button_for_add()
+	// {
+	// 	if(document.getElementById('stu_type').value == 'ug')
+	// 	{
+	// 		document.getElementById('add').style.display='none';
+	// 	}
+	// 	else
+	// 	{
+	// 		document.getElementById('add').style.display='block';
+	// 	}
+	// }
 
 	function onclick_add_row()
 	{

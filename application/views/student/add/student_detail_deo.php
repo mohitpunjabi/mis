@@ -1,21 +1,19 @@
 <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
-<?php  echo form_open_multipart('student/student_add/insert_basic_details/'.$stu_id,'onSubmit="return form_validation();"');?>
-<h1 align="center">Fill your details to continue</h1>
-<center>
-    Admission No. : <?php echo $stu_id;?>
-</center>
-<table width='80%' align="center">
-	<th colspan=4></th>
-    <!--tr align="center">
+<?php  echo form_open_multipart('student/student_add_deo/insert_basic_details','onSubmit="return form_validation();"');?>
+<h1 align="center">Fill the Student details</h1>
+<table width='100%' align="center" colspan=2>
+    <tr align="center">
         <td id="stuId">
             Admission No.        </td>
         <td width='25%' id="stuId">
-            <?php// echo $stu_id;?>
-            <input type="text" name="stu_id" required="required" /--> 
-            <!--input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/>
+            <input type="text" name="stu_id" required="required" /> 
+            <input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/>
             <i class="loading" id="stuIdIcon" ></i>
         </td>
-    </tr-->
+    </tr>
+</table>
+<table width='100%' align="center">
+	<th colspan=4></th>
     <tr>
         <!--td>
             Salutation        </td-->
@@ -39,7 +37,7 @@
         <td>
           पूरा नाम हिन्दी में        </td>
         <td>
-            <input type="text" id="stud_name_hindi" name="stud_name_hindi"/>        </td>
+            <input type="text" id="stud_name_hindi" name="stud_name_hindi"  required/>        </td>
         <td>
             Gender        </td>
         <td>
@@ -141,7 +139,7 @@
             <input type="text" name="identification_mark" required="required"/>     </td>
     </tr>
 </table>
-<table width='80%' align="center" colspan=6>
+<table width='100%' align="center" colspan=6>
     <tr>
         <th width='33%' colspan=2>
             Father's Detail
@@ -209,7 +207,7 @@
         </td>
     </tr>
 </table>
-<table width='80%' align="center">
+<table width='100%' align="center">
     <th colspan=4></th>
     <tr>
         <td width='25%'>Parent/Guardian Mobile No</td>
@@ -308,7 +306,7 @@
         </td>
     </tr>
 </table>
-<table width="80%" align="center" colspan=6>
+<table width="100%" align="center" colspan=6>
     <th colspan=6></th>
    	<!--tr>
     	<td>
@@ -371,8 +369,8 @@
         
     </tr>
 </table>
-<table width="80%" align="center">
-    <th colspan=4>Your Bank Details</th>
+<table width="100%" align="center">
+    <th colspan=4>Bank Details</th>
 	<tr>
         <td>
             Bank Name       </td>
@@ -581,10 +579,10 @@
                 <input type="text" name="any_other_information" id="any_other_information"/>      </td>
         </tr>
 </table>
-<table width='80%' align="center">
+<table width='100%' align="center">
 <tr><th colspan=7 >Educational Qualificatoins</th></tr><tr></tr>
 </table>
-<table width='80%' align="center" id="tableid">
+<table width='100%' align="center" id="tableid">
      <tr>
      <th>S no.</th>
      <th>Examination</th>
@@ -601,7 +599,7 @@
             <td><input type="text" name="clgname4[]"/></td>
             <td><select name="year4[]">
                 <?php
-                    $year = 2005;
+                    $year = 1926;
                     $last_year = date('Y');
                     while($year <= $last_year)
                     {
@@ -620,7 +618,7 @@
         </tr>
 </table>
 <center><input type="button" name="add" id="add" value="Add More" onClick="onclick_add();"/></center>
-<table width="80%" align="center">
+<table width="100%" align="center">
         <tr><th colspan=2 >Photograph</th></tr><tr></tr>
         <tr  height="150">
             <td width="145" id="preview">
@@ -630,23 +628,6 @@
                 <input type="button" value="Preview" onClick="preview_pic();">	
             </td>
 		</tr>
-</table>
-<table width='80%' align="center">
-    <th colspan=4>Your Password</th>
-    <tr>
-        <td width='25%'>
-            Password
-        </td>
-        <td width='25%'>
-            <input type="password" name="password" id="password" required />
-        </td>
-        <td width='25%'>
-            Confirm Password
-        </td>
-        <td width='25%'>
-            <input type="password" name="confirm_password" id="confirm_password" required />
-        </td>
-    </tr>
 </table>
 <center>
 <input type = "submit" value="Next"/>

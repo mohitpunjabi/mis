@@ -4,7 +4,7 @@
     <tr>
         <th>Student Id</th>
         <td colspan="2">
-                <input type="text" name="stu_id" id="stu_id" readonly value=<?php echo $stu_id;?>  >
+                <?php echo $stu_id;?>
         </td>
     </tr>
     <tr><th>Photograph</th>

@@ -27,6 +27,11 @@ Class Student_fee_details_model extends CI_Model
 		else
 			return FALSE;
 	}
+
+	function update_by_id($data,$id)
+	{
+		$this->db->update($this->table,$data,array('id'=>$id));
+	}
 }
 
 ?>

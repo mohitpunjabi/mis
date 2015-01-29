@@ -44,6 +44,11 @@ Class Student_details_model extends CI_Model
 		else
 			return FALSE;
 	}
+
+	function update_by_id($data,$id)
+	{
+		$this->db->update($this->table,$data,array('admn_no'=>$id));
+	}
 }
 
 ?>

@@ -41,7 +41,7 @@ class Student_ajax extends CI_Controller
 		if($id !== '')
 		{
 			$this->load->model('user/user_details_model','',TRUE);
-			$data['user'] = $this->user_model->getUserById($id);
+			$data['user'] = $this->user_details_model->getUserById($id);
 			if($data['user'])
 				$this->load->view('student/ajax/student_update_user_id',$data);
 		}

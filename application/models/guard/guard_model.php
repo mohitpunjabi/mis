@@ -38,6 +38,19 @@ class Guard_model extends CI_Model
 		return $query->result();
 	}
 	
+	function get_details_of_guard_at_a_post_overtime($post_id)
+	{
+		$this->db->where('guard_over_time.post_id',$post_id);
+		$query = $this->db->select("guard_over_time.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_over_time')
+						  ->join("guard_guards", "guard_guards.Regno = guard_over_time.Regno")
+						  ->join("guard_post", "guard_post.post_id = guard_over_time.post_id")
+						  ->order_by("guard_over_time.date", "desc")
+						  ->get();
+
+		return $query->result();
+	}
+	
 	function get_details_of_guard_at_a_date($date)
 	{
 		$this->db->where('date',$date);
@@ -46,6 +59,19 @@ class Guard_model extends CI_Model
 						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
 						  ->join("guard_post", "guard_duty.post_id = guard_post.post_id")
 						  ->order_by("guard_duty.date", "desc")
+						  ->get();
+
+		return $query->result();
+	}
+	
+	function get_details_of_guard_at_a_date_overtime($date)
+	{
+		$this->db->where('date',$date);
+		$query = $this->db->select("guard_over_time.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_over_time')
+						  ->join("guard_guards", "guard_guards.Regno = guard_over_time.Regno")
+						  ->join("guard_post", "guard_over_time.post_id = guard_post.post_id")
+						  ->order_by("guard_over_time.date", "desc")
 						  ->get();
 
 		return $query->result();
@@ -85,6 +111,45 @@ class Guard_model extends CI_Model
 		return $query->result();
 	}
 	
+	function get_details_of_guard_in_a_range_overtime($fromdate, $todate, $regno)
+	{
+		
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$this->db->where('guard_guards.Regno',$regno);
+		$query = $this->db->select("guard_over_time.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_over_time')
+						  ->join("guard_guards", "guard_guards.Regno = guard_over_time.Regno")
+						  ->join("guard_post", "guard_over_time.post_id = guard_post.post_id")
+						  ->order_by("guard_over_time.date","asc")
+						  ->get();
+						 
+		return $query->result();
+	}
+	
+	function get_working_hours_overtime($fromdate, $todate, $regno)
+	{
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$this->db->where('Regno',$regno);
+		$query = $this->db->select("guard_over_time.from_time as from_time,guard_over_time.to_time as to_time")
+						  ->from('guard_over_time')
+						  ->get();
+		
+		$ans = $query->result();
+		$working_hours = 0.0;
+		foreach($ans as $row)
+		{
+			if($row->from_time > $row->to_time)
+				$working_hours+=($row->to_time + 24.0 - $row->from_time);
+			else
+				$working_hours+=($row->to_time - $row->from_time);
+		}
+		
+		return $working_hours;
+
+	}
+	
 	function get_details_of_guards_in_a_range($fromdate, $todate)
 	{
 		
@@ -95,6 +160,21 @@ class Guard_model extends CI_Model
 						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
 						  ->join("guard_post", "guard_duty.post_id = guard_post.post_id")
 						  ->order_by("guard_duty.date","desc")
+						  ->get();
+						 
+		return $query->result();
+	}
+	
+	function get_details_of_guards_in_a_range_overtime($fromdate, $todate)
+	{
+		
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$query = $this->db->select("guard_over_time.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_over_time')
+						  ->join("guard_guards", "guard_guards.Regno = guard_over_time.Regno")
+						  ->join("guard_post", "guard_over_time.post_id = guard_post.post_id")
+						  ->order_by("guard_over_time.date","desc")
 						  ->get();
 						 
 		return $query->result();
@@ -115,6 +195,22 @@ class Guard_model extends CI_Model
 						 
 		return $query->result();
 	}
+	
+	function get_details_of_guard_at_a_post_in_a_range_overtime($fromdate, $todate, $postname)
+	{
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$this->db->where('guard_over_time.post_id',$postname);
+		$query = $this->db->select("guard_over_time.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_over_time')
+						  ->join("guard_guards", "guard_guards.Regno = guard_over_time.Regno")
+						  ->join("guard_post", "guard_over_time.post_id = guard_post.post_id")
+						  ->order_by("guard_over_time.date","desc")
+						  ->get();
+						 
+		return $query->result();
+	}
+	
 	
 	function add_guard($data)
 	{
@@ -154,6 +250,92 @@ class Guard_model extends CI_Model
 			return $query2->row();
 	}
 	
+	private function get_free_shift($from_time, $to_time)
+	{
+		$busy_shift_start = array();
+		$busy_shift_end = array();
+		if($from_time > 5 && $from_time < 13)
+			$busy_shift_start[0]='a';
+		else if($from_time > 13 && $from_time < 21)
+			$busy_shift_start[0]='b';
+		else 
+			$busy_shift_start[0]='c';
+		
+		if($to_time > 5 && $to_time < 13)
+			$busy_shift_end[0]='a';
+		else if($to_time > 13 && $to_time < 21)
+			$busy_shift_end[0]='b';
+		else 
+			$busy_shift_end[0]='c';
+			
+		$busy_shift = array();
+		if($busy_shift_start[0] == $busy_shift_end[0])
+			$busy_shift[0] = $busy_shift_start[0];
+		else
+		{
+			$busy_shift[0] = $busy_shift_start[0];
+			$busy_shift[1] = $busy_shift_end[0];
+		}
+		
+		return $busy_shift;
+	}
+	
+	function get_available_guards_for_overtime($post_id,$date,$from_time,$to_time)
+	{
+		$busy_shift = $this->get_free_shift($from_time,$to_time);
+		$this->db->where('date',$date);
+		foreach($busy_shift AS $key=> $value) {
+			$busy_shift[$key] = "'".$value."'";
+		}
+		$this->db->where("shift NOT IN (".implode(",", $busy_shift).")");
+		
+		$query = $this->db->select("guard_duty.Regno as Regno, guard_guards.firstname as firstname, guard_guards.lastname as lastname")
+						  ->from('guard_duty')
+						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
+						  ->get();
+						 
+		return $query->result_array();
+	}
+	
+	function check_engage_guard($date,$regno,$from,$to)
+	{
+		$this->db->where('date',$date);
+		$this->db->where('Regno',$regno);
+		$where = "(from_time between $from and $to) OR (to_time between $from and $to)";
+		$this->db->where($where);
+		$query = $this->db->select('Regno')
+						  ->from('guard_over_time')
+						  ->get();
+		
+		return $query->result_array();
+	}
+	
+	function check_regular($date)
+	{
+		$this->db->where('date',$date);
+		$query = $this->db->select('Regno')
+						  ->from('guard_duty')
+						  ->get();
+		
+		return $query->result_array();
+	}
+	
+	function insert_into_overtime($data)
+	{
+		$from_time = $data['from_time'];
+		$to_time = $data['to_time'];
+		
+		$guard = $this->check_engage_guard($data['date'],$data['Regno'],$from_time,$to_time);
+
+		$check_regular = $this->check_regular($data['date']);
+		if(count($check_regular) == 0)
+			return (-1);
+		if(count($guard) != 0)
+			return (-2);
+		else
+			$this->db->insert('guard_over_time',$data);
+		return (0);
+	}
 	
 	function get_duty_of_a_guard($Regno)
 	{

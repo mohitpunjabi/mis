@@ -5,7 +5,7 @@ class Duties extends MY_Controller
 	function __construct()
 	{
 		parent::__construct(array('guard_sup'));
-		//$this->addJS("guard/guard.js");
+		$this->addJS('employee/print_script.js');
 	}
 	
 	function index()
@@ -27,6 +27,7 @@ class Duties extends MY_Controller
 		$data['day'] = 'Complete';
 		$this->drawHeader('Complete Duty Chart');
 		$this->load->view('guard/duty_chart',$data);
+		$this->load->view('guard/view_footer');
 		$this->drawFooter();
 	}
 	
@@ -44,6 +45,7 @@ class Duties extends MY_Controller
 		$data['day'] = 'Tomorrow\'s';
 		$this->drawHeader('Tomorrow\'s Duty Chart');
 		$this->load->view('guard/to_duty_chart',$data);
+		$this->load->view('guard/view_footer');
 		$this->drawFooter();
 	
 	}
@@ -62,6 +64,7 @@ class Duties extends MY_Controller
 		$data['day'] = 'Today\'s';
 		$this->drawHeader('Today\'s Duty Chart');
 		$this->load->view('guard/to_duty_chart',$data);
+		$this->load->view('guard/view_footer');
 		$this->drawFooter();
 	
 	}

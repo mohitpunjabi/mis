@@ -1,17 +1,20 @@
 <div id="container">
 	<h1>Select Electives to offer</h1>
     <?php
-	//echo "aggr_id = ".$aggr_id;
+	echo "aggr_id = ".var_dump($aggr_id);
 	$form_attrinutes = array("id"=>"add_course_form");
-    echo form_open('elective_offered/elective_offered/CreateMapping',$form_attrinutes);
+    echo form_open('course_structure/elective_offered/CreateMapping',$form_attrinutes);
     	echo '
 			<table>';
 				foreach($group_id as $key=>$val)
 				{
 					echo '
 						<tr>
+							<th colspan = "8">'.$subject['elective_name'][$key].'</th>
+						</tr>
+						<tr>
 							<th colspan = "8">';
-								echo $elective_name[$key];	
+								//echo $elective_name[$key];	
 							echo '
 							</th>
 						</tr>

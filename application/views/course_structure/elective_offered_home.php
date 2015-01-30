@@ -1,16 +1,5 @@
 <div id="container">
 <?php
-	$course_count = 0;
-	$branch_count = 0;
-	$batch_count = 0;
-	$sem_count = 0;
-	//echo "dept _ id = ".($dept_id);
-	//var_dump($result_dept_course);
-	//echo "curr session = ".$curr_session;
-	foreach($course['name'] as $key=>$val)
-		$course_count++;
-		
-	echo "course _count = ".$course_count;
 	echo form_open('course_structure/elective_offered');
 	echo '
 		<table id="form_table">
@@ -23,9 +12,9 @@
 						<option value="0">Select Course</option>
 					';
 
-						for($i = 0;$i<4;$i++)
+						foreach($result_course as $row)
 						{
-							echo '<option  value = "'.$course['id'][$i].'">'.$course['name'][$i].'</option>';	
+							echo '<option data-duration="'.$row->duration.'"  value = "'.$row->id.'">'.$row->name.'</option>';	
 						}
 					echo '
 					</select>	

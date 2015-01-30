@@ -76,7 +76,7 @@ function author_template(){
 	base_str += '<table>';
 	base_str += '<tr>';
 	base_str += '<td>Number Of Authors</td>';
-	base_str += '<td><input type="text" name="no_of_authors" onchange="author_fun()" class="no_of_authors" id="no_of_authors"></td>';
+	base_str += '<td><input type="text" name="no_of_authors" class="no_of_authors" id="no_of_authors"></td>';
 	base_str += '</tr>';
 	base_str += '</table>';
 	base_str += '</fieldset>';
@@ -103,16 +103,17 @@ function author_detail_template(val){
 	return base_str;
 }
 
-function author_fun(){
-	val = parseInt($('.no_of_authors').val())
-	$('.author_box').remove();
-	$('.author_wrapper').append(author_detail_template(val));
-}
 $(document).ready(function(){
 	$pub_types = $('#publication_type');
 	$pub_wrapper = $('#publication_wrapper');
 	$no_of_authors = $('#no_of_authors');
 	$author_wrapper = $('.author_wrapper');
+
+	$(document.body).on('input propertychange paste',"#no_of_authors",function(){
+		val = parseInt($('.no_of_authors').val())
+		$('.author_box').remove();
+		$('.author_wrapper').append(author_detail_template(val));
+	});
 
 	function publication_details(val){
 		if(val === 1 || val === 2){

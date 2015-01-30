@@ -7,14 +7,14 @@
 		<th>Shift B</th>
 		<th>Shift C</th>
 		<th>Total</th>
-		<th>Links</th>
+		<th class="print-no-display">Links</th>
 		<th style="visibility:hidden";></th>
 		<th>Post Name</th>
 		<th>Shift A</th>
 		<th>Shift B</th>
 		<th>Shift C</th>
 		<th>Total</th>
-		<th>Links</th>
+		<th class="print-no-display">Links</th>
 	</tr>
 	<?php
 	$i=1;
@@ -27,7 +27,7 @@
 				<td align="center">'.$post->number_b.'</td>
 				<td align="center">'.$post->number_c.'</td>
 				<td align="center">'.$total.'</td>
-				<td align="center">';
+				<td align="center" class="print-no-display">';
 				?>
 					  <a href="<?= base_url()."index.php/guard/manage_post/edit/".$post->post_id ?>" onclick="return confirm('Are you sure you want to edit?')">Edit</a>
 					  <br>and</br>

@@ -3,19 +3,19 @@
  <table align="center">
 	<tr>
 		<th>Guard</th>
-		<th>Photo</th>
+		<th class="print-no-display">Photo</th>
 		<th>Mobile</th>
-		<th>Links</th>
+		<th class="print-no-display">Links</th>
 		<th style="visibility:hidden";></th>
 		<th>Guard</th>
-		<th>Photo</th>
+		<th class="print-no-display">Photo</th>
 		<th>Mobile</th>
-		<th>Links</th>
+		<th class="print-no-display">Links</th>
 		<th style="visibility:hidden";></th>
 		<th>Guard</th>
-		<th>Photo</th>
+		<th class="print-no-display">Photo</th>
 		<th>Mobile</th>
-		<th>Links</th>
+		<th class="print-no-display">Links</th>
 	</tr>
 	<?php
 	$i=1;
@@ -29,9 +29,9 @@
 									background-size: auto 100%;
 									background-position: 50% 50%;
 									background-repeat: no-repeat;
-								"></td>
+								" class="print-no-display"></td>
 				<td align="center">'.$guard->mobilenumber.'</td>
-				<td align="center">';
+				<td align="center" class="print-no-display">';
 				?>
 					  <a href="<?= base_url()."index.php/guard/manage_guard/edit/".$guard->Regno ?>" onclick="return confirm('Are you sure you want to edit?')">Edit</a>
 					  <br>and</br>

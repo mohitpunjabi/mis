@@ -4,13 +4,13 @@
 	<tr>
 		<th>Duty Date</th>
 		<th>Guard Name</th>
-		<th>Photo</th>
+		<th class="print-no-display">Photo</th>
 		<th>Post Name</th>
 		<th>Shift</th>
 		<th style="visibility:hidden";></th>
 		<th>Duty Date</th>
 		<th>Guard Name</th>
-		<th>Photo</th>
+		<th class="print-no-display">Photo</th>
 		<th>Post Name</th>
 		<th>Shift</th>
 	</tr>
@@ -30,7 +30,7 @@
 									background-size: auto 100%;
 									background-position: 50% 50%;
 									background-repeat: no-repeat;
-								"></td>
+								   " class="print-no-display"></td>
 				<td align="center">'.$duty->postname.'</td>
 				<td align="center">'.$shift.'</td>
 				';

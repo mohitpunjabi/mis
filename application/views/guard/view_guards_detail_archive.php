@@ -4,7 +4,7 @@
 	<tr>
 		<th>Registration Number</th>
 		<th>Guard Name</th>
-		<th>Photo</th>
+		<th class="print-no-display">Photo</th>
 		<th>Father's Name</th>
 		<th>Permanent Address</th>
 		<th>Local Address</th>
@@ -24,7 +24,7 @@
 									background-size: auto 100%;
 									background-position: 50% 50%;
 									background-repeat: no-repeat;
-								"></td>
+								" class="print-no-display"></td>
 				<td align="center">'.$guard->fathersname.'</td>
 				<td align="center">'.$guard->permanentaddress.'</td>
 				<td align="center">'.$guard->localaddress.'</td>

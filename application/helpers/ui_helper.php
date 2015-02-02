@@ -16,6 +16,8 @@ class UI {
 	function button()	{	return new Button();	}
 	function alert()	{	return new Alert();		}
 	function callout()	{	return new Callout();	}
+	function datePicker()	{	return new DatePicker();	}
+	function upload_image()	{	return new Upload_image();	}
 }
 
 class Element {
@@ -670,6 +672,43 @@ class Button extends Element {
 	}
 }
 
+//date picker
+class DatePicker extends Element
+{
+	var $label = '';
+	var $name = '';
+	
+	public function __construct()
+	{
+		log_message('debug', "UI_helper > DatePicker Class Initialized");
+	}
+	
+	function label($label = '')
+	{
+		$this->label = $label;
+		return $this;
+	}
+	
+	function name($name = '')
+	{
+		$this->name = $name;
+		return $this;
+	}
+	
+	function show()
+	{
+		echo '
+			<div>
+          	  <label>'.$this->label.'</label>
+			  <div class="input-append date date-picker" data-date-format="dd-mm-yyyy">
+				<input size="16" type="text" name="'.$this->name.'">
+				<span class="add-on" style="display:inline-block;"><i class="glyphicon glyphicon-calendar"></i></span>
+			  </div>
+          	</div><br>';
+		echo "<script>$('.date-picker').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayBtn: 'linked'});</script>";
+	}
+}
+
 class Alert {
 
 	var $uiType = '';
@@ -862,4 +901,36 @@ class Label {
 			echo '>';
 		echo $this->text.'</label>';
 	}
+}
+
+class Upload_image extends Element {
+
+	var $action = '';
+	var $id = '';
+
+	public function __construct()
+	{
+		log_message('debug', "UI_helper > Upload_image Class Initialized");
+	}
+
+	function action($action)
+	{
+		$this->action = $action;
+		return $this;
+	}
+	function id($id)
+	{
+		$this->id = $id;
+		return $this;
+	}
+	function show()
+	{			
+		echo '<div class="image_holder">
+		<button id="imageDrop" onclick="document.getElementById(\'fileupload\').click()" title="Upload">Upload image</button>
+		<input type="file" id="fileupload" />
+		<hr />
+		<div id="dvPreview" class="dvPreview"></div>';
+
+	}
+
 }

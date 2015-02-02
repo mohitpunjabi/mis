@@ -9,6 +9,8 @@
         <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <!-- Theme style -->
         <link href="<?= base_url() ?>assets/adminLTE/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    	<link href="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+        <link href="<?= base_url() ?>assets/img_upload/upload_image.css" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,6 +22,8 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?= base_url() ?>assets/bootstrap-3.3.2/dist/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>/assets/img_upload/upload_image.js"></script>
 
         <!-- AdminLTE App -->
         <script src="<?= base_url() ?>assets/adminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
@@ -30,8 +34,10 @@
     <?php
         $ui = new UI();
         $outer_row = $ui->row()->id('or')->open();
+		
 
-            $column1 = $ui->col()->width(6)->t_width(6)->m_width(6)->open();
+            $column1 = $ui->col()->width(6)->t_width(6)->m_width(12)->open();
+			
                 echo 'In Column 1';
                 $box = $ui->box()->uiType('danger')->title('box 1')->open();
                     echo 'In box 1<br><br>';
@@ -66,6 +72,7 @@
 
                 $formbox =  $ui->box()->id('form_box')->title('Form')->open();
                     $form=$ui->form()->multipart()->open();
+													
                         $ui->input()
                             ->placeholder('input text')
                             ->label('Enter the username')
@@ -127,7 +134,13 @@
                                             $ui->option()->value('4')->text('Four')->selected(),
                                             $ui->option()->value('5')->text('Five')))
                             ->show();
-
+						
+						//date picker
+						$ui->datePicker()
+							->label('Date Picker')
+							->name('date1')
+							->show();
+						
                         $ui->button()
                             ->value('Submit')
                             ->uiType('primary')
@@ -227,8 +240,13 @@
                                 ->open();
                     echo 'Its a solid blue box';
                 $bgbox->close();
-
-            $column2-close();
+				
+				$upload_img=$ui->upload_image()
+					->action('asd.php')
+					->id('xyzzy')
+					->show();
+				
+            $column2->close();
         $outer_row->close();
 
 
@@ -280,5 +298,8 @@
         echo mis_div_close();
         echo mis_div_close();
 */    ?>
+
+
+
     </body>
 </html>

@@ -911,31 +911,37 @@ class Label {
 class Upload_image extends Element {
 
 	var $action = '';
-	var $id = '';
-
 	public function __construct()
 	{
 		log_message('debug', "UI_helper > Upload_image Class Initialized");
 	}
-
-	function action($action)
-	{
-		$this->action = $action;
-		return $this;
-	}
-	function id($id)
-	{
-		$this->id = $id;
-		return $this;
-	}
 	function show()
-	{			
-		echo '<div class="image_holder">
-		<button id="imageDrop" onclick="document.getElementById(\'fileupload\').click()" title="Upload">Upload image</button>
-		<input type="file" id="fileupload" />
+	{
+		$tempImgId = "thumbnail" . $this->properties['id'];
+		
+		$upload_img_ui = new UI();
+		$upload_img_col = $upload_img_ui->col()->width(4)->open();//	Width???
+		$upload_img_box = $upload_img_ui->box()->solid()->title('Upload Image')->uitype('primary')->open();
+		echo '<div style="overflow:hidden;">
+		<img id="'.$tempImgId.'" />
 		<hr />
-		<div id="dvPreview" class="dvPreview"></div>';
-
+		<input type="file" accept="image/*" '. $this->_parse_attributes() .' onchange=\'openFile(event)\'><br>
+		
+		</div>
+		<script type="text/javascript">
+			var openFile = function(event) {
+				var input = event.target;
+				var reader = new FileReader();
+				reader.onload = function(){
+					var dataURL = reader.result;
+					$(input).parent().find("#'.$tempImgId.'").attr("src", dataURL);
+					// output.src = dataURL;
+				};
+				reader.readAsDataURL(input.files[0]);
+			};
+		</script>
+		';
+		$upload_img_box->close();
+		$upload_img_col->close();
 	}
-
 }

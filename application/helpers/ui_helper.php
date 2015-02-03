@@ -378,6 +378,12 @@ class Input extends Element {
 		return $this;
 	}
 
+	function _parse_attributes() {
+		$attr = parent::_parse_attributes();
+		$attr .= ' placeholder="'.$this->placeholder.'" ';
+		return $attr;
+	}
+
 	function show()
 	{
 		//form-group div
@@ -399,8 +405,6 @@ class Input extends Element {
 			//input element
 			$this->classes('form-control');
 			echo "<input type=\"".$this->type."\" ";
-			if($this->placeholder != '')
-				echo "placeholder=\"".$this->placeholder."\" ";
 			echo $this->_parse_attributes()." />";
 		echo "</div>";
 	}
@@ -673,10 +677,10 @@ class Button extends Element {
 }
 
 //date picker
-class DatePicker extends Element
+class DatePicker extends Input
 {
 	var $label = '';
-	var $name = '';
+	var $dateFormat = 'dd-mm-yyyy';
 	
 	public function __construct()
 	{
@@ -686,26 +690,27 @@ class DatePicker extends Element
 	function label($label = '')
 	{
 		$this->label = $label;
-		return $this;
+		return $this; 
 	}
 	
-	function name($name = '')
+	function dateFormat($dateFormat = 'dd-mm-yyyy')
 	{
-		$this->name = $name;
-		return $this;
+		$this->dateFormat = $dateFormat;
+		return $this; 
 	}
 	
 	function show()
 	{
+		$tempDivId = 'datepicker-' . $this->properties['id'].'-'.$this->properties['name'];
 		echo '
-			<div>
+			<div style="margin-bottom:10px;">
           	  <label>'.$this->label.'</label>
-			  <div class="input-append date date-picker" data-date-format="dd-mm-yyyy">
-				<input size="16" type="text" name="'.$this->name.'">
+			  <div class="input-append date" id="'.$tempDivId.'" data-date-format="'.$this->dateFormat.'">
+				<input size="16" type="text" '.$this->_parse_attributes().' >
 				<span class="add-on" style="display:inline-block;"><i class="glyphicon glyphicon-calendar"></i></span>
 			  </div>
-          	</div><br>';
-		echo "<script>$('.date-picker').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayBtn: 'linked'});</script>";
+          	</div>';
+		echo "<script>$('#".$tempDivId."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
 	}
 }
 

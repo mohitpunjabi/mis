@@ -139,6 +139,8 @@
 						$ui->datePicker()
 							->label('Date Picker')
 							->name('date1')
+							->placeholder("Enter the date")
+							->dateFormat('dd-mm-yyyy')
 							->show();
 						
                         $ui->button()

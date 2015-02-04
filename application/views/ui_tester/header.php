@@ -106,8 +106,10 @@
 						$ui->datePicker()
 							->label('Date Picker')
 							->name('date1')
+							->placeholder("Enter the date")
+							->dateFormat('dd-mm-yyyy')
 							->show();
-						
+							
                         $ui->button()
                             ->value('Submit')
                             ->uiType('primary')
@@ -208,10 +210,10 @@
                     echo 'Its a solid blue box';
                 $bgbox->close();
 				
-				$upload_img=$ui->upload_image()
-					->action('asd.php')
-					->id('xyzzy')
-					->show();
+				//image upload
+				$upload_img = $ui->upload_image()
+								->id('xyzzy')
+								->show();
 				
             $column2->close();
         $outer_row->close();
@@ -264,4 +266,4 @@
         echo mis_form_close();
         echo mis_div_close();
         echo mis_div_close();
-*/    ?>
+*/

@@ -380,6 +380,12 @@ class Input extends Element {
 		return $this;
 	}
 
+	function _parse_attributes() {
+		$attr = parent::_parse_attributes();
+		$attr .= ' placeholder="'.$this->placeholder.'" ';
+		return $attr;
+	}
+
 	function show()
 	{
 		//form-group div
@@ -401,8 +407,6 @@ class Input extends Element {
 			//input element
 			$this->classes('form-control');
 			echo "<input type=\"".$this->type."\" ";
-			if($this->placeholder != '')
-				echo "placeholder=\"".$this->placeholder."\" ";
 			echo $this->_parse_attributes()." />";
 		echo "</div>";
 	}
@@ -677,10 +681,10 @@ class Button extends Element {
 }
 
 //date picker
-class DatePicker extends Element
+class DatePicker extends Input
 {
 	var $label = '';
-	var $name = '';
+	var $dateFormat = 'dd-mm-yyyy';
 	
 	public function __construct()
 	{
@@ -690,26 +694,27 @@ class DatePicker extends Element
 	function label($label = '')
 	{
 		$this->label = $label;
-		return $this;
+		return $this; 
 	}
 	
-	function name($name = '')
+	function dateFormat($dateFormat = 'dd-mm-yyyy')
 	{
-		$this->name = $name;
-		return $this;
+		$this->dateFormat = $dateFormat;
+		return $this; 
 	}
 	
 	function show()
 	{
+		$tempDivId = 'datepicker-' . $this->properties['id'].'-'.$this->properties['name'];
 		echo '
-			<div>
+			<div style="margin-bottom:10px;">
           	  <label>'.$this->label.'</label>
-			  <div class="input-append date date-picker" data-date-format="dd-mm-yyyy">
-				<input size="16" type="text" name="'.$this->name.'">
+			  <div class="input-append date" id="'.$tempDivId.'" data-date-format="'.$this->dateFormat.'">
+				<input size="16" type="text" '.$this->_parse_attributes().' >
 				<span class="add-on" style="display:inline-block;"><i class="glyphicon glyphicon-calendar"></i></span>
 			  </div>
-          	</div><br>';
-		echo "<script>$('.date-picker').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayBtn: 'linked'});</script>";
+          	</div>';
+		echo "<script>$('#".$tempDivId."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
 	}
 }
 
@@ -910,31 +915,37 @@ class Label {
 class Upload_image extends Element {
 
 	var $action = '';
-	var $id = '';
-
 	public function __construct()
 	{
 		log_message('debug', "UI_helper > Upload_image Class Initialized");
 	}
-
-	function action($action)
-	{
-		$this->action = $action;
-		return $this;
-	}
-	function id($id)
-	{
-		$this->id = $id;
-		return $this;
-	}
 	function show()
-	{			
-		echo '<div class="image_holder">
-		<button id="imageDrop" onclick="document.getElementById(\'fileupload\').click()" title="Upload">Upload image</button>
-		<input type="file" id="fileupload" />
+	{
+		$tempImgId = "thumbnail" . $this->properties['id'];
+		
+		$upload_img_ui = new UI();
+		$upload_img_col = $upload_img_ui->col()->width(4)->open();//	Width???
+		$upload_img_box = $upload_img_ui->box()->solid()->title('Upload Image')->uitype('primary')->open();
+		echo '<div style="overflow:hidden;">
+		<img id="'.$tempImgId.'" />
 		<hr />
-		<div id="dvPreview" class="dvPreview"></div>';
-
+		<input type="file" accept="image/*" '. $this->_parse_attributes() .' onchange=\'openFile(event)\'><br>
+		
+		</div>
+		<script type="text/javascript">
+			var openFile = function(event) {
+				var input = event.target;
+				var reader = new FileReader();
+				reader.onload = function(){
+					var dataURL = reader.result;
+					$(input).parent().find("#'.$tempImgId.'").attr("src", dataURL);
+					// output.src = dataURL;
+				};
+				reader.readAsDataURL(input.files[0]);
+			};
+		</script>
+		';
+		$upload_img_box->close();
+		$upload_img_col->close();
 	}
-
 }

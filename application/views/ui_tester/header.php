@@ -1,36 +1,4 @@
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>UI TESTING</title>
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link href="<?= base_url() ?>assets/bootstrap-3.3.2/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <!-- Theme style -->
-        <link href="<?= base_url() ?>assets/adminLTE/css/AdminLTE.css" rel="stylesheet" type="text/css" />
-    	<link href="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
-        <link href="<?= base_url() ?>assets/img_upload/upload_image.css" rel="stylesheet" type="text/css" />
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="<?= base_url() ?>assets/bootstrap-3.3.2/dist/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
-		<script type="text/javascript" src="<?= base_url() ?>assets/datepicker/bootstrap-datepicker.js"></script>
-		<script type="text/javascript" src="<?= base_url() ?>/assets/img_upload/upload_image.js"></script>
-
-        <!-- AdminLTE App -->
-        <script src="<?= base_url() ?>assets/adminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
-    </head>
-
-
-    <body>
     <?php
         $ui = new UI();
         $outer_row = $ui->row()->id('or')->open();
@@ -298,8 +266,3 @@
         echo mis_div_close();
         echo mis_div_close();
 */    ?>
-
-
-
-    </body>
-</html>

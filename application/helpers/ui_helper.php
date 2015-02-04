@@ -20,6 +20,8 @@ class UI {
 	function upload_image()	{	return new Upload_image();	}
 }
 
+
+
 class Element {
 
 	var $properties = array(
@@ -405,6 +407,8 @@ class Input extends Element {
 		echo "</div>";
 	}
 }
+
+
 
 class Radio extends Input {
 

@@ -9,6 +9,8 @@ class Ui_tester extends MY_Controller {
 
 	function index()
 	{
+		$this->drawHeader("Example");
 		$this->load->view('ui_tester/header');
+		$this->drawFooter();
 	}
 }

@@ -63,7 +63,7 @@ class Send_new_file extends MY_Controller
 		if ($file_no == "NULL")
 			$description = $file_subject." (File No. not yet generated) ";
 		else 
-			$description = $file_subject." (".$file_id.") ";
+			$description = $file_subject." (".$file_no.") ";
 
 		$this->load->model ('file_tracking/file_move_details', '', TRUE);
    		$this->file_move_details->change_forward_status ($track_num);

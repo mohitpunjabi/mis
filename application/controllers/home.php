@@ -26,7 +26,7 @@ class Home extends MY_Controller {
 	public function index()
 	{
 		$this->load->model("information/view_notice_model", "notice", TRUE);
-		
+
 		$this->addCSS("home/home-style.css");
 		$this->addCSS("home/home-feed-style.css");
 		$this->addCSS("home/home-calendar.css");
@@ -36,6 +36,7 @@ class Home extends MY_Controller {
 		$this->addJS("home/home-calendar.js");
 		$this->drawHeader("MIS");
 		
+		var_dump($this->session->all_userdata());
 		//related to notice, minutes or circular module
 		$this->checkCircularValidity();
 		$this->checkNoticeValidity();

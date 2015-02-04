@@ -1,0 +1,1 @@
+<h1>View rejected complaint</h1>

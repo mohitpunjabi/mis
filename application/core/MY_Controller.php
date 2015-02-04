@@ -65,13 +65,17 @@
 			return $notifications;
 		}
 
-		function drawHeader($title = "MIS") {
-			$this->load->view("templates/header", array("menu" => $this->getMenu(),
-														"title" => $title,
-														"javascript" => $this->_js,
-														"css" => $this->_css,
-														"authKeys" => $this->getAuthKeys(),
-														"notifications" => $this->getNotifications()));
+		function drawHeader($title = "Management Information System", $subtitle = "") {
+			$data = array("menu" => $this->getMenu(),
+						  "title" => $title,
+						  "subtitle" => $subtitle,
+						  "javascript" => $this->_js,
+						  "css" => $this->_css,
+						  "authKeys" => $this->getAuthKeys(),
+						  "notifications" => $this->getNotifications());
+
+			$this->load->view("templates/header_assets", $data);
+			$this->load->view("templates/header", $data);
 		}
 
 		function drawFooter() {

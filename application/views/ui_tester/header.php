@@ -1,6 +1,5 @@
-
-    <?php
-        $ui = new UI();
+<?php
+	   $ui = new UI();
         $outer_row = $ui->row()->id('or')->open();
 		
 

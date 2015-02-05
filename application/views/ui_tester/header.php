@@ -1,12 +1,170 @@
 <?php
 	   $ui = new UI();
+
+        $outer_row = $ui->row()->id('or')->open();
+		
+
+            $column1 = $ui->col()->width(8)->open();
+                    $ui->alert()
+                        ->uiType('danger')
+                        ->title('Danger Alert')
+                        ->desc('It is a Danger Alert')
+						->width(7)
+                        ->show();
+
+                    $ui->alert()
+                        ->uiType('danger')
+                        ->title('Danger Alert')
+                        ->desc('It is a Danger Alert')
+						->width(4)
+                        ->show();
+			$column1->close();
+			
+            $column1 = $ui->col()->width(4)->open();			
+					$box1 = $ui->box()
+							   ->uiType("primary")
+							   ->icon($ui->icon("edit"))
+							   ->title("Hello")
+							   ->open();
+						$inpRow = $ui->row()->open();
+							$ui->input()
+							   ->label("Hello")
+							   ->width(6)
+							   ->show();
+							$ui->button()
+							   ->value("Submit Button")
+							   ->show();
+						$inpRow->close();
+							   
+						$ui->textArea()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->uiType("error")
+						   ->show();
+
+						$ui->radio()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+						   
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+					$box1->close();
+			$column1->close();
+
+
+		$outer_row->close();
+
+
+
+
+
+
+        $outer_row = $ui->row()->id('or')->open();
+					
+            $column1 = $ui->col()->width(4)->open();			
+					$box1 = $ui->box()
+							   ->uiType("primary")
+							   ->title("Hello")
+							   ->open();
+							$ui->select()
+							   ->label("Hello")
+						   		->addonRight($ui->button()->value("fdfdf af a"))
+						   		->addonLeft("@")
+							   ->show();
+
+							$ui->label()
+							   ->uiType("success")
+							   ->text("fdjaskf lajfdalf jdkaf jl")
+							   ->show();
+							
+							$ui->button()
+							   ->value("Submit Button")
+							   ->block()
+							   ->show();
+							   
+						$ui->textArea()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->uiType("error")
+						   ->show();
+
+						$ui->radio()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						//image upload
+						$upload_img = $ui->imagePicker()
+										 ->label("Upload your photo")
+										 ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+						   
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+					$box1->close();
+			$column1->close();
+
+
+		$outer_row->close();
+
+
+
+
+
+
+
+
+
+
+
         $outer_row = $ui->row()->id('or')->open();
 		
 
             $column1 = $ui->col()->width(6)->t_width(6)->m_width(12)->open();
 			
                 echo 'In Column 1';
-                $box = $ui->box()->uiType('danger')->title('box 1')->open();
+                $box = $ui->box()->uiType('error')->title('box 1')->open();
                     echo 'In box 1<br><br>';
 
                     $ui->alert()
@@ -40,38 +198,32 @@
                 $formbox =  $ui->box()->id('form_box')->title('Form')->open();
                     $form=$ui->form()->multipart()->open();
 													
-						$tryRow = $ui->row()->open();
-							$uCol = $ui->col()->width(4)->open();
-								$ui->input()
-									->placeholder('input text')
-									->label('Enter the username')
-									->uiType('warning')
-									->id('input_ele')
-									->name('name')
-									->show();
-							$uCol->close();
+							$ui->input()
+								->placeholder('input text')
+								->label('Enter the username')
+								->uiType('warning')
+								->id('input_ele')
+								->width(6)
+								->name('name')
+								->show();
 
-							$uCol = $ui->col()->width(6)->open();
-								$ui->input()
-									->placeholder('input text')
-									->label('Enter the username')
-									->uiType('danger')
-									->id('input_ele')
-									->name('name')
-									->show();
-							$uCol->close();
+							$ui->input()
+								->placeholder('input text')
+								->label('Enter the username')
+								->uiType('error')
+								->id('input_ele')
+								->width(6)
+								->name('name')
+								->show();
 
-							$uCol = $ui->col()->width(2)->open();
-								$ui->input()
-									->placeholder('input text')
-									->label('name')
-									->uiType('success')
-									->id('input_ele')
-									->name('name')
-									->show();
-							$uCol->close();
+							$ui->input()
+								->placeholder('input text')
+								->label('name')
+								->uiType('success')
+								->id('input_ele')
+								->name('name')
+								->show();
 
-						$tryRow->close();
 
                         $ui->input()
                             ->placeholder('input password')
@@ -127,14 +279,19 @@
                                             $ui->option()->value('5')->text('Five')))
                             ->show();
 						
+						
+						$r1 = $ui->row()->open();
 						//date picker
 						$ui->datePicker()
 							->label('Date Picker')
 							->name('date1')
 							->placeholder("Enter the date")
 							->dateFormat('dd-mm-yyyy')
+							->width(6)
+							->addonRight($ui->icon("calendar"))
 							->show();
 							
+						$r1->close();
                         $ui->button()
                             ->value('Submit')
                             ->uiType('primary')
@@ -154,7 +311,7 @@
                 $formbox->close();
             $column1->close();
 
-            $column2 = $ui->col()->m_width(12)->open();
+            $column2 = $ui->col()->width(6)->m_width(12)->open();
                 echo "In Column 2";
                 $box2 = $ui->box()->uiType('success')->title('box 2')->open();
                     echo 'In box 2';
@@ -175,9 +332,11 @@
                 $box2->close();
 
                 $box3 = $ui->box()->title('Table')->open();
-                    echo 'In Box 3';
+					$ui->icon("user")->show();
+                    echo ' In Box 3';
+
                     //$table = $ui->table()->open();
-                    $table = $ui->table()->responsive()->hover()->bordered()->open();
+                    $table = $ui->table()->hover()->bordered()->open();
 
                     echo '<tbody>
                                 <tr>
@@ -235,10 +394,6 @@
                     echo 'Its a solid blue box';
                 $bgbox->close();
 				
-				//image upload
-				$upload_img = $ui->upload_image()
-								->id('xyzzy')
-								->show();
 				
             $column2->close();
         $outer_row->close();

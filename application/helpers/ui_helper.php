@@ -1,7 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class UI {
-
 	function row()		{	return new Row();		}
 	function col()		{	return new Column();	}
 	function box()		{	return new Box();		}
@@ -16,9 +15,19 @@ class UI {
 	function button()	{	return new Button();	}
 	function alert()	{	return new Alert();		}
 	function callout()	{	return new Callout();	}
+	function label()	{	return new Label();		}
+	function icon($t)	{	return new Icon($t);		}
 	function datePicker()	{	return new DatePicker();	}
-	function upload_image()	{	return new Upload_image();	}
+	function imagePicker()	{	return new ImagePicker();	}
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -29,9 +38,19 @@ class Element {
 					'value' 	=>	'' ,
 					'class' 	=>	'' ,
 					'disabled'	=>	'' ,
-					'style'		=>	'' ,
 					'extras' 	=>	'' );
 
+	var $containerProps = array(
+					'class' 	=> '',
+					'extras' 	=> '',
+					'style'		=> '',
+					'id'		=> ''
+					);
+
+	var $width = 0;
+	var $t_width = 0;
+	var $m_width = 0;
+	var $ld_width = 0;
 
 	public function __construct() {
 		$this->properties['id'] = md5(uniqid(rand(), true));
@@ -39,6 +58,11 @@ class Element {
 
 	function id( $id = '' ) {
 		$this->properties['id'] = $id;
+		return $this;
+	}
+
+	function containerId( $id = '' ) {
+		$this->containerProps['id'] = $id;
 		return $this;
 	}
 
@@ -57,9 +81,41 @@ class Element {
 		return $this;
 	}
 
+	function containerClasses( $classes = '' ) {
+		$this->containerProps['class'] .= ($this->containerProps['class'] == '')?	$classes: ' '.$classes;
+		return $this;
+	}
+
+	function width($w = 6) {
+		//desktop width..........(md)
+		$this->width = $w;
+		
+		// Temporarily setting large width equal to the width
+		$this->ld_width = $w;
+		return $this;
+	}
+
+	function t_width($w = 6) {
+		//tablet width...........(sm)
+		$this->t_width = $w;
+		return $this;
+	}
+
+	function m_width($w = 6) {
+		//mobile width...........(xs)
+		$this->m_width = $w;
+		return $this;
+	}
+
+	function ld_width($w = 6) {
+		//large desktop width....(lg)
+		$this->ld_width = $w;
+		return $this;
+	}
+
 	function style( $style = '' ) {
 		$style .= ($style[strlen($style)-1] == ';')?	'':';';
-		$this->properties['style'] .= $style;
+		$this->containerProps['style'] .= $style;
 		return $this;
 	}
 
@@ -73,23 +129,57 @@ class Element {
 		return $this;
 	}
 
+	function containerExtras( $extras = '' ) {
+		$this->containerProps['extras'] .= ($this->containerProps['extras'] == '')?	$extras:' '.$extras;
+		return $this;
+	}
+
 	function _parse_attributes() {
 		$att = '';
 		foreach ($this->properties as $key => $val) {
-			if($key == 'extras') {
+			if($key == 'extras')
 				$att .= $val . ' ';
-			}
-			else if($val != '') {
+			else if($val != '')
 				$att .= $key . '="'. $val . '" ';
-			}
 		}
 
 		return $att;
 	}
+
+	function _parse_container_attributes() {
+		$att = '';
+		
+		if($this->width > 0)	$this->containerClasses('col-md-' . $this->width);
+		if($this->t_width > 0)	$this->containerClasses('col-sm-' . $this->t_width);
+		if($this->m_width > 0)	$this->containerClasses('col-xs-' . $this->m_width);
+		if($this->ld_width > 0)	$this->containerClasses('col-lg-' . $this->ld_width);
+		
+		foreach ($this->containerProps as $key => $val) {
+			if($key == 'extras')
+				$att .= $val . ' ';
+			else if($val != '')
+				$att .= $key . '="'. $val . '" ';
+		}
+
+		return $att;
+	}
+
 }
 
-class Row extends Element {
 
+
+
+
+
+
+
+
+
+
+
+
+class Row extends Element {
+	
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > Row Class Initialized");
@@ -97,8 +187,8 @@ class Row extends Element {
 
 	function open() {
 		// Adding UI class row to the div element.
-		$this->classes('row');
-		echo '<div '.$this->_parse_attributes().' >';
+		$this->containerClasses('row');
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
         return $this;
 	}
 
@@ -107,62 +197,43 @@ class Row extends Element {
 	}
 }
 
+
+
+
+
+
+
+
+
+
 class Column extends Element {
 
-	var $width = 6;
-	var $t_width = 0;
-	var $m_width = 0;
-	var $ld_width = 0;
-
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Column Class Initialized");
+		$this->width = 12;
+		$this->m_width = 12;
+		$this->t_width = 12;
+		$this->ld_width = 12;
 	}
 
-	function width($w = 6)
-	{
-		//desktop width..........(md)
-		$this->width = $w;
-		return $this;
-	}
-
-	function t_width($w = 6)
-	{
-		//tablet width...........(sm)
-		$this->t_width = $w;
-		return $this;
-	}
-
-	function m_width($w = 6)
-	{
-		//mobile width...........(xs)
-		$this->m_width = $w;
-		return $this;
-	}
-
-	function ld_width($w = 6)
-	{
-		//large desktop width....(lg)
-		$this->ld_width = $w;
-		return $this;
-	}
-
-	function open()
-	{
-		if($this->width != 0)		$this->classes('col-md-'.$this->width);
-		if($this->t_width != 0)		$this->classes('col-sm-'.$this->t_width);
-		if($this->m_width != 0)		$this->classes('col-xs-'.$this->m_width);
-		if($this->ld_width != 0)	$this->classes('col-lg-'.$this->ld_width);
-
-		echo '<div '.$this->_parse_attributes().' >';
+	function open() {
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</div>';
 	}
 }
+
+
+
+
+
+
+
+
 
 class Box extends Element {
 
@@ -170,58 +241,66 @@ class Box extends Element {
 	var $uiType = '';
 	var $solid = false;
 	var $background = '';
+	var $icon = null;
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Box Class Initialized");
+		$this->containerClasses('box');
 	}
 
-	function uiType($uiType = '')
-	{
+	function uiType($uiType = '') {
 		//uiType ..... (primary/success/warning/danger/info)
-		$this->uiType = $uiType;
+		$this->containerClasses('box-'.$uiType);
 		return $this;
 	}
 
-	function solid($solid = true)
-	{
-		$this->solid = $solid;
+	function solid($solid = true) {
+		$this->containerClasses('box-solid');
 		return $this;
 	}
 
-	function background($background = '')
-	{
-		$this->background = $background;
+	function background($background = '') {
+		$this->containerClasses('bg-' . $background);
 		return $this;
 	}
 
-	function title($title = '')
-	{
+	function title($title = '') {
 		$this->title = $title;
 		return $this;
 	}
 
-	function open()
-	{
-		$this->classes('box');
-		if($this->uiType != '')		$this->classes('box-'.$this->uiType);
-		if($this->solid)			$this->classes('box-solid');
-		if($this->background != '')	$this->classes('bg-'.$this->background);
-		if($this->solid)			$this->classes('box-solid');
+	function icon($icon) {
+		$this->icon = $icon;
+		return $this;
+	}
 
-		echo '<div '.$this->_parse_attributes().' >
-                    <div class="box-header">
+	function open() {
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
+                    <div class="box-header">';
+		
+		if($this->icon) $this->icon->show();
+		
+		echo '
                         <h3 class="box-title">'.$this->title.'</h3>
                     </div>
         			<div class="box-body">';
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</div></div>';
 	}
 }
+
+
+
+
+
+
+
+
+
 
 class Table extends Element {
 
@@ -231,60 +310,59 @@ class Table extends Element {
 	var $hover		= false;
 	var $responsive	= false;
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Table Class Initialized");
+		$this->containerClasses("table");
 	}
 
-	function bordered($type = true)
-	{
-		$this->bordered = $type;
+	function bordered($type = true) {
+		$this->containerClasses('table-bordered');
 		return $this;
 	}
 
-	function condensed($type = true)
-	{
-		$this->condensed = $type;
+	function condensed($type = true) {
+		$this->containerClasses('table-condensed');
 		return $this;
 	}
 
-	function striped($type = true)
-	{
-		$this->striped = $type;
+	function striped($type = true) {
+		$this->containerClasses('table-striped');
 		return $this;
 	}
 
-	function hover($type = true)
-	{
-		$this->hover = $type;
+	function hover($type = true) {
+		$this->containerClasses('table-hover');
 		return $this;
 	}
 
-	function responsive($type = true)
-	{
+	function responsive($type = true) {
 		$this->responsive = $type;
 		return $this;
 	}
 
-	function open()
-	{
-		$this->classes('table');
-		if($this->bordered)			$this->classes('table-bordered');
-		if($this->condensed)		$this->classes('table-condensed');
-		if($this->striped)			$this->classes('table-striped');
-		if($this->hover)			$this->classes('table-hover');
-
+	function open() {
 		if($this->responsive)		echo '<div class="table-responsive">';
-		echo '<table '.$this->_parse_attributes().' >';
+		echo '<table '.$this->_parse_attributes().' '.$this->_parse_container_attributes().' >';
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</table>';
 		if($this->responsive)	echo '</div>';
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 class Form extends Element {
 
@@ -292,31 +370,27 @@ class Form extends Element {
 	var $hidden = array();
 	var $multipart = false;
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Form Class Initialized");
 	}
 
-	function action($action = '')
-	{
+	function action($action = '') {
 		$this->action = $action;
 		return $this;
 	}
 
-	function hidden($hidden = array())
-	{
+	function hidden($hidden = array()) {
 		$this->hidden = $hidden;
 		return $this;
 	}
 
-	function multipart($multipart = true)
-	{
+	function multipart($multipart = true) {
 		$this->multipart = $multipart;
 		return $this;
 	}
 
-	function open()
-	{
+	function open() {
 		if($this->multipart)
 			echo form_open_multipart($this->action, $this->_parse_attributes(), $this->hidden);
 		else
@@ -324,11 +398,24 @@ class Form extends Element {
 		return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo form_close();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Input extends Element {
 
@@ -336,66 +423,121 @@ class Input extends Element {
 	var $placeholder = '';
 	var $label = '';
 	var $uiType = '';
+	var $addonRight = null;
+	var $addonLeft = null;
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Input Class Initialized");
+		$this->containerClasses("form-group");
+		$this->classes('form-control');
+		$this->width = 0;
+		$this->ld_width = 0;
+		$this->m_width = 0;
+		$this->t_width = 0;
 	}
 
-	function type($type = '')
-	{
-		$this->type = $type;
+	function type($type = '') {
+		$this->properties["type"] = $type;
 		return $this;
 	}
 
-	function label($label = '')
-	{
+	function label($label = '') {
 		$this->label = $label;
 		return $this;
 	}
 
-	function placeholder($placeholder = '')
-	{
-		$this->placeholder = $placeholder;
+	function placeholder($placeholder = '') {
+		$this->properties["placeholder"] = $placeholder;
 		return $this;
 	}
 
-	function uiType($uiType = '')
-	{
+	function required($reqd = true) {
+		$this->properties['required'] = "required";
+		return $this;
+	}
+
+	function uiType($uiType = '') {
+		$this->containerClasses("has-" . $uiType);
 		$this->uiType = $uiType;
 		return $this;
 	}
-	function _parse_attributes() {
-		$attr = parent::_parse_attributes();
-		$attr .= ' placeholder="'.$this->placeholder.'" ';
-		return $attr;
+	
+	function addonLeft($addon) {
+		$this->addonLeft = $addon;
+		return $this;
+	}
+	
+	function addonRight($addon) {
+		$this->addonRight = $addon;
+		return $this;
+	}
+	
+	protected function shouldMakeInputGroup() {
+		return $this->addonLeft != null || $this->addonRight != null;
+	}
+	
+	protected function openAddon() {
+		if($this->shouldMakeInputGroup()) echo '<div class="input-group">';
+		$this->makeAddon($this->addonLeft);
+	}
+	
+	protected function closeAddon() {
+		$this->makeAddon($this->addonRight);
+		if($this->shouldMakeInputGroup()) echo '</div>';
+	}
+	
+	protected function makeAddon($addon) {
+		if($addon instanceof Button) {
+			echo '<div class="input-group-btn">';
+				$addon->show();
+			echo '</div>';
+		}
+		else if($addon instanceof Element) {
+			echo '<div class="input-group-addon">';
+				$addon->show();
+			echo '</div>';
+		}
+		else if(is_string($addon)) {
+			echo '<div class="input-group-addon">';
+				echo "<span>$addon</span>";
+			echo '</div>';
+		}
 	}
 
-	function show()
-	{
+	protected function makeLabel() {
+		if($this->label != '') {
+			$ip_label = new Label();
+			$ip_label->forId($this->properties['id'])
+					 ->text($this->label)
+					 ->uiType($this->uiType)
+					 ->show();
+		}
+	}
+	
+	function show() {
 		//form-group div
-		echo '<div class="form-group ';
-		if($this->uiType == 'danger')	$this->uiType = 'error';
-		if($this->uiType !='')	echo 'has-'.strtolower($this->uiType);
-		echo '">';
+		echo '<div '.$this->_parse_container_attributes().'>';
 
 			//label element
-			if($this->label != '')
-			{
-				$ip_label = new Label();
-				$ip_label->forId($this->properties['id'])
-							->text($this->label)
-							->uiType($this->uiType)
-							->show();
-			}
+			$this->makeLabel();
 
-			//input element
-			$this->classes('form-control');
-			echo "<input type=\"".$this->type."\" ";
-			echo $this->_parse_attributes()." />";
+			$this->openAddon();
+			echo "<input " . $this->_parse_attributes() . " />";
+			$this->closeAddon();
+			
 		echo "</div>";
 	}
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -403,348 +545,346 @@ class Radio extends Input {
 
 	var $checked = false;
 
-	public function __construct()
-	{
-		$this->type = 'radio';
+	public function __construct() {
+		parent::__construct();
+		$this->containerClasses('radio');
+		$this->properties['type'] = 'radio';
 		log_message('debug', "UI_helper > Radio Class Initialized");
 	}
 
-	function checked($check = true)
-	{
-		$this->checked = $check;
+	function checked($check = true) {
+		$this->properties['checked'] = 'checked';
 		return $this;
 	}
 
-	function show()
-	{
-		echo '<div class="radio">';
+	function show() {
+		echo '<div '.$this->_parse_container_attributes().'>';
 		echo '<label>';
-		echo '<input type="radio" ';
-		if($this->checked)	echo 'checked="checked" ';
+		echo '<input ';
 		echo $this->_parse_attributes().' /> '
 			.(($this->label != '')?	$this->label:'').
-			 '</label></div>';
+			 '</label>
+			 </div>';
 	}
 }
 
-class Checkbox extends Input {
+class Checkbox extends Radio {
 
 	var $checked = false;
 
-	public function __construct()
-	{
-		$this->type = 'checkbox';
+	public function __construct() {
+		parent::__construct();
+		$this->properties['type'] = 'checkbox';
+		$this->containerClasses('checkbox');
 		log_message('debug', "UI_helper > Radio Class Initialized");
-	}
-
-	function checked($check = true)
-	{
-		$this->checked = $check;
-		return $this;
-	}
-
-	function show()
-	{
-		echo '<div class="checkbox">';
-		echo '<label>';
-		echo '<input type="checkbox" ';
-		if($this->checked)	echo 'checked="checked" ';
-		echo $this->_parse_attributes().' /> '
-			.(($this->label != '')?	$this->label:'').
-			 '</label></div>';
 	}
 }
 
-class Textarea extends Element {
 
-	var $placeholder = '';
-	var $label = '';
-	var $uiType = '';
-	var $rows = 3;
-	var $cols = 0;
 
-	public function __construct()
-	{
+
+
+
+
+
+
+
+
+
+
+class Textarea extends Input {
+
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Input Class Initialized");
+		$this->properties['rows'] = 3;
+		$this->properties['cols'] = 0;
 	}
 
-	function rows($rows = 3)
-	{
-		$this->rows = $rows;
+	function rows($rows = 3) {
+		$this->properties['rows'] = $rows;
 		return $this;
 	}
 
-	function cols($cols = 0)
-	{
-		$this->cols = $cols;
+	function cols($cols = 0) {
+		$this->properties['cols'] = 0;
 		return $this;
 	}
 
-	function label($label = '')
-	{
-		$this->label = $label;
-		return $this;
-	}
-
-	function placeholder($placeholder = '')
-	{
-		$this->placeholder = $placeholder;
-		return $this;
-	}
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function show()
-	{
+	function show() {
 		//form-group div
-		echo '<div class="form-group ';
-		if($this->uiType == 'danger')	$this->uiType = 'error';
-		if($this->uiType !='')	echo 'has-'.strtolower($this->uiType);
-		echo '">';
+		echo '<div '.$this->_parse_container_attributes().'>';
 
-			//label element
-			if($this->label != '')
-			{
-				$ip_label = new Label();
-				$ip_label->forId($this->properties['id'])
-							->text($this->label)
-							->uiType($this->uiType)
-							->show();
-			}
+		//label element
+		$this->makeLabel();
 
-			//input element
-			$this->classes('form-control');
-			echo "<textarea ";
-			if($this->rows != 0)	echo "rows=\"".$this->rows."\" ";
-			if($this->cols != 0)	echo "cols=\"".$this->cols."\" ";
-			if($this->placeholder != '')	echo "placeholder=\"".$this->placeholder."\" ";
+		//input element
+		$this->classes('form-control');
+
+		$this->openAddon();
 
 			// textarea don't use the value attribute
 			$value = $this->properties['value'];
 			unset($this->properties['value']);
+			
+			echo "<textarea " . $this->_parse_attributes() . ">" . $value;
+			echo "</textarea>";
 
-			echo $this->_parse_attributes()." >".$value;
-		echo "</textarea></div>";
+		$this->closeAddon();
+
+		echo "</div>";
 	}
 }
 
-class Select extends Element {
+class Select extends Input {
 
 	var $options = array();
 	var $multiple = false;
-	var $label = '';
-	var $uiType = '';
-
-	public function __construct()
-	{
+	
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Select Class Initialized");
 	}
 
-	function options($options = array())
-	{
+	function options($options = array()) {
 		//options should be array of Option Objects
 		$this->options = $options;
 		return $this;
 	}
 
-	function multiple($multiple = true)
-	{
-		$this->multiple = $multiple;
+	function multiple($multiple = true) {
+		$this->properties['multiple'] = 'multiple';
 		return $this;
 	}
+	
+	function show() {
+		echo '<div '.$this->_parse_container_attributes().'>';
 
-	function label($label = '')
-	{
-		$this->label = $label;
-		return $this;
-	}
+		//label element
+		$this->makeLabel();
 
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-	function show()
-	{
-		echo '<div class="form-group ';
-		if($this->uiType == 'danger')	$this->uiType = 'error';
-		if($this->uiType !='')	echo 'has-'.strtolower($this->uiType);
-		echo '">';
+		$this->openAddon();
 
-			//label element
-			if($this->label != '')
-			{
-				$ip_label = new Label();
-				$ip_label->forId($this->properties['id'])
-							->text($this->label)
-							->uiType($this->uiType)
-							->show();
-			}
-
-			//input element
-			$this->classes('form-control');
-			echo "<select ";
-			if($this->multiple)	echo "multiple=\"multiple\" ";
-			// select don't use the value attribute
 			unset($this->properties['value']);
-			echo $this->_parse_attributes()." >";
 
-			//options
+			echo "<select " . $this->_parse_attributes() . " >";
+
 			foreach($this->options as $option)
-			{
 				$option->show();
-			}
-
-		echo "</select></div>";
+			echo "</select>";
+		
+		$this->closeAddon();
+		
+		echo "</div>";
 	}
 }
 
-class Button extends Element {
+class Button extends Input {
 
 	var $submit = false;		//submit type button
-	var $uiType = '';
 	var $mini = false;
 	var $large = false;
 	var $flat = false;
+	var $block = false;
 
-	function submit($submit = true)
-	{
+	public function __construct() {
+		parent::__construct();
+		$this->classes('btn');
+		$this->properties['type'] = 'button';
+		
+		// This is a hack
+		$this->properties['class'] = str_replace("form-control", "", $this->properties['class']);
+	}
+
+	function submit($submit = true) {
 		$this->submit = $submit;
 		return $this;
 	}
 
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function mini($mini = true)
-	{
+	function mini($mini = true) {
 		$this->mini = $mini;
 		return $this;
 	}
 
-	function large($large = true)
-	{
+	function large($large = true) {
 		$this->large = $large;
 		return $this;
 	}
 
-	function flat($flat = true)
-	{
+	function flat($flat = true) {
 		$this->flat = $flat;
 		return $this;
 	}
+	
+	function block($block = true) {
+		$this->block = $block;
+		return $this;
+	}
 
-	function show()
-	{
-		$this->classes('btn');
+	function show() {
 		if($this->uiType == '')	$this->classes('btn-default');
-		else 	$this->classes('btn-'.$this->uiType);
+		else 					$this->classes('btn-'.$this->uiType);
 
-		if($this->mini)	$this->classes('btn-sm');
+		if($this->mini)			$this->classes('btn-sm');
 		else if($this->large)	$this->classes('btn-lg');
 
-		if($this->flat)	$this->classes('btn-flat');
+		if($this->flat)			$this->classes('btn-flat');
+		if($this->block)		$this->classes('btn-block');
+
 
 		if($this->properties['disabled'] != '')	$this->classes('disabled');
 
-		if($this->submit)
-			echo '<input type="submit" '.$this->_parse_attributes().' />';
-		else
-		{
-			$val = $this->properties['value'];
-			unset($this->properties['value']);
-			echo '<button '.$this->_parse_attributes().' >'.$val.'</button>';
+		if($this->submit)		$this->properties['type'] = 'submit';
+		
+		$val = $this->properties['value'];
+		unset($this->properties['value']);
+
+		echo '<button '.$this->_parse_attributes().' >'.$val.'</button>';
+	}
+}
+
+class Option extends Element {
+
+	var $value = '';
+	var $text = '';
+	var $disabled = false;
+	var $selected = false;
+
+	public function __construct() {
+		log_message('debug', "UI_helper > Option Class Initialized");
+	}
+
+	function value($value = '') {
+		$this->value = $value;
+		return $this;
+	}
+
+	function text($text = '') {
+		$this->text = $text;
+		return $this;
+	}
+
+	function disabled($disabled = true) {
+		$this->disabled = $disabled;
+		return $this;
+	}
+
+	function selected($selected = true) {
+		$this->selected = $selected;
+		return $this;
+	}
+
+	function show() {
+		echo '<option value = "'.$this->value.'" ';
+		if($this->selected)	echo 'selected="selected" ';
+		if($this->disabled)	echo 'disabled="disabled" ';
+		echo '>'.$this->text.'</option>';
+	}
+}
+
+class Label extends Element {
+
+	var $forId = '';
+	var $text = '';
+	var $uiType = '';
+
+	public function __construct() {
+		log_message('debug', "UI_helper > Label Class Initialized");
+	}
+
+	function forId($forId = '') {
+		$this->properties["for"] = $forId;
+		$this->forId = $forId;
+		return $this;
+	}
+
+	function text($text = '') {
+		$this->text = $text;
+		return $this;
+	}
+
+	function uiType($uiType = '') {
+		$this->uiType = $uiType;
+		return $this;
+	}
+
+	function show() {
+		$icon = "";
+
+		if($this->forId != '') {
+			$this->classes("control-label");
+			if($this->uiType != '') {
+				switch(strtolower($this->uiType)) {
+					case "success":	$icon = '<i class="fa fa-check"></i> ';break;
+					case "danger":
+					case "error":	$icon = '<i class="fa fa-times-circle-o"></i> ';break;
+					case "warning":	$icon = '<i class="fa fa-warning"></i> ';break;
+				}
+			}			
 		}
+		else {
+			$this->classes("label");
+			$this->classes("label-" . $this->uiType);
+		}
+
+		echo '<label '.$this->_parse_attributes().' >';
+		echo $icon . $this->text.'</label>';
 	}
 }
 
-//date picker
-class DatePicker extends Input
-{
-	var $label = '';
-	var $dateFormat = 'dd-mm-yyyy';
-	
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > DatePicker Class Initialized");
+class Icon extends Element {
+
+	public function __construct($type = "") {
+		log_message('debug', "UI_helper > Label Class Initialized");
+		$this->classes("fa fa-" . $type);
 	}
-	
-	function label($label = '')
-	{
-		$this->label = $label;
-		return $this; 
-	}
-	
-	function dateFormat($dateFormat = 'dd-mm-yyyy')
-	{
-		$this->dateFormat = $dateFormat;
-		return $this; 
-	}
-	
-	function show()
-	{
-		$tempDivId = 'datepicker-' . $this->properties['id'].'-'.$this->properties['name'];
-		echo '
-			<div style="margin-bottom:10px;">
-          	  <label>'.$this->label.'</label>
-			  <div class="input-append date" id="'.$tempDivId.'" data-date-format="'.$this->dateFormat.'">
-				<input size="16" type="text" '.$this->_parse_attributes().' >
-				<span class="add-on" style="display:inline-block;"><i class="glyphicon glyphicon-calendar"></i></span>
-			  </div>
-          	</div>';
-		echo "<script>$('#".$tempDivId."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
+
+	function show() {
+		echo '<i '.$this->_parse_attributes().' ></i>';
 	}
 }
 
-class Alert {
+class Alert extends Element {
 
 	var $uiType = '';
 	var $desc = '';
 	var $title = '';
 	var $dismiss = true;
+	var $classPrefix = "alert";
 
-	function uiType($uiType = '')
-	{
+	public function __construct() {
+		parent::__construct();
+	}
+
+	function uiType($uiType = '') {
 		$this->uiType = $uiType;
 		return $this;
 	}
 
-	function desc($desc = '')
-	{
+	function desc($desc = '') {
 		$this->desc = $desc;
 		return $this;
 	}
 
-	function title($title = '')
-	{
+	function title($title = '') {
 		$this->title = $title;
 		return $this;
 	}
 
-	function dismiss($dismiss = true)
-	{
+	function dismiss($dismiss = true) {
 		$this->dismiss = $dismiss;
 		return $this;
 	}
 
-	function show()
-	{
-		$classes = 'alert ';
+	function show() {
+		$this->containerClasses($this->classPrefix);
 		if($this->uiType == 'error') $this->uiType = 'danger';
-		if($this->uiType != '')	$classes .= 'alert-'.$this->uiType.' ';
-		if($this->dismiss) $classes .= 'alert-dismissable ';
+		if($this->uiType != '')		 $this->containerClasses($this->classPrefix . '-' . $this->uiType);
+		if($this->dismiss) 			 $this->containerClasses($this->classPrefix . '-dismissable');
 
-		echo '<div class="'.$classes.'" >';
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
-		switch($this->uiType)
-		{
+		switch($this->uiType && $this->classPrefix == "alert") {
 			case 'danger': echo '<i class="fa fa-ban"></i>';break;
 			case 'info'	: echo '<i class="fa fa-info"></i>';break;
 			case 'warning': echo '<i class="fa fa-warning"></i>';break;
@@ -752,7 +892,7 @@ class Alert {
 		}
 
 		if($this->dismiss)
-			echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+			echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
 		if($this->title != '')	echo '<b>'.$this->title.'</b><br>';
 		if($this->desc != '')	echo $this->desc;
@@ -761,37 +901,20 @@ class Alert {
 	}
 }
 
-class Callout {
+class Callout extends Alert {
 
-	var $uiType = '';
-	var $title = '';
-	var $desc = '';
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function desc($desc = '')
-	{
-		$this->desc = $desc;
-		return $this;
-	}
-
-	function title($title = '')
-	{
-		$this->title = $title;
-		return $this;
+	public function __construct() {
+		parent::__construct();
+		$this->classPrefix = "callout";
 	}
 
 	function show()
 	{
-		$classes = 'callout ';
+		$this->containerClasses($this->classPrefix);
 		if($this->uiType == 'error') $this->uiType = 'danger';
-		if($this->uiType != '')	$classes .= 'callout-'.$this->uiType.' ';
+		if($this->uiType != '')		 $this->containerClasses($this->classPrefix . '-' . $this->uiType);
 
-		echo '<div class="'.$classes.'" >';
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
 		if($this->title != '')	echo '<h4>'.$this->title.'</h4>';
 		if($this->desc != '')	echo '<p>'.$this->desc.'</p>';
@@ -800,137 +923,63 @@ class Callout {
 	}
 }
 
-class Option {
 
-	var $value = '';
-	var $text = '';
-	var $disabled = false;
-	var $selected = false;
 
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > Option Class Initialized");
+
+
+class DatePicker extends Input {
+	var $label = '';
+	var $dateFormat = 'dd-mm-yyyy';
+	
+	public function __construct() {
+		parent::__construct();
+		log_message('debug', "UI_helper > DatePicker Class Initialized");
 	}
-
-	function value($value = '')
-	{
-		$this->value = $value;
-		return $this;
+	
+	function dateFormat($dateFormat = 'dd-mm-yyyy') {
+		$this->dateFormat = $dateFormat;
+		return $this; 
 	}
-
-	function text($text = '')
-	{
-		$this->text = $text;
-		return $this;
-	}
-
-	function disabled($disabled = true)
-	{
-		$this->disabled = $disabled;
-		return $this;
-	}
-
-	function selected($selected = true)
-	{
-		$this->selected = $selected;
-		return $this;
-	}
-
-	function show()
-	{
-		echo '<option value = "'.$this->value.'" ';
-		if($this->selected)	echo 'selected="selected" ';
-		if($this->disabled)	echo 'disabled="disabled" ';
-		echo '>'.$this->text.'</option>';
+	
+	function show() {
+		$this->containerExtras('data-date-format="'.$this->dateFormat.'"');
+		parent::show();
+		echo "<script>$('#".$this->properties["id"]."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
 	}
 }
 
-class Label {
 
-	var $forId = '';
-	var $text = '';
-	var $uiType = '';
-
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > Label Class Initialized");
-	}
-
-	function forId($forId = '')
-	{
-		$this->forId = $forId;
-		return $this;
-	}
-
-	function text($text = '')
-	{
-		$this->text = $text;
-		return $this;
-	}
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function show()
-	{
-		echo '<label ';
-
-		if($this->forId != '')	echo 'for = "'.$this->forId.'"';
-
-		if($this->uiType != '')
-		{
-			echo ' class="control-label" >';
-			switch(strtolower($this->uiType))
-			{
-				case "success":	echo '<i class="fa fa-check"></i> ';break;
-				case "danger":
-				case "error":	echo '<i class="fa fa-times-circle-o"></i> ';break;
-				case "warning":	echo '<i class="fa fa-warning"></i> ';break;
-			}
-		}
-		else
-			echo '>';
-		echo $this->text.'</label>';
-	}
-}
-
-class Upload_image extends Element {
+class ImagePicker extends Input {
 
 	var $action = '';
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Upload_image Class Initialized");
 	}
-	function show()
-	{
-		$tempImgId = "thumbnail" . $this->properties['id'];
-		
-		$upload_img_ui = new UI();
-		$upload_img_col = $upload_img_ui->col()->width(4)->open();//	Width???
-		$upload_img_box = $upload_img_ui->box()->solid()->title('Upload Image')->uitype('primary')->open();
-		echo '<div style="overflow:hidden;">
-		<img id="'.$tempImgId.'" />
-		<hr />
-		<input type="file" accept="image/*" '. $this->_parse_attributes() .' onchange=\'openFile(event)\'><br>
-		
-		</div>
+
+	function show() {
+		$addon = '<img style="height: 40px;" />';
+
+		$this->type("file")
+			 ->extras(' accept="image/*" style="padding: 0; height: 60px;" ')
+			 ->addonRight($addon);
+
+		parent::show();
+		echo '
 		<script type="text/javascript">
-			var openFile = function(event) {
-				var input = event.target;
-				var reader = new FileReader();
-				reader.onload = function(){
-					var dataURL = reader.result;
-					$(input).parent().find("#'.$tempImgId.'").attr("src", dataURL);
-					// output.src = dataURL;
-				};
-				reader.readAsDataURL(input.files[0]);
-			};
+			$(document).ready(function() {
+				$("#'.$this->properties['id'].'").on("change", function(event) {
+					var input = event.target;
+					var reader = new FileReader();
+					reader.onload = function(){
+						var dataURL = reader.result;
+						$("#'.$this->properties['id'].'").parent().find("img").attr("src", dataURL);
+						// output.src = dataURL;
+					};
+					reader.readAsDataURL(input.files[0]);
+				});
+			});
 		</script>
 		';
-		$upload_img_box->close();
-		$upload_img_col->close();
 	}
 }

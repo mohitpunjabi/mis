@@ -27,6 +27,11 @@ Class Student_academic_model extends CI_Model
 		else
 			return FALSE;
 	}
+
+	function update_by_id($data,$id)
+	{
+		$this->db->update($this->table,$data,array('id'=>$id));
+	}
 }
 
 ?>

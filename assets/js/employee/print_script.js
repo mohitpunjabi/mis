@@ -1,4 +1,4 @@
-function printContent(id) {
+function printContent(id, style) {
 	str=document.getElementById(id).innerHTML;
 	newwin=window.open('','printwin','left=100,top=100,width=400,height=400');
 	newwin.document.write('<HTML>\n<HEAD>\n');
@@ -17,6 +17,7 @@ function printContent(id) {
 	newwin.document.write('chkstate();\n');
 	newwin.document.write('}\n');
 	newwin.document.write('<\/script>\n');
+	newwin.document.write('<style type="text/css">'+style+'</style>');
 	newwin.document.write('</HEAD>\n');
 	newwin.document.write('<BODY onload="print_win()">\n');
 	newwin.document.write(str);

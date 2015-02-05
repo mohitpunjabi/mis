@@ -1,175 +1,284 @@
 <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
-<?php  echo form_open_multipart('student/student_add/insert_basic_details','onSubmit="return form_validation();"');?>
-<h1 align="center">Fill up the details of Student</h1>
-<table width='90%'>
+<?php  echo form_open_multipart('student/student_add/insert_basic_details/'.$stu_id,'onSubmit="return form_validation();"');?>
+<h1 align="center">Fill your details to continue</h1>
+<center>
+    Admission No. : <?php echo $stu_id;?>
+</center>
+<table width='80%' align="center">
 	<th colspan=4></th>
-    <tr>
-    	<td width='15%' id="stuId">
-        	Admission No.        </td>
-        <td width='35%' id="stuId">
-        	<input type="text" name="stu_id" required="required" /> 
+    <!--tr align="center">
+        <td id="stuId">
+            Admission No.        </td>
+        <td width='25%' id="stuId">
+            <?php// echo $stu_id;?>
+            <input type="text" name="stu_id" required="required" /--> 
             <!--input type="button" value="Go" id="fetch_id_btn" onClick="fetch_details()"/>
-            <i class="loading" id="stuIdIcon" ></i-->
+            <i class="loading" id="stuIdIcon" ></i>
         </td>
-    </tr>
+    </tr-->
     <tr>
-        <td>
-            Password
-        </td>
-        <td>
-            <input type="password" name="password" id="password" required />
-        </td>
-        <td>
-            Confirm Password
-        </td>
-        <td>
-            <input type="password" name="confirm_password" id="confirm_password" required />
-        </td>
-    </tr>
-	<tr>
-    	<td>
-        	Salutation        </td>
-        <td>
-			<select name="salutation" >
+        <!--td>
+            Salutation        </td-->
+        <td width='25%'>
+            <select name="salutation" >
                 <option value="mr">Mr</option>
                 <option value="mrs">Mrs</option>
                 <option value="ms">Ms</option>
                 <option value="dr">Dr</option>
              </select>        </td>
-        <td>
-        	First Name        </td>
-        <td>
-        	<input type="text" name = "firstname" required="required"/>        </td>
+        <!--td>
+            First Name        </td-->
+        <td width='25%'>
+            <input type="text" name = "firstname" required="required" placeholder="First Name"/>        </td>
+        <td width='25%'>
+            <input type="text" name = "middlename" id = "middlename" placeholder="Middle Name"/>        </td>
+        <td width='25%'>
+            <input type="text" name = "lastname" id = "lastname" placeholder="Last Name"/>        </td>
     </tr>
-   	<tr>
-    	<td>
-        	Middle Name        </td>
-        <td>
-        	<input type="text" name = "middlename" />        </td>
-        <td>
-        	Last Name        </td>
-        <td>
-        	<input type="text" name = "lastname" />        </td>
-   </tr>
-   <tr>
+    <tr>
         <td>
           पूरा नाम हिन्दी में        </td>
         <td>
-            <input type="text" id="stud_name_hindi" name="stud_name_hindi"  />        </td>
-         <td>
-        	Roll No.        </td>
+            <input type="text" id="stud_name_hindi" name="stud_name_hindi"/>        </td>
         <td>
-        	<input type="text" name = "roll_no" />        </td>
-   </tr>
-      <tr>
+            Gender        </td>
         <td>
-            Father's Name        </td>
-        <td>
-            <input type="text" id="father_name" name="father_name"  />        </td>
-        <td>
-            Father's Occupation        </td>
-        <td>
-            <input type="text" id="father_occupation" name="father_occupation" />        </td>
-   </tr>
-   <tr>
-       <td>
-            Father's Gross Annual Income        </td>
-        <td>
-            <input type="text" id="father_gross_income" name="father_gross_income"  />        </td>
-	   
-	   <td>
-            Mother's Name        </td>
-        <td>
-            <input type="text" id="mother_name" name="mother_name" />        </td>
-	   
-		
-       
-   </tr>
-  
-    <tr>
-         <td>
-            Mother's Occupation        </td>
-        <td>
-            <input type="text" id="mother_occupation" name="mother_occupation" />        </td>
-		<td>
-            Mother's Gross Annual Income        </td>
-        <td>
-            <input type="text" id="mother_gross_income" name="mother_gross_income"  />        </td>
-        
-   </tr>
-    <tr>
-	    <td>
-            
-			Guardian's Name<br/>        </td>
-      <td>
-             <input type="text" id="guardian_name" name="guardian_name" disabled />
-			 <input style="margin-top:2.5px;" type='checkbox' id ="depends_on"  name="depends_on"  onchange="depends_on_whom()"/>        </td>
-		 <td>
-            
-			Relationship<br/>        </td>
-        <td>
-             <input type="text" id="guardian_relation_name" name="guardian_relation_name" disabled />
-			 <!--<input style="margin-top:2.5px;" type='checkbox' id ="depends_on_relation"  name="depends_on_relation"  onchange="depends_on_whom()"/>         --></td>
-    </tr>
-    <tr>
-            <td>Parent/Guardian Mobile No</td>
-            <td><input type="text" name="parent_mobile" id="parent_mobile" required="required"></td>
-            <td>Parent/Guardian Landline No</td>
-            <td><input type="text" name="parent_landline" id="parent_landline"></td>
-    </tr>
-	 <tr>
-		<td>
-        	Gender        </td>
-        <td>
-        	<input type="radio" name="sex" value="male" checked>Male</input>
+            <input type="radio" name="sex" value="male" checked>Male</input>
             <input type="radio" name="sex" value="female">Female</input>
-			<input type="radio" name="sex" value="others">Others</input>        </td>
-        
-   
-		<td width='15%'>
-        	Physically Challenged        </td>
-        <td width='35%'>
-   	      	<input type="radio" name="pd" value="yes" />Yes
+            <input type="radio" name="sex" value="others">Others</input>        </td>
+    </tr>
+    <tr>
+        <td>
+            Date Of Birth        </td>
+        <td>
+            <input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?> >        </td>
+        <td>
+            Place of Birth        </td>
+        <td>
+            <input type="text" name="pob" required="required"/>        </td>
+    </tr>
+    <tr>
+        <td>
+            Physically Challenged        </td>
+        <td>
+            <input type="radio" name="pd" value="yes" />Yes
             <input type="radio" name="pd" value="no" checked />No        </td>
-    </tr>
-   <tr>
-    	<td>
-        	Date Of Birth        </td>
-    	<td>
-  	      	<input type="date" name="dob" value="<?php echo date("Y-m-d",time()+(19800));?>" max=<?php echo date("Y-m-d", time()+(19800)); ?> >        </td>
-		<td>
-        	Place of Birth        </td>
-    	<td>
-  	      	<input type="text" name="pob" required="required"/>        </td>
-    </tr>
-	<tr>
-    			<td>
-        	Kashmiri Immigrant        </td>
-    	<td>
-			<input type="radio" name="kashmiri" value="yes"/>Yes
-            <input type="radio" name="kashmiri" checked value="no"/>No        </td>
         <td>Blood Group</td>
         <td>
-                <select name="blood_group">
-                    <option value="apos">A+</option>
-                    <option value="aneg">A-</option>
-                    <option value="bpos">B+</option>
-                    <option value="bneg">B-</option>
-                    <option value="ops">O+</option>
-                    <option value="oneg">O-</option>
-                    <option value="abpos">AB+</option>
-                    <option value="abneg">AB-</option>
-                </select></td>
+            <select name="blood_group">
+                <option value="apos">A+</option>
+                <option value="aneg">A-</option>
+                <option value="bpos">B+</option>
+                <option value="bneg">B-</option>
+                <option value="ops">O+</option>
+                <option value="oneg">O-</option>
+                <option value="abpos">AB+</option>
+                <option value="abneg">AB-</option>
+            </select>
+        </td>
     </tr>
     <tr>
         <td>
-            Date of Admission        </td>
+            Kashmiri Immigrant        </td>
         <td>
-            <input type="date" name="entrance_date" value="<?php echo date("Y-m-d",time()+(19800));?>" required="required" >        </td>
+            <input type="radio" name="kashmiri" value="yes"/>Yes
+            <input type="radio" name="kashmiri" checked value="no"/>No        </td>
+        <td>
+            Marital Status        </td>
+        <td>
+            <select name="mstatus" >
+                <option value="unmarried">Unmarried</option>
+                <option value="married">Married</option>
+                <option value="widow">Widow</option>
+                <option value="widower">Widower</option>
+                <option value="separated">Separated</option>
+                <option value="divorcee">Divorcee</option>
+             </select>        </td> 
+    </tr>
+    <tr>
+        <td>
+            Category        </td>
+        <td>
+            <select name="category">
+                <option value="General">GEN</option>
+                <option value="OBC">OBC</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="Others">Others</option>
+             </select>        </td>
+        <td>
+            Religion        </td>
+        <td>
+            <select name="religion">
+                <option value="HINDU">HINDU</option>
+                <option value="CHISTIAN">CHRISTIAN</option>
+                <option value="MUSLIM">MUSLIM</option>
+                <option value="SIKH">SIKH</option>
+                <option value="BAUDHH">BAUDHH</option>
+                <option value="JAIN">JAIN</option>
+                <option value="PARSI">PARSI</option>
+                <option value="YAHUDI">YAHUDI</option>
+                <option value="Others">Others</option>
+             </select>        </td>
+        <!--<td>
+            <input type="text" name="religion" />
+        </td> -->
+    </tr>
+    <tr>
+        <td>
+            Nationality        </td>
+        <td>
+            <input type="text" name="nationality" required="required" value="Indian"/>        </td>
+        <td>
+            AADHAR Card No :        </td>
+        <td>
+            <input type="text" name="aadhar_no" id="aadhar_no"/>        </td>
+    </tr>
+    <tr>
+        <td>
+            Identification Mark     </td>
+        <td>
+            <input type="text" name="identification_mark" required="required"/>     </td>
+    </tr>
+</table>
+<table width='80%' align="center" colspan=6>
+    <tr>
+        <th width='33%' colspan=2>
+            Father's Detail
+        </th>
+        <th width='34%' colspan=2>
+            Mother's Detail
+        </th>
+        <th width='33%' colspan=2>
+            Guardian's Detail
+            <input style="margin-top:2.5px;" type='checkbox' id ="depends_on"  name="depends_on"  onchange="depends_on_whom()"/>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            Father's Name
+        </td>
+        <td>
+            <input type="text" id="father_name" name="father_name"  />
+        </td>
+        <td>
+            Mother's Name
+        </td>
+        <td>
+            <input type="text" id="mother_name" name="mother_name" />
+        </td>
+        <td>
+            Guardian's Name<br/>
+        </td>
+        <td>
+            <input type="text" id="guardian_name" name="guardian_name" disabled />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Father's Occupation
+        </td>
+        <td>
+            <input type="text" id="father_occupation" name="father_occupation" />
+        </td>
+        <td>
+            Mother's Occupation
+        </td>
+        <td>
+            <input type="text" id="mother_occupation" name="mother_occupation" />
+        </td>
+        <td>
+            Relationship
+        </td>
+        <td>
+            <input type="text" id="guardian_relation_name" name="guardian_relation_name" disabled />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Father's Gross Annual Income
+        </td>
+        <td>
+            <input type="text" id="father_gross_income" name="father_gross_income"  />
+        </td>
+        <td>
+            Mother's Gross Annual Income
+        </td>
+        <td>
+            <input type="text" id="mother_gross_income" name="mother_gross_income"  />
+        </td>
+    </tr>
+</table>
+<table width='80%' align="center">
+    <th colspan=4></th>
+    <tr>
+        <td width='25%'>Parent/Guardian Mobile No</td>
+        <td width='25%'><input type="text" name="parent_mobile" id="parent_mobile" required="required"></td>
+        <td width='25%'>Parent/Guardian Landline No</td>
+        <td width='25%'><input type="text" name="parent_landline" id="parent_landline"></td>
+    </tr>
+    <tr><th colspan=4 >Details of Admission</th></tr>
+    <tr>
+        <td>
+            Migration Certificate
+        </td>
+        <td>
+            <input type="text" name="migration_cert" required="required"/>
+        </td>
+        <td>
+            Roll No.
+        </td>
+        <td>
+            <input type="text" name = "roll_no" id = "roll_no" placeholder="eg. IIT-JEE enrollment no."/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Admission Based On          </td>
+        <td>
+            <select name="admn_based_on" id="id_admn_based_on" onchange="select_exam_scores()">
+                <option value="iitjee" selected="selected" >IIT JEE</option>
+                <option value="isme">ISM Entrance</option>
+                <option value="gate">GATE</option>
+                <option value="cat">CAT</option>
+                <option value="direct">Direct</option>
+                <option value="others">Others</option>
+             </select>        </td>
+        <td>
+            Other Mode of Admission </td>
+        <td>
+            <input type="text" id="other_mode_of_admission" name="mode_of_admission" disabled />
+        </td>
+         
+    </tr>
+     <tr>
+        <td>
+            
+            IIT JEE General Rank<br/>        </td>
+         <td><input type="text" id="iitjee_rank" name="iitjee_rank" value="0" /></td>
+   <td>
+            
+            IIT JEE Category  Rank<br/>        </td>
+         <td><input type="text" id="iitjee_cat_rank" name="iitjee_cat_rank" value="0" />
+        </td>
+        
+    </tr>
+    <tr>
+        <td>
+            
+            GATE Score<br/>        </td>
+         <td><input type="text" id="gate_score" name="gate_score"  value="0" disabled /></td>
+      
+      <td>      
+            CAT Score<br/>        </td>
+         <td><input type="text" id="cat_score" name="cat_score" value="0" disabled /></td>
+    </tr>
+    <tr>
+        
         <td>
             Student Type        </td>
         <td>
-            <select name="stu_type" id="stu_type" ><!--onchange="check_if_student_type_others()" -->
+            <select name="stu_type" id="stu_type" onchange="button_for_add()"><!--onchange="check_if_student_type_others()" -->
                 <?php
                     foreach($stu_type as $row)
                         echo '<option value="'.$row->id.'">'.$row->name.'</option>';
@@ -180,95 +289,39 @@
             Student Other type   </td>
         <td>
             <input type="text" name="student_other_type" id="student_other_type" disabled/></td-->
-    </tr>
-<tr>
-    	<td>
-			Admission Based On       	</td>
         <td>
-        	<select name="admn_based_on" id="id_admn_based_on" onchange="select_exam_scores()">
-            	<option value="iitjee" selected="selected" >IIT JEE</option>
-                <option value="isme">ISM Entrance</option>
-                <option value="gate">GATE</option>
-				<option value="cat">CAT</option>
-				<option value="direct">Direct</option>
-				<option value="others">Others</option>
-             </select>        </td>
-		<td>
-            Other Mode of Admission </td>
-        <td>
-            <input type="text" id="other_mode_of_admission" name="mode_of_admission" disabled />
+            Present Semester
         </td>
-         
-    </tr>
-	 <tr>
-		<td>
-            
-			IIT JEE General Rank<br/>        </td>
-		 <td><input type="text" id="iitjee_rank" name="iitjee_rank" value="0" />  
-   <td>
-            
-			IIT JEE Category  Rank<br/>        </td>
-		 <td><input type="text" id="iitjee_cat_rank" name="iitjee_cat_rank" value="0" />
+        <td>
+            <select name="semester">
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+            </select>
         </td>
-		
     </tr>
-    <tr>
-		<td>
-            
-			GATE Score<br/>        </td>
-		 <td><input type="text" id="gate_score" name="gate_score"  value="0" disabled />
-      
-      <td>      
-			CAT Score<br/>        </td>
-		 <td><input type="text" id="cat_score" name="cat_score" value="0" disabled />
-    </tr>
-	
-   <tr>
-		<td>
-			Identification Mark		</td>
-		<td>
-			<input type="text" name="identification_mark" required="required"/>		</td>
-        <td>
-            Migration Certificate     </td>
-        <td>
-            <input type="text" name="migration_cert" required="required"/>     </td>
-		
-    </tr>
-	<tr>
+</table>
+<table width="80%" align="center" colspan=6>
+    <th colspan=6></th>
+   	<!--tr>
     	<td>
-            Category        </td>
-    	<td>
-        	<select name="category">
-				<option value="General">GEN</option>
-                <option value="OBC">OBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-                <option value="Others">Others</option>
-             </select>        </td>
-		<td>
-        	Religion        </td>
-		<td>
-        	<select name="religion">
-				<option value="HINDU">HINDU</option>
-                <option value="CHISTIAN">CHRISTIAN</option>
-                <option value="MUSLIM">MUSLIM</option>
-                <option value="SIKH">SIKH</option>
-				<option value="BAUDHH">BAUDHH</option>
-				<option value="JAIN">JAIN</option>
-				<option value="PARSI">PARSI</option>
-				<option value="YAHUDI">YAHUDI</option>
-                <option value="Others">Others</option>
-             </select>        </td>
-    	<!--<td>
-  	      	<input type="text" name="religion" />
-        </td> -->
-    </tr>
-    <tr>
-    	 <td>
-            Nationality        </td>
+        	Middle Name        </td>
         <td>
-            <input type="text" name="nationality" required="required" value="Indian"/>        </td>
-		<td>
+        	<input type="text" name = "middlename" id = "middlename"/>        </td>
+        <td>
+        	Last Name        </td>
+        <td>
+        	<input type="text" name = "lastname" id = "lastname"/>        </td>
+   </tr-->
+    <tr>
+    	<td>
         	Department        </td>
     	<td>
   	      	<!--<select name="department" id="depts" onchange="options_of_branches()">   this is original -->
@@ -283,8 +336,6 @@
                         }
 				?>
             </select>        </td>
-    </tr>
-    <tr>
         <td>
             Course        </td>
         <td id="course">
@@ -319,23 +370,9 @@
             </select>        </td>
         
     </tr>
-	<tr>
-		<td>
-			ADHAR Card No :		</td>
-		<td>
-			<input type="text" name="adhar_no" />		</td>
-        <td>
-            Marital Status        </td>
-        <td>
-            <select name="mstatus" >
-                <option value="Unmarried">Unmarried</option>
-                <option value="Married">Married</option>
-                <option value="Widow">Widow</option>
-                <option value="Widower">Widower</option>
-                <option value="Separated">Separated</option>
-                <option value="Divorcee">Divorcee</option>
-             </select>        </td> 
-    </tr>
+</table>
+<table width="80%" align="center">
+    <th colspan=4>Your Bank Details</th>
 	<tr>
         <td>
             Bank Name       </td>
@@ -347,18 +384,7 @@
             <input type="text" name="bank_account_no" required="required"/>     </td>
         
     </tr>
-    </tr>
-        <td>
-            Extra-Curricular Activities ( if any):      </td>
-        <td>
-            <input type="text" name="extra_activity" />     </td>
-        <td>
-            Any other relevant information      </td>
-        <td>
-            <input type="text" name="any_other_information" />      </td>
-        
-    </tr>
-    <tr><th colspan=4 >Details of Fees PAyment at the time of Admission</th></tr><tr></tr>
+    <tr><th colspan=4 >Details of Fees Payment at the time of Admission</th></tr><tr></tr>
 	<tr>
 		<td>
 			Mode of Payment :		</td>
@@ -368,7 +394,7 @@
                 <option value="cheque">CHEQUE</option>
                 <option value="cash">CASH</option>
                 <option value="online">ONLINE TRANSFER </option>
-                <option value="none">NONE </option>
+                <option value="none" selected>NONE </option>
              </select>        </td>
 
 		<td>
@@ -380,11 +406,11 @@
 		<td>
 			DD/CHEQUE/ONLINE/CASH  No 		</td>
 		<td>
-			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" />		</td>
+			<input type="text" name="fee_paid_dd_chk_onlinetransaction_cashreceipt_no" id="fee_paid_dd_chk_onlinetransaction_cashreceipt_no"/>		</td>
         <td>
             Fees Paid Amount    </td>
         <td>
-            <input type="text" name="fee_paid_amount" />        </td>
+            <input type="text" name="fee_paid_amount" id="fee_paid_amount" />        </td>
 	
     <!--tr >
     </tr!-->
@@ -529,7 +555,7 @@
         	<td>Email</td>
         	<td><input type="email" name="email" required="required"></td>
 			<td>Alternate Email</td>
-        	<td><input type="email" name="alternate_email_id" ></td>
+        	<td><input type="email" name="alternate_email_id" id="alternate_email_id" ></td>
             
         </tr>
 		<tr>
@@ -540,12 +566,61 @@
         </tr>
 		<tr>
         	<td>Hobbies</td>
-        	<td><input type="text" name="hobbies" ></td>
+        	<td><input type="text" name="hobbies" id="hobbies"></td>
             <td>Favourite Pass Time</td>
-        	<td><input type="text" name="favpast" ></td>
+        	<td><input type="text" name="favpast" id="favpast"></td>
+        </tr>
+        <tr>
+            <td>
+                Extra-Curricular Activities ( if any):      </td>
+            <td>
+                <input type="text" name="extra_activity" id="extra_activity"/>     </td>
+            <td>
+                Any other relevant information      </td>
+            <td>
+                <input type="text" name="any_other_information" id="any_other_information"/>      </td>
         </tr>
 </table>
-<table width="90%">
+<table width='80%' align="center">
+<tr><th colspan=7 >Educational Qualificatoins</th></tr><tr></tr>
+</table>
+<table width='80%' align="center" id="tableid">
+     <tr>
+     <th>S no.</th>
+     <th>Examination</th>
+     <th>Branch/Specialization</th>
+     <th>School/College/University/Institute</th>
+     <th>Year</th>
+     <th>Percentage/Grade</th>
+     <th>Class/Division</th>
+     </tr>
+        <tr id="addrow">
+            <td id="sno">1</td>
+            <td><input type="text" name="exam4[]"/></td>
+            <td><input type="text" name="branch4[]"/></td>
+            <td><input type="text" name="clgname4[]"/></td>
+            <td><select name="year4[]">
+                <?php
+                    $year = 2005;
+                    $last_year = date('Y');
+                    while($year <= $last_year)
+                    {
+                        echo '<option value="'.$year.'">'.$year.'</option>';
+                        $year++;
+                    }
+                ?>
+            </select></td>
+            <td><input type="text" name="grade4[]" /></td>
+            <td><select name="div4[]"/>
+                <option value="first">FIRST</option>
+                <option value="second">SECOND</option>
+                <option value="third">THIRD</option>
+                <option value="na">NA</option>
+            </selcet></td>
+        </tr>
+</table>
+<center><input type="button" name="add" id="add" value="Add More" onClick="onclick_add();"/></center>
+<table width="80%" align="center">
         <tr><th colspan=2 >Photograph</th></tr><tr></tr>
         <tr  height="150">
             <td width="145" id="preview">
@@ -556,5 +631,25 @@
             </td>
 		</tr>
 </table>
+<table width='80%' align="center">
+    <th colspan=4>Your Password</th>
+    <tr>
+        <td width='25%'>
+            Password
+        </td>
+        <td width='25%'>
+            <input type="password" name="password" id="password" required />
+        </td>
+        <td width='25%'>
+            Confirm Password
+        </td>
+        <td width='25%'>
+            <input type="password" name="confirm_password" id="confirm_password" required />
+        </td>
+    </tr>
+</table>
+<center>
 <input type = "submit" value="Next"/>
+</center>
 <?php echo form_close(); ?>
+<br /><br />

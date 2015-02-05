@@ -79,7 +79,10 @@ class Basic_model extends CI_Model
 		$query = $this->db->query("SELECT DISTINCT course_branch.course_id,id,name,duration FROM 
 		courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
 		dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
-		return $query->result();
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
 	}
 	
 	
@@ -105,7 +108,10 @@ class Basic_model extends CI_Model
 	
 	function get_branches_by_course_and_dept($course,$dept){
 		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '$course' AND dept_course.dept_id = '$dept'");
-		return $query->result();
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
 	}
 
 	

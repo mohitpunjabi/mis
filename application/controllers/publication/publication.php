@@ -266,6 +266,7 @@ class Publication extends MY_Controller{
 				$data['publications'][$i]['other_authors'] = $pub->other_authors;
 				$data['publications'][$i]['authors']['ism'] = $this->basic_model->get_ism_author_detail_by_pub($pub->rec_id);
 				$data['publications'][$i]['type_name'] = $pub->type_name;
+				$data['publications'][$i]['type_id'] = $pub->type;
 				if($data['publications'][$i]['other_authors'] > 0){
 					$data['publications'][$i]['authors']['others'] = $this->basic_model->get_other_author_detail_by_pub($pub->rec_id);
 				}

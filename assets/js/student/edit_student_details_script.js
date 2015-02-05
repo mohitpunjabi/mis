@@ -55,7 +55,7 @@ function form_validation()
 	xmlhttp.send();
 	if(xmlhttp.responseText == '')
 	{
-	 	//alert('User does not exist.');
+	 	alert('User does not exist.');
 	 	//$("#go_to_next").hide();
 	 	return false;
 	}

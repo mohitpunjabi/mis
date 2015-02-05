@@ -14,11 +14,12 @@ class Add extends MY_Controller
 
 	public function index($error='')
 	{
+		
 		$this->addJS("course_structure/add_course_structure.js");
 		$data = array();
-		$data["result_course"] = $this->basic_model->get_course();
-		$data["result_branch"] = $this->basic_model->get_branches();
-
+		$data["result_dept"] = $this->basic_model->get_depts();
+		
+		//$data['courses_1'] = $this->basic_model->get_branches_by_course('b.tech');
 		$this->drawHeader();
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
@@ -27,17 +28,32 @@ class Add extends MY_Controller
 	public function EnterNumberOfSubjects()
 	{
 		$this->addJS("course_structure/add.js");
+		$dept= $this->input->post('dept');
 		$course= $this->input->post('course');
 		$branch= $this->input->post('branch');
 		$session= $this->input->post('session');
 		$sem=$this->input->post('sem');
-		$aggr_id= $course.'_'.$branch.'_'.$session;
 		
-		if(!$this->basic_model->select_course_branch($aggr_id))
+		$aggr_id= $course.'_'.$branch.'_'.$session;
+		//if($dept == 0 || $course == 0 || $branch == 0 || $session == 0 || $sem == 0)
+		//{
+		//	$this->session->set_flashdata("flashError","Please select a valid option.");
+		//	redirect("course_structure/add");
+		//}
+		
+		$result_course_branch = $this->basic_model->select_course_branch($course,$branch);
+		$dept_course['course_branch_id'] = $result_course_branch[0]->course_branch_id;
+		$dept_course['dept_id'] = $dept;
+		$dept_course['aggr_id'] = $aggr_id;
+		$dept_course['date'] = date("Y-m-d");
+		
+		//if this is new BOCS then first add its aggr_id to dept_courses .
+		if($this->basic_model->count_dept_course_by_aggr_id($aggr_id) == 0)
 		{
-			$this->session->set_flashdata("flashError","Invalid Course branch and year combination.");
-			redirect("course_structure/add");
+			$this->basic_model->insert_dept_course($dept_course);
 		}
+		
+		//if CS already exisit for this semester then show error.
 		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
 		{
 			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then add new.");
@@ -166,7 +182,8 @@ class Add extends MY_Controller
     else
     {
       $this->session->set_userdata($data);
-      $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted successfully");
+      $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted 
+	  successfully");
       redirect("course_structure/add");
     }
   }
@@ -174,7 +191,7 @@ class Add extends MY_Controller
   public function AddElectiveSubjects()
   {
   	$this->addJS("course_structure/add.js");
-
+	
 	  //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
     $session_data = $this->session->userdata("CS_session");
@@ -254,12 +271,22 @@ class Add extends MY_Controller
     redirect("course_structure/add");
 	//$this->load->view('print_cs',$data);
   }
-	public function json_get_branch($course='')
+  
+  	public function json_get_course($dept='')
 	{
-		if($course != ''){
+		if($dept != ''){
 			$this->output->set_content_type('application/json');
 			//$this->output->set_output(json_encode(array("hello"=>$course)));
-			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course($course)));
+			$this->output->set_output(json_encode($this->basic_model->get_course_offered_by_dept($dept)));
+		}
+	}
+
+	public function json_get_branch($course='',$dept='')
+	{
+		if($course != '' && $dept != ''){
+			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course_and_dept($course,$dept)));
 		}
 	}
 

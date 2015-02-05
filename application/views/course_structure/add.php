@@ -32,6 +32,12 @@
 								->show();
 								
 								$ui->select()
+								->label('Select Session')
+								->name('session')
+								->id("session_selection")
+								->show();
+								
+								$ui->select()
 								->label('Select Semester')
 								->name('sem')
 								->id("semester")

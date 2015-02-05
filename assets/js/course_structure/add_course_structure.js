@@ -9,10 +9,12 @@ $(document).ready(function(){
 	$course_selection = $('#course_selection');
 	$branch_selection = $('#branch_selection');
 	$semester_selection = $("#semester");
+	$session_selection = $("#session_selection");
 	
 	$course_selection.hide();
 	$branch_selection.hide();
 	$semester_selection.hide();
+	$session_selection.hide();
 	
 	$duration = 1;
 	
@@ -28,6 +30,7 @@ $(document).ready(function(){
 				$select_course = $('select#course_selection');
 				$select_course.on('change',function(){
 					$branch_selection.hide();
+					$session_selection.hide();
 					$semester_selection.hide();
 					add_branch(parseInt($('#course_selection option:selected').data('duration')));
 				});
@@ -54,7 +57,7 @@ $(document).ready(function(){
 				for($d=0 ; $d < data.length;$d++){
 					base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
-				base_str_branch += "<option>Select Branch</option>";
+				//base_str_branch += "<option>Select Branch</option>";
 				$branch_selection.show().html(base_str_branch);
 				
 				var d = new Date();
@@ -67,10 +70,11 @@ $(document).ready(function(){
 					base_str += "<option value= '"+session+"'>"+$d+"-"+($d+1)+"</option>"
 				}	
 				
-				$semester_selection.show().html(base_str);
-				//$select_branch = $('select#branch');
+				$session_selection.show().html(base_str);
 				$branch_selection.on('change',function(){
+					//$session_selection.hide();
 					$semester_selection.hide();
+					
 					add_semester(duration);
 				});
 				

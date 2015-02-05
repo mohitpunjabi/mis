@@ -738,7 +738,7 @@ class Button extends Input {
 	}
 }
 
-class Option {
+class Option extends Element {
 
 	var $value = '';
 	var $text = '';

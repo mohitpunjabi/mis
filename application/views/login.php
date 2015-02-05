@@ -5,10 +5,10 @@
 <title>Please login to continue</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/mis-layout.css" />
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/login.css" />
-<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/mis-layout.js"></script>
+<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/core/mis-layout.css" />
+<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/core/login.css" />
+<script type="text/javascript" src="<?= base_url() ?>assets/core/jquery.min.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/core/mis-layout.js"></script>
 
 <body>
 	<div class="container">

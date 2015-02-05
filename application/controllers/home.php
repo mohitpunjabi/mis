@@ -36,7 +36,7 @@ class Home extends MY_Controller {
 		$this->addJS("home/home-script.js");
 		$this->addJS("home/home-feed-script.js");
 		$this->addJS("home/home-calendar.js");
-		$this->drawHeader("MIS");
+		$this->drawHeader("Home");
 
 		//related to notice, minutes or circular module
 		$this->checkCircularValidity();

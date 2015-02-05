@@ -1,4 +1,10 @@
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+    </body>
+</html>
 
+<!--
 	</div>
     <div class="-mis-footer">
     	<a href="#">Indian School of Mines, Dhanbad</a> |
@@ -8,3 +14,5 @@
     </div>
 </body>
 </html>
+
+-->

@@ -1,7 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class UI {
-
 	function row()		{	return new Row();		}
 	function col()		{	return new Column();	}
 	function box()		{	return new Box();		}
@@ -22,6 +21,14 @@ class UI {
 
 
 
+
+
+
+
+
+
+
+
 class Element {
 	var $properties = array(
 					'id'		=>	'' ,
@@ -29,9 +36,19 @@ class Element {
 					'value' 	=>	'' ,
 					'class' 	=>	'' ,
 					'disabled'	=>	'' ,
-					'style'		=>	'' ,
 					'extras' 	=>	'' );
 
+	var $containerProps = array(
+					'class' 	=> '',
+					'extras' 	=> '',
+					'style'		=> '',
+					'id'		=> ''
+					);
+
+	var $width = 0;
+	var $t_width = 0;
+	var $m_width = 0;
+	var $ld_width = 0;
 
 	public function __construct() {
 		$this->properties['id'] = md5(uniqid(rand(), true));
@@ -39,6 +56,11 @@ class Element {
 
 	function id( $id = '' ) {
 		$this->properties['id'] = $id;
+		return $this;
+	}
+
+	function containerId( $id = '' ) {
+		$this->containerProps['id'] = $id;
 		return $this;
 	}
 
@@ -57,9 +79,41 @@ class Element {
 		return $this;
 	}
 
+	function containerClasses( $classes = '' ) {
+		$this->containerProps['class'] .= ($this->containerProps['class'] == '')?	$classes: ' '.$classes;
+		return $this;
+	}
+
+	function width($w = 6) {
+		//desktop width..........(md)
+		$this->width = $w;
+		
+		// Temporarily setting large width equal to the width
+		$this->ld_width = $w;
+		return $this;
+	}
+
+	function t_width($w = 6) {
+		//tablet width...........(sm)
+		$this->t_width = $w;
+		return $this;
+	}
+
+	function m_width($w = 6) {
+		//mobile width...........(xs)
+		$this->m_width = $w;
+		return $this;
+	}
+
+	function ld_width($w = 6) {
+		//large desktop width....(lg)
+		$this->ld_width = $w;
+		return $this;
+	}
+
 	function style( $style = '' ) {
 		$style .= ($style[strlen($style)-1] == ';')?	'':';';
-		$this->properties['style'] .= $style;
+		$this->containerProps['style'] .= $style;
 		return $this;
 	}
 
@@ -73,23 +127,57 @@ class Element {
 		return $this;
 	}
 
+	function containerExtras( $extras = '' ) {
+		$this->containerProps['extras'] .= ($this->containerProps['extras'] == '')?	$extras:' '.$extras;
+		return $this;
+	}
+
 	function _parse_attributes() {
 		$att = '';
 		foreach ($this->properties as $key => $val) {
-			if($key == 'extras') {
+			if($key == 'extras')
 				$att .= $val . ' ';
-			}
-			else if($val != '') {
+			else if($val != '')
 				$att .= $key . '="'. $val . '" ';
-			}
 		}
 
 		return $att;
 	}
+
+	function _parse_container_attributes() {
+		$att = '';
+		
+		if($this->width > 0) $this->containerClasses('col-md-' . $this->width);
+		if($this->width > 0) $this->containerClasses('col-sm-' . $this->t_width);
+		if($this->width > 0) $this->containerClasses('col-xs-' . $this->m_width);
+		if($this->width > 0) $this->containerClasses('col-lg-' . $this->ld_width);
+		
+		foreach ($this->containerProps as $key => $val) {
+			if($key == 'extras')
+				$att .= $val . ' ';
+			else if($val != '')
+				$att .= $key . '="'. $val . '" ';
+		}
+
+		return $att;
+	}
+
 }
 
-class Row extends Element {
 
+
+
+
+
+
+
+
+
+
+
+
+class Row extends Element {
+	
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > Row Class Initialized");
@@ -97,8 +185,8 @@ class Row extends Element {
 
 	function open() {
 		// Adding UI class row to the div element.
-		$this->classes('row');
-		echo '<div '.$this->_parse_attributes().' >';
+		$this->containerClasses('row');
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
         return $this;
 	}
 
@@ -107,62 +195,43 @@ class Row extends Element {
 	}
 }
 
+
+
+
+
+
+
+
+
+
 class Column extends Element {
 
-	var $width = 6;
-	var $t_width = 0;
-	var $m_width = 0;
-	var $ld_width = 0;
-
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Column Class Initialized");
+		$this->width = 12;
+		$this->m_width = 12;
+		$this->t_width = 12;
+		$this->ld_width = 12;
 	}
 
-	function width($w = 6)
-	{
-		//desktop width..........(md)
-		$this->width = $w;
-		return $this;
-	}
-
-	function t_width($w = 6)
-	{
-		//tablet width...........(sm)
-		$this->t_width = $w;
-		return $this;
-	}
-
-	function m_width($w = 6)
-	{
-		//mobile width...........(xs)
-		$this->m_width = $w;
-		return $this;
-	}
-
-	function ld_width($w = 6)
-	{
-		//large desktop width....(lg)
-		$this->ld_width = $w;
-		return $this;
-	}
-
-	function open()
-	{
-		if($this->width != 0)		$this->classes('col-md-'.$this->width);
-		if($this->t_width != 0)		$this->classes('col-sm-'.$this->t_width);
-		if($this->m_width != 0)		$this->classes('col-xs-'.$this->m_width);
-		if($this->ld_width != 0)	$this->classes('col-lg-'.$this->ld_width);
-
-		echo '<div '.$this->_parse_attributes().' >';
+	function open() {
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</div>';
 	}
 }
+
+
+
+
+
+
+
+
 
 class Box extends Element {
 
@@ -171,45 +240,35 @@ class Box extends Element {
 	var $solid = false;
 	var $background = '';
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Box Class Initialized");
+		$this->containerClasses('box');
 	}
 
-	function uiType($uiType = '')
-	{
+	function uiType($uiType = '') {
 		//uiType ..... (primary/success/warning/danger/info)
-		$this->uiType = $uiType;
+		$this->containerClasses('box-'.$uiType);
 		return $this;
 	}
 
-	function solid($solid = true)
-	{
-		$this->solid = $solid;
+	function solid($solid = true) {
+		$this->containerClasses('box-solid');
 		return $this;
 	}
 
-	function background($background = '')
-	{
-		$this->background = $background;
+	function background($background = '') {
+		$this->containerClasses('bg-' . $background);
 		return $this;
 	}
 
-	function title($title = '')
-	{
+	function title($title = '') {
 		$this->title = $title;
 		return $this;
 	}
 
-	function open()
-	{
-		$this->classes('box');
-		if($this->uiType != '')		$this->classes('box-'.$this->uiType);
-		if($this->solid)			$this->classes('box-solid');
-		if($this->background != '')	$this->classes('bg-'.$this->background);
-		if($this->solid)			$this->classes('box-solid');
-
-		echo '<div '.$this->_parse_attributes().' >
+	function open() {
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
                     <div class="box-header">
                         <h3 class="box-title">'.$this->title.'</h3>
                     </div>
@@ -217,11 +276,19 @@ class Box extends Element {
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</div></div>';
 	}
 }
+
+
+
+
+
+
+
+
+
 
 class Table extends Element {
 
@@ -231,60 +298,59 @@ class Table extends Element {
 	var $hover		= false;
 	var $responsive	= false;
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Table Class Initialized");
+		$this->containerClasses("table");
 	}
 
-	function bordered($type = true)
-	{
-		$this->bordered = $type;
+	function bordered($type = true) {
+		$this->containerClasses('table-bordered');
 		return $this;
 	}
 
-	function condensed($type = true)
-	{
-		$this->condensed = $type;
+	function condensed($type = true) {
+		$this->containerClasses('table-condensed');
 		return $this;
 	}
 
-	function striped($type = true)
-	{
-		$this->striped = $type;
+	function striped($type = true) {
+		$this->containerClasses('table-striped');
 		return $this;
 	}
 
-	function hover($type = true)
-	{
-		$this->hover = $type;
+	function hover($type = true) {
+		$this->containerClasses('table-hover');
 		return $this;
 	}
 
-	function responsive($type = true)
-	{
+	function responsive($type = true) {
 		$this->responsive = $type;
 		return $this;
 	}
 
-	function open()
-	{
-		$this->classes('table');
-		if($this->bordered)			$this->classes('table-bordered');
-		if($this->condensed)		$this->classes('table-condensed');
-		if($this->striped)			$this->classes('table-striped');
-		if($this->hover)			$this->classes('table-hover');
-
+	function open() {
 		if($this->responsive)		echo '<div class="table-responsive">';
-		echo '<table '.$this->_parse_attributes().' >';
+		echo '<table '.$this->_parse_attributes().' '.$this->_parse_container_attributes().' >';
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</table>';
 		if($this->responsive)	echo '</div>';
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 class Form extends Element {
 
@@ -292,31 +358,27 @@ class Form extends Element {
 	var $hidden = array();
 	var $multipart = false;
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Form Class Initialized");
 	}
 
-	function action($action = '')
-	{
+	function action($action = '') {
 		$this->action = $action;
 		return $this;
 	}
 
-	function hidden($hidden = array())
-	{
+	function hidden($hidden = array()) {
 		$this->hidden = $hidden;
 		return $this;
 	}
 
-	function multipart($multipart = true)
-	{
+	function multipart($multipart = true) {
 		$this->multipart = $multipart;
 		return $this;
 	}
 
-	function open()
-	{
+	function open() {
 		if($this->multipart)
 			echo form_open_multipart($this->action, $this->_parse_attributes(), $this->hidden);
 		else
@@ -324,11 +386,24 @@ class Form extends Element {
 		return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo form_close();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Input extends Element {
 
@@ -337,60 +412,51 @@ class Input extends Element {
 	var $label = '';
 	var $uiType = '';
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Input Class Initialized");
+		$this->containerClasses("form-group");
+		$this->classes('form-control');
+		$this->width = 0;
+		$this->ld_width = 0;
+		$this->m_width = 0;
+		$this->t_width = 0;
 	}
 
-	function type($type = '')
-	{
-		$this->type = $type;
+	function type($type = '') {
+		$this->properties["type"] = $type;
 		return $this;
 	}
 
-	function label($label = '')
-	{
+	function label($label = '') {
 		$this->label = $label;
 		return $this;
 	}
 
-	function placeholder($placeholder = '')
-	{
-		$this->placeholder = $placeholder;
+	function placeholder($placeholder = '') {
+		$this->properties["placeholder"] = $placeholder;
 		return $this;
 	}
 
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
+	function uiType($uiType = '') {
+		$this->containerClasses("has-" . $uiType);
 		return $this;
 	}
-	function _parse_attributes() {
-		$attr = parent::_parse_attributes();
-		$attr .= ' placeholder="'.$this->placeholder.'" ';
-		return $attr;
-	}
-
-	function show()
-	{
+	
+	function show() {
 		//form-group div
-		echo '<div class="form-group ';
-		if($this->uiType == 'danger')	$this->uiType = 'error';
-		if($this->uiType !='')	echo 'has-'.strtolower($this->uiType);
-		echo '">';
+		echo '<div '.$this->_parse_container_attributes().'>';
 
 			//label element
-			if($this->label != '')
-			{
+			if($this->label != '') {
 				$ip_label = new Label();
 				$ip_label->forId($this->properties['id'])
-							->text($this->label)
-							->uiType($this->uiType)
-							->show();
+						 ->text($this->label)
+						 ->uiType($this->uiType)
+						 ->show();
 			}
 
 			//input element
-			$this->classes('form-control');
 			echo "<input type=\"".$this->type."\" ";
 			echo $this->_parse_attributes()." />";
 		echo "</div>";
@@ -399,116 +465,90 @@ class Input extends Element {
 
 
 
+
+
+
+
+
+
+
+
 class Radio extends Input {
 
 	var $checked = false;
 
-	public function __construct()
-	{
-		$this->type = 'radio';
+	public function __construct() {
+		parent::__construct();
+		$this->containerClasses('radio');
+		$this->properties['type'] = 'radio';
 		log_message('debug', "UI_helper > Radio Class Initialized");
 	}
 
-	function checked($check = true)
-	{
-		$this->checked = $check;
+	function checked($check = true) {
+		$this->properties['checked'] = 'checked';
 		return $this;
 	}
 
-	function show()
-	{
-		echo '<div class="radio">';
+	function show() {
+		echo '<div '.$this->_parse_container_attributes().'>';
 		echo '<label>';
-		echo '<input type="radio" ';
-		if($this->checked)	echo 'checked="checked" ';
+		echo '<input ';
 		echo $this->_parse_attributes().' /> '
 			.(($this->label != '')?	$this->label:'').
-			 '</label></div>';
+			 '</label>
+			 </div>';
 	}
 }
 
-class Checkbox extends Input {
+class Checkbox extends Radio {
 
 	var $checked = false;
 
-	public function __construct()
-	{
-		$this->type = 'checkbox';
+	public function __construct() {
+		parent::__construct();
+		$this->properties['type'] = 'checkbox';
+		$this->containerClasses('checkbox');
 		log_message('debug', "UI_helper > Radio Class Initialized");
-	}
-
-	function checked($check = true)
-	{
-		$this->checked = $check;
-		return $this;
-	}
-
-	function show()
-	{
-		echo '<div class="checkbox">';
-		echo '<label>';
-		echo '<input type="checkbox" ';
-		if($this->checked)	echo 'checked="checked" ';
-		echo $this->_parse_attributes().' /> '
-			.(($this->label != '')?	$this->label:'').
-			 '</label></div>';
 	}
 }
 
-class Textarea extends Element {
 
-	var $placeholder = '';
-	var $label = '';
-	var $uiType = '';
-	var $rows = 3;
-	var $cols = 0;
 
-	public function __construct()
-	{
+
+
+
+
+
+
+
+
+
+
+class Textarea extends Input {
+
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Input Class Initialized");
+		$this->properties['rows'] = 3;
+		$this->properties['cols'] = 0;
 	}
 
-	function rows($rows = 3)
-	{
-		$this->rows = $rows;
+	function rows($rows = 3) {
+		$this->properties['rows'] = $rows;
 		return $this;
 	}
 
-	function cols($cols = 0)
-	{
-		$this->cols = $cols;
+	function cols($cols = 0) {
+		$this->properties['cols'] = 0;
 		return $this;
 	}
 
-	function label($label = '')
-	{
-		$this->label = $label;
-		return $this;
-	}
-
-	function placeholder($placeholder = '')
-	{
-		$this->placeholder = $placeholder;
-		return $this;
-	}
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function show()
-	{
+	function show() {
 		//form-group div
-		echo '<div class="form-group ';
-		if($this->uiType == 'danger')	$this->uiType = 'error';
-		if($this->uiType !='')	echo 'has-'.strtolower($this->uiType);
-		echo '">';
+		echo '<div '.$this->_parse_container_attributes().'>';
 
 			//label element
-			if($this->label != '')
-			{
+			if($this->label != '') {
 				$ip_label = new Label();
 				$ip_label->forId($this->properties['id'])
 							->text($this->label)
@@ -518,29 +558,25 @@ class Textarea extends Element {
 
 			//input element
 			$this->classes('form-control');
-			echo "<textarea ";
-			if($this->rows != 0)	echo "rows=\"".$this->rows."\" ";
-			if($this->cols != 0)	echo "cols=\"".$this->cols."\" ";
-			if($this->placeholder != '')	echo "placeholder=\"".$this->placeholder."\" ";
-
+			
 			// textarea don't use the value attribute
 			$value = $this->properties['value'];
 			unset($this->properties['value']);
-
-			echo $this->_parse_attributes()." >".$value;
+			
+			echo "<textarea ";
+			echo $this->_parse_attributes();
+			echo ">".$value;
 		echo "</textarea></div>";
 	}
 }
 
-class Select extends Element {
+class Select extends Input {
 
 	var $options = array();
 	var $multiple = false;
-	var $label = '';
-	var $uiType = '';
-
-	public function __construct()
-	{
+	
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Select Class Initialized");
 	}
 
@@ -703,48 +739,46 @@ class DatePicker extends Input
 	}
 }
 
-class Alert {
+class Alert extends Element {
 
 	var $uiType = '';
 	var $desc = '';
 	var $title = '';
 	var $dismiss = true;
 
-	function uiType($uiType = '')
-	{
+	public function __construct() {
+		parent::__construct();
+	}
+
+	function uiType($uiType = '') {
 		$this->uiType = $uiType;
 		return $this;
 	}
 
-	function desc($desc = '')
-	{
+	function desc($desc = '') {
 		$this->desc = $desc;
 		return $this;
 	}
 
-	function title($title = '')
-	{
+	function title($title = '') {
 		$this->title = $title;
 		return $this;
 	}
 
-	function dismiss($dismiss = true)
-	{
+	function dismiss($dismiss = true) {
 		$this->dismiss = $dismiss;
 		return $this;
 	}
 
-	function show()
-	{
-		$classes = 'alert ';
+	function show() {
+		$this->containerClasses('alert');
 		if($this->uiType == 'error') $this->uiType = 'danger';
-		if($this->uiType != '')	$classes .= 'alert-'.$this->uiType.' ';
-		if($this->dismiss) $classes .= 'alert-dismissable ';
+		if($this->uiType != '')		 $this->containerClasses('alert-' . $this->uiType);
+		if($this->dismiss) 			 $this->containerClasses('alert-dismissable');
 
-		echo '<div class="'.$classes.'" >';
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
-		switch($this->uiType)
-		{
+		switch($this->uiType) {
 			case 'danger': echo '<i class="fa fa-ban"></i>';break;
 			case 'info'	: echo '<i class="fa fa-info"></i>';break;
 			case 'warning': echo '<i class="fa fa-warning"></i>';break;
@@ -760,6 +794,7 @@ class Alert {
 		echo '</div>';
 	}
 }
+
 
 class Callout {
 

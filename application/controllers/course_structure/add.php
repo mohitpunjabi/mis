@@ -8,19 +8,16 @@ class Add extends MY_Controller
 		parent::__construct(array('deo', 'hod'));
 		
 		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
 	{
-		
 		$this->addJS("course_structure/add_course_structure.js");
 		$data = array();
 		$data["result_dept"] = $this->basic_model->get_depts();
 		
-		//$data['courses_1'] = $this->basic_model->get_branches_by_course('b.tech');
-		$this->drawHeader();
+		$this->drawHeader("Add a new course structure");
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
 	}

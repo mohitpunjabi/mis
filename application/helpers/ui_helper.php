@@ -839,44 +839,6 @@ class Icon extends Element {
 	}
 }
 
-//date picker
-class DatePicker extends Input
-{
-	var $label = '';
-	var $dateFormat = 'dd-mm-yyyy';
-	
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > DatePicker Class Initialized");
-	}
-	
-	function label($label = '')
-	{
-		$this->label = $label;
-		return $this; 
-	}
-	
-	function dateFormat($dateFormat = 'dd-mm-yyyy')
-	{
-		$this->dateFormat = $dateFormat;
-		return $this; 
-	}
-	
-	function show()
-	{
-		$tempDivId = 'datepicker-' . $this->properties['id'].'-'.$this->properties['name'];
-		echo '
-			<div style="margin-bottom:10px;">
-          	  <label>'.$this->label.'</label>
-			  <div class="input-append date" id="'.$tempDivId.'" data-date-format="'.$this->dateFormat.'">
-				<input size="16" type="text" '.$this->_parse_attributes().' >
-				<span class="add-on" style="display:inline-block;"><i class="glyphicon glyphicon-calendar"></i></span>
-			  </div>
-          	</div>';
-		echo "<script>$('#".$tempDivId."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
-	}
-}
-
 class Alert extends Element {
 
 	var $uiType = '';
@@ -934,7 +896,6 @@ class Alert extends Element {
 	}
 }
 
-
 class Callout extends Alert {
 
 	public function __construct() {
@@ -954,6 +915,31 @@ class Callout extends Alert {
 		if($this->desc != '')	echo '<p>'.$this->desc.'</p>';
 
 		echo '</div>';
+	}
+}
+
+
+
+
+
+class DatePicker extends Input {
+	var $label = '';
+	var $dateFormat = 'dd-mm-yyyy';
+	
+	public function __construct() {
+		parent::__construct();
+		log_message('debug', "UI_helper > DatePicker Class Initialized");
+	}
+	
+	function dateFormat($dateFormat = 'dd-mm-yyyy') {
+		$this->dateFormat = $dateFormat;
+		return $this; 
+	}
+	
+	function show() {
+		$this->containerExtras('data-date-format="'.$this->dateFormat.'"');
+		parent::show();
+		echo "<script>$('#".$this->properties["id"]."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
 	}
 }
 

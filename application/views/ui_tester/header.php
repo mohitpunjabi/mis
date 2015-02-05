@@ -93,7 +93,11 @@
 						   		->addonLeft("@")
 							   ->show();
 
-							$ui->label()->uiType("warning")->text("fdjaskf lajfdalf jdkaf jl")->show();
+							$ui->label()
+							   ->uiType("success")
+							   ->text("fdjaskf lajfdalf jdkaf jl")
+							   ->show();
+							
 							$ui->button()
 							   ->value("Submit Button")
 							   ->block()
@@ -275,14 +279,19 @@
                                             $ui->option()->value('5')->text('Five')))
                             ->show();
 						
+						
+						$r1 = $ui->row()->open();
 						//date picker
 						$ui->datePicker()
 							->label('Date Picker')
 							->name('date1')
 							->placeholder("Enter the date")
 							->dateFormat('dd-mm-yyyy')
+							->width(6)
+							->addonRight($ui->icon("calendar"))
 							->show();
 							
+						$r1->close();
                         $ui->button()
                             ->value('Submit')
                             ->uiType('primary')

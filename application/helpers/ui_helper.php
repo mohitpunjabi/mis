@@ -452,6 +452,11 @@ class Input extends Element {
 		return $this;
 	}
 
+	function required($reqd = true) {
+		$this->properties['required'] = "required";
+		return $this;
+	}
+
 	function uiType($uiType = '') {
 		$this->containerClasses("has-" . $uiType);
 		$this->uiType = $uiType;

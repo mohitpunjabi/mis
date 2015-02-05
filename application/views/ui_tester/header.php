@@ -23,6 +23,7 @@
             $column1 = $ui->col()->width(4)->open();			
 					$box1 = $ui->box()
 							   ->uiType("primary")
+							   ->icon($ui->icon("edit"))
 							   ->title("Hello")
 							   ->open();
 						$inpRow = $ui->row()->open();
@@ -316,7 +317,9 @@
                 $box2->close();
 
                 $box3 = $ui->box()->title('Table')->open();
-                    echo 'In Box 3';
+					$ui->icon("user")->show();
+                    echo ' In Box 3';
+
                     //$table = $ui->table()->open();
                     $table = $ui->table()->hover()->bordered()->open();
 

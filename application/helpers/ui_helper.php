@@ -16,6 +16,7 @@ class UI {
 	function alert()	{	return new Alert();		}
 	function callout()	{	return new Callout();	}
 	function label()	{	return new Label();		}
+	function icon($t)	{	return new Icon($t);		}
 	function datePicker()	{	return new DatePicker();	}
 	function upload_image()	{	return new Upload_image();	}
 }
@@ -240,6 +241,7 @@ class Box extends Element {
 	var $uiType = '';
 	var $solid = false;
 	var $background = '';
+	var $icon = null;
 
 	public function __construct() {
 		parent::__construct();
@@ -268,9 +270,18 @@ class Box extends Element {
 		return $this;
 	}
 
+	function icon($icon) {
+		$this->icon = $icon;
+		return $this;
+	}
+
 	function open() {
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
-                    <div class="box-header">
+                    <div class="box-header">';
+		
+		if($this->icon) $this->icon->show();
+		
+		echo '
                         <h3 class="box-title">'.$this->title.'</h3>
                     </div>
         			<div class="box-body">';
@@ -813,6 +824,18 @@ class Label extends Element {
 
 		echo '<label '.$this->_parse_attributes().' >';
 		echo $icon . $this->text.'</label>';
+	}
+}
+
+class Icon extends Element {
+
+	public function __construct($type = "") {
+		log_message('debug', "UI_helper > Label Class Initialized");
+		$this->classes("fa fa-" . $type);
+	}
+
+	function show() {
+		echo '<i '.$this->_parse_attributes().' ></i>';
 	}
 }
 

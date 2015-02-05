@@ -92,6 +92,7 @@
 						   		->addonLeft("@")
 							   ->show();
 
+							$ui->label()->uiType("warning")->text("fdjaskf lajfdalf jdkaf jl")->show();
 							$ui->button()
 							   ->value("Submit Button")
 							   ->block()
@@ -152,7 +153,7 @@
             $column1 = $ui->col()->width(6)->t_width(6)->m_width(12)->open();
 			
                 echo 'In Column 1';
-                $box = $ui->box()->uiType('danger')->title('box 1')->open();
+                $box = $ui->box()->uiType('error')->title('box 1')->open();
                     echo 'In box 1<br><br>';
 
                     $ui->alert()
@@ -198,8 +199,9 @@
 							$ui->input()
 								->placeholder('input text')
 								->label('Enter the username')
-								->uiType('danger')
+								->uiType('error')
 								->id('input_ele')
+								->width(6)
 								->name('name')
 								->show();
 

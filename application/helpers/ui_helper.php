@@ -15,6 +15,7 @@ class UI {
 	function button()	{	return new Button();	}
 	function alert()	{	return new Alert();		}
 	function callout()	{	return new Callout();	}
+	function label()	{	return new Label();		}
 	function datePicker()	{	return new DatePicker();	}
 	function upload_image()	{	return new Upload_image();	}
 }
@@ -147,10 +148,10 @@ class Element {
 	function _parse_container_attributes() {
 		$att = '';
 		
-		if($this->width > 0) $this->containerClasses('col-md-' . $this->width);
-		if($this->width > 0) $this->containerClasses('col-sm-' . $this->t_width);
-		if($this->width > 0) $this->containerClasses('col-xs-' . $this->m_width);
-		if($this->width > 0) $this->containerClasses('col-lg-' . $this->ld_width);
+		if($this->width > 0)	$this->containerClasses('col-md-' . $this->width);
+		if($this->t_width > 0)	$this->containerClasses('col-sm-' . $this->t_width);
+		if($this->m_width > 0)	$this->containerClasses('col-xs-' . $this->m_width);
+		if($this->ld_width > 0)	$this->containerClasses('col-lg-' . $this->ld_width);
 		
 		foreach ($this->containerProps as $key => $val) {
 			if($key == 'extras')
@@ -726,6 +727,95 @@ class Button extends Input {
 	}
 }
 
+class Option {
+
+	var $value = '';
+	var $text = '';
+	var $disabled = false;
+	var $selected = false;
+
+	public function __construct() {
+		log_message('debug', "UI_helper > Option Class Initialized");
+	}
+
+	function value($value = '') {
+		$this->value = $value;
+		return $this;
+	}
+
+	function text($text = '') {
+		$this->text = $text;
+		return $this;
+	}
+
+	function disabled($disabled = true) {
+		$this->disabled = $disabled;
+		return $this;
+	}
+
+	function selected($selected = true) {
+		$this->selected = $selected;
+		return $this;
+	}
+
+	function show() {
+		echo '<option value = "'.$this->value.'" ';
+		if($this->selected)	echo 'selected="selected" ';
+		if($this->disabled)	echo 'disabled="disabled" ';
+		echo '>'.$this->text.'</option>';
+	}
+}
+
+class Label extends Element {
+
+	var $forId = '';
+	var $text = '';
+	var $uiType = '';
+
+	public function __construct() {
+		log_message('debug', "UI_helper > Label Class Initialized");
+	}
+
+	function forId($forId = '') {
+		$this->properties["for"] = $forId;
+		$this->forId = $forId;
+		return $this;
+	}
+
+	function text($text = '') {
+		$this->text = $text;
+		return $this;
+	}
+
+	function uiType($uiType = '') {
+		$this->uiType = $uiType;
+		return $this;
+	}
+
+	function show() {
+		$icon = "";
+
+		if($this->forId != '') {
+			$this->classes("control-label");
+			if($this->uiType != '') {
+				switch(strtolower($this->uiType)) {
+					case "success":	$icon = '<i class="fa fa-check"></i> ';break;
+					case "danger":
+					case "error":	$icon = '<i class="fa fa-times-circle-o"></i> ';break;
+					case "warning":	$icon = '<i class="fa fa-warning"></i> ';break;
+				}
+			}			
+		}
+		else {
+			$this->classes("label");
+			$this->classes("label-" . $this->uiType);
+		}
+
+		echo '<label '.$this->_parse_attributes().' >';
+		echo $icon . $this->text.'</label>';
+	}
+}
+
 //date picker
 class DatePicker extends Input
 {
@@ -770,6 +860,7 @@ class Alert extends Element {
 	var $desc = '';
 	var $title = '';
 	var $dismiss = true;
+	var $classPrefix = "alert";
 
 	public function __construct() {
 		parent::__construct();
@@ -796,14 +887,14 @@ class Alert extends Element {
 	}
 
 	function show() {
-		$this->containerClasses('alert');
+		$this->containerClasses($this->classPrefix);
 		if($this->uiType == 'error') $this->uiType = 'danger';
-		if($this->uiType != '')		 $this->containerClasses('alert-' . $this->uiType);
-		if($this->dismiss) 			 $this->containerClasses('alert-dismissable');
+		if($this->uiType != '')		 $this->containerClasses($this->classPrefix . '-' . $this->uiType);
+		if($this->dismiss) 			 $this->containerClasses($this->classPrefix . '-dismissable');
 
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
-		switch($this->uiType) {
+		switch($this->uiType && $this->classPrefix == "alert") {
 			case 'danger': echo '<i class="fa fa-ban"></i>';break;
 			case 'info'	: echo '<i class="fa fa-info"></i>';break;
 			case 'warning': echo '<i class="fa fa-warning"></i>';break;
@@ -811,7 +902,7 @@ class Alert extends Element {
 		}
 
 		if($this->dismiss)
-			echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+			echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
 		if($this->title != '')	echo '<b>'.$this->title.'</b><br>';
 		if($this->desc != '')	echo $this->desc;
@@ -821,37 +912,20 @@ class Alert extends Element {
 }
 
 
-class Callout {
+class Callout extends Alert {
 
-	var $uiType = '';
-	var $title = '';
-	var $desc = '';
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function desc($desc = '')
-	{
-		$this->desc = $desc;
-		return $this;
-	}
-
-	function title($title = '')
-	{
-		$this->title = $title;
-		return $this;
+	public function __construct() {
+		parent::__construct();
+		$this->classPrefix = "callout";
 	}
 
 	function show()
 	{
-		$classes = 'callout ';
+		$this->containerClasses($this->classPrefix);
 		if($this->uiType == 'error') $this->uiType = 'danger';
-		if($this->uiType != '')	$classes .= 'callout-'.$this->uiType.' ';
+		if($this->uiType != '')		 $this->containerClasses($this->classPrefix . '-' . $this->uiType);
 
-		echo '<div class="'.$classes.'" >';
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
 		if($this->title != '')	echo '<h4>'.$this->title.'</h4>';
 		if($this->desc != '')	echo '<p>'.$this->desc.'</p>';
@@ -860,102 +934,6 @@ class Callout {
 	}
 }
 
-class Option {
-
-	var $value = '';
-	var $text = '';
-	var $disabled = false;
-	var $selected = false;
-
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > Option Class Initialized");
-	}
-
-	function value($value = '')
-	{
-		$this->value = $value;
-		return $this;
-	}
-
-	function text($text = '')
-	{
-		$this->text = $text;
-		return $this;
-	}
-
-	function disabled($disabled = true)
-	{
-		$this->disabled = $disabled;
-		return $this;
-	}
-
-	function selected($selected = true)
-	{
-		$this->selected = $selected;
-		return $this;
-	}
-
-	function show()
-	{
-		echo '<option value = "'.$this->value.'" ';
-		if($this->selected)	echo 'selected="selected" ';
-		if($this->disabled)	echo 'disabled="disabled" ';
-		echo '>'.$this->text.'</option>';
-	}
-}
-
-class Label {
-
-	var $forId = '';
-	var $text = '';
-	var $uiType = '';
-
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > Label Class Initialized");
-	}
-
-	function forId($forId = '')
-	{
-		$this->forId = $forId;
-		return $this;
-	}
-
-	function text($text = '')
-	{
-		$this->text = $text;
-		return $this;
-	}
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function show()
-	{
-		echo '<label ';
-
-		if($this->forId != '')	echo 'for = "'.$this->forId.'"';
-
-		if($this->uiType != '')
-		{
-			echo ' class="control-label" >';
-			switch(strtolower($this->uiType))
-			{
-				case "success":	echo '<i class="fa fa-check"></i> ';break;
-				case "danger":
-				case "error":	echo '<i class="fa fa-times-circle-o"></i> ';break;
-				case "warning":	echo '<i class="fa fa-warning"></i> ';break;
-			}
-		}
-		else
-			echo '>';
-		echo $this->text.'</label>';
-	}
-}
 
 class Upload_image extends Element {
 

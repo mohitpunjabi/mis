@@ -8,7 +8,6 @@ class Add_course extends MY_Controller
 		parent::__construct(array('deo'));
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 

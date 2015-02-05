@@ -5,7 +5,11 @@
             else				echo 'MIS - Indian School of Mines';
         ?>
         </title>
+
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
  	    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
         <link href="<?= base_url() ?>assets/core/bootstrap-3.3.2/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?= base_url() ?>assets/core/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="<?= base_url() ?>assets/core/ionicons.min.css" rel="stylesheet" type="text/css" />

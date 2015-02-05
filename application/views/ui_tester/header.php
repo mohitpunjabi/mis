@@ -242,53 +242,7 @@
 				
             $column2->close();
         $outer_row->close();
-
-
-/*        echo mis_div_row_open();
-        echo mis_div_col_open(6,'md');
-        echo mis_form_open('','','','New Form open');
-        echo mis_form_password('name','password','','Password');
-        echo mis_form_email('name','email','','Email');
-        echo mis_form_upload('name','','','Upload File');
-        echo mis_form_textarea('name','its text area','','Textarea');
-        echo mis_div_row_open();
-        echo mis_div_col_open(6);
-        echo mis_form_checkbox('name','Yes','','','Checkbox 1');
-        echo mis_form_checkbox('name','Yes','','','Checkbox 2');
-        echo mis_div_close();
-        echo mis_div_col_open(6);
-        echo mis_form_radio('name','Yes','','','Radio Button 1');
-        echo mis_form_radio('name','Yes','','','Radio Button 2');
-        echo mis_div_close();
-        echo mis_div_close();
-        echo mis_form_dropdown('name',array('1'=>'one','2'=>'two','3'=>'three'),'','','Select');
-        echo mis_form_close();
-        echo mis_box_open('new box','success');
-        echo mis_table_open('bordered');
-        echo '<tr><th>frfr</th><th>frfr</th><th>frfr</th></tr>';
-        echo '<tr><td>frfr</td><td>frfr</td><td>frfr</td></tr>';
-        echo '<tr><td>frfr</td><td>frfr</td><td>frfr</td></tr>';
-        echo '<tr><td>frfr</td><td>frfr</td><td>frfr</td></tr>';
-        echo mis_table_close();
-        echo mis_box_close();
-        echo mis_box_open('new box','success');
-        echo mis_box_close();
-        echo mis_div_close();
-
-        echo mis_div_col_open(6,'md');
-        echo mis_form_open('','','','Form open');
-        echo mis_form_input('name','value');
-        echo mis_form_input('name','value','');
-        echo mis_form_input('name','value','','');
-        echo mis_form_input('name','value','','label');
-        echo mis_form_input('name','value','','label','');
-        echo mis_form_input('name','value','','label','success');
-        echo mis_form_input('name','value','','label','error');
-        echo mis_form_input('name','value','','label','warning');
-        echo mis_form_input('name','value','','','success');
-        echo mis_form_input('name','value','','','');
-        echo mis_form_submit('name','value');
-        echo mis_form_close();
-        echo mis_div_close();
-        echo mis_div_close();
-*/
+		
+		$newRow = $ui->row()->open();
+			echo "Text";
+		$newRow->close();

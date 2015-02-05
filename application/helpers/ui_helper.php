@@ -23,7 +23,6 @@ class UI {
 
 
 class Element {
-
 	var $properties = array(
 					'id'		=>	'' ,
 					'name'		=>	'' ,
@@ -33,65 +32,54 @@ class Element {
 					'style'		=>	'' ,
 					'extras' 	=>	'' );
 
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > Element Class Initialized");
+
+	public function __construct() {
+		$this->properties['id'] = md5(uniqid(rand(), true));
 	}
 
-	function id( $id = '' )
-	{
+	function id( $id = '' ) {
 		$this->properties['id'] = $id;
 		return $this;
 	}
 
-	function name( $name = '' )
-	{
+	function name( $name = '' ) {
 		$this->properties['name'] = $name;
 		return $this;
 	}
 
-	function value( $value = '' )
-	{
+	function value( $value = '' ) {
 		$this->properties['value'] = $value;
 		return $this;
 	}
 
-	function classes( $classes = '' )
-	{
+	function classes( $classes = '' ) {
 		$this->properties['class'] .= ($this->properties['class'] == '')?	$classes:' '.$classes;
 		return $this;
 	}
 
-	function style( $style = '' )
-	{
+	function style( $style = '' ) {
 		$style .= ($style[strlen($style)-1] == ';')?	'':';';
 		$this->properties['style'] .= $style;
 		return $this;
 	}
 
-	function disabled( $disabled = true )
-	{
+	function disabled( $disabled = true ) {
 		$this->properties['disabled'] = ($disabled)? 'disabled':'';
 		return $this;
 	}
 
-	function extras( $extras = '' )
-	{
+	function extras( $extras = '' ) {
 		$this->properties['extras'] .= ($this->properties['extras'] == '')?	$extras:' '.$extras;
 		return $this;
 	}
 
-	function _parse_attributes()
-	{
+	function _parse_attributes() {
 		$att = '';
-		foreach ($this->properties as $key => $val)
-		{
-			if($key == 'extras')
-			{
+		foreach ($this->properties as $key => $val) {
+			if($key == 'extras') {
 				$att .= $val . ' ';
 			}
-			else if($val != '')
-			{
+			else if($val != '') {
 				$att .= $key . '="'. $val . '" ';
 			}
 		}
@@ -102,21 +90,19 @@ class Element {
 
 class Row extends Element {
 
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Row Class Initialized");
 	}
 
-	function open()
-	{
+	function open() {
 		// Adding UI class row to the div element.
 		$this->classes('row');
 		echo '<div '.$this->_parse_attributes().' >';
         return $this;
 	}
 
-	function close()
-	{
+	function close() {
 		echo '</div>';
 	}
 }
@@ -379,7 +365,6 @@ class Input extends Element {
 		$this->uiType = $uiType;
 		return $this;
 	}
-
 	function _parse_attributes() {
 		$attr = parent::_parse_attributes();
 		$attr .= ' placeholder="'.$this->placeholder.'" ';

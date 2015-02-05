@@ -85,9 +85,9 @@
 
 			function _drawNavbarMenuItem($mi) {
 				foreach($mi as $key => $val) {
-					$arrow = (is_array($val))? ' <i class="fa fa-angle-double-right pull-right"></i>': "";
+					$arrow = (is_array($val))? ' <i class="fa fa-angle-right pull-right"></i>': "";
 					$treeview =  (is_array($val))? 'class="treeview"': "";
-					echo '<li '.$treeview.'><a href="'.((is_string($val))? $val: "#").'">'.$key.$arrow.'</a>';
+					echo '<li '.$treeview.'><a href="'.((is_string($val))? $val: "#").'">'.$arrow.$key.'</a>';
 
 					if(is_array($val)) {
 						echo '<ul class="treeview-menu">';

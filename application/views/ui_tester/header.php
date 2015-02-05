@@ -40,13 +40,38 @@
                 $formbox =  $ui->box()->id('form_box')->title('Form')->open();
                     $form=$ui->form()->multipart()->open();
 													
-                        $ui->input()
-                            ->placeholder('input text')
-                            ->label('Enter the username')
-                            ->uiType('warning')
-                            ->id('input_ele')
-                            ->name('name')
-                            ->show();
+						$tryRow = $ui->row()->open();
+							$uCol = $ui->col()->width(4)->open();
+								$ui->input()
+									->placeholder('input text')
+									->label('Enter the username')
+									->uiType('warning')
+									->id('input_ele')
+									->name('name')
+									->show();
+							$uCol->close();
+
+							$uCol = $ui->col()->width(6)->open();
+								$ui->input()
+									->placeholder('input text')
+									->label('Enter the username')
+									->uiType('danger')
+									->id('input_ele')
+									->name('name')
+									->show();
+							$uCol->close();
+
+							$uCol = $ui->col()->width(2)->open();
+								$ui->input()
+									->placeholder('input text')
+									->label('name')
+									->uiType('success')
+									->id('input_ele')
+									->name('name')
+									->show();
+							$uCol->close();
+
+						$tryRow->close();
 
                         $ui->input()
                             ->placeholder('input password')

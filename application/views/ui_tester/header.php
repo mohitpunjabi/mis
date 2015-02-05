@@ -1,6 +1,146 @@
 <?php
 	   $ui = new UI();
 
+        $outer_row = $ui->row()->id('or')->open();
+		
+
+            $column1 = $ui->col()->width(8)->open();
+                    $ui->alert()
+                        ->uiType('danger')
+                        ->title('Danger Alert')
+                        ->desc('It is a Danger Alert')
+						->width(7)
+                        ->show();
+
+                    $ui->alert()
+                        ->uiType('danger')
+                        ->title('Danger Alert')
+                        ->desc('It is a Danger Alert')
+						->width(4)
+                        ->show();
+			$column1->close();
+			
+            $column1 = $ui->col()->width(4)->open();			
+					$box1 = $ui->box()
+							   ->uiType("primary")
+							   ->title("Hello")
+							   ->open();
+						$inpRow = $ui->row()->open();
+							$ui->input()
+							   ->label("Hello")
+							   ->width(6)
+							   ->show();
+							$ui->button()
+							   ->value("Submit Button")
+							   ->show();
+						$inpRow->close();
+							   
+						$ui->textArea()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->uiType("error")
+						   ->show();
+
+						$ui->radio()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+						   
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+					$box1->close();
+			$column1->close();
+
+
+		$outer_row->close();
+
+
+
+
+
+
+        $outer_row = $ui->row()->id('or')->open();
+					
+            $column1 = $ui->col()->width(4)->open();			
+					$box1 = $ui->box()
+							   ->uiType("primary")
+							   ->title("Hello")
+							   ->open();
+							$ui->select()
+							   ->label("Hello")
+						   		->addonRight($ui->button()->value("fdfdf af a"))
+						   		->addonLeft("@")
+							   ->show();
+
+							$ui->button()
+							   ->value("Submit Button")
+							   ->block()
+							   ->show();
+							   
+						$ui->textArea()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->uiType("error")
+						   ->show();
+
+						$ui->radio()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+						   
+						$ui->checkbox()
+						   ->label("Text area label")
+						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
+						   ->placeholder("fdjk jklaaa")
+						   ->show();
+
+					$box1->close();
+			$column1->close();
+
+
+		$outer_row->close();
+
+
+
+
+
+
 
 
 

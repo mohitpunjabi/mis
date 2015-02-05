@@ -411,6 +411,8 @@ class Input extends Element {
 	var $placeholder = '';
 	var $label = '';
 	var $uiType = '';
+	var $addonRight = null;
+	var $addonLeft = null;
 
 	public function __construct() {
 		parent::__construct();
@@ -444,17 +446,46 @@ class Input extends Element {
 		return $this;
 	}
 	
-	function show() {
-		//form-group div
-		echo '<div '.$this->_parse_container_attributes().'>';
-
-			//label element
-			$this->makeLabel();
-
-			//input element
-			echo "<input type=\"".$this->type."\" ";
-			echo $this->_parse_attributes()." />";
-		echo "</div>";
+	function addonLeft($addon) {
+		$this->addonLeft = $addon;
+		return $this;
+	}
+	
+	function addonRight($addon) {
+		$this->addonRight = $addon;
+		return $this;
+	}
+	
+	protected function shouldMakeInputGroup() {
+		return $this->addonLeft != null || $this->addonRight != null;
+	}
+	
+	protected function openAddon() {
+		if($this->shouldMakeInputGroup()) echo '<div class="input-group">';
+		$this->makeAddon($this->addonLeft);
+	}
+	
+	protected function closeAddon() {
+		$this->makeAddon($this->addonRight);
+		if($this->shouldMakeInputGroup()) echo '</div>';
+	}
+	
+	protected function makeAddon($addon) {
+		if($addon instanceof Button) {
+			echo '<div class="input-group-btn">';
+				$addon->show();
+			echo '</div>';
+		}
+		else if($addon instanceof Element) {
+			echo '<div class="input-group-addon">';
+				$addon->show();
+			echo '</div>';
+		}
+		else if(is_string($addon)) {
+			echo '<div class="input-group-addon">';
+				echo "<span>$addon</span>";
+			echo '</div>';
+		}
 	}
 
 	protected function makeLabel() {
@@ -466,6 +497,21 @@ class Input extends Element {
 					 ->show();
 		}
 	}
+	
+	function show() {
+		//form-group div
+		echo '<div '.$this->_parse_container_attributes().'>';
+
+			//label element
+			$this->makeLabel();
+
+			$this->openAddon();
+			echo "<input " . $this->_parse_attributes() . " />";
+			$this->closeAddon();
+			
+		echo "</div>";
+	}
+
 }
 
 
@@ -552,20 +598,24 @@ class Textarea extends Input {
 		//form-group div
 		echo '<div '.$this->_parse_container_attributes().'>';
 
-			//label element
-			$this->makeLabel();
+		//label element
+		$this->makeLabel();
 
-			//input element
-			$this->classes('form-control');
-			
+		//input element
+		$this->classes('form-control');
+
+		$this->openAddon();
+
 			// textarea don't use the value attribute
 			$value = $this->properties['value'];
 			unset($this->properties['value']);
 			
-			echo "<textarea ";
-			echo $this->_parse_attributes();
-			echo ">".$value;
-		echo "</textarea></div>";
+			echo "<textarea " . $this->_parse_attributes() . ">" . $value;
+			echo "</textarea>";
+
+		$this->closeAddon();
+
+		echo "</div>";
 	}
 }
 
@@ -593,18 +643,22 @@ class Select extends Input {
 	function show() {
 		echo '<div '.$this->_parse_container_attributes().'>';
 
-			//label element
-			$this->makeLabel();
+		//label element
+		$this->makeLabel();
 
-			echo "<select ";
-			// select don't use the value attribute
+		$this->openAddon();
+
 			unset($this->properties['value']);
 
-			echo $this->_parse_attributes()." >";
+			echo "<select " . $this->_parse_attributes() . " >";
 
 			foreach($this->options as $option)
 				$option->show();
-		echo "</select></div>";
+			echo "</select>";
+		
+		$this->closeAddon();
+		
+		echo "</div>";
 	}
 }
 

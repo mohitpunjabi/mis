@@ -25,3 +25,9 @@ function printContent(id, style) {
 	newwin.document.write('</HTML>\n');
 	newwin.document.close();
 }
+
+$(document).ready(function() {
+	$('#print_btn').click(function() {
+		printContent('print');
+	});
+});

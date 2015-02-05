@@ -1,4 +1,51 @@
-    <p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
+<?php $ui = new UI();
+
+    if($error!="")
+        $ui->alert()->uiType('danger')->title('ERROR')->desc($error)->show();
+
+    $row = $ui->row()->open();
+        $col = $ui->col()->width(12)->open();
+            $basic_box = $ui->box()->uiType('primary')->title('Personal Information')->open();
+                $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/insert_basic_details')->open();
+                    echo 'Fields marked with <span style= "color:red;">*</span> are mandatory.';
+                    $table = $ui->table()->open();
+
+                    echo '<tr>
+                            <td id="empId">';
+                                $ui->input()->name('emp_id')
+                                            ->extras('required="required" tabindex="1"')
+                                            ->label('Employee Id<span style= "color:red;"> *</span>')
+                                            ->show();
+
+                                $ui->button()->value('Go')->id('fetch_id_btn')->uiType('primary')->extras('tabindex="1"')->show();
+                                echo '<i class="loading" id="empIdIcon" ></i>';
+                    echo    '</td>';
+                    echo    '<td><label>Physically Challenged<span style= "color:red;"> *</span></label>';
+                                $row1 = $ui->row()->open();
+                                $col1 = $ui->col()->width(6)->open();
+                                $ui->radio()->name('pd')->value('Yes')->label('Yes')->extras('tabindex="2"')->show();
+                                $col1->close();
+                                $col2 = $ui->col()->width(6)->open();
+                                $ui->radio()->name('pd')->value('No')->label('No')->checked()->extras('tabindex="3"')->show();
+                                $col2->close();
+                                $row1->close();
+                    echo    '</td>';
+                    echo '</tr>';
+
+?>
+<?php
+                    $table->close();
+                $form->close();
+            $basic_box->close();
+        $col->close();
+    $row->close();
+?>
+
+
+
+
+<p><?php if($error!="")
+        $this->notification->drawNotification('',$error,'error'); ?></p>
 	<h1>Step 1 :Fill up the details</h1>
 	<?php  echo form_open_multipart('employee/add/insert_basic_details','onSubmit="return image_validation();"');   ?>
 	Fields marked with <span style= "color:red;">*</span> are mandatory.

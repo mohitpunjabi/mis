@@ -137,8 +137,7 @@
 		document.getElementById("des").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
-	function preview_pic()
-	{
+	function preview_pic() {
 		var file=document.getElementById('photo').files[0];
 		if(!file)
 			document.getElementById('view_photo').src =  base_url()+"assets/images/employee/noProfileImage.png";
@@ -240,8 +239,16 @@
 	}
 
 	$(document).ready(function() {
-		$("td, th").css("visibility", "hidden");
+		//$("td, th").css("visibility", "hidden");
 		$("td#empId").css("visibility", "visible");
 		$("#empIdIcon").hide();
+		$("#basic_details").on('submit',function(e) {
+			if(!image_validation())
+				e.preventDefault();
+		});
+
+		$("#fetch_id_btn").click(function() {
+			fetch_details();
+		});
 	});
 

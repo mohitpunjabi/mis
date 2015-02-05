@@ -30,8 +30,12 @@
 		emp_name.innerHTML = "<i class=\"loading\"></i>";
 	}
 
-	function onclick_emp_nameid()
-	{
+	function onclick_emp_nameid() {
 		var emp_name_id=document.getElementById('employee_select').value;
 		document.getElementById('emp_id').value=emp_name_id;
 	}
+
+	$(document).ready(function() {
+		$("#emp_dept").on('change', onclick_empname);
+		$("#employee_select").on('change',onclick_emp_nameid);
+	});

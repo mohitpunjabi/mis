@@ -3,7 +3,7 @@
 	
 	$ui->callout()
 	   ->title("This is just a small example")
-	   ->uiType("info")
+	   ->uiType("warning")
 	   ->desc('This example shows only a handful of the UI options. ' .
 	   		  'See the <a href="http://172.16.8.5/wiki/index.php/UI_Library">UI Library wiki</a> for a detailed list of options. ' .
 			  'Help us build this page by adding more example codes.')
@@ -64,7 +64,7 @@ $box = $ui->box()
 <pre>
 $box = $ui->box()
           ->title("Add an awesome icon")
-          ->icon($ui->icon('star')
+          ->icon($ui->icon('star'))
           ->open();
 </pre><?
 		$box->close();

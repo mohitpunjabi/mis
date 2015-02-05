@@ -18,7 +18,7 @@ class UI {
 	function label()	{	return new Label();		}
 	function icon($t)	{	return new Icon($t);		}
 	function datePicker()	{	return new DatePicker();	}
-	function upload_image()	{	return new Upload_image();	}
+	function imagePicker()	{	return new ImagePicker();	}
 }
 
 
@@ -944,40 +944,37 @@ class DatePicker extends Input {
 }
 
 
-class Upload_image extends Element {
+class ImagePicker extends Input {
 
 	var $action = '';
-	public function __construct()
-	{
+	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Upload_image Class Initialized");
 	}
-	function show()
-	{
-		$tempImgId = "thumbnail" . $this->properties['id'];
-		
-		$upload_img_ui = new UI();
-		$upload_img_col = $upload_img_ui->col()->width(4)->open();//	Width???
-		$upload_img_box = $upload_img_ui->box()->solid()->title('Upload Image')->uitype('primary')->open();
-		echo '<div style="overflow:hidden;">
-		<img id="'.$tempImgId.'" />
-		<hr />
-		<input type="file" accept="image/*" '. $this->_parse_attributes() .' onchange=\'openFile(event)\'><br>
-		
-		</div>
+
+	function show() {
+		$addon = '<img style="height: 40px;" />';
+
+		$this->type("file")
+			 ->extras(' accept="image/*" style="padding: 0; height: 60px;" ')
+			 ->addonRight($addon);
+
+		parent::show();
+		echo '
 		<script type="text/javascript">
-			var openFile = function(event) {
-				var input = event.target;
-				var reader = new FileReader();
-				reader.onload = function(){
-					var dataURL = reader.result;
-					$(input).parent().find("#'.$tempImgId.'").attr("src", dataURL);
-					// output.src = dataURL;
-				};
-				reader.readAsDataURL(input.files[0]);
-			};
+			$(document).ready(function() {
+				$("#'.$this->properties['id'].'").on("change", function(event) {
+					var input = event.target;
+					var reader = new FileReader();
+					reader.onload = function(){
+						var dataURL = reader.result;
+						$("#'.$this->properties['id'].'").parent().find("img").attr("src", dataURL);
+						// output.src = dataURL;
+					};
+					reader.readAsDataURL(input.files[0]);
+				});
+			});
 		</script>
 		';
-		$upload_img_box->close();
-		$upload_img_col->close();
 	}
 }

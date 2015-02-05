@@ -120,6 +120,12 @@
 						   ->show();
 
 
+						//image upload
+						$upload_img = $ui->imagePicker()
+										 ->label("Upload your photo")
+										 ->show();
+
+
 						$ui->checkbox()
 						   ->label("Text area label")
 						   ->value("djkafl jdka fjalfjda lkfja klfjaslfkjd akf")
@@ -379,10 +385,6 @@
                     echo 'Its a solid blue box';
                 $bgbox->close();
 				
-				//image upload
-				$upload_img = $ui->upload_image()
-								->id('xyzzy')
-								->show();
 				
             $column2->close();
         $outer_row->close();

@@ -440,6 +440,7 @@ class Input extends Element {
 
 	function uiType($uiType = '') {
 		$this->containerClasses("has-" . $uiType);
+		$this->uiType = $uiType;
 		return $this;
 	}
 	
@@ -448,18 +449,22 @@ class Input extends Element {
 		echo '<div '.$this->_parse_container_attributes().'>';
 
 			//label element
-			if($this->label != '') {
-				$ip_label = new Label();
-				$ip_label->forId($this->properties['id'])
-						 ->text($this->label)
-						 ->uiType($this->uiType)
-						 ->show();
-			}
+			$this->makeLabel();
 
 			//input element
 			echo "<input type=\"".$this->type."\" ";
 			echo $this->_parse_attributes()." />";
 		echo "</div>";
+	}
+
+	protected function makeLabel() {
+		if($this->label != '') {
+			$ip_label = new Label();
+			$ip_label->forId($this->properties['id'])
+					 ->text($this->label)
+					 ->uiType($this->uiType)
+					 ->show();
+		}
 	}
 }
 
@@ -548,13 +553,7 @@ class Textarea extends Input {
 		echo '<div '.$this->_parse_container_attributes().'>';
 
 			//label element
-			if($this->label != '') {
-				$ip_label = new Label();
-				$ip_label->forId($this->properties['id'])
-							->text($this->label)
-							->uiType($this->uiType)
-							->show();
-			}
+			$this->makeLabel();
 
 			//input element
 			$this->classes('form-control');
@@ -580,124 +579,96 @@ class Select extends Input {
 		log_message('debug', "UI_helper > Select Class Initialized");
 	}
 
-	function options($options = array())
-	{
+	function options($options = array()) {
 		//options should be array of Option Objects
 		$this->options = $options;
 		return $this;
 	}
 
-	function multiple($multiple = true)
-	{
-		$this->multiple = $multiple;
+	function multiple($multiple = true) {
+		$this->properties['multiple'] = 'multiple';
 		return $this;
 	}
-
-	function label($label = '')
-	{
-		$this->label = $label;
-		return $this;
-	}
-
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-	function show()
-	{
-		echo '<div class="form-group ';
-		if($this->uiType == 'danger')	$this->uiType = 'error';
-		if($this->uiType !='')	echo 'has-'.strtolower($this->uiType);
-		echo '">';
+	
+	function show() {
+		echo '<div '.$this->_parse_container_attributes().'>';
 
 			//label element
-			if($this->label != '')
-			{
-				$ip_label = new Label();
-				$ip_label->forId($this->properties['id'])
-							->text($this->label)
-							->uiType($this->uiType)
-							->show();
-			}
+			$this->makeLabel();
 
-			//input element
-			$this->classes('form-control');
 			echo "<select ";
-			if($this->multiple)	echo "multiple=\"multiple\" ";
 			// select don't use the value attribute
 			unset($this->properties['value']);
+
 			echo $this->_parse_attributes()." >";
 
-			//options
 			foreach($this->options as $option)
-			{
 				$option->show();
-			}
-
 		echo "</select></div>";
 	}
 }
 
-class Button extends Element {
+class Button extends Input {
 
 	var $submit = false;		//submit type button
-	var $uiType = '';
 	var $mini = false;
 	var $large = false;
 	var $flat = false;
+	var $block = false;
 
-	function submit($submit = true)
-	{
+	public function __construct() {
+		parent::__construct();
+		$this->classes('btn');
+		$this->properties['type'] = 'button';
+		
+		// This is a hack
+		$this->properties['class'] = str_replace("form-control", "", $this->properties['class']);
+	}
+
+	function submit($submit = true) {
 		$this->submit = $submit;
 		return $this;
 	}
 
-	function uiType($uiType = '')
-	{
-		$this->uiType = $uiType;
-		return $this;
-	}
-
-	function mini($mini = true)
-	{
+	function mini($mini = true) {
 		$this->mini = $mini;
 		return $this;
 	}
 
-	function large($large = true)
-	{
+	function large($large = true) {
 		$this->large = $large;
 		return $this;
 	}
 
-	function flat($flat = true)
-	{
+	function flat($flat = true) {
 		$this->flat = $flat;
 		return $this;
 	}
+	
+	function block($block = true) {
+		$this->block = $block;
+		return $this;
+	}
 
-	function show()
-	{
-		$this->classes('btn');
+	function show() {
 		if($this->uiType == '')	$this->classes('btn-default');
-		else 	$this->classes('btn-'.$this->uiType);
+		else 					$this->classes('btn-'.$this->uiType);
 
-		if($this->mini)	$this->classes('btn-sm');
+		if($this->mini)			$this->classes('btn-sm');
 		else if($this->large)	$this->classes('btn-lg');
 
-		if($this->flat)	$this->classes('btn-flat');
+		if($this->flat)			$this->classes('btn-flat');
+		if($this->block)		$this->classes('btn-block');
+
 
 		if($this->properties['disabled'] != '')	$this->classes('disabled');
 
-		if($this->submit)
-			echo '<input type="submit" '.$this->_parse_attributes().' />';
-		else
-		{
-			$val = $this->properties['value'];
-			unset($this->properties['value']);
-			echo '<button '.$this->_parse_attributes().' >'.$val.'</button>';
-		}
+		if($this->submit)		$this->properties['type'] = 'submit';
+		
+		$val = $this->properties['value'];
+		unset($this->properties['value']);
+
+		echo '<button '.$this->_parse_attributes().' >'.$val.'</button>';
 	}
 }
 

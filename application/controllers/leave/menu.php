@@ -8,10 +8,9 @@ class Menu extends MY_Controller
 	public function index()
 	{
 		
-		$header['title']='Leave Management';
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Leave Management");
 		$this->load->view('leave/main_menu');
-		$this->load->view('templates/footer');
+		$this->drawFooter();
 	}
 }
 

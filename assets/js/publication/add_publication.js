@@ -4,32 +4,31 @@ function insert_department_options(index){
 		dataType:'json',
 		type:'post'
 	}).done(function(data){
-		base_str = '';
+		base_str = '<option value="0">Select Department</option>';
 		for($row in data){
 			base_str +="<option value='"+data[$row].id+"'>"+data[$row].name+"</option>";
 		}
 		//console.log(base_str);
 		//return base_str;
-		$('#author_'+index+'_department').append(base_str);
+		$('#author_'+index+'_department').html(base_str);
 	});
 }
 
 function get_emp(index){
 	val = $('select#author_'+index+'_department').find(':selected').val();
-	console.log(val);
 	$.ajax({
 		url : site_url('publication/publication/json_get_emp_by_dept/'+val+'/'),
 		dataType:'json',
 		type:'post'
 	}).done(function(data){
-		console.log(data);
-		base_str = '';
+		base_str = '<tr id="faculty_tr_'+index+'"><td>Faculty Name</td><td><select name="author_'+index+'_emp_id" id="author_'+index+'_emp">';
 		for($row=0;$row<data.length;$row++){
 			base_str +="<option value='"+data[$row].id+"'>"+data[$row].name+"</option>";
 		}
-		console.log(base_str);
+		base_str += '</select></td></tr>';
 		//return base_str;
-		$('#author_'+index+'_emp').append(base_str);
+		$('#faculty_tr_'+index).remove();
+		$('#author_'+index+'_table tr:nth-child(2)').after(base_str);
 	});
 }
 
@@ -42,14 +41,6 @@ function add_template_author_ism(index){
     base_str+= '<td>';
     base_str+= '<select name="author_'+index+'_department" id="author_'+index+'_department" onchange="get_emp('+index+')" data-author_index="'+index+'" class="author_department">';
     base_str += insert_department_options(index);      
-	base_str+= '</select>';
-	base_str+= '</td>';
-	base_str+= '</tr>';
-	base_str+= '<tr class="author_'+index+'_removable">';
-	base_str+= '<td>Name</td>';
-	base_str+= '<td>';
-	base_str+= '<select name="author_'+index+'_emp_id" id="author_'+index+'_emp">';
-	base_str+= '<option value="12">Select Department to see List</option>';
 	base_str+= '</select>';
 	base_str+= '</td>';
 	base_str+= '</tr>';
@@ -85,7 +76,7 @@ function author_template(){
 	base_str += '<table>';
 	base_str += '<tr>';
 	base_str += '<td>Number Of Authors</td>';
-	base_str += '<td><input type="text" name="no_of_authors" onchange="author_fun()" class="no_of_authors" id="no_of_authors"></td>';
+	base_str += '<td><input type="text" name="no_of_authors" class="no_of_authors" id="no_of_authors"></td>';
 	base_str += '</tr>';
 	base_str += '</table>';
 	base_str += '</fieldset>';
@@ -112,17 +103,17 @@ function author_detail_template(val){
 	return base_str;
 }
 
-function author_fun(){
-	val = parseInt($('.no_of_authors').val())
-	console.log("Here",val);
-	$('.author_box').remove();
-	$('.author_wrapper').append(author_detail_template(val));
-}
 $(document).ready(function(){
 	$pub_types = $('#publication_type');
 	$pub_wrapper = $('#publication_wrapper');
 	$no_of_authors = $('#no_of_authors');
 	$author_wrapper = $('.author_wrapper');
+
+	$(document.body).on('input propertychange paste',"#no_of_authors",function(){
+		val = parseInt($('.no_of_authors').val())
+		$('.author_box').remove();
+		$('.author_wrapper').append(author_detail_template(val));
+	});
 
 	function publication_details(val){
 		if(val === 1 || val === 2){

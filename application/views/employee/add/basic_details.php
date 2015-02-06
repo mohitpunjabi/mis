@@ -381,4 +381,4 @@
 	    </tr>
     </table>
     <input type = "submit" value="Next" tabindex="50"/>
-    <?php echo form_close(); ?>
+<?php echo form_close(); ?>

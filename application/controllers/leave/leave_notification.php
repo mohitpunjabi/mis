@@ -21,23 +21,21 @@ class Leave_notification extends MY_Controller
 				$data['approval_comment']=$this->leave_approval_model->approved_leave_comment($leave_id);
 				$data['leaves_pending_for_approval']=$this->leave_notification_model->notifications();
 				$this->load->view('leave/leave_notification',$data);
-				$this->load->view('templates/footer');
+				$this->drawFooter();
 			}
 			else
 			{
 				if(!isset($_POST['submit_reason'])){
-					$header['title']='Leave Disapproval Notifications';
-					$this->load->view('templates/header',$header);
+					$this->drawHeader("Leave Disapproval Notifications");
 					$data['status']='Disapprove';
 					$data['id']=$_POST['id'];
 					$this->load->model('leave/leave_notification_model','',TRUE);
 					$data['leaves_pending_for_approval']=$this->leave_notification_model->notifications();
 					$this->load->view('leave/leave_notification',$data);
-					$this->load->view('templates/footer');
+					$this->drawFooter();
 				}
 				else{
-						$header['title']='Leave Disapproval Reason';
-						$this->load->view('templates/header',$header);
+						$this->drawHeader("Leave Disapproval Reason");
 						$this->load->model('leave/leave_approval_model','',TRUE);
 						$leave_id=$_POST['leave_index'];
 						$comment=$_POST['comment'];
@@ -47,18 +45,17 @@ class Leave_notification extends MY_Controller
 						$data['status']='Disapproval_Reason';
 						$data['remarks']=$results;
 						$this->load->view('leave/leave_notification',$data);
-						$this->load->view('templates/footer');
+						$this->drawFooter();
 				}
 			}
 		}
 		else{
-		$header['title']='Leave Notifications';
-		$this->load->view('templates/header',$header);
+		$this->drawHeader("Leave Notifications");
 		$this->load->model('leave/leave_notification_model','',TRUE);
 		$desc=$this->leave_notification_model->notifications();
 		$data['status']='NULL';
 		$data['leaves_pending_for_approval']=$desc;
 		$this->load->view('leave/leave_notification',$data);
-		$this->load->view('templates/footer');}
+		$this->drawFooter();}
 	}
 }

@@ -9,6 +9,7 @@ class Elective_offered_home extends MY_Controller
 		
 		//$this->addJS("course_structure/add.js");
 		//$this->addJS("course_structure/edit.js");
+		$this->addJS("course_structure/elective_offered.js");
 		$this->addCSS("course_structure/cs_layout.css");
 		
 		//$this->load->model('elective_offered/basic_model','',TRUE);
@@ -17,7 +18,7 @@ class Elective_offered_home extends MY_Controller
 
 	public function index($error='')
 	{
-		$this->addJS("elective_offered/main.js");
+		
 		$data = array();
 		$userid = $this->session->userdata("id");
 		$data['userid'] = $userid;
@@ -28,8 +29,8 @@ class Elective_offered_home extends MY_Controller
 		$data['dept_id'] = $dept_id;
 		
 		
-		$data['result_dept_course'] = $this->basic_model->select_dept_course_by_dept_id($dept_id);
-		$result_dept_course = $data['result_dept_course'];
+		$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
+		$result_course = $data['result_course'];
 		
 		
 		//$data['result_course'] = $this->basic_model->get_course_offered_by_dept($dept_id);
@@ -49,7 +50,7 @@ class Elective_offered_home extends MY_Controller
 		$data['course']['name'] = array();
 		$data['course']['duration'] = array();
 		$data['course']['id'] = array();
-		
+		/*
 		foreach($result_dept_course as $row)
 		{
 			$aggr_id_array = explode('_',$row->aggr_id);
@@ -71,7 +72,7 @@ class Elective_offered_home extends MY_Controller
 				}
 			}
 		}
-		
+		*/
 		$this->drawHeader();
 		$this->load->view('course_structure/elective_offered_home',$data);
 		$this->drawFooter();
@@ -89,7 +90,7 @@ class Elective_offered_home extends MY_Controller
 			$this->output->set_content_type('application/json');
 			
 			//Get the branches
-			$branches = $this->basic_model->get_branches_by_course_and_dept($course,$dept_id);
+			/*$branches = $this->basic_model->get_branches_by_course_and_dept($course,$dept_id);
 			$i = 0;
 			$data['count'] = 0;
 			foreach($branches as $row)
@@ -99,8 +100,9 @@ class Elective_offered_home extends MY_Controller
 				$i++;
 				$data['count']++;
 			}
-
-			$this->output->set_output(json_encode($data));
+*/
+			//$this->output->set_output(json_encode($data));
+			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course_and_dept($course,$dept_id)));
 		}
 	}
 }

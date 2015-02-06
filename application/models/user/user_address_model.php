@@ -30,6 +30,16 @@ class User_address_model extends CI_Model
 		$this->db->update($this->table,$data,array('id'=>$id,'type'=>'permanent'));
 	}
 
+	function updateCorrespondenceAddrById($data,$id)
+	{
+		$this->db->update($this->table,$data,array('id'=>$id,'type'=>'correspondence'));
+	}
+
+	function deleteCorrespondenceAddrById($id)
+	{
+		$this->db->delete($this->table,array('id'=>$id,'type'=>'correspondence'));
+	}
+
 	function getAddrById($id = '',$type = '')
 	{
 		if($id == '')

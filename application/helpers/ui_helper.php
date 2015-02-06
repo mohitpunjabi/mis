@@ -242,6 +242,7 @@ class Box extends Element {
 	var $solid = false;
 	var $background = '';
 	var $icon = null;
+	var $tooltip = '';
 
 	public function __construct() {
 		parent::__construct();
@@ -274,10 +275,17 @@ class Box extends Element {
 		$this->icon = $icon;
 		return $this;
 	}
+	
+	function tooltip($tooltip = "") {
+		$this->tooltip = $tooltip;
+		return $this;
+	}
+	
 
 	function open() {
+		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
-                    <div class="box-header">';
+                    <div class="box-header" '.$tooltipAttr.'>';
 		
 		if($this->icon) $this->icon->show();
 		
@@ -686,6 +694,7 @@ class Button extends Input {
 	var $large = false;
 	var $flat = false;
 	var $block = false;
+	var $icon = null;
 
 	public function __construct() {
 		parent::__construct();
@@ -720,6 +729,11 @@ class Button extends Input {
 		$this->block = $block;
 		return $this;
 	}
+	
+	function icon($icon) {
+		$this->icon = $icon;
+		return $this;
+	}
 
 	function show() {
 		if($this->uiType == '')	$this->classes('btn-default');
@@ -739,7 +753,12 @@ class Button extends Input {
 		$val = $this->properties['value'];
 		unset($this->properties['value']);
 
-		echo '<button '.$this->_parse_attributes().' >'.$val.'</button>';
+		echo '<button '.$this->_parse_attributes().' >';
+		if($this->icon) {
+			$this->icon->show();
+			echo ' ';
+		}
+		echo $val.'</button>';
 	}
 }
 
@@ -884,7 +903,7 @@ class Alert extends Element {
 
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
-		switch($this->uiType && $this->classPrefix == "alert") {
+		switch($this->uiType) {
 			case 'danger': echo '<i class="fa fa-ban"></i>';break;
 			case 'info'	: echo '<i class="fa fa-info"></i>';break;
 			case 'warning': echo '<i class="fa fa-warning"></i>';break;

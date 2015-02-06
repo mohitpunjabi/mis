@@ -190,17 +190,15 @@
                 <!-- Main content -->
                 <section class="content">
 
-
-    <div class="-mis-content">
-    	<div class="flash-data">
-    		<?php
-    			if($this->session->flashdata('flashSuccess'))
-					echo "<p class='notification success'>".$this->session->flashdata('flashSuccess')."</p>";
-				if($this->session->flashdata('flashError'))
-					echo "<p class='notification error'>".$this->session->flashdata('flashError')."</p>";
-				if($this->session->flashdata('flashInfo'))
-					echo "<p class='notification '>".$this->session->flashdata('flashInfo')."</p>";
-				if($this->session->flashdata('flashWarning'))
-					echo "<p class='notification warning'>".$this->session->flashdata('flashWarning')."</p>";
-			?>
-		</div>
+                    <div class="flash-data">
+                        <?php
+                            if($this->session->flashdata('flashSuccess'))
+                                echo "<p class='notification success'>".$this->session->flashdata('flashSuccess')."</p>";
+                            if($this->session->flashdata('flashError'))
+                                echo "<p class='notification error'>".$this->session->flashdata('flashError')."</p>";
+                            if($this->session->flashdata('flashInfo'))
+                                echo "<p class='notification '>".$this->session->flashdata('flashInfo')."</p>";
+                            if($this->session->flashdata('flashWarning'))
+                                echo "<p class='notification warning'>".$this->session->flashdata('flashWarning')."</p>";
+                        ?>
+                    </div>

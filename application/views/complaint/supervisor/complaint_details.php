@@ -8,18 +8,35 @@
 	
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
+			  ->solid()
+			  ->title("Complaint ID " . $complaint_id)
 			  ->uiType('primary')
 			  ->open();
 
 	$form = $ui->form()->action('complaint/supervisor/update_complaint_details/'.$complaint_id)->open();
 
 	$inputRow1 = $ui->row()->open();
-		$ui->input()->type("text")->label("Complaint ID")->placeholder($complaint_id)->disabled()
-		   ->width(6)
-		   ->show();
-		$ui->input()->type("text")->label("Complaint By")->value($complaint_by)->disabled()
-		   ->width(6)
-		   ->show();
+		$c = $ui->col()->width(4)->open();
+			?><p><strong><? $ui->icon("user")->show() ?> Complaint By</strong><br/><?
+			?><span><?= $complaint_by ?></span></p><?
+		$c->close();
+		$c = $ui->col()->width(4)->open();
+			?><p><strong><? $ui->icon("mobile")->show() ?> Mobile No.</strong><br /><?
+			?><span><?= $mobile ?></span></p><?
+		$c->close();
+		$c = $ui->col()->width(4)->open();
+			?><p><strong>Mobile No.</strong><br /><?
+			?><span><?= $mobile ?></span></p><?
+		$c->close();
+	$inputRow1->close();
+	
+
+	$inputRow1 = $ui->row()->open();
+		
+		$c = $ui->col()->width(6)->open();
+			?><p><strong>Complaint By</strong><br/><?
+			?><span><?= $complaint_by ?></span></p><?
+		$c->close();
 	$inputRow1->close();
 
 	$inputRow2 = $ui->row()->open();

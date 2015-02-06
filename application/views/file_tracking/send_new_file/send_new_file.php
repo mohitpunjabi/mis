@@ -2,13 +2,6 @@
 <?php
 	$ui = new UI();
 
-	$ui->callout()
-		->title("This is just a small example")
-		->uiType("warning")
-		->desc('This example shows only a handful of the UI options. ' .
-					'See the <a href="http://172.16.8.5/wiki/index.php/UI_Library">UI Library wiki</a> for a detailed list of options. ' .
-				'Help us build this page by adding more example codes.')
-		->show();
 		$outer_row = $ui->row()
 										->open();
 			$outer_column = $ui->col()

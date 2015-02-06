@@ -24,7 +24,6 @@ class Add extends MY_Controller
 	
 	public function EnterNumberOfSubjects()
 	{
-		$this->addJS("course_structure/add.js");
 		$dept= $this->input->post('dept');
 		$course= $this->input->post('course');
 		$branch= $this->input->post('branch');
@@ -76,7 +75,6 @@ class Add extends MY_Controller
 	}
     public function EnterSubjects()
   	{
-		
   		$this->addJS("course_structure/add.js");
 		$session_variable = $this->session->userdata("CS_session");
 		
@@ -95,7 +93,7 @@ class Add extends MY_Controller
 			redirect("course_structure/add/EnterNumberOfSubjects");
 		else
 		{
-			$this->drawHeader();
+			$this->drawHeader("Enter core subject details");
 			$this->load->view('course_structure/courses',$data);
 			$this->drawFooter();
 		}

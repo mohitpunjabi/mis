@@ -2,129 +2,109 @@
 <?php
 	$ui = new UI();
 
-		$outer_row = $ui->row()
-										->open();
-			$outer_column = $ui->col()
-												 ->width(8)
-												 ->t_width(8)
-												 ->m_width(12)
-												 ->open();
+	$row = $ui->row()->open();
+	
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
+	
+	$column2 = $ui->col()->width(8)->open();
+	$box = $ui->box()
+			  ->title('File Details')
+			  ->solid()	
+			  ->uiType('primary')
+			  ->open();
 
-				$form=$ui->form()->multipart()->open();
-				$column1 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->input()
-						->placeholder('Enter file number')
-						->type('text')
-						->label('File Number')
-						->uiType('info')
-						->id('file_no')
-						->name('file_no')
-						->show();
-				$column1->close();
-				$column2 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->input()
-						->placeholder('Enter file subject')
-						->type('text')
-						->label('File Subject')
-						->uiType('info')
-						->id('file_sub')
-						->name('file_sub')
-						->show();
-				$column2->close();
+	$form=$ui->form()->multipart()->open();
 
-				$column3 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->select()
+	$inputRow1 = $ui->row()->open();
+		 $ui->input()
+			->placeholder('Enter file number')
+			->type('text')
+			->label('File Number')
+			->uiType('info')
+			->id('file_no')
+			->name('file_no')
+			->width(6)
+		    ->show();
+		 $ui->input()
+			->placeholder('Enter file subject')
+			->type('text')
+			->label('File Subject')
+			->uiType('info')
+			->id('file_sub')
+			->name('file_sub')
+     		->width(6)
+		    ->show();
+	$inputRow1->close();
+
+	$inputRow2 = $ui->row()->open();
+		$ui->select()
 						->label('Department Type')
 						->name('type')
 						->id('type')
 						->options(array($ui->option()->value('""')->text('Select')->selected(),
 														$ui->option()->value('academic')->text('Academic'),
 														$ui->option()->value('nonacademic')->text('Non Academic')))
-						->show();
-				$column3->close();
-				$column4 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->select()
+				
+		   ->width(6)
+		   ->show();
+		$ui->select()
 						->label('Select Department')
 						->name('department_name')
 						->id('department_name')
 						->options(array($ui->option()->value('""')->text('Select')->selected()))
-						->show();
-				$column4->close();
-				$column5 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->select()
+				
+		   ->width(6)
+		   ->show();
+	$inputRow2->close();
+
+	$inputRow3 = $ui->row()->open();
+		$ui->select()
 						->label('Designation')
 						->name('designation')
 						->id('designation')
 						->options(array($ui->option()->value('""')->text('Select')->selected()))
-						->show();
-				$column5->close();
-				$column6 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->select()
+		   ->width(6)
+		   ->show();
+						$ui->select()
 						->label('Employee Name')
 						->name('emp_name')
 						->id('emp_name')
 						->options(array($ui->option()->value('""')->text('Select')->selected()))
-						->show();
-				$column6->close();
-				$column7 = $ui->col()
-											->width(12)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->textarea()
+		   ->width(6)
+		   ->show();
+	$inputRow3->close();
+
+	$ui->textarea()
 						->label('Remarks')
 						->name('remarks')
 						->id('remarks')
 						->placeholder('Remarks')
 						->type('text')
 						->uiType('info')
-						->show();
-				$column7->close();
-				$column8 = $ui->col()
-											->width(6)
-											->t_width(8)
-											->m_width(12)
-											->open();
-				$ui->button()
+				
+		   ->show();
+?>
+<center>
+<?php
+	$ui->button()
 					->value('Submit')
 					->id('submit')
 					->uiType('primary')
 					->submit()
 					->name('submit')
-					->show();
-				$column8->close();
-
-
-
-				$form->close();
-			$outer_column->close();
-
-		$outer_row->close();
+				
+		   ->width(6)
+		   ->show();
+	
+	$form->close();
+	$box->close();
+	
+	$column2->close();
+	
+	$row->close();
 ?>
+</center>
 <div id="send_notification"></div>
 
 
@@ -141,5 +121,4 @@
 	$( "#submit" ).click(function() {
 		display_send_notification();
 	});
-
 </script>

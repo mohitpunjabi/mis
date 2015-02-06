@@ -5,7 +5,7 @@ class Send_new_file extends MY_Controller
 	{
 		parent::__construct(array('emp','deo'));
 		$this->addJS ("file_tracking/file_tracking_script.js");
-		$this->addCSS("file_tracking/file_tracking_layout.css");
+		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
 	public function index()
@@ -26,17 +26,17 @@ class Send_new_file extends MY_Controller
 				'file_no' => $file_no,
 				'file_subject' => $file_sub ,
 				'track_num'=> $track_num ,
-				'start_emp_id' => $emp_id 
+				'start_emp_id' => $emp_id
 					  );
-		
+
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$this->file_details->insert($data);
-		
+
 		if ($file_no == "NULL")
 			$description = $file_sub." (File No. not yet generated) ";
-		else 
+		else
 			$description = $file_sub." (".$file_no.") ";
-		
+
 		$file_id = $this->file_details->get_file_id ($track_num);
 		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id,$remarks,$description);
 	}
@@ -44,30 +44,30 @@ class Send_new_file extends MY_Controller
 	{
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$track_num = $this->file_details->get_track_num ($file_id);
-		
+
 		$query = $this->file_details->get_file_num($file_id);
-		foreach ($query->result() as $row) 
+		foreach ($query->result() as $row)
 				$file_no_db = $row->file_no;
 		if (!$file_no_db)
 		{
 			if ($file_no!="NULL")
 				$this->file_details->insert_file_num($file_no, $file_id);
 		}
-		
+
 		$res = $this->file_details->get_file_details ($track_num);
 		foreach ($res->result() as $row)
 		{
 			$file_subject = $row->file_subject;
-		}	
-		
+		}
+
 		if ($file_no == "NULL")
 			$description = $file_subject." (File No. not yet generated) ";
-		else 
+		else
 			$description = $file_subject." (".$file_no.") ";
 
 		$this->load->model ('file_tracking/file_move_details', '', TRUE);
    		$this->file_move_details->change_forward_status ($track_num);
-		
+
 		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, $remarks, $description);
 	}
 	public function insert_file_move_details ($file_id, $track_num, $rcvd_emp_id, $remarks, $description)
@@ -86,7 +86,7 @@ class Send_new_file extends MY_Controller
 
 		$this->load->model ('file_tracking/file_move_details', '', TRUE);
 		$this->file_move_details->insert ($data_arr);
-		
+
 		$this->notification->notify ($rcvd_emp_id, "emp", "Receive a File",$description, "receive_file/validate_track_num/".$file_id, "");
 		$data_arr2['track_num'] = $track_num;
 //		$this->load->view('file_tracking/send_new_file/notification', $data_arr2);

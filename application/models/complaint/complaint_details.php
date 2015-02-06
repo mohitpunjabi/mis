@@ -24,6 +24,11 @@ class Complaint_details extends CI_Model
 		$res = $this->db->query("SELECT * FROM complaint WHERE type='".$supervisor."'ORDER BY date_n_time DESC;");
 		return $res;
 	}
+	function user_complaint_list ($user_id)
+	{
+		$res = $this->db->query("SELECT * FROM complaint WHERE user_id='".$user_id."' ORDER BY date_n_time DESC;");
+		return $res;
+	}
 	function get_complaint_details ($complaint_id)
 	{
 		$res = $this->db->query("SELECT * FROM complaint WHERE complaint_id = '".$complaint_id."';");

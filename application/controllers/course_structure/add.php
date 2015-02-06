@@ -70,7 +70,7 @@ class Add extends MY_Controller
 		$data["CS_session"]['session']=$session;
 		$this->session->set_userdata($data);
 		
-		$this->drawHeader();
+		$this->drawHeader("Enter the number of core and elective subjects");
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();
 	}

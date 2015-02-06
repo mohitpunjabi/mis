@@ -39,8 +39,7 @@
 							$ui->select()
 								->label('Select Course')
 								->name('course')
-								->id("course_selection")
-								->containerId("cont_course_selection")
+								->id("course_selection1")
 								->options($array_options)
 								->show();
 					

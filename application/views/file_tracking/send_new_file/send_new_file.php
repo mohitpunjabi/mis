@@ -1,72 +1,145 @@
-<?php echo form_open (); ?> 
-<div id="container">
-	<h1>File Details</h1>
-	<FIELDSET>
-	<table align="center" nozebra>
-	<LEGEND><b>File Details : </b></LEGEND>
-		<tr>
-			<td>File Number : </td>
-			<td> 
-				<input type="text" name="file_no" id="file_no" > 
-			</td>
-			<td>File Subject : </td>
-			<td> 
-				<input type="text" name="file_sub" id="file_sub" size="55"> 
-			</td>
-		</tr>
-	
-	</table>
-	</FIELDSET>
-	<FIELDSET>
-	<table align="center" nozebra>
-	<LEGEND><b>File will be Sent to : </b></LEGEND>
-		<tr>
-			<td>Department Type : </td>
-			<td> 
-				<select name="type" id="type" onchange="get_departments(this.value)">
-					<option type="text" value="">Select</option>
-					<option type="text" value="academic">Academic</option>
-					<option type="text" value="nonacademic">Non Academic</option>
-				</select>
-			</td>
-		<td>Select Department : </td>
-			<td>
-				<select name="department_name" id="department_name" onchange="get_designation_name(this.value)">
-					<option type="text" value="">Select</option>
-				</select>
-			</td> 
-		</tr>
-		<tr>
-			<td>Designation : </td>
-			<td> 
-				<select name="designation" id="designation" onchange="get_emp_name(this.value)">
-					<option type="text" value="">Select</option>
-				</select>
-			</td>
-			<td>Employee Name : </td>
-			<td> 
-				<select name="emp_name" id="emp_name">
-					<option type="text" value="">Select</option>
-				</select>
-			</td>
-		</tr> 
-	</table>
-	</FIELDSET>
-	<FIELDSET>
-	<table align="center" nozebra>
-	<LEGEND><b>Add Remarks : </b></LEGEND>
-		<tr>
-			<td>Remarks : </td>
-			<td> 
-				<textarea name="remarks" id="remarks" ></textarea>
-				<!--<input type="text" name="emp_id" id="emp_id">-->
-			</td>
-			<td> 
-				<input type="button" value="Send File" onClick="display_send_notification()">
-			</td>
-		</tr>
-	</table>
-	</FIELDSET>
-</div>
-	
+<?php echo form_open (); ?>
+<?php
+	$ui = new UI();
+
+		$outer_row = $ui->row()
+										->open();
+			$outer_column = $ui->col()
+												 ->width(8)
+												 ->t_width(8)
+												 ->m_width(12)
+												 ->open();
+
+				$form=$ui->form()->multipart()->open();
+				$column1 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->input()
+						->placeholder('Enter file number')
+						->type('text')
+						->label('File Number')
+						->uiType('info')
+						->id('file_no')
+						->name('file_no')
+						->show();
+				$column1->close();
+				$column2 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->input()
+						->placeholder('Enter file subject')
+						->type('text')
+						->label('File Subject')
+						->uiType('info')
+						->id('file_sub')
+						->name('file_sub')
+						->show();
+				$column2->close();
+
+				$column3 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->select()
+						->label('Department Type')
+						->name('type')
+						->id('type')
+						->options(array($ui->option()->value('""')->text('Select')->selected(),
+														$ui->option()->value('academic')->text('Academic'),
+														$ui->option()->value('nonacademic')->text('Non Academic')))
+						->show();
+				$column3->close();
+				$column4 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->select()
+						->label('Select Department')
+						->name('department_name')
+						->id('department_name')
+						->options(array($ui->option()->value('""')->text('Select')->selected()))
+						->show();
+				$column4->close();
+				$column5 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->select()
+						->label('Designation')
+						->name('designation')
+						->id('designation')
+						->options(array($ui->option()->value('""')->text('Select')->selected()))
+						->show();
+				$column5->close();
+				$column6 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->select()
+						->label('Employee Name')
+						->name('emp_name')
+						->id('emp_name')
+						->options(array($ui->option()->value('""')->text('Select')->selected()))
+						->show();
+				$column6->close();
+				$column7 = $ui->col()
+											->width(12)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->textarea()
+						->label('Remarks')
+						->name('remarks')
+						->id('remarks')
+						->placeholder('Remarks')
+						->type('text')
+						->uiType('info')
+						->show();
+				$column7->close();
+				$column8 = $ui->col()
+											->width(6)
+											->t_width(8)
+											->m_width(12)
+											->open();
+				$ui->button()
+					->value('Submit')
+					->id('submit')
+					->uiType('primary')
+					->submit()
+					->name('submit')
+					->show();
+				$column8->close();
+
+
+
+				$form->close();
+			$outer_column->close();
+
+		$outer_row->close();
+?>
 <div id="send_notification"></div>
+
+
+<script charset="utf-8">
+	$('#type').on('change', function() {
+		get_departments(this.value); // or $(this).val()
+	});
+	$('#department_name').on('change', function() {
+		get_designation_name(this.value); // or $(this).val()
+	});
+	$('#designation').on('change', function() {
+		get_emp_name(this.value); // or $(this).val()
+	});
+	$( "#submit" ).click(function() {
+		display_send_notification();
+	});
+
+</script>

@@ -18,4 +18,39 @@ class Register_complaint extends MY_Controller
 		$this->load->view('complaint/register_complaint');
 		$this->drawFooter ();
 	}
+	public function insert ()
+	{
+		$type = $this->input->post('type');
+     	$location = $this->input->post('location');
+		$location_details = $this->input->post('locationDetails');
+		$pref_time = $this->input->post('time');
+		$problem_details = $this->input->post('problemDetails');
+		
+		$user_id = $this->session->userdata('id');
+		$complaint_id = time();
+		$complaint_id = $type."_".$complaint_id.$user_id;
+		$data = array(
+				'user_id' => $user_id,
+				'type' => $type,
+				'location'=> $location,
+				'location_details' => $location_details, 
+				'problem_details' => $problem_details,	  
+				'pref_time' => $pref_time,	  
+				'complaint_id' => $complaint_id	  
+					  );
+		
+		$this->load->model ('complaint/complaint_details', '', TRUE);
+		$this->complaint_details->insert($data);
+
+		$this->drawHeader ("View Closed Complaint List");
+		$this->drawFooter ();		
+
+/*		echo $type."<br>";
+		echo $location."<br>";
+		echo $location_details."<br>";
+		echo $pref_time."<br>";
+		echo $problem_details."<br>";
+		echo $user_id."<br>";
+		echo $complaint_id."<br>";*/
+	}
 }

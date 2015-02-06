@@ -23,24 +23,28 @@
 								->label('Select Course')
 								->name('course')
 								->id("course_selection")
+								->containerId('cont_course_selection')
 								->show();
 								
 								$ui->select()
 								->label('Select Branch')
 								->name('branch')
 								->id("branch_selection")
+								->containerId('cont_branch_selection')
 								->show();
 								
 								$ui->select()
 								->label('Select Session')
 								->name('session')
 								->id("session_selection")
+								->containerId('cont_session_selection')
 								->show();
 								
 								$ui->select()
 								->label('Select Semester')
 								->name('sem')
 								->id("semester")
+								->containerId('cont_semester')
 								->show();
 							
 							$ui->button()

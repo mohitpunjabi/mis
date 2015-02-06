@@ -9,6 +9,11 @@ $(document).ready(function(){
 	$course_selection = $('#course_selection');
 	$duration = 1;
 	
+	$course_selection.hide();
+		//$(".session_selection").remove();
+	//$("#semester_selection").hide();
+		
+	
 	function add_course(){
 		$(".course_selection").remove();
 		$(".branch_selection").remove();
@@ -144,9 +149,9 @@ $(document).ready(function(){
 	}
 
 	$dept_selection.change(function(){
-		$(".branch_selection").remove();
-		$(".session_selection").remove();
-		$(".semester_selection").remove();
+		$("#branch_selection").hide();
+		$("#session_selection").remove();
+		$("#semester_selection").hide();
 		add_course();
 	});
 

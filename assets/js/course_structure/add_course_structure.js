@@ -11,10 +11,21 @@ $(document).ready(function(){
 	$semester_selection = $("#semester");
 	$session_selection = $("#session_selection");
 	
+	$cont_course_selection = $('#cont_course_selection');
+	$cont_branch_selection = $('#cont_branch_selection');
+	$cont_semester_selection = $("#cont_semester");
+	$cont_session_selection = $("#cont_session_selection");
+	
+	
 	$course_selection.hide();
 	$branch_selection.hide();
 	$semester_selection.hide();
 	$session_selection.hide();
+	
+	$cont_course_selection.hide();
+	$cont_branch_selection.hide();
+	$cont_semester_selection.hide();
+	$cont_session_selection.hide();
 	
 	$duration = 1;
 	
@@ -26,12 +37,18 @@ $(document).ready(function(){
 					base_str += "<option data-duration='"+data[$d]['duration']+"' value='"+ data[$d]['id']+"'>"+data[$d]["name"]+"</option>";
 				}
 				
+				$cont_course_selection.show();
 				$course_selection.show().html(base_str);
 				$select_course = $('select#course_selection');
 				$select_course.on('change',function(){
 					$branch_selection.hide();
 					$session_selection.hide();
 					$semester_selection.hide();
+					
+					$cont_branch_selection.hide();
+					$cont_session_selection.hide();
+					$cont_semester_selection.hide();
+					
 					add_branch(parseInt($('#course_selection option:selected').data('duration')));
 				});
 			},
@@ -48,7 +65,7 @@ $(document).ready(function(){
 	function add_branch(duration){
 		$course_selection = $('#course_selection');
 		$dept_selection = $('#dept_selection');
-
+		
 		//alert($course_selection.find(':selected').val());
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){
@@ -58,6 +75,8 @@ $(document).ready(function(){
 					base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
 				//base_str_branch += "<option>Select Branch</option>";
+				
+				$cont_branch_selection.show();
 				$branch_selection.show().html(base_str_branch);
 				
 				var d = new Date();
@@ -70,11 +89,12 @@ $(document).ready(function(){
 					base_str += "<option value= '"+session+"'>"+$d+"-"+($d+1)+"</option>"
 				}	
 				
+				$cont_session_selection.show();
 				$session_selection.show().html(base_str);
 				$branch_selection.on('change',function(){
 					//$session_selection.hide();
 					$semester_selection.hide();
-					
+					$cont_semester_selection.hide();
 					add_semester(duration);
 				});
 				
@@ -112,6 +132,7 @@ $(document).ready(function(){
 			}
 			
 		}
+		$cont_semester_selection.show();
 		$semester_selection.show().html(base_str);
 	}
 
@@ -119,6 +140,10 @@ $(document).ready(function(){
 		$("#branch_selection").hide();
 		$("#session_selection").hide();
 		$("#semester").hide();
+		$("#cont_branch_selection").hide();
+		$("#cont_session_selection").hide();
+		$("#cont_semester").hide();
+		
 		add_course();
 	});
 

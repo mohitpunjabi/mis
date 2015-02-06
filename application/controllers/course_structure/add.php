@@ -6,14 +6,14 @@ class Add extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo', 'hod'));
-		
-		$this->addJS("course_structure/edit.js");
+		$this->addJS("course_structure/add_course_structure.js");
+		//$this->addJS("course_structure/edit.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
 	{
-		$this->addJS("course_structure/add_course_structure.js");
+		
 		$data = array();
 		$data["result_dept"] = $this->basic_model->get_depts();
 		

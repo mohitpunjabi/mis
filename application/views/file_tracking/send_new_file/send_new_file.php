@@ -33,69 +33,66 @@
 			->uiType('info')
 			->id('file_sub')
 			->name('file_sub')
-     		->width(6)
+	 		->width(6)
 		    ->show();
 	$inputRow1->close();
 
 	$inputRow2 = $ui->row()->open();
-		$ui->select()
-						->label('Department Type')
-						->name('type')
-						->id('type')
-						->options(array($ui->option()->value('""')->text('Select')->selected(),
-														$ui->option()->value('academic')->text('Academic'),
-														$ui->option()->value('nonacademic')->text('Non Academic')))
-				
-		   ->width(6)
-		   ->show();
-		$ui->select()
-						->label('Select Department')
-						->name('department_name')
-						->id('department_name')
-						->options(array($ui->option()->value('""')->text('Select')->selected()))
-				
-		   ->width(6)
-		   ->show();
+		 $ui->select()
+			->label('Department Type')
+			->name('type')
+			->id('type')
+			->options(array($ui->option()->value('""')->text('Select')->selected(),
+							$ui->option()->value('academic')->text('Academic'),
+							$ui->option()->value('nonacademic')->text('Non Academic')))
+		    ->width(6)
+		    ->show();
+		 $ui->select()
+			->label('Select Department')
+			->name('department_name')
+			->id('department_name')
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+	
+			->width(6)
+		   	->show();
 	$inputRow2->close();
 
 	$inputRow3 = $ui->row()->open();
-		$ui->select()
-						->label('Designation')
-						->name('designation')
-						->id('designation')
-						->options(array($ui->option()->value('""')->text('Select')->selected()))
-		   ->width(6)
-		   ->show();
-						$ui->select()
-						->label('Employee Name')
-						->name('emp_name')
-						->id('emp_name')
-						->options(array($ui->option()->value('""')->text('Select')->selected()))
-		   ->width(6)
-		   ->show();
+     	 $ui->select()
+			->label('Designation')
+			->name('designation')
+			->id('designation')
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+   			->width(6)
+		   	->show();
+		 $ui->select()
+			->label('Employee Name')
+			->name('emp_name')
+			->id('emp_name')
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+		    ->width(6)
+		    ->show();
 	$inputRow3->close();
 
 	$ui->textarea()
-						->label('Remarks')
-						->name('remarks')
-						->id('remarks')
-						->placeholder('Remarks')
-						->type('text')
-						->uiType('info')
-				
-		   ->show();
+	   ->label('Remarks')
+	   ->name('remarks')
+	   ->id('remarks')
+	   ->placeholder('Remarks')
+	   ->type('text')
+	   ->uiType('info')
+	   ->show();
 ?>
 <center>
 <?php
-	$ui->button()
-					->value('Submit')
-					->id('submit')
-					->uiType('primary')
-					->submit()
-					->name('submit')
-				
-		   ->width(6)
-		   ->show();
+	 $ui->button()
+		->value('Submit')
+		->id('submit')
+		->uiType('primary')
+		->submit()
+		->name('submit')	
+		->width(6)
+		->show();
 	
 	$form->close();
 	$box->close();

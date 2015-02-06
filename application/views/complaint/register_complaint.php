@@ -69,7 +69,6 @@
 
 	$ui->textarea()->label('Problem Details')->name("problemDetails")->placeholder("Problem Details")->required()->show();
 ?>
-<hr/>
 <center>
 <?php
 	$ui->button()

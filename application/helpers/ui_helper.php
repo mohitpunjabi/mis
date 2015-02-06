@@ -4,6 +4,8 @@ class UI {
 	function row()		{	return new Row();		}
 	function col()		{	return new Column();	}
 	function box()		{	return new Box();		}
+	function tabBox()	{	return new TabBox();	}
+	function tabPane()	{	return new TabPane();	}
 	function table()	{	return new Table();		}
 	function form()		{	return new Form();		}
 	function input()	{	return new Input();		}
@@ -303,6 +305,90 @@ class Box extends Element {
 
 
 
+
+
+
+class TabBox extends Box {
+
+	var $tabs = array();
+	var $activeId = '';
+
+	public function __construct() {
+		parent::__construct();
+		log_message('debug', "UI_helper > Box Class Initialized");
+		$this->containerProps['class'] = '';
+		$this->containerClasses('nav-tabs-custom');
+	}
+
+	function tab($id, $title, $active = false) {
+		$this->tabs[] = array('id' => $id, 'title' => $title);
+		if($active) $this->activeId = $id;
+		return $this;
+	}
+	
+	function open() {
+		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
+		echo '<ul class="nav nav-tabs">';
+			if($this->title != '' && $this->icon) {
+              echo '<li class="header pull-left" '.$tooltipAttr.'>';
+					if($this->icon) $this->icon->show();
+					echo $this->title;
+			  echo '</li>';
+			}
+
+		$pullRight = '';
+		if($this->title != '') {
+			// Reversing because everything is pulled right.
+			$this->tabs = array_reverse($this->tabs);
+			$pullRight = 'pull-right';
+		}
+		foreach($this->tabs as $key => $tab) {
+			$tabId = $tab['id'];
+			$title = $tab['title'];
+			$class = $pullRight;
+			$class .= ($tabId == $this->activeId)? ' active': '';
+			echo '<li class="'.$class.'">';
+				echo '<a href="#'.$tabId.'" data-toggle="tab">';
+				   echo $title;
+				echo '</a>';
+			echo '</li>';
+		}
+		echo '</ul>';
+
+		echo '<div class="tab-content">';
+		
+        return $this;
+	}
+
+	function close() {
+		echo '</div></div>';
+	}
+
+}
+
+
+class TabPane extends Element {
+
+	public function __construct() {
+		parent::__construct();
+		$this->containerClasses("tab-pane");
+	}
+	
+	public function active() {
+		$this->containerClasses('active');
+		return $this;
+	}
+	
+	public function open() {
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
+		return $this;
+	}
+	
+	public function close() {
+		echo '</div>';
+	}
+}
 
 
 
@@ -858,8 +944,12 @@ class Icon extends Element {
 		$this->classes("fa fa-" . $type);
 	}
 
+	public function __toString() {
+		return '<i '.$this->_parse_attributes().' ></i>&nbsp;';
+	}
+
 	function show() {
-		echo '<i '.$this->_parse_attributes().' ></i>';
+		echo $this;
 	}
 }
 

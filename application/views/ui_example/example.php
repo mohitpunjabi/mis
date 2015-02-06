@@ -128,6 +128,135 @@ $box = $ui->box()
 $boxTypesRow->close();
 
 
+$tabsRow = $ui->row()->open();
+
+	$col = $ui->col()->width(8)->open();
+
+		$tabBox1 = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Presenting Tabs")
+				   ->tab("intro", "How it works", true)
+				   ->tab("abouttitle", $ui->icon("plus") . " More about titles")
+				   ->tab("settings", $ui->icon('gear'))
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("intro")->active()->open();
+				?>
+                <h4>Tabs are awesome - an easy to create.</h4>
+
+                    <p>Tabs behave just like <code>Box</code>es. First, open a <code>tabBox</code> as follows:</p>
+<pre>
+$myTabBox = $ui->tabBox()
+               ->tab("tabPaneId1", "Tab Pane's Title", true) // 'true' means active
+               ->tab("tabPaneId2", "Tab Pane Title 1")
+               ...
+               ->tab("tabPaneIdn", "Tab Pane Title n")
+               ->open();
+</pre>
+
+
+					<p>Then, put all the <code>TabPane</code>s. Remember to set proper <code>id</code>s for them.</p>
+<pre>
+$tab1 = $ui->tabPane()
+           ->id("tabPaneId")
+           ->open();
+
+    ...
+$tab1->close();
+</pre>
+
+					<p>Finally, close the <code>TabBox</code>.</p>
+<pre>
+$myTabBox->close();
+</pre>
+
+				<?
+
+			$tab1->close();
+			
+
+			$aboutTitleTab = $ui->tabPane()
+					   ->id("abouttitle")
+					   ->open();
+			?>
+            	<p>You can have a title and an icon (just like a <code>Box</code>)for the <code>TabBox</code>- or you can skip them.</p>
+<pre>
+$myTabBox = $ui->tabBox()
+			   ->title("The title")
+               ->icon($ui->icon("some-icon")
+               ...
+               ->open();
+</pre>
+
+				<p>For the individual <code>TabPane</code>s' titles, you can only have <code>string</code>s. But luckily, you can append an <code>Icon</code> to a <code>string</code>.
+
+<pre>
+$myTabBox = $ui->tabBox()
+               ->tab("someId1", "String title")
+               ->tab("someId2", $ui->icon("some-icon"))
+               ->tab("someId3", $ui->icon("some-icon") . " string and icon")
+               ...
+               
+               ->open();
+</pre>
+
+
+            <?
+			$aboutTitleTab->close();
+
+			$tab1 = $ui->tabPane()
+					   ->id("settings")
+					   ->open();
+				?><p>This tab just has an <code>Icon</code> as its title. You can also have <code>Input</code>s in the content.</p><?
+				
+				$ui->input()
+				   ->type('text')
+				   ->label("A text field")
+				   ->show();
+				
+			$tab1->close();				    
+		$tabBox1->close();
+		
+	$col->close();
+
+	$col = $ui->col()->width(4)->open();
+		$tabBox2 = $ui->tabBox()
+					  ->tab("t1", "Tab 1")
+					  ->tab("t2", "Tab 2")
+					  ->tab("t3", "Tab 3", true)
+					  ->tab("t4", "Tab 4")
+					  ->open();
+
+			$t1 = $ui->tabPane()->id("t1")->active()->open();
+				?>
+                <p>This <code>TabBox</code> does not have a title. Also, the <strong>Tab 3</strong> is active by default. This is done by setting the third argument to <code>true</code> while adding the tab.</p>
+<pre>
+$myTabBox = $ui->tabBox()
+               ...
+               ->tab("t3", "Tab 3", true)
+               ->open();
+</pre>
+
+<p>Also, make sure that the <code>TabPane</code> has the <code>active()</code> property set.</p>
+
+<pre>
+$tab3 = $ui->tabPane()
+           ->id("t3")
+           ->active()
+           ->open();
+</pre>
+
+				<?
+			$t1->close();
+
+		$tabBox2->close();
+	$col->close();
+
+$tabsRow->close();
+
+
+
 ?><h2 class="page-header">Alerts and callouts</h2><?
 
 

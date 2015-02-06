@@ -1,6 +1,7 @@
 
-	function teaching_handler(auth)
+	function teaching_handler()
 	{
+		var auth = $('#tstatus').val();
 		designation_dropdown(auth);
 		retirement_handler();
 		if(auth =='ft')
@@ -32,8 +33,9 @@
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
-	function payband_handler(pb)
+	function payband_handler()
 	{
+		var pb = document.getElementById("payscale").value;
 		var gp = document.getElementsByName("gradepay")[0];
 		var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -61,9 +63,15 @@
 	function retirement_handler()
 	{
 		var retire = document.getElementById("retire");
-		var auth = document.getElementsByName("tstatus")[0].value;
-		var source=document.getElementsByName("dob")[0].value;
-		var new_date=new Date(source);
+		var auth = document.getElementById("tstatus").value;
+		var source=document.getElementById("dob").value;
+		var d = source.split("-");
+
+		//date format -> dd-mm-yyyy
+		var new_date = new Date();
+		new_date.setDate(d[0]);
+		new_date.setMonth(d[1]-1);	//month start from 0
+		new_date.setFullYear(d[2]);
 
 		if(auth=="ft")
 			new_date.setFullYear(new_date.getFullYear() + 65);
@@ -110,7 +118,8 @@
 		if(month<10)	mon='0'+month;
 		else	mon+=month;
 
-		retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
+		//retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
+		retire.value=date+'-'+mon+'-'+new_date.getFullYear();
 	}
 
 //AJAX for designation called from teaching_handler
@@ -250,5 +259,13 @@
 		$("#fetch_id_btn").click(function() {
 			fetch_details();
 		});
-	});
 
+		$("#tstatus").change(teaching_handler);
+		$("#payscale").change(payband_handler);
+		$("#dob").change(retirement_handler);
+		$("gradepay").change(function(){
+			document.getElementById('basicpay').style.visibility='visible';
+		});
+
+		teaching_handler();	//to set default designations and departments
+	});

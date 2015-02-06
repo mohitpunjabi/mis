@@ -34,17 +34,9 @@ class Add extends MY_Controller
 		// Handling Errors
 		$data['error'] = $error;
 
-		// by default faculty designations are to be fetched
-		$this->load->model('Designations_model','',TRUE);
-		$data['designations']=$this->Designations_model->get_designations("type in ('ft','others')");
-
 		// get distinct pay bands
 		$this->load->model('Pay_scales_model','',TRUE);
 		$data['pay_bands']=$this->Pay_scales_model->get_pay_bands();
-
-		// get academic departments ........ as faculty is selected by default
-		$this->load->model('Departments_model','',TRUE);
-		$data['academic_departments']=$this->Departments_model->get_departments('academic');
 
 		//javascript
 		$this->addJS('employee/basic_details_script.js');

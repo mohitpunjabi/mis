@@ -1,52 +1,73 @@
-<h1>Complaint Details</h1>
-<?php echo form_open('complaint/supervisor/update_complaint_details/'.$complaint_id);   ?>
+<?php
+	$ui = new UI();
+//echo form_open('complaint/register_complaint/insert');   	
+	$row = $ui->row()->open();
+	
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
+	
+	$column2 = $ui->col()->width(8)->open();
+	$box = $ui->box()
+			  ->uiType('primary')
+			  ->open();
+
+	$form = $ui->form()->action('complaint/supervisor/update_complaint_details/'.$complaint_id)->open();
+
+	$inputRow1 = $ui->row()->open();
+		$ui->input()->type("text")->label("Complaint ID")->placeholder($complaint_id)->disabled()
+		   ->width(6)
+		   ->show();
+		$ui->input()->type("text")->label("Complaint By")->value($complaint_by)->disabled()
+		   ->width(6)
+		   ->show();
+	$inputRow1->close();
+
+	$inputRow2 = $ui->row()->open();
+		$ui->input()->type("text")->label("Mobile No.")->value($mobile)->disabled()
+		   ->width(6)
+		   ->show();
+		$ui->input()->type("text")->label("Email ID")->value($email)->disabled()
+		   ->width(6)
+		   ->show();
+	$inputRow2->close();
+
+	$inputRow3 = $ui->row()->open();
+		$ui->input()->type("text")->label("Location")->value($location)->disabled()
+		   ->width(6)
+		   ->show();
+		$ui->input()->type("text")->label("Location Details")->value($location_details)->disabled()
+		   ->width(6)
+		   ->show();
+	$inputRow3->close();
+
+	$inputRow4 = $ui->row()->open();
+		$ui->input()->type("text")->label("Registered On")->value($date_n_time)->disabled()
+		   ->width(6)
+		   ->show();
+		$ui->input()->type("text")->label("Prefered Time")->value($pref_time)->disabled()
+		   ->width(6)
+		   ->show();
+	$inputRow4->close();
+
+	$inputRow5 = $ui->row()->open();
+		$ui->input()->type("text")->label("Problem Details")->value($problem_details)->disabled()
+		   ->width(6)
+		   ->show();
+		$ui->select()
+		   ->label('Status')
+		   ->name('status')
+		   ->required()
+		   ->options(array( $ui->option()->value("Under Processing")->text('Under Processing'),
+							$ui->option()->value("Rejected")->text('Rejected'),
+							$ui->option()->value("Closed")->text('Closed')
+						  )
+					)
+		   ->width(6)
+		   ->show();
+	$inputRow5->close();
+
+?>
 <table align="center">
-	<tr>
-		<th>Complaint ID</th>
-		<td><?php echo $complaint_id;?></td>
-	</tr>
-	<tr>
-		<th>Complaint By</th>
-		<td><?php echo $complaint_by;?></td>
-	</tr>
-	<tr>
-		<th>Mobile No.</th>
-		<td><?php echo $mobile;?></td>
-	</tr>
-	<tr>
-		<th>Email ID</th>
-		<td><?php echo $email;?></td>
-	</tr>
-	<tr>
-		<th>Registered On</th>
-		<td><?php echo $date_n_time;?></td>
-	</tr>
-	<tr>
-		<th>Location</th>
-		<td><?php echo $location;?></td>
-	</tr>
-	<tr>
-		<th>Location Details</th>
-		<td><?php echo $location_details;?></td>
-	</tr>
-	<tr>
-		<th>Problem Details</th>
-		<td><?php echo $problem_details;?></td>
-	</tr>
-	<tr>
-		<th>Prefered Time</th>
-		<td><?php echo $pref_time;?></td>
-	</tr>
-	<tr>
-		<th>Status</th>
-		<td>
-			<select name="status">
-				<option value="Under Processing" selected>Under Processing</option>
-				<option value="Rejected">Rejected</option>
-				<option value="Closed">Closed</option>
-			</select>
-		</td>
-	</tr>
 	<tr>
 		<th>Action Taken</th>
 		<td>

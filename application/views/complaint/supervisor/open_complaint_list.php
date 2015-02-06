@@ -1,15 +1,10 @@
-<?php 
-if ($total_rows == 0)
-{
-?>
-<h1>No Complaints</h1>
 <?php
-}
-else
-{
+	$ui = new UI();
+
+	$box = $ui->box()->uiType('primary')->open();
+	
+	$table = $ui->table()->hover()->bordered()->open();
 ?>
-<h1>List of all complaints</h1>
-<table align="center">
 	<tr>
 		<th>Complaint ID</th>
 		<th>Registered By</th>
@@ -39,5 +34,7 @@ else
 ?>
 </table>
 <?php
-}//if else
+	$table->close();
+
+	$box->close();
 ?>

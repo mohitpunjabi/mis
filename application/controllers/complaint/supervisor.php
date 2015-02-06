@@ -38,7 +38,7 @@ class Supervisor extends MY_Controller
 			//$sno++;
 		}
 	
-		$this->drawHeader ("Open Complaint List");
+		$this->drawHeader ("Complaint Details");
 		$this->load->view('complaint/supervisor/complaint_details',$data);
 		$this->drawFooter();		
 	}
@@ -85,10 +85,18 @@ class Supervisor extends MY_Controller
 	
 		$data['data_array'] = $data_array;
 		$data['total_rows'] = $total_rows;
-
-		$this->drawHeader ("Open Complaint List");
-		$this->load->view('complaint/supervisor/open_complaint_list',$data);
-		$this->drawFooter();
+		
+		if ($total_rows == 0)
+		{
+			$this->drawHeader ("No Complaints registered");
+			$this->drawFooter();
+		}
+		else 
+		{
+			$this->drawHeader ("List of all Complaints");
+			$this->load->view('complaint/supervisor/open_complaint_list',$data);
+			$this->drawFooter();
+		}
 	}
 
 	public function view_closed_complaint($supervisor)

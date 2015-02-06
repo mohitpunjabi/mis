@@ -42,15 +42,7 @@ class Register_complaint extends MY_Controller
 		$this->load->model ('complaint/complaint_details', '', TRUE);
 		$this->complaint_details->insert($data);
 
-		$this->drawHeader ("View Closed Complaint List");
-		$this->drawFooter ();		
-
-/*		echo $type."<br>";
-		echo $location."<br>";
-		echo $location_details."<br>";
-		echo $pref_time."<br>";
-		echo $problem_details."<br>";
-		echo $user_id."<br>";
-		echo $complaint_id."<br>";*/
+		$this->session->set_flashdata('flashSuccess','Complaint successfully Registered. Your Complaint ID : '.$complaint_id.' .');
+		redirect('home');
 	}
 }

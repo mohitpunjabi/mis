@@ -9,6 +9,13 @@
 			  'Help us build this page by adding more example codes.')
 	   ->show();
 
+	$ui->alert()
+	   ->title("Is this example working for you?")
+	   ->uiType("info")
+	   ->desc('If the example is not working for you, the error is probably because of php short tags (<code>&lt;?</code>). Instead of converting all short tags to <code>&lt;?php</code>, you can enable the <code>short_open_tag</code> property in the php.ini file. <a href="http://stackoverflow.com/q/2185320/1492578" target="_blank">Here\'s how!</a>')
+	   ->show();
+
+
 ?><h2 class="page-header">Different box types</h2><?
 
 $boxTypesRow = $ui->row()->open();
@@ -486,13 +493,28 @@ $ui->button()
 $buttonsRow->close();
 
 
-$tablesRow = $ui->row()->open();
+?>
+<h2 class="page-header">Tables</h2>
+<?
+
+$row = $ui->row()->open();
 	$col = $ui->col()->open();
+			$ui->callout()
+			   ->uiType("warning")
+			   ->desc('<strong>Do not use tables to display forms</strong>, or other data that doesn\'t look like a table. Use tables to <strong>only</strong> show tabular data. <a href="https://www.google.co.in/search?q=why+shouldn\'t+we+use+tables" target="_blank">Here\'s why!</a>')
+			   ->show();;
+	$col->close();
+$row->close();
+
+$tablesRow = $ui->row()->open();
+	$col = $ui->col()->width(8)->open();
 		$box = $ui->box()
-				  ->title("Tables")
+				  ->title("Simple tables")
 				  ->open();
 
+
 ?>
+
 <p>You can use different combinations of the following options to create <code>Table</code>s:</p>
 <pre>
 $table = $ui->table()
@@ -548,214 +570,64 @@ $table->close();
 					</tbody>';
 			$table->close();
 		$box->close();
-		
-		//datatable start
-			$box1 = $ui->box()->title('Data Table')->open();
-		echo "In Box1";
-			$mydatatable = $ui->datatable()->id('dtable')->bordered()->striped()->open();
-			echo '<thead>
-					<tr>
-					<th>Rendering engine</th>
-					<th>Browser</th>
-					<th>Platform(s)</th>
-					<th>Engine version</th>
-					<th>CSS grade</th>
-					</tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 4.0</td>
-                                                <td>Win 95+</td>
-                                                <td> 4</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 5.0</td>
-                                                <td>Win 95+</td>
-                                                <td>5</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trident</td>
-                                                <td>Internet
-                                                    Explorer 5.5</td>
-                                                <td>Win 95+</td>
-                                                <td>5.5</td>
-                                                <td>A</td>
-                                            </tr>
-											<tr>
-                                                <td>Misc</td>
-                                                <td>Links</td>
-                                                <td>Text only</td>
-                                                <td>-</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>Lynx</td>
-                                                <td>Text only</td>
-                                                <td>-</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>IE Mobile</td>
-                                                <td>Windows Mobile 6</td>
-                                                <td>-</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>PSP browser</td>
-                                                <td>PSP</td>
-                                                <td>-</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Other browsers</td>
-                                                <td>All others</td>
-                                                <td>-</td>
-                                                <td>-</td>
-                                                <td>U</td>
-                                            </tr>
-											<tr>
-                                                <td>Presto</td>
-                                                <td>Opera for Wii</td>
-                                                <td>Wii</td>
-                                                <td>-</td>
-                                                <td>A</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Presto</td>
-                                                <td>Nokia N800</td>
-                                                <td>N800</td>
-                                                <td>-</td>
-                                                <td>A</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Presto</td>
-                                                <td>Nintendo DS browser</td>
-                                                <td>Nintendo DS</td>
-                                                <td>8.5</td>
-                                                <td>C/A<sup>1</sup></td>
-                                            </tr>
-                                            <tr>
-                                                <td>KHTML</td>
-                                                <td>Konqureror 3.1</td>
-                                                <td>KDE 3.1</td>
-                                                <td>3.1</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>KHTML</td>
-                                                <td>Konqureror 3.3</td>
-                                                <td>KDE 3.3</td>
-                                                <td>3.3</td>
-                                                <td>A</td>
-                                            </tr>
-                                            <tr>
-                                                <td>KHTML</td>
-                                                <td>Konqureror 3.5</td>
-                                                <td>KDE 3.5</td>
-                                                <td>3.5</td>
-                                                <td>A</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tasman</td>
-                                                <td>Internet Explorer 4.5</td>
-                                                <td>Mac OS 8-9</td>
-                                                <td>-</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tasman</td>
-                                                <td>Internet Explorer 5.1</td>
-                                                <td>Mac OS 7.6-9</td>
-                                                <td>1</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tasman</td>
-                                                <td>Internet Explorer 5.2</td>
-                                                <td>Mac OS 8-X</td>
-                                                <td>1</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>NetFront 3.1</td>
-                                                <td>Embedded devices</td>
-                                                <td>-</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>NetFront 3.4</td>
-                                                <td>Embedded devices</td>
-                                                <td>-</td>
-                                                <td>A</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>Dillo 0.8</td>
-                                                <td>Embedded devices</td>
-                                                <td>-</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>Links</td>
-                                                <td>Text only</td>
-                                                <td>-</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>Lynx</td>
-                                                <td>Text only</td>
-                                                <td>-</td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>IE Mobile</td>
-                                                <td>Windows Mobile 6</td>
-                                                <td>-</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Misc</td>
-                                                <td>PSP browser</td>
-                                                <td>PSP</td>
-                                                <td>-</td>
-                                                <td>C</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Other browsers</td>
-                                                <td>All others</td>
-                                                <td>-</td>
-                                                <td>-</td>
-                                                <td>U</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Rendering engine</th>
-                                                <th>Browser</th>
-                                                <th>Platform(s)</th>
-                                                <th>Engine version</th>
-                                                <th>CSS grade</th>
-                                            </tr>
-                                        </tfoot>';
-			$mydatatable->close();
-			$box1->close();
-		//datatable end
+	$col->close();
+	
+	$col = $ui->col()->width(4)->open();
+		$box1 = $ui->box()->title('Data Tables')->solid()->uiType('primary')->open();
+?>
+<p>You can make tables searchable and sortable. You can also add pagination to the tables. Just set any of the 3 properties you want.</p>
+<pre>
+$myDataTable = $ui->table()
+                  ...
+                  ->sortable()
+                  ->searchable()
+                  ->paginated()
+                  ->open();
+</pre>
+<?
+		$box1->close();
 	$col->close();
 $tablesRow->close();
+
+$dataTablesRow = $ui->row()->open();
+	$col = $ui->col()->open();
+		$box1 = $ui->box()->title('Data Tables')->id("usersBox")->open();
+		
+			$myDataTable = $ui->table()
+							  ->id('usersTable')
+							  ->bordered()
+							  ->striped()
+							  ->sortable()
+							  ->searchable()
+							  ->paginated()
+							  ->open();
+?>
+		<thead>
+            <tr>
+                <th>User ID</th>
+                <th>Salutation</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Department Name</th>
+            </tr>
+		</thead>
+
+        <tfoot>
+            <tr>
+                <th>User ID</th>
+                <th>Salutation</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Department Name</th>
+            </tr>
+        </tfoot>
+<?
+			$myDataTable->close();
+			$box1->close();
+	$col->close();
+$dataTablesRow->close();
 
 
 ?><h2 class="page-header">Form Elements</h2><?

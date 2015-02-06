@@ -21,7 +21,6 @@ class UI {
 	function icon($t)	{	return new Icon($t);		}
 	function datePicker()	{	return new DatePicker();	}
 	function imagePicker()	{	return new ImagePicker();	}
-	function datatable()	{	return new Datatable();		}
 }
 
 
@@ -404,6 +403,9 @@ class Table extends Element {
 	var $striped	= false;
 	var $hover		= false;
 	var $responsive	= false;
+	var $searchable = false;
+	var $sortable   = false;
+	var $paginated  = false;
 
 	public function __construct() {
 		parent::__construct();
@@ -436,6 +438,25 @@ class Table extends Element {
 		return $this;
 	}
 
+	function searchable($type = true) {
+		$this->searchable = $type;
+		return $this;
+	}
+
+	function sortable($type = true) {
+		$this->sortable = $type;
+		return $this;
+	}
+
+	function paginated($type = true) {
+		$this->paginated = $type;
+		return $this;
+	}
+	
+	protected function isDataTable() {
+		return $this->searchable || $this->sortable || $this->paginated;
+	}
+
 	function open() {
 		if($this->responsive)		echo '<div class="table-responsive">';
 		echo '<table '.$this->_parse_attributes().' '.$this->_parse_container_attributes().' >';
@@ -445,6 +466,23 @@ class Table extends Element {
 	function close() {
 		echo '</table>';
 		if($this->responsive)	echo '</div>';
+
+		if($this->isDataTable()) {
+			echo '
+			<script type="text/javascript">
+				$(function() {
+					$("#'.$this->properties['id'].'").dataTable({
+						"bPaginate": '.(($this->paginated)? 'true': 'false').',
+						"bLengthChange": '.(($this->paginated)? 'true': 'false').',
+						"bFilter": '.(($this->searchable)? 'true': 'false').',
+						"bSort": '.(($this->sortable)? 'true': 'false').',
+						"bInfo": '.(($this->paginated)? 'true': 'false').',
+						"bAutoWidth": '.(($this->paginated)? 'true': 'false').',
+					});
+				});
+			</script>
+			';
+		}
 	}
 }
 
@@ -1090,83 +1128,6 @@ class ImagePicker extends Input {
 				});
 			});
 		</script>
-		';
-	}
-}
-
-class Datatable extends Element {
-
-	var $bordered	= false;
-	var $condensed	= false;
-	var $striped	= false;
-	var $hover		= false;
-	var $responsive	= false;
-
-	public function __construct()
-	{
-		log_message('debug', "UI_helper > Datatable Class Initialized");
-	}
-
-	function bordered($type = true)
-	{
-		$this->bordered = $type;
-		return $this;
-	}
-
-	function condensed($type = true)
-	{
-		$this->condensed = $type;
-		return $this;
-	}
-
-	function striped($type = true)
-	{
-		$this->striped = $type;
-		return $this;
-	}
-
-	function hover($type = true)
-	{
-		$this->hover = $type;
-		return $this;
-	}
-
-	function responsive($type = true)
-	{
-		$this->responsive = $type;
-		return $this;
-	}
-	function th($label='')
-	{
-		echo '<th>'.$label.'</th>';
-	}
-
-	function open()
-	{
-		if($this->bordered)			$this->classes('table-bordered');
-		if($this->condensed)		$this->classes('table-condensed');
-		if($this->striped)			$this->classes('table-striped');
-		if($this->hover)			$this->classes('table-hover');
-		if($this->responsive)		$this->classes('table-responsive');
-		$this->classes('table');
-
-		echo '<div class="box-body table-responsive">';
-
-		echo '<table '.$this->_parse_attributes().' >';
-
-        return $this;
-	}
-
-	function close()
-	{
-		echo '</table></div>';
-		
-		echo '
-		<script type="text/javascript">
-            $(function() {
-                $("#'.$this->properties['id'].'").dataTable();
-            });
-        </script>
 		';
 	}
 }

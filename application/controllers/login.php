@@ -27,18 +27,14 @@ class Login extends CI_Controller
 	{
     	$user = $this->input->post('username');
      	$pass = $this->input->post('password');
-     	$this->load->model('user/users_model','',TRUE);
 
+		$this->load->model('user/users_model','',TRUE);
 		//Ensure values exist for user and pass, and validate the user's credentials
 		if( $user && $pass && $this->users_model->validate_user($user,$pass))
 		{
-			$this->db->insert("user_login_attempts", array("id" => $this->session->userdata('id'), "time" => date('Y-m-d H:i:s')));
-			if($this->session->userdata('last_login') == false)
-				redirect('change_password');
-			else
-			{
-				redirect('home');
-			}
+			$this->load->model('user/user_login_attempts_model','',TRUE);
+			$this->user_login_attempts_model->insert(array("id" => $this->session->userdata('id'), "time" => date('Y-m-d H:i:s')));
+			redirect('home');
 		}
 		else
 			$this->showlogin(1);

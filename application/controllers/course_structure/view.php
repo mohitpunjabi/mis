@@ -95,7 +95,8 @@ class View extends MY_Controller
 			   if($group_id != 0)
 			   {
 				    //$data['flag']['group_id'][$i] = $group_id;
-			   		$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
+					$group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+			   		$data["subjects"]["group_details"][$counter][$i] = $group_detials[0];
 			    	$data["subjects"]["elective_count"][$group_id]++;
 			   }
 			   $i++;

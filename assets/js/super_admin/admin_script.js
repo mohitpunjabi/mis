@@ -34,3 +34,59 @@
 		var emp_name_id=document.getElementById('employee_select').value;
 		document.getElementById('emp_id').value=emp_name_id;
 	}
+
+	function onchange_auth()
+	{
+		var auth_id=document.getElementById('auth_id').value;
+		var dept_id=document.getElementById('dept_id').value;
+		var view_users=document.getElementById('view_users');
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp=new XMLHttpRequest();
+		}
+		else
+	  	{// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+	  	{
+	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+			    view_users.innerHTML = xmlhttp.responseText;
+		    }
+	  	}
+		xmlhttp.open("POST",site_url("super_admin/admin_ajax/getUsersByDeptAuth/"+dept_id+"/"+auth_id),true);
+		xmlhttp.send();
+		view_users.innerHTML = "<center><i class=\"loading\"></i></center>";
+	}
+
+	function delete_auth(id)
+	{
+		var result=confirm("Do you really want to deny the authorization ?");
+		if(result==true)
+		{
+			var auth_id=document.getElementById('auth_id').value;
+			var dept_id=document.getElementById('dept_id').value;
+			var view_users=document.getElementById('view_users');
+			var xmlhttp;
+			if (window.XMLHttpRequest)
+			{// code for IE7+, Firefox, Chrome, Opera, Safari
+			 	xmlhttp=new XMLHttpRequest();
+			}
+			else
+		  	{// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function()
+		  	{
+		  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			    {
+				    view_users.innerHTML = xmlhttp.responseText;
+			    }
+		  	}
+			xmlhttp.open("POST",site_url("super_admin/admin_ajax/deleteAuth/"+id+"/"+dept_id+"/"+auth_id),true);
+			xmlhttp.send();
+			view_users.innerHTML = "<center><i class=\"loading\"></i></center>";
+		}
+	}

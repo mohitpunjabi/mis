@@ -30,6 +30,8 @@
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/img_upload/upload_image.js" type="text/javascript"></script>
         <script src="<?= base_url() ?>assets/core/adminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
+		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
 <!--		<script src="<?= base_url() ?>assets/core/mis-layout.js" type="text/javascript"></script> -->
 		<script type="text/javascript">
             function base_url()	{ return "<?= base_url()?>"; }

@@ -9,7 +9,7 @@
 			  'Help us build this page by adding more example codes.')
 	   ->show();
 
-?><h2 class="page-header">Different box types</h2><?
+?><h2 class="page-header">Different box types</h2><?php
 
 $boxTypesRow = $ui->row()->open();
 	$col = $ui->col()->width(4)->open();
@@ -21,7 +21,7 @@ $boxTypesRow = $ui->row()->open();
 $box = $ui->box()
           ->title("Default Box")
           ->open();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();		
 
@@ -38,7 +38,7 @@ $box = $ui->box()
           ->title("A different UI type")
           ->uiType("success")
           ->open();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();
 	
@@ -52,7 +52,7 @@ $box = $ui->box()
 				  
 		?><p>Add icons to boxes. Here are a few icons: </p>
         
-        <h4><? 
+        <h4><?php 
 			$iconSamples = array("user", "tags", "edit", "check-circle", "upload", "key", "book", "camera");
 			for($i = 0; $i < sizeof($iconSamples); $i++)  {
 				$ui->icon($iconSamples[$i])->show(); 
@@ -66,7 +66,7 @@ $box = $ui->box()
           ->title("Add an awesome icon")
           ->icon($ui->icon('star'))
           ->open();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();
 
@@ -88,7 +88,7 @@ $box = $ui->box()
           ->solid()
           ->uiType("primary")
           ->open();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();		
 
@@ -105,7 +105,7 @@ $box = $ui->box()
           ->solid()
           ->uiType("info")
           ->open();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();		
 
@@ -122,13 +122,13 @@ $box = $ui->box()
           ->solid()
           ->uiType("warning")
           ->open();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();		
 $boxTypesRow->close();
 
 
-?><h2 class="page-header">Alerts and callouts</h2><?
+?><h2 class="page-header">Alerts and callouts</h2><?php
 
 
 $alertsRow = $ui->row()->open();
@@ -169,7 +169,7 @@ $box = $ui->alert()
           ->desc("...")
           ->uiType("danger")
           ->show();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();
 
@@ -204,15 +204,15 @@ $box = $ui->callout()
           ->desc("...")
           ->uiType("danger")
           ->show();
-</pre><?
+</pre><?php
 		$box->close();
 	$col->close();		
 $alertsRow->close();
 
 
-?><?
+?><?php
 
-?><h2 class="page-header">General Elements</h2><?
+?><h2 class="page-header">General Elements</h2><?php
 
 $buttonsRow = $ui->row()->open();
 	$col = $ui->col()->width(7)->open();
@@ -229,23 +229,23 @@ $buttonsRow = $ui->row()->open();
                 <th>Disabled<br /><code>disabled()</code></th>
             </tr>
             <tr>
-            	<td><? $ui->button()->value("Default")->show() ?></td>
-            	<td><? $ui->button()->value("Default")->large()->show() ?></td>
-            	<td><? $ui->button()->value("Default")->mini()->show() ?></td>
-            	<td><? $ui->button()->value("Default")->disabled()->show() ?></td>
+            	<td><?php $ui->button()->value("Default")->show() ?></td>
+            	<td><?php $ui->button()->value("Default")->large()->show() ?></td>
+            	<td><?php $ui->button()->value("Default")->mini()->show() ?></td>
+            	<td><?php $ui->button()->value("Default")->disabled()->show() ?></td>
             </tr>
 
-			<? $btnTypes = array("primary", "success", "info", "danger", "warning") ?>
+			<?php $btnTypes = array("primary", "success", "info", "danger", "warning") ?>
 
-			<? foreach($btnTypes as $key => $type) { ?>
+			<?php foreach($btnTypes as $key => $type) { ?>
             <tr>
-            	<td><? $ui->button()->value(ucwords($type))->uiType($type)->show() ?></td>
-            	<td><? $ui->button()->value(ucwords($type))->uiType($type)->large()->show() ?></td>
-            	<td><? $ui->button()->value(ucwords($type))->uiType($type)->mini()->show() ?></td>
-            	<td><? $ui->button()->value(ucwords($type))->uiType($type)->disabled()->show() ?></td>
+            	<td><?php $ui->button()->value(ucwords($type))->uiType($type)->show() ?></td>
+            	<td><?php $ui->button()->value(ucwords($type))->uiType($type)->large()->show() ?></td>
+            	<td><?php $ui->button()->value(ucwords($type))->uiType($type)->mini()->show() ?></td>
+            	<td><?php $ui->button()->value(ucwords($type))->uiType($type)->disabled()->show() ?></td>
             </tr>
-            <? } ?>
-            <?
+            <?php } ?>
+            <?php
 			$btnTable->close();
 		$buttonBox->close();
 		
@@ -255,7 +255,7 @@ $buttonsRow = $ui->row()->open();
 
 			?><p>Create labels to show status messages, like the following:</p>
 
-			<p><?
+			<p><?php
 			$ui->label()
 			   ->uiType("success")
 			   ->text("Complete")
@@ -288,7 +288,7 @@ $ui->label()
    ->text("Ongoing")
    ->show();
 </pre>
-<?
+<?php
 		$labelBox->close();
 	$col->close();
 
@@ -316,7 +316,7 @@ $ui->button()
 
 <h4>A <code>block()</code> button</h4>
 <p>A block button spans the whole box (or the parent):</p>
-<? 
+<?php 
 			$ui->button()
 			   ->value("Block button")
 			   ->block()
@@ -337,7 +337,7 @@ $ui->button()
    ->icon($ui->icon('some-icon'))
    ->show();
 </pre>
-<? 
+<?php 
 			$ui->button()
 			   ->value("Edit")
 			   ->icon($ui->icon('pencil'))
@@ -376,7 +376,7 @@ $table = $ui->table()
     ...
 $table->close();
 </pre>
-<?
+<?php
 
 			$table = $ui->table()->hover()->bordered()->open();
 			
@@ -423,7 +423,7 @@ $table->close();
 $tablesRow->close();
 
 
-?><h2 class="page-header">Form Elements</h2><?
+?><h2 class="page-header">Form Elements</h2><?php
 
 
 $formRow = $ui->row()->open();
@@ -493,7 +493,7 @@ $inputsRow = $ui->row()->open();
     $ui->input()->...->width(6)->show();
 $inputsRow->close();
 </pre>
-<?
+<?php
 			$textRow = $ui->row()->open();
 				$ui->input()->type("text")->label("Small")->placeholder("Enter text")->width(2)->show();
 				$ui->select()->label("Medium")->placeholder("Enter text")->width(4)->options($sampleOptions)->show();
@@ -501,6 +501,211 @@ $inputsRow->close();
 			$textRow->close();
 
 		$box->close();
+		//datatable start
+			$box1 = $ui->box()->title('Data Table')->open();
+		echo "In Box1";
+			$mydatatable = $ui->datatable()->id('dtable')->bordered()->striped()->open();
+			echo '<thead>
+					<tr>
+					<th>Rendering engine</th>
+					<th>Browser</th>
+					<th>Platform(s)</th>
+					<th>Engine version</th>
+					<th>CSS grade</th>
+					</tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Trident</td>
+                                                <td>Internet
+                                                    Explorer 4.0</td>
+                                                <td>Win 95+</td>
+                                                <td> 4</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Trident</td>
+                                                <td>Internet
+                                                    Explorer 5.0</td>
+                                                <td>Win 95+</td>
+                                                <td>5</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Trident</td>
+                                                <td>Internet
+                                                    Explorer 5.5</td>
+                                                <td>Win 95+</td>
+                                                <td>5.5</td>
+                                                <td>A</td>
+                                            </tr>
+											<tr>
+                                                <td>Misc</td>
+                                                <td>Links</td>
+                                                <td>Text only</td>
+                                                <td>-</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>Lynx</td>
+                                                <td>Text only</td>
+                                                <td>-</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>IE Mobile</td>
+                                                <td>Windows Mobile 6</td>
+                                                <td>-</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>PSP browser</td>
+                                                <td>PSP</td>
+                                                <td>-</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Other browsers</td>
+                                                <td>All others</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>U</td>
+                                            </tr>
+											<tr>
+                                                <td>Presto</td>
+                                                <td>Opera for Wii</td>
+                                                <td>Wii</td>
+                                                <td>-</td>
+                                                <td>A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Presto</td>
+                                                <td>Nokia N800</td>
+                                                <td>N800</td>
+                                                <td>-</td>
+                                                <td>A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Presto</td>
+                                                <td>Nintendo DS browser</td>
+                                                <td>Nintendo DS</td>
+                                                <td>8.5</td>
+                                                <td>C/A<sup>1</sup></td>
+                                            </tr>
+                                            <tr>
+                                                <td>KHTML</td>
+                                                <td>Konqureror 3.1</td>
+                                                <td>KDE 3.1</td>
+                                                <td>3.1</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>KHTML</td>
+                                                <td>Konqureror 3.3</td>
+                                                <td>KDE 3.3</td>
+                                                <td>3.3</td>
+                                                <td>A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>KHTML</td>
+                                                <td>Konqureror 3.5</td>
+                                                <td>KDE 3.5</td>
+                                                <td>3.5</td>
+                                                <td>A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tasman</td>
+                                                <td>Internet Explorer 4.5</td>
+                                                <td>Mac OS 8-9</td>
+                                                <td>-</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tasman</td>
+                                                <td>Internet Explorer 5.1</td>
+                                                <td>Mac OS 7.6-9</td>
+                                                <td>1</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tasman</td>
+                                                <td>Internet Explorer 5.2</td>
+                                                <td>Mac OS 8-X</td>
+                                                <td>1</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>NetFront 3.1</td>
+                                                <td>Embedded devices</td>
+                                                <td>-</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>NetFront 3.4</td>
+                                                <td>Embedded devices</td>
+                                                <td>-</td>
+                                                <td>A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>Dillo 0.8</td>
+                                                <td>Embedded devices</td>
+                                                <td>-</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>Links</td>
+                                                <td>Text only</td>
+                                                <td>-</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>Lynx</td>
+                                                <td>Text only</td>
+                                                <td>-</td>
+                                                <td>X</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>IE Mobile</td>
+                                                <td>Windows Mobile 6</td>
+                                                <td>-</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>PSP browser</td>
+                                                <td>PSP</td>
+                                                <td>-</td>
+                                                <td>C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Other browsers</td>
+                                                <td>All others</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>U</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Rendering engine</th>
+                                                <th>Browser</th>
+                                                <th>Platform(s)</th>
+                                                <th>Engine version</th>
+                                                <th>CSS grade</th>
+                                            </tr>
+                                        </tfoot>';
+			$mydatatable->close();
+			$box1->close();
+		//datatable end
 	$col->close();
 
 
@@ -526,7 +731,7 @@ $ui->input()
    ->required()
    ->show();	
 </pre>
-<?			  
+<?php			  
 				  $ui->input()
 				     ->type("text")
 					 ->label("Username")
@@ -541,7 +746,7 @@ $ui->input()
 					 ->name("password")
 					 ->show();	
 
-				  ?><hr /><?				
+				  ?><hr /><?php				
 				  $ui->button()
 				     ->submit()
 					 ->value("Submit")
@@ -574,7 +779,7 @@ $ui->input()
    ->addonRight('someAddon')
    ->show();
 </pre>
-<?
+<?php
 		  $ui->input()
 			 ->type("text")
 			 ->label("Textbox with button addon.")

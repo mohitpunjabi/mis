@@ -34,6 +34,7 @@
 										} 
 										$ui->select()
 										   ->label()
+										   ->name("sequence".$counter)
 										   ->id("sequence".$counter)
 										   ->options($array_option)
 										   ->show();
@@ -164,7 +165,7 @@
 								  <td>';
 								  $array_option = array();
 								  for($j=1;$j<=$CS_session['count_core']+$CS_session['count_elective'];$j++) 
-									  array_push($array_option,$ui->option()->value($j)->text($j)->show());
+									  array_push($array_option,$ui->option()->value($j)->text($j));
 								  $ui->select()
 								     ->name("seq_e1")
 									 ->options($array_option)
@@ -173,11 +174,13 @@
 								  </td>
 								</tr>';
 						}
+						else
+						{
 					echo '
 								<tr class = "same_options">
 									<td>Please Enter the Number of Options</td>
     								<td>';
-										$ui->input()->name("options1")->placeholder("Number of options")->show();
+										$ui->input()->width("6")->placeholder("Number of options")->name("options1")->show();
 								echo '
 									</td>
 								</tr>';
@@ -221,18 +224,18 @@
 									echo '
 										</td>';
 								}
-								
+						}
 					$table->close();
 				}
 			$box->close();
 		$column1->close();
 	//$second_row->close();
 				$ui->button()
-						->value('Add Core Subjects')
-						->uiType('primary')
-						->submit()
-						->name('submit')
-						->show();
+					->value('Add Core Subjects')
+					->uiType('primary')
+					->submit()
+					->name('submit')
+					->show();
 		
 				 $form->close();
 			$formbox->close();
@@ -254,13 +257,24 @@
     var $list_type = $('#list-type');
     var $elective_table = $('#elective_table');
     $list_type.on('change',function(d){
-      if(parseInt($list_type.val()) === 1){
+      if(parseInt($list_type.val()) == 1){
         $('tr.diff_options').hide();
+		//$('tr.diff_options').attr("disabled",true);
+		$('tr.diff_options').find("input").attr("disabled",true);
+	  	$('tr.diff_options').find("select").attr("disabled",true);
+	  
 		$('tr.same_options').show();
+		$('tr.same_options').find("input").attr("disabled",false);
+		$('tr.same_options').find("select").attr("disabled",false);
+		
       }
       else{
-        $('tr.same_options').hide();
+		$('tr.same_options').hide();
+        $('tr.same_options').find("input").attr("disabled",true);
+		$('tr.same_options').find("select").attr("disabled",true);
 		$('tr.diff_options').show();
+		$('tr.diff_options').find("input").attr("disabled",false);
+		$('tr.diff_options').find("select").attr("disabled",false);
         
       }
     });
@@ -270,6 +284,7 @@
   $(document).ready(function(){
 	  $('tr.diff_options').hide();
 	  $('tr.same_options').hide();
+	  $('tr.same_options').attr("disabled",true);
   });
 </script>
 

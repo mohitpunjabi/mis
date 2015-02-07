@@ -101,7 +101,7 @@ class Add extends MY_Controller
  	 
  	 public function AddCoreSubjects()
   	{
-  		$this->addJS("course_structure/add.js");
+  		//$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;
@@ -141,14 +141,15 @@ class Add extends MY_Controller
 			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
 			$data['error'] = $this->add_model->insert_subjects($subject_details);
 		}
-		
+	
 		$list_type= $this->input->post("list_type");
 		$data['CS_session']['list_type'] = $list_type;
 		
 		//if same list is selected
 		if($list_type == 1)
 		{
-			$data["options"][1] = $this->input->post("options1");	
+			$data["options"][1] = $this->input->post("options1");
+			
 			$data["CS_session"]["options"][1] = $data["options"][1];
 			for($i = 1;$i<=$count_elective;$i++)
 			{
@@ -158,6 +159,8 @@ class Add extends MY_Controller
 		}
 		else
 		{
+			//var_dump($this->input->post());
+			//die();
 			for($i = 1;$i<=$count_elective;$i++)
 			{
 				$data["options"][$i] = $this->input->post("options".$i);	
@@ -170,7 +173,7 @@ class Add extends MY_Controller
     if($count_elective>=1)
     {
 		$this->session->set_userdata($data);
-		$this->drawHeader();
+		$this->drawHeader("Enter the details for Elective subjects");
 		$this->load->view('course_structure/add_elective',$data);
 		$this->drawFooter();
     }

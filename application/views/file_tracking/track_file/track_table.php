@@ -1,38 +1,28 @@
-<br>
-<!-- <h1>File Details</h1>
-<table nozebra border="1">
-	<tr>
-		<th>File ID</th>
-		<td><?php //echo $file_id;?></td>
-	</tr>
-	<tr>
-		<th>File Subject</th>
-		<td><?php //echo $file_subject;?></td>
-	</tr>
-	<tr>
-		<th>Created By</th>
-		<td><?php //echo $start_emp_id;?></td>
-	</tr>
-	<tr>
-		<th>Current Status</th>
-		<td><?php// if($close_emp_id) echo "Closed"; else echo "Active";?></td>
-	</tr>
-</table> -->
-<br>
-<h1>Movement Details  (Track Number : <?php echo $track_num; ?>) </h1>
-<table align = "center">
-	<tr>
-		<th>S.No.</th>
-		<th>Employee Name</th>
-		<th>Received On</th>
-		<th>Sent On</th>
-		<th>Remarks</th>
-	</tr>
 <?php
-//	$row = $result->row();
-//	$temp = $result;
-	$sno = 1;	
-//	$total_rows = $result->num_rows();
+	$ui = new UI();
+	$outer_row2 = $ui->row()->open();
+
+	$column1 = $ui->col()->width(1)->open();
+	$column1->close();
+
+	$column2 = $ui->col()->width(9)->open();
+	$box2 = $ui->box()
+				->title('Movement Details  (Track Number : ' .$track_num. ')')
+				->solid()
+				->uiType('primary')
+				->open();
+
+	$table2 = $ui->table()->responsive()->hover()->bordered()->open();
+		echo '<tr>
+						<th>S.No.</th>
+						<th>Employee Name</th>
+						<th>Received On</th>
+						<th>Sent On</th>
+						<th>Remarks</th>
+					</tr>';
+?>
+<?php
+	$sno = 1;
 ?>
 	<tr align="center">
 		<td><?php echo $sno; ?></td>
@@ -42,8 +32,6 @@
 		<td><?php echo $data_array[$sno][8];//echo $row->remarks;?></td>
 	</tr>
 <?php
-//	$prev_row = $row;
-//	$row = $result->next_row();
 	$sno++;
 	while ($sno <= $total_rows)
 	{
@@ -57,12 +45,9 @@
 	</tr>
 <?php
 	$sno++;
-	//	$prev_row = $row;
-	//	$row = $result->next_row();
 	}
 	if ($data_array[$sno-1][6])
 
-	//if ($data_array[$sno-1][6]/*prev_row->rcvd_timestamp*/)
 	{
 ?>
 	<tr align="center">
@@ -83,8 +68,11 @@
 		<td><?php echo "File not Received"; ?> </td>
 		<td><?php echo "--";?></td>
 		<td><?php echo "--";?></td>
-	</tr>	
+	</tr>
 <?php
 	}
+	$table2->close();
+	$box2->close();
+	$column2->close();
+	$outer_row2->close();
 ?>
-</table>

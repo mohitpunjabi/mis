@@ -10,12 +10,42 @@ class View_complaint extends MY_Controller
 
 	public function index()
 	{
-//		$this->load->model("file_tracking/file_details");
-
-//		$data['department'] = $this->file_details->get_department_by_id();
-
-		$this->drawHeader ("View all your Complaint");
-		$this->load->view('complaint/view_complaint');
-		$this->drawFooter ();
+		$this->load->model ('complaint/complaint_details', '', TRUE);
+		$user_id = $this->session->userdata('id');
+		$res = $this->complaint_details->user_complaint_list($user_id);
+				
+		$total_rows = $res->num_rows();
+		$data_array = array();
+		$sno = 1;
+		foreach ($res->result() as $row)
+		{
+			$data_array[$sno]=array();
+			$j=1;
+			$data_array[$sno][$j++] = $row->complaint_id;
+			$data_array[$sno][$j++] = $row->status;
+			$data_array[$sno][$j++] = $row->date_n_time;
+			$data_array[$sno][$j++] = $row->type;
+			$data_array[$sno][$j++] = $row->location;
+			$data_array[$sno][$j++] = $row->location_details;
+			$data_array[$sno][$j++] = $row->problem_details;
+			$data_array[$sno][$j++] = $row->remarks;
+			//$data_array[$sno][$j++] = $row->pref_time;
+			$sno++;
+		}
+	
+		$data['data_array'] = $data_array;
+		$data['total_rows'] = $total_rows;
+		
+		if ($total_rows == 0)
+		{
+			$this->drawHeader ("No Complaints registered by you.");
+			$this->drawFooter();
+		}
+		else 
+		{
+			$this->drawHeader ("List of all Registered Complaints");
+			$this->load->view('complaint/view_complaint',$data);
+			$this->drawFooter();
+		}
 	}
 }

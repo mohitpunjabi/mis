@@ -8,7 +8,7 @@
 
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
-				->title('Forward File')
+				->title('Close File')
 				->solid()
 				->uiType('primary')
 				->open();
@@ -18,6 +18,7 @@
 						<th>Track Number</th>
 						<th>File Subject</th>
 						<th>Created By</th>
+						<th>Click to confirm</th>
 					</tr>';
 		foreach($res->result() as $row)
 		{
@@ -27,22 +28,24 @@
 				<td><?php echo $row->track_num;?></td>
 				<td><?php echo $row->file_subject;?></td>
 				<td><?php echo $row->start_emp_id; ?></td>
+				<td>
+					<center>
+					<?php
+						$ui->button()
+							->value('Confirm')
+							->id('submit')
+							->uiType('primary')
+							->submit()
+							->name('submit')
+							->width(6)
+							->show();
+					?>
+					</center>
+				</td>
 			</tr>
-<?php $table->close(); ?>
-<center>
-<?php
-	$ui->button()
-		->value('Confirm')
-		->id('submit')
-		->uiType('primary')
-		->submit()
-		->name('submit')
-		->width(6)
-		->show();
-?>
-</center>
 <?php
 		}
+	$table->close();
 	$box->close();
 	$column2->close();
 	$outer_row->close();

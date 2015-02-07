@@ -138,8 +138,8 @@ class Add extends MY_Controller
 			$coursestructure_details['aggr_id'] = $aggr_id;
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
-			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
-			$data['error'] = $this->add_model->insert_subjects($subject_details);
+			if($this->add_model->insert_coursestructure($coursestructure_details))
+				$data['error'] = $this->add_model->insert_subjects($subject_details);
 		}
 	
 		$list_type= $this->input->post("list_type");
@@ -244,6 +244,8 @@ class Add extends MY_Controller
 			$sequence = $this->input->post("sequence".$counter."_".$i);
 			
 			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
+			//var_dump($this->input->post());
+			//die();
 			$coursestructure_details['sequence'] = $sequence; 
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			

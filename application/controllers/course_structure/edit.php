@@ -8,7 +8,6 @@ class Edit extends MY_Controller
 		parent::__construct(array('deo'));
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		
 	}
@@ -22,7 +21,7 @@ class Edit extends MY_Controller
 		//$data["result_course"] = $this->basic_model->get_course();
 		//$data["result_branch"] = $this->basic_model->get_branches();
 		
-		$this->drawHeader();
+		$this->drawHeader("Edit Course Structure");
 		$this->load->view('course_structure/Edit/edit_home',$data);
 		$this->drawFooter();
 	}
@@ -35,6 +34,7 @@ class Edit extends MY_Controller
 		$data["CS_session"]['branch_id'] = $this->input->post("branch");
 		$data["CS_session"]['semester'] = $this->input->post("sem");
 		$data["CS_session"]['session'] = $this->input->post("session");
+		
 		
 		$dept_id = $data["CS_session"]['dept_id'];
 		$course_id = $data["CS_session"]['course_id'];
@@ -74,7 +74,7 @@ class Edit extends MY_Controller
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-			   
+			   $data["subjects"]["elective_count"][$group_id] = 0;
 			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
 			   id)->sequence;
 			   

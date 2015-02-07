@@ -105,9 +105,10 @@
 											<td>';
 												$array_option = array();
 												for($j = 1;$j<=$options[$counter];$j++)
-													array_push($array_option,$ui->option()->name($j)->text($j));
+													array_push($array_option,$ui->option()->value($j)->text($j));
 												$ui->select()
 												   ->name("sequence".$counter."_".$i)
+												   ->id("sequence".$counter."_".$i)
 												   ->options($array_option)
 												   ->show();				
 										echo '

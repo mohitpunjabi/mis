@@ -9,7 +9,7 @@
 
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
-				->title('File Details')
+				->title('Forward File')
 				->solid()
 				->uiType('primary')
 				->open();
@@ -26,7 +26,8 @@
 			->name('file_no')
 			->value($file_no)
 			->width(6)
-				->show();
+			->show();
+			
 		$ui->input()
 			->placeholder('Enter file subject')
 			->type('text')

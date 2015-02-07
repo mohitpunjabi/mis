@@ -1,14 +1,25 @@
-<div id="container">
-<h1>Confirm File to be Closed : </h1>
-<table align="center">
-<tr>
-	<th>File ID</th>
-	<th>Track Number</th>
-	<th>File Subject</th>
-	<th>Created By</th>
-</tr>
 <?php
-		foreach($res->result() as $row) 
+	$ui = new UI();
+
+	$outer_row = $ui->row()->open();
+
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
+
+	$column2 = $ui->col()->width(8)->open();
+	$box = $ui->box()
+				->title('Forward File')
+				->solid()
+				->uiType('primary')
+				->open();
+	$table = $ui->table()->responsive()->hover()->bordered()->open();
+		echo '<tr>
+						<th>File ID</th>
+						<th>Track Number</th>
+						<th>File Subject</th>
+						<th>Created By</th>
+					</tr>';
+		foreach($res->result() as $row)
 		{
 ?>
 			<tr>
@@ -17,16 +28,30 @@
 				<td><?php echo $row->file_subject;?></td>
 				<td><?php echo $row->start_emp_id; ?></td>
 			</tr>
+<?php $table->close(); ?>
+<center>
+<?php
+	$ui->button()
+		->value('Confirm')
+		->id('submit')
+		->uiType('primary')
+		->submit()
+		->name('submit')
+		->width(6)
+		->show();
+?>
+</center>
 <?php
 		}
+	$box->close();
+	$column2->close();
+	$outer_row->close();
 ?>
 
-<table align="center" nozebra>
-	<tr>
-		<td> 
-			<input type="button" value="Confirm" onClick=display_send_notification3('<?php echo $file_id;?>')>
-		</td>
-	</tr>
-</table>
-</div>
 <div id="send_notification"></div>
+
+<script charset="utf-8">
+	$('#submit').click(function(){
+		display_send_notification3(<?php echo $file_id; ?>);
+	});
+</script>

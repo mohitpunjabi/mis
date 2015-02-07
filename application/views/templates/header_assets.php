@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
     <head>
         <title>
         <?php
@@ -14,6 +16,7 @@
         <link href="<?= base_url() ?>assets/core/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="<?= base_url() ?>assets/core/ionicons.min.css" rel="stylesheet" type="text/css" />
         <link href="<?= base_url() ?>assets/core/adminLTE/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url() ?>assets/core/adminLTE/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     	<link href="<?= base_url() ?>assets/core/adminLTE/css/datepicker/datepicker3.css" rel="stylesheet" type="text/css">
         <link href="<?= base_url() ?>assets/core/img_upload/upload_image.css" rel="stylesheet" type="text/css" />
         <link href="<?= base_url() ?>assets/core/adminLTE/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
@@ -29,10 +32,11 @@
         <script src="<?= base_url() ?>assets/core/jquery-ui.min.js" type="text/javascript"></script>
         <script src="<?= base_url() ?>assets/core/bootstrap-3.3.2/dist/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
-		<script src="<?= base_url() ?>assets/core/img_upload/upload_image.js" type="text/javascript"></script>
         <script src="<?= base_url() ?>assets/core/adminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
-		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+   		<script src="<?= base_url() ?>assets/core/mis-extension.js" type="text/javascript"></script>
+
 <!--		<script src="<?= base_url() ?>assets/core/mis-layout.js" type="text/javascript"></script> -->
 		<script type="text/javascript">
             function base_url()	{ return "<?= base_url()?>"; }

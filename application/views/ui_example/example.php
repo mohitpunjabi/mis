@@ -788,6 +788,28 @@ $inputsRow->close();
 				$ui->input()->type("text")->label("Large input")->placeholder("Enter text")->width(6)->show();
 			$textRow->close();
 
+			$ui->slider()
+				->id('slider1')
+				->label('Budget')
+				->min('0')
+				->max('50000')
+				->step('100')
+				->rangetype()
+				->datafrom('9000')
+				->datato('20000')
+				->prefix('$')
+				->show();
+				
+			$ui->slider()
+				->id('slider2')
+				->min('0')
+				->label('Employee')
+				->max('100')
+				->step('1')
+				->datafrom('10')
+				->grid()
+				->show();
+
 		$box->close();
 	$col->close();
 

@@ -184,11 +184,14 @@ class Add extends MY_Controller
 		else
 			$data['joining_date']=FALSE;
 
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+		$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
+
 		//javascript
 		$this->addJS("employee/prev_emp_details_script.js");
 
 		//view
-		$this->drawHeader("Add Previous Employment Details");
+		$this->drawHeader("Add Previous Employment Details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/add/previous_employment_details',$data);
 		$this->drawFooter();
 	}

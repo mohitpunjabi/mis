@@ -56,8 +56,8 @@
 		xmlhttp.open("POST",site_url("ajax/grade_pay/"+pb),true);
 		xmlhttp.send();
 		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
-		gp.style.visibility = "visible";
-		document.getElementById('basicpay').style.visibility='visible';
+		gp.disabled = false;
+		document.getElementById('basicpay').disabled=false;
 	}
 
 	function retirement_handler()
@@ -214,7 +214,6 @@
 				}
 				else if(xmlhttp.responseText != '')
 				{
-
 					var details = eval(xmlhttp.responseText);
 					$("select[name=salutation]").val(details['salutation']);
 					$("input[name=firstname]").val(details['first_name']);
@@ -229,6 +228,8 @@
 				}
 				else
 				{
+					$("#emp_id_display").html('Enter Details for Employee Id <b>'+$("#emp_id").val()+'</b>').show();
+					$('#hide_emp').hide();
 					$("select[name=salutation]").val("Dr");
 					$("input[name=firstname]").val("");
 					$("input[name=middlename]").val("");
@@ -237,7 +238,7 @@
 					$("input[name=research_int]").val("");
 					$("select[name=category]").val("");
 					$("input[name=mobile]").val("");
-					$("td, th").css("visibility", "visible");
+					$(".hideit").css("display", "block");
 					$("#fetch_id_btn").hide();
 				}
 				$("#empIdIcon").hide();
@@ -248,9 +249,7 @@
 	}
 
 	$(document).ready(function() {
-		//$("td, th").css("visibility", "hidden");
-		$("td#empId").css("visibility", "visible");
-		$("#empIdIcon").hide();
+		$(".hideit, #empIdIcon, #emp_id_display").hide();
 		$("#basic_details").on('submit',function(e) {
 			if(!image_validation())
 				e.preventDefault();
@@ -264,7 +263,7 @@
 		$("#payscale").change(payband_handler);
 		$("#dob").change(retirement_handler);
 		$("gradepay").change(function(){
-			document.getElementById('basicpay').style.visibility='visible';
+			document.getElementById('basicpay').disabled=false;
 		});
 
 		teaching_handler();	//to set default designations and departments

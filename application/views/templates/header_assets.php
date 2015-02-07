@@ -34,6 +34,7 @@
         <script src="<?= base_url() ?>assets/core/adminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+   		<script src="<?= base_url() ?>assets/core/moment.js" type="text/javascript"></script>
    		<script src="<?= base_url() ?>assets/core/mis-extension.js" type="text/javascript"></script>
 
 <!--		<script src="<?= base_url() ?>assets/core/mis-layout.js" type="text/javascript"></script> -->

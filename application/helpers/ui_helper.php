@@ -876,8 +876,6 @@ class Button extends Input {
 		if($this->submit)		$this->properties['type'] = 'submit';
 		
 		$val = $this->properties['value'];
-		unset($this->properties['value']);
-
 		echo '<button '.$this->_parse_attributes().' >';
 		if($this->icon) {
 			$this->icon->show();
@@ -1092,7 +1090,19 @@ class DatePicker extends Input {
 	function show() {
 		$this->containerExtras('data-date-format="'.$this->dateFormat.'"');
 		parent::show();
-		echo "<script>$('#".$this->properties["id"]."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
+		echo '
+		<script>
+			$("#'.$this->properties["id"].'").datepicker({
+						format: "'.$this->dateFormat.'",
+						autoclose: true,
+						todayBtn: "linked"
+			});';
+		
+		if($this->properties['value'] != '') {
+			echo '$("#'.$this->properties["id"].'").datepicker("setDate", moment("'.$this->properties['value'].'", "'.strtoupper($this->dateFormat).'").toDate());';
+		}
+				
+        echo '</script>';
 	}
 }
 

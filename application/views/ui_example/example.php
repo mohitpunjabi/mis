@@ -882,6 +882,8 @@ $ui->input()
 			 ->addonLeft($ui->icon("calendar"))
 			 ->addonRight($ui->button()->value("Choose")->uiType("success"))
 			 ->uiType("success")
+			 ->id("dpAddon")
+			 ->value("01-05-2014")
 			 ->show();
 
 		$box->close();

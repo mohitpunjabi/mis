@@ -200,44 +200,37 @@ class Add extends MY_Controller
 	{
 		if($emp_id != '')
 		{
-			$designation = $this->input->post('designation2');
-			$from = $this->input->post('from2');
-			$to = $this->input->post('to2');
-			$payscale = $this->input->post('payscale2');
-			$addr = $this->input->post('addr2');
-			$reason = $this->input->post('reason2');
-
-			$n = count($designation);
-			$i = 0;
-
-			while($i<$n && $designation[$i] != '')
+			if(strtolower(trim($this->input->post('submit')))=='add')
 			{
-				$emp_prev_exp_details[$i]['id'] = $emp_id;
-				$emp_prev_exp_details[$i]['sno'] = $i+1;
-				$emp_prev_exp_details[$i]['designation'] = strtolower($designation[$i]);
-				$emp_prev_exp_details[$i]['from'] = $from[$i];
-				$emp_prev_exp_details[$i]['to'] = $to[$i];
-				$emp_prev_exp_details[$i]['pay_scale'] = strtolower($payscale[$i]);
-				$emp_prev_exp_details[$i]['address'] = strtolower($addr[$i]);
-				$emp_prev_exp_details[$i]['remarks'] = strtolower($reason[$i]);
-				$i++;
+				$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+
+				if($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))
+					$sno = count($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id));
+				else $sno = 0;
+
+				$designation = $this->input->post('designation2');
+				$from = $this->input->post('from2');
+				$to = $this->input->post('to2');
+				$payscale = $this->input->post('payscale2');
+				$addr = $this->input->post('addr2');
+				$reason = $this->input->post('reason2');
+
+				$emp_prev_exp_details['id'] = $emp_id;
+				$emp_prev_exp_details['sno'] = $sno+1;
+				$emp_prev_exp_details['designation'] = strtolower($designation);
+				$emp_prev_exp_details['from'] = $from;
+				$emp_prev_exp_details['to'] = $to;
+				$emp_prev_exp_details['pay_scale'] = strtolower($payscale);
+				$emp_prev_exp_details['address'] = strtolower($addr);
+				$emp_prev_exp_details['remarks'] = strtolower($reason);
+
+				$this->emp_prev_exp_details_model->insert($emp_prev_exp_details);
 			}
-
-			//loading models
-
-			$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
-			$this->load->model('employee/emp_current_entry_model','',TRUE);
-
-			//starting transaction for insertion in database
-
-			$this->db->trans_start();
-
-			if(isset($emp_prev_exp_details))
-				$this->emp_prev_exp_details_model->insert_batch($emp_prev_exp_details);
-			$this->emp_current_entry_model->update(array('curr_step' => 2),array('id' => $emp_id));
-
-			$this->db->trans_complete();
-			//transaction completed
+			else if(strtolower(trim($this->input->post('submit')))=='next')
+			{
+				$this->load->model('employee/emp_current_entry_model','',TRUE);
+				$this->emp_current_entry_model->update(array('curr_step' => 2),array('id' => $emp_id));
+			}
 			redirect('employee/add');
 		}
 		else

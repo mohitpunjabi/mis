@@ -4,6 +4,8 @@ class UI {
 	function row()		{	return new Row();		}
 	function col()		{	return new Column();	}
 	function box()		{	return new Box();		}
+	function tabBox()	{	return new TabBox();	}
+	function tabPane()	{	return new TabPane();	}
 	function table()	{	return new Table();		}
 	function form()		{	return new Form();		}
 	function input()	{	return new Input();		}
@@ -19,6 +21,7 @@ class UI {
 	function icon($t)	{	return new Icon($t);		}
 	function datePicker()	{	return new DatePicker();	}
 	function imagePicker()	{	return new ImagePicker();	}
+	function slider()	{	return new Slider();	}
 }
 
 
@@ -242,6 +245,7 @@ class Box extends Element {
 	var $solid = false;
 	var $background = '';
 	var $icon = null;
+	var $tooltip = '';
 
 	public function __construct() {
 		parent::__construct();
@@ -274,10 +278,17 @@ class Box extends Element {
 		$this->icon = $icon;
 		return $this;
 	}
+	
+	function tooltip($tooltip = "") {
+		$this->tooltip = $tooltip;
+		return $this;
+	}
+	
 
 	function open() {
+		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
-                    <div class="box-header">';
+                    <div class="box-header" '.$tooltipAttr.'>';
 		
 		if($this->icon) $this->icon->show();
 		
@@ -298,6 +309,90 @@ class Box extends Element {
 
 
 
+class TabBox extends Box {
+
+	var $tabs = array();
+	var $activeId = '';
+
+	public function __construct() {
+		parent::__construct();
+		log_message('debug', "UI_helper > Box Class Initialized");
+		$this->containerProps['class'] = '';
+		$this->containerClasses('nav-tabs-custom');
+	}
+
+	function tab($id, $title, $active = false) {
+		$this->tabs[] = array('id' => $id, 'title' => $title);
+		if($active) $this->activeId = $id;
+		return $this;
+	}
+	
+	function open() {
+		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
+		echo '<ul class="nav nav-tabs">';
+			if($this->title != '' && $this->icon) {
+              echo '<li class="header pull-left" '.$tooltipAttr.'>';
+					if($this->icon) $this->icon->show();
+					echo $this->title;
+			  echo '</li>';
+			}
+
+		$pullRight = '';
+		if($this->title != '') {
+			// Reversing because everything is pulled right.
+			$this->tabs = array_reverse($this->tabs);
+			$pullRight = 'pull-right';
+		}
+		foreach($this->tabs as $key => $tab) {
+			$tabId = $tab['id'];
+			$title = $tab['title'];
+			$class = $pullRight;
+			$class .= ($tabId == $this->activeId)? ' active': '';
+			echo '<li class="'.$class.'">';
+				echo '<a href="#'.$tabId.'" data-toggle="tab">';
+				   echo $title;
+				echo '</a>';
+			echo '</li>';
+		}
+		echo '</ul>';
+
+		echo '<div class="tab-content">';
+		
+        return $this;
+	}
+
+	function close() {
+		echo '</div></div>';
+	}
+
+}
+
+
+class TabPane extends Element {
+
+	public function __construct() {
+		parent::__construct();
+		$this->containerClasses("tab-pane");
+	}
+	
+	public function active() {
+		$this->containerClasses('active');
+		return $this;
+	}
+	
+	public function open() {
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
+		return $this;
+	}
+	
+	public function close() {
+		echo '</div>';
+	}
+}
+
+
+
 
 
 
@@ -309,6 +404,9 @@ class Table extends Element {
 	var $striped	= false;
 	var $hover		= false;
 	var $responsive	= false;
+	var $searchable = false;
+	var $sortable   = false;
+	var $paginated  = false;
 
 	public function __construct() {
 		parent::__construct();
@@ -341,6 +439,25 @@ class Table extends Element {
 		return $this;
 	}
 
+	function searchable($type = true) {
+		$this->searchable = $type;
+		return $this;
+	}
+
+	function sortable($type = true) {
+		$this->sortable = $type;
+		return $this;
+	}
+
+	function paginated($type = true) {
+		$this->paginated = $type;
+		return $this;
+	}
+	
+	protected function isDataTable() {
+		return $this->searchable || $this->sortable || $this->paginated;
+	}
+
 	function open() {
 		if($this->responsive)		echo '<div class="table-responsive">';
 		echo '<table '.$this->_parse_attributes().' '.$this->_parse_container_attributes().' >';
@@ -350,6 +467,23 @@ class Table extends Element {
 	function close() {
 		echo '</table>';
 		if($this->responsive)	echo '</div>';
+
+		if($this->isDataTable()) {
+			echo '
+			<script type="text/javascript">
+				$(function() {
+					$("#'.$this->properties['id'].'").dataTable({
+						"bPaginate": '.(($this->paginated)? 'true': 'false').',
+						"bLengthChange": '.(($this->paginated)? 'true': 'false').',
+						"bFilter": '.(($this->searchable)? 'true': 'false').',
+						"bSort": '.(($this->sortable)? 'true': 'false').',
+						"bInfo": '.(($this->paginated)? 'true': 'false').',
+						"bAutoWidth": '.(($this->paginated)? 'true': 'false').',
+					});
+				});
+			</script>
+			';
+		}
 	}
 }
 
@@ -449,6 +583,11 @@ class Input extends Element {
 
 	function placeholder($placeholder = '') {
 		$this->properties["placeholder"] = $placeholder;
+		return $this;
+	}
+
+	function required($reqd = true) {
+		$this->properties['required'] = "required";
 		return $this;
 	}
 
@@ -681,6 +820,7 @@ class Button extends Input {
 	var $large = false;
 	var $flat = false;
 	var $block = false;
+	var $icon = null;
 
 	public function __construct() {
 		parent::__construct();
@@ -715,6 +855,11 @@ class Button extends Input {
 		$this->block = $block;
 		return $this;
 	}
+	
+	function icon($icon) {
+		$this->icon = $icon;
+		return $this;
+	}
 
 	function show() {
 		if($this->uiType == '')	$this->classes('btn-default');
@@ -732,9 +877,12 @@ class Button extends Input {
 		if($this->submit)		$this->properties['type'] = 'submit';
 		
 		$val = $this->properties['value'];
-		unset($this->properties['value']);
-
-		echo '<button '.$this->_parse_attributes().' >'.$val.'</button>';
+		echo '<button '.$this->_parse_attributes().' >';
+		if($this->icon) {
+			$this->icon->show();
+			echo ' ';
+		}
+		echo $val.'</button>';
 	}
 }
 
@@ -834,8 +982,12 @@ class Icon extends Element {
 		$this->classes("fa fa-" . $type);
 	}
 
+	public function __toString() {
+		return '<i '.$this->_parse_attributes().' ></i>&nbsp;';
+	}
+
 	function show() {
-		echo '<i '.$this->_parse_attributes().' ></i>';
+		echo $this;
 	}
 }
 
@@ -879,7 +1031,7 @@ class Alert extends Element {
 
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 
-		switch($this->uiType && $this->classPrefix == "alert") {
+		switch($this->uiType) {
 			case 'danger': echo '<i class="fa fa-ban"></i>';break;
 			case 'info'	: echo '<i class="fa fa-info"></i>';break;
 			case 'warning': echo '<i class="fa fa-warning"></i>';break;
@@ -939,7 +1091,19 @@ class DatePicker extends Input {
 	function show() {
 		$this->containerExtras('data-date-format="'.$this->dateFormat.'"');
 		parent::show();
-		echo "<script>$('#".$this->properties["id"]."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
+		echo '
+		<script>
+			$("#'.$this->properties["id"].'").datepicker({
+						format: "'.$this->dateFormat.'",
+						autoclose: true,
+						todayBtn: "linked"
+			});';
+		
+		if($this->properties['value'] != '') {
+			echo '$("#'.$this->properties["id"].'").datepicker("setDate", moment("'.$this->properties['value'].'", "'.strtoupper($this->dateFormat).'").toDate());';
+		}
+				
+        echo '</script>';
 	}
 }
 
@@ -976,5 +1140,128 @@ class ImagePicker extends Input {
 			});
 		</script>
 		';
+	}
+}
+
+
+
+
+
+class Slider extends Input {
+	var $label = '';
+	var $min = '0';
+	var $max = '100';
+	var $rangetype = '0';
+	var $step = '1';
+	var $grid = false;
+	var $datafrom = '';
+	var $datato = '';
+	var $prefix = '';
+	var $postfix = '';
+	public function __construct() {
+		parent::__construct();
+		log_message('debug', "UI_helper > Slider Class Initialized");
+	}
+	function min($min = '')//min value
+	{
+		$this->min = $min;
+		return $this;
+	}
+	function max($max = '')//max value
+	{
+		$this->max = $max;
+		return $this;
+	}
+	function rangeType($rangetype = true)//double/single
+	{
+		$this->rangetype =$rangetype;
+		return $this;
+	}
+	function step($step = '')//least count
+	{
+		$this->step = $step;
+		return $this;
+	}
+	function grid($grid = true)
+	{
+		$this->grid = $grid;
+		return $this;
+	}
+	function dataFrom($from = '')
+	{
+		$this->datafrom = $from;
+		return $this;
+	}
+	function value($value = '')
+	{
+		parent::__construct();
+		$this->datafrom = $value;
+		return $this;
+	}
+	
+	function dataTo($datato = '')
+	{
+		$this->datato = $datato;
+		return $this;
+	}
+	function prefix($prefix = '')
+	{
+		$this->prefix = $prefix;
+		return $this;
+	}
+	function postfix($postfix = '')
+	{
+		$this->postfix = $postfix;
+		return $this;
+	}
+	function color($color = '')
+	{
+		$this->color = $color;
+	}
+	function show()
+	{
+		echo '<div '.$this->_parse_container_attributes().'>';
+
+		//label element
+		$this->makeLabel();
+
+		$this->openAddon();
+
+			unset($this->properties['value']);
+	
+		echo '
+		<input '.$this->_parse_attributes().' />';
+        $this->closeAddon();
+		echo '
+		</div>
+		
+		<script type="text/javascript">
+			$("#'.$this->properties['id'].'").ionRangeSlider({
+                    min: '.$this->min.',
+                    max: '.$this->max.',
+					from: '.$this->datafrom.',';
+	
+		if($this->rangetype)
+		{
+				echo '
+					to: '.$this->datato.',
+					type: \'double\',';
+		}
+		else echo ' type: \'single\',';
+			echo '
+                    step: '.$this->step.',';
+		if($this->prefix!="")
+             echo	' prefix: "'.$this->prefix.'",';
+		if($this->postfix!="")
+			echo	' postfix: "'.$this->postfix.',"';
+            
+			echo     'prettify: false,';
+			if($this->grid)
+				echo 'hasGrid: true';
+			else
+				echo 'hasGrid: false';
+				echo '
+                });
+		</script>';
 	}
 }

@@ -1,10 +1,69 @@
-<?php 
+<?php
+	$ui = new UI();
 	if($res->num_rows() == 0){
-		echo "<h2>No Files Pending:)</h2>";
+		$ui->callout()
+			 ->uiType('info')
+			 ->title('No Files Pending:)')
+			 ->show();
 		return;
 	}
 ?>
-<div id="container">
+<?php
+	$outer_row = $ui->row()->open();
+
+	$column1 = $ui->col()->width(1)->open();
+	$column1->close();
+
+	$column2 = $ui->col()->width(9)->open();
+	$box = $ui->box()
+				->title('File Details')
+				->solid()
+				->uiType('primary')
+				->open();
+
+			//content
+	$table = $ui->table()->responsive()->hover()->bordered()->open();
+		echo '<tr>
+						<th>File No</th>
+						<th>File Subject</th>
+						<th>Sent By</th>
+						<th>File Operations</th>
+					</tr>';
+		foreach($res->result() as $row)
+		{
+?>
+		<tr>
+			<td><?php if ($row->file_no) echo $row->file_no; else echo "File No. not yet generated"; ?></td>
+			<td><?php echo $row->file_subject; ?></td>
+			<td><?php echo $row->salutation.' '.$row->first_name.' '.$row->middle_name.' '.$row->last_name; ?></td>
+			<td>
+				<center>
+				<a href="<?php echo site_url("file_tracking/send_running_file/index/".$row->file_id."/".$row->file_subject."/".$row->sent_by_emp_id); ?>"><?php $ui->button()
+																																																																														->value('Forward This File')
+																																																																														->id('submit')
+																																																																														->uiType('primary')
+																																																																														->submit()
+																																																																														->name('submit')
+																																																																														->width(6)
+																																																																														->show(); ?></a>
+				<a href="<?php echo site_url("file_tracking/close_file/index/".$row->file_id); ?>"><?php $ui->button()
+																																																		->value('Close File')
+																																																		->id('submit')
+																																																		->uiType('primary')
+																																																		->submit()
+																																																		->name('submit')
+																																																		->width(6)
+																																																		->show(); ?></a>
+				</center>
+				</td>
+		</tr>
+<?php
+		}
+	$table->close();
+	$column2->close();
+	$outer_row->close();
+?>
+<!--<div id="container">
 <table align="center">
 	<tr>
 		<th>File No</th>
@@ -13,7 +72,7 @@
 		<th>File Operations</th>
 	</tr>
 	<?php
-			foreach($res->result() as $row) 
+			foreach($res->result() as $row)
 			{
 	?>
 				<tr>
@@ -30,4 +89,4 @@
 	?>
 	<h1>Pending File Details : </h1>
 </table>
-</div>
+</div>-->

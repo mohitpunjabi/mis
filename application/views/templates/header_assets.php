@@ -16,6 +16,7 @@
         <link href="<?= base_url() ?>assets/core/adminLTE/css/AdminLTE.css" rel="stylesheet" type="text/css" />
     	<link href="<?= base_url() ?>assets/core/adminLTE/css/datepicker/datepicker3.css" rel="stylesheet" type="text/css">
         <link href="<?= base_url() ?>assets/core/img_upload/upload_image.css" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url() ?>assets/core/adminLTE/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 <!--		<link href="<?= base_url() ?>assets/core/mis-layout.css" rel="stylesheet" type="text/css" /> -->
 		<?php if(isset($css)) echo $css; ?>
 

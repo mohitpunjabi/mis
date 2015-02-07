@@ -7,7 +7,7 @@ class Track_file extends MY_Controller
 	{
 		parent::__construct(array('emp','deo'));
 		$this->addJS("file_tracking/file_tracking_script.js");
-		$this->addCSS("file_tracking/file_tracking_layout.css");
+		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
 	public function index()
@@ -16,9 +16,9 @@ class Track_file extends MY_Controller
 
 		$this->load->model('file_tracking/file_move_details');
 		$res = $this->file_move_details->files_to_be_tracked($emp_id);
-		
+
 		$this->load->model('user_model');
-		
+
 		$total_rows = $res->num_rows();
 		$data_array = array();
 		$sno = 1;
@@ -36,7 +36,7 @@ class Track_file extends MY_Controller
 
 		$data['data_array'] = $data_array;
 		$data['total_rows'] = $total_rows;
-	
+
 		$this->drawHeader ("File Tracking");
 		$this->load->view('file_tracking/track_file/track_file',$data);
 		$this->drawFooter ();
@@ -55,7 +55,7 @@ class Track_file extends MY_Controller
 		else
 		{
 			$res = $this->file_details->get_file_details ($track_num);
-			foreach($res->result() as $row) 
+			foreach($res->result() as $row)
 			{
 				$file_id = $row->file_id;
 				$file_no = $row->file_no;
@@ -68,7 +68,7 @@ class Track_file extends MY_Controller
 			$total_rows = $result->num_rows();
 
 			$this->load->model('user_model');
-			
+
 			$data_array = array();
 			$sno = 1;
 			foreach ($result->result() as $row)
@@ -104,4 +104,3 @@ class Track_file extends MY_Controller
 		}
 	}
 }
-

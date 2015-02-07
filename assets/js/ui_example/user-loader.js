@@ -1,15 +1,15 @@
 // JavaScript Document
 $(document).ready(function() {
+	
+	// Show the loading gif before sending the request
 	$("#usersBox").showLoading();
 	$.ajax({
 		url: site_url("ui_example/loadUsers")
 	}).done(function(userData) {
+		// Process the data
 		(function() {
 			var users = eval(userData);
-			console.log(users.length);
 			var $usersTable = $("#usersTable").dataTable();
-			console.log($usersTable);
-			
 			var data = [];
 			for(var i = 0; i < users.length; i++) {
 				data[i] = [
@@ -25,6 +25,7 @@ $(document).ready(function() {
 			$usersTable.fnAddData(data);
 		})();
 	}).always(function() {
+		// Hide the loading gif, when request is complete.
 		$("#usersBox").hideLoading();
 	});
 

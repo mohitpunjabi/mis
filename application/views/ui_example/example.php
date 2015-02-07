@@ -131,8 +131,84 @@ $box = $ui->box()
           ->open();
 </pre><?
 		$box->close();
-	$col->close();		
+	$col->close();
 $boxTypesRow->close();
+
+$loadingBoxRow = $ui->row()->open();
+	$col = $ui->col()->width(4)->open();
+		$box = $ui->box()
+				  ->id("loadingBoxExample")
+				  ->title("Awesome data loading inside")
+				  ->open();
+			?><p>
+            This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned.
+			</p>
+			<hr />
+			<?
+			$ui->button()
+			   ->value("Do something")
+			   ->uiType("primary")
+			   ->icon($ui->icon("check"))
+			   ->show();
+			echo " ";
+			$ui->button()
+			   ->value("Don't do it")
+			   ->icon($ui->icon("remove"))
+			   ->uiType("danger")
+			   ->show();
+			   
+		$box->close();
+?>
+	<script type="text/javascript">
+		/*
+		 * This is just an example. DO NOT place your scripts here. Place it in a .js file and link it through the controller.
+		 */
+		$(document).ready(function() {
+			/*
+			 * This example shows and hides loading. Normally, you'd do this when you're loading something asynchronously (via AJAX).
+			 * For a more concrete example, see the /assets/js/ui_example/user-loader.js
+			 */
+			 var isLoading = false;
+			 var $loadingBox = $("#loadingBoxExample"); // Selecting the box element
+			 setInterval(function() {
+				 if(isLoading) $loadingBox.hideLoading(); // Hides the loading gif.
+				 else		   $loadingBox.showLoading(); // Shows the loading gif;
+				 isLoading = !isLoading;
+			 }, 3000);
+		});
+	</script>
+<?
+	$col->close();
+	
+	$col = $ui->col()->width(8)->open();
+		$box = $ui->box()
+				  ->title("Using the loading gif")
+				  ->solid()
+				  ->uiType("primary")
+				  ->open();
+		?>
+			<p>
+            First, set an <code>ID</code> to the box, by using the <code>->id("someID")</code> property. In JavaScript, use the <code>hideLoading()</code> and <code>showLoading()</code> functions to hide and show  the loading gif respectively.
+            </p>
+<pre>
+var $myBox = $("#myBoxId");
+$myBox.showLoading();  // This shows the loading gif
+...
+$myBox.hideLoading()   // This hides the loading gif
+</pre>
+        <?
+				$ui->callout()
+				   ->uiType("warning")
+				   ->desc('<strong>DO NOT</strong> place your scripts directly in the view. Place it in a .js file and link it through the controller.')
+				   ->show();
+
+				$ui->callout()
+				   ->uiType("info")
+				   ->desc('View the source of this page to see how loading works Normally, you\'d do this when you\'re loading something asynchronously (via AJAX). For a more concrete example, see the <a href="#">/assets/js/ui_example/user-loader.js</a>')
+				   ->show();
+		$box->close();
+	$col->close();
+$loadingBoxRow->close();
 
 
 $tabsRow = $ui->row()->open();
@@ -141,7 +217,7 @@ $tabsRow = $ui->row()->open();
 
 		$tabBox1 = $ui->tabBox()
 				   ->icon($ui->icon("th"))
-				   ->title("Presenting Tabs")
+				   ->title("Introducing Tabs")
 				   ->tab("intro", "How it works", true)
 				   ->tab("abouttitle", $ui->icon("plus") . " More about titles")
 				   ->tab("settings", $ui->icon('gear'))
@@ -502,7 +578,7 @@ $row = $ui->row()->open();
 			$ui->callout()
 			   ->uiType("warning")
 			   ->desc('<strong>Do not use tables to display forms</strong>, or other data that doesn\'t look like a table. Use tables to <strong>only</strong> show tabular data. <a href="https://www.google.co.in/search?q=why+shouldn\'t+we+use+tables" target="_blank">Here\'s why!</a>')
-			   ->show();;
+			   ->show();
 	$col->close();
 $row->close();
 
@@ -591,8 +667,13 @@ $tablesRow->close();
 
 $dataTablesRow = $ui->row()->open();
 	$col = $ui->col()->open();
-		$box1 = $ui->box()->title('Data Tables')->id("usersBox")->open();
-		
+		$box1 = $ui->box()->title('All employees in Indian School of Mines')->id("usersBox")->open();
+	
+			$ui->callout()
+		   ->uiType("info")
+		   ->desc('This example asynchronously loads the data for all users in ISM. View the source to see how it works.')
+		   ->show();
+			
 			$myDataTable = $ui->table()
 							  ->id('usersTable')
 							  ->bordered()

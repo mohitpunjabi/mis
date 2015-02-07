@@ -24,7 +24,7 @@
 <?php
 	$sno = 1;
 ?>
-	<tr align="center">
+	<tr>
 		<td><?php echo $sno; ?></td>
 		<td><?php echo $data_array[$sno][3];//$row->sent_by_emp_id;?></td>
 		<td><?php echo "File Started"; ?></td>
@@ -36,7 +36,7 @@
 	while ($sno <= $total_rows)
 	{
 ?>
-	<tr align="center">
+	<tr>
 		<td><?php echo $sno; ?></td>
 		<td><?php echo $data_array[$sno][3];//echo $row->sent_by_emp_id;?></td>
 		<td><?php echo $data_array[$sno-1][6];//$prev_row->rcvd_timestamp;?></td>
@@ -50,7 +50,7 @@
 
 	{
 ?>
-	<tr align="center">
+	<tr>
 		<td><?php echo $sno; ?></td>
 		<td><?php echo $data_array[$sno-1][5];//echo $prev_row->rcvd_by_emp_id;?></td>
 		<td><?php echo $data_array[$sno-1][6];//echo $prev_row->rcvd_timestamp;?></td>
@@ -62,7 +62,7 @@
 	else
 	{
 ?>
-	<tr align="center">
+	<tr>
 		<td><?php echo $sno; ?></td>
 		<td><?php echo $data_array[$sno-1][5];//echo $prev_row->rcvd_by_emp_id;?></td>
 		<td><?php echo "File not Received"; ?> </td>

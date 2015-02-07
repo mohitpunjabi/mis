@@ -123,6 +123,7 @@
 		xmlhttp.send();
 		return false;
 	}
+	
 	function display_send_notification2 (file_id)
 	{
 		var file_no = document.getElementById("file_no").value;
@@ -201,6 +202,7 @@
 		xmlhttp.send();
 		return false;
 	}
+
 	function get_file_details ()
 	{
 		var file_id = document.getElementById("file_id").value;
@@ -220,7 +222,6 @@
 		xmlhttp.open("POST",site_url("file_tracking/send_running_file/get_file_details/"+file_id),true);
 		xmlhttp.send();
 		return false;
-
 	}	
 
 	function get_file_move_details ()
@@ -247,8 +248,8 @@
 		xmlhttp.open("POST",site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
 		xmlhttp.send();
 		return false;
-
 	}
+
 	function get_file_move_details2(track_num)
 	{
 		var xmlhttp = getxmlhttp();
@@ -263,8 +264,8 @@
 		xmlhttp.open("POST",site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
 		xmlhttp.send();
 		return false;
-
 	}
+
 	function get_faculty_name(department_id)
 	{
 		if(department_id == '')

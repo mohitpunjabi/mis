@@ -80,10 +80,10 @@
 		}
 ?>
 <?php
+		$table->close();
 	}
 ?>
 <?php
-	$table->close();
 	$box->close();
 	$column2->close();
 	$outer_row->close();

@@ -9,6 +9,13 @@
 			  'Help us build this page by adding more example codes.')
 	   ->show();
 
+	$ui->alert()
+	   ->title("Is this example working for you?")
+	   ->uiType("info")
+	   ->desc('If the example is not working for you, the error is probably because of php short tags (<code>&lt;?</code>). Instead of converting all short tags to <code>&lt;?php</code>, you can enable the <code>short_open_tag</code> property in the php.ini file. <a href="http://stackoverflow.com/q/2185320/1492578" target="_blank">Here\'s how!</a>')
+	   ->show();
+
+
 ?><h2 class="page-header">Different box types</h2><?
 
 $boxTypesRow = $ui->row()->open();
@@ -124,8 +131,213 @@ $box = $ui->box()
           ->open();
 </pre><?
 		$box->close();
-	$col->close();		
+	$col->close();
 $boxTypesRow->close();
+
+$loadingBoxRow = $ui->row()->open();
+	$col = $ui->col()->width(4)->open();
+		$box = $ui->box()
+				  ->id("loadingBoxExample")
+				  ->title("Awesome data loading inside")
+				  ->open();
+			?><p>
+            This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned. This box is in a loading state. Something is going to happen inside - stay tuned.
+			</p>
+			<hr />
+			<?
+			$ui->button()
+			   ->value("Do something")
+			   ->uiType("primary")
+			   ->icon($ui->icon("check"))
+			   ->show();
+			echo " ";
+			$ui->button()
+			   ->value("Don't do it")
+			   ->icon($ui->icon("remove"))
+			   ->uiType("danger")
+			   ->show();
+			   
+		$box->close();
+?>
+	<script type="text/javascript">
+		/*
+		 * This is just an example. DO NOT place your scripts here. Place it in a .js file and link it through the controller.
+		 */
+		$(document).ready(function() {
+			/*
+			 * This example shows and hides loading. Normally, you'd do this when you're loading something asynchronously (via AJAX).
+			 * For a more concrete example, see the /assets/js/ui_example/user-loader.js
+			 */
+			 var isLoading = false;
+			 var $loadingBox = $("#loadingBoxExample"); // Selecting the box element
+			 setInterval(function() {
+				 if(isLoading) $loadingBox.hideLoading(); // Hides the loading gif.
+				 else		   $loadingBox.showLoading(); // Shows the loading gif;
+				 isLoading = !isLoading;
+			 }, 3000);
+		});
+	</script>
+<?
+	$col->close();
+	
+	$col = $ui->col()->width(8)->open();
+		$box = $ui->box()
+				  ->title("Using the loading gif")
+				  ->solid()
+				  ->uiType("primary")
+				  ->open();
+		?>
+			<p>
+            First, set an <code>ID</code> to the box, by using the <code>->id("someID")</code> property. In JavaScript, use the <code>hideLoading()</code> and <code>showLoading()</code> functions to hide and show  the loading gif respectively.
+            </p>
+<pre>
+var $myBox = $("#myBoxId");
+$myBox.showLoading();  // This shows the loading gif
+...
+$myBox.hideLoading()   // This hides the loading gif
+</pre>
+        <?
+				$ui->callout()
+				   ->uiType("warning")
+				   ->desc('<strong>DO NOT</strong> place your scripts directly in the view. Place it in a .js file and link it through the controller.')
+				   ->show();
+
+				$ui->callout()
+				   ->uiType("info")
+				   ->desc('View the source of this page to see how loading works Normally, you\'d do this when you\'re loading something asynchronously (via AJAX). For a more concrete example, see the <a href="#">/assets/js/ui_example/user-loader.js</a>')
+				   ->show();
+		$box->close();
+	$col->close();
+$loadingBoxRow->close();
+
+
+$tabsRow = $ui->row()->open();
+
+	$col = $ui->col()->width(8)->open();
+
+		$tabBox1 = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Introducing Tabs")
+				   ->tab("intro", "How it works", true)
+				   ->tab("abouttitle", $ui->icon("plus") . " More about titles")
+				   ->tab("settings", $ui->icon('gear'))
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("intro")->active()->open();
+				?>
+                <h4>Tabs are awesome - an easy to create.</h4>
+
+                    <p>Tabs behave just like <code>Box</code>es. First, open a <code>tabBox</code> as follows:</p>
+<pre>
+$myTabBox = $ui->tabBox()
+               ->tab("tabPaneId1", "Tab Pane's Title", true) // 'true' means active
+               ->tab("tabPaneId2", "Tab Pane Title 1")
+               ...
+               ->tab("tabPaneIdn", "Tab Pane Title n")
+               ->open();
+</pre>
+
+
+					<p>Then, put all the <code>TabPane</code>s. Remember to set proper <code>id</code>s for them.</p>
+<pre>
+$tab1 = $ui->tabPane()
+           ->id("tabPaneId")
+           ->open();
+
+    ...
+$tab1->close();
+</pre>
+
+					<p>Finally, close the <code>TabBox</code>.</p>
+<pre>
+$myTabBox->close();
+</pre>
+
+				<?
+
+			$tab1->close();
+			
+
+			$aboutTitleTab = $ui->tabPane()
+					   ->id("abouttitle")
+					   ->open();
+			?>
+            	<p>You can have a title and an icon (just like a <code>Box</code>)for the <code>TabBox</code>- or you can skip them.</p>
+<pre>
+$myTabBox = $ui->tabBox()
+			   ->title("The title")
+               ->icon($ui->icon("some-icon")
+               ...
+               ->open();
+</pre>
+
+				<p>For the individual <code>TabPane</code>s' titles, you can only have <code>string</code>s. But luckily, you can append an <code>Icon</code> to a <code>string</code>.
+
+<pre>
+$myTabBox = $ui->tabBox()
+               ->tab("someId1", "String title")
+               ->tab("someId2", $ui->icon("some-icon"))
+               ->tab("someId3", $ui->icon("some-icon") . " string and icon")
+               ...
+               
+               ->open();
+</pre>
+
+
+            <?
+			$aboutTitleTab->close();
+
+			$tab1 = $ui->tabPane()
+					   ->id("settings")
+					   ->open();
+				?><p>This tab just has an <code>Icon</code> as its title. You can also have <code>Input</code>s in the content.</p><?
+				
+				$ui->input()
+				   ->type('text')
+				   ->label("A text field")
+				   ->show();
+				
+			$tab1->close();				    
+		$tabBox1->close();
+		
+	$col->close();
+
+	$col = $ui->col()->width(4)->open();
+		$tabBox2 = $ui->tabBox()
+					  ->tab("t1", "Tab 1")
+					  ->tab("t2", "Tab 2")
+					  ->tab("t3", "Tab 3", true)
+					  ->tab("t4", "Tab 4")
+					  ->open();
+
+			$t1 = $ui->tabPane()->id("t1")->active()->open();
+				?>
+                <p>This <code>TabBox</code> does not have a title. Also, the <strong>Tab 3</strong> is active by default. This is done by setting the third argument to <code>true</code> while adding the tab.</p>
+<pre>
+$myTabBox = $ui->tabBox()
+               ...
+               ->tab("t3", "Tab 3", true)
+               ->open();
+</pre>
+
+<p>Also, make sure that the <code>TabPane</code> has the <code>active()</code> property set.</p>
+
+<pre>
+$tab3 = $ui->tabPane()
+           ->id("t3")
+           ->active()
+           ->open();
+</pre>
+
+				<?
+			$t1->close();
+
+		$tabBox2->close();
+	$col->close();
+
+$tabsRow->close();
+
 
 
 ?><h2 class="page-header">Alerts and callouts</h2><?
@@ -357,13 +569,28 @@ $ui->button()
 $buttonsRow->close();
 
 
-$tablesRow = $ui->row()->open();
+?>
+<h2 class="page-header">Tables</h2>
+<?
+
+$row = $ui->row()->open();
 	$col = $ui->col()->open();
+			$ui->callout()
+			   ->uiType("warning")
+			   ->desc('<strong>Do not use tables to display forms</strong>, or other data that doesn\'t look like a table. Use tables to <strong>only</strong> show tabular data. <a href="https://www.google.co.in/search?q=why+shouldn\'t+we+use+tables" target="_blank">Here\'s why!</a>')
+			   ->show();
+	$col->close();
+$row->close();
+
+$tablesRow = $ui->row()->open();
+	$col = $ui->col()->width(8)->open();
 		$box = $ui->box()
-				  ->title("Tables")
+				  ->title("Simple tables")
 				  ->open();
 
+
 ?>
+
 <p>You can use different combinations of the following options to create <code>Table</code>s:</p>
 <pre>
 $table = $ui->table()
@@ -420,7 +647,68 @@ $table->close();
 			$table->close();
 		$box->close();
 	$col->close();
+	
+	$col = $ui->col()->width(4)->open();
+		$box1 = $ui->box()->title('Data Tables')->solid()->uiType('primary')->open();
+?>
+<p>You can make tables searchable and sortable. You can also add pagination to the tables. Just set any of the 3 properties you want.</p>
+<pre>
+$myDataTable = $ui->table()
+                  ...
+                  ->sortable()
+                  ->searchable()
+                  ->paginated()
+                  ->open();
+</pre>
+<?
+		$box1->close();
+	$col->close();
 $tablesRow->close();
+
+$dataTablesRow = $ui->row()->open();
+	$col = $ui->col()->open();
+		$box1 = $ui->box()->title('All employees in Indian School of Mines')->id("usersBox")->open();
+	
+			$ui->callout()
+		   ->uiType("info")
+		   ->desc('This example asynchronously loads the data for all users in ISM. View the source to see how it works.')
+		   ->show();
+			
+			$myDataTable = $ui->table()
+							  ->id('usersTable')
+							  ->bordered()
+							  ->striped()
+							  ->sortable()
+							  ->searchable()
+							  ->paginated()
+							  ->open();
+?>
+		<thead>
+            <tr>
+                <th>User ID</th>
+                <th>Salutation</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Department Name</th>
+            </tr>
+		</thead>
+
+        <tfoot>
+            <tr>
+                <th>User ID</th>
+                <th>Salutation</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Department Name</th>
+            </tr>
+        </tfoot>
+<?
+			$myDataTable->close();
+			$box1->close();
+	$col->close();
+$dataTablesRow->close();
 
 
 ?><h2 class="page-header">Form Elements</h2><?
@@ -499,6 +787,28 @@ $inputsRow->close();
 				$ui->select()->label("Medium")->placeholder("Enter text")->width(4)->options($sampleOptions)->show();
 				$ui->input()->type("text")->label("Large input")->placeholder("Enter text")->width(6)->show();
 			$textRow->close();
+
+			$ui->slider()
+				->id('slider1')
+				->label('Budget')
+				->min('0')
+				->max('50000')
+				->step('100')
+				->rangetype()
+				->datafrom('9000')
+				->datato('20000')
+				->prefix('$')
+				->show();
+				
+			$ui->slider()
+				->id('slider2')
+				->min('0')
+				->label('Employee')
+				->max('100')
+				->step('1')
+				->datafrom('10')
+				->grid()
+				->show();
 
 		$box->close();
 	$col->close();
@@ -594,6 +904,8 @@ $ui->input()
 			 ->addonLeft($ui->icon("calendar"))
 			 ->addonRight($ui->button()->value("Choose")->uiType("success"))
 			 ->uiType("success")
+			 ->id("dpAddon")
+			 ->value("01-05-2014")
 			 ->show();
 
 		$box->close();

@@ -40,9 +40,11 @@
 
 ?>
 </center>
-<h2 align="center">OR</h2>
 <?php
 	if($total_rows != 0){
+?>
+<h2 align="center">OR</h2>
+<?php
 		$table = $ui->table()->responsive()->hover()->bordered()->open();
 		echo '<tr>
 						<th>File Subject</th>

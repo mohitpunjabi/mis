@@ -4,7 +4,7 @@
         $col = $ui->col()->open();
             $box = $ui->box()->id('show_details')->title('Previous Employment Details')->uiType('primary')->open();
 				if($emp_prev_exp_details != FALSE) {
-	                $table = $ui->table()->id('tbl2')->responsive()->condensed()->bordered()->paginated()->striped()->open();
+	                $table = $ui->table()->id('tbl2')->responsive()->condensed()->bordered()->striped()->open();
 	                    echo '<thead valign="middle" ><tr align="center">
 	                        <th rowspan="2" >S no.</th>
 	                        <th rowspan="2">Full address of Employer</th>
@@ -32,7 +32,7 @@
 	                                <td>'.ucfirst($remarks).'</td>
 	                        		<td>';
 	                                    $ui->button()->flat()->id('edit'.$i)->name("edit[]")->uiType("primary")->value("Edit")->icon($ui->icon("pencil"))->extras('onClick="onclick_edit('.$i.',\''.$row->from.'\',\''.$row->to.'\',\''.$joining_date.'\')"')->show();
-	                                    $ui->button()->flat()->id('edit'.$i)->name("delete2[]")->uiType("danger")->value("Delete")->icon($ui->icon("trash-o"))->extras('onClick="onclick_delete('.$i.');"')->show();
+	                                    $ui->button()->flat()->id('delete2'.$i)->name("delete2[]")->uiType("danger")->value("Delete")->icon($ui->icon("trash-o"))->extras('onClick="onclick_delete('.$i.');"')->show();
 	                        echo   '</td></tr>';
 	                        $i++;
 	                    }

@@ -101,6 +101,9 @@ $(document).ready(function() {
                         e.preventDefault();
         });
 
+		$("input[name=from2]").datepicker("setEndDate", moment($("input[name=from2]").attr('max'), "DD-MM-YYYY").toDate());
+		$("input[name=to2]").datepicker("setEndDate", moment($("input[name=to2]").attr('max'), "DD-MM-YYYY").toDate());
+
         $("#back_btn").click(function(e) {
                 window.location.href = site_url("employee/edit");
         });

@@ -427,13 +427,13 @@ class Edit extends MY_Controller
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
 		$this->load->model('employee/emp_family_details_model','',TRUE);
-		$fam_array = array('dob'=>$this->input->post('edit_dob'.$row),
+		$fam_array = array('dob'=>date('Y-m-d',strtotime($this->input->post('edit_dob'.$row))),
 							'profession'=>strtolower($this->input->post('edit_profession'.$row)),
 							'active_inactive'=>$this->input->post('edit_active'.$row),
 							'present_post_addr'=>strtolower($this->input->post('edit_address'.$row)));
 
-		if(isset($_FILES['photo3'.$row]['name']) && $_FILES['photo3'.$row]['name']!='')
-		{	$upload = $this->_upload_image($emp_id,'edit_photo3'.$row,$row);
+		if(isset($_FILES['edit_photo'.$row]['name']) && $_FILES['edit_photo'.$row]['name']!='')
+		{	$upload = $this->_upload_image($emp_id,'edit_photo'.$row,$row);
 			if($upload)	$fam_array = array_merge($fam_array,array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']));
 		}
 
@@ -459,6 +459,12 @@ class Edit extends MY_Controller
 
 	function update_education_details($emp_id)
 	{
+		$this->load->model('employee/emp_education_details_model','',TRUE);
+
+		if($this->emp_education_details_model->getEmpEduById($emp_id))
+			$sno = count($this->emp_education_details_model->getEmpEduById($emp_id));
+		else $sno = 0;
+
 		$exam = $this->input->post('exam4');
 		$branch = $this->input->post('branch4');
 		$clgname = $this->input->post('clgname4');
@@ -466,37 +472,21 @@ class Edit extends MY_Controller
 		$grade = $this->input->post('grade4');
 		$div = $this->input->post('div4');
 
-		$this->load->model('employee/emp_education_details_model','',TRUE);
+		$emp_education_details['id'] = $emp_id;
+		$emp_education_details['sno'] = $sno+1;
+		$emp_education_details['exam'] = strtolower($exam);
+		$emp_education_details['branch'] = strtolower($branch);
+		$emp_education_details['institute'] = strtolower($clgname);
+		$emp_education_details['year'] = $year;
+		$emp_education_details['grade'] = strtolower($grade);
+		$emp_education_details['division'] = strtolower($div);
 
-		$n = count($clgname);
-		if($this->emp_education_details_model->getEmpEduById($emp_id))
-			$sno = count($this->emp_education_details_model->getEmpEduById($emp_id));
-		else $sno = 0;
+		$this->emp_education_details_model->insert($emp_education_details);
 
-		$i=0;
-		while($i<$n && $clgname[$i] != '')
-			{
-				$emp_education_details[$i]['id'] = $emp_id;
-				$emp_education_details[$i]['sno'] = $i+1+$sno;
-				$emp_education_details[$i]['exam'] = strtolower($exam[$i]);
-				$emp_education_details[$i]['branch'] = strtolower($branch[$i]);
-				$emp_education_details[$i]['institute'] = strtolower($clgname[$i]);
-				$emp_education_details[$i]['year'] = $year[$i];
-				$emp_education_details[$i]['grade'] = strtolower($grade[$i]);
-				$emp_education_details[$i]['division'] = strtolower($div[$i]);
-				$i++;
-			}
+		$this->edit_validation($emp_id,'educational_status');
+		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' educational qualifications updated and sent for validation.');
 
-		//check if there is any data to be inserted
-		if(isset($emp_education_details))
-		{
-			$this->emp_education_details_model->insert_batch($emp_education_details);
-			$this->edit_validation($emp_id,'educational_status');
-			$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' educational qualifications updated and sent for validation.');
-		}
-		else
-			$this->session->set_flashdata('flashInfo','Employee '.$emp_id.' : No details were added.');
-		redirect('employee/edit');
+		redirect('employee/edit/edit_form');
 	}
 
 	function update_old_education_details($row)
@@ -505,12 +495,12 @@ class Edit extends MY_Controller
 
 		$this->load->model('employee/emp_education_details_model','',TRUE);
 
-		$this->emp_education_details_model->update_record(array('exam'=>strtolower($this->input->post('exam'.$row)),
-																'branch'=>strtolower($this->input->post('branch'.$row)),
-																'institute'=>strtolower($this->input->post('clgname'.$row)),
-																'year'=>$this->input->post('year'.$row),
-																'grade'=>strtolower($this->input->post('grade'.$row)),
-																'division'=>strtolower($this->input->post('div'.$row))),
+		$this->emp_education_details_model->update_record(array('exam'=>strtolower($this->input->post('edit_exam'.$row)),
+																'branch'=>strtolower($this->input->post('edit_branch'.$row)),
+																'institute'=>strtolower($this->input->post('edit_clgname'.$row)),
+																'year'=>$this->input->post('edit_year'.$row),
+																'grade'=>strtolower($this->input->post('edit_grade'.$row)),
+																'division'=>strtolower($this->input->post('edit_div'.$row))),
 															array('id'=>$emp_id, 'sno'=>$row));
 
 		$this->edit_validation($emp_id,'educational_status');
@@ -533,40 +523,30 @@ class Edit extends MY_Controller
 
 	function update_last_5yr_stay_details($emp_id)
 	{
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+
+		if($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))
+			$sno = count($this->emp_last5yrstay_details_model->getEmpStayById($emp_id));
+		else $sno = 0;
+
 		$from = $this->input->post('from5');
 		$to = $this->input->post('to5');
 		$addr = $this->input->post('addr5');
 		$district = $this->input->post('dist5');
 
-		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+		$emp_last5yrstay_details['id'] = $emp_id;
+		$emp_last5yrstay_details['sno'] = $sno+1;
+		$emp_last5yrstay_details['from'] = date('Y-m-d',strtotime($from));
+		$emp_last5yrstay_details['to'] = date('Y-m-d',strtotime($to));
+		$emp_last5yrstay_details['res_addr'] = $addr;
+		$emp_last5yrstay_details['dist_hq_name'] = strtolower($district);
 
-		$n = count($from);
-		if($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))
-			$sno = count($this->emp_last5yrstay_details_model->getEmpStayById($emp_id));
-		else $sno = 0;
+		$this->emp_last5yrstay_details_model->insert($emp_last5yrstay_details);
 
-		$i=0;
-		while($i<$n && $from[$i] != "")
-		{
-			$emp_last5yrstay_details[$i]['id'] = $emp_id;
-			$emp_last5yrstay_details[$i]['sno'] = $i+1+$sno;
-			$emp_last5yrstay_details[$i]['from'] = $from[$i];
-			$emp_last5yrstay_details[$i]['to'] = $to[$i];
-			$emp_last5yrstay_details[$i]['res_addr'] = $addr[$i];
-			$emp_last5yrstay_details[$i]['dist_hq_name'] = strtolower($district[$i]);
-			$i++;
-		}
+		$this->edit_validation($emp_id,'stay_status');
+		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' last five year stay details updated and sent for validation.');
 
-		//check if there is any data to be inserted
-		if(isset($emp_last5yrstay_details))
-		{
-			$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
-			$this->edit_validation($emp_id,'stay_status');
-			$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' last five year stay details updated and sent for validation.');
-		}
-		else
-			$this->session->set_flashdata('flashInfo','Employee '.$emp_id.' : No details were added.');
-		redirect('employee/edit');
+		redirect('employee/edit/edit_form');
 	}
 
 	function update_old_last_5yr_stay_details($row)
@@ -575,10 +555,10 @@ class Edit extends MY_Controller
 
 		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 
-		$this->emp_last5yrstay_details_model->update_record(array('from'=>$this->input->post('from'.$row),
-																'to'=>$this->input->post('to'.$row),
-																'res_addr'=>$this->input->post('addr'.$row),
-																'dist_hq_name'=>strtolower($this->input->post('dist'.$row))),
+		$this->emp_last5yrstay_details_model->update_record(array('from'=>date('Y-m-d',strtotime($this->input->post('edit_from'.$row))),
+																'to'=>date('Y-m-d',strtotime($this->input->post('edit_to'.$row))),
+																'res_addr'=>$this->input->post('edit_addr'.$row),
+																'dist_hq_name'=>strtolower($this->input->post('edit_dist'.$row))),
 															array('id'=>$emp_id, 'sno'=>$row));
 
 		$this->edit_validation($emp_id,'stay_status');
@@ -658,7 +638,7 @@ class Edit extends MY_Controller
                 if(!$n_family)
                 	$filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
                 else
-                	$filename[$i]='emp_'.$emp_id.'_fam_'.$n_family.date('YmdHis').$ext;
+                	$filename='emp_'.$emp_id.'_fam_'.$n_family.date('YmdHis').$ext;
             }
         }
         else

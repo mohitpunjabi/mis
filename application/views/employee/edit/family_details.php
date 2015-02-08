@@ -4,7 +4,7 @@
         $col = $ui->col()->open();
             $box = $ui->box()->id('show_details')->title('Dependent Family Members Details')->uiType('primary')->open();
             	if($emp_family_details != FALSE) {
-	                $table = $ui->table()->id('tbl3')->responsive()->condensed()->bordered()->paginated()->striped()->open();
+	                $table = $ui->table()->id('tbl3')->responsive()->condensed()->bordered()->striped()->open();
 	                    echo '<thead valign="middle" ><tr align="center">
 	                        <th align="center">S no.</th>
 	                        <th>Name</th>
@@ -20,10 +20,8 @@
 	                    $i=1;
 	                    foreach($emp_family_details as $row)
 	                    {
-	                        if($row->active_inactive=="Active")
-	                            $color="#00a65a";
-	                        else
-	                            $color="#f56954";
+	                        if($row->active_inactive=="Active")	$color="#00a65a";
+	                        else 	$color="#f56954";
 	                        echo '<tr name="row[]" align="center" >
 	                                <td>'.$i.'</td>
 	                                <td>'.ucwords($row->name).'</td>

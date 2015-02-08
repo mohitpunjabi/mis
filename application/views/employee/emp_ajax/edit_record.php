@@ -51,9 +51,9 @@
 								$box = $ui->box()->uiType('primary')->style('margin-bottom:0')->open();
 
 									$ui->input()->name('edit_name'.$sno)->id('edit_name'.$sno)->label('Name')
-									    ->value($emp_family_details->name)->show();
+									    ->value($emp_family_details->name)->disabled()->show();
 
-                    				$ui->select()->name('edit_relationship'.$sno)->id('edit_relationship'.$sno)->label('Relationship')
+                    				$ui->select()->name('edit_relationship'.$sno)->id('edit_relationship'.$sno)->label('Relationship')->disabled()
                                        ->options(array($ui->option()->value("")->text("Choose One")->disabled(),
                                     					$ui->option()->value("Father")->text("Father")
                                     					   ->selected($emp_family_details->relationship=="Father"),
@@ -66,30 +66,35 @@
                                     					$ui->option()->value("Daughter")->text("Daughter")
                                     					   ->selected($emp_family_details->relationship=="Daughter")))
                                        ->show();
-
+                                $inrow = $ui->row()->open();
                     				$ui->datePicker()->name('edit_dob'.$sno)
                     					->id('edit_dob'.$sno)
 	                                    ->dateFormat('dd-mm-yyyy')
+	                                    ->width(4)->t_width(4)
 	                                    ->addonRight($ui->icon("calendar"))
 	                                    ->value(date('d-m-Y',strtotime($emp_family_details->dob)))
 	                                    ->label('DOB')->show();
 
-									$ui->input()->name("edit_profession",$sno)
-										        ->id("edit_profession",$sno)
+									$ui->input()->name("edit_profession".$sno)
+										        ->id("edit_profession".$sno)
+										        ->width(4)->t_width(4)
 										        ->label('Profession')
 										        ->value($emp_family_details->profession)->show();
 
                     				$status = $ui->input()->name('edit_active'.$sno)
                     					        ->id('edit_active'.$sno)
+                    					        ->width(4)->t_width(4)
                     					        ->label('Active/Inactive')
                     					        ->value($emp_family_details->active_inactive);
+
                     				if($emp_family_details->active_inactive == 'Active')
                                         $status->addonRight($ui->button()->icon($ui->icon('check')->id('icon'))->id('edit_status_toggle')->uiType('success'));
                                     else
                                     	$status->addonRight($ui->button()->icon($ui->icon('times')->id('icon'))->id('edit_status_toggle')->uiType('danger'));
                                     $status->extras('readonly')->width(3)->t_width(3)->show();
+								$inrow->close();
 
-                    				$ui->input()->name("edit_addr".$sno)->id("edit_addr".$sno)
+                    				$ui->input()->name("edit_address".$sno)->id("edit_address".$sno)
                     					->value($emp_family_details->present_post_addr)
                     					->label('Present Postal Address')->show();
 
@@ -108,92 +113,105 @@
 					$form->close();
 				}
 				break;
-		/*case 4: $emp_education_details = $this->emp_education_details_model->getEmpEduById($emp_id);
-				if($emp_education_details)
+
+		case 4:	if($emp_education_details)
 				{
-					echo '<tr>
-							 <th>S no.</th>
-						     <th>Examination</th>
-						     <th>Course(Specialization)</th>
-						   	 <th>College/University/Institute</th>
-						     <th>Year</th>
-						     <th>Percentage/Grade</th>
-						     <th>Class/Division</th>
-							 <th>Edit/Delete</th>
-						</tr>';
-					$i=1;
-					foreach($emp_education_details as $row)
-					{
-						echo '<tr name="row[]" align="center">
-								<td>'.$i.'</td>
-				    			<td>'.strtoupper($row->exam).'</td>
-				    			<td>'.strtoupper($row->branch).'</td>
-				    			<td>'.strtoupper($row->institute).'</td>
-				    			<td>'.$row->year.'</td>
-				    			<td>'.strtoupper($row->grade).'</td>
-				    			<td>'.ucwords($row->division).'</td>
-								<td>
-									<input type="button" name="edit[]" value="Edit" onClick="onclick_edit('.$i.')">
-									<input type="button" class="error" name="delete4[]" value="Delete" onClick="onclick_delete('.$i.');" >
-								</td>
-				    		</tr>';
-			    		$this->emp_education_details_model->update_record(array('sno'=>$i),array('id'=>$emp_id,
-			    																				'exam'=>$row->exam,
-			    																				'branch'=>$row->branch,
-			    																				'institute'=>$row->institute,
-			    																				'year'=>$row->year,
-			    																				'grade'=>$row->grade,
-			    																				'division'=>$row->division));
-						$i++;
-					}
+					$form = $ui->form()->id('edit_emp_education_details')
+					->action('employee/edit/update_old_education_details/'.$sno)
+					->extras('onSubmit="return onclick_save('.$sno.');"')->open();
+						$row = $ui->row()->open();
+							$col = $ui->col()->open();
+								$box = $ui->box()->uiType('primary')->style('margin-bottom:0')->open();
+									$row11 = $ui->row()->open();
+										$ui->select()->id('edit_exam'.$sno)->name('edit_exam'.$sno)->label('Examination')->width(4)->t_width(4)->extras('onChange="examination_editbtn_handler('.$sno.');"')
+	                                       ->options(array($ui->option()->value("")->text("Choose One")->disabled(),
+	                                                		$ui->option()->value("non-matric")->text("Non-Matric")->selected($emp_education_details->exam == "non-matric"),
+			                                                $ui->option()->value("matric")->text("Matric")->selected($emp_education_details->exam == "matric"),
+				                                            $ui->option()->value("intermediate")->text("Intermediate")->selected($emp_education_details->exam == "intermediate"),
+			                                                $ui->option()->value("graduation")->text("Graduation")->selected($emp_education_details->exam == "graduation"),
+			                                                $ui->option()->value("post-graduation")->text("Post Graduation")->selected($emp_education_details->exam == "post-graduation"),
+			                                                $ui->option()->value("doctorate")->text("Doctorate")->selected($emp_education_details->exam == "doctorate"),
+			                                                $ui->option()->value("post-doctorate")->text("Post Doctorate")->selected($emp_education_details->exam == "post-doctorate"),
+			                                                $ui->option()->value("others")->text("Others")->selected($emp_education_details->exam == "others")))
+	                                	->show();
+
+										$ui->input()->id('edit_clgname'.$sno)->name('edit_clgname'.$sno)->label('College/University/Institute')->placeholder('Enter College / University / Institute Attended')->width(8)->t_width(8)
+											->value($emp_education_details->institute)->show();
+                					$row11->close();
+                					$row12 = $ui->row()->open();
+                    					$ui->input()->id('edit_branch'.$sno)->name('edit_branch'.$sno)->label('Course(Specialization)')->placeholder('Enter Course with Specalization')->width(5)->t_width(5)->value($emp_education_details->branch)->show();
+					                    $ui->input()->id("edit_year".$sno)->name("edit_year".$sno)->placeholder("Enter Year")->label('Year')->width(2)->t_width(2)->value($emp_education_details->year)->show();
+					                    $ui->input()->id('edit_grade'.$sno)->name('edit_grade'.$sno)->placeholder("Enter Percentage/Grade")->label('Percentage/Grade')->width(3)->t_width(3)->value($emp_education_details->grade)->show();
+					                    $ui->input()->id('edit_div'.$sno)->name('edit_div'.$sno)->placeholder("Enter Class/Division")->label('Class/Division')->width(2)->t_width(2)->value($emp_education_details->division)->show();
+					                $row12->close();
+					                $row13 = $ui->row()->open();
+										echo '<center>';
+										$ui->button()->uiType('primary')->flat()->submit()
+											->name('save')->value('Save')->icon($ui->icon('floppy-o'))->show();
+										$ui->button()->uiType('danger')->flat()
+											->name('cancel')->value('Cancel')
+											->extras('onClick="closeframe();"')->icon($ui->icon('times'))->show();
+										echo '</center>';
+									$row13->close();
+								$box->close();
+							$col->close();
+						$row->close();
+					$form->close();
 				}
-				else
-					$this->notification->drawNotification("Empty","No educational qualifications found.","error");
 				break;
 
-		case 5: $date = date("Y-m-d", time());
-				$newdate = strtotime('-5 year',strtotime ($date )) ;
-				$newdate = date("Y-m-d", $newdate);
-
-				$emp_last5yrstay_details = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
-				if($emp_last5yrstay_details)
+		case 5:	if($emp_last5yrstay_details)
 				{
-					echo '<tr>
-							<th rowspan=2>S no.</th>
-							<th colspan=2>Duration</th>
-							<th rowspan=2>Residential Address</th>
-							<th rowspan=2>Name of District Headquarters</th>
-							<th rowspan=2>Edit/Delete</th>
-						</tr>
-						<tr>
-						    <th>From</th>
-						    <th>To</th>
-						</tr>';
-					$i=1;
-					foreach($emp_last5yrstay_details as $row)
-					{
-						echo '<tr name=row[] align="center">
-								<td>'.$i.'</td>
-			    				<td>'.date('d M Y', strtotime($row->from)).'</td>
-			    				<td>'.date('d M Y', strtotime($row->to)).'</td>
-			    				<td>'.$row->res_addr.'</td>
-			    				<td>'.ucwords($row->dist_hq_name).'</td>
-								<td>
-									<input type="button" name="edit[]" value="Edit" onClick="onclick_edit('.$i.',\''.$row->from.'\',\''.$row->to.'\',\''.$date.'\',\''.$newdate.'\')">
-									<input type="button" class="error" name="delete5[]" value="Delete" onClick="onclick_delete('.$i.');" >
-								</td>
-			    			</tr>';
-			    		$this->emp_last5yrstay_details_model->update_record(array('sno'=>$i),array('id'=>$emp_id,
-			    																	'from'=>$row->from,
-			    																	'to'=>$row->to,
-		    																		'res_addr'=>$row->res_addr,
-		    																		'dist_hq_name'=>$row->dist_hq_name));
-						$i++;
-					}
+					$form = $ui->form()->id('edit_emp_last5yrstay_details')
+					->action('employee/edit/update_old_last_5yr_stay_details/'.$sno)
+					->extras('onSubmit="return onclick_save('.$sno.');"')->open();
+						$row = $ui->row()->open();
+							$col = $ui->col()->open();
+								$box = $ui->box()->uiType('primary')->style('margin-bottom:0')->open();
+									$row11 = $ui->row()->open();
+                						$ui->input()->id("edit_addr".$sno)->name("edit_addr".$sno)->value($emp_last5yrstay_details->res_addr)->label('Residential Address')->width(12)->t_width(12)->show();
+                					$row11->close();
+                					$row12 = $ui->row()->open();
+                						$date=date("Y-m-d", time());
+	                					$newdate = strtotime ( '-5 year' , strtotime ( $date ) ) ;
+
+                    					$ui->datePicker()->name('edit_from'.$sno)
+					                                    ->id('edit_from'.$sno)
+					                                    ->dateFormat('dd-mm-yyyy')
+					                                    ->addonRight($ui->icon("calendar"))
+					                                    ->value(date('d-m-Y',strtotime($emp_last5yrstay_details->from)))
+					                                    ->placeholder("dd-mm-yyyy")
+					                                    ->label('From')->width(6)->t_width(6)
+					                                    ->extras('max="'.date('d-m-Y').'" min="'.date('d-m-Y',$newdate).'"')
+					                                    ->show();
+					                    $ui->datePicker()->name('edit_to'.$sno)
+					                                    ->id('edit_to'.$sno)
+					                                    ->dateFormat('dd-mm-yyyy')
+					                                    ->addonRight($ui->icon("calendar"))
+					                                    ->value(date('d-m-Y',strtotime($emp_last5yrstay_details->to)))
+					                                    ->placeholder("dd-mm-yyyy")
+					                                    ->label('To')->width(6)->t_width(6)
+					                                    ->extras('max="'.date('d-m-Y').'" min="'.date('d-m-Y',$newdate).'"')
+					                                    ->show();
+									$row12->close();
+					            	$row13 = $ui->row()->open();
+                    					$ui->input()->id("edit_dist".$sno)->name("edit_dist".$sno)->value($emp_last5yrstay_details->dist_hq_name)->label('Name of District Headquarters')->width(12)->t_width(12)->show();
+                					$row13->close();
+					                $row14 = $ui->row()->open();
+										echo '<center>';
+										$ui->button()->uiType('primary')->flat()->submit()
+											->name('save')->value('Save')->icon($ui->icon('floppy-o'))->show();
+										$ui->button()->uiType('danger')->flat()
+											->name('cancel')->value('Cancel')
+											->extras('onClick="closeframe();"')->icon($ui->icon('times'))->show();
+										echo '</center>';
+									$row14->close();
+								$box->close();
+							$col->close();
+						$row->close();
+					$form->close();
 				}
-				else
-					$this->notification->drawNotification("Empty","No last five year stay detais found.","error");
-				break;*/
+				break;
 	}
 
 ?>

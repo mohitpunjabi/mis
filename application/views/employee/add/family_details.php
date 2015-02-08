@@ -7,7 +7,7 @@ if($emp_family_details != FALSE) {
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
             $box = $ui->box()->title('Dependent Family Members Details')->uiType('primary')->open();
-                $table = $ui->table()->id('tbl3')->responsive()->bordered()->paginated()->striped()->open();
+                $table = $ui->table()->id('tbl3')->responsive()->bordered()->striped()->open();
                     echo '<thead valign="middle" ><tr align="center">
                         <th align="center">S no.</th>
                         <th>Name</th>
@@ -74,7 +74,7 @@ $form = $ui->form()->id('emp_fam_details')->multipart()->action('employee/add/in
                     $ui->input()->name("addr3")->placeholder('Enter Present Postal Address')->label('Present Postal Address')->width(12)->t_width(12)->show();
                 $row13->close();
                 $row14 = $ui->row()->open();
-                    $ui->imagePicker()->width(12)->label("Photograph")->required()->id('photo3')->name('photo3')->show();
+                    $ui->imagePicker()->width(12)->label("Photograph")->id('photo3')->name('photo3')->show();
                 $row14->close();
             $box->close();
         $col->close();

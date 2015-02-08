@@ -311,6 +311,9 @@ class Add extends MY_Controller
 		//javascript
 		$this->addJS("employee/education_details_script.js");
 
+		$this->load->model('employee/emp_education_details_model','',TRUE);
+		$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
+
 		//view
 		$this->drawHeader("Add Education Qualifications","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/add/educational_details',$data);
@@ -319,46 +322,35 @@ class Add extends MY_Controller
 
 	public function insert_education_details($emp_id = '', $error = '')
 	{
-		if($emp_id != '')
-		{
-			$exam = $this->input->post('exam4');
-			$branch = $this->input->post('branch4');
-			$clgname = $this->input->post('clgname4');
-			$year = $this->input->post('year4');
-			$grade = $this->input->post('grade4');
-			$div = $this->input->post('div4');
+		if($emp_id != '') {
+			if(strtolower(trim($this->input->post('submit')))=='add') {
+				$this->load->model('employee/emp_education_details_model','',TRUE);
+				if($this->emp_education_details_model->getEmpEduById($emp_id))
+					$sno = count($this->emp_education_details_model->getEmpEduById($emp_id));
+				else $sno = 0;
 
-			$n = count($clgname);
-			$i = 0;
+				$exam = $this->input->post('exam4');
+				$branch = $this->input->post('branch4');
+				$clgname = $this->input->post('clgname4');
+				$year = $this->input->post('year4');
+				$grade = $this->input->post('grade4');
+				$div = $this->input->post('div4');
 
-			while($i<$n && $clgname[$i] != '')
-			{
-				$emp_education_details[$i]['id'] = $emp_id;
-				$emp_education_details[$i]['sno'] = $i+1;
-				$emp_education_details[$i]['exam'] = strtolower($exam[$i]);
-				$emp_education_details[$i]['branch'] = strtolower($branch[$i]);
-				$emp_education_details[$i]['institute'] = strtolower($clgname[$i]);
-				$emp_education_details[$i]['year'] = $year[$i];
-				$emp_education_details[$i]['grade'] = strtolower($grade[$i]);
-				$emp_education_details[$i]['division'] = strtolower($div[$i]);
-				$i++;
+				$emp_education_details['id'] = $emp_id;
+				$emp_education_details['sno'] = $sno+1;
+				$emp_education_details['exam'] = strtolower($exam);
+				$emp_education_details['branch'] = strtolower($branch);
+				$emp_education_details['institute'] = strtolower($clgname);
+				$emp_education_details['year'] = $year;
+				$emp_education_details['grade'] = strtolower($grade);
+				$emp_education_details['division'] = strtolower($div);
+
+				$this->emp_education_details_model->insert($emp_education_details);
 			}
-
-			//loading models
-
-			$this->load->model('employee/emp_education_details_model','',TRUE);
-			$this->load->model('employee/emp_current_entry_model','',TRUE);
-
-			//starting transaction for insertion in database
-
-			$this->db->trans_start();
-
-			if(isset($emp_education_details))
-				$this->emp_education_details_model->insert_batch($emp_education_details);
-			$this->emp_current_entry_model->update(array('curr_step' => 4),array('id' => $emp_id));
-
-			$this->db->trans_complete();
-			//transaction completed
+			else if(strtolower(trim($this->input->post('submit')))=='next') {
+				$this->load->model('employee/emp_current_entry_model','',TRUE);
+				$this->emp_current_entry_model->update(array('curr_step' => 4),array('id' => $emp_id));
+			}
 			redirect('employee/add');
 		}
 		else
@@ -376,6 +368,9 @@ class Add extends MY_Controller
 		//javascript
 		$this->addJS("employee/last_5yr_stay_details_script.js");
 
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
+
 		//view
 		$this->drawHeader("Add last 5 year stay details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/add/last_five_year_stay_details',$data);
@@ -384,77 +379,75 @@ class Add extends MY_Controller
 
 	public function insert_last_5yr_stay_details($emp_id = '', $error = '')
 	{
-		if($emp_id != '')
-		{
-			$from = $this->input->post('from5');
-			$to = $this->input->post('to5');
-			$addr = $this->input->post('addr5');
-			$district = $this->input->post('dist5');
+		if($emp_id != '') {
+			if(strtolower(trim($this->input->post('submit')))=='add') {
+				$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+				if($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))
+					$sno = count($this->emp_last5yrstay_details_model->getEmpStayById($emp_id));
+				else $sno = 0;
 
-			$n = count($from);
-			$i = 0;
+				$from = $this->input->post('from5');
+				$to = $this->input->post('to5');
+				$addr = $this->input->post('addr5');
+				$district = $this->input->post('dist5');
 
-			while($i<$n && $from[$i] != "")
-			{
-				$emp_last5yrstay_details[$i]['id'] = $emp_id;
-				$emp_last5yrstay_details[$i]['sno'] = $i+1;
-				$emp_last5yrstay_details[$i]['from'] = $from[$i];
-				$emp_last5yrstay_details[$i]['to'] = $to[$i];
-				$emp_last5yrstay_details[$i]['res_addr'] = $addr[$i];
-				$emp_last5yrstay_details[$i]['dist_hq_name'] = strtolower($district[$i]);
-				$i++;
+				$emp_last5yrstay_details['id'] = $emp_id;
+				$emp_last5yrstay_details['sno'] = $sno+1;
+				$emp_last5yrstay_details['from'] = date('Y-m-d',strtotime($from));
+				$emp_last5yrstay_details['to'] = date('Y-m-d',strtotime($to));
+				$emp_last5yrstay_details['res_addr'] = $addr;
+				$emp_last5yrstay_details['dist_hq_name'] = strtolower($district);
+
+				$this->emp_last5yrstay_details_model->insert($emp_last5yrstay_details);
 			}
+			else if(strtolower(trim($this->input->post('submit')))=='next') {
+				//loading models
+				$this->load->model('employee_model','',TRUE);
+				$this->load->model('employee/emp_validation_details_model','',TRUE);
+				$this->load->model('user/user_auth_types_model','',TRUE);
+				$this->load->model('employee/emp_current_entry_model','',TRUE);
 
-			//loading models
-			$this->load->model('employee_model','',TRUE);
-			$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
-			$this->load->model('employee/emp_validation_details_model','',TRUE);
-			$this->load->model('user/user_auth_types_model','',TRUE);
-			$this->load->model('employee/emp_current_entry_model','',TRUE);
+				$date = date("Y-m-d H:i:s",time());
 
-			$date = date("Y-m-d H:i:s",time());
+				//starting transaction for insertion in database
+				$this->db->trans_start();
 
-			//starting transaction for insertion in database
-			$this->db->trans_start();
+				$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
+				if(!$res)
+				{
+					//if there is no nodal officer i.e est_ar then who will provide validation for default the details are approved and password is set as p.
+					$pass='p';
+					$encode_pass=$this->authorization->strclean($pass);
+					$encode_pass=$this->authorization->encode_password($encode_pass,$date);
+					$this->users_model->update(array('password' => $encode_pass, 'created_date' => $date), array('id' => $emp_id));
+					$this->session->set_flashdata('flashError','Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' and was not sent for validation. There is no nodal officer with auth id \'est_ar\'.');
+				}
+				else
+				{
+					//notify nodal officers for vaidation.
+					$emp_name = $this->user_model->getNameById($emp_id);
+					foreach($res as $row)
+						$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "employee/validation/validate_step/".$emp_id);
 
-			if(isset($emp_last5yrstay_details))
-				$this->emp_last5yrstay_details_model->insert_batch($emp_last5yrstay_details);
+					//set status of all forms as pending
+					$this->emp_validation_details_model->insert(array(	'id'=>$emp_id,
+																		'profile_pic_status'=> 'pending',
+																		'basic_details_status'=> 'pending',
+																		'prev_exp_status'=> 'pending',
+																		'family_details_status'=> 'pending',
+																		'educational_status'=> 'pending',
+																		'stay_status'=> 'pending',
+																		'created_date'=> $date));
 
-			$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
-			if(!$res)
-			{
-				//if there is no nodal officer i.e est_ar then who will provide validation for default the details are approved and password is set as p.
-				$pass='p';
-				$encode_pass=$this->authorization->strclean($pass);
-				$encode_pass=$this->authorization->encode_password($encode_pass,$date);
-				$this->users_model->update(array('password' => $encode_pass, 'created_date' => $date), array('id' => $emp_id));
-				$this->session->set_flashdata('flashError','Employee \''.$emp_id.'\' successfully created with password \''.$pass.'\' and was not sent for validation. There is no nodal officer with auth id \'est_ar\'.');
+					$this->session->set_flashdata('flashSuccess','Employee \''.$emp_id.'\' successfully created and sent for validation.');
+				}
+
+				$this->emp_current_entry_model->delete(array('id' => $emp_id));
+
+				$this->db->trans_complete();
+				//transaction completed
+
 			}
-			else
-			{
-				//notify nodal officers for vaidation.
-				$emp_name = $this->user_model->getNameById($emp_id);
-				foreach($res as $row)
-					$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$emp_name." details", "employee/validation/validate_step/".$emp_id);
-
-				//set status of all forms as pending
-				$this->emp_validation_details_model->insert(array(	'id'=>$emp_id,
-																	'profile_pic_status'=> 'pending',
-																	'basic_details_status'=> 'pending',
-																	'prev_exp_status'=> 'pending',
-																	'family_details_status'=> 'pending',
-																	'educational_status'=> 'pending',
-																	'stay_status'=> 'pending',
-																	'created_date'=> $date));
-
-				$this->session->set_flashdata('flashSuccess','Employee \''.$emp_id.'\' successfully created and sent for validation.');
-			}
-
-			$this->emp_current_entry_model->delete(array('id' => $emp_id));
-
-			$this->db->trans_complete();
-			//transaction completed
-
 			redirect('employee/add');
 		}
 		else
@@ -483,7 +476,7 @@ class Add extends MY_Controller
                 if(!$n_family)
                 	$filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
                 else
-                	$filename[$i]='emp_'.$emp_id.'_fam_'.$n_family.date('YmdHis').$ext;
+                	$filename='emp_'.$emp_id.'_fam_'.$n_family.date('YmdHis').$ext;
             }
         }
         else

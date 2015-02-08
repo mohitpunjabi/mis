@@ -9,49 +9,53 @@ function EditSubject(semester,seq_no)
 		$("[name='subjectP_"+semester+"_"+seq_no+"']").prop('disabled',false);
 		$("[name='subjectcredithours_"+semester+"_"+seq_no+"']").prop('disabled',false);
 		$("[name='subjectcontacthours_"+semester+"_"+seq_no+"']").prop('disabled',false);
+		//alert($("#editbutton_"+semester+"_"+seq_no).val());
 		$("#editbutton_"+semester+"_"+seq_no).val("Save");	
 	}
 	else if($("#editbutton_"+semester+"_"+seq_no).val() == "Save")
 	{
-		var subjectid = $("[name='subjectid_"+semester+"_"+seq_no+"']").prop('disabled',true);
-		var subjectname = $("[name='subjectname_"+semester+"_"+seq_no+"']").prop('disabled',true);
-		var subjectL = $("[name='subjectL_"+semester+"_"+seq_no+"']").prop('disabled',true);
-		var subjectT = $("[name='subjectT_"+semester+"_"+seq_no+"']").prop('disabled',true);
-		var subjectP = $("[name='subjectP_"+semester+"_"+seq_no+"']").prop('disabled',true);
-		var subjectcredithours = $("[name='subjectcredithours_"+semester+"_"+seq_no+"']").prop('disabled',true);
-		var subjectcontacthours = $("[name='subjectcontacthours_"+semester+"_"+seq_no+"']").prop('disabled',true);
+		$subjectid = $("[name='subjectid_"+semester+"_"+seq_no+"']");
+		$subjectname = $("[name='subjectname_"+semester+"_"+seq_no+"']");
+		$subjectL = $("[name='subjectL_"+semester+"_"+seq_no+"']");
+		$subjectT = $("[name='subjectT_"+semester+"_"+seq_no+"']");
+		$subjectP = $("[name='subjectP_"+semester+"_"+seq_no+"']");
+		$subjectcredithours = $("[name='subjectcredithours_"+semester+"_"+seq_no+"']");
+		$subjectcontacthours = $("[name='subjectcontacthours_"+semester+"_"+seq_no+"']");
 		
-		var xmlhttp;
-		if (window.XMLHttpRequest)
-		{// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
-		}
-		else
-		{// code for IE6, IE5
-		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}		
+		$subjectid.prop("disabled",true);
+		$subjectname.prop("disabled",true);
+		$subjectL.prop("disabled",true);
+		$subjectT.prop("disabled",true);
+		$subjectP.prop("disabled",true);
+		$subjectcredithours.prop("disabled",true);
+		$subjectcontacthours.prop("disabled",true);
 		
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				alert(xmlhttp.responseText);
-				//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-			}
-		}
-		
+		$subjectdetails = new Array();
 		//subjectdetails[6];
-		subjectdetails['id'] = subjectid;
-		subjectdetails['name'] = subjectname;
-		subjectdetails['L'] = subjectL;
-		subjectdetails['T'] = subjectT;
-		subjectdetails['P'] = subjectP;
-		subjectdetails['credithours'] = subjectcredithours;
-		subjectdetails['contacthours'] = subjectcontacthours;
+		$subjectdetails['id'] = $subjectid.val();
+		$subjectdetails['name'] = $subjectname.val();
+		$subjectdetails['L'] = $subjectL.val();
+		$subjectdetails['T'] = $subjectT.val();
+		$subjectdetails['P'] = $subjectP.val();
+		$subjectdetails['credithours'] = $subjectcredithours.val();
+		$subjectdetails['contacthours'] = $subjectcontacthours.val();
 		
-		alert(subjectdetails['name']);
-		xmlhttp.open("GET",site_url("course_structure/edit/UpdateCourseStructure/"+subjectdetails),true);
-		xmlhttp.send();
+		alert($subjectdetails['name']);
+		$.ajax({url:site_url("course_structure/edit/Json_UpdateCourseStructure/"+JSON.stringify($subjectdetails)),
+			success:function(data){
+				
+				alert(data['hello']);
+			},
+			type:"POST",
+			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
+			dataType:"json",
+			fail:function(error){
+				console.log(error);
+			}
+		});
+		
+		
+		
 		
 		$("#editbutton_"+semester+"_"+seq_no).val("Edit");	
 	}

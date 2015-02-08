@@ -34,7 +34,7 @@
 								->show();
 								
 								$ui->select()
-								->label('Select Session')
+								->label('Valid From')
 								->name('session')
 								->id("session_selection")
 								->containerId('cont_session_selection')

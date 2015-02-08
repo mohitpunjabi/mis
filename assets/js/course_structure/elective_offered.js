@@ -9,33 +9,50 @@ else
 }
 
 $(document).ready(function(){
+	
+	
 	$form_table = $("#form_table");
-	$course = $("#course");	
+	$course = $("#course_selection");	
+	$branch_selection = $("#branch_selection").hide();
+	$session = $("#session_selection").hide();
+	$semester = $("#semester").hide();
+	
+	$cont_branch_selection = $("#cont_branch_selection").hide();
+	$cont_session = $("#cont_session_selection").hide();
+	$cont_semester = $("#cont_semester").hide();
+	
 	$course.on('change',function(){
+		
 		//alert($course.find(":selected").val());		
 		$.ajax({url:site_url('course_structure/elective_offered_home/json_get_branch/'+$course.find(":selected").val()),
 			success:function(data){
 				
 			if(parseInt($course.find(':selected').val())!=0){
-				var base_str = '<tr class="branch_option"><td>Choose Branch</td><td><select name = "branch"><option value = "0">Select Branch</option>';
+				var base_str = '<option value = "0" disbaled = "true" selected>Select Branch</option>';
 					
 				for($d=0 ; $d < data.length;$d++){
 					//alert("inside branches");
 					//console.log(branch,data.branches[branch]);
 					base_str+='<option value="'+data[$d]['id']+'">'+data[$d]['name']+'</option>';
 				}
-				base_str += '</select></td></tr>';
-				//var duration = parseInt($course.find(':selected').data('duration'));
-				//alert(duration);
-				//var now = new Date();
-				base_str += '<tr class="batch_option"><td>Choose Batch</td><td><select name = "batch">';
+				$cont_branch_selection.show();
+				$branch_selection.html(base_str).show();
+				
+				base_str = '<option disabled="true" selected>Select Batch</option>';
 
 				var now = new Date();
 				var duration = parseInt($course.find(':selected').data('duration'));
+				
 				for(var i=parseInt(now.getFullYear());i<=parseInt(now.getFullYear())-1+duration;i++){
+					
 					base_str += '<option value="'+i+'">'+i+'</option>';
 				}
-				base_str += '</select></td></tr>';
+				
+				alert(base_str);
+				$cont_session.show();
+				$session.html(base_str).show();	
+				
+				
 				base_str += '<tr class="semester_option"><td>Choose Semester</td><td><select name = "semester"><option value = "0">Select Semester</option>';			
 				for(var i=1;i<=duration*2;i++){
 					base_str += '<option calue="'+i+'">'+i+'</option>';

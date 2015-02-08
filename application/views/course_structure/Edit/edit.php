@@ -33,8 +33,8 @@
 				  <th>Credit Hours</th>
 				  <th>Contact Hours</th>
 				  <th>Elective</th>
-				  <th style = "width:15px;">Type</th>
-				  <th style = "width:15px;">Edit</th>
+				  <th>Type</th>
+				  <th>Edit</th>
 				</tr>';
 				
 			for($i=1;$i<=$subjects["count"][$semester];$i++)
@@ -43,17 +43,12 @@
 				{
 				echo '
 				<tr>
-					<td>';
-						$subjects["group_details"][$semester][$i]->elective_name;
+					<td colspan="11" align="center">';
+						echo $subjects["group_details"][$semester][$i]->elective_name;
 						$group_id = $subjects["group_details"][$semester][$i]->group_id;
-				echo '
-					<tr>
-					<td>';
-					$subjects["group_details"][$semester][$i]->elective_name;
-				echo '
+				echo'
 					</td>
 				</tr>';
-				$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				for($j = 0;$j<$subjects["elective_count"][$group_id];$j++)
 				{
 					$seq_no = intval($i)+intval($j);
@@ -107,9 +102,15 @@
 					</td>	
 					<td>';
 						$seq_no = intval($i)+intval($j);
+						$ui->button()
+							->value('Edit')
+							->uiType('primary')
+							->id("editbutton_".$semester."_".$i)
+							->icon($ui->icon("edit"))
+							->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
+							->name('edit')
+							->show();
 				echo '
-						<input id = "editbutton_'.$semester.'_'.$seq_no.'" type = "button" name = "editbutton()" value = "Edit" style = 
-						"width:50px;" onclick = EditSubject("'.$semester.'","'.$seq_no.'")></input>
 					</td>		
 				</tr>';	
 				}//for closed..

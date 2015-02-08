@@ -7,32 +7,17 @@ class View extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo','hod'));
 		
-		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/add.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($userid= '')
 	{
-		$data = array();
-		
-		//if($userid != '')
-		//{	
-			$dept = $this->basic_model->Select_Department_By_User_ID($userid);
-			$dept_id = $dept[0]->dept_id;
-			$data['result_dept'] = $this->basic_model->get_depts();
-			//$data["result_course"] = $this->basic_model->get_course_offered_by_dept($dept_id);
-			//$data["result_branch"] = $this->basic_model->get_branch_offered_by_dept($dept_id);
-			
-		//}
-		//else
-		//{
-			
-			//$data["result_course"] = $this->basic_model->get_course();
-			//$data["result_branch"] = $this->basic_model->get_branches();
-		//}
-		$this->drawHeader();
+		$data = array();	
+		$data['result_dept'] = $this->basic_model->get_depts();
+		$data["result_course"] = $this->basic_model->get_course();
+		$data["result_branch"] = $this->basic_model->get_branches();
+		$this->drawHeader("View Course Structure");
 		$this->load->view('course_structure/View/view_home',$data);
 		$this->drawFooter();
 	}
@@ -85,10 +70,11 @@ class View extends MY_Controller
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+			   if($group_id != 0 && !isset($data["subjects"]["elective_count"][$group_id]))
+			   	 $data["subjects"]["elective_count"][$group_id] = 0;
 			   
 			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
 			   id)->sequence;
-			   
 			   
 			   $data["subjects"][$group_id] = 0;
 			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);

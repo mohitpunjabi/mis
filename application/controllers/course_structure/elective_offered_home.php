@@ -10,9 +10,7 @@ class Elective_offered_home extends MY_Controller
 		//$this->addJS("course_structure/add.js");
 		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/elective_offered.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		
-		//$this->load->model('elective_offered/basic_model','',TRUE);
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 

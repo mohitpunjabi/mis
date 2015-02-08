@@ -74,13 +74,19 @@ class Edit extends MY_Controller
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-			   $data["subjects"]["elective_count"][$group_id] = 0;
+			   if($group_id != 0 && !isset($data["subjects"]["elective_count"][$group_id]))
+			   	 $data["subjects"]["elective_count"][$group_id] = 0;
+			   
 			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
 			   id)->sequence;
 			   
+			   $data["subjects"][$group_id] = 0;
+			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
 			   if($group_id != 0)
 			   {
-			   		$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
+				    //$data['flag']['group_id'][$i] = $group_id;
+					$group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+			   		$data["subjects"]["group_details"][$counter][$i] = $group_detials[0];
 			    	$data["subjects"]["elective_count"][$group_id]++;
 			   }
 			   $i++;
@@ -96,9 +102,17 @@ class Edit extends MY_Controller
 
 	}
 	
-	public function UpdateCourseStructure($subjectdetails)
+	public function Json_UpdateCourseStructure($subjectdetails)
 	{
-		echo $subjectdetails;
+		//if($subjectdetails != ''){
+			$this->output->set_content_type('application/json');
+			$this->output->set_output(json_encode(array("hello"=>"umang")));
+			$this->output->set_output(json_encode());
+			//$this->output->set_output(json_encode($this->basic_model->get_session_by_course_and_branch($course,$branch)));
+		//}
+		//var_dump($subjectdetails);
+		//echo "hii";
+		//echo $subjectdetails;
 		//$this->basic_model->update
 		
 		//echo $subjectdetails[id];

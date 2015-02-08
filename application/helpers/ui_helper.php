@@ -1172,7 +1172,7 @@ class Slider extends Input {
 		$this->max = $max;
 		return $this;
 	}
-	function rangetype($rangetype = true)//double/single
+	function rangeType($rangetype = true)//double/single
 	{
 		$this->rangetype =$rangetype;
 		return $this;
@@ -1187,12 +1187,19 @@ class Slider extends Input {
 		$this->grid = $grid;
 		return $this;
 	}
-	function datafrom($from = '')
+	function dataFrom($from = '')
 	{
 		$this->datafrom = $from;
 		return $this;
 	}
-	function datato($datato = '')
+	function value($value = '')
+	{
+		parent::__construct();
+		$this->datafrom = $value;
+		return $this;
+	}
+	
+	function dataTo($datato = '')
 	{
 		$this->datato = $datato;
 		return $this;
@@ -1223,7 +1230,7 @@ class Slider extends Input {
 			unset($this->properties['value']);
 	
 		echo '
-		<input id="'.$this->properties['id'].'" type="text" name="'.$this->properties['id'].'" value="" />';
+		<input '.$this->_parse_attributes().' />';
         $this->closeAddon();
 		echo '
 		</div>

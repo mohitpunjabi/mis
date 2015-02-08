@@ -19,6 +19,11 @@
         <link href="<?= base_url() ?>assets/core/adminLTE/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     	<link href="<?= base_url() ?>assets/core/adminLTE/css/datepicker/datepicker3.css" rel="stylesheet" type="text/css">
         <link href="<?= base_url() ?>assets/core/img_upload/upload_image.css" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url() ?>assets/core/adminLTE/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="<?= base_url() ?>assets/core/adminLTE/css/ionslider/ion.rangeSlider.css" rel="stylesheet" type="text/css">
+		<link href="<?= base_url() ?>assets/core/adminLTE/css/ionslider/ion.rangeSlider.skinFlat.css" rel="stylesheet" type="text/css">
+        <link href="<?= base_url() ?>assets/core/adminLTE/css/ionslider/ion.rangeSlider.skinNice.css" rel="stylesheet" type="text/css">
+        
 <!--		<link href="<?= base_url() ?>assets/core/mis-layout.css" rel="stylesheet" type="text/css" /> -->
 		<?php if(isset($css)) echo $css; ?>
 
@@ -34,6 +39,8 @@
         <script src="<?= base_url() ?>assets/core/adminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
 		<script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+   		<script src="<?= base_url() ?>assets/core/moment.js" type="text/javascript"></script>
+        <script src="<?= base_url() ?>assets/core/adminLTE/js/plugins/ionslider/ion.rangeSlider.min.js" type="text/javascript"></script>
    		<script src="<?= base_url() ?>assets/core/mis-extension.js" type="text/javascript"></script>
 
 <!--		<script src="<?= base_url() ?>assets/core/mis-layout.js" type="text/javascript"></script> -->

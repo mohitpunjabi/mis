@@ -772,6 +772,27 @@ $formRow = $ui->row()->open();
 			
 			$ui->datePicker()->label("A date picker")->show();	
 
+			$ui->slider()
+				->id('slider2')
+				->min('0')
+				->label('A slider')
+				->max('100')
+				->step('1')
+				->grid()
+				->value("15")
+				->show();
+
+			$ui->slider()
+				->id('slider1')
+				->label('A ranged slider')
+				->min('0')
+				->max('50000')
+				->step('100')
+				->rangeType()
+				->dataFrom('9000')
+				->dataTo('20000')
+				->prefix('$')
+				->show();		
 ?>
 <p>To create input elements with smaller widths, create a <code>Row</code> and place the inputs inside it with their <code>width()</code> property:</p>
 <pre>
@@ -882,6 +903,8 @@ $ui->input()
 			 ->addonLeft($ui->icon("calendar"))
 			 ->addonRight($ui->button()->value("Choose")->uiType("success"))
 			 ->uiType("success")
+			 ->id("dpAddon")
+			 ->value("01-05-2014")
 			 ->show();
 
 		$box->close();

@@ -10,9 +10,7 @@
 						$array_options[0] = $ui->option()->value("0")->text("Select Course")->selected();
 						foreach ($result_course as $row) 
 							array_push($array_options,$ui->option()->extras('data-duration="'.$row->duration.'"')->value($row->id)->text($row->name));
-										
-							
-							
+									
 							$ui->select()
 								->label('Select Course')
 								->name('course')

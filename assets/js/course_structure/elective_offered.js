@@ -38,8 +38,8 @@ $(document).ready(function(){
 				base_str = '<option disabled="true" selected>Select Batch</option>';
 
 				var now = new Date();
-				//var duration = parseInt($course.find(':selected').data('duration'));
-				var duration = 4;
+				var duration = parseInt($course.find(':selected').data('duration'));
+				//var duration = 4;
 				for(var i=parseInt(now.getFullYear());i<=parseInt(now.getFullYear())-1+duration;i++){
 					base_str += '<option value="'+i+'">'+i+'</option>';
 				}

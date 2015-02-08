@@ -21,6 +21,7 @@ class UI {
 	function icon($t)	{	return new Icon($t);		}
 	function datePicker()	{	return new DatePicker();	}
 	function imagePicker()	{	return new ImagePicker();	}
+	function slider()	{	return new Slider();	}
 }
 
 
@@ -876,8 +877,6 @@ class Button extends Input {
 		if($this->submit)		$this->properties['type'] = 'submit';
 		
 		$val = $this->properties['value'];
-		unset($this->properties['value']);
-
 		echo '<button '.$this->_parse_attributes().' >';
 		if($this->icon) {
 			$this->icon->show();
@@ -1092,7 +1091,19 @@ class DatePicker extends Input {
 	function show() {
 		$this->containerExtras('data-date-format="'.$this->dateFormat.'"');
 		parent::show();
-		echo "<script>$('#".$this->properties["id"]."').datepicker({ format: '".$this->dateFormat."', autoclose: true, todayBtn: 'linked'});</script>";
+		echo '
+		<script>
+			$("#'.$this->properties["id"].'").datepicker({
+						format: "'.$this->dateFormat.'",
+						autoclose: true,
+						todayBtn: "linked"
+			});';
+		
+		if($this->properties['value'] != '') {
+			echo '$("#'.$this->properties["id"].'").datepicker("setDate", moment("'.$this->properties['value'].'", "'.strtoupper($this->dateFormat).'").toDate());';
+		}
+				
+        echo '</script>';
 	}
 }
 
@@ -1129,5 +1140,128 @@ class ImagePicker extends Input {
 			});
 		</script>
 		';
+	}
+}
+
+
+
+
+
+class Slider extends Input {
+	var $label = '';
+	var $min = '0';
+	var $max = '100';
+	var $rangetype = '0';
+	var $step = '1';
+	var $grid = false;
+	var $datafrom = '';
+	var $datato = '';
+	var $prefix = '';
+	var $postfix = '';
+	public function __construct() {
+		parent::__construct();
+		log_message('debug', "UI_helper > Slider Class Initialized");
+	}
+	function min($min = '')//min value
+	{
+		$this->min = $min;
+		return $this;
+	}
+	function max($max = '')//max value
+	{
+		$this->max = $max;
+		return $this;
+	}
+	function rangeType($rangetype = true)//double/single
+	{
+		$this->rangetype =$rangetype;
+		return $this;
+	}
+	function step($step = '')//least count
+	{
+		$this->step = $step;
+		return $this;
+	}
+	function grid($grid = true)
+	{
+		$this->grid = $grid;
+		return $this;
+	}
+	function dataFrom($from = '')
+	{
+		$this->datafrom = $from;
+		return $this;
+	}
+	function value($value = '')
+	{
+		parent::__construct();
+		$this->datafrom = $value;
+		return $this;
+	}
+	
+	function dataTo($datato = '')
+	{
+		$this->datato = $datato;
+		return $this;
+	}
+	function prefix($prefix = '')
+	{
+		$this->prefix = $prefix;
+		return $this;
+	}
+	function postfix($postfix = '')
+	{
+		$this->postfix = $postfix;
+		return $this;
+	}
+	function color($color = '')
+	{
+		$this->color = $color;
+	}
+	function show()
+	{
+		echo '<div '.$this->_parse_container_attributes().'>';
+
+		//label element
+		$this->makeLabel();
+
+		$this->openAddon();
+
+			unset($this->properties['value']);
+	
+		echo '
+		<input '.$this->_parse_attributes().' />';
+        $this->closeAddon();
+		echo '
+		</div>
+		
+		<script type="text/javascript">
+			$("#'.$this->properties['id'].'").ionRangeSlider({
+                    min: '.$this->min.',
+                    max: '.$this->max.',
+					from: '.$this->datafrom.',';
+	
+		if($this->rangetype)
+		{
+				echo '
+					to: '.$this->datato.',
+					type: \'double\',';
+		}
+		else echo ' type: \'single\',';
+			echo '
+                    step: '.$this->step.',';
+		if($this->prefix!="")
+             echo	' prefix: "'.$this->prefix.'",';
+		if($this->postfix!="")
+			echo	' postfix: "'.$this->postfix.',"';
+            
+			echo     'prettify: false,';
+			if($this->grid)
+				echo 'hasGrid: true';
+			else
+				echo 'hasGrid: false';
+				echo '
+                });
+		</script>';
 	}
 }

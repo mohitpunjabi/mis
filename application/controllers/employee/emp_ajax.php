@@ -74,6 +74,36 @@ class Emp_ajax extends CI_Controller
 		}
 	}
 
+	public function edit_record($form = -1, $s = -1)
+	{
+		switch($form)
+		{
+			case 2: $this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+					if($s != -1)	$data['emp_prev_exp_details']=$this->emp_prev_exp_details_model->getEmpPrevExpById($this->session->userdata('EDIT_EMPLOYEE_ID'),$s);
+					break;
+			case 3: $this->load->model('employee/emp_family_details_model','',TRUE);
+					if($s != -1)	$data['emp_family_details']=$this->emp_family_details_model->getEmpFamById($this->session->userdata('EDIT_EMPLOYEE_ID'),$s);
+					break;
+			case 4: $this->load->model('employee/emp_education_details_model','',TRUE);
+					if($s != -1)	$data['emp_education_details']=$this->emp_education_details_model->getEmpEduById($this->session->userdata('EDIT_EMPLOYEE_ID'),$s);
+					break;
+			case 5: $this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+					if($s != -1)	$data['emp_last5yrstay_details']=$this->emp_last5yrstay_details_model->getEmpStayById($this->session->userdata('EDIT_EMPLOYEE_ID'),$s);
+					break;
+		}
+		if($form !=-1 && $s!=-1)
+		{
+			$this->load->model('employee/emp_basic_details_model','',TRUE);
+				$emp_basic_details = $this->emp_basic_details_model->getEmployeeByID($this->session->userdata('EDIT_EMPLOYEE_ID'));
+			if($emp_basic_details)	$data['joining_date'] = $emp_basic_details->joining_date;
+			else $data['joining_date'] = FALSE;
+			$data['form'] = $form;
+			$data['emp_id'] = $this->session->userdata('EDIT_EMPLOYEE_ID');
+			$data['sno']=$s;
+			$this->load->view('employee/emp_ajax/edit_record',$data);
+		}
+	}
+
 	private function edit_validation($emp_id,$form)
 	{
 		$this->load->model('employee/emp_validation_details_model','',TRUE);

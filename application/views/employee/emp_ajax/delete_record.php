@@ -1,52 +1,52 @@
-<?php
+<?php $ui = new UI();
 	switch($form)
 	{
 		case 2: $emp_prev_exp_details = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
 				if($emp_prev_exp_details)
 				{
-					echo '<tr>
-							<th rowspan="2">S no.</th>
-					        <th rowspan="2">Full address of Employer</th>
-							<th rowspan="2">Position held</th>
-					        <th colspan="2">Organization</th>
-					        <th rowspan="2">Pay Scale</th>
-					        <th rowspan="2">Remarks</th>
-			    		    <th rowspan="2">Edit/Delete</th>
-						</tr>
-						<tr>
-							<th>From</th>
-							<th>To</th>
-						</tr>';
-					$i=1;
-					foreach($emp_prev_exp_details as $row)
-					{
-						if($row->remarks == "")	$remarks='';
-						else	$remarks = $row->remarks;
-						echo '<tr name="row[]" align="center">
-								<td>'.$i.'</td>
-								<td>'.ucwords($row->address).'</td>
-			    				<td>'.ucwords($row->designation).'</td>
-			    				<td>'.date('d M Y', strtotime($row->from)).'</td>
-			    				<td>'.date('d M Y', strtotime($row->to)).'</td>
-			    				<td>'.$row->pay_scale.'</td>
-		    					<td>'.ucfirst($remarks).'</td>
-								<td>
-									<input type="button" name="edit[]" value="Edit" onClick="onclick_edit('.$i.',\''.$row->from.'\',\''.$row->to.'\',\''.$joining_date.'\')">
-									<input type="button" class="error" name="delete2[]" value="Delete" onClick="onclick_delete('.$i.');" >
-								</td>
-			    			</tr>';
-			    		$this->emp_prev_exp_details_model->update_record(array('sno'=>$i),array('id'=>$emp_id,
+					echo '<thead valign="middle" ><tr align="center">
+	                        <th rowspan="2" >S no.</th>
+	                        <th rowspan="2">Full address of Employer</th>
+	                        <th rowspan="2">Position held</th>
+	                        <th colspan="2">Organization</th>
+	                        <th rowspan="2">Pay Scale</th>
+	                        <th rowspan="2">Remarks</th>
+	                        <th rowspan="2">Edit/Delete</th>
+	                    </tr>
+	                    <tr align="center">
+	                        <th>From</th>
+	                        <th>To</th>
+	                    </tr></thead><tbody>';
+	                    $i=1;
+	                    foreach($emp_prev_exp_details as $row) {
+	                        if($row->remarks == "") $remarks='NA';
+	                        else    $remarks = $row->remarks;
+	                        echo '<tr name="row[]" align="center">
+	                                <td>'.$i.'</td>
+	                                <td>'.ucwords($row->address).'</td>
+	                                <td>'.ucwords($row->designation).'</td>
+	                                <td>'.date('d M Y', strtotime($row->from)).'</td>
+	                                <td>'.date('d M Y', strtotime($row->to)).'</td>
+	                                <td>'.$row->pay_scale.'</td>
+	                                <td>'.ucfirst($remarks).'</td>
+	                        		<td>';
+	                                    $ui->button()->flat()->id('edit'.$i)->name("edit[]")->uiType("primary")->value("Edit")->icon($ui->icon("pencil"))->extras('onClick="onclick_edit('.$i.',\''.$row->from.'\',\''.$row->to.'\',\''.$joining_date.'\')"')->show();
+	                                    $ui->button()->flat()->id('edit'.$i)->name("delete2[]")->uiType("danger")->value("Delete")->icon($ui->icon("trash-o"))->extras('onClick="onclick_delete('.$i.');"')->show();
+	                        echo   '</td></tr>';
+
+	                    	$this->emp_prev_exp_details_model->update_record(array('sno'=>$i),array('id'=>$emp_id,
 			    																				'designation'=>$row->designation,
 			    																				'from'=>$row->from,
 			    																				'to'=>$row->to,
 			    																				'pay_scale'=>$row->pay_scale,
 			    																				'address'=>$row->address,
 			    																				'remarks'=>$row->remarks));
-						$i++;
-					}
+							$i++;
+						}
+						echo '</tbody>';
 				}
 				else
-					$this->notification->drawNotification("Empty","No previous employment details found.","error");
+					$ui->callout()->title('Empty')->desc('No Employment Details Found.')->uiType('danger')->show();
 				break;
 
 		case 4: $emp_education_details = $this->emp_education_details_model->getEmpEduById($emp_id);

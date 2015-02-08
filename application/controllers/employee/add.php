@@ -68,7 +68,7 @@ class Add extends MY_Controller
 				'last_name' => ucwords(strtolower($this->input->post('lastname'))) ,
 				'sex' => strtolower($this->input->post('sex')) ,
 				'category' => $this->input->post('category') ,
-				'dob' => $this->input->post('dob') ,
+				'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 				'email' => $this->input->post('email') ,
 				'photopath' => 'employee/'.$emp_id.'/'.$upload['file_name'] ,
 				'marital_status' => strtolower($this->input->post('mstatus')) ,
@@ -96,7 +96,7 @@ class Add extends MY_Controller
 				'office_no' => $this->input->post('office') ,
 				'fax' => $this->input->post('fax') ,
 				'joining_date' => $this->input->post('entrance_age') ,
-				'retirement_date' => $this->input->post('retire') ,
+				'retirement_date' => date('Y-m-d',strtotime($this->input->post('retire'))) ,
 				'employment_nature' => strtolower($this->input->post('empnature'))
 			);
 
@@ -209,8 +209,8 @@ class Add extends MY_Controller
 				else $sno = 0;
 
 				$designation = $this->input->post('designation2');
-				$from = $this->input->post('from2');
-				$to = $this->input->post('to2');
+				$from = date('Y-m-d',strtotime($this->input->post('from2')));
+				$to = date('Y-m-d',strtotime($this->input->post('to2')));
 				$payscale = $this->input->post('payscale2');
 				$addr = $this->input->post('addr2');
 				$reason = $this->input->post('reason2');
@@ -247,62 +247,53 @@ class Add extends MY_Controller
 
 		//javascript
 		$this->addJS("employee/family_details_script.js");
+		$this->load->model('employee/emp_family_details_model','',TRUE);
+		$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
 
 		//view
-		$this->drawHeader("Add Family Details");
+		$this->drawHeader("Add Family Details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/add/family_details',$data);
 		$this->drawFooter();
 	}
 
 	public function insert_family_details($emp_id = '', $error = '')
 	{
-		if($emp_id != '')
-		{
-			$name = $this->input->post('name3');
-			$relationship = $this->input->post('relationship3');
-			$profession = $this->input->post('profession3');
-			$addr = $this->input->post('addr3');
-			$dob = $this->input->post('dob3');
-			$active = $this->input->post('active3');
+		if($emp_id != '') {
+			if(strtolower(trim($this->input->post('submit')))=='add') {
+				$this->load->model('employee/emp_family_details_model','',TRUE);
+				if($this->emp_family_details_model->getEmpFamById($emp_id))
+					$sno = count($this->emp_family_details_model->getEmpFamById($emp_id));
+				else $sno = 0;
 
-			$n = count($name);
-			$i = 0;
+				$upload = $this->_upload_image($emp_id,'photo3',$sno+1);
+				if($upload !== FALSE) {
 
-			$upload = $this->_upload_image($emp_id,'photo3',$n);
+					$name = $this->input->post('name3');
+					$relationship = $this->input->post('relationship3');
+					$profession = $this->input->post('profession3');
+					$addr = $this->input->post('addr3');
+					$dob = date('Y-m-d',strtotime($this->input->post('dob3')));
+					$active = $this->input->post('active3');
 
-			if($upload !== FALSE)
-			{
-				while($i<$n && $name[$i] != '')
-				{
-					$emp_family_details[$i]['id'] = $emp_id;
-					$emp_family_details[$i]['sno'] = $i+1;
-					$emp_family_details[$i]['name'] = ucwords(strtolower($name[$i]));
-					$emp_family_details[$i]['relationship'] = $relationship[$i];
-					$emp_family_details[$i]['profession'] = strtolower($profession[$i]);
-					$emp_family_details[$i]['present_post_addr'] = strtolower($adsdr[$i]);
-					$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? 'employee/'.$emp_id.'/'.$upload[$i]['file_name'] : '';
-					$emp_family_details[$i]['dob'] = $dob[$i];
-					$emp_family_details[$i]['active_inactive'] = $active[$i];
-					$i++;
+					$emp_family_details['id'] = $emp_id;
+					$emp_family_details['sno'] = $sno+1;
+					$emp_family_details['name'] = ucwords(strtolower($name));
+					$emp_family_details['relationship'] = $relationship;
+					$emp_family_details['profession'] = strtolower($profession);
+					$emp_family_details['present_post_addr'] = strtolower($addr);
+					$emp_family_details['photopath'] = (isset($upload['file_name']))? 'employee/'.$emp_id.'/'.$upload['file_name'] : '';
+					$emp_family_details['dob'] = $dob;
+					$emp_family_details['active_inactive'] = $active;
+
+					$this->emp_family_details_model->insert($emp_family_details);
 				}
+				else return;
 			}
-			else return;
-
-			//loading models
-
-			$this->load->model('employee/emp_family_details_model','',TRUE);
-			$this->load->model('employee/emp_current_entry_model','',TRUE);
-
-			//starting transaction for insertion in database
-
-			$this->db->trans_start();
-
-			if(isset($emp_family_details))
-				$this->emp_family_details_model->insert_batch($emp_family_details);
-			$this->emp_current_entry_model->update(array('curr_step' => 3),array('id' => $emp_id));
-
-			$this->db->trans_complete();
-			//transaction completed
+			else if(strtolower(trim($this->input->post('submit')))=='next')
+			{
+				$this->load->model('employee/emp_current_entry_model','',TRUE);
+				$this->emp_current_entry_model->update(array('curr_step' => 3),array('id' => $emp_id));
+			}
 			redirect('employee/add');
 		}
 		else
@@ -321,7 +312,7 @@ class Add extends MY_Controller
 		$this->addJS("employee/education_details_script.js");
 
 		//view
-		$this->drawHeader("Add Education Qualifications");
+		$this->drawHeader("Add Education Qualifications","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/add/educational_details',$data);
 		$this->drawFooter();
 	}
@@ -386,7 +377,7 @@ class Add extends MY_Controller
 		$this->addJS("employee/last_5yr_stay_details_script.js");
 
 		//view
-		$this->drawHeader("Add last 5 year stay details");
+		$this->drawHeader("Add last 5 year stay details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/add/last_five_year_stay_details',$data);
 		$this->drawFooter();
 	}
@@ -481,55 +472,25 @@ class Add extends MY_Controller
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
 
-		if($n_family === FALSE)
-		{
-			if(isset($_FILES[$name]['name']))
-        	{
-                if($_FILES[$name]['name'] == "")
-            		$filename = "";
-                else
-				{
-                    $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
-                    $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                    $filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
-                }
-	        }
-	        else
-	        {
-	        	$this->index('ERROR: File Name not set.');
-				return FALSE;
-	        }
-	    }
-	    else
+		if(isset($_FILES[$name]['name']))
     	{
-    		$i=0;
-    		while($i<$n_family)
-    		{
-    			if(isset($_FILES[$name]['name'][$i]))
-        		{
-	                if($_FILES[$name]['name'][$i] == "")
-            			$filename[$i] = "";
-                	else
-					{
-	                    $filename[$i] = $this->security->sanitize_filename(strtolower($_FILES[$name]['name'][$i]));
-                    	$ext =  strrchr( $filename[$i], '.' ); // Get the extension from the filename.
-                    	$filename[$i]='emp_'.$emp_id.'_fam_'.($i+1).date('YmdHis').$ext;
-                	}
-	        	}
-	        	else
-	        	{
-		        	$this->index('ERROR: File Name not set.');
-					return FALSE;
-	        	}
-	        	$i++;
-    		}
-    	}
-    	//dont upload files with no file name
-		for($i=0 ; $i < $n_family ; $i++)
-			if($_FILES[$name]["name"][$i] == '')
+            if($_FILES[$name]['name'] == "")
+        		$filename = "";
+            else
 			{
-				unset($_FILES[$name]["name"][$i]);
-			}
+                $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
+                $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
+                if(!$n_family)
+                	$filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
+                else
+                	$filename[$i]='emp_'.$emp_id.'_fam_'.$n_family.date('YmdHis').$ext;
+            }
+        }
+        else
+        {
+        	$this->index('ERROR: File Name not set.');
+			return FALSE;
+        }
 
 		$config['file_name'] = $filename;
 		//$this->load->view('welcome_message',array('d'=>array('photo_image'=>$_FILES,'config'=>$config)));
@@ -550,10 +511,7 @@ class Add extends MY_Controller
 		}
 		else
 		{
-			if($n_family === FALSE)						//single upload
-				$upload_data = $this->upload->data();
-			else 										//multiple upload using name array
-				$upload_data = $this->upload->get_multi_upload_data();
+			$upload_data = $this->upload->data();	//single upload for both user and fasmily
 			return $upload_data;
 		}
 	}

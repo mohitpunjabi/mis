@@ -99,7 +99,7 @@ class Edit extends MY_Controller
 		$res=$this->user_details_model->getUserById($emp_id);
 		$data['photopath'] = ($res == FALSE)?	FALSE:$res->photopath;
 		$data['emp_id']=$emp_id;
-		$this->drawHeader('Change Employee picture');
+		$this->drawHeader('Change Employee picture',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/profile_pic',$data);
 		$this->drawFooter();
 	}
@@ -148,7 +148,7 @@ class Edit extends MY_Controller
 		$this->load->model('pay_scales_model','',TRUE);
 		$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
 
-		$this->drawHeader('Edit basic details');
+		$this->drawHeader('Edit basic details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/basic_details',$data);
 		$this->drawFooter();
 	}
@@ -162,7 +162,7 @@ class Edit extends MY_Controller
 			'last_name' => ucwords(strtolower($this->input->post('lastname'))) ,
 			'sex' => strtolower($this->input->post('sex')) ,
 			'category' => $this->input->post('category') ,
-			'dob' => $this->input->post('dob') ,
+			'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 			'email' => $this->input->post('email') ,
 			'marital_status' => strtolower($this->input->post('mstatus')) ,
 			'physically_challenged' => strtolower($this->input->post('pd')) ,
@@ -187,7 +187,7 @@ class Edit extends MY_Controller
 			'office_no' => $this->input->post('office') ,
 			'fax' => $this->input->post('fax') ,
 			'joining_date' => $this->input->post('entrance_age') ,
-			'retirement_date' => $this->input->post('retire') ,
+			'retirement_date' => date('Y-m-d',strtotime($this->input->post('retire'))) ,
 			'employment_nature' => strtolower($this->input->post('empnature'))
 		);
 
@@ -320,50 +320,41 @@ class Edit extends MY_Controller
 		else
 			$data['joining_date'] = FALSE;
 
-		$this->drawHeader('Edit Previous Employment Details');
+		$this->drawHeader('Edit Previous Employment Details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/previous_employment_details',$data);
 		$this->drawFooter();
 	}
 
 	function update_prev_emp_details($emp_id)
 	{
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+
+		if($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))
+			$sno = count($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id));
+		else $sno = 0;
+
 		$designation = $this->input->post('designation2');
-		$from = $this->input->post('from2');
-		$to = $this->input->post('to2');
+		$from = date('Y-m-d',strtotime($this->input->post('from2')));
+		$to = date('Y-m-d',strtotime($this->input->post('to2')));
 		$payscale = $this->input->post('payscale2');
 		$addr = $this->input->post('addr2');
 		$reason = $this->input->post('reason2');
 
-		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+		$emp_prev_exp_details['id'] = $emp_id;
+		$emp_prev_exp_details['sno'] = $sno+1;
+		$emp_prev_exp_details['designation'] = strtolower($designation);
+		$emp_prev_exp_details['from'] = $from;
+		$emp_prev_exp_details['to'] = $to;
+		$emp_prev_exp_details['pay_scale'] = strtolower($payscale);
+		$emp_prev_exp_details['address'] = strtolower($addr);
+		$emp_prev_exp_details['remarks'] = strtolower($reason);
 
-		$n = count($designation);
-		if($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))
-			$sno = count($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id));
-		else $sno = 0;
-		$i=0;
-		while($i<$n && $designation[$i] != '')
-		{
-			$emp_prev_exp_details[$i]['id'] = $emp_id;
-			$emp_prev_exp_details[$i]['sno'] = $sno+$i+1;
-			$emp_prev_exp_details[$i]['designation'] = strtolower($designation[$i]);
-			$emp_prev_exp_details[$i]['from'] = $from[$i];
-			$emp_prev_exp_details[$i]['to'] = $to[$i];
-			$emp_prev_exp_details[$i]['pay_scale'] = strtolower($payscale[$i]);
-			$emp_prev_exp_details[$i]['address'] = strtolower($addr[$i]);
-			$emp_prev_exp_details[$i]['remarks'] = strtolower($reason[$i]);
-			$i++;
-		}
+		$this->emp_prev_exp_details_model->insert($emp_prev_exp_details);
 
-		//check if there is any data to be inserted
-		if(isset($emp_prev_exp_details))
-		{
-			$this->emp_prev_exp_details_model->insert_batch($emp_prev_exp_details);
-			$this->edit_validation($emp_id,'prev_exp_status');
-			$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' previous employment details updated and sent for validation.');
-		}
-		else
-			$this->session->set_flashdata('flashInfo','Employee '.$emp_id.' : No details were added.');
-		redirect('employee/edit');
+		$this->edit_validation($emp_id,'prev_exp_status');
+		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' previous employment details updated and sent for validation.');
+
+		redirect('employee/edit/edit_form');
 	}
 
 	function update_old_prev_emp_details($row)
@@ -372,12 +363,12 @@ class Edit extends MY_Controller
 
 		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 
-		$this->emp_prev_exp_details_model->update_record(array('designation'=>strtolower($this->input->post('designation'.$row)),
-																'from'=>$this->input->post('from'.$row),
-																'to'=>$this->input->post('to'.$row),
-																'pay_scale'=>strtolower($this->input->post('payscale'.$row)),
-																'address'=>strtolower($this->input->post('addr'.$row)),
-																'remarks'=>strtolower($this->input->post('reason'.$row))),
+		$this->emp_prev_exp_details_model->update_record(array('designation'=>strtolower($this->input->post('edit_designation'.$row)),
+																'from'=>date('Y-m-d',strtotime($this->input->post('edit_from'.$row))),
+																'to'=>date('Y-m-d',strtotime($this->input->post('edit_to'.$row))),
+																'pay_scale'=>strtolower($this->input->post('edit_payscale'.$row)),
+																'address'=>strtolower($this->input->post('edit_addr'.$row)),
+																'remarks'=>strtolower($this->input->post('edit_reason'.$row))),
 															array('id'=>$emp_id, 'sno'=>$row));
 
 		$this->edit_validation($emp_id,'prev_exp_status');
@@ -393,57 +384,42 @@ class Edit extends MY_Controller
 		$this->load->model('employee/emp_family_details_model','',TRUE);
 		$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
 
-		$this->drawHeader('Edit Family Details');
+		$this->drawHeader('Edit Family Details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/family_details',$data);
 		$this->drawFooter();
 	}
 
 	function update_family_details($emp_id)
 	{
-		$name = $this->input->post('name3');
-		$relationship = $this->input->post('relationship3');
-		$profession = $this->input->post('profession3');
-		$addr = $this->input->post('addr3');
-		$dob = $this->input->post('dob3');
-		$active = $this->input->post('active3');
-
 		$this->load->model('employee/emp_family_details_model','',TRUE);
-
-		$n = count($name);
 		if($this->emp_family_details_model->getEmpFamById($emp_id))
 			$sno = count($this->emp_family_details_model->getEmpFamById($emp_id));
 		else $sno = 0;
 
-		$i = 0;
+		$upload = $this->_upload_image($emp_id,'photo3',$sno+1);
+		if($upload !== FALSE) {
+			$name = $this->input->post('name3');
+			$relationship = $this->input->post('relationship3');
+			$profession = $this->input->post('profession3');
+			$addr = $this->input->post('addr3');
+			$dob = date('Y-m-d',strtotime($this->input->post('dob3')));
+			$active = $this->input->post('active3');
 
-		$upload = $this->_upload_image($emp_id,'photo3',$n);
+			$emp_family_details['id'] = $emp_id;
+			$emp_family_details['sno'] = $sno+1;
+			$emp_family_details['name'] = ucwords(strtolower($name));
+			$emp_family_details['relationship'] = $relationship;
+			$emp_family_details['profession'] = strtolower($profession);
+			$emp_family_details['present_post_addr'] = strtolower($addr);
+			$emp_family_details['photopath'] = (isset($upload['file_name']))? 'employee/'.$emp_id.'/'.$upload['file_name'] : '';
+			$emp_family_details['dob'] = $dob;
+			$emp_family_details['active_inactive'] = $active;
 
-		if($upload !== FALSE)
-		{
-			while($i<$n && $name[$i] != '')
-			{
-				$emp_family_details[$i]['id'] = $emp_id;
-				$emp_family_details[$i]['sno'] = $i+$sno+1;
-				$emp_family_details[$i]['name'] = ucwords(strtolower($name[$i]));
-				$emp_family_details[$i]['relationship'] = $relationship[$i];
-				$emp_family_details[$i]['profession'] = strtolower($profession[$i]);
-				$emp_family_details[$i]['present_post_addr'] = strtolower($addr[$i]);
-				$emp_family_details[$i]['photopath'] = (isset($upload[$i]['file_name']))? 'employee/'.$emp_id.'/'.$upload[$i]['file_name'] : '';
-				$emp_family_details[$i]['dob'] = $dob[$i];
-				$emp_family_details[$i]['active_inactive'] = $active[$i];
-				$i++;
-			}
-		}
-		else return;
-
-		if(isset($emp_family_details))
-		{
-			$this->emp_family_details_model->insert_batch($emp_family_details);
+			$this->emp_family_details_model->insert($emp_family_details);
 			$this->edit_validation($emp_id,'family_details_status');
 			$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' family details updated and sent for validation.');
+			redirect('employee/edit/edit_form');
 		}
-		else $this->session->set_flashdata('flashInfo','Employee '.$emp_id.' : No details were added.');
-		redirect('employee/edit');
 	}
 
 	function update_old_fam_details($row)
@@ -451,13 +427,13 @@ class Edit extends MY_Controller
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
 		$this->load->model('employee/emp_family_details_model','',TRUE);
-		$fam_array = array('dob'=>$this->input->post('dob'.$row),
-							'profession'=>strtolower($this->input->post('profession'.$row)),
-							'active_inactive'=>$this->input->post('active'.$row),
-							'present_post_addr'=>strtolower($this->input->post('address'.$row)));
+		$fam_array = array('dob'=>$this->input->post('edit_dob'.$row),
+							'profession'=>strtolower($this->input->post('edit_profession'.$row)),
+							'active_inactive'=>$this->input->post('edit_active'.$row),
+							'present_post_addr'=>strtolower($this->input->post('edit_address'.$row)));
 
 		if(isset($_FILES['photo3'.$row]['name']) && $_FILES['photo3'.$row]['name']!='')
-		{	$upload = $this->_upload_image($emp_id,'photo3'.$row);
+		{	$upload = $this->_upload_image($emp_id,'edit_photo3'.$row,$row);
 			if($upload)	$fam_array = array_merge($fam_array,array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']));
 		}
 
@@ -476,7 +452,7 @@ class Edit extends MY_Controller
 		$this->load->model('employee/emp_education_details_model','',TRUE);
 		$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
 
-		$this->drawHeader('Edit Educational Qualifications');
+		$this->drawHeader('Edit Educational Qualifications',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/educational_details',$data);
 		$this->drawFooter();
 	}
@@ -550,7 +526,7 @@ class Edit extends MY_Controller
 		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
 
-		$this->drawHeader('Edit last 5 year stay details');
+		$this->drawHeader('Edit last 5 year stay details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/last_five_year_stay_details',$data);
 		$this->drawFooter();
 	}
@@ -671,57 +647,25 @@ class Edit extends MY_Controller
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
 
-		if($n_family === FALSE)
-		{
-			if(isset($_FILES[$name]['name']))
-        	{
-                if($_FILES[$name]['name'] == "")
-            		$filename = "";
-                else
-				{
-                    $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
-                    $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                    $filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
-                }
-	        }
-	        else
-	        {
-	        	$this->session->set_flashdata('flashError','ERROR: File Name not set.');
-	        	redirect('employee/edit/edit_form');
-				return FALSE;
-	        }
-	    }
-	    else
+		if(isset($_FILES[$name]['name']))
     	{
-    		$i=0;
-    		while($i<$n_family)
-    		{
-    			if(isset($_FILES[$name]['name'][$i]))
-        		{
-	                if($_FILES[$name]['name'][$i] == "")
-            			$filename[$i] = "";
-                	else
-					{
-	                    $filename[$i] = $this->security->sanitize_filename(strtolower($_FILES[$name]['name'][$i]));
-                    	$ext =  strrchr( $filename[$i], '.' ); // Get the extension from the filename.
-                    	$filename[$i]='emp_'.$emp_id.'_fam_'.($i+1).date('YmdHis').$ext;
-                	}
-	        	}
-	        	else
-	        	{
-		        	$this->session->set_flashdata('flashError','ERROR: File Name not set.');
-        			redirect('employee/edit/edit_form');
-					return FALSE;
-	        	}
-	        	$i++;
-    		}
-    	}
-    	//dont upload files with no file name
-		for($i=0 ; $i < $n_family ; $i++)
-			if($_FILES[$name]["name"][$i] == '')
+            if($_FILES[$name]['name'] == "")
+        		$filename = "";
+            else
 			{
-				unset($_FILES[$name]["name"][$i]);
-			}
+                $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
+                $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
+                if(!$n_family)
+                	$filename='emp_'.$emp_id.'_'.date('YmdHis').$ext;
+                else
+                	$filename[$i]='emp_'.$emp_id.'_fam_'.$n_family.date('YmdHis').$ext;
+            }
+        }
+        else
+        {
+        	$this->index('ERROR: File Name not set.');
+			return FALSE;
+        }
 
 		$config['file_name'] = $filename;
 		//$this->load->view('welcome_message',array('d'=>array('photo_image'=>$_FILES,'config'=>$config)));
@@ -736,16 +680,13 @@ class Edit extends MY_Controller
 
 		if ( ! $this->upload->do_multi_upload($name))		//do_multi_upload is back compatible with do_upload
 		{
-			$this->session->set_flashdata('flashError',$this->upload->display_errors('',''));
-			redirect('employee/edit/edit_form');
+			$error = $this->upload->display_errors();
+			$this->index('ERROR: '.$error);
 			return FALSE;
 		}
 		else
 		{
-			if($n_family === FALSE)						//single upload
-				$upload_data = $this->upload->data();
-			else 										//multiple upload using name array
-				$upload_data = $this->upload->get_multi_upload_data();
+			$upload_data = $this->upload->data();	//single upload for both user and fasmily
 			return $upload_data;
 		}
 	}

@@ -20,10 +20,15 @@ class Emp_education_details_model extends CI_Model
 		$this->db->insert_batch($this->table,$data);
 	}
 
-	function getEmpEduById($id = '')
+	function getEmpEduById($id = '',$sno=-1)
 	{
-		$query = $this->db->where('id',$id)->get($this->table);
-		return $query->result();
+		if($sno == -1) {
+			$query = $this->db->where('id',$id)->get($this->table);
+			return $query->result();
+		}else {
+			$query = $this->db->where('id',$id)->where('sno',$sno)->get($this->table);
+			return $query->row();
+		}
 	}
 
 	function delete_record($where_array)

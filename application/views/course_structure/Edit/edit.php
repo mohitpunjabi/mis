@@ -5,7 +5,7 @@
     $aggr_id= $CS_session['aggr_id'];
     $session=$CS_session['session'];
     echo $CS_session['course_name']." ";
-    echo "(".$branch_name.") Applicable for the Session "."20".$session[0].$session[1]."-20".$session[2].$session[3];
+    echo "(".$branch_name.") Applicable for the Session ".$session;
 	if($CS_session["semester"] != 0)
 	{
 		$start_semester = $CS_session["semester"];

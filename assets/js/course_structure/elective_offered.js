@@ -30,37 +30,31 @@ $(document).ready(function(){
 			if(parseInt($course.find(':selected').val())!=0){
 				var base_str = '<option value = "0" disbaled = "true" selected>Select Branch</option>';
 					
-				for($d=0 ; $d < data.length;$d++){
-					//alert("inside branches");
-					//console.log(branch,data.branches[branch]);
+				for($d=0 ; $d < data.length;$d++)
 					base_str+='<option value="'+data[$d]['id']+'">'+data[$d]['name']+'</option>';
-				}
 				$cont_branch_selection.show();
 				$branch_selection.html(base_str).show();
 				
 				base_str = '<option disabled="true" selected>Select Batch</option>';
 
 				var now = new Date();
-				var duration = parseInt($course.find(':selected').data('duration'));
-				
+				//var duration = parseInt($course.find(':selected').data('duration'));
+				var duration = 4;
 				for(var i=parseInt(now.getFullYear());i<=parseInt(now.getFullYear())-1+duration;i++){
-					
 					base_str += '<option value="'+i+'">'+i+'</option>';
 				}
 				
-				alert(base_str);
 				$cont_session.show();
 				$session.html(base_str).show();	
 				
 				
-				base_str += '<tr class="semester_option"><td>Choose Semester</td><td><select name = "semester"><option value = "0">Select Semester</option>';			
+				base_str = '<option value = "0" disabled = "true" selected>Select Semester</option>';			
 				for(var i=1;i<=duration*2;i++){
 					base_str += '<option calue="'+i+'">'+i+'</option>';
 				}
-				base_str += '</select></td></tr>';
 				
-				
-				$form_table.append(base_str);
+				$cont_semester.show();
+				$semester.html(base_str).show();
 			   }
 			}
 		});

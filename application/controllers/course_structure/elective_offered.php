@@ -9,7 +9,6 @@ class Elective_offered extends MY_Controller
 		
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$this->load->model('course_structure/offer_elective_model','',TRUE);
 	}
@@ -19,14 +18,13 @@ class Elective_offered extends MY_Controller
 		$data = array();
 		$course = $this->input->post('course');
 		$branch = $this->input->post('branch');
-		$batch = $this->input->post('batch');
-		$semester = $this->input->post('semester');
+		$batch = $this->input->post('session');
+		$semester = $this->input->post('sem');
 		
 		$result_course_details = $this->basic_model->get_course_details_by_id($course);
 		$duration = $result_course_details[0]->duration;
 		
 		$expected_aggr_id = $course."_".$branch."_".($batch-$duration)."_".($batch-$duration+1);
-		
 		$result_aggr_id = $this->basic_model->get_latest_aggr_id($course,$branch,$expected_aggr_id);
 		$aggr_id = $result_aggr_id[0]->aggr_id;
 		
@@ -37,7 +35,9 @@ class Elective_offered extends MY_Controller
 		$data['aggr_id'] = $aggr_id;
 		//var_dump($data);
 		$subject_details = $this->basic_model->select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester);
-		
+		//echo "hello umang popli.";
+		//var_dump($subject_details);
+		//die();
 				
 		$i =0;
 		$j = 0;
@@ -46,10 +46,13 @@ class Elective_offered extends MY_Controller
 		
 		foreach($subject_details as $row)
 		{
+			//echo "hii";
 			//$j = 0;	
 			$group_id = $row->elective;
 			if(!in_array($group_id,$data['group_id']))
 			{
+				//echo "hello";
+				//die();
 				$data['group_id'][$j] = $group_id;
 				$data['subjects'][$group_id]['number_of_options'] = substr($group_id,0,1);
 				$group_details  = $this->basic_model->select_elective_group_by_group_id($group_id);
@@ -71,7 +74,8 @@ class Elective_offered extends MY_Controller
 			$data['subject'][$group_id]['count']++;
 			$i++;			
 		}
-		
+		//var_dump($data['group_id']);
+		//die();
 		
 		//show the list of already selected elective ..
 		/*$already_selected_elective = $this->basic_model->select_elective_offered_by_aggr_id($aggr_id);	

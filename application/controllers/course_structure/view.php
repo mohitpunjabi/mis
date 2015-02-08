@@ -24,7 +24,6 @@ class View extends MY_Controller
 	
 	public function ViewCourseStructure()
 	{
-		
 		$data = array();
 		$data["CS_session"]['dept_id'] = $this->input->post("dept");
 		$data["CS_session"]['course_id'] = $this->input->post("course");
@@ -38,7 +37,18 @@ class View extends MY_Controller
 		$semester = $data["CS_session"]['semester'];
 		$session = $data["CS_session"]['session'];
 		
-		$aggr_id = $course_id.'_'.$branch_id.'_'.$session;
+		$expected_aggr_id = $course_id.'_'.$branch_id.'_'.$session;
+		
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))
+		{
+			$result_aggr_id = $this->basic_model->get_latest_aggr_id($course_id,$branch_id,$expected_aggr_id);
+			$aggr_id = $result_aggr_id[0]->aggr_id;	
+		}	
+		else
+			$aggr_id = $expected_aggr_id;
+		
+		//echo $aggr_id;
+		//die();
 		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		

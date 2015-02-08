@@ -61,7 +61,7 @@
 	}
 	
 	function validate_track_num ()
-	{	
+	{
 		var file_id = document.getElementById("file_id").value;
 		var track_no = document.getElementById("track_num").value;
 		var xmlhttp = getxmlhttp();
@@ -86,123 +86,7 @@
 		xmlhttp.send();
 		return false;
 	}
-	
-	function display_send_notification ()
-	{
-		var file_no = document.getElementById("file_no").value;
-		var file_sub = document.getElementById("file_sub").value;
-		var rcvd_emp_id = document.getElementById("emp_name").value;
-		var remarks_rcvd = document.getElementById("remarks").value;
-		if (file_no == "")
-			file_no = "NULL";
-		if (file_sub == "")
-		{
-			alert ("Please enter File Subject.");
-			return ;
-		}
-		if (rcvd_emp_id == "")
-		{
-			alert ("Please select Employee Name.");
-			return ;
-		}
-		if (remarks_rcvd == "")
-		{
-			remarks_rcvd = "No Comments";
-		}
-
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST", site_url("file_tracking/send_new_file/insert_file_details/"+file_no+"/"+file_sub+"/"+rcvd_emp_id+"/"+remarks_rcvd),true);
-		xmlhttp.send();
-		return false;
-	}
-	
-	function display_send_notification2 (file_id)
-	{
-		var file_no = document.getElementById("file_no").value;
-		if (file_no == "")
-			file_no = "NULL";
-		var remarks = document.getElementById("remarks").value;
-		var rcvd_emp_id = document.getElementById("emp_name").value;
-		if (rcvd_emp_id == "")
-		{
-			alert ("Please select Employee Name.");
-			return;
-		}
-		if (remarks == "")
-		{
-			remarks = "No Comments"
-		}
-
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
-		xmlhttp.send();
-		/*$.ajax({
-			url: site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),
-			success:function (result) { 
-				console.log(result);
-			}
-		})*/
-		return false;
-	}
-	
-	function display_send_notification3 (file_id)
-	{
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",site_url("file_tracking/close_file/insert_close_details/"+file_id),true);
-		xmlhttp.send();
-		return false;
-	}
-	
-	function display_send_notification4(file_id,rcvd_emp_id)
-	{
-		var file_no = document.getElementById("file_no").value;
-		if (file_no == "")
-			file_no = "NULL";
-		//var file_id = document.getElementById("file_id").value;
-		var remarks = document.getElementById("remarks2").value;
-		//var rcvd_emp_id = document.getElementById("emp_name").value;
-		if (remarks == "")
-		{
-			remarks = "NoComments."
-		}
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("send_notification").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
-			}
-		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file/insert_move_details/"+file_id+"/"+file_no+"/"+rcvd_emp_id+"/"+remarks),true);
-		xmlhttp.send();
-		return false;
-	}
-
+			
 	function get_file_details ()
 	{
 		var file_id = document.getElementById("file_id").value;
@@ -264,24 +148,4 @@
 		xmlhttp.open("POST",site_url("file_tracking/track_file/validate_track_num/"+track_num),true);
 		xmlhttp.send();
 		return false;
-	}
-
-	function get_faculty_name(department_id)
-	{
-		if(department_id == '')
-		{
-			return false;
-		}
-		var xmlhttp = getxmlhttp();
-		xmlhttp.onreadystatechange = function()
-		{
-			if(xmlhttp.readyState == 4 && xmlhttp.status==200)
-			{
-				document.getElementById("faculty_name").innerHTML = xmlhttp.responseText;
-			}
-
-		}
-		xmlhttp.open("POST",site_url("file_tracking/send_new_file_ajax/get_faculty_name_by_department_id/"+department_id),true);
-		xmlhttp.send();
-	}
-	
+	}	

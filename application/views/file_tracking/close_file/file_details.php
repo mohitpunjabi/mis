@@ -33,11 +33,8 @@
 					<?php
 						$ui->button()
 							->value('Confirm')
-							->id('submit')
+							->id('close')
 							->uiType('primary')
-							->submit()
-							->name('submit')
-							->width(6)
 							->show();
 					?>
 					</center>
@@ -51,10 +48,8 @@
 	$outer_row->close();
 ?>
 
-<div id="send_notification"></div>
-
 <script charset="utf-8">
-	$('#submit').click(function(){
-		display_send_notification3(<?php echo $file_id; ?>);
+	$('#close').click(function(){
+		window.location.href=site_url('file_tracking/close_file/insert_close_details/'+(<?php echo $file_id; ?>));
 	});
 </script>

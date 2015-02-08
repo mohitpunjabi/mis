@@ -18,8 +18,19 @@ class Send_new_file extends MY_Controller
 		$this->load->view('file_tracking/send_new_file/send_new_file',$data);
 		$this->drawFooter ();
 	}
-	public function insert_file_details ($file_no, $file_sub, $rcvd_emp_id, $remarks)
+	public function insert_file_details ()
 	{
+		$file_no = $this->input->post('file_no');
+		$file_sub = $this->input->post('file_sub');
+		$rcvd_emp_id = $this->input->post('emp_name');
+		$remarks = $this->input->post('remarks');
+
+		if ($file_no == "")
+			$file_no = "NULL";
+		if ($remarks == "")
+			$remarks = "No Comments";
+
+//		echo $file_no." ".$file_sub." ".$rcvd_emp_id." ".$remarks."<br/>";
 		$emp_id = $this->session->userdata('id');
 		$track_num = time();
 		$data = array(
@@ -40,8 +51,21 @@ class Send_new_file extends MY_Controller
 		$file_id = $this->file_details->get_file_id ($track_num);
 		$this->insert_file_move_details ($file_id, $track_num, $rcvd_emp_id,$remarks,$description);
 	}
-	public function insert_move_details ($file_id, $file_no, $rcvd_emp_id, $remarks)
+	public function insert_move_details_main ($file_id)
 	{
+		$rcvd_emp_id = $this->input->post('emp_name');
+		$this->insert_move_details ($file_id, $rcvd_emp_id);
+	}
+	public function insert_move_details ($file_id, $rcvd_emp_id)
+	{
+		$file_no = $this->input->post('file_no');
+		$remarks = $this->input->post('remarks');
+
+		if ($file_no == "")
+			$file_no = "NULL";
+		if ($remarks == "")
+			$remarks = "No Comments";
+
 		$this->load->model ('file_tracking/file_details', '', TRUE);
 		$track_num = $this->file_details->get_track_num ($file_id);
 
@@ -88,10 +112,10 @@ class Send_new_file extends MY_Controller
 		$this->file_move_details->insert ($data_arr);
 
 		$this->notification->notify ($rcvd_emp_id, "emp", "Receive a File",$description, "receive_file/validate_track_num/".$file_id, "");
-		$data_arr2['track_num'] = $track_num;
+		//$data_arr2['track_num'] = $track_num;
 //		$this->load->view('file_tracking/send_new_file/notification', $data_arr2);
 
-		$this->session->set_flashdata('flashSuccess','Complaint successfully Registered. Your Complaint ID : ');
+		$this->session->set_flashdata('flashSuccess','File successfully Sent. Track No. to track file : '.$track_num);
 		redirect('home');
 	}
 }

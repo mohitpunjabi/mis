@@ -1,4 +1,3 @@
-<?php echo form_open (); ?>
 <?php
 	$ui = new UI();
 
@@ -14,15 +13,13 @@
 			  ->uiType('primary')
 			  ->open();
 
-	$form=$ui->form()->multipart()->open();
+	$form = $ui->form()->action('file_tracking/send_new_file/insert_file_details')->open();
 
 	$inputRow1 = $ui->row()->open();
 		 $ui->input()
 			->placeholder('Enter file number')
 			->type('text')
 			->label('File Number')
-			->uiType('info')
-			->id('file_no')
 			->name('file_no')
 			->width(6)
 		    ->show();
@@ -30,9 +27,8 @@
 			->placeholder('Enter file subject')
 			->type('text')
 			->label('File Subject')
-			->uiType('info')
-			->id('file_sub')
 			->name('file_sub')
+			->required()
 	 		->width(6)
 		    ->show();
 	$inputRow1->close();
@@ -42,6 +38,7 @@
 			->label('Department Type')
 			->name('type')
 			->id('type')
+			->required()
 			->options(array($ui->option()->value('""')->text('Select')->selected(),
 							$ui->option()->value('academic')->text('Academic'),
 							$ui->option()->value('nonacademic')->text('Non Academic')))
@@ -51,8 +48,9 @@
 			->label('Select Department')
 			->name('department_name')
 			->id('department_name')
-			->options(array($ui->option()->value('""')->text('Select')->selected()))
-	
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')))
+
 			->width(6)
 		   	->show();
 	$inputRow2->close();
@@ -62,13 +60,15 @@
 			->label('Designation')
 			->name('designation')
 			->id('designation')
-			->options(array($ui->option()->value('""')->text('Select')->selected()))
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')))
    			->width(6)
 		   	->show();
 		 $ui->select()
 			->label('Employee Name')
 			->name('emp_name')
 			->id('emp_name')
+			->required()
 			->options(array($ui->option()->value('""')->text('Select')->selected()))
 		    ->width(6)
 		    ->show();
@@ -77,21 +77,15 @@
 	$ui->textarea()
 	   ->label('Remarks')
 	   ->name('remarks')
-	   ->id('remarks')
 	   ->placeholder('Remarks')
-	   ->type('text')
-	   ->uiType('info')
 	   ->show();
 ?>
 <center>
 <?php
 	 $ui->button()
-		->value('Submit')
-		->id('submit')
+		->value('Send File')
+		->submit(true)
 		->uiType('primary')
-		->submit()
-		->name('submit')	
-		->width(6)
 		->show();
 	
 	$form->close();
@@ -102,11 +96,9 @@
 	$row->close();
 ?>
 </center>
-<div id="send_notification"></div>
-
 
 <script charset="utf-8">
-	$('#type').on('change', function() {
+	$("select[name='type']").on('change', function() {
 		get_departments(this.value); // or $(this).val()
 	});
 	$('#department_name').on('change', function() {
@@ -114,8 +106,5 @@
 	});
 	$('#designation').on('change', function() {
 		get_emp_name(this.value); // or $(this).val()
-	});
-	$( "#submit" ).click(function() {
-		display_send_notification();
 	});
 </script>

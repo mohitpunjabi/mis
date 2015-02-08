@@ -48,6 +48,7 @@ class Close_file extends MY_Controller
 		$this->file_details->insert_close_details ($file_id, $emp_id);
 		$this->file_move_details->change_forward_status ($track_num);
 
-		$this->load->view('file_tracking/close_file/close_file_notification');
+		$this->session->set_flashdata('flashSuccess','File has been closed.');
+		redirect('home');
 	}
 }

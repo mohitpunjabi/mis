@@ -894,12 +894,8 @@ class Option extends Element {
 	var $selected = false;
 
 	public function __construct() {
+		parent::__construct();
 		log_message('debug', "UI_helper > Option Class Initialized");
-	}
-
-	function value($value = '') {
-		$this->value = $value;
-		return $this;
 	}
 
 	function text($text = '') {
@@ -907,21 +903,13 @@ class Option extends Element {
 		return $this;
 	}
 
-	function disabled($disabled = true) {
-		$this->disabled = $disabled;
-		return $this;
-	}
-
 	function selected($selected = true) {
-		$this->selected = $selected;
+		$this->properties['selected'] = 'selected';
 		return $this;
 	}
 
 	function show() {
-		echo '<option value = "'.$this->value.'" ';
-		if($this->selected)	echo 'selected="selected" ';
-		if($this->disabled)	echo 'disabled="disabled" ';
-		echo '>'.$this->text.'</option>';
+		echo '<option '.$this->_parse_attributes().'>'.$this->text.'</option>';
 	}
 }
 

@@ -174,7 +174,11 @@ class Basic_model extends CI_Model
 			return $query->result();
 	}
 	
-	
+	function check_if_aggr_id_exist_in_CS($aggr_id)
+	{
+		$query = $this->db->get_where($this->table_dept_course,array("aggr_id"=>$aggr_id));
+		return $query->num_rows();	
+	}
 	function select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{
 		$query = $this->db->query("SELECT subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 

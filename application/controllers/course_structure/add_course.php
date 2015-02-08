@@ -14,7 +14,7 @@ class Add_course extends MY_Controller
 	public function index($error='')
 	{
 		$data=array();
-   		$this->drawHeader();
+   		$this->drawHeader("Add new Course");
 		$this->load->view('course_structure/add_course',$data);
 		$this->drawFooter();
 	}

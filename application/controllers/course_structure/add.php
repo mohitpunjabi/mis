@@ -6,28 +6,24 @@ class Add extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo', 'hod'));
-		
-		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
+		$this->addJS("course_structure/add_course_structure.js");
+		//$this->addJS("course_structure/edit.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
 	public function index($error='')
 	{
 		
-		$this->addJS("course_structure/add_course_structure.js");
 		$data = array();
 		$data["result_dept"] = $this->basic_model->get_depts();
 		
-		//$data['courses_1'] = $this->basic_model->get_branches_by_course('b.tech');
-		$this->drawHeader();
+		$this->drawHeader("Add a new course structure");
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
 	}
 	
 	public function EnterNumberOfSubjects()
 	{
-		$this->addJS("course_structure/add.js");
 		$dept= $this->input->post('dept');
 		$course= $this->input->post('course');
 		$branch= $this->input->post('branch');
@@ -73,13 +69,12 @@ class Add extends MY_Controller
 		$data["CS_session"]['session']=$session;
 		$this->session->set_userdata($data);
 		
-		$this->drawHeader();
+		$this->drawHeader("Enter the number of core and elective subjects");
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();
 	}
     public function EnterSubjects()
   	{
-		
   		$this->addJS("course_structure/add.js");
 		$session_variable = $this->session->userdata("CS_session");
 		
@@ -98,7 +93,7 @@ class Add extends MY_Controller
 			redirect("course_structure/add/EnterNumberOfSubjects");
 		else
 		{
-			$this->drawHeader();
+			$this->drawHeader("Enter core subject details");
 			$this->load->view('course_structure/courses',$data);
 			$this->drawFooter();
 		}
@@ -106,7 +101,7 @@ class Add extends MY_Controller
  	 
  	 public function AddCoreSubjects()
   	{
-  		$this->addJS("course_structure/add.js");
+  		//$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;
@@ -143,17 +138,18 @@ class Add extends MY_Controller
 			$coursestructure_details['aggr_id'] = $aggr_id;
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
-			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
-			$data['error'] = $this->add_model->insert_subjects($subject_details);
+			if($this->add_model->insert_coursestructure($coursestructure_details))
+				$data['error'] = $this->add_model->insert_subjects($subject_details);
 		}
-		
+	
 		$list_type= $this->input->post("list_type");
 		$data['CS_session']['list_type'] = $list_type;
 		
 		//if same list is selected
 		if($list_type == 1)
 		{
-			$data["options"][1] = $this->input->post("options1");	
+			$data["options"][1] = $this->input->post("options1");
+			
 			$data["CS_session"]["options"][1] = $data["options"][1];
 			for($i = 1;$i<=$count_elective;$i++)
 			{
@@ -163,6 +159,8 @@ class Add extends MY_Controller
 		}
 		else
 		{
+			//var_dump($this->input->post());
+			//die();
 			for($i = 1;$i<=$count_elective;$i++)
 			{
 				$data["options"][$i] = $this->input->post("options".$i);	
@@ -175,7 +173,7 @@ class Add extends MY_Controller
     if($count_elective>=1)
     {
 		$this->session->set_userdata($data);
-		$this->drawHeader();
+		$this->drawHeader("Enter the details for Elective subjects");
 		$this->load->view('course_structure/add_elective',$data);
 		$this->drawFooter();
     }
@@ -246,6 +244,8 @@ class Add extends MY_Controller
 			$sequence = $this->input->post("sequence".$counter."_".$i);
 			
 			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
+			//var_dump($this->input->post());
+			//die();
 			$coursestructure_details['sequence'] = $sequence; 
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			

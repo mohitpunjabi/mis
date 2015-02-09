@@ -3,7 +3,7 @@
         $outer_row = $ui->row()->id('or')->open();
 			$column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
 			
-				$formbox =  $ui->box()->id('box_form')->open();
+				$formbox =  $ui->box()->id('box_form')->title("Electives For batch ".$batch." and Semester ".$semester." are")->open();
                     $form=$ui->form()->id("add_course_form")->action("course_structure/elective_offered/CreateMapping")->multipart()->open();
 						$table = $ui->table()->responsive()->hover()->bordered()->open();
 							foreach($group_id as $key=>$val)
@@ -49,10 +49,24 @@
 									echo '
 									<tr>
 										<td>';
+										//if it is already selected elective.
+										if(isset($subject[$subject[$val]['id'][$i]]['selected']) && $subject[$subject[$val]['id'][
+										$i]]['selected'])
+										{
+											$ui->checkbox()
+												->name('checkbox[]')
+												->checked()
+												->value($subject[$val]['id'][$i])
+												->show();
+										}
+										else
+										{
 											$ui->checkbox()
 												->name('checkbox[]')
 												->value($subject[$val]['id'][$i])
 												->show();
+										}
+											
 									echo '
 										</td>
 										<td>';

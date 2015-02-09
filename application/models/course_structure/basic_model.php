@@ -181,7 +181,8 @@ class Basic_model extends CI_Model
 	}
 	function select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{
-		$query = $this->db->query("SELECT subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 
+		$query = $this->db->query("SELECT 
+		subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 
 		subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id <= '$aggr_id' AND 
 		course_structure.semester = '$semester' AND elective != '0' ORDER BY course_structure.aggr_id DESC");
 		return $query->result();
@@ -222,9 +223,6 @@ class Basic_model extends CI_Model
 		$query = $this->db->query("SELECT aggr_id FROM dept_course INNER JOIN course_branch ON course_branch.course_branch_id = dept_course.course_branch_id WHERE course_branch.course_id = '$course' AND course_branch.branch_id = '$branch' AND aggr_id <= '$expected_aggr_id'  ORDER BY aggr_id DESC");
 		return $query->result();
 	}
-	
-	
-	
 	
 }
 

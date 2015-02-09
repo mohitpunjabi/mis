@@ -37,7 +37,7 @@ class Track_file extends MY_Controller
 		$data['data_array'] = $data_array;
 		$data['total_rows'] = $total_rows;
 
-		$this->drawHeader ("File Tracking");
+		$this->drawHeader ("Track File");
 		$this->load->view('file_tracking/track_file/track_file',$data);
 		$this->drawFooter ();
 	}

@@ -1,11 +1,11 @@
 <?php
 	$ui = new UI();
-	$outer_row2 = $ui->row()->open();
+//	$outer_row2 = $ui->row()->open();
 
-	$column1 = $ui->col()->width(1)->open();
-	$column1->close();
+//	$column1 = $ui->col()->width(1)->open();
+//	$column1->close();
 
-	$column2 = $ui->col()->width(9)->open();
+//	$column2 = $ui->col()->width(10)->open();
 	$box2 = $ui->box()
 				->title('Movement Details  (Track Number : ' .$track_num. ')')
 				->solid()
@@ -73,6 +73,6 @@
 	}
 	$table2->close();
 	$box2->close();
-	$column2->close();
-	$outer_row2->close();
+//	$column2->close();
+//	$outer_row2->close();
 ?>

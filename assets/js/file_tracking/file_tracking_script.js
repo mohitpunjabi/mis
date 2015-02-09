@@ -108,7 +108,7 @@
 		return false;
 	}	
 
-	function get_file_move_details ()
+	function get_file_move_details_by_track_num ()
 	{
 		var track_num = document.getElementById("track_num").value;
 		if(track_num==""){
@@ -125,7 +125,7 @@
 		{
 			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
 			{
-				document.getElementById("move_details").innerHTML = xmlhttp.responseText;
+				document.getElementById("move_details_by_track_num").innerHTML = xmlhttp.responseText;
 				//$(".loading").hide();
 			}
 		}
@@ -134,14 +134,14 @@
 		return false;
 	}
 
-	function get_file_move_details2(track_num)
+	function get_file_move_details_of_sent_files(track_num)
 	{
 		var xmlhttp = getxmlhttp();
 		xmlhttp.onreadystatechange = function()
 		{
 			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
 			{
-				document.getElementById("move_details").innerHTML = xmlhttp.responseText;
+				document.getElementById("move_details_of_sent_files").innerHTML = xmlhttp.responseText;
 				//$(".loading").hide();
 			}
 		}

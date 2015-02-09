@@ -6,100 +6,104 @@
 	$column1 = $ui->col()->width(1)->open();
 	$column1->close();
 
-	$column2 = $ui->col()->width(9)->open();
-	$box = $ui->box()
-				->title('Close File')
-				->solid()
-				->uiType('primary')
-				->open();
+	$column2 = $ui->col()->width(10)->open();
+		$tabBox1 = $ui->tabBox()
+				   ->icon($ui->icon("file"))
+				   ->title("Track File")
+				   ->tab("sent", "Track Sent Files", true)
+				   ->tab("track_num_tab", "Track Files by Track Number")
+				   ->open();
 
-		$inputRow1 = $ui->row()->open();
-			$ui->input()
-				->placeholder('Enter track number')
-				->type('text')
-				->label('Track Number')
-				->uiType('info')
-				->id('track_num')
-				->name('track_num')
-				->width(12)
-				->show();
+			$tab1 = $ui->tabPane()->id("sent")->active()->open();
 
+				if($total_rows != 0){
+
+					$table = $ui->table()->responsive()->hover()->bordered()->open();
+?>
+						<tr>
+								<th>File Subject</th>
+								<th>File Track Number</th>
+								<th>Sent To</th>
+								<th>Current Status</th>
+								<th>File Operations</th>
+						</tr>
+<?php
+					$sno=1;
+					while ($sno <= $total_rows)
+					{
+?>
+						<tr>
+							<td><?php echo $data_array[$sno][2];?></td>
+							<td><?php echo $data_array[$sno][3];?></td>
+							<td><?php echo $data_array[$sno][4];?></td>
+							<td><?php if ($data_array[$sno][5]) echo "Closed"; else echo "Active"; ?></td>
+							<td>
+							<center>
+							<?php	$ui->button()
+										->value('Track File')
+										->id('submit'.$sno)
+										->uiType('primary')
+										->name('submit_track')
+										->show(); 
+							?>
+							</center>
+							</td>
+						</tr>
+<?php
+						$sno++;
+					}
+					$table->close();
+				}
+				else
+				{
+					$ui->callout()
+					   ->uiType("info")
+					   ->title("No File sent by You.")
+					   ->desc("You have not sent any file, track file by track number.")
+					   ->show();
+				}
+?>
+<div id="move_details_of_sent_files">
+</div>
+<?php
+			$tab1->close();
+
+			$tab2 = $ui->tabPane()->id("track_num_tab")->active()->open();
+		   		 $ui->input()
+					->placeholder('Enter track number')
+					->type('text')
+					->label('Track Number')
+					->id('track_num')
+					->name('track_num')
+					->show();
 ?>
 <center>
 <?php
-
-			$ui->button()
-				->value('Track File')
-				->id('submit')
-				->uiType('primary')
-				->submit()
-				->name('submit')
-				->width(4)
-				->show();
-		$inputRow1->close();
-
+				 $ui->button()
+					->value('Track File')
+					->id('submit')
+					->uiType('primary')
+					->submit()
+					->name('submit')
+					->show();
 ?>
 </center>
-<?php
-	if($total_rows != 0){
-?>
-<h2 align="center">OR</h2>
-<?php
-		$table = $ui->table()->responsive()->hover()->bordered()->open();
-		echo '<tr>
-						<th>File Subject</th>
-						<th>File Track Number</th>
-						<th>Sent To</th>
-						<th>Current Status</th>
-						<th>File Operations</th>
-					</tr>';
-?>
-<?php
-		$sno=1;
-		while ($sno <= $total_rows)
-		{
-?>
-			<tr>
-				<td><?php echo $data_array[$sno][2];?></td>
-				<td><?php echo $data_array[$sno][3];?></td>
-				<td><?php echo $data_array[$sno][4];?></td>
-				<td><?php if ($data_array[$sno][5]) echo "Closed"; else echo "Active"; ?></td>
-				<td>
-				<center>
-				<?php	$ui->button()
-							->value('Track File')
-							->id('submit'.$sno)
-							->uiType('primary')
-							->submit()
-							->name('submit_track')
-							->width(6)
-							->show(); ?>
-				</center>
-				</td>
-			</tr>
-<?php
-			$sno++;
-		}
-?>
-<?php
-		$table->close();
-	}
-?>
-<?php
-	$box->close();
-	$column2->close();
-	$outer_row->close();
-
-?>
-
-<div id="move_details">
+<br>
+<div id="move_details_by_track_num">
 </div>
+<?php
+			$tab2->close();
 
-<div id="notification"></div>
+		$tabBox1->close();
+
+	$column2->close();
+
+	$outer_row->close();
+?>
 
 <script charset="utf-8">
 	$('#submit').click(function(){
-		get_file_move_details();
+		get_file_move_details_by_track_num();
 	});
 	<?php
 		$sno=1;
@@ -108,7 +112,7 @@
 	?>
 			var submit_id = '#submit'+<?php echo $sno; ?>;
 			$(submit_id).click(function(){
-				get_file_move_details2(<?php echo $data_array[$sno][3]; ?>);
+				get_file_move_details_of_sent_files(<?php echo $data_array[$sno][3]; ?>);
 			});
 	<?php
 			$sno++;

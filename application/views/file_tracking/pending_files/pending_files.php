@@ -22,7 +22,9 @@
 				->open();
 
 			//content
-	$table = $ui->table()->responsive()->hover()->bordered()->open();
+	$table = $ui->table()->responsive()->hover()->bordered()
+				->sortable()->searchable()->paginated()
+				->open();
 		echo '<tr>
 						<th>File No</th>
 						<th>File Subject</th>

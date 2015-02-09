@@ -113,7 +113,8 @@ class Add extends MY_Controller
 		$count_core = $session_values["count_core"];
 		$data['count_core'] = $count_core;
 		$i=1;
-		
+		//var_dump($this->input->post());
+		//die();
 		//for loop for inserting core subjects...
 		for($i = 1;$i <= $count_core;$i++)
 		{

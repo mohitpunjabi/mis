@@ -12,6 +12,7 @@ $(document).ready(function(){
 	
 	
 	$form_table = $("#form_table");
+	$form_box = $("#form_box");
 	$course = $("#course_selection");	
 	$branch_selection = $("#branch_selection").hide();
 	$session = $("#session_selection").hide();
@@ -23,11 +24,13 @@ $(document).ready(function(){
 	
 	$course.on('change',function(){
 		
+		$form_box.showLoading();
 		//alert($course.find(":selected").val());		
 		$.ajax({url:site_url('course_structure/elective_offered_home/json_get_branch/'+$course.find(":selected").val()),
 			success:function(data){
 				
-			if(parseInt($course.find(':selected').val())!=0){
+			if(parseInt($course.find(':selected').val())!=0)
+			{
 				var base_str = '<option value = "0" disbaled = "true" selected>Select Branch</option>';
 					
 				for($d=0 ; $d < data.length;$d++)
@@ -38,8 +41,8 @@ $(document).ready(function(){
 				base_str = '<option disabled="true" selected>Select Batch</option>';
 
 				var now = new Date();
-				//var duration = parseInt($course.find(':selected').data('duration'));
-				var duration = 4;
+				var duration = parseInt($course.find(':selected').data('duration'));
+				//var duration = 4;
 				for(var i=parseInt(now.getFullYear());i<=parseInt(now.getFullYear())-1+duration;i++){
 					base_str += '<option value="'+i+'">'+i+'</option>';
 				}
@@ -56,10 +59,12 @@ $(document).ready(function(){
 				$cont_semester.show();
 				$semester.html(base_str).show();
 			   }
+			   $form_box.hideLoading();
 			}
+			
 		});
 		
-	
+		
 	});
 });
 

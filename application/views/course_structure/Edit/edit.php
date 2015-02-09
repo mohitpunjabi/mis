@@ -17,10 +17,11 @@
 		$start_semester = 1;
 		$end_semester = 2*$course_duration;
 	}	
+	$ui = new UI();
+	
     for($semester=$start_semester;$semester<=$end_semester;$semester++)
 	{
-		$ui = new UI();
-		echo "<h3>Subjects for Semester". $semester."<br></h3>";	
+		$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $semester."")->open();	
 		$table = $ui->table()->responsive()->hover()->bordered()->open();
 			echo '
 				<tr>
@@ -201,6 +202,8 @@
 							</td>
 						</tr>';
 		$table->close();
+		$box_form->close();
 	}
+	
   
 ?>

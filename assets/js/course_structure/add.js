@@ -3,6 +3,7 @@ $(document).ready(function(){
 
 	$add_course_form = $("#add_course_form");
 	//$form_table = $("#form_table");
+	$box_form = $("#box_form");
 	$dept_selection = $('#dept_selection');
 	$course_selection = $('#course_selection');
 	$branch_selection = $('#branch_selection');
@@ -28,6 +29,7 @@ $(document).ready(function(){
 	$duration = 1;
 	
 	function add_course(){
+		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
 			success:function(data){
 				var base_str = "<option value = '0' selected='selected' disabled>Select Course</option>";
@@ -48,13 +50,16 @@ $(document).ready(function(){
 					$cont_semester_selection.hide();
 					
 					add_branch(parseInt($('#course_selection option:selected').data('duration')));
+					
 				});
+				$box_form.hideLoading();
 			},
 			type:"POST",
 			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
 			dataType:"json",
 			fail:function(error){
 				console.log(error);
+				$box_form.hideLoading();
 			}
 		});
 	}
@@ -63,7 +68,7 @@ $(document).ready(function(){
 	function add_branch(duration){
 		$course_selection = $('#course_selection');
 		$dept_selection = $('#dept_selection');
-		
+		$box_form.showLoading();
 		//alert($course_selection.find(':selected').val());
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){
@@ -95,6 +100,7 @@ $(document).ready(function(){
 					$cont_semester_selection.hide();
 					add_semester(duration);
 				});
+				$box_form.hideLoading();
 				
 			},
 			type:"POST",
@@ -102,6 +108,7 @@ $(document).ready(function(){
 			dataType:"json",
 			fail:function(error){
 				console.log(error);
+				$box_form.hideLoading();
 			}
 		});
 	}

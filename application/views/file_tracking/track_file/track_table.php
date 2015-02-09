@@ -12,15 +12,19 @@
 				->uiType('primary')
 				->open();
 
-	$table2 = $ui->table()->responsive()->hover()->bordered()->open();
-		echo '<tr>
-						<th>S.No.</th>
-						<th>Employee Name</th>
-						<th>Received On</th>
-						<th>Sent On</th>
-						<th>Remarks</th>
-					</tr>';
+	$table2 = $ui->table()->responsive()->hover()->bordered()
+				 ->sortable()->searchable()->paginated() 	
+				 ->open();
 ?>
+		<thead>
+			<tr>
+				<th>S.No.</th>
+				<th>Employee Name</th>
+				<th>Received On</th>
+				<th>Sent On</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
 <?php
 	$sno = 1;
 ?>

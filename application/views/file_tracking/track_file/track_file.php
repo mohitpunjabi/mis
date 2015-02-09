@@ -18,15 +18,19 @@
 
 				if($total_rows != 0){
 
-					$table = $ui->table()->responsive()->hover()->bordered()->open();
+					$table = $ui->table()->responsive()->hover()->bordered()
+								->sortable()->searchable()->paginated()
+							    ->open();
 ?>
-						<tr>
-								<th>File Subject</th>
-								<th>File Track Number</th>
-								<th>Sent To</th>
-								<th>Current Status</th>
-								<th>File Operations</th>
-						</tr>
+						<thead>
+							<tr>
+									<th>File Subject</th>
+									<th>File Track Number</th>
+									<th>Sent To</th>
+									<th>Current Status</th>
+									<th>File Operations</th>
+							</tr>
+						</thead>
 <?php
 					$sno=1;
 					while ($sno <= $total_rows)
@@ -63,6 +67,7 @@
 					   ->show();
 				}
 ?>
+<br/>
 <div id="move_details_of_sent_files">
 </div>
 <?php

@@ -25,12 +25,16 @@
 	$table = $ui->table()->responsive()->hover()->bordered()
 				->sortable()->searchable()->paginated()
 				->open();
-		echo '<tr>
-						<th>File No</th>
-						<th>File Subject</th>
-						<th>Sent By</th>
-						<th>File Operations</th>
-					</tr>';
+?>
+		<thead>
+			<tr>
+				<th>File No</th>
+				<th>File Subject</th>
+				<th>Sent By</th>
+				<th>File Operations</th>
+			</tr>
+		</thead>
+<?php
 		foreach($res->result() as $row)
 		{
 ?>
@@ -40,22 +44,24 @@
 			<td><?php echo $row->salutation.' '.$row->first_name.' '.$row->middle_name.' '.$row->last_name; ?></td>
 			<td>
 				<center>
-				<a href="<?php echo site_url("file_tracking/send_running_file/index/".$row->file_id."/".$row->file_subject."/".$row->sent_by_emp_id); ?>"><?php $ui->button()
-																																																																														->value('Forward This File')
-																																																																														->id('submit')
-																																																																														->uiType('primary')
-																																																																														->submit()
-																																																																														->name('submit')
-																																																																														->width(6)
-																																																																														->show(); ?></a>
-				<a href="<?php echo site_url("file_tracking/close_file/index/".$row->file_id); ?>"><?php $ui->button()
-																																																		->value('Close File')
-																																																		->id('submit')
-																																																		->uiType('primary')
-																																																		->submit()
-																																																		->name('submit')
-																																																		->width(6)
-																																																		->show(); ?></a>
+				<a href="<?php echo site_url("file_tracking/send_running_file/index/".$row->file_id."/".$row->file_subject."/".$row->sent_by_emp_id); ?>">
+				   <?php $ui->button()
+							->value('Forward This File')
+							->id('submit')
+							->uiType('primary')
+							->submit()
+							->name('submit')
+							->width(6)
+							->show(); ?></a>
+				<a href="<?php echo site_url("file_tracking/close_file/index/".$row->file_id); ?>">
+				   <?php $ui->button()
+							->value('Close File')
+							->id('submit')
+							->uiType('primary')
+							->submit()
+							->name('submit')
+							->width(6)
+							->show(); ?></a>
 				</center>
 				</td>
 		</tr>

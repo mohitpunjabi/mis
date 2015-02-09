@@ -3,17 +3,21 @@
 
 	$box = $ui->box()->uiType('primary')->open();
 	
-	$table = $ui->table()->hover()->bordered()->open();
+	$table = $ui->table()->hover()->bordered()
+				->sortable()->searchable()->paginated()
+				->open();
 ?>
-	<tr>
-		<th>Complaint ID</th>
-		<th>Registered By</th>
-		<th>Registered On</th>
-		<th>Location</th>
-		<th>Location Details</th>
-		<th>Problem Details</th>
-		<th>Remarks</th>
-	</tr>
+	<thead>
+		<tr>
+			<th>Complaint ID</th>
+			<th>Registered By</th>
+			<th>Registered On</th>
+			<th>Location</th>
+			<th>Location Details</th>
+			<th>Problem Details</th>
+			<th>Remarks</th>
+		</tr>
+	</thead>
 	<?php
 			$sno=1;
 			while ($sno <= $total_rows)

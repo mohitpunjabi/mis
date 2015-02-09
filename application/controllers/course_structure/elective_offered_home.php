@@ -7,10 +7,7 @@ class Elective_offered_home extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('hod'));
 		
-		//$this->addJS("course_structure/add.js");
-		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/elective_offered.js");
-		
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 

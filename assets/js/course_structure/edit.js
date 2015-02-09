@@ -1,3 +1,5 @@
+$box_form = $("#box_form");
+
 function EditSubject(semester,seq_no)
 {
 	if($("#editbutton_"+semester+"_"+seq_no).val() == "Edit")
@@ -40,16 +42,20 @@ function EditSubject(semester,seq_no)
 		$subjectdetails['credithours'] = $subjectcredithours.val();
 		$subjectdetails['contacthours'] = $subjectcontacthours.val();
 		
-		alert($subjectdetails['name']);
+		
+		$box_form.showLoading();
+		//alert($subjectdetails['name']);
 		$.ajax({url:site_url("course_structure/edit/Json_UpdateCourseStructure/"+JSON.stringify($subjectdetails)),
 			success:function(data){
 				
-				alert(data['hello']);
+				//alert(data['hello']);
+				$box_form.hideLoading();
 			},
 			type:"POST",
 			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
 			dataType:"json",
 			fail:function(error){
+				$box_form.hideLoading();
 				console.log(error);
 			}
 		});
@@ -63,24 +69,29 @@ function EditSubject(semester,seq_no)
 }
 function DeleteSemester(semester,aggr_id)
 {	
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	}
-	else
-	{// code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange=function()
+	$box_form = $("#box_form_"+semester);
+	if(confirm("Delete Course Structure for Semester "+semester))
 	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			alert("Deleted Successfully");
-			document.location.href = site_url("course_structure/edit");
+		$box_form.showLoading();
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
 		}
+		else
+		{// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				$box_form.hideLoading();
+				//alert("Deleted Successfully");
+				//document.location.href = site_url("course_structure/edit");
+			}
+		}	
+		xmlhttp.open("GET",site_url("course_structure/edit/DeleteCourseStructure/"+semester+"/"+aggr_id),true);
+		xmlhttp.send()	
 	}
-	
-	xmlhttp.open("GET",site_url("course_structure/edit/DeleteCourseStructure/"+semester+"/"+aggr_id),true);
-	xmlhttp.send()	
 }

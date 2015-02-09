@@ -106,10 +106,10 @@
 									</td>
 									<td>';
 									$array_option = array();
-									array_push($array_option,$ui->option()->value("0")->text("Theory"));
-									array_push($array_option,$ui->option()->value("1")->text("Practical"));
-									array_push($array_option,$ui->option()->value("2")->text("Sessional"));
-									array_push($array_option,$ui->option()->value("3")->text("Non-Contact"));
+									array_push($array_option,$ui->option()->value("Theory")->text("Theory"));
+									array_push($array_option,$ui->option()->value("Practical")->text("Practical"));
+									array_push($array_option,$ui->option()->value("Sessional")->text("Sessional"));
+									array_push($array_option,$ui->option()->value("Non-Contact")->text("Non-Contact"));
 									$ui->select()
 									   ->label()
 									   ->id("type".$counter)

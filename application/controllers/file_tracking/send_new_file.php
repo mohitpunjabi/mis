@@ -4,7 +4,8 @@ class Send_new_file extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct(array('emp','deo'));
-		$this->addJS ("file_tracking/file_tracking_script.js");
+//		$this->addJS ("file_tracking/file_tracking_script.js");
+		$this->addJS ("file_tracking/send_file.js");
 		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 

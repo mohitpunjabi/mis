@@ -18,7 +18,7 @@
 
 				if($total_rows != 0){
 
-					$table = $ui->table()->responsive()->hover()->bordered()
+					$table = $ui->table()->hover()->bordered()
 								->sortable()->searchable()->paginated()
 							    ->open();
 ?>
@@ -73,7 +73,7 @@
 <?php
 			$tab1->close();
 
-			$tab2 = $ui->tabPane()->id("track_num_tab")->active()->open();
+			$tab2 = $ui->tabPane()->id("track_num_tab")->open();
 		   		 $ui->input()
 					->placeholder('Enter track number')
 					->type('text')
@@ -105,11 +105,7 @@
 
 	$outer_row->close();
 ?>
-
 <script charset="utf-8">
-	$('#submit').click(function(){
-		get_file_move_details_by_track_num();
-	});
 	<?php
 		$sno=1;
 		while ($sno <= $total_rows)

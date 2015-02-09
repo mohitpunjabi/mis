@@ -22,7 +22,7 @@
 				->open();
 
 			//content
-	$table = $ui->table()->responsive()->hover()->bordered()
+	$table = $ui->table()->hover()->bordered()
 				->sortable()->searchable()->paginated()
 				->open();
 ?>

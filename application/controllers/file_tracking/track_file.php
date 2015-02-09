@@ -7,6 +7,7 @@ class Track_file extends MY_Controller
 	{
 		parent::__construct(array('emp','deo'));
 		$this->addJS("file_tracking/file_tracking_script.js");
+		$this->addJS("file_tracking/track_file.js");
 		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
@@ -50,7 +51,13 @@ class Track_file extends MY_Controller
 			//$this->notification->drawNotification("Enter valid Track Number", "");
 			//$this->session->set_flashdata('flashError','Enter correct Track Number.'.$track_num);
 			//redirect('file_tracking/track_file');
-			$this->notification->drawNotification("Enter Correct Track Number", "");
+			$ui = new UI();
+
+			$ui->callout()
+			   ->uiType("error")
+			   ->title("Enter Correct Track Number.")
+			   ->desc("")
+			   ->show();
 		}
 		else
 		{

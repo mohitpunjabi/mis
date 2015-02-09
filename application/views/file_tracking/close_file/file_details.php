@@ -12,7 +12,7 @@
 				->solid()
 				->uiType('primary')
 				->open();
-	$table = $ui->table()->responsive()->hover()->bordered()->open();
+	$table = $ui->table()->hover()->bordered()->open();
 		echo '<tr>
 						<th>File ID</th>
 						<th>Track Number</th>

@@ -12,7 +12,7 @@
 				->uiType('primary')
 				->open();
 
-	$table2 = $ui->table()->responsive()->hover()->bordered()
+	$table2 = $ui->table()->hover()->bordered()
 				 ->sortable()->searchable()->paginated() 	
 				 ->open();
 ?>

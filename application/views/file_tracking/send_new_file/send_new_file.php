@@ -96,15 +96,3 @@
 	$row->close();
 ?>
 </center>
-
-<script charset="utf-8">
-	$("select[name='type']").on('change', function() {
-		get_departments(this.value); // or $(this).val()
-	});
-	$('#department_name').on('change', function() {
-		get_designation_name(this.value); // or $(this).val()
-	});
-	$('#designation').on('change', function() {
-		get_emp_name(this.value); // or $(this).val()
-	});
-</script>

@@ -46,8 +46,3 @@
 	
 	$outer_row->close();
 ?>
-<script charset="utf-8">
-	$('#Validate').click(function(){
-		validate_track_num();
-	});
-</script>

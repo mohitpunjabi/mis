@@ -35,8 +35,9 @@ $(document).ready(function() {
         $("select[name=exam4]").change(examination_handler);
 
         //if tbl4 is present show next btn otherwise hide it, as it is a compulsory page.
-        if(("#tbl4").length == 0)
-                $("#next_btn").hide();
-        else
+        if($("#tbl4").length)
                 $("#next_btn").show();
+        else
+                $("#next_btn").hide();
+
 });

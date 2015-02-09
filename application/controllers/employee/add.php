@@ -159,7 +159,7 @@ class Add extends MY_Controller
 			$this->user_other_details_model->insert($user_other_details);
 			$this->emp_basic_details_model->insert($emp_basic_details);
 			if($this->input->post('tstatus') == 'ft')
-				$this->Faculty_details_model->insert($faculty_details);
+				$this->faculty_details_model->insert($faculty_details);
 			$this->emp_pay_details_model->insert($emp_pay_details);
 			$this->user_address_model->insert_batch($user_address);
 			$this->emp_current_entry_model->insert($emp_current_entry);

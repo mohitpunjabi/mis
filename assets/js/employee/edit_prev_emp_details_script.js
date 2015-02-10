@@ -70,8 +70,11 @@ function onclick_edit(i, from, to, date)
 			div.setAttribute("id", "edit_div");
 			div.innerHTML=coverdiv+formdiv;
 			document.body.appendChild(div);
+			alert($("#edit_from"+i).attr('value'));
 			$("#edit_from"+i).datepicker("setEndDate", moment($("#edit_from"+i).attr('max'), "DD-MM-YYYY").toDate());
 			$("#edit_to"+i).datepicker("setEndDate", moment($("#edit_to"+i).attr('max'), "DD-MM-YYYY").toDate());
+			$("#edit_from"+i).datepicker("setDate", moment($("#edit_from"+i).attr('value'), "DD-MM-YYYY").toDate());
+			$("#edit_to"+i).datepicker("setDate", moment($("#edit_to"+i).attr('value'), "DD-MM-YYYY").toDate());
 	    }
   	}
   	xmlhttp.open("POST",site_url("employee/emp_ajax/edit_record/2/"+i),true);

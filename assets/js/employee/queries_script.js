@@ -1,6 +1,6 @@
 function ajax(query_by)
 {
-	document.getElementById('display_employee').style.display="block";
+	document.getElementById('display_employee').style.display="auto";
 	var xmlhttp;
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -14,10 +14,11 @@ function ajax(query_by)
   	{
   		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 	    {
+	    	$("#display_employee").hideLoading();
 			document.getElementById("display_employee").innerHTML = xmlhttp.responseText;
 	    }
   	}
 	xmlhttp.open("POST",site_url("employee/emp_ajax/getEmpBy"+query_by+"/"+document.getElementById('query').value),true);
 	xmlhttp.send();
-	document.getElementById("display_employee").innerHTML="<i class=\"loading\" ></i>";
+	$("#display_employee").showLoading();
 }

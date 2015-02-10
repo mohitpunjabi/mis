@@ -68,6 +68,8 @@ function onclick_edit(i)
 	        $("input[name=edit_from"+i+"]").datepicker("setEndDate", moment($("input[name=edit_from"+i+"]").attr('max'), "DD-MM-YYYY").toDate());
 	        $("input[name=edit_to"+i+"]").datepicker("setStartDate", moment($("input[name=edit_to"+i+"]").attr('min'), "DD-MM-YYYY").toDate());
 	        $("input[name=edit_to"+i+"]").datepicker("setEndDate", moment($("input[name=edit_to"+i+"]").attr('max'), "DD-MM-YYYY").toDate());
+	        $("input[name=edit_from"+i+"]").datepicker("setDate", moment($("input[name=edit_from"+i+"]").attr('value'), "DD-MM-YYYY").toDate());
+	        $("input[name=edit_to"+i+"]").datepicker("setDate", moment($("input[name=edit_to"+i+"]").attr('value'), "DD-MM-YYYY").toDate());
 	    }
   	}
   	xmlhttp.open("POST",site_url("employee/emp_ajax/edit_record/5/"+i),true);

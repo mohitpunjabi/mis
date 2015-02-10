@@ -686,8 +686,9 @@ class Radio extends Input {
 		log_message('debug', "UI_helper > Radio Class Initialized");
 	}
 
-	function checked($check = true) {
-		$this->properties['checked'] = 'checked';
+	function checked($checked = true) {
+		if($checked)
+			$this->properties['checked'] = 'checked';
 		return $this;
 	}
 
@@ -904,7 +905,7 @@ class Option extends Element {
 	}
 
 	function selected($selected = true) {
-		$this->properties['selected'] = 'selected';
+		if($selected) $this->properties['selected'] = 'selected';
 		return $this;
 	}
 
@@ -1190,7 +1191,7 @@ class Slider extends Input {
 		$this->datafrom = $value;
 		return $this;
 	}
-	
+
 	function dataTo($datato = '')
 	{
 		$this->datato = $datato;

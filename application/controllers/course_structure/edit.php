@@ -8,7 +8,6 @@ class Edit extends MY_Controller
 		parent::__construct(array('deo'));
 		$this->addJS("course_structure/add.js");
 		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		
 	}
@@ -22,7 +21,7 @@ class Edit extends MY_Controller
 		//$data["result_course"] = $this->basic_model->get_course();
 		//$data["result_branch"] = $this->basic_model->get_branches();
 		
-		$this->drawHeader();
+		$this->drawHeader("Edit Course Structure");
 		$this->load->view('course_structure/Edit/edit_home',$data);
 		$this->drawFooter();
 	}
@@ -36,13 +35,24 @@ class Edit extends MY_Controller
 		$data["CS_session"]['semester'] = $this->input->post("sem");
 		$data["CS_session"]['session'] = $this->input->post("session");
 		
+		
 		$dept_id = $data["CS_session"]['dept_id'];
 		$course_id = $data["CS_session"]['course_id'];
 		$branch_id = $data["CS_session"]['branch_id'];
 		$semester = $data["CS_session"]['semester'];
 		$session = $data["CS_session"]['session'];
 		
-		$aggr_id = $course_id.'_'.$branch_id.'_'.$session;
+		$expected_aggr_id = $course_id.'_'.$branch_id.'_'.$session;
+		
+		
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))
+		{	
+			$result_aggr_id = $this->basic_model->get_latest_aggr_id($course_id,$branch_id,$expected_aggr_id);
+			$aggr_id = $result_aggr_id[0]->aggr_id;	
+		}	
+		else
+			$aggr_id = $expected_aggr_id;
+		
 		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
@@ -74,13 +84,19 @@ class Edit extends MY_Controller
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+			   if($group_id != 0 && !isset($data["subjects"]["elective_count"][$group_id]))
+			   	 $data["subjects"]["elective_count"][$group_id] = 0;
 			   
 			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
 			   id)->sequence;
 			   
+			   $data["subjects"][$group_id] = 0;
+			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
 			   if($group_id != 0)
 			   {
-			   		$data["subjects"]["group_details"][$counter][$i] = $this->basic_model->select_elective_group_by_group_id($group_id);
+				    //$data['flag']['group_id'][$i] = $group_id;
+					$group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+			   		$data["subjects"]["group_details"][$counter][$i] = $group_detials[0];
 			    	$data["subjects"]["elective_count"][$group_id]++;
 			   }
 			   $i++;
@@ -96,9 +112,17 @@ class Edit extends MY_Controller
 
 	}
 	
-	public function UpdateCourseStructure($subjectdetails)
+	public function Json_UpdateCourseStructure($subjectdetails)
 	{
-		echo $subjectdetails;
+		//if($subjectdetails != ''){
+			$this->output->set_content_type('application/json');
+			$this->output->set_output(json_encode(array("hello"=>"umang")));
+			$this->output->set_output(json_encode());
+			//$this->output->set_output(json_encode($this->basic_model->get_session_by_course_and_branch($course,$branch)));
+		//}
+		//var_dump($subjectdetails);
+		//echo "hii";
+		//echo $subjectdetails;
 		//$this->basic_model->update
 		
 		//echo $subjectdetails[id];

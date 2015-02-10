@@ -2,7 +2,7 @@
 
 class Cv_model extends CI_Model
 {
-	var $table_projects = 'tnp_projects';
+	var $table_projects = 'tnp_cv_projects';
   var $table_achievements='tnp_cv_achievements';
 
 	function __construct()

@@ -1,50 +1,185 @@
 <div id="print">
-<?php   
-foreach($all_duties_chart as $key => $duty) { 
+<?php
+if (count($details_of_guards_at_a_date_A))
+	$ans = $details_of_guards_at_a_date_A;
+else if (count($details_of_guards_at_a_date_B))
+	$ans = $details_of_guards_at_a_date_B;
+else if (count($details_of_guards_at_a_date_C))
+	$ans = $details_of_guards_at_a_date_C;
+
+foreach($ans as $key => $duty) { 
 	$date = date('d M Y',strtotime($duty->date)+19800);
 	break;
 }
-?>
-<h2><center><?php echo $day.' Duty Chart ( '.$date.' )'; ?></center></h2>
- <table align="center">
-	<tr>
-		<th>Guard Name</th>
-		<th class="print-no-display">Photo</th>
-		<th>Post Name</th>
-		<th>Shift</th>
-		<th class="print-no-display">Link</th>
-		<th style="visibility:hidden"; width="30px"></th>
-		<th>Guard Name</th>
-		<th class="print-no-display">Photo</th>
-		<th>Post Name</th>
-		<th>Shift</th>
-		<th class="print-no-display">Link</th>
-	</tr>
-	<?php
-	$i=1;
-	foreach($all_duties_chart as $key => $duty) { 
-		if ($duty->shift == 'a') $shift = 'A';
-		if ($duty->shift == 'b') $shift = 'B';
-		if ($duty->shift == 'c') $shift = 'C';		
-		if($i%2 !=0) echo '<tr>';
-		echo '
-				<td>'.$duty->firstname.' '.$duty->lastname.'</td>
-				<td style="height: 60px; 
-									width: 40px;
-									background-image: url('.base_url().'assets/images/guard/'.$duty->photo.');
-									background-size: auto 100%;
-									background-position: 50% 50%;
-									background-repeat: no-repeat;
-								" class="print-no-display"></td>
-				<td align="center">'.$duty->postname.'</td>
-				<td align="center">'.$shift.'</td>
-				<td align="center" class="print-no-display">';  ?>
-				<a href="<?= base_url()."index.php/guard/duties/replace/".$duty->Regno."/".$duty->post_id."/".$duty->shift."/".$duty->date ?>" onclick="return confirm('Are you sure you want to replace?')">Replace</a></td>
+$ui = new UI();
+	$headingBox = $ui->box()
+				 ->uiType('info')
+				 ->title('Details of Guards on '.$date.' ( '.$day.' )')
+				 ->solid()
+				 ->open();
+		$boxesRow = $ui->row()
+					   ->open();
+			
+			$aBoxCol = $ui->col()
+					   ->width(4)
+					   ->t_width(8)
+					   ->m_width(12)
+					   ->open();
+		   
+				$aBox = $ui->box()
+						 ->uiType('info')
+						 ->title('Shift A')
+						 ->width(4)
+						 ->solid()
+						 ->open();
+
+					$guardRow = $ui->row()
+										->id('guardRow')
+										->open();
+							
+						$aCol = $ui->col()
+								   ->open();
+						  
+		    				$table = $ui->table()->responsive()->hover()->bordered()->striped()->open();
+
+								echo '<tbody>
+											<tr>
+												<th><center>Guard</center></th>
+												<th><center>Photo</center></th>
+												<th><center>Post</center></th>
+											</tr>';
+									foreach ($details_of_guards_at_a_date_A as $row)
+									{
+										 
+														   echo '<tr>
+																	<td><center>'.$row->firstname.' '.$row->lastname.'</center></td>
+																	<td style="height: 60px; 
+																				width: 40px;
+																				background-image: url('.base_url().'assets/images/guard/'.$row->photo.');
+																				background-size: auto 100%;
+																				background-position: 50% 50%;
+																				background-repeat: no-repeat;
+																			" class="print-no-display"></td>
+																	<td><center>'.$row->postname.'</center></td>	
+																</tr>';
+									}
+								echo '</tbody>';
+							$table->close();
+											
+						$aCol->close();
+											
+					 $guardRow->close();
+				$aBox->close();
+			$aBoxCol->close();
+			
+			$bBoxCol = $ui->col()
+					   ->width(4)
+					   ->t_width(8)
+					   ->m_width(12)
+					   ->open();
+			   
+			   $bBox = $ui->box()
+						 ->uiType('info')
+						 ->title('Shift B')
+						 ->width(4)
+						 ->solid()
+						 ->open();
+
+					$guardRow = $ui->row()
+										->id('guardRow')
+										->open();
+							
+						$bCol = $ui->col()
+								   ->open();
+						  
+		    				$table = $ui->table()->responsive()->hover()->bordered()->striped()->open();
+
+								echo '<tbody>
+											<tr>
+												<th><center>Guard</center></th>
+												<th><center>Photo</center></th>
+												<th><center>Post</center></th>
+											</tr>';
+									foreach ($details_of_guards_at_a_date_B as $row)
+									{
+										 
+														   echo '<tr>
+																	<td><center>'.$row->firstname.' '.$row->lastname.'</center></td>
+																	<td style="height: 60px; 
+																				width: 40px;
+																				background-image: url('.base_url().'assets/images/guard/'.$row->photo.');
+																				background-size: auto 100%;
+																				background-position: 50% 50%;
+																				background-repeat: no-repeat;
+																			" class="print-no-display"></td>
+																	<td><center>'.$row->postname.'</center></td>	
+																</tr>';
+									}
+								echo '</tbody>';
+							$table->close();
+											
+						$bCol->close();
+											
+					 $guardRow->close();
+				$bBox->close();
+			$bBoxCol->close();
+			
+            $cBoxCol = $ui->col()
+					   ->width(4)
+					   ->t_width(8)
+					   ->m_width(12)
+					   ->open();			
 				
-	<?php  if($i%2 ==0) echo '</tr>'; else echo '<td style="visibility:hidden";></td>';
-		$i++;
-	}
-	?>
-	</table>
-	
-	</div>
+				$cBox = $ui->box()
+						 ->uiType('info')
+						 ->title('Shift C')
+						 ->width(4)
+						 ->solid()
+						 ->open();
+
+					$guardRow = $ui->row()
+										->id('guardRow')
+										->open();
+							
+						$cCol = $ui->col()
+								   ->open();
+						  
+		    				$table = $ui->table()->responsive()->hover()->bordered()->striped()->open();
+
+								echo '<tbody>
+											<tr>
+												<th><center>Guard</center></th>
+												<th><center>Photo</center></th>
+												<th><center>Post</center></th>
+											</tr>';
+									foreach ($details_of_guards_at_a_date_C as $row)
+									{
+										 
+														   echo '<tr>
+																	<td><center>'.$row->firstname.' '.$row->lastname.'</center></td>
+																	<td style="height: 60px; 
+																				width: 40px;
+																				background-image: url('.base_url().'assets/images/guard/'.$row->photo.');
+																				background-size: auto 100%;
+																				background-position: 50% 50%;
+																				background-repeat: no-repeat;
+																			" class="print-no-display"></td>
+																	<td><center>'.$row->postname.'</center></td>	
+																</tr>';
+									}
+								echo '</tbody>';
+							$table->close();
+											
+						$cCol->close();
+											
+					 $guardRow->close();
+								
+				$cBox->close();
+			$cBoxCol->close();
+		$boxesRow->close();			
+			
+	$headingBox->close();
+   
+
+?>
+</div>

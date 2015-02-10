@@ -8,7 +8,7 @@ class Home extends MY_Controller
 		$this->addJS('employee/print_script.js');
 	}
 	
-	function index()
+	function index($postname='')
 	{
 		$this->load->model('guard/guard_model','',TRUE);
 		
@@ -17,12 +17,17 @@ class Home extends MY_Controller
 		
 		if($this->input->post('postsubmit') != False)
 		{
+			$this->addJS('guard/compDutyChart-loader.js');
+			
 			$data['mode'] = 'postname';
 			$data['postname'] = $this->input->post('postname');
 			$data['details_of_guards_at_a_post'] = $this->guard_model->get_details_of_guard_at_a_post($data['postname']);
+			$data['details_of_guards_at_a_post_A'] = $this->guard_model->get_details_of_guard_at_a_post_A($data['postname']);
+			$data['details_of_guards_at_a_post_B'] = $this->guard_model->get_details_of_guard_at_a_post_B($data['postname']);
+			$data['details_of_guards_at_a_post_C'] = $this->guard_model->get_details_of_guard_at_a_post_C($data['postname']);
 			$this->drawHeader('Guard Management Home');
 			$this->load->view('guard/home',$data);
-			$this->load->view('guard/homeview',$data);
+			$this->load->view('guard/homeview', array("postDutyChart" => $this->guard_model->get_details_of_guard_at_a_post($data['postname'])));
 			$this->load->view('guard/view_footer');
 			$this->drawFooter();
 			
@@ -31,7 +36,9 @@ class Home extends MY_Controller
 		{
 			$data['mode'] = 'date';	
 			$data['selectdate'] = $this->input->post('selectdate');
-			$data['details_of_guards_at_a_date'] = $this->guard_model->get_details_of_guard_at_a_date($data['selectdate']);
+			$data['details_of_guards_at_a_date_A'] = $this->guard_model->get_details_of_guard_at_a_date_A($data['selectdate']);
+			$data['details_of_guards_at_a_date_B'] = $this->guard_model->get_details_of_guard_at_a_date_B($data['selectdate']);
+			$data['details_of_guards_at_a_date_C'] = $this->guard_model->get_details_of_guard_at_a_date_C($data['selectdate']);
 			$this->drawHeader('Guard Management Home');
 			$this->load->view('guard/home',$data);
 			$this->load->view('guard/homeview',$data);
@@ -43,7 +50,9 @@ class Home extends MY_Controller
 			$data['mode'] = 'rangeofdates';
 			$data['fromdate'] = $this->input->post('fromdate');
 			$data['todate'] = $this->input->post('todate');
-			$data['details_of_guards_in_a_range'] = $this->guard_model->get_details_of_guards_in_a_range($data['fromdate'], $data['todate']);
+			$data['details_of_guards_in_a_range_A'] = $this->guard_model->get_details_of_guards_in_a_range_A($data['fromdate'], $data['todate']);
+			$data['details_of_guards_in_a_range_B'] = $this->guard_model->get_details_of_guards_in_a_range_B($data['fromdate'], $data['todate']);
+			$data['details_of_guards_in_a_range_C'] = $this->guard_model->get_details_of_guards_in_a_range_C($data['fromdate'], $data['todate']);
 			$this->drawHeader('Guard Management Home');
 			$this->load->view('guard/home',$data);
 			$this->load->view('guard/homeview',$data);
@@ -56,7 +65,9 @@ class Home extends MY_Controller
 			$data['guardname'] = $this->input->post('guardname');
 			$data['fromdateg'] = $this->input->post('fromdateg');
 			$data['todateg'] = $this->input->post('todateg');
-			$data['details_of_guard_in_a_range'] = $this->guard_model->get_details_of_guard_in_a_range($data['fromdateg'], $data['todateg'], $data['guardname']);
+			$data['details_of_guard_in_a_range_A'] = $this->guard_model->get_details_of_guard_in_a_range_A($data['fromdateg'], $data['todateg'], $data['guardname']);
+			$data['details_of_guard_in_a_range_B'] = $this->guard_model->get_details_of_guard_in_a_range_B($data['fromdateg'], $data['todateg'], $data['guardname']);
+			$data['details_of_guard_in_a_range_C'] = $this->guard_model->get_details_of_guard_in_a_range_C($data['fromdateg'], $data['todateg'], $data['guardname']);
 			$data['details_of_a_guard'] = $this->guard_model->get_details_of_a_guard($data['guardname']);
 			$this->drawHeader('Guard Management Home');
 			$this->load->view('guard/home',$data);
@@ -70,7 +81,9 @@ class Home extends MY_Controller
 			$data['postnamer'] = $this->input->post('postnamer');
 			$data['fromdatep'] = $this->input->post('fromdatep');
 			$data['todatep'] = $this->input->post('todatep');
-			$data['details_of_guards_at_a_post_in_a_range'] = $this->guard_model->get_details_of_guard_at_a_post_in_a_range($data['fromdatep'], $data['todatep'], $data['postnamer']);
+			$data['details_of_guards_at_a_post_in_a_range_A'] = $this->guard_model->get_details_of_guard_at_a_post_in_a_range_A($data['fromdatep'], $data['todatep'], $data['postnamer']);
+			$data['details_of_guards_at_a_post_in_a_range_B'] = $this->guard_model->get_details_of_guard_at_a_post_in_a_range_B($data['fromdatep'], $data['todatep'], $data['postnamer']);
+			$data['details_of_guards_at_a_post_in_a_range_C'] = $this->guard_model->get_details_of_guard_at_a_post_in_a_range_C($data['fromdatep'], $data['todatep'], $data['postnamer']);
 			$this->drawHeader('Guard Management Home');
 			$this->load->view('guard/home',$data);
 			$this->load->view('guard/homeview',$data);
@@ -83,5 +96,10 @@ class Home extends MY_Controller
 			$this->load->view('guard/home',$data);
 			$this->drawFooter();
 		}
+	}
+	
+	function loadpostDutyChart() {
+		$this->load->model('guard/guard_model');
+		$this->load->view("guard/postDutyChart_list", array("postDutyChart" => $this->guard_model->get_details_of_guard_at_a_post($postname)));
 	}
 }	

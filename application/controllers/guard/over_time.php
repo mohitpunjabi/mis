@@ -6,6 +6,7 @@ class Over_time extends MY_Controller
 	{
 		parent::__construct(array('guard_sup'));
 		$this->addJS('employee/print_script.js');
+		$this->addJS('ui_example/user-loader.js');
 	}
 
 	function index()
@@ -20,7 +21,7 @@ class Over_time extends MY_Controller
 		
 		$data['posts'] = $this->guard_model->get_posts();
 		
-		if($this->input->post('assign_overtime') == TRUE)
+		if($this->input->post('assign_overtime') == TRUE && $this->input->post('Regno') == TRUE)
 		{
 			$from_time = (float)$this->input->post('hours_from') + (float)$this->input->post('minutes_from');
 			$to_time = (float)$this->input->post('hours_to') + (float)$this->input->post('minutes_to');
@@ -32,7 +33,6 @@ class Over_time extends MY_Controller
 						 'Regno'=>$this->input->post('Regno')
 						 );
 			
-			//$guards = $this->guard_model->check_engage_guard($datum['date'],$datum['Regno'],$datum['from_time'],$datum['to_time']);
 			$insert_return = $this->guard_model->insert_into_overtime($datum);
 			if($insert_return == -1)
 			{
@@ -41,7 +41,7 @@ class Over_time extends MY_Controller
 			}			
 			else if($insert_return == -2)
 			{
-				$this->session->set_flashdata('flashError','Sorry, The guard is already assigned another duty for the time period.');
+				$this->session->set_flashdata('flashError','Sorry, The guard is already assigned another duty for the time period.'.$this->input->post('Regno').' '.$from_time.' '.$to_time.' '.$this->input->post('date'));
 				redirect('guard/over_time/assign_to_a_guard',$data);
 			}
 			$this->session->set_flashdata('flashSuccess','Duty has been successfully assigned.');

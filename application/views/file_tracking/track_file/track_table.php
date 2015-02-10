@@ -7,7 +7,7 @@
 
 //	$column2 = $ui->col()->width(10)->open();
 	$box2 = $ui->box()
-				->title('Movement Details  (Track Number : ' .$track_num. ')')
+				->title($file_subject.' ( '.$file_no.' )')
 				->solid()
 				->uiType('primary')
 				->open();

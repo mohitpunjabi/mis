@@ -13,7 +13,7 @@
 			  ->uiType('primary')
 			  ->open();
 
-	$form = $ui->form()->action('complaint/supervisor/update_complaint_details/'.$complaint_id)->open();
+	$form = $ui->form()->action('complaint/supervisor/update_complaint_details/'.$complaint_id.'/'.$type)->open();
 
 	$inputRow1 = $ui->row()->open();
 		$c1 = $ui->col()->width(4)->open();

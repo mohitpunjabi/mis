@@ -14,20 +14,18 @@
 				->open();
 	$table = $ui->table()->hover()->bordered()->open();
 		echo '<tr>
-						<th>File ID</th>
-						<th>Track Number</th>
+						<th>File No</th>
 						<th>File Subject</th>
-						<th>Created By</th>
+						<th>Track Number</th>
 						<th>Click to confirm</th>
 					</tr>';
 		foreach($res->result() as $row)
 		{
 ?>
 			<tr>
-				<td><?php echo $row->file_id;?></td>
-				<td><?php echo $row->track_num;?></td>
+				<td><?php echo $row->file_no;?></td>
 				<td><?php echo $row->file_subject;?></td>
-				<td><?php echo $row->start_emp_id; ?></td>
+				<td><?php echo $row->track_num;?></td>
 				<td>
 					<center>
 					<?php

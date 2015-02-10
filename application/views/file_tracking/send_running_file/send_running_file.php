@@ -112,6 +112,12 @@
 <?php
 	$form2 = $ui->form()->action('file_tracking/send_new_file/insert_move_details/'.$file_id.'/'.$sent_by_emp_id)->open();
 
+	 $ui->input()
+		->type('hidden')
+		->name('file_no')
+		->value($file_no)
+		->show();
+
 	$ui->textarea()
 		->label('Enter Remarks and Send Back')
 		->name('remarks2')

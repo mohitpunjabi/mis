@@ -34,6 +34,7 @@ class Supervisor extends MY_Controller
 			
 			$data['mobile'] = 9000000000;
 			$data['email'] = $this->user_model->getEmailById($row->user_id);
+			$data['type'] = $row->type;
 			//$data_array[$sno][$j++] = $row->pref_time;
 			//$sno++;
 		}
@@ -43,7 +44,7 @@ class Supervisor extends MY_Controller
 		$this->drawFooter();		
 	}
 	
-	public function update_complaint_details ($complaint_id)
+	public function update_complaint_details ($complaint_id, $type)
 	{
 		$this->load->model ('complaint/complaint_details', '', TRUE);
 		$status = $this->input->post('status');
@@ -58,9 +59,8 @@ class Supervisor extends MY_Controller
 			$fresh_action = $action_taken."<br/>".$date." : ".$fresh_action;
 
 		$this->complaint_details->update_complaint($complaint_id, $status, $fresh_action);		
-		echo $status."<br>";
-		echo $action_taken."<br>";
-		echo $fresh_action."<br>";
+		$this->session->set_flashdata('flashSuccess','Complaint : '.$complaint_id.' successfully processed');
+		redirect('complaint/supervisor/open_complaint_list/'.$type);
 	}
 	
 	public function open_complaint_list($supervisor)

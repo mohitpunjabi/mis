@@ -24,9 +24,11 @@
 ?>
 						<thead>
 							<tr>
+									<th>File No.</th>
 									<th>File Subject</th>
 									<th>File Track Number</th>
 									<th>Sent To</th>
+									<th>Sent On</th>
 									<th>Current Status</th>
 									<th>File Operations</th>
 							</tr>
@@ -37,10 +39,12 @@
 					{
 ?>
 						<tr>
-							<td><?php echo $data_array[$sno][2];?></td>
+							<td><?php echo $data_array[$sno][1];?></td>
 							<td><?php echo $data_array[$sno][3];?></td>
 							<td><?php echo $data_array[$sno][4];?></td>
-							<td><?php if ($data_array[$sno][5]) echo "Closed"; else echo "Active"; ?></td>
+							<td><?php echo $data_array[$sno][5];?></td>
+							<td><?php echo $data_array[$sno][7];?></td>
+							<td><?php if ($data_array[$sno][6]) echo "Closed"; else echo "Active"; ?></td>
 							<td>
 							<center>
 							<?php	$ui->button()
@@ -113,7 +117,7 @@
 	?>
 			var submit_id = '#submit'+<?php echo $sno; ?>;
 			$(submit_id).click(function(){
-				get_file_move_details_of_sent_files(<?php echo $data_array[$sno][3]; ?>);
+				get_file_move_details_of_sent_files(<?php echo $data_array[$sno][4]; ?>);
 			});
 	<?php
 			$sno++;

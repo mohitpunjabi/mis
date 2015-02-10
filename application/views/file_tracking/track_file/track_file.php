@@ -101,6 +101,11 @@
 <div id="move_details_by_track_num">
 </div>
 <?php
+//	$box2 = $ui->box()
+//				->id('move_details_by_track_num')
+//				->open();
+?>
+<?php
 			$tab2->close();
 
 		$tabBox1->close();

@@ -1,39 +1,123 @@
+$(document).ready(function (){
+
+$course_selection = $('#course_selection');
+$branch_selection = $('#branch_selection');
+
+$cont_course_selection = $('#cont_course_selection');
+$cont_branch_selection = $('#cont_branch_selection');
+$box_form = $("#box_outter");
+
+	$("#btn_course").click(function (){
+		if(confirm("Are you sure you want to delete course "+$course_selection.find(':selected').val()))
+		{
+			$box_form.showLoading();	
+			$.ajax({
+				url:site_url("course_structure/delete/json_delete_course/"+$course_selection.find(':selected').val()),
+				success:function(data){
+					getCourses();
+					$box_form.hideLoading();
+						
+				},
+				
+				type:"POST",
+				dataType:"json",
+				fail:function(error){
+					console.log(error);
+					$box_form.hideLoading();
+				}
+			});
+		}
+	});
+	$("#btn_branch").click(function (){
+		if(confirm("Are you sure you want to delete branch "+$branch_selection.find(':selected').val()))			
+		{
+			$box_form.showLoading();
+			$.ajax({
+				url:site_url("course_structure/delete/json_delete_branch/"+$branch_selection.find(':selected').val()),
+				success:function(data){
+					getBranches()
+					$box_form.hideLoading();	
+				},
+				
+				type:"POST",
+				dataType:"json",
+				fail:function(error){
+					console.log(error);
+					$box_form.hideLoading();
+				}
+			});
+		}
+	});
+	
+	function getCourses()
+	{
+		$.ajax({
+				url:site_url("course_structure/delete/json_get_course/"),
+				success:function(data){
+					var base_str = "<option value = '0' selected='selected' disabled>Select Course</option>";
+					for($d=0 ; $d < data.length;$d++) {
+						base_str += "<option  value='"+ data[$d]['id']+"'>"+data[$d]["name"]+"</option>";
+					}
+					$course_selection.html(base_str);
+					alert("Course Deleted Successfully.");
+					$box_form.hideLoading();	
+				},
+				
+				type:"POST",
+				dataType:"json",
+				fail:function(error){
+					console.log(error);
+					$box_form.hideLoading();
+				}
+			});
+	}
+	
+	function getBranches()
+	{
+		$.ajax({
+				url:site_url("course_structure/delete/json_get_branch/"),
+				success:function(data){
+					var base_str = "<option value = '0' selected='selected' disabled>Select Branch</option>";
+					for($d=0 ; $d < data.length;$d++) {
+						base_str += "<option  value='"+ data[$d]['id']+"'>"+data[$d]["name"]+"</option>";
+					}
+					$branch_selection.html(base_str);
+					$box_form.hideLoading();	
+					alert("Branch Deleted Successfully.");
+				},
+				
+				type:"POST",
+				dataType:"json",
+				fail:function(error){
+					console.log(error);
+					$box_form.hideLoading();
+				}
+			});
+	}
+});
 /*
-* Add.js -  javascript file used in add.php
-*/
 $(document).ready(function(){
 
-	$box_form = $("#box_form");
 	$add_course_form = $("#add_course_form");
 	//$form_table = $("#form_table");
-	$dept_selection = $('#dept_selection');
+	$box_form = $("#box_form");
 	$course_selection = $('#course_selection');
 	$branch_selection = $('#branch_selection');
-	$semester_selection = $("#semester");
-	$session_selection = $("#session_selection");
 	
 	$cont_course_selection = $('#cont_course_selection');
 	$cont_branch_selection = $('#cont_branch_selection');
-	$cont_semester_selection = $("#cont_semester");
-	$cont_session_selection = $("#cont_session_selection");
 	
 	
-	$course_selection.hide();
-	$branch_selection.hide();
-	$semester_selection.hide();
-	$session_selection.hide();
+	//$course_selection.hide();
+	//$branch_selection.hide();
 	
-	$cont_course_selection.hide();
-	$cont_branch_selection.hide();
-	$cont_semester_selection.hide();
-	$cont_session_selection.hide();
-	
-
-	$duration = 1;
+	//$cont_course_selection.hide();
+	//$cont_branch_selection.hide();
 	
 	function add_course(){
 		$box_form.showLoading();
-		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
+		$.ajax({
+			url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
 			success:function(data){
 				var base_str = "<option value = '0' selected='selected' disabled>Select Course</option>";
 				for($d=0 ; $d < data.length;$d++) {
@@ -53,6 +137,7 @@ $(document).ready(function(){
 					$cont_semester_selection.hide();
 					
 					add_branch(parseInt($('#course_selection option:selected').data('duration')));
+					
 				});
 				$box_form.hideLoading();
 			},
@@ -60,8 +145,8 @@ $(document).ready(function(){
 			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
 			dataType:"json",
 			fail:function(error){
-			$box_form.hideLoading();
 				console.log(error);
+				$box_form.hideLoading();
 			}
 		});
 	}
@@ -70,9 +155,8 @@ $(document).ready(function(){
 	function add_branch(duration){
 		$course_selection = $('#course_selection');
 		$dept_selection = $('#dept_selection');
-		
-		//alert($course_selection.find(':selected').val());
 		$box_form.showLoading();
+		//alert($course_selection.find(':selected').val());
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){
 				
@@ -104,6 +188,7 @@ $(document).ready(function(){
 					add_semester(duration);
 				});
 				$box_form.hideLoading();
+				
 			},
 			type:"POST",
 			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
@@ -116,6 +201,7 @@ $(document).ready(function(){
 	}
 	
 	function add_semester(duration){
+		
 		base_str = "";
 		if($course_selection.find(':selected').val() == 'ug_comm')
 		{
@@ -128,17 +214,19 @@ $(document).ready(function(){
 			
 		}
 		else if(duration < 4){
-			
+			base_str = "<option value = '0'>All</option>";
 			for(counter = 1; counter <= 2*duration ; counter++){
 				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
 			}
 		}
 		else{
-			for(counter = 3; counter <= 2*duration ; counter++){
+			base_str = "<option value = '0'>All</option>";
+			for(counter = 1; counter <= 2*duration ; counter++){
 				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
 			}
 			
 		}
+		
 		$cont_semester_selection.show();
 		$semester_selection.show().html(base_str);
 	}
@@ -154,4 +242,4 @@ $(document).ready(function(){
 		add_course();
 	});
 
-});
+});*/

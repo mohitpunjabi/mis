@@ -30,6 +30,7 @@
 									<td>';
                   $ui->textarea()
                       ->rows(7)
+                      
                       ->cols(60)
 											->placeholder('Max 2000 characters')
 											->id('information'.$i)

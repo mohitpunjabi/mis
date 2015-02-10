@@ -1,76 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to T&P Cell</title>
-  var base_url = <?php echo base_url(); ?>
-</head>
-<body>
-
-<div id="container">
-	<h1>Welcome to Training & Placement Cell!</h1>
-  <center>
-  <font face="Arial" size="3">
-  <h3><b>Your CV</b></h3>
-  <center>
-  <h3>Project/Internship/Excursion/Training</h3>
-  <table align="center">
-    <tr>
-      <th>Sl.No</th>
-      <th>Place</th>
-      <th>Project Title</th>
-      <th>Duration</th>
-      <th>Role</th>
-      <th>Project Description</th>
-    </tr>
-    <?php 
-      $i=1;
-      foreach($projects as $row) { 
-    ?>
-    <tr>
-      <td><?php echo $i; ?></td>
-      <td>
-        <input disabled type="text" name="place<?php echo $i; ?>" value="<?php echo $row->place; ?>"/>
-      </td>
-      <td>
-        <input disabled type="text" name="title<?php echo $i; ?>" value="<?php echo $row->title; ?>"/>
-      </td>
-      <td>
-        <input disabled type="text" name="duration<?php echo $i; ?>" value="<?php echo $row->duration; ?>"/>
-      </td>
-      <td>
-        <input disabled type="text" name="role<?php echo $i; ?>" value="<?php echo $row->role; ?>"/>
-      </td>
-      <td>
-        <textarea disabled name="description<?php echo $i ?>" cols="40" rows="5"><?php echo $row->description; ?></textarea>
-      </td>
-      <td>
-        <input id="editbutton_project<?php echo $i; ?>" type="button" name="editbutton" value="Edit" onclick="EditProject(<?php echo $i ?>)"/>
-      </td>
-    </tr>
-    <?php $i++; } ?>
-    </table>
-    <h3>Academic/Co-Curricular Achievements</h3>
-    <table align="center">
-    <?php 
-      foreach($achievements as $row) { ?>
-      <tr>
-        <td>
-          <input disabled type="text" name="category<?php echo $i; ?>" value="<?php echo $row->category; ?>"/>
-        </td>
-         <td>
-          <textarea disabled name="info<?php echo $i ?>" cols="40" rows="5"><?php echo $row->info; ?></textarea>
-        </td>
-        <td>
-        <input id="editbutton_achievements<?php echo $i; ?>" type="button" name="editbutton" value="Edit" onclick="EditAchievements($row->category,$row->id)"></input>
-      </td>
-      </tr>
-     <?php } ?>
-    </table>
-  </center>
-  </font>
-  </center>
-</div>
-
-</body>
-</html>
+<?php
+	$ui = new UI();
+    $outer_row = $ui->row()->id('or')->open();
+    $column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
+    
+    echo '<h3><b><center>Your CV</b></center>';
+    echo 'Project/Internship/Excursion/Training</h3>';    
+    $table = $ui->table()->responsive()->hover()->bordered()->open();
+							echo '
+								  <tr>
+									<th>Sl.No</th>
+                  <th>Title</th>
+                  <th>Place</th>
+                  <th>Duration</th>
+                  <th>Role</th>
+                  <th>Description</th>
+								  </tr>';
+    $i=1;
+    foreach($projects as $row) {
+              echo '
+								  <tr> 
+									<td>';
+                  echo $i;
+              echo '
+									</td>
+									<td>';
+                  $ui->input()->name("title".$i)->value($row->title)->disabled()->show();
+              echo '
+									</td>
+									<td>';
+                  $ui->input()->name("place".$i)->value($row->place)->disabled()->show();
+              echo '
+									</td>
+									<td>';
+                  $ui->input()->name("duration".$i)->value($row->duration." weeks")->disabled()->show();
+              echo '
+									</td>
+									<td>';
+                  $ui->input()->name("role".$i)->value($row->role)->disabled()->show();
+              echo '
+									</td>
+									<td>';
+                  $ui->input()->name("description".$i)->value($row->description)->disabled()->show();
+              echo '
+									</td>
+									<td>  ';
+              $ui->button()
+                 ->value('Edit')
+                 ->uiType('primary')
+                 ->id("editbutton")
+                 ->icon($ui->icon("edit"))
+                 ->extras(' onclick = EditProject(\''.$i.'\') ')
+                 ->name('edit')
+                 ->show();
+              echo ' </td>
+                </tr>';
+		$i++;
+    }
+    $table->close();
+	  echo '<h3>Awards & Achievements</h3>';
+     $table2 = $ui->table()->responsive()->hover()->bordered()->open();
+     $i=1;
+     foreach($achievements as $row) {
+        echo '
+              <tr>
+              <td>  ';
+              $ui->input()->name("category".$i)->value($row->category)->disabled()->show();
+        echo ' </td>
+               <td>  ';
+              $ui->input()->name("info".$i)->value($row->info." weeks")->disabled()->show();
+        echo ' </td>
+                <td> ';
+                $ui->button()
+                 ->value('Edit')
+                 ->uiType('primary')
+                 ->id("editbutton")
+                 ->icon($ui->icon("edit"))
+                 ->extras(' onclick = EditAchievements(\''.$i.'\') ')
+                 ->name('edit')
+                 ->show();
+        echo ' </td>
+                </tr>';
+      $i++;
+     }
+     $table2->close();
+		$column1->close();
+	$outer_row->close();
+?>

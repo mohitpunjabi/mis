@@ -28,13 +28,13 @@
 											->name('place'.$counter)
 											->show();
 
-                $ui->input()
+                  $ui->input()
 											->placeholder('Title')
 											->id('title'.$counter)
 											->name('title'.$counter)
 											->show();
               
-                $ui->input()
+                  $ui->input()
 											->placeholder('Duration (in weeks)')
 											->id('duration'.$counter)
 											->name('duration'.$counter)
@@ -46,7 +46,7 @@
 											->name('role'.$counter)
 											->show();
               
-                 $ui->textarea()
+                  $ui->textarea()
 											->placeholder('Description')
 											->id('description'.$counter)
 											->name('description'.$counter)

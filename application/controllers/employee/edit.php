@@ -47,7 +47,7 @@ class Edit extends MY_Controller
 			$this->load->model('pay_scales_model','',TRUE);
 			$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
 
-			$this->drawHeader("Edit Basic details");
+			$this->drawHeader("Edit Basic details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 			$this->load->view('employee/edit/own_basic_details',$data);
 			$this->drawFooter();
 		}

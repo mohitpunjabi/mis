@@ -150,7 +150,9 @@
 			if(!image_validation())
 				e.preventDefault();
 		});
-
+		$("#back_btn").click(function(e){
+			window.location.href = site_url("employee/edit");
+		});
 		$("#dob").datepicker("setEndDate", moment($("#dob").attr('max'), "DD-MM-YYYY").toDate());
 		$("#tstatus").change(teaching_handler);
 		$("#payscale").change(payband_handler);

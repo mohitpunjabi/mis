@@ -1,5 +1,12 @@
 <?php $ui = new UI();
 
+                                    //pay_options
+                                    $pay_options = array($ui->option()->value("")->text("Choose One")->disabled()->selected());
+                                    if($pay_bands === FALSE)
+                                        array_push($pay_options,$ui->option()->value("")->text("No pay band found")->disabled());
+                                    else
+                                        foreach($pay_bands as $row)
+                                            array_push($pay_options,$ui->option()->value($row->pay_band)->text(strtoupper($row->pay_band).' ('.$row->pay_band_description.')'));
 if($error!="")
     $ui->alert()->uiType('danger')->title('ERROR')->desc($error)->show();
 
@@ -195,19 +202,8 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
 
             $pay_box = $ui->box()->uiType('primary')->solid()->title('Payment Details')->open();
 
-                $options = array($ui->option()->value("")->text("Choose One")->disabled()->selected());
-                array_push($options,$ui->option()->value('pb1')->text('ewdfew'));
-                //Not Working
-                /*if($pay_bands === FALSE)
-                    array_push($options,$ui->option()->value("")->text("No pay band found")->disabled());
-                else
-                    foreach($pay_bands as $row)
-                    {
-                        array_push($options,$ui->option()->value($row->pay_band)->text(strtoupper($row->pay_band).' ('.$row->pay_band_description.')'));
-                    }
-*/
                 $ui->select()->name('payscale')->id('payscale')->label('Pay Band<span style= "color:red;"> *</span>')
-                            ->options($options)->required()->show();
+                            ->options($pay_options)->required()->show();
 
                 $ui->select()->name("gradepay")->id("gradepay")->label('Grade Pay<span style= "color:red;"> *</span>')
                                 ->addonLeft($ui->icon('rupee'))

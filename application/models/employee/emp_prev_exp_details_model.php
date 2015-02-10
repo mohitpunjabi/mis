@@ -20,10 +20,15 @@ class Emp_prev_exp_details_model extends CI_Model
 		$this->db->insert_batch($this->table,$data);
 	}
 
-	function getEmpPrevExpById($id = '')
+	function getEmpPrevExpById($id = '',$sno=-1)
 	{
-		$query = $this->db->where('id',$id)->get($this->table);
-		return $query->result();
+		if($sno == -1) {
+			$query = $this->db->where('id',$id)->get($this->table);
+			return $query->result();
+		}else {
+			$query = $this->db->where('id',$id)->where('sno',$sno)->get($this->table);
+			return $query->row();
+		}
 	}
 
 	function delete_record($where_array)

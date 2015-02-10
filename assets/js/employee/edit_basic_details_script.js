@@ -1,6 +1,7 @@
 
-	function payband_handler(pb)
+	function payband_handler()
 	{
+		var pb = document.getElementById("payscale").value;
 		var gp = document.getElementsByName("gradepay")[0];
 		var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -23,8 +24,9 @@
 		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
-	function teaching_handler(auth)
+	function teaching_handler()
 	{
+		var auth = $('#tstatus').val();
 		designation_dropdown(auth);
 		retirement_handler();
 		if(auth =='ft')
@@ -56,12 +58,19 @@
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
+
 	function retirement_handler()
 	{
 		var retire = document.getElementById("retire");
-		var auth = document.getElementsByName("tstatus")[0].value;
-		var source=document.getElementsByName("dob")[0].value;
-		var new_date=new Date(source);
+		var auth = document.getElementById("tstatus").value;
+		var source=document.getElementById("dob").value;
+		var d = source.split("-");
+
+		//date format -> dd-mm-yyyy
+		var new_date = new Date();
+		new_date.setDate(d[0]);
+		new_date.setMonth(d[1]-1);	//month start from 0
+		new_date.setFullYear(d[2]);
 
 		if(auth=="ft")
 			new_date.setFullYear(new_date.getFullYear() + 65);
@@ -70,7 +79,7 @@
 		else if(auth=="nftn")
 			new_date.setFullYear(new_date.getFullYear() + 60);
 
-				//change suggested for 1st day of month dob
+		//change suggested for 1st day of month dob
 		if(new_date.getDate()==1)
 		{
 			if(new_date.getMonth()==0)
@@ -108,9 +117,11 @@
 		if(month<10)	mon='0'+month;
 		else	mon+=month;
 
-		retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
+		//retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
+		retire.value=date+'-'+mon+'-'+new_date.getFullYear();
+		$("#retire").datepicker("setDate", moment(retire.value, "DD-MM-YYYY").toDate());
 	}
-
+//AJAX for designation called from teaching_handler
 	function designation_dropdown(auth)
 	{
 		var xmlhttp;
@@ -125,11 +136,28 @@
 		xmlhttp.onreadystatechange=function()
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		    {
+			{
 			    document.getElementById("des").innerHTML=xmlhttp.responseText;
-		    }
+		    	}
 	  	}
 		xmlhttp.open("POST",site_url("ajax/designation/"+auth),true);
 		xmlhttp.send();
 		document.getElementById("des").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
+
+	$(document).ready(function() {
+		$("#basic_details").on('submit',function(e) {
+			if(!image_validation())
+				e.preventDefault();
+		});
+		$("#back_btn").click(function(e){
+			window.location.href = site_url("employee/edit");
+		});
+		$("#dob").datepicker("setEndDate", moment($("#dob").attr('max'), "DD-MM-YYYY").toDate());
+		$("#tstatus").change(teaching_handler);
+		$("#payscale").change(payband_handler);
+		$("#dob").change(retirement_handler);
+		$("gradepay").change(function(){
+			document.getElementById('basicpay').disabled=false;
+		});
+	});

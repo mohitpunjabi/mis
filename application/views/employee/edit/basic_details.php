@@ -68,20 +68,20 @@ $row = $ui->row()->open();
             $row2 = $ui->row()->open();
                 $col1 = $ui->col()->width(3)->open();
                     echo '<label>Gender<span style= "color:red;"> *</span></label>';
-                    $ui->radio()->name('sex')->value('m')->label('Male')->checked(true)->show();
-                    $ui->radio()->name('sex')->value('f')->label('Female')->checked(false)->show();
+                    $ui->radio()->name('sex')->value('m')->label('Male')->checked($user_details->sex == 'm')->show();
+                    $ui->radio()->name('sex')->value('f')->label('Female')->checked($user_details->sex == 'f')->show();
                 $col1->close();
 
                 $col2 = $ui->col()->width(3)->open();
                     echo '<label>Physically Challenged<span style= "color:red;"> *</span></label>';
-                    $ui->radio()->name('pd')->value('Yes')->label('Yes')->show();
-                    $ui->radio()->name('pd')->value('No')->label('No')->checked()->show();
+                    $ui->radio()->name('pd')->value('yes')->label('Yes')->checked($user_details->physically_challenged=="yes")->show();
+                    $ui->radio()->name('pd')->value('no')->label('No')->checked($user_details->physically_challenged=="no")->show();
                 $col2->close();
 
                 $col3 = $ui->col()->width(3)->open();
                     echo '<label>Kashmiri Immigrant<span style= "color:red;"> *</span></label>';
-                    $ui->radio()->name('kashmiri')->value('yes')->label('Yes')->show();
-                    $ui->radio()->name('kashmiri')->value('no')->label('No')->checked()->show();
+                    $ui->radio()->name('kashmiri')->value('yes')->label('Yes')->checked($user_other_details->kashmiri_immigrant=='yes')->show();
+                    $ui->radio()->name('kashmiri')->value('no')->label('No')->checked($user_other_details->kashmiri_immigrant=='no')->show();
                 $col3->close();
             $row2->close();
 
@@ -93,38 +93,35 @@ $row = $ui->row()->open();
                 $ui->input()->width(3)->name('father')
                                 ->required()
                                 ->label('Father\'s Name<span style= "color:red;"> *</span>')
+                                ->value($user_other_details->father_name)
                                 ->show();
                 $ui->input()->width(3)->name('mother')
                                 ->required()
                                 ->label('Mother\'s Name<span style= "color:red;"> *</span>')
+                                ->value($user_other_details->mother_name)
                                 ->show();
             $row5->close();
 
             $row6 = $ui->row()->open();
                 $ui->select()->width(3)->name('category')
                                 ->label('Category<span style= "color:red;"> *</span>')
-                                ->options(array($ui->option()->value('General')->text('GEN'),
-                                                $ui->option()->value('OBC')->text('OBC'),
-                                                $ui->option()->value('SC')->text('SC'),
-                                                $ui->option()->value('ST')->text('ST'),
-                                                $ui->option()->value('Others')->text('Others')))
+                                ->options(array($ui->option()->value('General')->text('GEN')->selected($user_details->category=="General"),
+                                                $ui->option()->value('OBC')->text('OBC')->selected($user_details->category=="OBC"),
+                                                $ui->option()->value('SC')->text('SC')->selected($user_details->category=="SC"),
+                                                $ui->option()->value('ST')->text('ST')->selected($user_details->category=="ST"),
+                                                $ui->option()->value('Others')->text('Others')->selected($user_details->category=="Others")))
                                 ->show();
                 $ui->input()->width(3)->name('nationality')
                                 ->required()
-                                ->value('Indian')
+                                ->value($user_other_details->nationality)
                                 ->label('Nationality<span style= "color:red;"> *</span>')
                                 ->show();
                 $ui->input()->width(3)->name('religion')
                                 ->required()
+                                ->value($user_other_details->religion)
                                 ->label('Religion<span style= "color:red;"> *</span>')
                                 ->show();
-                $ui->imagePicker()->width(12)->label("Photograph<span style= \"color:red;\"> *</span>")->required()->id('photo')->name('photo')->show();
             $row6->close();
-
-
-
-
-
         $basic_box->close();
 
     $col->close();
@@ -133,9 +130,9 @@ $row = $ui->row()->open();
             $ui->select()->name('tstatus')
                             ->id('tstatus')
                             ->label('Employee Type<span style= "color:red;"> *</span>')
-                            ->options(array($ui->option()->value('ft')->text('Faculty')->selected(),
-                                            $ui->option()->value('nfta')->text('Non Faculty (Academic)'),
-                                            $ui->option()->value('nftn')->text('Non Faculty (Non Academic)')))
+                            ->options(array($ui->option()->value('ft')->text('Faculty')->selected($emp->auth_id=='ft'),
+                                            $ui->option()->value('nfta')->text('Non Faculty (Academic)')->selected($emp->auth_id=='nfta'),
+                                            $ui->option()->value('nftn')->text('Non Faculty (Non Academic)')->selected($emp->auth_id=='nftn')))
                             ->show();
 
             $ui->datePicker()
@@ -144,18 +141,53 @@ $row = $ui->row()->open();
                 ->required()
                 ->dateFormat('dd-mm-yyyy')
                 ->addonRight($ui->icon("calendar"))
-                ->value(date("d-m-Y"))
+                ->value(date("d-m-Y",strtotime($emp->joining_date)))
                 ->show();
+
+
+            $designations=$this->designations_model->get_designations("type in ('".(($emp->auth_id == 'ft')? 'ft':'nft')."','others')");
+            $array_options = array();
+            if($designations == FALSE)
+                array_push($array_options,$ui->option()->value("")->disabled()->text('No designation found'));
+            else
+                foreach($designations as $row)
+                {
+                    array_push($array_options,$ui->option()->value($row->id)->text(ucwords($row->name))->selected($row->id == $emp->designation));
+                }
+            /*echo '<pre>';
+            var_dump($options);
+            echo '</pre>';*/
 
             $ui->select()->name('designation')
                         ->label('Designation<span style= "color:red;"> *</span>')
+                        ->options($array_options)
                         ->id('des')
                         ->show();
 
-            $ui->select()->name('department')
-                        ->label('Department/Section<span style= "color:red;"> *</span>')
-                        ->id('depts')
-                        ->show();
+
+            $array_options = array();
+            if($emp->auth_id == 'ft')
+                $departments=$this->departments_model->get_departments('academic');
+            else if($emp->auth_id == 'nftn')
+                $departments=$this->departments_model->get_departments('nonacademic');
+            else
+                $departments=$this->departments_model->get_departments();
+            //array_push($array_options,$ui->option()->text("defaut option "));
+
+            if($departments === FALSE)
+                array_push($array_options,$ui->option()->value("")->text('No department found')->disabled());
+            else
+                foreach($departments as $row)
+                {
+                    array_push($array_options,$ui->option()->value($row->id)->text($row->name)->selected($row->id == $user_details->dept_id));
+                }
+
+            $ui->select()
+                ->name('department')
+                ->label('Department/Section<span style= "color:red;"> *</span>')
+                ->options($array_options)
+                ->id('depts')
+                ->show();
 
             $ui->input()->name('research_int')
                             ->id('res_int_id')

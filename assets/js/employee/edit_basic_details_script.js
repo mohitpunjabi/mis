@@ -151,9 +151,6 @@
 				e.preventDefault();
 		});
 
-		$("#fetch_id_btn").click(function() {
-			fetch_details();
-		});
 		$("#dob").datepicker("setEndDate", moment($("#dob").attr('max'), "DD-MM-YYYY").toDate());
 		$("#tstatus").change(teaching_handler);
 		$("#payscale").change(payband_handler);
@@ -161,6 +158,4 @@
 		$("gradepay").change(function(){
 			document.getElementById('basicpay').disabled=false;
 		});
-
-		teaching_handler();	//to set default designations and departments
 	});

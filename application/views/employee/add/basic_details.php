@@ -86,8 +86,8 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
 
                     $col2 = $ui->col()->width(3)->open();
                         echo '<label>Physically Challenged<span style= "color:red;"> *</span></label>';
-                        $ui->radio()->name('pd')->value('Yes')->label('Yes')->show();
-                        $ui->radio()->name('pd')->value('No')->label('No')->checked()->show();
+                        $ui->radio()->name('pd')->value('yes')->label('Yes')->show();
+                        $ui->radio()->name('pd')->value('no')->label('No')->checked()->show();
                     $col2->close();
 
                     $col3 = $ui->col()->width(3)->open();

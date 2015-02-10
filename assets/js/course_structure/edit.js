@@ -88,7 +88,7 @@ function DeleteSemester(semester,aggr_id)
 			{
 				$box_form.hideLoading();
 				//alert("Deleted Successfully");
-				document.location.href = site_url("course_structure/edit/EditCourseStructure");
+				document.location.href = site_url("course_structure/edit/EditCourseStructure  ");
 			}
 		}	
 		xmlhttp.open("GET",site_url("course_structure/edit/DeleteCourseStructure/"+semester+"/"+aggr_id),true);

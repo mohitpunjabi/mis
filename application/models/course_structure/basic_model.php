@@ -67,6 +67,11 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	function delete_course($course)
+	{
+		return $this->db->delete($this->table_course,array("id"=>$course));
+	}
+	
 	function get_course_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_course,array('id'=>$id));
@@ -96,6 +101,11 @@ class Basic_model extends CI_Model
 	{
 		$query = $this->db->get($this->table_branch);
 		return $query->result();
+	}
+	
+	function delete_branch($branch)
+	{
+		return $this->db->delete($this->table_branch,array("id"=>$branch));
 	}
 
 	

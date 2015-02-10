@@ -20,17 +20,15 @@ class Validation extends MY_Controller
 		$this->drawFooter();
 	}
 
-	function validate_step($emp_id='', $step='')
+	function validate_step($emp_id='', $step=-1)
 	{
-		if(!$this->authorization->is_auth('est_ar'))
-		{
+		if(!$this->authorization->is_auth('est_ar')) {
 			$this->session->set_flashdata('flashError','You are not authorized.');
 			redirect('home');
 			return;
 		}
 
-		if($emp_id == '')
-		{
+		if($emp_id == '') {
 			redirect('employee/validation');
 			return;
 		}
@@ -43,6 +41,8 @@ class Validation extends MY_Controller
 		$this->load->model('designations_model','',TRUE);
 		$this->load->model('employee/emp_validation_details_model','',TRUE);
 
+		$data['emp_id']=$emp_id;
+		$data['step']=$step;
 		$data['emp']=$this->employee_model->getById($emp_id);
 		$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
 		$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
@@ -51,33 +51,15 @@ class Validation extends MY_Controller
 		$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
-		if(!$data['emp_validation_details'])
-		{
+		if(!$data['emp_validation_details']) {
 			$this->session->set_flashdata('flashInfo','The employee '.$emp_id.' details have been Approved');
 			redirect('employee/validation');
 			return;
 		}
 
-		$this->drawHeader("Employee Validation");
-		$this->load->view('employee/view/view_header',array('emp_id'=>$emp_id));
-
+		$this->drawHeader("Employee Validation","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/validation/index',array('emp_validation_details'=>array($data['emp_validation_details'])));
-
-		if($step!='')
-		{
-			$data['form']=$step-1;
-			switch($step)
-			{
-				case 0: $this->load->view('employee/view/profile_pic',$data);break;
-				case 1:	$this->load->view('employee/view/basic_details',$data);break;
-				case 2: $this->load->view('employee/view/previous_employment_details',$data);break;
-				case 3: $this->load->view('employee/view/family_details',$data);break;
-				case 4: $this->load->view('employee/view/educational_details',$data);break;
-				case 5: $this->load->view('employee/view/last_five_year_stay_details',$data);break;
-			}
-		}
-		$this->load->view('employee/validation/validation',array('emp_id'=>$emp_id, 'step'=>$step,'emp_validation_details'=>$data['emp_validation_details']));
-		//$this->load->view('employee/view/view_footer');
+		$this->load->view('employee/validation/view',$data);
 		$this->drawFooter();
 	}
 
@@ -107,7 +89,7 @@ class Validation extends MY_Controller
 		$user = $this->users_model->getUserById($emp_id);
 		$date = date("Y-m-d H:i:s",time());
 
-		if($this->input->post('approve'))
+		if($this->input->post('approve'.$step))
 		{
 			//pending --> approved
 			$this->emp_validation_details_model->updateById(array($form => 'approved'),$emp_id);
@@ -119,18 +101,18 @@ class Validation extends MY_Controller
 				$this->notification->notify($emp_id,'emp', "Validation Request Approved", "Your validation request for ".$msg." have been approved.", "employee/view/index/".(($step==0)? $step:($step-1)),"success");
 			}
 		}
-		else if($this->input->post('reject'))
+		else if($this->input->post('reject'.$step))
 		{
 			//pending --> rejected
 			$this->emp_validation_details_model->updateById(array($form => 'rejected'),$emp_id);
 			// insert or update reject details
 			$reason=$this->emp_validation_details_model->getRejectReasonWhere(array('id'=>$emp_id, 'step'=>$step));
 			if($reason)
-				$this->emp_validation_details_model->updateRejectReason(array('reason'=>$this->input->post('reason')),array('id'=>$emp_id,'step'=>$step));
+				$this->emp_validation_details_model->updateRejectReason(array('reason'=>$this->input->post('reason'.$step)),array('id'=>$emp_id,'step'=>$step));
 			else
 				$this->emp_validation_details_model->insertRejectReason(array('id'=>$emp_id,
 																				'step'=>$step,
-																				'reason'=>$this->input->post('reason'),
+																				'reason'=>$this->input->post('reason'.$step),
 																				'created_date'=> $date));
 			//Notify Employee about the same
 			if($user->auth_id == 'emp' && $user->password !='')

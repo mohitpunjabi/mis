@@ -120,6 +120,7 @@
 
 		//retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
 		retire.value=date+'-'+mon+'-'+new_date.getFullYear();
+		$("#retire").datepicker("setDate", moment(retire.value, "DD-MM-YYYY").toDate());
 	}
 
 //AJAX for designation called from teaching_handler
@@ -258,7 +259,7 @@
 		$("#fetch_id_btn").click(function() {
 			fetch_details();
 		});
-
+		$("#dob").datepicker("setEndDate", moment($("#dob").attr('max'), "DD-MM-YYYY").toDate());
 		$("#tstatus").change(teaching_handler);
 		$("#payscale").change(payband_handler);
 		$("#dob").change(retirement_handler);

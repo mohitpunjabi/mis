@@ -18,22 +18,11 @@
                                 ->addonRight($ui->button()->id('search_btn')->value('Search')->uiType('primary')->icon($ui->icon('search')))
                                 ->show();
 
-					$dept = $ui->select()
-								->label('Select Form')
-								->name('form_name')
-								->options(array($ui->option()->value('0')->text('Basic Details'),
-												$ui->option()->value('1')->text('Previous Employment Details'),
-												$ui->option()->value('2')->text('Dependent Family Member Details'),
-												$ui->option()->value('3')->text('Educational Details'),
-												$ui->option()->value('4')->text('Last 5 Year Stay Details'),
-												$ui->option()->value('5')->text('All Employee Details')))
-								->show();
-
 					$ui->button()->value('Submit')
-                            ->uiType('primary')
-                            ->submit()
-                            ->name('submit')
-                            ->show();
+	                            ->uiType('primary')
+	                            ->submit()
+	                            ->name('submit')
+	                            ->show();
 
 				$form->close();
 			$view_box->close();

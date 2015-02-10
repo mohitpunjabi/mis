@@ -80,8 +80,8 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                 $row2 = $ui->row()->open();
                     $col1 = $ui->col()->width(3)->open();
                         echo '<label>Gender<span style= "color:red;"> *</span></label>';
-                        $ui->radio()->name('sex')->value('male')->label('Male')->checked()->show();
-                        $ui->radio()->name('sex')->value('female')->label('Female')->show();
+                        $ui->radio()->name('sex')->value('m')->label('Male')->checked()->show();
+                        $ui->radio()->name('sex')->value('f')->label('Female')->show();
                     $col1->close();
 
                     $col2 = $ui->col()->width(3)->open();

@@ -28,6 +28,7 @@ function printContent(id, style) {
 
 $(document).ready(function() {
 	$('#print_btn').click(function() {
-		printContent('print');
+		window.print();
+		//printContent('print');
 	});
 });

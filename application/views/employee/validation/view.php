@@ -5,10 +5,10 @@
 			$tabbox = $ui->tabBox()
 							->tab('profile_pic','Profile Pic',$step==0)
 							->tab('basic_details','Basic Details',$step==1)
-							->tab('prev_emp','Previous Employment Details',$step==2)
-							->tab('emp_fam','Dependent Family Member Details',$step==3)
+							->tab('prev_emp','Employment Details',$step==2)
+							->tab('emp_fam','Family Member Details',$step==3)
 							->tab('emp_edu','Educational Qualifications',$step==4)
-							->tab('last_five','Last 5 Year Stay Details',$step==5)
+							->tab('last_five','Stay Details',$step==5)
 							->open();
 
 				$profile_pic = $ui->tabPane()->id('profile_pic');
@@ -349,17 +349,6 @@ function view_education_details($emp_education_details) {
 function view_stay_details($emp_last5yrstay_details) {
 	$ui = new UI();
 	echo '<h3 class="page-header" align="center">Last 5 Year Stay Details</h3>';
-
-	if($emp_validation_details)
-	{
-		if($emp_validation_details->stay_status=='pending')
-			$ui->callout()->title("Pending")->desc("Last 5 Year Stay Details are not yet validated.")->uiType('info')->show();
-		else if($emp_validation_details->stay_status=='rejected')
-		{
-			$reject=$this->emp_validation_details_model->getRejectReasonWhere(array('id'=>$emp_id, 'step'=> 5));
-			$ui->callout()->title("Rejected")->desc("Please contact the Establishment Section for the same.".(($reject)? "<br>Reason behind rejection : ".$reject->reason : ""))->uiType('danger')->show();
-		}
-	}
 
     $table = $ui->table()->id('tbl5')->responsive()->bordered()->striped()->open();
         echo '<thead valign="middle" ><tr align="center">

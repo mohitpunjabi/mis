@@ -5,7 +5,7 @@ class Pending_files extends MY_Controller{
 
 		parent::__construct(array('emp','deo'));
 		$this->addJS("file_tracking/file_tracking_script.js");
-		$this->addCSS("file_tracking/file_tracking_layout.css");
+		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
 	public function index()
@@ -19,8 +19,8 @@ class Pending_files extends MY_Controller{
 //			$row->file_no;
 			$row->file_subject = urldecode($row->file_subject);
 		}
-		$data['res'] = $res;		
-		
+		$data['res'] = $res;
+
 		$this->drawHeader ("Pending Files");
 		$this->load->view('file_tracking/pending_files/pending_files',$data);
 		$this->drawFooter ();

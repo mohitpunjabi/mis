@@ -11,6 +11,12 @@
 			document.getElementById('favpast').value = '';
 		if(document.getElementById('alternate_mobile').value == '0')
 			document.getElementById('alternate_mobile').value = '';
+
+		$('#form_submit').on('submit', function(e) {
+			alert('submit button');
+			if(!form_validation())
+				e.preventDefault();
+		});
 	});
 
 	function form_validation()

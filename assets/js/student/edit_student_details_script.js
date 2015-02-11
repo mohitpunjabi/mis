@@ -1,20 +1,10 @@
-// $(document).ready(function() {
-// 	$("#go_to_next").hide();
-// });
-
-function check_user()
-{
-	if(check_user())
-	{
-		alert('true');
-		return true;
-	}
-	else
-	{
-		alert('false');
-		return false;
-	}
-}
+$(document).ready(function() {
+	$('#form_submit').on('submit', function(e) {
+		alert('submit button');
+		if(!form_validation())
+			e.preventDefault();
+	});
+});
 
 function form_validation()
 {
@@ -33,21 +23,7 @@ function form_validation()
   	{
   		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 	    {
-	    	//alert("success");
-	    	//alert(xmlhttp.responseText);
-	    	//td.innerHTML = xmlhttp.responseText;
-			// if(xmlhttp.responseText == '')
-			// {
-			//  	//alert('User does not exist.');
-			//  	//$("#go_to_next").hide();
-			//  	return false;
-			// }
-			// else
-			// {
-			// 	//alert('user exist');
-			// 	//$("#go_to_next").show();
-			// 	return true;
-			// }
+
 	    }
   	}
   	
@@ -56,7 +32,6 @@ function form_validation()
 	if(xmlhttp.responseText == '')
 	{
 	 	alert('User does not exist.');
-	 	//$("#go_to_next").hide();
 	 	return false;
 	}
 	else

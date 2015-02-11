@@ -3,6 +3,14 @@ $(document).ready(function() {
 		document.getElementById('add').style.display='none';
 	else if(document.getElementById("tableid").rows.length > 6)
 		document.getElementById('add_new').style.display='none';
+
+	document.getElementById("add").onclick = function() {onclick_add();};
+
+	$('#form_submit').on('submit', function(e) {
+		alert('submit button');
+		if(!education_validation())
+			e.preventDefault();
+	});
 });
 
 function onclick_add()

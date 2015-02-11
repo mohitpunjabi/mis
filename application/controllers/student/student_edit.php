@@ -275,7 +275,7 @@ class Student_edit extends MY_Controller
 			'guardian_relation' => $guardian_relation ,
 			'bank_name' => $this->authorization->strclean($this->input->post('bank_name')) ,
 			'account_no' => $this->authorization->strclean($this->input->post('bank_account_no')) ,
-			'aadhar_card_no' => $this->authorization->strclean($this->input->post('aadhar_no'))
+			'aadhaar_card_no' => $this->authorization->strclean($this->input->post('aadhaar_no'))
 		);
 
 		$stu_academic = array(

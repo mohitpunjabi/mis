@@ -5,8 +5,8 @@
 			document.getElementById('lastname').value = '';
 		if(document.getElementById('parent_landline').value == '0')
 			document.getElementById('parent_landline').value = '';
-		if(document.getElementById('aadhar_no').value == 'na')
-			document.getElementById('aadhar_no').value = '';
+		if(document.getElementById('aadhaar_no').value == 'na')
+			document.getElementById('aadhaar_no').value = '';
 		// if(document.getElementById('extra_activity').value == 'na')
 		// 	document.getElementById('extra_activity').value = '';
 		// if(document.getElementById('any_other_information').value == 'na')
@@ -44,6 +44,12 @@
 		if(document.getElementById('roll_no').value == 'na')
 			document.getElementById('roll_no').value = '';
 		corrAddr()
+
+		$('#form_submit').on('submit', function(e) {
+			alert('submit button');
+			if(!form_validation())
+				e.preventDefault();
+		});
 	});
 
 
@@ -235,16 +241,16 @@
 	
 	function corrAddr()
     {
-        var x=document.getElementById("corr_addr");
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {
-            x.style.display='block';
-            //document.getElementById("line13").='true';
+        	alert('none');
+            document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
-            x.style.display='none';
+        	alert('block');
+            document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
 	
@@ -550,8 +556,8 @@
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')
 			document.getElementById('parent_landline').value = 0;
-		if( document.getElementById('aadhar_no').value.trim() == '')
-			document.getElementById('aadhar_no').value = 'na';
+		if( document.getElementById('aadhaar_no').value.trim() == '')
+			document.getElementById('aadhaar_no').value = 'na';
 		if( document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value.trim() == '')
 			document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = 'na';
 		if( document.getElementById('fee_paid_amount').value.trim() == '')

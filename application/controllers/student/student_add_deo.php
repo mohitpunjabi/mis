@@ -358,7 +358,7 @@ class Student_add_deo extends MY_Controller
 				'guardian_relation' => $guardian_relation ,
 				'bank_name' => $this->authorization->strclean($this->input->post('bank_name')) ,
 				'account_no' => $this->authorization->strclean($this->input->post('bank_account_no')) ,
-				'aadhar_card_no' => $this->authorization->strclean($this->input->post('aadhar_no')) ,
+				'aadhaar_card_no' => $this->authorization->strclean($this->input->post('aadhaar_no')) ,
 				'extra_curricular_activity' => strtolower($this->authorization->strclean($this->input->post('extra_activity'))) ,
 				'other_relevant_info' => strtolower($this->authorization->strclean($this->input->post('any_other_information')))
 			);

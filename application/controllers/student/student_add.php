@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Student_add extends CI_Controller
+class Student_add extends MY_Controller//CI_Controller
 {
 	function __construct()
 	{
@@ -28,33 +28,27 @@ class Student_add extends CI_Controller
 		return false;
 	}
 
-	function drawHeader($title = "MIS") {
-		$this->load->view("student/add/header", array("title" => $title,
-													"javascript" => $this->_js,
-													"css" => $this->_css));
-	}
+	// function drawHeader($title = "MIS") {
+	// 	$this->load->view("student/add/header", array("title" => $title,
+	// 												"javascript" => $this->_js,
+	// 												"css" => $this->_css));
+	// }
 
-	function drawFooter() {
-		$this->load->view("student/add/footer");
-	}
+	// function drawFooter() {
+	// 	$this->load->view("student/add/footer");
+	// }
 
-	function addJS($js) {
-		$this->_js .= "<script type=\"text/javascript\" src=\"".base_url()."assets/js/".$js." \" ></script>";
-	}
+	// function addJS($js) {
+	// 	$this->_js .= "<script type=\"text/javascript\" src=\"".base_url()."assets/js/".$js." \" ></script>";
+	// }
 
-	function addCSS($css) {
-		$this->_css .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".base_url()."assets/css/".$css."\" />";
-	}
+	// function addCSS($css) {
+	// 	$this->_css .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".base_url()."assets/css/".$css."\" />";
+	// }
 
 	public function index($error='')
 	{
 		$this->add_basic_details($error);
-		// $this->load->model('student/student_current_entry_model','',TRUE);
-		// $entry = $this->student_current_entry_model->get_current_entry_status_by_id($this->userId);
-		// if($entry === FALSE)
-		// 	$this->step(0,'',$error);
-		// else
-		// 	$this->step($entry->curr_step,$entry->id,$error);
 	}
 
 	private function step($num = 0,$student = '',$error = '')
@@ -69,35 +63,15 @@ class Student_add extends CI_Controller
 		}
 	}
 
-
-	// public function index($error='')
-	// {
-	// 	$this->load->model('student/Student_current_entry_model','',TRUE);
-	// 	$entry = $this->Student_current_entry_model->get_current_entry();
-	// 	if($entry === FALSE)
-	// 		$this->step(0,'',$error);
-	// 	else
-	// 		$this->step($entry->curr_step,$entry->id,$error);
-	// }
-
-	// private function step($num = 0,$student = '',$error = '')
-	// {
-	// 	switch($num)
-	// 	{
-	// 		case 0: $this->add_basic_details($error);break;
-	// 		case 1: 
-	// 				$this->load->model('student/Student_details_model','',TRUE);
-	// 				$student_type = $this->Student_details_model->get_student_type_a_student($student);
-	// 				$this->add_student_education_details($student,$student_type,$error);break;
-	// 	}
-	// }
-
 	public function add_basic_details($error = '')
 	{
-		if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
+		/*if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
 			show_404();	
 		}
-		else $this->userId = $this->input->get("id");
+		else $this->userId = $this->input->get("id");*/
+
+		$this->userId = '2011JE0786'; // delete this and uncomment the above lines
+
 		$_css = "";
 		$_js = "";
 		//Handling Error
@@ -408,7 +382,7 @@ class Student_add extends CI_Controller
 				'guardian_relation' => $guardian_relation ,
 				'bank_name' => $this->authorization->strclean($this->input->post('bank_name')) ,
 				'account_no' => $this->authorization->strclean($this->input->post('bank_account_no')) ,
-				'aadhar_card_no' => $this->authorization->strclean($this->input->post('aadhar_no')) ,
+				'aadhaar_card_no' => $this->authorization->strclean($this->input->post('aadhaar_no')) ,
 				'extra_curricular_activity' => strtolower($this->authorization->strclean($this->input->post('extra_activity'))) ,
 				'other_relevant_info' => strtolower($this->authorization->strclean($this->input->post('any_other_information')))
 			);

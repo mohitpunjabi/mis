@@ -3,7 +3,7 @@
 	// 	$("td#stuId").css("visibility", "visible");
 	// 	$("#stuIdIcon").hide();
 	// });
-	$( document ).ready(function() {
+	/*$( document ).ready(function() {
 		onclick_add_row();
 		var student_type = document.getElementById('stu_type').value;
 		//<?php echo $stu_type; ?>
@@ -18,7 +18,67 @@
 		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
 		document.getElementsByName('branch4[]')[row.length-2].value = '12';
 		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
+	});*/
+
+	$(document).ready(function() {
+		document.getElementById('corr_addr_visibility').style.display = 'none';
+
+		document.getElementById("add").onclick = function() {onclick_add();};
+
+		$('[name="depends_on"]').on('change', function() {
+			alert('depending');
+    		depends_on_whom();
+		});
+
+		$('#stu_type').on('change', function() {
+			alert('stu type');
+			button_for_add();
+		});
+
+		$('#depts').on('change', function() {
+			alert('dept changing');
+			options_of_courses();
+		});
+
+		$('#course_id').on('change', function() {
+			alert('course changing');
+			options_of_branches();
+		});
+
+		$('#id_admn_based_on').on('change', function() {
+			alert('admn based on');
+			select_exam_scores();
+		});
+
+		$('#correspondence_addr').on('change', function() {
+			alert('correspondence addr');
+			corrAddr();
+		});
+
+		$('#form_submit').on('submit', function(e) {
+			alert('submit button');
+			if(!form_validation())
+				e.preventDefault();
+		});
+
+		add_row_on_page_load();
+
 	});
+
+	function add_row_on_page_load()
+	{
+		onclick_add_row();
+		var student_type = document.getElementById('stu_type').value;
+		if(student_type == 'ug')
+			document.getElementById('add').style.display='none';
+		var row=document.getElementById("tableid").rows;
+		var branch1 = document.getElementsByName('branch4[]')[row.length-3];
+		var branch2 = document.getElementsByName('branch4[]')[row.length-2];
+		document.getElementsByName('branch4[]')[row.length-3].value = '10';
+		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
+		document.getElementsByName('branch4[]')[row.length-2].value = '12';
+		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
+	}
 
 	function fetch_details()
 	{
@@ -346,16 +406,14 @@
 	
 	function corrAddr()
     {
-        var x=document.getElementById("corr_addr");
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {
-            x.style.display='block';
-            //document.getElementById("line13").='true';
+            document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
-            x.style.display='none';
+            document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
 	
@@ -397,58 +455,6 @@
 		}
 		
 	}
-	
-	/*function depends_on_iitjee()
-	{
-		var dpe_iitjee = document.getElementById("depends_on_iit").checked;
-		var g=document.getElementById("iitjee_rank");
-		var h=document.getElementById("iitjee_cat_rank");
-		if(dpe_iitjee)
-		{
-			g.disabled=false;
-			h.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-			h.disabled=true;
-		}
-		
-	}
-
-	
-	function depends_on_cat()
-	{
-		var dpe_cat = document.getElementById("depends_on_cat_score").checked;
-		var g=document.getElementById("cat_score");
-		if(dpe_cat)
-		{
-			g.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-		}
-		
-	}
-	
-	function depends_on_gate()
-	{
-		var dpe_gate = document.getElementById("depends_on_gate_score").checked;
-		var g=document.getElementById("gate_score");
-		if(dpe_gate)
-		{
-			g.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-		}
-		
-	}*/
 
 	function select_exam_scores()
 	{
@@ -671,8 +677,8 @@
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')
 			document.getElementById('parent_landline').value = 0;
-		if( document.getElementById('aadhar_no').value.trim() == '')
-			document.getElementById('aadhar_no').value = 'na';
+		if( document.getElementById('aadhaar_no').value.trim() == '')
+			document.getElementById('aadhaar_no').value = 'na';
 		if( document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value.trim() == '')
 			document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = 'na';
 		if( document.getElementById('fee_paid_amount').value.trim() == '')

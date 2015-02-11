@@ -9,10 +9,10 @@ echo '<div id="print" >';
 			$tabbox = $ui->tabBox()
 							->tab('all',$ui->icon('user').'All Details',$step==5)
 							->tab('basic_details','Basic Details',$step==0)
-							->tab('prev_emp','Previous Employment Details',$step==1)
-							->tab('emp_fam','Dependent Family Member Details',$step==2)
+							->tab('prev_emp','Employment Details',$step==1)
+							->tab('emp_fam','Family Member Details',$step==2)
 							->tab('emp_edu','Educational Qualifications',$step==3)
-							->tab('last_five','Last 5 Year Stay Details',$step==4)
+							->tab('last_five','Stay Details',$step==4)
 							->open();
 
 				$basic = $ui->tabPane()->id('basic_details');

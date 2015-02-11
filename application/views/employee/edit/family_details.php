@@ -45,7 +45,7 @@
         $col->close();
     $upRow->close();
 
-$form = $ui->form()->id('emp_fam_details')->multipart()->action('employee/edit/update_prev_emp_details/'.$emp_id)->open();
+$form = $ui->form()->id('emp_fam_details')->multipart()->action('employee/edit/update_family_details/'.$emp_id)->open();
     $row = $ui->row()->open();
         $col = $ui->col()->width(12)->open();
             $box = $ui->box()->uiType('primary')->title('Add Dependent Family Members Details')->tooltip("Click Add after entering following details")->open();

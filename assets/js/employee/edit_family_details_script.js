@@ -76,6 +76,7 @@ function onclick_edit(i, dob, photopath)
 			$("#edit_status_toggle").click(function(){
 				change_act($('#edit_active'+i),$('#edit_status_toggle'));
 			});
+			$("#edit_dob"+i).datepicker("setDate", moment($("#edit_dob"+i).attr('value'), "DD-MM-YYYY").toDate());
 	    }
   	}
   	xmlhttp.open("POST",site_url("employee/emp_ajax/edit_record/3/"+i),true);

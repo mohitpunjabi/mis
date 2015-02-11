@@ -14,7 +14,7 @@
 									$ui->datePicker()->name('edit_from'.$sno)->id('edit_from'.$sno)
 		                                    ->dateFormat('dd-mm-yyyy')->addonRight($ui->icon("calendar"))
 		                                    ->label('From')
-		                                    ->extras('max="'.date('d-m-Y',strtotime($joining_date)).'"') //max not working
+		                                    ->extras('max="'.date('d-m-Y',strtotime($joining_date)).'"')
 		                                    ->value(date('d-m-Y',strtotime($emp_prev_exp_details->from)))
 		                                    ->show();
                     				$ui->datePicker()->name('edit_to'.$sno)->id('edit_to'.$sno)

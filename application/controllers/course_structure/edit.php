@@ -112,22 +112,29 @@ class Edit extends MY_Controller
 
 	}
 	
-	public function Json_UpdateCourseStructure($subjectdetails)
+	public function Json_UpdateCourseStructure()
 	{
-		//if($subjectdetails != ''){
-			$this->output->set_content_type('application/json');
-			$this->output->set_output(json_encode(array("hello"=>"umang")));
-			$this->output->set_output(json_encode());
-			//$this->output->set_output(json_encode($this->basic_model->get_session_by_course_and_branch($course,$branch)));
-		//}
-		//var_dump($subjectdetails);
-		//echo "hii";
-		//echo $subjectdetails;
-		//$this->basic_model->update
+		$this->load->model('course_structure/edit_model','',TRUE);
+		$data = file_get_contents('php://input');
+		$data = json_decode($data, true);
+		//print_r($data);
+		//$subjectid = $data['id'];
+		$id = $data['id'];
+		$subjectid = $data['subject_id'];
+		$name = $data['name'];
+		$lecture = $data['L'];
+		$tutorial = $data['T'];
+		$practical = $data['P'];
+		$credit_hours = $data['L'];
+		$contact_hours = $data['L'];
 		
-		//echo $subjectdetails[id];
-		//echo $subjectdetails;
+		$values = array("subject_id"=>$subjectid,"name"=>$name,"lecture"=>$lecture,"tutorial"=>$tutorial,"practical"=>$practical,"credit_hours"=>
+		$credit_hours,"contact_hours"=>$contact_hours);
+		$where = array("id"=>$id);
 		
+		//echo $subjectid;
+		echo $this->edit_model->update_subjects($values,$where);
+		//$this->output->set_output(json_encode(array("id"=>$data)));			
 	}
 	
 	public function DeleteCourseStructure($semester,$aggr_id)

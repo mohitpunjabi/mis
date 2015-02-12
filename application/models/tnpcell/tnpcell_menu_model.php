@@ -38,7 +38,6 @@ var $table_projects = 'tnp_cv_projects';
     	$menu['tpo']=array();
      	$menu['tpo']['T&P']=array();
       	$menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
->>>>>>> Stashed changes
 		return $menu;
 	}
 }

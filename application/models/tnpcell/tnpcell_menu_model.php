@@ -22,21 +22,23 @@ var $table_projects = 'tnp_cv_projects';
     $menu=array();
     /*Student*/
 		$menu['stu']=array();
-      $menu['stu']['T&P']=array();      
-      if($flag==0)	$menu['stu']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
-      else 
-      {
-        $menu['stu']['T&P']["View CV"] = site_url('tnpcell/CV/print_cv');
-        $menu['stu']['T&P']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
-      }
-    /*T&P Officer*/
-    $menu['tpo']=array();
-      if($flag==0)	$menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
-      else 
-      {
-        $menu['tpo']['T&P']["View CV"] = site_url('tnpcell/CV/print_cv');
-        $menu['tpo']['T&P']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
-      }
+
+     	$menu['stu']['T&P']=array();
+    	$menu['stu']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
+		$menu['stu']['T&P']["View JNF"] = site_url('tnpcell/View_JNF/');
+    	
+		
+		$menu['tpo']=array();
+      	$menu['tpo']['T&P']=array();
+      	$menu['tpo']['T&P']["View JNF"] = site_url('tnpcell/CV/');
+		$menu['tpo']['T&P']["View Contact of Companies"] = site_url('tnpcell/CV/');
+		$menu['tpo']['T&P']["View JNF"] = site_url('tnpcell/CV/');
+		$menu['tpo']['T&P']["View JNF"] = site_url('tnpcell/CV/');
+		
+    	$menu['tpo']=array();
+     	$menu['tpo']['T&P']=array();
+      	$menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
+>>>>>>> Stashed changes
 		return $menu;
 	}
 }

@@ -1,4 +1,4 @@
-$box_form = $("#box_form");
+//$box_form = $("#box_form");
 
 function EditSubject(semester,seq_no)
 {
@@ -34,12 +34,13 @@ function EditSubject(semester,seq_no)
 		var $subjectdetails = {'id':$subjectid.attr('id'),'subject_id':$subjectid.val(),'name':$subjectname.val(),'L':$subjectL.val(),'T':$subjectT.val(),'P':$subjectP.val(),'credit_hours':$subjectcredithours.val(),'contacthours':$subjectcontacthours.val()};
 		$subjectdetails = JSON.stringify($subjectdetails);
 		
+		$box_form = $("#box_form_"+semester);	
 		$box_form.showLoading();
 		
 		$.ajax({url:site_url("course_structure/edit/Json_UpdateCourseStructure/"),
 			success:function(data){
-				alert("Updated Successfully");
 				$box_form.hideLoading();
+				alert("Updated Successfully");
 			},
 			type:"POST",
 			data:$subjectdetails,

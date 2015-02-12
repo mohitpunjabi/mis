@@ -39,7 +39,7 @@
 					{
 ?>
 						<tr>
-							<td><?php echo $data_array[$sno][1];?></td>
+							<td><?php if ($data_array[$sno][1]) echo $data_array[$sno][1]; else echo "(File No. not yet generated)"?></td>
 							<td><?php echo $data_array[$sno][3];?></td>
 							<td><?php echo $data_array[$sno][4];?></td>
 							<td><?php echo $data_array[$sno][5];?></td>

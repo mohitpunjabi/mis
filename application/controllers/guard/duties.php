@@ -16,7 +16,17 @@ class Duties extends MY_Controller
 	
 	function loadcompDutyChart() {
 		$this->load->model('guard/guard_model');
-		$this->load->view("guard/compDutyChart_list", array("compDutyChart" => $this->guard_model->get_all_duties_chart()));
+		$this->load->view("guard/DutyChart_list", array("DutyChart" => $this->guard_model->get_all_duties_chart()));
+	}
+	
+	function loaddateDutyChart() {
+		$this->load->model('guard/guard_model');
+		$this->load->view("guard/DutyChart_list", array("DutyChart" => $this->guard_model->get_details_of_guard_at_a_date(date("Y-m-d"))));
+	}
+	
+	function loadtomorrowDutyChart() {
+		$this->load->model('guard/guard_model');
+		$this->load->view("guard/DutyChart_list", array("DutyChart" => $this->guard_model->get_details_of_guard_at_a_date(date("Y-m-d",strtotime(date("Y-m-d"))+86400))));
 	}
 	
 	function complete_chart()
@@ -33,7 +43,7 @@ class Duties extends MY_Controller
 		
 		$data['day'] = 'Complete';
 		$this->drawHeader('Complete Duty Chart');
-		$this->load->view('guard/duty_chart',array("compDutyChart" => $this->guard_model->get_all_duties_chart()));
+		$this->load->view('guard/duty_chart');//,array("DutyChart" => $this->guard_model->get_all_duties_chart()));
 		$this->load->view('guard/view_footer');
 		$this->drawFooter();
 	}
@@ -41,11 +51,14 @@ class Duties extends MY_Controller
 	function tomorrow_chart()
 	{
 		$this->load->model('guard/guard_model');
-		$data['details_of_guards_at_a_date_A'] = $this->guard_model->get_details_of_guard_at_a_date_A(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
-		$data['details_of_guards_at_a_date_B'] = $this->guard_model->get_details_of_guard_at_a_date_B(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
-		$data['details_of_guards_at_a_date_C'] = $this->guard_model->get_details_of_guard_at_a_date_C(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
+		$this->addJS('guard/tomorrowDutyChart-loader.js');
 		
-		if(count($data['details_of_guards_at_a_date_A']) == 0 && count($data['details_of_guards_at_a_date_B']) == 0 && count($data['details_of_guards_at_a_date_C']) == 0 )
+		$data['details_of_guards_at_a_date'] = $this->guard_model->get_details_of_guard_at_a_date(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
+		// $data['details_of_guards_at_a_date_A'] = $this->guard_model->get_details_of_guard_at_a_date_A(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
+		// $data['details_of_guards_at_a_date_B'] = $this->guard_model->get_details_of_guard_at_a_date_B(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
+		// $data['details_of_guards_at_a_date_C'] = $this->guard_model->get_details_of_guard_at_a_date_C(date("Y-m-d",strtotime(date("Y-m-d"))+86400));
+		
+		if(count($data['details_of_guards_at_a_date']) == 0)
 		{
 			$this->session->set_flashdata('flashError','Duty Chart is empty for tomorrow.');
 			redirect('guard/home');
@@ -61,15 +74,19 @@ class Duties extends MY_Controller
 	function today_chart()
 	{
 		$this->load->model('guard/guard_model');
-		$data['details_of_guards_at_a_date_A'] = $this->guard_model->get_details_of_guard_at_a_date_A(date("Y-m-d"));
-		$data['details_of_guards_at_a_date_B'] = $this->guard_model->get_details_of_guard_at_a_date_B(date("Y-m-d"));
-		$data['details_of_guards_at_a_date_C'] = $this->guard_model->get_details_of_guard_at_a_date_C(date("Y-m-d"));
+		$this->addJS('guard/dateDutyChart-loader.js');
 		
-		if(count($data['details_of_guards_at_a_date_A']) == 0 && count($data['details_of_guards_at_a_date_B']) == 0 && count($data['details_of_guards_at_a_date_C']) == 0 )
+		$data['details_of_guards_at_a_date'] = $this->guard_model->get_details_of_guard_at_a_date(date("Y-m-d"));
+		// $data['details_of_guards_at_a_date_A'] = $this->guard_model->get_details_of_guard_at_a_date_A(date("Y-m-d"));
+		// $data['details_of_guards_at_a_date_B'] = $this->guard_model->get_details_of_guard_at_a_date_B(date("Y-m-d"));
+		// $data['details_of_guards_at_a_date_C'] = $this->guard_model->get_details_of_guard_at_a_date_C(date("Y-m-d"));
+		
+		if(count($data['details_of_guards_at_a_date']) == 0)
 		{
 			$this->session->set_flashdata('flashError','Duty Chart is empty for today.');
 			redirect('guard/home');
 		}
+		
 		$data['day'] = 'Today';
 		$this->drawHeader('Today\'s Duty Chart');
 		$this->load->view('guard/to_duty_chart',$data);
@@ -231,13 +248,33 @@ class Duties extends MY_Controller
 		$data['date']  = $date;
 		$data['shift'] = $shift;
 		$data['postname'] = $this->guard_model->get_postname_of_a_post_id($post_id)->postname;
+		$data['guarddetails'] = $this->guard_model->get_guard_details($regno);
 		
-		$this->drawHeader('Manual Assignment');
+		$this->drawHeader('Replace Guard');
 		$this->load->view('guard/replace',$data);
 		$this->drawFooter();
 
 	}
 	
+	function remove($regno='',$post_id='',$shift='',$date='')
+	{
+		$this->load->model('guard/guard_model');
+		
+		if($regno=='' || $post_id=='' || $shift=='' || $date=='')
+		{
+			$this->session->set_flashdata('flashError','Access Denied!');
+			redirect('home');
+		}
+			
+		if($this->guard_model->remove_from_duty($regno,$post_id,$shift,$date)) 
+			$this->session->set_flashdata('flashSuccess','Duty has been removed successfully.');
+		else
+			$this->session->set_flashdata('flashError','Try Again!, There is some error in removing the guard.');
+		if($date == date("Y-m-d"))
+			redirect('guard/duties/today_chart');
+		else
+			redirect('guard/duties/tomorrow_chart');		
+	}
 }
 
 ?>

@@ -13,11 +13,12 @@ $(document).ready(function() {
 			var data = [];
 			for(var i = 0; i < users.length; i++) {
 				data[i] = [
-					users[i].date,
-					users[i].firstname +' ' + users[i].lastname,
-					users[i].photo,
-					users[i].postname,
-					users[i].shift
+					'<div class="photo-zoom" data-photo-url="'+ base_url() +'assets/images/guard/' + users[i].photo +'" style="height: 40px; width: 100%; min-width: 40px; background-image: url(\''+ base_url() +'assets/images/guard/' + users[i].photo +'\'); background-size: auto 100%; background-position: 50% 50%; background-repeat: no-repeat;" class="print-no-display"></div>',	
+					'<center>'+users[i].firstname +' ' + users[i].lastname+'</center>',
+					'<center>'+users[i].postname+'</center>',
+					'<center>'+users[i].shift.toUpperCase()+'</center>',
+					//moment(users[i].date,"DD MM YYYY"),
+					'<center>'+users[i].date+'</center>'
 				];
 			}
 

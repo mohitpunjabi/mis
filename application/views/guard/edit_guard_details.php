@@ -59,55 +59,323 @@ function readURL(input) {
         }
     }
 </script>
-<center><h2>Enter the Details of Guard</h2></center>
-<table width="100%"><tr><th></th></tr></table>
-	<?php  echo form_open_multipart('guard/manage_guard/edit');   ?>
-<table width="100%">
-			<tr>
-            	<td>Registration Number</td>
-            	<td><input type="text" placeholder="  Registration Number  "  id ="Regnos" name="Regnos"  required="required" value="<?php echo $details_of_a_guard['Regno']?>" disabled="disabled"/></td>
-                <td>First name</td>
-            	<td><input type="text" placeholder="First Name"  id ="firstname" name="firstname" required="required" value="<?php echo $details_of_a_guard['firstname']?>"/></td>            	
-            </tr>
-            <tr>
-            	<td>Last name</td>
-            	<td><input type="text" placeholder="Last Name" id ="lastname" name="lastname"  required="required" value="<?php echo $details_of_a_guard['lastname']?>"/><br></td>
-            	<td>Father's name</td>
-            	<td><input type="text" placeholder="Father's Name" id ="fathersname" name="fathersname" required="required" value="<?php echo $details_of_a_guard['fathersname']?>"/></td>         	    
-            </tr> 
-          	<tr>
-            	<td>Qualification</td>
-            	<td><input type="text" placeholder="Qualification"  id ="qualification" name ="qualification" required="required" value="<?php echo $details_of_a_guard['qualification']?>"/></td>
-            	<td>Date of Birth</td>
-            	<td><input type="date" value="<?php echo $details_of_a_guard['dateofbirth']?>" id ="dateofbirth" name="dateofbirth" max="<?php echo date('Y-m-d')?>"/></td>
-            </tr>
-        	<tr>
-	            <td>Date of Joining</td>
-           		<td><input type="date" value="<?php echo $details_of_a_guard['dateofjoining']?>" id ="dateofjoining" name="dateofjoining"/></td>
-            	<td>Local Address</td>
-           	    <td><input type="text" placeholder="Local Address"  id ="localaddress" name ="localaddress" required="required" value="<?php echo $details_of_a_guard['localaddress']?>"/></td>
-            </tr>   
-          	<tr>
-            	<td>Permanent Address</td>
-            	<td><input type="text" placeholder="Permanent Address" id ="permanentaddress" name="permanentaddress" required="required" value="<?php echo $details_of_a_guard['permanentaddress']?>"/></td>
-	            <td>Mobile number</td>
-            	<td><input type="text" placeholder="8051010684" id ="mobilenumber" name="mobilenumber" required="required" pattern="[789]{1}[0-9]{9}" value="<?php echo $details_of_a_guard['mobilenumber']?>"/></td>
-            </tr>
-           	<tr>
-            	<td>Photo</td>
-            	<td><input type="file" id = "photo" name="photo" onchange="readURL(this);"/></td>
-            	<td colspan= "1"><div style ="color:336699;">(*size less than 1 MB jpeg/bmp/png/jpg/gif)</div></td>
-				<?php echo '<td id ="preview" style="height: 60px; 
-									width: 40px;
-									background-image: url('.base_url().'assets/images/guard/'.$details_of_a_guard['photo'].');
-									background-size: auto 100%;
-									background-position: 50% 50%;
-									background-repeat: no-repeat;
-								"></td>';
-				?>
-           	</tr>
-        	</table>
-		<input type="text"  id ="Regno" name="Regno" value="<?php echo $details_of_a_guard['Regno']?>" hidden="hidden"/>
-		<?php	echo form_submit('savesubmit','Save');
-				echo form_close();
-		?>
+<?php
+$ui = new UI();
+$headingBox = $ui->box()
+				 ->uiType('info')
+				 ->title('Edit the details of Guard')
+				 ->solid()
+				 ->open();
+	$form = $ui->form()
+		   ->multipart()
+		   ->action('guard/manage_guard/edit')
+		   ->open();
+						  
+	$registrationRow = $ui->row()
+					->id('searchRow')
+					->open();
+
+			$registrationlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Registration Number';
+            $registrationlabel->close();
+
+            $registrationinput = $ui->col()
+                              ->width(10)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  
+							$ui->input()
+							   ->id('Regnos')
+							   ->name('Regnos')
+							   ->value($details_of_a_guard['Regno'])
+							   ->disabled()
+							   ->show();	
+		   $registrationinput->close();		
+	$registrationRow->close();
+	$guardRow = $ui->row()
+					->id('guardRow')
+					->open();
+
+		    $guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Guard Name';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('firstname')
+							   ->name('firstname')
+							   ->value($details_of_a_guard['firstname'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+			$guardlabel = $ui->col()
+                              ->width(3)
+                              ->t_width(6)
+                              ->m_width(12)
+                              ->open();
+                              $ui->input()
+							   ->id('middlename')
+							   ->name('middlename')
+							   ->value($details_of_a_guard['middlename'])
+							   ->show();
+
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(3)
+                              ->t_width(6)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('lastname')
+							   ->name('lastname')
+							   ->value($details_of_a_guard['lastname'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+	$guardRow->close();
+	$fatherRow = $ui->row()
+					->id('fatherRow')
+					->open();
+
+		    $guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Father\'s Name';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('fathersname')
+							   ->name('fathersname')
+							   ->value($details_of_a_guard['fathersname'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+			$guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Mobile Number';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('mobilenumber')
+							   ->name('mobilenumber')
+							   ->type('tel')
+							   ->addonLeft($ui->icon("mobile"))
+							   ->value($details_of_a_guard['mobilenumber'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+	$fatherRow->close();
+	$dateRow = $ui->row()
+					->id('dateRow')
+					->open();
+
+		    $guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Date of Birth';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->datePicker()
+								 ->name('dateofbirth')
+							   	 ->value($details_of_a_guard['dateofbirth'])
+								 ->addonLeft($ui->icon("calendar"))
+								 ->dateFormat('yyyy-mm-dd')
+								 ->required()
+								 ->show();
+							  
+			$guardinput->close();
+			$guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Date of Joining';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->datePicker()
+								 ->name('dateofjoining')
+								 ->value($details_of_a_guard['dateofjoining'])
+								 ->addonLeft($ui->icon("calendar"))
+								 ->dateFormat('yyyy-mm-dd')
+								 ->required()
+								 ->show();
+							  
+			$guardinput->close();
+	$dateRow->close();
+	$addressRow = $ui->row()
+					->id('addressRow')
+					->open();
+
+		    $guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Local Address';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('localaddress')
+							   ->name('localaddress')
+							   ->addonLeft($ui->icon("building"))
+							   ->value($details_of_a_guard['localaddress'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+			$guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Permanent Address';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('permanentaddress')
+							   ->name('permanentaddress')
+							   ->addonLeft($ui->icon("building"))
+							   ->value($details_of_a_guard['permanentaddress'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+	$addressRow->close();
+	$photoRow = $ui->row()
+					->id('photoRow')
+					->open();
+
+		    $guardlabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Qualification';
+            $guardlabel->close();
+
+            $guardinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+							  $ui->input()
+							   ->id('qualification')
+							   ->name('qualification')
+							   ->addonLeft($ui->icon("book"))
+							   ->value($details_of_a_guard['qualification'])
+							   ->required()
+							   ->show();
+							  
+			$guardinput->close();
+			$photolabel = $ui->col()
+                              ->width(2)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Photo';
+            $photolabel->close();
+			$photoinput = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                 $ui->imagePicker()->name('photo')->id('photo')->required()->show();
+				 echo '(*size less than 1 MB jpeg/bmp/png/jpg/gif)';
+            $photoinput->close();
+
+	$photoRow->close();
+			
+	$buttonRow = $ui->row()
+					->open();
+					
+			$abuttonCol = $ui->col()
+                              ->width(5)
+                              ->t_width(2)
+                              ->m_width(4)
+                              ->open();
+			$abuttonCol->close();
+			$bbuttonCol = $ui->col()
+                              ->width(2)
+                              ->t_width(8)
+                              ->m_width(4)
+                              ->open();
+							  
+						$ui->button()
+						   ->value('Save')
+						   ->uiType('primary')
+						   ->submit()
+						   ->name('savesubmit')
+						   ->show();
+			$bbuttonCol->close();
+			$cbuttonCol = $ui->col()
+                              ->width(5)
+                              ->t_width(2)
+                              ->m_width(4)
+                              ->open();
+			$cbuttonCol->close();
+	$buttonRow->close();
+	$ui->input()
+		   ->id('Regno')
+		   ->name('Regno')
+		   ->extras("type='hidden'")
+		   ->value($details_of_a_guard['Regno'])
+		   ->show();	
+	$form->close();
+$headingBox->close();	
+
+?>

@@ -26,6 +26,7 @@ class Manage_guard extends MY_Controller
 			
 			$data = array('Regno'=>$this->input->post('Regno'),
 					  'firstname'=>$this->input->post('firstname'),
+					  'middlename'=>$this->input->post('middlename'),
 					  'lastname'=>$this->input->post('lastname'),
 					  'fathersname'=>$this->input->post('fathersname'),
 					  'qualification'=>$this->input->post('qualification'),
@@ -57,28 +58,16 @@ class Manage_guard extends MY_Controller
 		$this->drawFooter();
 	}
 	
-	function view($link='')
+	function view()
 	{
-		if($link=='' || $link=='current')
-		{
-			$this->load->model('guard/guard_model');
-			$data['personal_details_of_guards'] = $this->guard_model->get_personal_details_of_guards();
-			
-			$this->drawHeader('View Guards Detail');
-			$this->load->view('guard/view_guards_detail',$data);
-			$this->load->view('guard/view_footer');
-			$this->drawFooter();
-		}
-		else if($link == 'archived')
-		{
-			$this->load->model('guard/guard_model');
-			$data['personal_details_of_guards'] = $this->guard_model->get_personal_details_of_guards_archive();
-			
-			$this->drawHeader('View Guards Detail');
-			$this->load->view('guard/view_guards_detail_archive',$data);
-			$this->load->view('guard/view_footer');
-			$this->drawFooter();
-		}
+		$this->load->model('guard/guard_model');
+		$data['personal_details_of_guards'] = $this->guard_model->get_personal_details_of_guards();
+		$data['personal_details_of_guards_archive'] = $this->guard_model->get_personal_details_of_guards_archive();
+		
+		$this->drawHeader('View Guards Detail');
+		$this->load->view('guard/view_guards_detail',$data);
+		$this->load->view('guard/view_footer');
+		$this->drawFooter();
 	}
 	
 	function remove($regno='')

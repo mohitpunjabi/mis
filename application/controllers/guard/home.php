@@ -98,8 +98,8 @@ class Home extends MY_Controller
 		}
 	}
 	
-	function loadpostDutyChart() {
+	function loadpostDutyChart($postname) {
 		$this->load->model('guard/guard_model');
-		$this->load->view("guard/postDutyChart_list", array("postDutyChart" => $this->guard_model->get_details_of_guard_at_a_post($postname)));
+		$this->load->view("guard/DutyChart_list", array("DutyChart" => $this->guard_model->get_details_of_guard_at_a_post($postname)));
 	}
 }	

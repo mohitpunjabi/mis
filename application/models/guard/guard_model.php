@@ -106,6 +106,18 @@ class Guard_model extends CI_Model
 
 		return $query->result();
 	}
+	function get_details_of_guard_at_a_date($date)
+	{
+		$this->db->where('date',$date);
+		$query = $this->db->select("guard_duty.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_duty')
+						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
+						  ->join("guard_post", "guard_duty.post_id = guard_post.post_id")
+						  ->order_by("guard_post.postname", "asc")
+						  ->get();
+
+		return $query->result();
+	}
 	
 	function get_details_of_guard_at_a_date_B($date)
 	{
@@ -487,8 +499,8 @@ class Guard_model extends CI_Model
 		$this->db->where('Regno',$regno);
 		$from = (float)$from;
 		$to = (float)$to;
-		$this->db->where("from_time between $from and $to");
-		$this->db->where("to_time between $from and $to");
+		$this->db->where("(from_time between $from and $to) OR (to_time between $from and $to)");
+		//$this->db->where("to_time between $from and $to");
 		$query = $this->db->select('Regno')
 						  ->from('guard_over_time')
 						  ->get();
@@ -722,6 +734,16 @@ class Guard_model extends CI_Model
 		return $query->row();
 	}
 	
+	function get_guard_details($regno)
+	{
+		$this->db->where('Regno',$regno);
+		$query = $this->db->select('firstname,lastname,photo')
+						  ->from('guard_guards')
+						  ->get();
+		
+		return $query->row();
+	}
+	
 	function get_details_of_posts_archive()
 	{
 		$query = $this->db->from('guard_post_archive')
@@ -730,6 +752,17 @@ class Guard_model extends CI_Model
 		
 		return $query->result();
 	}
+	
+	function remove_from_duty($regno,$post_id,$shift,$date)
+	{
+		$this->db->where('Regno',$regno);
+		$this->db->where('post_id',$post_id);
+		$this->db->where('shift',$shift);
+		$this->db->where('date',$date);
+		if($this->db->delete('guard_duty')) return true;
+		return false;
+	}
+	
 }
 
 ?>

@@ -4,7 +4,7 @@ $(document).ready(function() {
 	// Show the loading gif before sending the request
 	$("#postDutyChartBox").showLoading();
 	$.ajax({
-		url: site_url("guard/home/loadpostDutyChart")
+		url: site_url("guard/home/loadpostDutyChart/" +document.getElementById(''))
 	}).done(function(userData) {
 		// Process the data
 		(function() {

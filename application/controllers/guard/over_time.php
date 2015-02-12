@@ -32,7 +32,9 @@ class Over_time extends MY_Controller
 						 'to_time'=>$to_time,
 						 'Regno'=>$this->input->post('Regno')
 						 );
-			
+			$engage_guards = $this->guard_model->check_engage_guard('2015-02-09','54612','6','8');
+			$this->session->set_flashdata('flashSuccess','data'.count($engage_guards));
+			redirect('guard/over_time/assign_to_a_guard',$data);
 			$insert_return = $this->guard_model->insert_into_overtime($datum);
 			if($insert_return == -1)
 			{

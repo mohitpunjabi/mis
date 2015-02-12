@@ -42,14 +42,10 @@ class View extends MY_Controller
 		}
 
 		$emp_id = $this->input->post('emp_id');
-		$form = $this->input->post('form_name');
 
 		// if some one refreshes the page then post values will be false, so saving the values in session.
 		if($emp_id != '')
-		{
 			$this->session->set_userdata('VIEW_EMPLOYEE_ID',$emp_id);
-			$this->session->set_userdata('VIEW_EMPLOYEE_FORM',$form);
-		}
 
 		if($emp_id == "" && !$this->session->userdata('VIEW_EMPLOYEE_ID'))
 		{
@@ -58,18 +54,16 @@ class View extends MY_Controller
 			return;
 		}
 		$emp_id = $this->session->userdata('VIEW_EMPLOYEE_ID',$emp_id);
-		$form = $this->session->userdata('VIEW_EMPLOYEE_FORM',$emp_id);
 
-		$this->_load_view($emp_id, $form);
+		$this->_load_view($emp_id);
 	}
 
-	private function _load_view($emp_id, $form)
+	private function _load_view($emp_id,$form=5)
 	{
 		$this->addJS('employee/print_script.js');
 
 		$data['emp_id'] = $emp_id;
-		$data['form'] = $form;
-
+		$data['step']=$form;
 		$this->load->model('employee_model','',TRUE);
 		$this->load->model('employee/faculty_details_model','',TRUE);
 		$this->load->model('employee/emp_validation_details_model','',TRUE);
@@ -85,23 +79,8 @@ class View extends MY_Controller
 		$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
-		$this->drawHeader("View Employee Details");
-		$this->load->view('employee/view/view_header',array('emp_id'=>$emp_id));
-		$this->load->view('employee/view/profile_pic',$data);
-		switch($form)
-		{
-			case 0:	$this->load->view('employee/view/basic_details',$data);break;
-			case 1: $this->load->view('employee/view/previous_employment_details',$data);break;
-			case 2: $this->load->view('employee/view/family_details',$data);break;
-			case 3: $this->load->view('employee/view/educational_details',$data);break;
-			case 4: $this->load->view('employee/view/last_five_year_stay_details',$data);break;
-			case 5: $this->load->view('employee/view/basic_details',$data);
-					$this->load->view('employee/view/previous_employment_details',$data);
-					$this->load->view('employee/view/family_details',$data);
-					$this->load->view('employee/view/educational_details',$data);
-					$this->load->view('employee/view/last_five_year_stay_details',$data);
-		}
-		$this->load->view('employee/view/view_footer');
+		$this->drawHeader("View Employee Details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
+		$this->load->view('employee/view/view',$data);
 		$this->drawFooter();
 	}
 }

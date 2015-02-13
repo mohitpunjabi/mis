@@ -1,23 +1,26 @@
-function ajax(query_by)
-{
-	document.getElementById('display_employee').style.display="block";
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	 	xmlhttp=new XMLHttpRequest();
-	}
-	else
-  	{// code for IE6, IE5
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange=function()
-  	{
-  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-	    {
-			document.getElementById("display_employee").innerHTML = xmlhttp.responseText;
-	    }
-  	}
-	xmlhttp.open("POST",site_url("employee/emp_ajax/getEmpBy"+query_by+"/"+document.getElementById('query').value),true);
-	xmlhttp.send();
-	document.getElementById("display_employee").innerHTML="<i class=\"loading\" ></i>";
+function ajax(query_by) {
+	var $display_employee = $("#display_employee");
+	$("#table_container").hide();
+	$("#queryBox").showLoading();
+	$.ajax({
+		url: site_url("employee/emp_ajax/getEmpBy" + query_by + "/" + $('#query').val())
+	}).done(function(emps) {
+		var data = [];
+		console.log(emps);
+		for(var i = 0; i < emps.length; i++) {
+			var emp = emps[i];
+			data.push(['<a href= "' + site_url('employee/view/index/0/' + emp.id) + '">' + emp.id + '</a>',
+					   emp.salutation + '. ' + emp.first_name + ' ' + emp.middle_name + ' ' + emp.last_name]);
+		}
+		console.log(data);
+		var dispEmployee = $display_employee.dataTable();
+		dispEmployee.fnAddData(data);
+		$("#table_container").show();
+	}).always(function() {
+		$("#queryBox").hideLoading();
+	});
 }
+
+$(document).ready(function() {
+	$("#table_container").hide();
+});

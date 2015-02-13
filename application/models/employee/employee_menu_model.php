@@ -14,13 +14,7 @@ class Employee_menu_model extends CI_Model
 		//auth ==> emp
 		$menu['emp']=array();
 		$menu['emp']['Employee Details']=array();
-		$menu['emp']["Employee Details"]["View your Details"] = array();
-		$menu['emp']["Employee Details"]["View your Details"]["Basic Details"] = site_url('employee/view/index/0');
-		$menu['emp']["Employee Details"]["View your Details"]["Previous Employment Details"] = site_url('employee/view/index/1');
-		$menu['emp']["Employee Details"]["View your Details"]["Dependent Family Member Details"] = site_url('employee/view/index/2');
-		$menu['emp']["Employee Details"]["View your Details"]["Educational Details"] = site_url('employee/view/index/3');
-		$menu['emp']["Employee Details"]["View your Details"]["Last 5 Year Stay Details"] = site_url('employee/view/index/4');
-		$menu['emp']["Employee Details"]["View your Details"]["All Details"] = site_url('employee/view/index/5');
+		$menu['emp']["Employee Details"]["View your Details"] = site_url('employee/view');
 		$menu['emp']["Employee Details"]["Edit your Details"] = site_url('employee/edit');
 
 		//auth ==> est_ar

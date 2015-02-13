@@ -31,38 +31,23 @@ function EditSubject(semester,seq_no)
 		$subjectP.prop("disabled",true);
 		$subjectcredithours.prop("disabled",true);
 		$subjectcontacthours.prop("disabled",true);
-		
-		$subjectdetails = new Array();
-		//subjectdetails[6];
-		$subjectdetails['id'] = $subjectid.val();
-		$subjectdetails['name'] = $subjectname.val();
-		$subjectdetails['L'] = $subjectL.val();
-		$subjectdetails['T'] = $subjectT.val();
-		$subjectdetails['P'] = $subjectP.val();
-		$subjectdetails['credithours'] = $subjectcredithours.val();
-		$subjectdetails['contacthours'] = $subjectcontacthours.val();
-		
+		var $subjectdetails = {'id':$subjectid.attr('id'),'subject_id':$subjectid.val(),'name':$subjectname.val(),'L':$subjectL.val(),'T':$subjectT.val(),'P':$subjectP.val(),'credit_hours':$subjectcredithours.val(),'contacthours':$subjectcontacthours.val()};
+		$subjectdetails = JSON.stringify($subjectdetails);
 		
 		$box_form.showLoading();
-		//alert($subjectdetails['name']);
-		$.ajax({url:site_url("course_structure/edit/Json_UpdateCourseStructure/"+JSON.stringify($subjectdetails)),
+		
+		$.ajax({url:site_url("course_structure/edit/Json_UpdateCourseStructure/"),
 			success:function(data){
-				
-				//alert(data['hello']);
+				alert("Updated Successfully");
 				$box_form.hideLoading();
 			},
 			type:"POST",
-			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
-			dataType:"json",
+			data:$subjectdetails,
 			fail:function(error){
 				$box_form.hideLoading();
 				console.log(error);
 			}
 		});
-		
-		
-		
-		
 		$("#editbutton_"+semester+"_"+seq_no).val("Edit");	
 	}
 	

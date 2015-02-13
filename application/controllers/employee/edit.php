@@ -181,13 +181,14 @@ class Edit extends MY_Controller
 			'mother_name' => ucwords(strtolower($this->input->post('mother')))
 		);
 
+		$dt = DateTime::createFromFormat("d-m-Y", $this->input->post('retire'));
 		$emp_basic_details = array(
 			'auth_id' => $this->input->post('tstatus') ,
 			'designation' => $this->input->post('designation') ,
 			'office_no' => $this->input->post('office') ,
 			'fax' => $this->input->post('fax') ,
-			'joining_date' => $this->input->post('entrance_age') ,
-			'retirement_date' => date('Y-m-d',strtotime($this->input->post('retire'))) ,
+			'joining_date' => date('Y-m-d',strtotime($this->input->post('entrance_age')))	 ,
+			'retirement_date' => $dt->format("Y-m-d") ,
 			'employment_nature' => strtolower($this->input->post('empnature'))
 		);
 

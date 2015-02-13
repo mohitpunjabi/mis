@@ -31,12 +31,10 @@ var $table_projects = 'tnp_cv_projects';
       }
     /*T&P Officer*/
     $menu['tpo']=array();
-      if($flag==0)	$menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
-      else 
-      {
-        $menu['tpo']['T&P']["View CV"] = site_url('tnpcell/CV/print_cv');
-        $menu['tpo']['T&P']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
-      }
+      $menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
+      $menu['tpo']['T&P']["View CV"] = site_url('tnpcell/CV/print_cv');
+      $menu['tpo']['T&P']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
+      
 		return $menu;
 	}
 }

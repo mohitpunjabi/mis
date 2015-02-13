@@ -1,9 +1,9 @@
 <?php
 	$ui = new UI();
         $outer_row = $ui->row()->id('or')->open();
-			$column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
+			$col_makeschedule = $ui->col()->width(6)->t_width(12)->m_width(12)->open();
 			
-				$formbox =  $ui->box()->id('box_form')->title("Select Company to view JNF")->open();
+				$box_makeschedule =  $ui->box()->id('box_makeschedule')->title("Select Company to view JNF")->open();
                     $form=$ui->form()->id("add_course_form")->action("tnpcell/view_jnf/ViewJNF")->multipart()->open();
 						
 						$array_options = array();
@@ -23,7 +23,25 @@
 							->name('submit')
 							->show();
 					$form->close();
-				$formbox->close();
-			$column1->close();
+				$box_makeschedule->close();
+			$col_makeschedule->close();
+			
+			$col_schedule = $ui->col()->width(6)->t_width(12)->m_width(12)->open();
+			
+				$box_schedule =  $ui->box()->id('box_schedule')->title("Existing Schedule")->open();
+                    $table = $ui->table()->responsive()->hover()->bordered()->searchable()->sortable()->paginated(true)->open();
+						echo '
+						<thead>
+							<tr>
+								<th>S.No</th>
+								<th>Company Name</th>
+								<th>Date</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						';
+					$table->close();
+				$box_schedule->close();
+			$col_schedule->close();
 		$outer_row->close();
 ?>

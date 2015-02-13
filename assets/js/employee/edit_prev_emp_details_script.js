@@ -10,7 +10,7 @@ function onclick_add() {
                 alert('Please fill up all the fields !!');
                 return false;
         }
-        else if((new Date(f).getTime()) > (new Date(t).getTime()))
+        else if(moment(f,"DD-MM-YYYY").isAfter(moment(t,'DD-MM-YYYY')))
         {
                 alert('Fill the period correctly !!');
                 return false;
@@ -70,7 +70,17 @@ function onclick_edit(i, from, to, date)
 			div.setAttribute("id", "edit_div");
 			div.innerHTML=coverdiv+formdiv;
 			document.body.appendChild(div);
-			alert($("#edit_from"+i).attr('value'));
+			//date picker hack
+			$("#edit_from"+i).datepicker({
+						format: "dd-mm-yyyy",
+						autoclose: true,
+						todayBtn: "linked"
+			});
+			$("#edit_to"+i).datepicker({
+						format: "dd-mm-yyyy",
+						autoclose: true,
+						todayBtn: "linked"
+			});
 			$("#edit_from"+i).datepicker("setEndDate", moment($("#edit_from"+i).attr('max'), "DD-MM-YYYY").toDate());
 			$("#edit_to"+i).datepicker("setEndDate", moment($("#edit_to"+i).attr('max'), "DD-MM-YYYY").toDate());
 			$("#edit_from"+i).datepicker("setDate", moment($("#edit_from"+i).attr('value'), "DD-MM-YYYY").toDate());
@@ -91,7 +101,7 @@ function onclick_save(i) {
 
 	if(a=="" || d=="" || f=="" || t=="" || p=="" || r=="")
 		alert("!! Please fill up all the fields !!");
-	else if((new Date(f).getTime()) > (new Date(t).getTime()))
+	else if(moment(f,"DD-MM-YYYY").isAfter(moment(t,'DD-MM-YYYY')))
 		alert("!! Fill the period correctly !!");
 	else
 		return true;

@@ -238,7 +238,7 @@ $row = $ui->row()->open();
                             ->addonLeft($ui->icon('rupee'))
                             ->addonRight('.00')
                             ->options($grade_options)
-                            ->disabled()->required()->show();
+                            ->required()->show();
 
             $ui->input()->name("basicpay")
                         ->id("basicpay")

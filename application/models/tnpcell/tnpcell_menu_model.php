@@ -37,8 +37,6 @@ class TnpCell_menu_model extends CI_Model
     /*T&P Officer*/
     $menu['tpo']=array();
     //$menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
-    $menu['tpo']["View CV"] = site_url('tnpcell/CV/print_cv');
-    $menu['tpo']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
 	$menu['tpo']["View JNF"] = site_url('tnpcell/View_jnf');
       
 	return $menu;

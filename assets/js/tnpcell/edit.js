@@ -46,3 +46,6 @@ function EditProject(seq)
       $("#editbutton_project"+seq).val("Edit");
     }
 }
+function EditAchievements(seq)
+{
+}

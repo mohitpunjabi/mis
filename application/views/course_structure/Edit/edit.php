@@ -60,7 +60,8 @@
 						echo '
 					</td>
 					<td>';
-						$ui->input()->name("subjectid_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->subject_id)->disabled()->show();
+						$ui->input()->name("subjectid_".$semester."_".$seq_no)->id($subjects["subject_details"][$semester][$i+$j]->id)->value(
+						$subjects["subject_details"][$semester][$i+$j]->subject_id)->disabled()->show();
 				echo '
 					</td>
 					<td>';
@@ -128,7 +129,7 @@
 						echo '
 					</td>
 					<td>';
-						$ui->input()->name("subjectid_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->subject_id)->disabled()->show();
+						$ui->input()->name("subjectid_".$semester."_".$i)->id($subjects["subject_details"][$semester][$i]->id)->value($subjects["subject_details"][$semester][$i]->subject_id)->disabled()->show();
 					echo '
 					</td>
 					<td>';

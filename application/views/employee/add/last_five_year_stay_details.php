@@ -70,7 +70,7 @@ $form = $ui->form()->id('stay_details')->action('employee/add/insert_last_5yr_st
         $col->close();
     $row->close();
     $ui->button()->submit()->id('add_btn')->name('submit')->value("Add")->large()->uiType('primary')->icon($ui->icon("plus"))->show();
-    $ui->button()->submit()->classes("pull-right")->value('Next')->name('submit')->large()->uiType('primary')->icon($ui->icon("arrow-right"))->show();
+    $ui->button()->submit()->id('next_btn')->classes("pull-right")->value('Next')->name('submit')->large()->uiType('primary')->icon($ui->icon("arrow-right"))->show();
     echo "<br />";
 $form->close();
 ?>

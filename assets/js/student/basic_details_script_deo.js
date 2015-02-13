@@ -370,6 +370,7 @@
 	
 	function corrAddr()
     {
+    	alert('hi');
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {

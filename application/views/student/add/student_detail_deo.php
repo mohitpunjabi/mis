@@ -681,7 +681,6 @@
                  ->id('form_submit')
                  ->open();
 
-
             $student_admn_no = $ui->row()
                                   ->open();
 

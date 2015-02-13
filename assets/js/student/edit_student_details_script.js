@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	$('#form_submit').on('submit', function(e) {
-		alert('submit button');
 		if(!form_validation())
 			e.preventDefault();
 	});

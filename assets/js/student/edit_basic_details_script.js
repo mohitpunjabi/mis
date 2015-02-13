@@ -43,12 +43,31 @@
 		select_exam_scores();
 		if(document.getElementById('roll_no').value == 'na')
 			document.getElementById('roll_no').value = '';
-		corrAddr()
+		corrAddr();
 
 		$('#form_submit').on('submit', function(e) {
-			alert('submit button');
 			if(!form_validation())
 				e.preventDefault();
+		});
+
+		$('#depts').on('change', function() {
+			options_of_courses();
+		});
+
+		$('#course_id').on('change', function() {
+			options_of_branches();
+		});
+
+		$('#id_admn_based_on').on('change', function() {
+			select_exam_scores();
+		});
+
+		$('#correspondence_addr').on('change', function() {
+			corrAddr();
+		});
+
+		$('[name="depends_on"]').on('change', function() {
+    		depends_on_whom();
 		});
 	});
 
@@ -244,20 +263,17 @@
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {
-        	alert('none');
-            document.getElementById('corr_addr_visibility').style.display = 'none';
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
         }
         else
         {
-        	alert('block');
-            document.getElementById('corr_addr_visibility').style.display = 'block';
+        	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
 	}
 	
 	function depends_on_whom()
 	{
 		var dpe = document.getElementById("depends_on").checked;
-//var dpe_relation = document.getElementById("depends_on_relation").checked;
 
 		var m=document.getElementById("mother_name");
 		var f= document.getElementById("father_name");
@@ -268,7 +284,7 @@
 		var fgai=document.getElementById("father_gross_income");
 		var mgai=document.getElementById("mother_gross_income");
 
-		if(dpe)
+		if(!dpe)
 		{
 			m.disabled=true;
 			f.disabled=true;
@@ -397,10 +413,8 @@
 
     function options_of_branches()
     {
-    	//alert("hi");
         var tr=document.getElementById('branch_id');
         var course=document.getElementById('course_id').value;
-//        var tr=document.getElementById('branch_div');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
         if (window.XMLHttpRequest)
@@ -415,7 +429,6 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	//alert ("success");
                 tr.innerHTML=xmlhttp.responseText;
             }
         }
@@ -427,8 +440,6 @@
 
     function options_of_courses()
     {
-        //set_id_of_branch();
-        //alert('reached course');
         var tr=document.getElementById('course_id');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
@@ -444,12 +455,10 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	//alert('success');
                 tr.innerHTML=xmlhttp.responseText;
                 options_of_branches();
             }
         }
-        //alert(branch);
         xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";

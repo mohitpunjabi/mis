@@ -171,7 +171,7 @@ class Student_edit extends MY_Controller
 			'last_name' => ucwords(strtolower($this->authorization->strclean($this->input->post('lastname')))) ,
 			'sex' => $this->input->post('sex') ,
 			'category' => $this->input->post('category') ,
-			'dob' => $this->input->post('dob') ,
+			'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 			'marital_status' => $this->input->post('mstatus') ,
 			'physically_challenged' => $this->input->post('pd') ,
 			'dept_id' => $this->input->post('department')
@@ -248,7 +248,7 @@ class Student_edit extends MY_Controller
 		}
 
 		$stu_details = array(
-			'admn_date' => $this->input->post('entrance_date') ,
+			'admn_date' => date('Y-m-d',strtotime($this->input->post('entrance_date'))) ,
 			'enrollment_no' => $this->input->post('roll_no') ,
 			'type' => $this->input->post('stu_type') ,
 			'identification_mark' => strtolower($this->authorization->strclean($this->input->post('identification_mark'))) ,
@@ -262,7 +262,7 @@ class Student_edit extends MY_Controller
 		$stu_fee_details = array(
 			'fee_mode' => $this->input->post('fee_paid_mode') ,
 			'fee_amount' => $this->input->post('fee_paid_amount') ,
-			'payment_made_on' => $this->input->post('fee_paid_date') ,
+			'payment_made_on' => date('Y-m-d',strtotime($this->input->post('fee_paid_date'))) ,
 			'transaction_id' => $this->input->post('fee_paid_dd_chk_onlinetransaction_cashreceipt_no')
 		);
 

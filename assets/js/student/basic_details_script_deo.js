@@ -6,37 +6,30 @@
 		document.getElementById("add").onclick = function() {onclick_add();};
 
 		$('[name="depends_on"]').on('change', function() {
-			alert('depending');
     		depends_on_whom();
 		});
 
 		$('#stu_type').on('change', function() {
-			alert('stu type');
 			button_for_add();
 		});
 
 		$('#depts').on('change', function() {
-			alert('dept changing');
 			options_of_courses();
 		});
 
 		$('#course_id').on('change', function() {
-			alert('course changing');
 			options_of_branches();
 		});
 
 		$('#id_admn_based_on').on('change', function() {
-			alert('admn based on');
 			select_exam_scores();
 		});
 
 		$('#correspondence_addr').on('change', function() {
-			alert('correspondence addr');
 			corrAddr();
 		});
 
 		$('#form_submit').on('submit', function(e) {
-			alert('submit button');
 			if(!form_validation())
 				e.preventDefault();
 		});
@@ -99,7 +92,6 @@
 
 	function depends_on_whom()
 	{
-		alert('in func depend_on_whom');
 		var dpe = document.getElementById("depends_on").checked;
 
 		var m=document.getElementById("mother_name");
@@ -113,7 +105,6 @@
 
 		if(!dpe)
 		{
-			alert('checked');
 			m.disabled=true;
 			f.disabled=true;
 			g.disabled=false;
@@ -125,7 +116,6 @@
 		}
 		else
 		{
-			alert('not checked');
 			m.disabled=false;
 			f.disabled=false;
 			g.disabled=true;
@@ -167,7 +157,6 @@
 
 	function form_validation()
 	{
-		alert('going for form validation');
 		if(!parent_guardian_validation())
 			return false;
 		if(!admission_based_on_validation())
@@ -192,13 +181,12 @@
 
 	function correspondence_addr_validation()
 	{
-		alert('correspondence addresss validation');
+
 		var ca=document.getElementById("correspondence_addr").checked;
 		if(ca)
 			return true;
 		else
 		{
-			alert('going for corr addr vali');
 			var line1 = document.getElementById("line13").value;
 			var line2 = document.getElementById("line23").value;
 			var city = document.getElementById("city3").value;
@@ -232,7 +220,6 @@
 
 	function course_branch_validation()
 	{
-		alert('course branch validation');
 		var course = document.getElementById("course_id").value;
 		var branch = document.getElementById("branch_id").value;
 		if(branch == "none" || course == "none")
@@ -462,7 +449,6 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	alert (xmlhttp.responseText);
                 tr.innerHTML=xmlhttp.responseText;
             }
         }
@@ -488,7 +474,6 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	alert(xmlhttp.responseText);
                 tr.innerHTML=xmlhttp.responseText;
                 options_of_branches();
             }
@@ -500,7 +485,6 @@
 
     function all_number_validation()
 	{
-		alert('all no. validation');
 		if(isNaN(document.getElementById('father_gross_income').value))
 		{
 			alert("Father's Gross Income can only contain digits.");
@@ -566,7 +550,6 @@
 
 	function mobile_number_size_validation()
 	{
-		alert('mobile no. size validation');
 		var parent_mobile_no = document.getElementById('parent_mobile').value;
 		var present_contact_no = document.getElementById('contact1').value;
 		var permanent_contact_no = document.getElementById('contact2').value;
@@ -603,7 +586,6 @@
 
 	function push_na_in_empty()
 	{
-		alert('pushing na');
 		if( document.getElementById('middlename').value.trim() == '')
 			document.getElementById('middlename').value = 'na';
 		if( document.getElementById('lastname').value.trim() == '')
@@ -669,7 +651,6 @@
 	
 	function education_validation()
 	{
-		alert('validation of education');
 		var n_row=document.getElementById("tableid").rows.length;
 		var i=0;
 		for(i=0;i<=n_row-2;i++)

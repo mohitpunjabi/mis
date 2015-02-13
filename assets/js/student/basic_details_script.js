@@ -26,37 +26,30 @@
 		document.getElementById("add").onclick = function() {onclick_add();};
 
 		$('[name="depends_on"]').on('change', function() {
-			alert('depending');
     		depends_on_whom();
 		});
 
 		$('#stu_type').on('change', function() {
-			alert('stu type');
 			button_for_add();
 		});
 
 		$('#depts').on('change', function() {
-			alert('dept changing');
 			options_of_courses();
 		});
 
 		$('#course_id').on('change', function() {
-			alert('course changing');
 			options_of_branches();
 		});
 
 		$('#id_admn_based_on').on('change', function() {
-			alert('admn based on');
 			select_exam_scores();
 		});
 
 		$('#correspondence_addr').on('change', function() {
-			alert('correspondence addr');
 			corrAddr();
 		});
 
 		$('#form_submit').on('submit', function(e) {
-			alert('submit button');
 			if(!form_validation())
 				e.preventDefault();
 		});

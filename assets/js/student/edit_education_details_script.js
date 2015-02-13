@@ -7,7 +7,6 @@ $(document).ready(function() {
 	document.getElementById("add").onclick = function() {onclick_add();};
 
 	$('#form_submit').on('submit', function(e) {
-		alert('submit button');
 		if(!education_validation())
 			e.preventDefault();
 	});

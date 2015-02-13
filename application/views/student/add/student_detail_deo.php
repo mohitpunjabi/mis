@@ -834,7 +834,7 @@
                                ->label('Date of Birth')
                                ->width(3)
                                ->name('dob')
-                               ->placeholder(date("Y-m-d", time()+(19800)))
+                               ->placeholder(date("d-m-Y", time()+(19800)))
                                ->dateFormat('dd-mm-yyyy')
                                ->show();
 
@@ -1476,6 +1476,14 @@
                            ->width(3)
                            ->show();
 
+                        $ui->datePicker()
+                           ->label('Date of Admission')
+                           ->width(3)
+                           ->name('entrance_date')
+                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->dateFormat('dd-mm-yyyy')
+                           ->show();
+
                         $ui->select()
                            ->name('admn_based_on')
                            ->id('id_admn_based_on')
@@ -1489,6 +1497,11 @@
                                            $ui->option()->value('others')->text('Others')))
                            ->show();
 
+                    $admission_details_row_1->close();
+
+                    $admission_details_row_2 = $ui->row()
+                                                  ->open();
+
                         $ui->input()
                            ->label('Other Mode of Admission')
                            ->id('other_mode_of_admission')
@@ -1496,11 +1509,6 @@
                            ->disabled()
                            ->width(3)
                            ->show();
-
-                    $admission_details_row_1->close();
-
-                    $admission_details_row_2 = $ui->row()
-                                                  ->open();
 
                         $ui->input()
                            ->label('IIT JEE General Rank')
@@ -1527,6 +1535,11 @@
                            ->width(3)
                            ->show();
 
+                    $admission_details_row_2->close();
+
+                    $admission_details_row_3 = $ui->row()
+                                                ->open();
+
                         $ui->input()
                            ->label('Cat Score')
                            ->id('cat_score')
@@ -1535,11 +1548,6 @@
                            ->disabled()
                            ->width(3)
                            ->show();
-
-                    $admission_details_row_2->close();
-
-                    $admission_details_row_3 = $ui->row()
-                                                ->open();
 
                         $ui->select()
                            ->label('Student Type')
@@ -1685,7 +1693,7 @@
                            ->label('Fees Paid Date')
                            ->width(3)
                            ->name('fee_paid_date')
-                           ->placeholder(date("Y-m-d", time()+(19800)))
+                           ->placeholder(date("d-m-Y", time()+(19800)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
 

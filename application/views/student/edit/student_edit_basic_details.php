@@ -559,11 +559,15 @@
 
 
 <?php
+    if($correspondence_address)
+        $coress_recv = true;
+    else
+        $coress_recv = false;
 
     $ui = new UI();
 
         $form=$ui->form()
-                 ->action('student/student_add_deo/insert_basic_details')
+                 ->action('student/student_edit/update_basic_details/'.$stu_id.'/'.$coress_recv)
                  ->multipart()
                  ->id('form_submit')
                  ->open();
@@ -710,8 +714,8 @@
                                ->label('Date of Birth')
                                ->width(3)
                                ->name('dob')
-                               ->placeholder(date("Y-m-d", time()+(19800)))
-                               ->value($user_details->dob)
+                               ->placeholder(date("d-m-Y", time()+(19800)))
+                               ->value(date('d-m-Y',strtotime($user_details->dob)))
                                ->dateFormat('dd-mm-yyyy')
                                ->show();
 
@@ -964,6 +968,7 @@
                             $ui->checkbox()
                                ->name('depends_on')
                                ->id('depends_on')
+                               ->checked($stu_other_details->guardian_name != 'na')
                                ->show();
 
                             $ui->input()
@@ -1037,6 +1042,15 @@
                            ->width(3)
                            ->show();
 
+                        $ui->datePicker()
+                           ->label('Date of Admission')
+                           ->width(3)
+                           ->name('entrance_date')
+                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->value(date('d-m-Y',strtotime($stu_basic_details->admn_date)))
+                           ->dateFormat('dd-mm-yyyy')
+                           ->show();
+
                         $ui->select()
                            ->name('admn_based_on')
                            ->id('id_admn_based_on')
@@ -1049,6 +1063,11 @@
                                            $ui->option()->value('direct')->text('Direct')->selected($stu_academic_details->admn_based_on=="direct"),
                                            $ui->option()->value('others')->text('Others')->selected($stu_academic_details->admn_based_on!="iitjee"&&$stu_academic_details->admn_based_on!="isme"&&$stu_academic_details->admn_based_on!="gate"&&$stu_academic_details->admn_based_on!="cat"&&$stu_academic_details->admn_based_on!="direct")))
                            ->show();
+
+                    $admission_details_row_1->close();
+
+                    $admission_details_row_2 = $ui->row()
+                                                  ->open();
 
                         if($stu_academic_details->admn_based_on!="iitjee"&&$stu_academic_details->admn_based_on!="isme"&&$stu_academic_details->admn_based_on!="gate"&&$stu_academic_details->admn_based_on!="cat"&&$stu_academic_details->admn_based_on!="direct")
                             $ui->input()
@@ -1067,11 +1086,6 @@
                                ->disabled()
                                ->width(3)
                                ->show();
-
-                    $admission_details_row_1->close();
-
-                    $admission_details_row_2 = $ui->row()
-                                                  ->open();
 
                         $ui->input()
                            ->label('IIT JEE General Rank')
@@ -1098,6 +1112,11 @@
                            ->width(3)
                            ->show();
 
+                    $admission_details_row_2->close();
+
+                    $admission_details_row_3 = $ui->row()
+                                                ->open();
+
                         $ui->input()
                            ->label('Cat Score')
                            ->id('cat_score')
@@ -1106,11 +1125,6 @@
                            ->disabled()
                            ->width(3)
                            ->show();
-
-                    $admission_details_row_2->close();
-
-                    $admission_details_row_3 = $ui->row()
-                                                ->open();
 
                         $ui->select()
                            ->label('Student Type')
@@ -1267,8 +1281,8 @@
                            ->label('Fees Paid Date')
                            ->width(3)
                            ->name('fee_paid_date')
-                           ->placeholder(date("Y-m-d", time()+(19800)))
-                           ->value($stu_fee_details->payment_made_on)
+                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->value(date('d-m-Y',strtotime($stu_fee_details->payment_made_on)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
 
@@ -1449,7 +1463,7 @@
                             $ui->checkbox()
                                ->name('correspondence_addr')
                                ->id('correspondence_addr')
-                               ->checked(false)
+                               ->checked(!$correspondence_address)
                                ->show();
 
                         $check_corr_address_col_1->close();
@@ -1485,7 +1499,53 @@
                                                           ->title('Correspondence Address')
                                                           ->open();
 
+                                if($correspondence_address){
                                 $ui->input()
+                                   ->label('Address Line 1')
+                                   ->name('line13')
+                                   ->value($correspondence_address->line1)
+                                   ->show();
+
+                                $ui->input()
+                                   ->label('Address Line 2')
+                                   ->name('line23')
+                                   ->value($correspondence_address->line2)
+                                   ->show();
+
+                                $ui->input()
+                                   ->label('City')
+                                   ->name('city3')
+                                   ->value($correspondence_address->city)
+                                   ->show();
+
+                                $ui->input()
+                                   ->label('State')
+                                   ->name('state3')
+                                   ->value($correspondence_address->state)
+                                   ->show();
+
+                                $ui->input()
+                                   ->label('Pincode')
+                                   ->name('pincode3')
+                                   ->id('pincode3')
+                                   ->value($correspondence_address->pincode)
+                                   ->show();
+
+                                $ui->input()
+                                   ->label('Country')
+                                   ->name('country3')
+                                   ->value($correspondence_address->country)
+                                   ->show();
+
+                                $ui->input()
+                                   ->label('Contact No.')
+                                   ->name('contact3')
+                                   ->id('contact3')
+                                   ->value($correspondence_address->contact_no)
+                                   ->show();
+                                }
+                                else{
+                                    $ui->input()
                                    ->label('Address Line 1')
                                    ->name('line13')
                                    ->show();
@@ -1522,6 +1582,7 @@
                                    ->name('contact3')
                                    ->id('contact3')
                                    ->show();
+                                }
 
                         $correspondence_address_details_box->close();
 

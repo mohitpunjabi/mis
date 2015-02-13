@@ -1,16 +1,47 @@
 	$(document).ready(function() {
-		$("td, th").css("visibility", "hidden");
-		$("td#stuId").css("visibility", "visible");
-		$("#stuIdIcon").hide();
+		document.getElementById('stu_details_hidden').style.display = 'none';
+		document.getElementById('corr_addr_visibility').style.display = 'none';
+		document.getElementById("fetch_id_btn").onclick = function() {fetch_details()};
+
+		document.getElementById("add").onclick = function() {onclick_add();};
+
+		$('[name="depends_on"]').on('change', function() {
+    		depends_on_whom();
+		});
+
+		$('#stu_type').on('change', function() {
+			button_for_add();
+		});
+
+		$('#depts').on('change', function() {
+			options_of_courses();
+		});
+
+		$('#course_id').on('change', function() {
+			options_of_branches();
+		});
+
+		$('#id_admn_based_on').on('change', function() {
+			select_exam_scores();
+		});
+
+		$('#correspondence_addr').on('change', function() {
+			corrAddr();
+		});
+
+		$('#form_submit').on('submit', function(e) {
+			if(!form_validation())
+				e.preventDefault();
+		});
+
+		add_row_on_page_load();
+
 	});
 
 	function add_row_on_page_load()
 	{
 		onclick_add_row();
 		var student_type = document.getElementById('stu_type').value;
-		//<?php echo $stu_type; ?>
-		//var abcd = <?php echo $stu_type; ?>;
-		//console.log(abcd);
 		if(student_type == 'ug')
 			document.getElementById('add').style.display='none';
 		var row=document.getElementById("tableid").rows;
@@ -31,7 +62,6 @@
 			return ;
 		}
 		$("#fetch_id_btn").hide();
-		$("#stuIdIcon").show();
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -45,26 +75,57 @@
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
-		    	//td.innerHTML = xmlhttp.responseText;
 				if(xmlhttp.responseText != '')
 				{
 				 	alert('User Already exists.');
 				 	$("#fetch_id_btn").show();
-				 	$("#stuIdIcon").hide();
 				}
 				else
 				{
-					$("td, th").css("visibility", "visible");
-					$("#fetch_id_btn").hide();
-					$("#stuIdIcon").hide();
-					add_row_on_page_load();
+					document.getElementById('stu_details_hidden').style.display = 'block';
 				}
 		    }
-		    //else
-		    //	alert("failed");
 	  	}
 		xmlhttp.open("POST",site_url("student/student_ajax/check_if_user_exists/"+stu_id),true);
 		xmlhttp.send();
+	}
+
+	function depends_on_whom()
+	{
+		var dpe = document.getElementById("depends_on").checked;
+
+		var m=document.getElementById("mother_name");
+		var f= document.getElementById("father_name");
+		var g=document.getElementById("guardian_name");
+		var r=document.getElementById("guardian_relation_name");
+		var fo=document.getElementById("father_occupation");
+		var mo=document.getElementById("mother_occupation");
+		var fgai=document.getElementById("father_gross_income");
+		var mgai=document.getElementById("mother_gross_income");
+
+		if(!dpe)
+		{
+			m.disabled=true;
+			f.disabled=true;
+			g.disabled=false;
+			r.disabled=false;
+			fo.disabled=true;
+			mo.disabled=true;
+			fgai.disabled=true;
+			mgai.disabled=true;
+		}
+		else
+		{
+			m.disabled=false;
+			f.disabled=false;
+			g.disabled=true;
+			r.disabled=true;
+			fo.disabled=false;
+			mo.disabled=false;
+			fgai.disabled=false;
+			mgai.disabled=false;
+		}
+		
 	}
 
 	function preview_pic()
@@ -96,14 +157,6 @@
 
 	function form_validation()
 	{
-		/*var pgv = parent_gaurdian_validation();
-		var abov = admission_based_on_validation();
-		var cb = course_branch_validation();
-		var cav = correspondence_addr_validation();
-		var stv = student_type_validation();
-		var anv = all_number_validation();
-		var iv = image_validation();
-		return pgv && abov && cb && cav && stv && iv;*/
 		if(!parent_guardian_validation())
 			return false;
 		if(!admission_based_on_validation())
@@ -128,6 +181,7 @@
 
 	function correspondence_addr_validation()
 	{
+
 		var ca=document.getElementById("correspondence_addr").checked;
 		if(ca)
 			return true;
@@ -316,109 +370,16 @@
 	
 	function corrAddr()
     {
-        var x=document.getElementById("corr_addr");
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {
-            x.style.display='block';
-            //document.getElementById("line13").='true';
+        	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
-            x.style.display='none';
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
-	
-	function depends_on_whom()
-	{
-		var dpe = document.getElementById("depends_on").checked;
-//var dpe_relation = document.getElementById("depends_on_relation").checked;
-
-		var m=document.getElementById("mother_name");
-		var f= document.getElementById("father_name");
-		var g=document.getElementById("guardian_name");
-		var r=document.getElementById("guardian_relation_name");
-		var fo=document.getElementById("father_occupation");
-		var mo=document.getElementById("mother_occupation");
-		var fgai=document.getElementById("father_gross_income");
-		var mgai=document.getElementById("mother_gross_income");
-
-		if(dpe)
-		{
-			m.disabled=true;
-			f.disabled=true;
-			g.disabled=false;
-			r.disabled=false;
-			fo.disabled=true;
-			mo.disabled=true;
-			fgai.disabled=true;
-			mgai.disabled=true;
-		}
-		else
-		{
-			m.disabled=false;
-			f.disabled=false;
-			g.disabled=true;
-			r.disabled=true;
-			fo.disabled=false;
-			mo.disabled=false;
-			fgai.disabled=false;
-			mgai.disabled=false;
-		}
-		
-	}
-	
-	/*function depends_on_iitjee()
-	{
-		var dpe_iitjee = document.getElementById("depends_on_iit").checked;
-		var g=document.getElementById("iitjee_rank");
-		var h=document.getElementById("iitjee_cat_rank");
-		if(dpe_iitjee)
-		{
-			g.disabled=false;
-			h.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-			h.disabled=true;
-		}
-		
-	}
-
-	
-	function depends_on_cat()
-	{
-		var dpe_cat = document.getElementById("depends_on_cat_score").checked;
-		var g=document.getElementById("cat_score");
-		if(dpe_cat)
-		{
-			g.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-		}
-		
-	}
-	
-	function depends_on_gate()
-	{
-		var dpe_gate = document.getElementById("depends_on_gate_score").checked;
-		var g=document.getElementById("gate_score");
-		if(dpe_gate)
-		{
-			g.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-		}
-		
-	}*/
 
 	function select_exam_scores()
 	{
@@ -472,10 +433,8 @@
 
     function options_of_branches()
     {
-    	//alert("hi");
         var tr=document.getElementById('branch_id');
         var course=document.getElementById('course_id').value;
-//        var tr=document.getElementById('branch_div');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
         if (window.XMLHttpRequest)
@@ -490,20 +449,16 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	//alert ("success");
                 tr.innerHTML=xmlhttp.responseText;
             }
         }
-        //xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true); this is original line to select branch we need to select courses
-		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
+        xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }
 
     function options_of_courses()
     {
-        //set_id_of_branch();
-        //alert('reached course');
         var tr=document.getElementById('course_id');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
@@ -519,12 +474,10 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	//alert('success');
                 tr.innerHTML=xmlhttp.responseText;
                 options_of_branches();
             }
         }
-        //alert(branch);
         xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
@@ -641,8 +594,8 @@
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')
 			document.getElementById('parent_landline').value = 0;
-		if( document.getElementById('aadhar_no').value.trim() == '')
-			document.getElementById('aadhar_no').value = 'na';
+		if( document.getElementById('aadhaar_no').value.trim() == '')
+			document.getElementById('aadhaar_no').value = 'na';
 		if( document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value.trim() == '')
 			document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = 'na';
 		if( document.getElementById('fee_paid_amount').value.trim() == '')
@@ -668,7 +621,6 @@
 		newrow.innerHTML=document.getElementById("addrow").innerHTML;
 		var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 		document.getElementById(newid).innerHTML=row.length-1;
-		//document.getElementsByName('branch4[]')[row.length-1].disabled=false;
 	}
 
 	function onclick_add()
@@ -729,15 +681,13 @@
 		}
 	}
 
-    /*function set_id_of_branch()
-    {
-        var branch_id=document.getElementById('branch_id').value;
-        document.getElementById('id_of_branch').value=branch_id;
-        return 0;
-    }
+	var i = 0;
 
-    function set_id_of_course()
-    {
-        var course_id=document.getElementById('course_id').value;
-        document.getElementById('id_of_course').value=course_id;
-    }*/
+	function duplicate()
+	{
+	    var original = document.getElementById('duplicater' + i);
+	    var clone = original.cloneNode(true); // "deep" clone
+	   	clone.id = "duplicater" + ++i; // there can only be one element with an ID
+	    clone.onclick = duplicate; // event handlers are not cloned
+	    original.parentNode.appendChild(clone);
+	}

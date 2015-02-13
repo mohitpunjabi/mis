@@ -1257,17 +1257,17 @@
                                                        ->open();
                         $check_corr_address_col_0->close();
 
-                        $check_corr_address_col_1 = $ui->col()
-                                                       ->width(1)
-                                                       ->open();
+                        /*$check_corr_address_col_1 = $ui->col()
+                                                       ->width(2)
+                                                       ->open();*/
 
                             $ui->checkbox()
                                ->name('correspondence_addr')
                                ->id('correspondence_addr')
-                               ->checked()
+                               ->width(2)
                                ->show();
 
-                        $check_corr_address_col_1->close();
+                        //$check_corr_address_col_1->close();
 
                         $check_corr_address_col_2 = $ui->col()
                                                        ->width(7)

@@ -1,7 +1,7 @@
 	$(document).ready(function() {
 		document.getElementById('stu_details_hidden').style.display = 'none';
 		document.getElementById('corr_addr_visibility').style.display = 'none';
-		document.getElementById("fetch_id_btn").onclick = function() {fetch_details()};
+		document.getElementById("fetch_id_btn").onclick = function() {fetch_details();};
 
 		document.getElementById("add").onclick = function() {onclick_add();};
 
@@ -370,7 +370,6 @@
 	
 	function corrAddr()
     {
-    	alert('hi');
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {

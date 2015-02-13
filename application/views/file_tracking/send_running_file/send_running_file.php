@@ -120,7 +120,7 @@
 
 	$ui->textarea()
 		->label('Enter Remarks and Send Back')
-		->name('remarks2')
+		->name('remarks')
 		->placeholder('Remarks')
 		->show();
 ?>

@@ -28,18 +28,22 @@ class Track_file extends MY_Controller
 			$data_array[$sno]=array();
 			$j=1;
 
-			$this->load->model("file_tracking/file_details");
-			$query = $this->file_details->get_file_num($row->file_id);
+			$this->load->model("file_tracking/file_move_details");
+			$query = $this->file_move_details->get_last_rcvd_emp_id ($row->track_num, $emp_id);
 			foreach ($query->result() as $row2)
-					$file_no = $row2->file_no;
-			$data_array[$sno][$j++] = $file_no;
+			{
+				$rcvd_by_emp_id = $this->user_model->getNameById($row2->rcvd_by_emp_id);
+				$sent_timestamp = $row2->sent_timestamp;
+				break;
+			}
+			$data_array[$sno][$j++] = $row->file_no;
 
 			$data_array[$sno][$j++] = $row->file_id;
 			$data_array[$sno][$j++] = urldecode($row->file_subject);
 			$data_array[$sno][$j++] = $row->track_num;
-			$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
+			$data_array[$sno][$j++] = $rcvd_by_emp_id;
 			$data_array[$sno][$j++] = $row->close_emp_id;
-			$data_array[$sno][$j++] = $row->sent_timestamp;
+			$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($sent_timestamp));
 
 			$sno++;
 		}

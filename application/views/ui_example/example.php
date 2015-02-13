@@ -2,7 +2,7 @@
 	$ui = new UI();
 	
 	$ui->callout()
-	   ->title("This is just a small example")
+	   ->title("This is just a tiny example")
 	   ->uiType("warning")
 	   ->desc('This example shows only a handful of the UI options. ' .
 	   		  'See the <a href="http://172.16.8.5/wiki/index.php/UI_Library">UI Library wiki</a> for a detailed list of options. ' .

@@ -76,7 +76,25 @@ function onclick_edit(i, dob, photopath)
 			$("#edit_status_toggle").click(function(){
 				change_act($('#edit_active'+i),$('#edit_status_toggle'));
 			});
+			//date picker hack
+			$("#edit_dob"+i).datepicker({
+						format: "dd-mm-yyyy",
+						autoclose: true,
+						todayBtn: "linked"
+			});
 			$("#edit_dob"+i).datepicker("setDate", moment($("#edit_dob"+i).attr('value'), "DD-MM-YYYY").toDate());
+			//image picker hack  (// as it not works normally in modals)
+			$("#edit_photo"+i).on("change", function(event) {
+					var input = event.target;
+					var reader = new FileReader();
+					reader.onload = function(){
+						var dataURL = reader.result;
+						$("#edit_photo"+i).parent().find("img").attr("src", dataURL);
+						// output.src = dataURL;
+					};
+					reader.readAsDataURL(input.files[0]);
+			});
+			$("#edit_photo"+i).next().addClass("no-padding");
 	    }
   	}
   	xmlhttp.open("POST",site_url("employee/emp_ajax/edit_record/3/"+i),true);

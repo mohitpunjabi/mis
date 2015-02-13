@@ -18,7 +18,7 @@
     for($i=1;$i<=5;$i++) {
               echo '
 								  <tr> 
-									<td>';
+									<td width="30%">';
                   $ui->input()
 											->placeholder($category[$i-1])
                       ->value($category[$i-1])
@@ -30,7 +30,6 @@
 									<td>';
                   $ui->textarea()
                       ->rows(7)
-                      
                       ->cols(60)
 											->placeholder('Max 2000 characters')
 											->id('information'.$i)

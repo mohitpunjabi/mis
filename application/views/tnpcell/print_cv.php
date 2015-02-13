@@ -52,7 +52,7 @@
      foreach($achievements as $row) {
         echo '
               <tr>
-              <td>  ';
+              <td colspan="10">  ';
             echo $row->category;
         echo ' </td>
                <td>  ';

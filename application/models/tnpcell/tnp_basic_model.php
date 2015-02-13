@@ -10,6 +10,7 @@ class Tnp_basic_model extends CI_Model
 	var $table_jnf_salary='jnf_salary';
 	var $table_jnf_selectioncutoff='jnf_selectioncutoff';
 	var $table_jnf_selectionprocess='jnf_selectionprocess';
+	var $table_tnp_calender = 'tnp_calender';
 	
 	function __construct()
 	{
@@ -74,6 +75,25 @@ class Tnp_basic_model extends CI_Model
 		return $query->result();	
 	}
 	
+	
+	
+	function get_company_in_date_range($from,$to)
+	{
+		$this->db->where("date_from >= ".$from);
+		$this->db->where("date_to <= ".$to);
+		$this->db->join("jnf_user_details","jnf_user_details.company_id = tnp_calender.company_id");
+		$query = $this->db->get($this->table_tnp_calender);
+		return $query->result();	
+	}
+	
+	
+	function insert_tnp_calender($tnp_calender)
+	{
+		$query = $this->db->insert_string($this->table_tnp_calender, $tnp_calender);
+		$query = str_replace('INSERT INTO','INSERT IGNORE INTO',$query);
+		$this->db->query($query);
+		return $this->db->affected_rows();	
+	}
 }
 
 /* End of file emp_current_entry_model.php */

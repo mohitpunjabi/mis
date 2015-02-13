@@ -4,7 +4,7 @@ $ui = new UI();
 		$column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
 			$box_basic_details =  $ui->box()->id('box_form')->title("Basic Information")->open();	
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
-				//var_dump($company_basic_info);
+				//var_dump( $auth_type);
 				foreach($company_basic_info as $row)
 				{
 					echo '
@@ -13,7 +13,7 @@ $ui = new UI();
 							<th>Company Name</th>
 							<td>'.$row->company_name.'</td>
 						</tr>';
-						if($auth_type != 'stu')
+						if(!in_array('stu',$auth_type))
 						{
 						echo '
 						<tr>

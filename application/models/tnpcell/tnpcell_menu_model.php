@@ -30,7 +30,7 @@ class TnpCell_menu_model extends CI_Model
         $menu['stu']['T&P']["View CV"] = site_url('tnpcell/CV/print_cv');
         $menu['stu']['T&P']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
     }
-	$menu['stu']['T&P']["View JNF"] = site_url('tnpcell/View_jnf/');
+	$menu['stu']['T&P']["View JNF"] = site_url('tnpcell/view_jnf/');
 	$menu['stu']['T&P']["Company Info"] = site_url('tnpcell/company_info');  
 	
     /*T&P Officer*/

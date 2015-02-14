@@ -586,7 +586,6 @@
 
 	function push_na_in_empty()
 	{
-		alert();
 		/*if( document.getElementById('middlename').value.trim() == '')
 			document.getElementById('middlename').value = 'na';
 		if( document.getElementById('lastname').value.trim() == '')

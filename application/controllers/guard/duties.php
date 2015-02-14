@@ -32,6 +32,7 @@ class Duties extends MY_Controller
 	function view()
 	{
 		$this->load->model('guard/guard_model');
+		$this->addJS('guard/to_duty_chart.js');
 		$this->addJS('guard/dateDutyChart-loader.js');
 		$this->addJS('guard/tomorrowDutyChart-loader.js');
 		$this->addJS('guard/compDutyChart-loader.js');

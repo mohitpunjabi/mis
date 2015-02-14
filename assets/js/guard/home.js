@@ -138,6 +138,7 @@ $(document).ready(function() {
 				if(users.length == 0){
 					$("#postmessageO-div").show();
 					$("#postDutyChartTableOvertime").hide();
+					$("#totalduration").hide();
 				}
 				else{
 					$("#postmessageO-div").hide();
@@ -271,6 +272,7 @@ $(document).ready(function() {
 				if(users.length == 0){
 					$("#datemessageO-div").show();
 					$("#dateDutyChartTableOvertime").hide();
+					$("#totaldurationd").hide();
 				}
 				else{
 					$("#datemessageO-div").hide();
@@ -406,6 +408,7 @@ $(document).ready(function() {
 				if(users.length == 0){
 					$("#rangemessageO-div").show();
 					$("#rangeDutyChartTableOvertime").hide();
+					$("#totaldurationr").hide();
 				}
 				else{
 					$("#rangemessageO-div").hide();
@@ -545,6 +548,7 @@ $(document).ready(function() {
 				if(users.length == 0){
 					$("#rangepostmessageO-div").show();
 					$("#rangepostDutyChartTableOvertime").hide();
+					$("#totaldurationrp").hide();
 				}
 				else{
 					$("#rangepostmessageO-div").hide();
@@ -684,6 +688,7 @@ $(document).ready(function() {
 				if(users.length == 0){
 					$("#rangeguardmessageO-div").show();
 					$("#rangeguardDutyChartTableOvertime").hide();
+					$("#totaldurationrg").hide();
 				}
 				else{
 					$("#rangeguardmessageO-div").hide();

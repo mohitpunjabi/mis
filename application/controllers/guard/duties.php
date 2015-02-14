@@ -203,10 +203,7 @@ class Duties extends MY_Controller
 			$this->guard_model->update_duty($data, $regno);
 		
 			$this->session->set_flashdata('flashSuccess','Duty has been replaced successfully.');
-			if($date == date("Y-m-d",strtotime(date("Y-m-d"))+19800))
-				redirect('guard/duties/today_chart');
-			else
-				redirect('guard/duties/tomorrow_chart');		
+			redirect('guard/duties/view');		
 		}
 		
 		if($regno=='' || $post_id=='' || $shift=='' || $date=='')

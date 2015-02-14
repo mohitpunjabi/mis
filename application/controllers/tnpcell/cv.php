@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CV extends MY_Controller {
@@ -9,7 +8,7 @@ class CV extends MY_Controller {
 		parent::__construct(array('tpo', 'stu'));
 		
 		//$this->addJS("course_structure/edit.js");
-		$this->addCSS("tnpcell/cs_layout.css");
+		//$this->addCSS("tnpcell/cs_layout.css");
 		//$this->load->model('tnp/basic_model','',TRUE);
   }
 	public function index()

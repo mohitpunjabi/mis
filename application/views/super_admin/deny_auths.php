@@ -1,35 +1,51 @@
-	<br><h1 class="page-head" align = 'center'><?= $page_head_title ?></h1><br>
-    <table align="center" >
-        <tr><th>Select Authorization</th>
-            <td>
-                <select name="auth_id" id="auth_id" name="auth_id" onchange="onchange_auth();">
-                <?php
-                    foreach($auths as $auth)
-                    {
-                        echo '<option value="'.$auth->id.'">'.ucwords($auth->type).'</option>';
-                    }
-                ?>
-                </select>
-            </td>
-        </tr>
-        <th>Department</th>
-            <td>
-                <select name="dept_id" id="dept_id" onchange="onchange_auth();">
-                <option value="all" selected="selected">Select User Department</option>
-                <?php
-                    if($departments)
-                    {
-                        foreach($departments as $row)
-                        {
-                           echo '<option value="'.$row->id.'">'.$row->name.'</option>';
-                        }
-                    }
-                    else
-                        echo '<option value="none" disabled >No departments</option>';
-                ?>
-                </select>
-            </td>
-        </tr>
-    </table>
-<br>
-<div id ="view_users"></div>
+<script type="text/javascript" language="javascript">
+      window.onload = function()
+      {
+		  onload_auth('auth_id');
+		  onload_dept();
+      };
+</script>
+<?php
+$ui = new UI();
+	$contentrow = $ui->row()->open();
+	$leftcol = $ui->col()->width(3)->t_width(0)->m_width(0)->open();
+	$leftcol->close();
+		$contentcol = $ui->col()->width(6)->open();
+			
+			$contentbox = $ui->box()
+						->uiType('primary')
+						->title('Deny Authorization')
+						->icon($ui->icon('edit'))
+						->solid()
+						->open();
+				
+				$row1 = $ui->row()->open();	
+				
+					$r1col1 = $ui->col()->open();
+					$ui->select()
+						->label('Select Authorization')
+						->name('auth_id')
+						->id('auth_id')
+						->extras('onchange="onchange_auth();"')
+						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))//Enter options
+						->show();
+					
+					$ui->select()
+						->label('Department')
+						->name('dept_id')
+						->id('dept_id')
+						->extras('onchange="onchange_auth();"')
+						->options(array($ui->option()->value('all')->text('Select User Department')->selected()))//Enter options
+						->show();
+					$r1col1->close();
+					
+				$row1->close();
+			$contentbox->close();
+			$contentcol->close();
+			$contentrow->close();
+			
+$contentrow2 = $ui->row()->open();
+$r2col1= $ui->col()->width(12)->open();
+?><div id ="view_users"></div><?
+$r2col1->close();
+$contentrow2->close();

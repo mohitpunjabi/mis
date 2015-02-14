@@ -34,7 +34,13 @@ class File_move_details extends CI_Model
 		return $res;
 	}
 	function files_to_be_tracked($emp_id){
-		$res = $this->db->query("SELECT file_details.file_id AS file_id,  file_subject, file_details.track_num AS track_num, rcvd_by_emp_id, close_emp_id , sent_timestamp FROM file_move_details INNER JOIN file_details ON file_move_details.file_id = file_details.file_id WHERE sent_by_emp_id = '".$emp_id."' ORDER BY sent_timestamp DESC;");
+		//$res = $this->db->query("SELECT file_details.file_id AS file_id,  file_subject, file_details.track_num AS track_num, rcvd_by_emp_id, close_emp_id , sent_timestamp FROM file_move_details INNER JOIN file_details ON file_move_details.file_id = file_details.file_id WHERE sent_by_emp_id = '".$emp_id."' ORDER BY sent_timestamp DESC;");
+		$res = $this->db->query("SELECT DISTINCT file_no, file_details.file_id AS file_id,  file_subject, file_details.track_num AS track_num, close_emp_id FROM file_move_details INNER JOIN file_details ON file_move_details.file_id = file_details.file_id WHERE sent_by_emp_id = '".$emp_id."' ORDER BY sent_timestamp DESC;");
+		return $res;
+	}
+	function get_last_rcvd_emp_id ($track_num, $emp_id)
+	{
+		$res = $this->db->query ("SELECT rcvd_by_emp_id, sent_timestamp FROM file_move_details where track_num ='".$track_num."' and sent_by_emp_id ='".$emp_id."' ORDER BY sent_timestamp DESC");
 		return $res;
 	}
 }

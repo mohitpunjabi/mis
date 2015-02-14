@@ -9,7 +9,7 @@
 		else	echo 'MIS - Indian School of Mines';
 	?>
 	</title>
-	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/mis-layout.css" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/css/z" />
 	<?php 	if(isset($css))	echo $css;	?>
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>

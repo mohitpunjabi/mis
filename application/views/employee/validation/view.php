@@ -159,90 +159,118 @@ function view_basic_details($data,$emp,$ft) {
     $row = $ui->row()->open();
     	$col = $ui->col()->open();
     		echo '<h3 class="page-header" align="center">Employee Details</h3>';
-    		$table = $ui->table()->bordered()->condensed()->responsive()->striped()->open();
+    		$row1 = $ui->row()->open();
+  				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Name</label><br>'.$data['name'];
+  				$col1->close();
+  				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Gender</label><br>'.(($emp->sex == 'm' || $emp->sex == 'male')? 'Male':'Female');
+  				$col2->close();
+  				$col3 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>DOB</label><br>'.date('d M Y', strtotime($emp->dob));
+  				$col3->close();
+  				$col4 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Category</label><br>'.ucwords($emp->category);
+  				$col4->close();
+  				$col5 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Physically Challenged</label><br>'.ucwords($emp->physically_challenged);
+  				$col5->close();
+  			$row1->close();
+  			echo '<br>';
+			$row2 = $ui->row()->open();
+  				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Department</label><br>'.$data['deparment'];
+  				$col1->close();
+  				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Designation</label><br>'.ucwords($data['designation']);
+  				$col2->close();
+  				$col3 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Marital Status</label><br>'.ucwords($emp->marital_status);
+  				$col3->close();
+  				$col4 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Place of Birth</label><br>'.ucwords($emp->birth_place);
+  				$col4->close();
+  				$col5 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Kashmiri Immigrant</label><br>'.ucwords($emp->kashmiri_immigrant);
+  				$col5->close();
+  			$row2->close();
+			echo '<br>';
+			$dt = DateTime::createFromFormat("Y-m-d", $emp->retirement_date);
+			$row3 = $ui->row()->open();
+  				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Father\'s Name</label><br>'.$emp->father_name;
+  				$col1->close();
+  				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Mother\'s Name</label><br>'.$emp->mother_name;
+  				$col2->close();
+  				$col3 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Date of Joining</label><br>'.date('d M Y', strtotime($emp->joining_date));
+  				$col3->close();
+  				$col4 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Employment Nature</label><br>'.ucwords($emp->employment_nature);
+  				$col4->close();
+  				$col5 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Date of Retirement</label><br>'.$dt->format("d M Y");
+  				$col5->close();
+  			$row3->close();
+  			echo '<br>';
+  			$row4 = $ui->row()->open();
+  				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Email</label><br>'.$emp->email;
+  				$col1->close();
+  				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Mobile no.</label><br>'.$emp->mobile_no;
+  				$col2->close();
+  			$row4->close();
+  			echo '<br>';
+  			$row5 = $ui->row()->open();
+  				$col1 = $ui->col()->width(6)->t_width(6)->m_width(6)->open();
+  					echo '<label>Present Address</label><br>'.$data['address']->present_pretty;
+  				$col1->close();
+  				$col2 = $ui->col()->width(6)->t_width(6)->m_width(6)->open();
+  					echo '<label>Permanent Address</label><br>'.$data['address']->permanent_pretty;
+  				$col2->close();
+  			$row5->close();
 
-			echo '<tr>
-                    <th>Name</th><td>'.$data['name'].'</td>
-                    <th>Marital Status</th><td>'.ucwords($emp->marital_status).'</td>
-                    <th>Physically Challenged</th><td>'.ucwords($emp->physically_challenged).'</td>
-                </tr>
-                <tr>
-                    <th>Gender</th><td>'.ucwords($emp->sex).'</td>
-                    <th>Category</th><td>'.ucwords($emp->category).'</td>
-                    <th>Kashmiri Immigrant</th><td>'.ucwords($emp->kashmiri_immigrant).'</td>
-                </tr>
-	            <tr>
-	                <th>DOB</th><td>'.date('d M Y', strtotime($emp->dob)).'</td>
-	                <th>Place of Birth</th><td>'.ucwords($emp->birth_place).'</td>
-	                <th>Date of joining</th><td>'.date('d M Y', strtotime($emp->joining_date)).'</td>
-	            </tr>
-	            <tr>
-	                <th>Department</th>';
-	        	$dt = DateTime::createFromFormat("Y-m-d", $emp->retirement_date);
-	        echo    '<td>'.$data['deparment'].'</td>
-	                <th>Designation</th>
-	                <td>'.ucwords($data['designation']).'</td>
-	                <th>Employment Nature</th><td>'.ucwords($emp->employment_nature).'</td>
-	            </tr>
-	            <tr>
-	                <th>Father\'s Name</th><td>'.$emp->father_name.'</td>
-	                <th>Mother\'s Name</th><td>'.$emp->mother_name.'</td>
-	                <th>Date of Retirement</th><td>'.$dt->format("d M Y").'</td>
-	            </tr>
-	            <tr>
-	                <th>Email</th><td>'.$emp->email.'</td>
-	                <th>Mobile no.</th><td>'.$emp->mobile_no.'</td>
-	            </tr>';
-        $table->close();
-
-        $row1 = $ui->row()->open();
-        $col1 = $ui->col()->width(2)->t_width(0)->m_width(0)->open();
-        $col1->close();
-        $col2 = $ui->col()->width(8)->t_width(12)->m_width(12)->open();
-        $table = $ui->table()->bordered()->condensed()->responsive()->open();
-	        echo '<tr>
-	                <th>Present Address</th>
-	                <th>Permanent Address</th>
-	            </tr>
-	            <tr>
-	                <td>'.$data['address']->present_pretty.'</td>
-	                <td>'.$data['address']->permanent_pretty.'</td>
-
-	            </tr>';
-		$table->close();
-		$col2->close();
-		$col3 = $ui->col()->width(2)->t_width(0)->m_width(0)->open();
-		$col3->close();
-		$row1->close();
-
-        $emp_type='';
-        if(in_array('ft',$emp->auth_id)) $emp_type = 'Faculty';
-        if(in_array('nfta',$emp->auth_id)) $emp_type = 'Non Faculty Academic';
-        if(in_array('nftn',$emp->auth_id)) $emp_type = 'Non Faculty Non Academic';
-
-		$table = $ui->table()->bordered()->condensed()->responsive()->open();
-        echo '<tr>
-                <th>Employee Type</th><td>'.$emp_type.'</td>
-                <th>Research Interest</th>
-                <td>'.((!in_array('ft',$emp->auth_id))?   'NA' : ucwords($ft->research_interest)).'</td>
-                <th>Religion</th><td>'.ucwords($emp->religion).'</td>
-                <th>Nationality</th><td>'.ucwords($emp->nationality).'</td>
-            </tr>
-            <tr>
-                <th>Office no.</th><td>'.$emp->office_no.'</td>
-                <th>Fax</th><td>'.$emp->fax.'</td>
-                <th>Hobbies</th><td>'.ucfirst($emp->hobbies).'</td>
-                <th>Favourite Past Time</th><td>'.ucfirst($emp->fav_past_time).'</td>
-            </tr>
-            <tr>
-                <th>Pay Scale</th>
-                <td><u>Pay Band</u> =>'.strtoupper($emp->pay_band).' ('.$emp->pay_band_description.')<br>
+  					$emp_type='';
+			        if(in_array('ft',$emp->auth_id)) $emp_type = 'Faculty';
+			        if(in_array('nfta',$emp->auth_id)) $emp_type = 'Non Faculty Academic';
+			        if(in_array('nftn',$emp->auth_id)) $emp_type = 'Non Faculty Non Academic';
+			echo '<br>';
+			$row6 = $ui->row()->open();
+  				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Employee Type</label><br>'.$emp_type;
+  				$col1->close();
+  				$col2 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Research Interest</label><br>'.((!in_array('ft',$emp->auth_id))?   'NA' : ucwords($ft->research_interest));
+  				$col2->close();
+  				$col3 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Religion</label><br>'.ucwords($emp->religion);
+  				$col3->close();
+  				$col4 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Nationality</label><br>'.ucwords($emp->nationality);
+  				$col4->close();
+  			$row6->close();
+  			echo '<br>';
+			$row7 = $ui->row()->open();
+  				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Pay Scale</label><br><u>Pay Band</u> =>'.strtoupper($emp->pay_band).' ('.$emp->pay_band_description.')<br>
                     <u>Grade Pay</u> =>'.$emp->grade_pay.'<br>
-                    <u>Basic Pay</u> =>'.$emp->basic_pay.'
-                </td>
-            </tr>';
-
-    		$table->close();
+                    <u>Basic Pay</u> =>'.$emp->basic_pay;
+  				$col1->close();
+  				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Office no.</label><br>'.$emp->office_no;
+  				$col2->close();
+  				$col3 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Fax</label><br>'.$emp->fax;
+  				$col3->close();
+  				$col4 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
+  					echo '<label>Hobbies</label><br>'.((trim(ucfirst($emp->hobbies))=='')? 'NA':ucfirst($emp->hobbies));
+  				$col4->close();
+  				$col5 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
+  					echo '<label>Favourite Past Time</label><br>'.((trim(ucfirst($emp->fav_past_time))=='')? 'NA':ucfirst($emp->fav_past_time));
+  				$col5->close();
+  			$row7->close();
     	$col->close();
     $row->close();
 }

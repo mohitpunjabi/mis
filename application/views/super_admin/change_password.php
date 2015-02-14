@@ -1,8 +1,7 @@
 <script type="text/javascript" language="javascript">
-      window.onload = function()
-      {
-          onload_emp_id();
-      };
+$(document).ready(function() {
+	onload_emp_id();
+});
 </script>
 <?php
 $ui = new UI();
@@ -26,7 +25,7 @@ $ui = new UI();
 						->label('Employee Id')
 						->name('emp_id')
 						->id('emp_id')
-						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))//Enter options
+						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))
 						->show();
 					$r1col1->close();
 					$r1col2 = $ui->col()->width(8)->m_width(8)->t_width(8)->open();
@@ -41,8 +40,8 @@ $ui = new UI();
 							->name('emp_dept')
 							->id('emp_dept')
 							->extras('onchange="onclick_empname();"')
-							->options(array($ui->option()->value('0')->text('Select Employee Department')->disabled()->selected()
-											,$ui->option()->value('1')->text('Select Employee')))//Enter options
+							->options(array($ui->option()->value('0')
+									->text('Select Employee Department')->disabled()->selected()))
 							->show();
 					$r2col1->close();
 				$row2->close();
@@ -53,7 +52,7 @@ $ui = new UI();
 							->label('Employee name')
 							->name('employee_select')
 							->id('employee_select')
-							->options(array($ui->option()->value('0')->text('Select Employee')->disabled()->selected()))//Enter options
+							->options(array($ui->option()->value('0')->text('Select Employee')->disabled()->selected()))
 							->show();
 					$r3col1->close();
 				$row3->close();	

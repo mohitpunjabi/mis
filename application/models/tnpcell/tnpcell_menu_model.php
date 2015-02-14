@@ -7,7 +7,7 @@ class TnpCell_menu_model extends CI_Model
 		// Calling the Model parent constructor
 		parent::__construct();
 	}
-var $table_projects = 'tnp_cv_projects';
+	var $table_projects = 'tnp_cv_projects';
     var $table_achievements='tnp_cv_achievements';
 	function getMenu()
 	{
@@ -21,24 +21,27 @@ var $table_projects = 'tnp_cv_projects';
     
     $menu=array();
     /*Student*/
-		$menu['stu']=array();
-
-     	$menu['stu']['T&P']=array();
-    	$menu['stu']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
-		$menu['stu']['T&P']["View JNF"] = site_url('tnpcell/View_JNF/');
-    	
-		
-		$menu['tpo']=array();
-      	$menu['tpo']['T&P']=array();
-      	$menu['tpo']['T&P']["View JNF"] = site_url('tnpcell/CV/');
-		$menu['tpo']['T&P']["View Contact of Companies"] = site_url('tnpcell/CV/');
-		$menu['tpo']['T&P']["View JNF"] = site_url('tnpcell/CV/');
-		$menu['tpo']['T&P']["View JNF"] = site_url('tnpcell/CV/');
-		
-    	$menu['tpo']=array();
-     	$menu['tpo']['T&P']=array();
-      	$menu['tpo']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
-		return $menu;
+	$menu['stu']=array();
+    $menu['stu']['T&P']=array();      
+	if($flag==0)
+		$menu['stu']['T&P']["Fill CV"] = site_url('tnpcell/CV/');
+    else 
+    {
+        $menu['stu']['T&P']["View CV"] = site_url('tnpcell/CV/print_cv');
+        $menu['stu']['T&P']["Edit CV"] = site_url('tnpcell/CV/edit_cv');
+    }
+	$menu['stu']['T&P']["View JNF"] = site_url('tnpcell/view_jnf/');
+	$menu['stu']['T&P']["Company Info"] = site_url('tnpcell/company_info');  
+	
+    /*T&P Officer*/
+    $menu['tpo']=array();
+	$menu['tpo']["View JNF"] = site_url('tnpcell/view_jnf');
+	$menu['tpo']["Manage Portal"]['Open/Close Registration portal'] = site_url('tnpcell/manage_portal/');  
+	$menu['tpo']["Manage Portal"]['View Registered Students'] = site_url('tnpcell/manage_portal/');  
+	$menu['tpo']["Manage Portal"]['Manage Placement Calender'] = site_url('tnpcell/allot_date/');  
+	
+	$menu['tpo']["Company Info"] = site_url('tnpcell/company_info');  
+	return $menu;
 	}
 }
 /* End of file menu_model.php */

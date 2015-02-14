@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class View_jnf extends MY_Controller {
+class Manage_portal extends MY_Controller {
 
 	function __construct()
 	{
-		parent::__construct(array('tpo', 'stu'));
+		parent::__construct(array('tpo'));
 		$this->load->model('course_structure/basic_model','',true);
 		$this->load->model('tnpcell/tnp_basic_model','',true);
 	}
@@ -12,8 +12,8 @@ class View_jnf extends MY_Controller {
 	{
 		$data = array();
 		$data['company_basic_info'] = $this->tnp_basic_model->get_company_basic_details("");
-		$this->drawHeader("Select Company");
-		$this->load->view('tnpcell/select_company',$data);
+		$this->drawHeader("Training and Placement Portal");
+		$this->load->view('tnpcell/manage_portal',$data);
 		$this->drawFooter();
 	}
 	public function ViewJNF()

@@ -29,9 +29,35 @@ class Tnp_basic_model extends CI_Model
 		return $query->result();	
 	}
 	
+	function get_company_basic_details_not_given_dates($company_id)
+	{
+		if($company_id != '')
+			$this->db->where("jnf_users.company_id",$company_id);
+		$this->db->where("jnf_users.company_id NOT IN (SELECT company_id FROM tnp_calender)");
+		$this->db->distinct();
+		$this->db->join($this->table_jnf_user_details,"jnf_user_details.company_id = jnf_users.company_id");
+		$query = $this->db->get($this->table_jnf_users);
+		return $query->result();	
+	}
+	
+	function get_alloted_company_basic_details($company_id)
+	{
+		if($company_id != '')
+			$this->db->where("jnf_users.company_id",$company_id);
+			
+		$this->db->where("jnf_users.company_id IN (SELECT company_id FROM tnp_calender)");
+		$this->db->distinct();
+		$this->db->join($this->table_jnf_user_details,"jnf_user_details.company_id = jnf_users.company_id");
+		$query = $this->db->from($this->table_jnf_users);
+		$query = $this->db->from($this->table_tnp_calender);
+		$query = $this->db->get();
+		
+		return $query->result();	
+	}
+	
 	function get_company_list()
 	{		
-		$query = $this->db->query("SELECT user_id,jnf_users.company_id,jnf_user_details.company_name,jnf_user_details.website,jnf_user_details.session,		jnf_salary.ctc,jnf_salary.gross,jnf_salary.take_home,jnf_company_details.category,jnf_company_details.industry,jnf_company_details.job_designation,jnf_company_details.job_description,jnf_company_details.job_posting FROM jnf_users INNER JOIN jnf_user_details ON jnf_user_details.company_id = jnf_users.company_id INNER JOIN jnf_salary ON jnf_salary.company_id = jnf_users.company_id INNER JOIN jnf_company_details ON jnf_company_details.company_id = jnf_users.company_id");
+		$query = $this->db->query("SELECT user_id,jnf_users.company_id,jnf_user_details.company_name,jnf_user_details.website,jnf_user_details.session,		jnf_salary.ctc,jnf_salary.gross,jnf_salary.take_home,jnf_company_details.category,jnf_company_details.industry,jnf_company_details.job_designation,jnf_company_details.job_description,jnf_company_details.job_posting,tnp_calender.date_from,tnp_calender.date_to,tnp_calender.status FROM jnf_users INNER JOIN jnf_user_details ON jnf_user_details.company_id = jnf_users.company_id INNER JOIN jnf_salary ON jnf_salary.company_id = jnf_users.company_id INNER JOIN jnf_company_details ON jnf_company_details.company_id = jnf_users.company_id INNER JOIN tnp_calender ON tnp_calender.company_id = jnf_users.company_id");
 		return $query->result();	
 	}
 	
@@ -75,12 +101,11 @@ class Tnp_basic_model extends CI_Model
 		return $query->result();	
 	}
 	
-	
-	
 	function get_company_in_date_range($from,$to)
 	{
-		$this->db->where("date_from >= ".$from);
-		$this->db->where("date_to <= ".$to);
+		$this->db->where("date_from >= '$from' AND date_from <= '$to'");
+		$this->db->or_where("date_to >= '$from' AND date_to <= '$to'");
+		$this->db->or_where("date_from <= '$from' AND date_to >= '$to'");
 		$this->db->join("jnf_user_details","jnf_user_details.company_id = tnp_calender.company_id");
 		$query = $this->db->get($this->table_tnp_calender);
 		return $query->result();	
@@ -92,6 +117,14 @@ class Tnp_basic_model extends CI_Model
 		$query = $this->db->insert_string($this->table_tnp_calender, $tnp_calender);
 		$query = str_replace('INSERT INTO','INSERT IGNORE INTO',$query);
 		$this->db->query($query);
+		return $this->db->affected_rows();	
+	}
+	
+	function update_tnp_calender($tnp_calender,$company_id)
+	{
+		$this->db->where("company_id",$company_id);
+		$query = $this->db->update($this->table_tnp_calender,$tnp_calender);
+		//$this->db->query($query);
 		return $this->db->affected_rows();	
 	}
 }

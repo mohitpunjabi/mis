@@ -1124,11 +1124,12 @@
                                               ->open();
                 $shift_submit_button_col->close();
 
-                $ui->input()
-                   ->type('submit')
+                $ui->button()
+                   ->submit(true)
                    ->value('Submit')
-                   ->width(2)
+                   ->uiType('primary')
                    ->id('submit_button_id')
+                   ->width(2)
                    ->show();
 
             $student_details_row->close();

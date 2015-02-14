@@ -159,9 +159,10 @@
 
                         $educational_details_2_1->close();
 
-                        $ui->input()
-                           ->type('submit')
+                        $ui->button()
+                           ->submit(true)
                            ->value('Update')
+                           ->uiType('primary')
                            ->width(2)
                            ->show();
 

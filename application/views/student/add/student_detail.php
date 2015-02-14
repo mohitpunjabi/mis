@@ -345,12 +345,14 @@
                                                            ->title('Guardian\'s Details')
                                                            ->open();
 
+                            echo '<input type="checkbox" name="depends_on" id="depends_on"/>        ';
+
                             echo '<label>Fill Guardian Details</label>';
 
-                            $ui->checkbox()
+                            /*$ui->checkbox()
                                ->name('depends_on')
                                ->id('depends_on')
-                               ->show();
+                               ->show();*/
 
                             $ui->input()
                                ->label('Guardian\'s Name')
@@ -532,7 +534,7 @@
                                                        ->open();
                         $check_corr_address_col_0->close();
 
-                        $check_corr_address_col_1 = $ui->col()
+                        /*$check_corr_address_col_1 = $ui->col()
                                                        ->width(1)
                                                        ->open();
 
@@ -542,11 +544,13 @@
                                ->checked()
                                ->show();
 
-                        $check_corr_address_col_1->close();
+                        $check_corr_address_col_1->close();*/
 
                         $check_corr_address_col_2 = $ui->col()
                                                        ->width(7)
                                                        ->open();
+
+                            echo '<input type="checkbox" name="correspondence_addr" id="correspondence_addr" checked/>        ';
 
                             echo '<label>Correspondence address same as Permanent address.</label>';
 

@@ -20,13 +20,20 @@ $ui = new UI();
 				{
 					$date_from =  date("d-M-Y", strtotime($row->date_from));
 					$date_to =  date("d-M-Y", strtotime($row->date_to));
+					
 					echo '
 						<tr>
 							<td>'.$sno++.'</td>
-							<td>'.$date_from." to ".$date_to.'</td>
+							<td>'.((isset($row->date_from) && isset($row->date_to))?($date_from." to ".$date_to):"No Date Proposed").'</td>
 							<td>'.$row->company_name."(".$row->job_posting.")<br>(<a href = ".$row->website.">".$row->website."</a>)".'</td>
 							<td>'.$row->ctc."<br>".$row->gross."<br>".$row->take_home.'</td>
-							<td>Date '.$row->status.'</td>
+							<td>';
+							if(isset($row->status))
+								$ui->label()->uiType("info")->text($row->status)->show();
+							else
+								$ui->label()->uiType("warning")->text("Pending")->show();
+					echo 
+							'</td>
 						</tr>';
 				}
 				$table->close();

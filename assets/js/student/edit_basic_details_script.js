@@ -32,7 +32,7 @@
 			document.getElementById('father_gross_income').value = '';
 			document.getElementById('mother_gross_income').value = '';
 			document.getElementById('depends_on').checked = true;
-			depends_on_whom1();
+			depends_on_whom();
 		}
 		else
 		{
@@ -43,7 +43,7 @@
 		select_exam_scores();
 		if(document.getElementById('roll_no').value == 'na')
 			document.getElementById('roll_no').value = '';
-		corrAddr1();
+		corrAddr();
 
 		$('#form_submit').on('submit', function(e) {
 			if(!form_validation())
@@ -62,11 +62,11 @@
 			select_exam_scores();
 		});
 
-		$('#correspondence_addr').on('change', function() {
+		$('#correspondence_addr').on('ifChanged', function() {
 			corrAddr();
 		});
 
-		$('[name="depends_on"]').on('change', function() {
+		$('[name="depends_on"]').on('ifChanged', function() {
     		depends_on_whom();
 		});
 	});
@@ -261,7 +261,7 @@
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
-        if(!y.checked)
+        if(y.checked)
         {
         	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
@@ -297,7 +297,7 @@
 		var fgai=document.getElementById("father_gross_income");
 		var mgai=document.getElementById("mother_gross_income");
 
-		if(!dpe)
+		if(dpe)
 		{
 			m.disabled=true;
 			f.disabled=true;

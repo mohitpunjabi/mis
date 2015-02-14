@@ -402,14 +402,16 @@
                                                            ->title('Guardian\'s Details')
                                                            ->open();
 
+                            ?><input type='checkbox' id ="depends_on"  name="depends_on" <?php if($stu_other_details->guardian_name != 'na') echo "checked"; ?>/><?php
+
                             echo '<label>Fill Guardian Details</label>';
 
-                            $ui->checkbox()
+                            /*$ui->checkbox()
                                ->name('depends_on')
                                ->id('depends_on')
                                //->checked()
                                ->checked($stu_other_details->guardian_name != 'na')
-                               ->show();
+                               ->show();*/
 
                             $ui->input()
                                ->label('Guardian\'s Name')
@@ -894,7 +896,7 @@
                                                        ->open();
                         $check_corr_address_col_0->close();
 
-                        $check_corr_address_col_1 = $ui->col()
+                        /*$check_corr_address_col_1 = $ui->col()
                                                        ->width(1)
                                                        ->open();
 
@@ -904,11 +906,13 @@
                                ->checked(!$coress_recv)
                                ->show();
 
-                        $check_corr_address_col_1->close();
+                        $check_corr_address_col_1->close();*/
 
                         $check_corr_address_col_2 = $ui->col()
                                                        ->width(7)
                                                        ->open();
+
+                            ?><input type='checkbox' id ="correspondence_addr"  name="correspondence_addr" <?php if(!$correspondence_address) echo "checked"; ?>/><?php 
 
                             echo '<label>Correspondence address same as Permanent address.</label>';
 

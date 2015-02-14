@@ -53,16 +53,34 @@ $tabsRow = $ui->row()->open();
 													background-size: auto 100%;
 													background-position: 50% 50%;
 													background-repeat: no-repeat;
-												" class="print-no-display"></td>
+												" data-photo-url="'.base_url().'assets/images/guard/'.$guard->photo.'" class="print-no-display photo-zoom"></td>
 								<td><center>'.$guard->firstname.' '.$guard->middlename.' '.$guard->lastname.'</center></td>
 								<td align="center">'.$guard->mobilenumber.'</td>
 								<td align="center">'.$guard->localaddress.'</td>
 								<td align="center">'.date('d M Y',strtotime($guard->dateofjoining)+19800).'</td>
 								<td align="center" class="print-no-display">';
 						?>
-									  <a href="<?= base_url()."index.php/guard/manage_guard/edit/".$guard->Regno ?>" onclick="return confirm('Are you sure you want to edit?')">Edit</a>
+									  <a href="<?= base_url()."index.php/guard/manage_guard/edit/".$guard->Regno ?>" onclick="return confirm('Are you sure you want to edit?')">
+									  <?php
+										$ui->button()
+										   ->uiType('primary')
+										   ->icon($ui->icon('edit'))
+										   ->mini()
+										   ->value('Edit')
+										   ->show();
+									  ?>
+									  </a>
 									  </td><td align="center" class="print-no-display">
-									  <a href="<?= base_url()."index.php/guard/manage_guard/remove/".$guard->Regno ?>" onclick="return confirm('Are you sure you want to remove?')">Remove</a>
+									  <a href="<?= base_url()."index.php/guard/manage_guard/remove/".$guard->Regno ?>" onclick="return confirm('Are you sure you want to remove?')">
+									  <?php
+										$ui->button()
+										   ->uiType('danger')
+										   ->icon($ui->icon('remove'))
+										   ->mini()
+										   ->value('Remove')
+										   ->show();
+									  ?>
+									  </a>
 								</td>
 						<?php
 							echo '</tr>';
@@ -115,7 +133,7 @@ $tabsRow = $ui->row()->open();
 													background-size: auto 100%;
 													background-position: 50% 50%;
 													background-repeat: no-repeat;
-												" class="print-no-display"></td>
+												" data-photo-url="'.base_url().'assets/images/guard/'.$guard->photo.'" class="print-no-display photo-zoom"></td>
 								<td><center>'.$guard->firstname.' '.$guard->middlename.' '.$guard->lastname.'</center></td>
 								<td align="center">'.$guard->mobilenumber.'</td>
 								<td align="center">'.$guard->fathersname.'</td>

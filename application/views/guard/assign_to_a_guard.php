@@ -2,7 +2,7 @@
 $ui = new UI();
 $headingBox = $ui->box()
 				 ->uiType('info')
-				 ->title('Assign Duty to a Guard for tomorrow ( '.date(('d M Y'),strtotime(date("Y-m-d")) + 86400).' )')
+				 ->title('Assign Duty to a Guard for tomorrow ( '.date(('d M Y'),strtotime(date("Y-m-d")) + 86400 + 19800 ).' )')
 				 ->solid()
 				 ->open();
 	$form = $ui->form()
@@ -154,7 +154,7 @@ $headingBox = $ui->box()
 		   ->id('date')
 		   ->name('date')
 		   ->extras("type='hidden'")
-		   ->value(date(('Y-m-d'),strtotime(date("Y-m-d")) + 86400))
+		   ->value(date(('Y-m-d'),strtotime(date("Y-m-d")) + 86400 + 19800))
 		   ->show();			
 	$form->close();
 $headingBox->close();	

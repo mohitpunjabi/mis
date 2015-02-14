@@ -273,7 +273,7 @@ $headingBox = $ui->box()
                               ->t_width(8)
                               ->m_width(12)
                               ->open();
-                 $ui->imagePicker()->name('photo')->id('photo')->required()->show();
+                 $ui->imagePicker()->name('photo')->id('photo')->addonLeft($ui->icon("upload"))->required()->show();
 				 echo '(*size less than 1 MB jpeg/bmp/png/jpg/gif)';
             $photoinput->close();
 
@@ -296,6 +296,7 @@ $headingBox = $ui->box()
 							  
 						$ui->button()
 						   ->value('Add')
+						   ->icon($ui->icon('plus'))
 						   ->uiType('primary')
 						   ->submit()
 						   ->name('addsubmit')

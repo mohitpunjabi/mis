@@ -92,7 +92,7 @@ class Element {
 	function width($w = 6) {
 		//desktop width..........(md)
 		$this->width = $w;
-		
+
 		// Temporarily setting large width equal to the width
 		$this->ld_width = $w;
 		return $this;
@@ -151,12 +151,12 @@ class Element {
 
 	function _parse_container_attributes() {
 		$att = '';
-		
+
 		if($this->width > 0)	$this->containerClasses('col-md-' . $this->width);
 		if($this->t_width > 0)	$this->containerClasses('col-sm-' . $this->t_width);
 		if($this->m_width > 0)	$this->containerClasses('col-xs-' . $this->m_width);
 		if($this->ld_width > 0)	$this->containerClasses('col-lg-' . $this->ld_width);
-		
+
 		foreach ($this->containerProps as $key => $val) {
 			if($key == 'extras')
 				$att .= $val . ' ';
@@ -182,7 +182,7 @@ class Element {
 
 
 class Row extends Element {
-	
+
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > Row Class Initialized");
@@ -278,20 +278,20 @@ class Box extends Element {
 		$this->icon = $icon;
 		return $this;
 	}
-	
+
 	function tooltip($tooltip = "") {
 		$this->tooltip = $tooltip;
 		return $this;
 	}
-	
+
 
 	function open() {
 		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
                     <div class="box-header" '.$tooltipAttr.'>';
-		
+
 		if($this->icon) $this->icon->show();
-		
+
 		echo '
                         <h3 class="box-title">'.$this->title.'</h3>
                     </div>
@@ -326,7 +326,7 @@ class TabBox extends Box {
 		if($active) $this->activeId = $id;
 		return $this;
 	}
-	
+
 	function open() {
 		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
@@ -358,7 +358,7 @@ class TabBox extends Box {
 		echo '</ul>';
 
 		echo '<div class="tab-content">';
-		
+
         return $this;
 	}
 
@@ -375,17 +375,17 @@ class TabPane extends Element {
 		parent::__construct();
 		$this->containerClasses("tab-pane");
 	}
-	
+
 	public function active() {
 		$this->containerClasses('active');
 		return $this;
 	}
-	
+
 	public function open() {
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 		return $this;
 	}
-	
+
 	public function close() {
 		echo '</div>';
 	}
@@ -453,7 +453,7 @@ class Table extends Element {
 		$this->paginated = $type;
 		return $this;
 	}
-	
+
 	protected function isDataTable() {
 		return $this->searchable || $this->sortable || $this->paginated;
 	}
@@ -596,31 +596,31 @@ class Input extends Element {
 		$this->uiType = $uiType;
 		return $this;
 	}
-	
+
 	function addonLeft($addon) {
 		$this->addonLeft = $addon;
 		return $this;
 	}
-	
+
 	function addonRight($addon) {
 		$this->addonRight = $addon;
 		return $this;
 	}
-	
+
 	protected function shouldMakeInputGroup() {
 		return $this->addonLeft != null || $this->addonRight != null;
 	}
-	
+
 	protected function openAddon() {
 		if($this->shouldMakeInputGroup()) echo '<div class="input-group">';
 		$this->makeAddon($this->addonLeft);
 	}
-	
+
 	protected function closeAddon() {
 		$this->makeAddon($this->addonRight);
 		if($this->shouldMakeInputGroup()) echo '</div>';
 	}
-	
+
 	protected function makeAddon($addon) {
 		if($addon instanceof Button) {
 			echo '<div class="input-group-btn">';
@@ -648,7 +648,7 @@ class Input extends Element {
 					 ->show();
 		}
 	}
-	
+
 	function show() {
 		//form-group div
 		echo '<div '.$this->_parse_container_attributes().'>';
@@ -659,7 +659,7 @@ class Input extends Element {
 			$this->openAddon();
 			echo "<input " . $this->_parse_attributes() . " />";
 			$this->closeAddon();
-			
+
 		echo "</div>";
 	}
 
@@ -760,7 +760,7 @@ class Textarea extends Input {
 			// textarea don't use the value attribute
 			$value = $this->properties['value'];
 			unset($this->properties['value']);
-			
+
 			echo "<textarea " . $this->_parse_attributes() . ">" . $value;
 			echo "</textarea>";
 
@@ -774,7 +774,7 @@ class Select extends Input {
 
 	var $options = array();
 	var $multiple = false;
-	
+
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > Select Class Initialized");
@@ -790,7 +790,7 @@ class Select extends Input {
 		$this->properties['multiple'] = 'multiple';
 		return $this;
 	}
-	
+
 	function show() {
 		echo '<div '.$this->_parse_container_attributes().'>';
 
@@ -806,9 +806,9 @@ class Select extends Input {
 			foreach($this->options as $option)
 				$option->show();
 			echo "</select>";
-		
+
 		$this->closeAddon();
-		
+
 		echo "</div>";
 	}
 }
@@ -826,7 +826,7 @@ class Button extends Input {
 		parent::__construct();
 		$this->classes('btn');
 		$this->properties['type'] = 'button';
-		
+
 		// This is a hack
 		$this->properties['class'] = str_replace("form-control", "", $this->properties['class']);
 	}
@@ -850,12 +850,12 @@ class Button extends Input {
 		$this->flat = $flat;
 		return $this;
 	}
-	
+
 	function block($block = true) {
 		$this->block = $block;
 		return $this;
 	}
-	
+
 	function icon($icon) {
 		$this->icon = $icon;
 		return $this;
@@ -875,7 +875,7 @@ class Button extends Input {
 		if($this->properties['disabled'] != '')	$this->classes('disabled');
 
 		if($this->submit)		$this->properties['type'] = 'submit';
-		
+
 		$val = $this->properties['value'];
 		echo '<button '.$this->_parse_attributes().' >';
 		if($this->icon) {
@@ -963,7 +963,7 @@ class Label extends Element {
 					case "error":	$icon = '<i class="fa fa-times-circle-o"></i> ';break;
 					case "warning":	$icon = '<i class="fa fa-warning"></i> ';break;
 				}
-			}			
+			}
 		}
 		else {
 			$this->classes("label");
@@ -1077,17 +1077,17 @@ class Callout extends Alert {
 class DatePicker extends Input {
 	var $label = '';
 	var $dateFormat = 'dd-mm-yyyy';
-	
+
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > DatePicker Class Initialized");
 	}
-	
+
 	function dateFormat($dateFormat = 'dd-mm-yyyy') {
 		$this->dateFormat = $dateFormat;
-		return $this; 
+		return $this;
 	}
-	
+
 	function show() {
 		$this->containerExtras('data-date-format="'.$this->dateFormat.'"');
 		parent::show();
@@ -1098,11 +1098,11 @@ class DatePicker extends Input {
 						autoclose: true,
 						todayBtn: "linked"
 			});';
-		
+
 		if($this->properties['value'] != '') {
 			echo '$("#'.$this->properties["id"].'").datepicker("setDate", moment("'.$this->properties['value'].'", "'.strtoupper($this->dateFormat).'").toDate());';
 		}
-				
+
         echo '</script>';
 	}
 }
@@ -1117,7 +1117,7 @@ class ImagePicker extends Input {
 	}
 
 	function show() {
-		$addon = '<img style="height: 40px;" />';
+		$addon = '<img style="height: 58px; max-width: 200px !important;" src="'.base_url().'assets/images/noProfileImage.png" />';
 
 		$this->type("file")
 			 ->extras(' accept="image/*" style="padding: 0; height: 60px;" ')
@@ -1137,7 +1137,11 @@ class ImagePicker extends Input {
 					};
 					reader.readAsDataURL(input.files[0]);
 				});
+
+			<!-- This is a hack -->
+			$("#'.$this->properties['id'].'").next().addClass("no-padding");
 			});
+
 		</script>
 		';
 	}
@@ -1228,19 +1232,19 @@ class Slider extends Input {
 		$this->openAddon();
 
 			unset($this->properties['value']);
-	
+
 		echo '
 		<input '.$this->_parse_attributes().' />';
         $this->closeAddon();
 		echo '
 		</div>
-		
+
 		<script type="text/javascript">
 			$("#'.$this->properties['id'].'").ionRangeSlider({
                     min: '.$this->min.',
                     max: '.$this->max.',
 					from: '.$this->datafrom.',';
-	
+
 		if($this->rangetype)
 		{
 				echo '
@@ -1254,7 +1258,7 @@ class Slider extends Input {
              echo	' prefix: "'.$this->prefix.'",';
 		if($this->postfix!="")
 			echo	' postfix: "'.$this->postfix.',"';
-            
+
 			echo     'prettify: false,';
 			if($this->grid)
 				echo 'hasGrid: true';

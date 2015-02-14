@@ -80,7 +80,7 @@ $form = $ui->form()->id('emp_fam_details')->multipart()->action('employee/add/in
         $col->close();
     $row->close();
     $ui->button()->submit()->id('add_btn')->name('submit')->value("Add")->large()->uiType('primary')->icon($ui->icon("plus"))->show();
-    $ui->button()->submit()->classes("pull-right")->value('Next')->name('submit')->large()->uiType('primary')->icon($ui->icon("arrow-right"))->show();
+    $ui->button()->submit()->id('next_btn')->classes("pull-right")->value('Next')->name('submit')->large()->uiType('primary')->icon($ui->icon("arrow-right"))->show();
     echo "<br />";
 $form->close();
 ?>

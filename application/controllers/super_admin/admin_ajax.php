@@ -25,4 +25,22 @@ class Admin_ajax extends MY_Controller
 		$this->user_auth_types_model->delete(array('id'=>$id, 'auth_id'=>$auth));
 		$this->getUsersByDeptAuth($dept,$auth);
 	}
+	public function get_dept()
+	{
+		$this->load->model('departments_model','',TRUE);
+		$data['departments']=$this->departments_model->get_departments();
+		$this->load->view('super_admin/admin_ajax/dept_list',$data);
+	}
+	public function get_emp_id()
+	{
+		$this->load->model('employee/emp_basic_details_model','',TRUE);
+		$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
+		$this->load->view('super_admin/admin_ajax/emp_id_list',$data);
+	}
+	public function get_auths()
+	{
+		$this->load->model('auth_types_model','',TRUE);
+		$data['auths']=$this->auth_types_model->getAllAuths();
+		$this->load->view('super_admin/admin_ajax/auth_type_list',$data);
+	}
 }

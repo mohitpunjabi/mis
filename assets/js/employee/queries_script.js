@@ -6,14 +6,13 @@ function ajax(query_by) {
 		url: site_url("employee/emp_ajax/getEmpBy" + query_by + "/" + $('#query').val())
 	}).done(function(emps) {
 		var data = [];
-		console.log(emps);
 		for(var i = 0; i < emps.length; i++) {
 			var emp = emps[i];
 			data.push(['<a href= "' + site_url('employee/view/index/0/' + emp.id) + '">' + emp.id + '</a>',
 					   emp.salutation + '. ' + emp.first_name + ' ' + emp.middle_name + ' ' + emp.last_name]);
 		}
-		console.log(data);
 		var dispEmployee = $display_employee.dataTable();
+		dispEmployee.fnClearTable(data);
 		dispEmployee.fnAddData(data);
 		$("#table_container").show();
 	}).always(function() {

@@ -2,7 +2,7 @@
 $(document).ready(function() {
 	
 	// Show the loading gif before sending the request
-	$("#compDutyChartBox").showLoading();
+	$("#complete").showLoading();
 	$.ajax({
 		url: site_url("guard/duties/loadcompDutyChart")
 	}).done(function(userData) {
@@ -17,8 +17,7 @@ $(document).ready(function() {
 					'<center>'+users[i].firstname +' ' + users[i].lastname+'</center>',
 					'<center>'+users[i].postname+'</center>',
 					'<center>'+users[i].shift.toUpperCase()+'</center>',
-					//moment(users[i].date,"DD MM YYYY"),
-					'<center>'+users[i].date+'</center>'
+					'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 				];
 			}
 
@@ -26,7 +25,7 @@ $(document).ready(function() {
 		})();
 	}).always(function() {
 		// Hide the loading gif, when request is complete.
-		$("#compDutyChartBox").hideLoading();
+		$("#complete").hideLoading();
 	});
 
 });

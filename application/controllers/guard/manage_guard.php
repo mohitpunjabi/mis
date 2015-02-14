@@ -22,7 +22,7 @@ class Manage_guard extends MY_Controller
 			
 			$upload=$this->upload_file('photo',$this->input->post('Regno'));
 			
-			$date = date("Y-m-d");
+			$date = date("Y-m-d",strtotime(date("Y-m-d"))+19800);
 			
 			$data = array('Regno'=>$this->input->post('Regno'),
 					  'firstname'=>$this->input->post('firstname'),
@@ -60,6 +60,7 @@ class Manage_guard extends MY_Controller
 	
 	function view()
 	{
+		$this->addJS('guard/view_guards_detail.js');
 		$this->load->model('guard/guard_model');
 		$data['personal_details_of_guards'] = $this->guard_model->get_personal_details_of_guards();
 		$data['personal_details_of_guards_archive'] = $this->guard_model->get_personal_details_of_guards_archive();
@@ -82,7 +83,7 @@ class Manage_guard extends MY_Controller
 		$this->load->model('guard/guard_model');
 		
 		$data = $this->guard_model->get_details_of_a_guard($regno);
-		$data['removed_on'] = date("Y-m-d");
+		$data['removed_on'] = date("Y-m-d",strtotime(date("Y-m-d"))+19800);
 		
 		$this->guard_model->insert_into_archive($data);
 		
@@ -94,7 +95,7 @@ class Manage_guard extends MY_Controller
 	
 	function edit($regno='')
 	{
-		
+		$this->addJS('guard/edit_guard_details.js');
 		if($this->input->post('savesubmit') == TRUE)
 		{
 			if($_FILES['photo']['name'] != '')
@@ -103,7 +104,6 @@ class Manage_guard extends MY_Controller
 				
 				if($upload)
 				{
-					$date = date("Y-m-d");
 					
 					$data = array('Regno'=>$this->input->post('Regno'),
 							  'firstname'=>$this->input->post('firstname'),
@@ -115,8 +115,7 @@ class Manage_guard extends MY_Controller
 							  'mobilenumber'=>$this->input->post('mobilenumber'),
 							  'dateofbirth'=>$this->input->post('dateofbirth'),
 							  'dateofjoining'=>$this->input->post('dateofjoining'),
-							  'photo'=>$upload['file_name'],
-							  'added_on'=>$date
+							  'photo'=>$upload['file_name']
 							  );		
 
 					$this->load->model('guard/guard_model');
@@ -125,7 +124,6 @@ class Manage_guard extends MY_Controller
 			}
 			else
 			{
-				$date = date("Y-m-d");
 				
 				$data = array('Regno'=>$this->input->post('Regno'),
 						  'firstname'=>$this->input->post('firstname'),
@@ -136,8 +134,7 @@ class Manage_guard extends MY_Controller
 						  'permanentaddress'=>$this->input->post('permanentaddress'),
 						  'mobilenumber'=>$this->input->post('mobilenumber'),
 						  'dateofbirth'=>$this->input->post('dateofbirth'),
-						  'dateofjoining'=>$this->input->post('dateofjoining'),
-						  'added_on'=>$date
+						  'dateofjoining'=>$this->input->post('dateofjoining')
 						  );		
 
 				$this->load->model('guard/guard_model');

@@ -93,10 +93,9 @@ class Guard_model extends CI_Model
 		return $query->result();
 	}
 	
-	function get_details_of_guard_at_a_date_A($date)
+	function get_details_of_guard_at_a_date($date)
 	{
 		$this->db->where('date',$date);
-		$this->db->where('guard_duty.shift','a');
 		$query = $this->db->select("guard_duty.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
 						  ->from('guard_duty')
 						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
@@ -106,9 +105,11 @@ class Guard_model extends CI_Model
 
 		return $query->result();
 	}
-	function get_details_of_guard_at_a_date($date)
+	
+	function get_details_of_guard_at_a_date_A($date)
 	{
 		$this->db->where('date',$date);
+		$this->db->where('guard_duty.shift','a');
 		$query = $this->db->select("guard_duty.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
 						  ->from('guard_duty')
 						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
@@ -161,7 +162,7 @@ class Guard_model extends CI_Model
 	
 	function get_guards_with_duties()
 	{
-		$date = date("Y-m-d");
+		$date = date("Y-m-d",strtotime(date("Y-m-d"))+19800);
 		$query = "SELECT t.* , guard_post.postname AS postname
 				  FROM (
 						SELECT DISTINCT guard_guards.Regno AS Regno, firstname, lastname,photo, guard_duty.post_id AS post_id, guard_duty.shift AS shift
@@ -175,6 +176,23 @@ class Guard_model extends CI_Model
 		$query = $this->db->query($query);
 		
 		return $query->result_array();
+	}
+	
+	function get_details_of_guard_in_a_range($fromdate, $todate, $regno)
+	{
+		
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$this->db->where('guard_guards.Regno',$regno);
+		$query = $this->db->select("guard_duty.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_duty')
+						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
+						  ->join("guard_post", "guard_duty.post_id = guard_post.post_id")
+						  ->order_by("guard_duty.date","asc")
+						  ->order_by("guard_post.postname","asc")
+						  ->get();
+						 
+		return $query->result();
 	}
 	
 	function get_details_of_guard_in_a_range_A($fromdate, $todate, $regno)
@@ -270,6 +288,24 @@ class Guard_model extends CI_Model
 
 	}
 	
+	function get_details_of_guards_in_a_range($fromdate, $todate)
+	{
+		
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$query = $this->db->select("guard_duty.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_duty')
+						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
+						  ->join("guard_post", "guard_duty.post_id = guard_post.post_id")
+						  ->order_by("guard_duty.date","desc")
+						  ->order_by("guard_post.postname","asc")
+						  ->order_by("guard_guards.firstname","asc")
+						  ->get();
+						 
+		return $query->result();
+	}
+	
+	
 	function get_details_of_guards_in_a_range_A($fromdate, $todate)
 	{
 		
@@ -339,6 +375,21 @@ class Guard_model extends CI_Model
 		return $query->result();
 	}
 	
+	function get_details_of_guard_at_a_post_in_a_range($fromdate, $todate, $postname)
+	{
+		$where = "date between '$fromdate' and '$todate'";
+		$this->db->where($where);
+		$this->db->where('guard_duty.post_id',$postname);
+		$query = $this->db->select("guard_duty.*, guard_post.postname as postname, guard_guards.firstname as firstname, guard_guards.lastname as lastname, guard_guards.photo as photo")
+						  ->from('guard_duty')
+						  ->join("guard_guards", "guard_guards.Regno = guard_duty.Regno")
+						  ->join("guard_post", "guard_duty.post_id = guard_post.post_id")
+						  ->order_by("guard_duty.date","desc")
+						  ->order_by("guard_guards.firstname","asc")
+						  ->get();
+						 
+		return $query->result();
+	}
 	
 	function get_details_of_guard_at_a_post_in_a_range_A($fromdate, $todate, $postname)
 	{
@@ -495,17 +546,10 @@ class Guard_model extends CI_Model
 	
 	function check_engage_guard($date,$regno,$from,$to)
 	{
-		$this->db->where('date',$date);
-		$this->db->where('Regno',$regno);
 		$from = (float)$from;
 		$to = (float)$to;
-		$this->db->where("(from_time between $from and $to) OR (to_time between $from and $to)");
-		//$this->db->where("to_time between $from and $to");
-		$query = $this->db->select('Regno')
-						  ->from('guard_over_time')
-						  ->get();
-		
-		return $query->result_array();
+		$query = $this->db->query("SELECT Regno FROM guard_over_time WHERE Regno = '$regno' AND date = '$date' AND ((from_time > $from AND from_time < $to) OR (to_time > $from AND to_time <$to))");
+		return $query->result();
 	}
 	
 	function check_regular($date)
@@ -546,7 +590,7 @@ class Guard_model extends CI_Model
 	
 	function get_all_tomorrow_duties()
 	{
-		$date = date('Y-m-d',strtotime(date("Y-m-d"))+86400);
+		$date = date('Y-m-d',strtotime(date("Y-m-d"))+86400+19800);
 		$this->db->where('date',$date);
 		$query = $this->db->get('guard_duty');
 		
@@ -555,7 +599,7 @@ class Guard_model extends CI_Model
 	
 	function get_all_today_duties()
 	{
-		$this->db->where('date',date("Y-m-d"));
+		$this->db->where('date',date("Y-m-d",strtotime(date("Y-m-d"))+19800));
 		$query = $this->db->get('guard_duty');
 		
 		return $query->result_array();

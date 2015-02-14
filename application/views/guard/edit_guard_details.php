@@ -1,69 +1,24 @@
-
-<script type="text/javascript">
-$('.-mis-content').delegate(".flash-data.error-msg a.close-btn", 'click', function(e) {
-		e.preventDefault();
-		$(this).parent().remove();
-	});
-function showError(errorMessage, errorTarget) {
-	
-	var errorElement = $('<div class="flash-data error-msg"><a class="close-btn" href="#" style="position: absolute; right: 20px; z-index: 1000;">x</a><p style="opacity: ; top: 0px;" class="notification error">'+errorMessage+'</p></div>');
-	$(errorTarget).prepend(errorElement);
-	$(errorElement).css({
-		"opacity": "0",
-		"margin-top": "-20px"
-	}).animate({
-		opacity: "1",
-		"margin-top": "0px"
-	}, 500);
-}
-function readURL(input) {
-	var allowedTypes = {
-		"image/jpeg": true,
-		"image/bmp": true,
-		"image/png":true,
-		"image/jpg":true,
-		"image/gif":true
-	};
-        if (input.files && input.files[0]) {
-			var file = input.files[0];
-			var errorTarget = '.-mis-content';
-			console.log(file);
-			$(errorTarget).find(".flash-data.error-msg").remove();
-			var error = false;
-			if(!allowedTypes[file.type]) {
-				showError('Invalid filetype.', errorTarget);
-				error = true;
-			}
-			if(file.size > 1024*1024) {
-				showError('Size is greater than 1MB.', errorTarget);
-				error = true;
-			}
-			if(error) {
-				input.value = null;
-				$("#preview").attr("style", "");
-			}
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#preview').css({
-						height: "60px", 
-						width: "60px",
-						"background-image": "url('"+e.target.result+"')",
-						"background-size": "auto 100%",
-						"background-position": "50% 50%",
-						"background-repeat": "no-repeat"
-					});
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+<script>
+$(document).ready(function(){	
+	var photopath = "<?php echo $details_of_a_guard['photo'];?>";
+	$("#edit_photo_container"+" img").attr("src", base_url()+'assets/images/guard/'+photopath);	
+});
 </script>
 <?php
 $ui = new UI();
 $headingBox = $ui->box()
 				 ->uiType('info')
-				 ->title('Edit the details of Guard')
+				 ->title('Edit the details of Guard <div style="height: 30px; 
+									width: 30px;
+									background-image: url('.base_url().'assets/images/guard/'.$details_of_a_guard['photo'].');
+									background-size: auto 100%;
+									background-position: 50% 50%;
+									background-repeat: no-repeat;
+									float: right;
+									margin-left: 10px;
+									"
+									data-photo-url="'.base_url().'assets/images/guard/'.$details_of_a_guard['photo'].'"
+									class="print-no-display photo-zoom"></div>')
 				 ->solid()
 				 ->open();
 	$form = $ui->form()
@@ -117,6 +72,7 @@ $headingBox = $ui->box()
 							  $ui->input()
 							   ->id('firstname')
 							   ->name('firstname')
+							   ->placeholder('Enter First Name')
 							   ->value($details_of_a_guard['firstname'])
 							   ->required()
 							   ->show();
@@ -130,6 +86,7 @@ $headingBox = $ui->box()
                               $ui->input()
 							   ->id('middlename')
 							   ->name('middlename')
+							   ->placeholder('Enter Middle Name')
 							   ->value($details_of_a_guard['middlename'])
 							   ->show();
 
@@ -143,6 +100,7 @@ $headingBox = $ui->box()
 							  $ui->input()
 							   ->id('lastname')
 							   ->name('lastname')
+							   ->placeholder('Enter Last Name')
 							   ->value($details_of_a_guard['lastname'])
 							   ->required()
 							   ->show();
@@ -169,6 +127,7 @@ $headingBox = $ui->box()
 							  $ui->input()
 							   ->id('fathersname')
 							   ->name('fathersname')
+							   ->placeholder('Enter Father\'s Name')
 							   ->value($details_of_a_guard['fathersname'])
 							   ->required()
 							   ->show();
@@ -192,6 +151,7 @@ $headingBox = $ui->box()
 							   ->name('mobilenumber')
 							   ->type('tel')
 							   ->addonLeft($ui->icon("mobile"))
+							   ->placeholder('Enter Mobile Number')
 							   ->value($details_of_a_guard['mobilenumber'])
 							   ->required()
 							   ->show();
@@ -217,6 +177,7 @@ $headingBox = $ui->box()
                               ->open();
 							  $ui->datePicker()
 								 ->name('dateofbirth')
+								 ->placeholder('Enter Date of Birth')
 							   	 ->value($details_of_a_guard['dateofbirth'])
 								 ->addonLeft($ui->icon("calendar"))
 								 ->dateFormat('yyyy-mm-dd')
@@ -239,6 +200,7 @@ $headingBox = $ui->box()
                               ->open();
 							  $ui->datePicker()
 								 ->name('dateofjoining')
+								 ->placeholder('Enter Date of Joining')
 								 ->value($details_of_a_guard['dateofjoining'])
 								 ->addonLeft($ui->icon("calendar"))
 								 ->dateFormat('yyyy-mm-dd')
@@ -267,6 +229,7 @@ $headingBox = $ui->box()
 							  $ui->input()
 							   ->id('localaddress')
 							   ->name('localaddress')
+							   ->placeholder('Enter Local Address')
 							   ->addonLeft($ui->icon("building"))
 							   ->value($details_of_a_guard['localaddress'])
 							   ->required()
@@ -289,6 +252,7 @@ $headingBox = $ui->box()
 							  $ui->input()
 							   ->id('permanentaddress')
 							   ->name('permanentaddress')
+							   ->placeholder('Enter Permanent Address')
 							   ->addonLeft($ui->icon("building"))
 							   ->value($details_of_a_guard['permanentaddress'])
 							   ->required()
@@ -316,6 +280,7 @@ $headingBox = $ui->box()
 							  $ui->input()
 							   ->id('qualification')
 							   ->name('qualification')
+							   ->placeholder('Enter Qualification')
 							   ->addonLeft($ui->icon("book"))
 							   ->value($details_of_a_guard['qualification'])
 							   ->required()
@@ -334,7 +299,7 @@ $headingBox = $ui->box()
                               ->t_width(8)
                               ->m_width(12)
                               ->open();
-                 $ui->imagePicker()->name('photo')->id('photo')->required()->show();
+                 $ui->imagePicker()->name('photo')->id('photo')->addonLeft($ui->icon("upload"))->containerId('edit_photo_container')->show();
 				 echo '(*size less than 1 MB jpeg/bmp/png/jpg/gif)';
             $photoinput->close();
 
@@ -359,6 +324,7 @@ $headingBox = $ui->box()
 						   ->value('Save')
 						   ->uiType('primary')
 						   ->submit()
+						   ->icon($ui->icon('save'))
 						   ->name('savesubmit')
 						   ->show();
 			$bbuttonCol->close();

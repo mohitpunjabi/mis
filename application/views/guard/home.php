@@ -1,110 +1,3 @@
-<script>
-$(document).ready(function(){
-	$('select[name="mode"]').change(function(){
-		var value  = this.value;
-		if(value==''){
-			return;
-		}
-		$("#postname, #date, #rangeofdates, #rangeofdates_postname, #rangeofdates_guard").hide();
-		$("#" + value).show();
-	});
-	$('select[name="mode"]').val("<?php if(isset($mode)) echo $mode; ?>").trigger('change');
-	$('select[name="postname"]').val("<?php if(isset($postname)) echo $postname;?>");
-	$('select[name="postnamer"]').val("<?php if(isset($postnamer)) echo $postnamer;?>");
-	$('select[name="guardname"]').val("<?php if(isset($guardname)) echo $guardname;?>");
-	$('#selectdate').val("<?php if(isset($selectdate)) echo $selectdate; else echo date("Y-m-d");?>");
-	$('#fromdate').val("<?php if(isset($fromdate)) echo $fromdate; else echo date("Y-m-d");?>");
-	$('#fromdateg').val("<?php if(isset($fromdateg)) echo $fromdateg; else echo date("Y-m-d");?>");
-	$('#fromdatep').val("<?php if(isset($fromdatep)) echo $fromdatep; else echo date("Y-m-d");?>");
-	$('#todate').val("<?php if(isset($todate)) echo $todate; else echo date("Y-m-d");?>");
-	$('#todateg').val("<?php if(isset($todateg)) echo $todateg; else echo date("Y-m-d");?>");
-	$('#todatep').val("<?php if(isset($todatep)) echo $todatep; else echo date("Y-m-d");?>");
-});
-</script>
-<script>
-// JavaScript Document
-$(document).ready(function() {
-	$("#postDutyChartBox").hide();
-	$("#postsubmit").click(function(){
-		//alert(document.getElementById("post_id").value);
-		// Show the loading gif before sending the request
-		$("#postDutyChartBox").show();
-		var div = document.getElementById("post-div");
-		var mylist = document.getElementById("post_id");
-		// document.getElementById("demo").value = mylist.options[mylist.selectedIndex].text;
-		div.innerHTML = '( '+mylist.options[mylist.selectedIndex].text+' )';
-		$("#postDutyChartBox").showLoading();
-		$.ajax({
-			url: site_url("guard/home/loadpostDutyChart/" + document.getElementById("post_id").value)
-		}).done(function(userData) {
-			// Process the data
-			(function() {
-				var users = eval(userData);
-				var $usersTable = $("#postDutyChartTable").dataTable();
-				var data = [];
-				for(var i = 0; i < users.length; i++) {
-					data[i] = [
-						'<div class="photo-zoom" data-photo-url="'+ base_url() +'assets/images/guard/' + users[i].photo +'" style="height: 40px; width: 100%; min-width: 40px; background-image: url(\''+ base_url() +'assets//images//guard//' + users[i].photo +'\'); background-size: auto 100%; background-position: 50% 50%; background-repeat: no-repeat;" class="print-no-display"></div>',
-						'<center>'+users[i].firstname +' ' + users[i].lastname+'</center>',				
-						'<center>'+users[i].shift.toUpperCase()+'</center>',
-						//moment(users[i].date,"DD MM YYYY"),
-						'<center>'+users[i].date+'</center>'
-					];
-				}
-
-				$usersTable.fnAddData(data);
-			})();
-		}).always(function() {
-			// Hide the loading gif, when request is complete.
-			$("#postDutyChartBox").hideLoading();
-		});
-	});
-});
-</script>
-<script type="text/javascript">
-$(document).ready(function() {
-	var showPhoto = function () {
-		this.div = $('<div style="border: 2px solid #aaa; position: fixed; height: 300px; width: 300px; min-width: 60px;  background-size: auto 100%; background-position: 50% 50%; background-repeat: no-repeat;"></div>');
-		return this;
-	}
-	showPhoto.prototype = {
-		show: function(imageUrl, x, y, xoffset, yoffset, size, screen) {
-			var top = y-yoffset;
-			if (top + 200 > window.innerHeight) {
-				top -= 120;
-			}
-			this.div.css({
-				"background-image": "url('"+imageUrl+"')",
-				"top": (top)+"px",
-				"left": (x+61-xoffset)+"px",
-				"height": "200px",
-				"width": parseInt(200*size.width/size.height)+"px"
-			});
-			$(document.body).append(this.div);
-		},
-		hide: function() {
-			this.div.detach();
-		}
-	}
-	var photo = new showPhoto();
-	$("#postDutyChartTable").delegate(".photo-zoom", "mouseenter", function(e) {
-		e.preventDefault();
-		console.log(e);
-		var imageUrl = $(this).data('photo-url');
-		// console.log(imageUrl);
-		var image = document.createElement("img");
-		image.src = imageUrl;
-		
-		image.onload = function() {
-			photo.show(imageUrl, e.clientX, e.clientY, e.offsetX, e.offsetY, {height: this.height, width: this.width});
-		};
-	});
-	$("#postDutyChartTable").delegate(".photo-zoom", "mouseout", function(e) {
-		e.preventDefault();
-		photo.hide();
-	});
-});
-</script>
 <?php 
 $ui = new UI();
 $headingBox = $ui->box()
@@ -152,10 +45,6 @@ $headingBox = $ui->box()
 						 ->id('selectqueryRow')
 						 ->open();
 						 
-				$form = $ui->form()
-						   ->multipart()
-						   ->action('guard/home')
-						   ->open();
 				
 					$postnamelabel = $ui->col()
 									  ->width(4)
@@ -200,15 +89,15 @@ $headingBox = $ui->box()
 									->m_width(12)
 									->open();
 						$ui->button()
-						   ->value('Submit')
+						   ->value('Go')
+						   ->icon($ui->icon('arrow-right'))
 						   ->uiType('primary')
 						   ->name('postsubmit')
 						   ->id('postsubmit')
 						   ->show();
 			
 					$buttoncol->close();
-				
-				$form->close();		
+			
 		$selectqueryRow->close();
 	echo '</div>';
 	echo '<div id="date" style="display: none;">';
@@ -216,10 +105,6 @@ $headingBox = $ui->box()
 						 ->id('selectqueryRow')
 						 ->open();
 		
-				$form = $ui->form()
-						   ->multipart()
-						   ->action('guard/home')
-						   ->open();
 				
 				$datelabel = $ui->col()
 									  ->width(4)
@@ -237,6 +122,7 @@ $headingBox = $ui->box()
 
 							$ui->datePicker()
 							->name('selectdate')
+							->id('selectdate')
 							->placeholder("Enter the date")
 							->addonLeft($ui->icon("calendar"))
 							->dateFormat('yyyy-mm-dd')
@@ -251,15 +137,14 @@ $headingBox = $ui->box()
 									->m_width(12)
 									->open();
 						$ui->button()
-						   ->value('Submit')
+						   ->value('Go')
+						   ->icon($ui->icon('arrow-right'))
 						   ->uiType('primary')
-						   ->submit()
+						   ->id('datesubmit')
 						   ->name('datesubmit')
 						   ->show();
 			
 					$buttoncol->close();
-				
-				$form->close();
 				
 	    $selectqueryRow->close();
 	echo '</div>';
@@ -268,10 +153,6 @@ $headingBox = $ui->box()
 						 ->id('selectqueryRow')
 						 ->open();
 		
-				$form = $ui->form()
-						   ->multipart()
-						   ->action('guard/home')
-						   ->open();
 				
 				$rangelabel = $ui->col()
 									  ->width(4)
@@ -289,6 +170,7 @@ $headingBox = $ui->box()
 
 							$ui->datePicker()
 							->name('fromdate')
+							->id('fromdate')
 							->placeholder("From Date")
 							->addonLeft($ui->icon("calendar"))
 							->dateFormat('yyyy-mm-dd')
@@ -306,6 +188,7 @@ $headingBox = $ui->box()
 							
 							$ui->datePicker()
 							->name('todate')
+							->id('todate')
 							->placeholder("To Date")
 							->addonLeft($ui->icon("calendar"))
 							->dateFormat('yyyy-mm-dd')
@@ -320,15 +203,14 @@ $headingBox = $ui->box()
 									->m_width(12)
 									->open();
 						$ui->button()
-						   ->value('Submit')
+						   ->value('Go')
+						   ->icon($ui->icon('arrow-right'))
 						   ->uiType('primary')
-						   ->submit()
+						   ->id('rangesubmit')
 						   ->name('rangesubmit')
 						   ->show();
 			
 					$buttoncol->close();
-				
-				$form->close();
 				
 	    $selectqueryRow->close();
 	echo '</div>';
@@ -337,11 +219,6 @@ $headingBox = $ui->box()
 						 ->id('selectqueryRow')
 						 ->open();
 		
-				$form = $ui->form()
-						   ->multipart()
-						   ->action('guard/home')
-						   ->open();
-				
 					$rangelabel = $ui->col()
 									  ->width(4)
 									  ->t_width(8)
@@ -359,6 +236,7 @@ $headingBox = $ui->box()
 
 							$ui->datePicker()
 							->name('fromdateg')
+							->id('fromdateg')
 							->placeholder("From Date")
 							->addonLeft($ui->icon("calendar"))
 							->dateFormat('yyyy-mm-dd')
@@ -376,6 +254,7 @@ $headingBox = $ui->box()
 							
 							$ui->datePicker()
 							->name('todateg')
+							->id('todateg')
 							->placeholder("To Date")
 							->addonLeft($ui->icon("calendar"))
 							->dateFormat('yyyy-mm-dd')
@@ -404,6 +283,7 @@ $headingBox = $ui->box()
 									}
 									$ui->select()
 									   ->name('guardname')
+									   ->id('guardname')
 									   ->addonLeft($ui->icon("user"))
 									   ->options($guardname_array)
 									   ->required()
@@ -418,15 +298,14 @@ $headingBox = $ui->box()
 									->m_width(3)
 									->open();
 						$ui->button()
-						   ->value('Submit')
+						   ->value('Go')
+						   ->icon($ui->icon('arrow-right'))
 						   ->uiType('primary')
-						   ->submit()
+						   ->id('rangeguardsubmit')
 						   ->name('rangeguardsubmit')
 						   ->show();
 			
 					$buttoncol->close();
-				
-				$form->close();
 				
 	    $selectqueryRow->close();
 		
@@ -436,10 +315,6 @@ $headingBox = $ui->box()
 						 ->id('selectqueryRow')
 						 ->open();
 		
-				$form = $ui->form()
-						   ->multipart()
-						   ->action('guard/home')
-						   ->open();
 				
 					$rangelabel = $ui->col()
 									  ->width(4)
@@ -458,6 +333,7 @@ $headingBox = $ui->box()
 
 							$ui->datePicker()
 							->name('fromdatep')
+							->id('fromdatep')
 							->addonLeft($ui->icon("calendar"))
 							->placeholder("From Date")
 							->dateFormat('yyyy-mm-dd')
@@ -475,6 +351,7 @@ $headingBox = $ui->box()
 							
 							$ui->datePicker()
 							->name('todatep')
+							->id('todatep')
 							->addonLeft($ui->icon("calendar"))
 							->placeholder("To Date")
 							->dateFormat('yyyy-mm-dd')
@@ -503,6 +380,7 @@ $headingBox = $ui->box()
 									}
 									$ui->select()
 									   ->name('postnamer')
+									   ->id('postnamer')
 									   ->addonLeft($ui->icon("building"))
 									   ->options($postname_array)
 									   ->required()
@@ -517,15 +395,15 @@ $headingBox = $ui->box()
 									->m_width(3)
 									->open();
 						$ui->button()
-						   ->value('Submit')
+						   ->value('Go')
+						   ->icon($ui->icon('arrow-right'))
 						   ->uiType('primary')
-						   ->submit()
+						   ->id('rangepostsubmit')
 						   ->name('rangepostsubmit')
 						   ->show();
 			
 					$buttoncol->close();
 				
-				$form->close();
 				
 	    $selectqueryRow->close();
 	echo '</div>';
@@ -540,37 +418,472 @@ $headingBox = $ui->box()
 				 ->title('Details of Guards at post <div style="float:right; margin-left:10px;" id="post-div"></div>')
 				 ->solid()
 				 ->open();
-	
-	$table = $ui->table()
-				->id('postDutyChartTable')
-				->responsive()
-				->hover()
-				->bordered()
-				->striped()
-				->sortable()
-				->paginated()
-				->searchable()
-				->open();
-?>
-		<thead>
-            <tr>
-                <th class="print-no-display" width="30px">Photo</th>
-				<th><center>Guard Name</center></th>
-				<th><center>Shift</center></th>
-				<th><center>Duty Date</center></th>
-            </tr>
-		</thead>
+	$tabsRow = $ui->row()->open();
+	  $tabsCol = $ui->col()->open();	
+		$tabBox = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Duty Chart")
+				   ->tab("regularp", $ui->icon("bars")."Regular List", true)
+				   ->tab("overtimep", $ui->icon("bars")."Overtime List")
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("regularp")->active()->open();	
+							$table = $ui->table()
+										->id('postDutyChartTable')
+										->responsive()
+										->hover()
+										->bordered()
+										->striped()
+										->sortable()
+										->paginated()
+										->searchable()
+										->open();
+						?>
+								<thead>
+									<tr>
+										<th class="print-no-display" width="30px">Photo</th>
+										<th><center>Guard Name</center></th>
+										<th><center>Shift</center></th>
+										<th><center>Duty Date</center></th>
+									</tr>
+								</thead>
 
-        <tfoot>
-            <tr>
-				<th class="print-no-display" width="30px">Photo</th>
-				<th><center>Guard Name</center></th>
-				<th><center>Shift</center></th>
-				<th><center>Duty Date</center></th>
-            </tr>
-        </tfoot>	
-<?php
-	$table->close();
+								<tfoot>
+									<tr>
+										<th class="print-no-display" width="30px">Photo</th>
+										<th><center>Guard Name</center></th>
+										<th><center>Shift</center></th>
+										<th><center>Duty Date</center></th>
+									</tr>
+								</tfoot>	
+						<?php
+							$table->close();
+	            $tab1->close();
+				
+				$tab1 = $ui->tabPane()->id("overtimep")->open();
+					echo '<div id="totalduration"></div>';
+					$table = $ui->table()->id('postDutyChartTableOvertime')
+										 ->responsive()
+										 ->hover()
+										 ->bordered()
+										 ->striped()
+										 ->sortable()
+										 ->paginated()
+										 ->searchable()
+										 ->open();
+
+								echo '<thead>
+											<tr>
+												<th class="print-no-display" width="30px">Photo</th>
+												<th><center>Guard Name</center></th>
+												<th><center>From Time</center></th>
+												<th><center>To Time</center></th>
+												<th><center>Duration</center></th>
+												<th><center>Duty Date</center></th>
+											</tr>
+									  </thead>
+									  <tfoot>
+											<tr>
+												<th class="print-no-display" width="30px">Photo</th>
+												<th><center>Guard Name</center></th>
+												<th><center>From Time</center></th>
+												<th><center>To Time</center></th>
+												<th><center>Duration</center></th>
+												<th><center>Duty Date</center></th>
+											</tr>
+									  </tfoot>';
+									 
+					$table->close();
+				$tab1->close();
+			
+			$tabBox->close();
+		  $tabsCol->close();
+		$tabsRow->close();
+$headingBox->close();
+
+?>
+
+<?
+$headingBox = $ui->box()
+				 ->id('dateDutyChartBox')
+				 ->uiType('info')
+				 ->title('Details of Guards on <div style="float:right; margin-left:10px;" id="date-div"></div>')
+				 ->solid()
+				 ->open();
+	$tabsRow = $ui->row()->open();
+	  $tabsCol = $ui->col()->open();	
+		$tabBox = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Duty Chart")
+				   ->tab("regulard", $ui->icon("bars")."Regular List", true)
+				   ->tab("overtimed", $ui->icon("bars")."Overtime List")
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("regulard")->active()->open();	
+								$table = $ui->table()
+											->id('dateDutyChartTable')
+											->responsive()
+											->hover()
+											->bordered()
+											->striped()
+											->sortable()
+											->paginated()
+											->searchable()
+											->open();
+							?>
+									<thead>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>Shift</center></th>
+											
+										</tr>
+									</thead>
+
+									<tfoot>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>Shift</center></th>
+										</tr>
+									</tfoot>	
+							<?php
+								$table->close();
+				$tab1->close();
+				
+				$tab1 = $ui->tabPane()->id("overtimed")->open();
+					echo '<div id="totaldurationd"></div>';
+							$table = $ui->table()
+											->id('dateDutyChartTableOvertime')
+											->responsive()
+											->hover()
+											->bordered()
+											->striped()
+											->sortable()
+											->paginated()
+											->searchable()
+											->open();
+							?>
+									<thead>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>From Time</center></th>
+											<th><center>To Time</center></th>
+											<th><center>Duration</center></th>
+											
+										</tr>
+									</thead>
+
+									<tfoot>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>From Time</center></th>
+											<th><center>To Time</center></th>
+											<th><center>Duration</center></th>
+										</tr>
+									</tfoot>	
+							<?php
+								$table->close();
+				$tab1->close();
+			
+			$tabBox->close();
+		  $tabsCol->close();
+		$tabsRow->close();
+$headingBox->close();
+
+?>
+
+<?
+$headingBox = $ui->box()
+				 ->id('rangeDutyChartBox')
+				 ->uiType('info')
+				 ->title('Details of Guards from <div style="float:right; margin-left:10px;" id="range-div"></div>')
+				 ->solid()
+				 ->open();
+	$tabsRow = $ui->row()->open();
+	  $tabsCol = $ui->col()->open();	
+		$tabBox = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Duty Chart")
+				   ->tab("regularr", $ui->icon("bars")."Regular List", true)
+				   ->tab("overtimer", $ui->icon("bars")."Overtime List")
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("regularr")->active()->open();
+								$table = $ui->table()
+											->id('rangeDutyChartTable')
+											->responsive()
+											->hover()
+											->bordered()
+											->striped()
+											->sortable()
+											->paginated()
+											->searchable()
+											->open();
+							?>
+									<thead>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>Shift</center></th>
+											<th><center>Duty Date</center></th>
+										</tr>
+									</thead>
+
+									<tfoot>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>Shift</center></th>
+											<th><center>Duty Date</center></th>
+										</tr>
+									</tfoot>	
+							<?php
+								$table->close();
+				$tab1->close();
+				
+				$tab1 = $ui->tabPane()->id("overtimer")->open();
+							echo '<div id="totaldurationr"></div>';
+							$table = $ui->table()
+											->id('rangeDutyChartTableOvertime')
+											->responsive()
+											->hover()
+											->bordered()
+											->striped()
+											->sortable()
+											->paginated()
+											->searchable()
+											->open();
+							?>
+									<thead>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>From Time</center></th>
+											<th><center>To Time</center></th>
+											<th><center>Duration</center></th>
+											<th><center>Date</center></th>
+											
+										</tr>
+									</thead>
+
+									<tfoot>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>Post Name</center></th>
+											<th><center>From Time</center></th>
+											<th><center>To Time</center></th>
+											<th><center>Duration</center></th>
+											<th><center>Date</center></th>
+										</tr>
+									</tfoot>	
+							<?php
+								$table->close();
+				$tab1->close();
+			
+			$tabBox->close();
+		  $tabsCol->close();
+		$tabsRow->close();
+$headingBox->close();
+
+?>
+
+<?
+$headingBox = $ui->box()
+				 ->id('rangepostDutyChartBox')
+				 ->uiType('info')
+				 ->title('Details of Guards from <div style="float:right; margin-left:10px;" id="rangepost-div"></div>')
+				 ->solid()
+				 ->open();
+	$tabsRow = $ui->row()->open();
+	  $tabsCol = $ui->col()->open();	
+		$tabBox = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Duty Chart")
+				   ->tab("regularrp", $ui->icon("bars")."Regular List", true)
+				   ->tab("overtimerp", $ui->icon("bars")."Overtime List")
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("regularrp")->active()->open();
+							$table = $ui->table()
+										->id('rangepostDutyChartTable')
+										->responsive()
+										->hover()
+										->bordered()
+										->striped()
+										->sortable()
+										->paginated()
+										->searchable()
+										->open();
+						?>
+								<thead>
+									<tr>
+										<th class="print-no-display" width="30px">Photo</th>
+										<th><center>Guard Name</center></th>
+										<th><center>Shift</center></th>
+										<th><center>Duty Date</center></th>
+									</tr>
+								</thead>
+
+								<tfoot>
+									<tr>
+										<th class="print-no-display" width="30px">Photo</th>
+										<th><center>Guard Name</center></th>
+										<th><center>Shift</center></th>
+										<th><center>Duty Date</center></th>
+									</tr>
+								</tfoot>	
+						<?php
+							$table->close();
+						$tab1->close();
+				
+				$tab1 = $ui->tabPane()->id("overtimerp")->open();
+								echo '<div id="totaldurationrp"></div>';
+							$table = $ui->table()
+											->id('rangepostDutyChartTableOvertime')
+											->responsive()
+											->hover()
+											->bordered()
+											->striped()
+											->sortable()
+											->paginated()
+											->searchable()
+											->open();
+							?>
+									<thead>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>From Time</center></th>
+											<th><center>To Time</center></th>
+											<th><center>Duration</center></th>
+											<th><center>Date</center></th>
+											
+										</tr>
+									</thead>
+
+									<tfoot>
+										<tr>
+											<th class="print-no-display" width="30px">Photo</th>
+											<th><center>Guard Name</center></th>
+											<th><center>From Time</center></th>
+											<th><center>To Time</center></th>
+											<th><center>Duration</center></th>
+											<th><center>Date</center></th>
+										</tr>
+									</tfoot>	
+							<?php
+								$table->close();
+				$tab1->close();
+			
+			$tabBox->close();
+		  $tabsCol->close();
+		$tabsRow->close();
+$headingBox->close();
+
+?>
+
+<?
+$headingBox = $ui->box()
+				 ->id('rangeguardDutyChartBox')
+				 ->uiType('info')
+				 ->title('Details of Guards from <div style="float:right; margin-left:10px;" id="rangeguard-div"></div>')
+				 ->solid()
+				 ->open();
+	$tabsRow = $ui->row()->open();
+	  $tabsCol = $ui->col()->open();	
+		$tabBox = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Duty Chart")
+				   ->tab("regularrg", $ui->icon("bars")."Regular List", true)
+				   ->tab("overtimerg", $ui->icon("bars")."Overtime List")
+				   ->open();
+			
+			
+			$tab1 = $ui->tabPane()->id("regularrg")->active()->open();
+						$table = $ui->table()
+									->id('rangeguardDutyChartTable')
+									->responsive()
+									->hover()
+									->bordered()
+									->striped()
+									->sortable()
+									->paginated()
+									->searchable()
+									->open();
+					?>
+							<thead>
+								<tr>
+									<th><center>Post Name</center></th>
+									<th><center>Shift</center></th>
+									<th><center>Duty Date</center></th>
+								</tr>
+							</thead>
+
+							<tfoot>
+								<tr>
+									<th><center>Post Name</center></th>
+									<th><center>Shift</center></th>
+									<th><center>Duty Date</center></th>
+								</tr>
+							</tfoot>	
+					<?php
+						$table->close();
+				$tab1->close();
+				
+				$tab1 = $ui->tabPane()->id("overtimerg")->open();
+								echo '<div id="totaldurationrg"></div>';
+								$table = $ui->table()
+									->id('rangeguardDutyChartTableOvertime')
+									->responsive()
+									->hover()
+									->bordered()
+									->striped()
+									->sortable()
+									->paginated()
+									->searchable()
+									->open();
+					?>
+							<thead>
+								<tr>
+									<th><center>Post Name</center></th>
+									<th><center>From Time</center></th>
+									<th><center>To Time</center></th>
+									<th><center>Duration</center></th>
+									<th><center>Duty Date</center></th>
+								</tr>
+							</thead>
+
+							<tfoot>
+								<tr>
+									<th><center>Post Name</center></th>
+									<th><center>From Time</center></th>
+									<th><center>To Time</center></th>
+									<th><center>Duration</center></th>
+									<th><center>Duty Date</center></th>
+								</tr>
+							</tfoot>	
+					<?php
+						$table->close();
+				$tab1->close();
+			
+			$tabBox->close();
+		  $tabsCol->close();
+		$tabsRow->close();
 $headingBox->close();
 
 ?>

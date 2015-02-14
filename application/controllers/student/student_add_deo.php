@@ -515,7 +515,8 @@ class Student_add_deo extends MY_Controller
 			if(!$this->student_fee_details_model->insert($stu_fee_details))
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_fee_details.');
 			//$this->student_current_entry_model->insert($stu_current_entry);
-			$this->student_education_details_model->insert_batch($stu_education_details);
+			if(!$this->student_education_details_model->insert_batch($stu_education_details))
+				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_education_details.');
 			//$this->Student_type_model->insert($stu_type);
 			//$this->Student_new_student_type->update();
 

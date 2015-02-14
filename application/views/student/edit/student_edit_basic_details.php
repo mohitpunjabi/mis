@@ -154,7 +154,6 @@
                                ->label('Date of Birth')
                                ->width(3)
                                ->name('dob')
-                               ->placeholder(date("d-m-Y", time()+(19800)))
                                ->value(date('d-m-Y',strtotime($user_details->dob)))
                                ->dateFormat('dd-mm-yyyy')
                                ->show();
@@ -487,7 +486,6 @@
                            ->label('Date of Admission')
                            ->width(3)
                            ->name('entrance_date')
-                           ->placeholder(date("d-m-Y", time()+(19800)))
                            ->value(date('d-m-Y',strtotime($stu_basic_details->admn_date)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
@@ -722,7 +720,6 @@
                            ->label('Fees Paid Date')
                            ->width(3)
                            ->name('fee_paid_date')
-                           ->placeholder(date("d-m-Y", time()+(19800)))
                            ->value(date('d-m-Y',strtotime($stu_fee_details->payment_made_on)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();

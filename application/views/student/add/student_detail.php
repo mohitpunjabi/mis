@@ -116,7 +116,7 @@
                                ->label('Date of Birth')
                                ->width(3)
                                ->name('dob')
-                               ->placeholder(date("d-m-Y", time()+(19800)))
+                               ->value(date("d-m-Y", time()+(19800)))
                                ->dateFormat('dd-mm-yyyy')
                                ->show();
 
@@ -754,7 +754,7 @@
                            ->label('Date of Admission')
                            ->width(3)
                            ->name('entrance_date')
-                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->value(date("d-m-Y", time()+(19800)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
 
@@ -967,7 +967,7 @@
                            ->label('Fees Paid Date')
                            ->width(3)
                            ->name('fee_paid_date')
-                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->value(date("d-m-Y", time()+(19800)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
 

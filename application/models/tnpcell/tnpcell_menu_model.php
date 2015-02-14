@@ -35,7 +35,7 @@ class TnpCell_menu_model extends CI_Model
 	
     /*T&P Officer*/
     $menu['tpo']=array();
-	$menu['tpo']["View JNF"] = site_url('tnpcell/View_jnf');
+	$menu['tpo']["View JNF"] = site_url('tnpcell/view_jnf');
 	$menu['tpo']["Manage Portal"]['Open/Close Registration portal'] = site_url('tnpcell/manage_portal/');  
 	$menu['tpo']["Manage Portal"]['View Registered Students'] = site_url('tnpcell/manage_portal/');  
 	$menu['tpo']["Manage Portal"]['Manage Placement Calender'] = site_url('tnpcell/allot_date/');  

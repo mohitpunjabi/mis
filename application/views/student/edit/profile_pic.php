@@ -64,9 +64,10 @@
 
                         $photoedit_col_2_1->close();
 
-                        $ui->input()
-                           ->type('submit')
+                        $ui->button()
+                           ->submit(true)
                            ->value('Save')
+                           ->uiType('primary')
                            ->width(2)
                            ->show();
 
@@ -85,6 +86,7 @@
 
                         $ui->button()
                            ->value('Back')
+                           ->uiType('primary')
                            ->width(1)
                            ->show();?></a><?php
 

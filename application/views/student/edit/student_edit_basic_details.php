@@ -408,7 +408,7 @@
                                ->name('depends_on')
                                ->id('depends_on')
                                //->checked()
-                               //->checked($stu_other_details->guardian_name != 'na')
+                               ->checked($stu_other_details->guardian_name != 'na')
                                ->show();
 
                             $ui->input()
@@ -1041,14 +1041,34 @@
 
                         $student_details_2_1->close();
 
-                        $ui->input()
-                           ->type('submit')
-                           ->value('Update')
+                        $ui->button()
+                           ->submit(true)
+                           ->value('Submit')
+                           ->uiType('primary')
                            ->id('submit_button_id')
                            ->width(2)
                            ->show();
 
                 $student_details_row_2->close();
+
+                $student_details_row_3 = $ui->row()
+                                          ->open();
+
+                    $student_details_3_1 = $ui->col()
+                                              ->width(11)
+                                              ->open();
+
+                        $student_details_3_1->close();
+
+                      ?><a href= <?= site_url('student/student_edit')?> ><?php
+
+                        $ui->button()
+                           ->value('Back')
+                           ->uiType('primary')
+                           ->width(1)
+                           ->show();?></a><?php
+
+                $student_details_row_3->close();
 
             $student_details_row->close();
 

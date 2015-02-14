@@ -32,7 +32,7 @@
 			document.getElementById('father_gross_income').value = '';
 			document.getElementById('mother_gross_income').value = '';
 			document.getElementById('depends_on').checked = true;
-			depends_on_whom();
+			depends_on_whom1();
 		}
 		else
 		{
@@ -62,15 +62,7 @@
 			select_exam_scores();
 		});
 
-		/*$('#correspondence_addr').on('change', function() {
-			corrAddr();
-		});*/
-
-		$('#correspondence_addr').click(function() {
-			if($(this).attr("checked"))
-				$('#correspondence_addr').find('span').addClass('checked');
-			else
-				$('#correspondence_addr').find('span').removeClass('checked');
+		$('#correspondence_addr').on('change', function() {
 			corrAddr();
 		});
 
@@ -327,6 +319,28 @@
 			fgai.disabled=false;
 			mgai.disabled=false;
 		}
+		
+	}
+
+	function depends_on_whom1()
+	{
+		var m=document.getElementById("mother_name");
+		var f= document.getElementById("father_name");
+		var g=document.getElementById("guardian_name");
+		var r=document.getElementById("guardian_relation_name");
+		var fo=document.getElementById("father_occupation");
+		var mo=document.getElementById("mother_occupation");
+		var fgai=document.getElementById("father_gross_income");
+		var mgai=document.getElementById("mother_gross_income");
+
+			m.disabled=true;
+			f.disabled=true;
+			g.disabled=false;
+			r.disabled=false;
+			fo.disabled=true;
+			mo.disabled=true;
+			fgai.disabled=true;
+			mgai.disabled=true;
 		
 	}
 	

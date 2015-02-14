@@ -11,7 +11,10 @@ Class Student_other_details_model extends CI_Model
 
 	function insert($data)
 	{
-		$query = $this->db->insert($this->table,$data);
+		if($this->db->insert($this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	function get_student_other_details_by_id($stu_id = '')

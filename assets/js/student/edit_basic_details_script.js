@@ -43,7 +43,7 @@
 		select_exam_scores();
 		if(document.getElementById('roll_no').value == 'na')
 			document.getElementById('roll_no').value = '';
-		corrAddr();
+		corrAddr1();
 
 		$('#form_submit').on('submit', function(e) {
 			if(!form_validation())
@@ -62,7 +62,15 @@
 			select_exam_scores();
 		});
 
-		$('#correspondence_addr').on('change', function() {
+		/*$('#correspondence_addr').on('change', function() {
+			corrAddr();
+		});*/
+
+		$('#correspondence_addr').click(function() {
+			if($(this).attr("checked"))
+				$('#correspondence_addr').find('span').addClass('checked');
+			else
+				$('#correspondence_addr').find('span').removeClass('checked');
 			corrAddr();
 		});
 
@@ -263,11 +271,24 @@
         var y=document.getElementById("correspondence_addr");
         if(!y.checked)
         {
-        	document.getElementById('corr_addr_visibility').style.display = 'block';
+        	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
+        }
+	}
+
+	function corrAddr1()
+    {
+        var y=document.getElementById("correspondence_addr");
+        if(y.checked)
+        {
         	document.getElementById('corr_addr_visibility').style.display = 'none';
+        }
+        else
+        {
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
 	

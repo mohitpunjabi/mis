@@ -43,7 +43,7 @@
 							<td><?php echo $data_array[$sno][3];?></td>
 							<td><?php echo $data_array[$sno][4];?></td>
 							<td><?php echo $data_array[$sno][5];?></td>
-							<td><?php echo $data_array[$sno][7];?></td>
+							<td><?php echo $data_array[$sno][7];?></td> 
 							<td><?php if ($data_array[$sno][6]) echo "Closed"; else echo "Active"; ?></td>
 							<td>
 							<center>

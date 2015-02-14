@@ -15,6 +15,10 @@ function onclick_add()
 }
 
 $(document).ready(function() {
+        $("#next_btn").click(function(e) {
+                if(!confirm('Are you sure not to add more details ?'))
+                        e.preventDefault();
+        });
         $("#add_btn").click(function(e) {
                 if(!onclick_add())
                         e.preventDefault();

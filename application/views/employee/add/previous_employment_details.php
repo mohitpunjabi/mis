@@ -76,7 +76,7 @@ $form = $ui->form()->id('prev_emp_details')->action('employee/add/insert_prev_em
         $col->close();
     $row->close();
     $ui->button()->submit()->id('add_btn')->name('submit')->value("Add")->large()->uiType('primary')->icon($ui->icon("plus"))->show();
-    $ui->button()->submit()->classes("pull-right")->value('Next')->name('submit')->large()->uiType('primary')->icon($ui->icon("arrow-right"))->show();
+    $ui->button()->submit()->id('next_btn')->classes("pull-right")->value('Next')->name('submit')->large()->uiType('primary')->icon($ui->icon("arrow-right"))->show();
     echo "<br />";
 $form->close();
 ?>

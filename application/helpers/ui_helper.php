@@ -15,6 +15,7 @@ class UI {
 	function select()	{	return new Select();	}
 	function option()	{	return new Option();	}
 	function button()	{	return new Button();	}
+	function printButton()	{	return new PrintButton();	}
 	function alert()	{	return new Alert();		}
 	function callout()	{	return new Callout();	}
 	function label()	{	return new Label();		}
@@ -134,6 +135,11 @@ class Element {
 
 	function containerExtras( $extras = '' ) {
 		$this->containerProps['extras'] .= ($this->containerProps['extras'] == '')?	$extras:' '.$extras;
+		return $this;
+	}
+	
+	function noPrint() {
+		$this->containerClasses("no-print");
 		return $this;
 	}
 
@@ -885,6 +891,17 @@ class Button extends Input {
 		}
 		echo $val.'</button>';
 	}
+}
+
+class PrintButton extends Button {
+
+	public function __construct() {
+		parent::__construct();
+		$this->icon(new Icon("print"));
+		$this->value("Print");
+		$this->extras('onclick="window.print()"');
+	}
+
 }
 
 class Option extends Element {

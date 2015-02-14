@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CV extends MY_Controller {
@@ -5,7 +6,7 @@ class CV extends MY_Controller {
 	function __construct()
   {
     // This is to call the parent constructor
-		parent::__construct(array('tpo', 'stu', 'deo'));
+		parent::__construct(array('tpo', 'stu'));
 		
 		//$this->addJS("course_structure/edit.js");
 		$this->addCSS("tnpcell/cs_layout.css");
@@ -89,4 +90,5 @@ class CV extends MY_Controller {
 }
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */
+
 ?>

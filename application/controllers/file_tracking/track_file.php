@@ -7,7 +7,8 @@ class Track_file extends MY_Controller
 	{
 		parent::__construct(array('emp','deo'));
 		$this->addJS("file_tracking/file_tracking_script.js");
-		$this->addCSS("file_tracking/file_tracking_layout.css");
+		$this->addJS("file_tracking/track_file.js");
+		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
 	public function index()
@@ -16,9 +17,9 @@ class Track_file extends MY_Controller
 
 		$this->load->model('file_tracking/file_move_details');
 		$res = $this->file_move_details->files_to_be_tracked($emp_id);
-		
+
 		$this->load->model('user_model');
-		
+
 		$total_rows = $res->num_rows();
 		$data_array = array();
 		$sno = 1;
@@ -26,18 +27,31 @@ class Track_file extends MY_Controller
 		{
 			$data_array[$sno]=array();
 			$j=1;
+
+			$this->load->model("file_tracking/file_move_details");
+			$query = $this->file_move_details->get_last_rcvd_emp_id ($row->track_num, $emp_id);
+			foreach ($query->result() as $row2)
+			{
+				$rcvd_by_emp_id = $this->user_model->getNameById($row2->rcvd_by_emp_id);
+				$sent_timestamp = $row2->sent_timestamp;
+				break;
+			}
+			$data_array[$sno][$j++] = $row->file_no;
+
 			$data_array[$sno][$j++] = $row->file_id;
 			$data_array[$sno][$j++] = urldecode($row->file_subject);
 			$data_array[$sno][$j++] = $row->track_num;
-			$data_array[$sno][$j++] = $this->user_model->getNameById($row->rcvd_by_emp_id);
+			$data_array[$sno][$j++] = $rcvd_by_emp_id;
 			$data_array[$sno][$j++] = $row->close_emp_id;
+			$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($sent_timestamp));
+
 			$sno++;
 		}
 
 		$data['data_array'] = $data_array;
 		$data['total_rows'] = $total_rows;
-	
-		$this->drawHeader ("File Tracking");
+
+		$this->drawHeader ("Track File");
 		$this->load->view('file_tracking/track_file/track_file',$data);
 		$this->drawFooter ();
 	}
@@ -50,12 +64,18 @@ class Track_file extends MY_Controller
 			//$this->notification->drawNotification("Enter valid Track Number", "");
 			//$this->session->set_flashdata('flashError','Enter correct Track Number.'.$track_num);
 			//redirect('file_tracking/track_file');
-			$this->notification->drawNotification("Enter Correct Track Number", "");
+			$ui = new UI();
+
+			$ui->callout()
+			   ->uiType("error")
+			   ->title("Enter Correct Track Number.")
+			   ->desc("")
+			   ->show();
 		}
 		else
 		{
 			$res = $this->file_details->get_file_details ($track_num);
-			foreach($res->result() as $row) 
+			foreach($res->result() as $row)
 			{
 				$file_id = $row->file_id;
 				$file_no = $row->file_no;
@@ -68,7 +88,7 @@ class Track_file extends MY_Controller
 			$total_rows = $result->num_rows();
 
 			$this->load->model('user_model');
-			
+
 			$data_array = array();
 			$sno = 1;
 			foreach ($result->result() as $row)
@@ -104,4 +124,3 @@ class Track_file extends MY_Controller
 		}
 	}
 }
-

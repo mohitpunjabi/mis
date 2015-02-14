@@ -1,6 +1,7 @@
 
-	function teaching_handler(auth)
+	function teaching_handler()
 	{
+		var auth = $('#tstatus').val();
 		designation_dropdown(auth);
 		retirement_handler();
 		if(auth =='ft')
@@ -32,8 +33,9 @@
 		document.getElementById("depts").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
-	function payband_handler(pb)
+	function payband_handler()
 	{
+		var pb = document.getElementById("payscale").value;
 		var gp = document.getElementsByName("gradepay")[0];
 		var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -54,16 +56,22 @@
 		xmlhttp.open("POST",site_url("ajax/grade_pay/"+pb),true);
 		xmlhttp.send();
 		gp.innerHTML="<option selected=\"selected\">Loading...</option>";
-		gp.style.visibility = "visible";
-		document.getElementById('basicpay').style.visibility='visible';
+		gp.disabled = false;
+		document.getElementById('basicpay').disabled=false;
 	}
 
 	function retirement_handler()
 	{
 		var retire = document.getElementById("retire");
-		var auth = document.getElementsByName("tstatus")[0].value;
-		var source=document.getElementsByName("dob")[0].value;
-		var new_date=new Date(source);
+		var auth = document.getElementById("tstatus").value;
+		var source=document.getElementById("dob").value;
+		var d = source.split("-");
+
+		//date format -> dd-mm-yyyy
+		var new_date = new Date();
+		new_date.setDate(d[0]);
+		new_date.setMonth(d[1]-1);	//month start from 0
+		new_date.setFullYear(d[2]);
 
 		if(auth=="ft")
 			new_date.setFullYear(new_date.getFullYear() + 65);
@@ -110,7 +118,9 @@
 		if(month<10)	mon='0'+month;
 		else	mon+=month;
 
-		retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
+		//retire.value=new_date.getFullYear()+'-'+mon+'-'+date;
+		retire.value=date+'-'+mon+'-'+new_date.getFullYear();
+		$("#retire").datepicker("setDate", moment(retire.value, "DD-MM-YYYY").toDate());
 	}
 
 //AJAX for designation called from teaching_handler
@@ -137,8 +147,7 @@
 		document.getElementById("des").innerHTML="<option selected=\"selected\">Loading...</option>";
 	}
 
-	function preview_pic()
-	{
+	function preview_pic() {
 		var file=document.getElementById('photo').files[0];
 		if(!file)
 			document.getElementById('view_photo').src =  base_url()+"assets/images/employee/noProfileImage.png";
@@ -206,7 +215,6 @@
 				}
 				else if(xmlhttp.responseText != '')
 				{
-
 					var details = eval(xmlhttp.responseText);
 					$("select[name=salutation]").val(details['salutation']);
 					$("input[name=firstname]").val(details['first_name']);
@@ -221,6 +229,8 @@
 				}
 				else
 				{
+					$("#emp_id_display").html('Enter Details for Employee Id <b>'+$("#emp_id").val()+'</b>').show();
+					$('#hide_emp').hide();
 					$("select[name=salutation]").val("Dr");
 					$("input[name=firstname]").val("");
 					$("input[name=middlename]").val("");
@@ -229,7 +239,7 @@
 					$("input[name=research_int]").val("");
 					$("select[name=category]").val("");
 					$("input[name=mobile]").val("");
-					$("td, th").css("visibility", "visible");
+					$(".hideit").css("display", "block");
 					$("#fetch_id_btn").hide();
 				}
 				$("#empIdIcon").hide();
@@ -240,8 +250,22 @@
 	}
 
 	$(document).ready(function() {
-		$("td, th").css("visibility", "hidden");
-		$("td#empId").css("visibility", "visible");
-		$("#empIdIcon").hide();
-	});
+		$(".hideit, #empIdIcon, #emp_id_display").hide();
+		$("#basic_details").on('submit',function(e) {
+			if(!image_validation())
+				e.preventDefault();
+		});
 
+		$("#fetch_id_btn").click(function() {
+			fetch_details();
+		});
+		$("#dob").datepicker("setEndDate", moment($("#dob").attr('max'), "DD-MM-YYYY").toDate());
+		$("#tstatus").change(teaching_handler);
+		$("#payscale").change(payband_handler);
+		$("#dob").change(retirement_handler);
+		$("gradepay").change(function(){
+			document.getElementById('basicpay').disabled=false;
+		});
+
+		teaching_handler();	//to set default designations and departments
+	});

@@ -8,8 +8,6 @@ class Elective_offered extends MY_Controller
 		parent::__construct(array('hod'));
 		
 		$this->addJS("course_structure/add.js");
-		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$this->load->model('course_structure/offer_elective_model','',TRUE);
 	}
@@ -19,16 +17,21 @@ class Elective_offered extends MY_Controller
 		$data = array();
 		$course = $this->input->post('course');
 		$branch = $this->input->post('branch');
-		$batch = $this->input->post('batch');
-		$semester = $this->input->post('semester');
+		$batch = $this->input->post('session');
+		$semester = $this->input->post('sem');
 		
 		$result_course_details = $this->basic_model->get_course_details_by_id($course);
 		$duration = $result_course_details[0]->duration;
 		
 		$expected_aggr_id = $course."_".$branch."_".($batch-$duration)."_".($batch-$duration+1);
 		
-		$result_aggr_id = $this->basic_model->get_latest_aggr_id($course,$branch,$expected_aggr_id);
-		$aggr_id = $result_aggr_id[0]->aggr_id;
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))
+		{
+			$result_aggr_id = $this->basic_model->get_latest_aggr_id($course,$branch,$expected_aggr_id);
+			$aggr_id = $result_aggr_id[0]->aggr_id;	
+		}	
+		else
+			$aggr_id = $expected_aggr_id;
 		
 		$data['course'] = $course;
 		$data['branch'] = $branch;
@@ -38,7 +41,6 @@ class Elective_offered extends MY_Controller
 		//var_dump($data);
 		$subject_details = $this->basic_model->select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester);
 		
-				
 		$i =0;
 		$j = 0;
 		$data['group_id'] = array();
@@ -46,10 +48,13 @@ class Elective_offered extends MY_Controller
 		
 		foreach($subject_details as $row)
 		{
+			//echo "hii";
 			//$j = 0;	
 			$group_id = $row->elective;
 			if(!in_array($group_id,$data['group_id']))
 			{
+				//echo "hello";
+				//die();
 				$data['group_id'][$j] = $group_id;
 				$data['subjects'][$group_id]['number_of_options'] = substr($group_id,0,1);
 				$group_details  = $this->basic_model->select_elective_group_by_group_id($group_id);
@@ -71,18 +76,26 @@ class Elective_offered extends MY_Controller
 			$data['subject'][$group_id]['count']++;
 			$i++;			
 		}
-		
+		//var_dump($data['group_id']);
+		//die();
 		
 		//show the list of already selected elective ..
-		/*$already_selected_elective = $this->basic_model->select_elective_offered_by_aggr_id($aggr_id);	
+		$already_selected_elective = $this->offer_elective_model->select_elective_offered_by_aggr_id($aggr_id,$semester);	
+		//var_dump($already_selected_elective);
+		
 		foreach($already_selected_elective as $row)
 		{
-			
+			//echo "hii";
+			//die();
+			$data['subject'][$row->id]['selected'] = 1;	
 		}
-		*/
+		
+		//die();
+		
 
 		
 		$this->session->set_userdata('aggr_id',$aggr_id);
+		$this->session->set_userdata($data);
 		//var_dump($this->session->all_userdata());
 		$this->drawHeader();
 		$this->load->view('course_structure/LoadOfferedElective',$data);
@@ -93,21 +106,36 @@ class Elective_offered extends MY_Controller
 	{
 		$formValues = $this->input->post('checkbox');
 		$aggr_id = $this->session->userdata('aggr_id');
-		//var_dump($this->session->all_userdata());
-		foreach($formValues as $key=>$val)
-		{
-			$data['aggr_id'] = $aggr_id;
+		$semester = $this->session->userdata('semester');
 		
-			$data['id'] = $val;
-			//var_dump($data);
-			if(!$this->offer_elective_model->select_elective_offered($data['aggr_id'],$data['id']))
+		//delete all elective offered for this batch and semester.
+		$result_del = $this->offer_elective_model->delete_elective_offered($aggr_id,$semester);
+		echo $result_del;
+		//die();
+		if($result_del)
+		{
+		//var_dump($this->session->all_userdata());
+			foreach($formValues as $key=>$val)
 			{
-				$this->offer_elective_model->insert_elective_offered($data);
+				$data['aggr_id'] = $aggr_id;
+				$data['id'] = $val;
+				//var_dump($data);
+				if(!$this->offer_elective_model->select_elective_offered($data['aggr_id'],$data['id']))
+				{
+					$this->offer_elective_model->insert_elective_offered($data);
+				}
+					
 			}
-				
+			$this->session->set_flashdata("flashSuccess","Elective Added Successfully");
+			redirect("course_structure/elective_offered_home");
 		}
-		$this->session->set_flashdata("flashSuccess","Elective Added Successfully");
-   		redirect("course_structure/elective_offered_home");
+		else
+		{
+			
+			$this->session->set_flashdata("flashError","Error in database Operation.Please try after some time.");
+			//redirect("course_structure/elective_offered_home");	
+		}
+			
 	}
 }
 ?>

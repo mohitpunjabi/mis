@@ -58,7 +58,7 @@ class Student_edit extends MY_Controller
 
 			//$this->edit_validation($stu_id,'profile_pic_status');
 
-			$this->session->set_flashdata('flashSuccess','student '.$stu_id.' profile picture updated and sent for validation.');
+			$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' profile picture updated.');
 			redirect('student/student_edit');
 		}
 	}

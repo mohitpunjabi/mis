@@ -586,10 +586,11 @@
 
 	function push_na_in_empty()
 	{
-		if( document.getElementById('middlename').value.trim() == '')
+		alert();
+		/*if( document.getElementById('middlename').value.trim() == '')
 			document.getElementById('middlename').value = 'na';
 		if( document.getElementById('lastname').value.trim() == '')
-			document.getElementById('lastname').value = 'na';
+			document.getElementById('lastname').value = 'na';*/
 		if( document.getElementById('roll_no').value.trim() == '')
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')

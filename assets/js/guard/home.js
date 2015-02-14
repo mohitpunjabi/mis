@@ -49,12 +49,18 @@ $(document).ready(function() {
 						'<div class="photo-zoom" data-photo-url="'+ base_url() +'assets/images/guard/' + users[i].photo +'" style="height: 40px; width: 100%; min-width: 40px; background-image: url(\''+ base_url() +'assets//images//guard//' + users[i].photo +'\'); background-size: auto 100%; background-position: 50% 50%; background-repeat: no-repeat;" class="print-no-display"></div>',
 						'<center>'+users[i].firstname +' ' + users[i].lastname+'</center>',				
 						'<center>'+users[i].shift.toUpperCase()+'</center>',
-						//moment(users[i].date,"DD MM YYYY"),
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#postmessage-div").show();
+					$("#postDutyChartTable").hide();
+				}
+				else{
+					$("#postmessage-div").hide();
+					$("#postDutyChartTable").show();
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -129,8 +135,16 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-				$("#totalduration").html('<center><b>Total Overtime Working Hours: '+totalduration+' Hours</b></center>'); 
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#postmessageO-div").show();
+					$("#postDutyChartTableOvertime").hide();
+				}
+				else{
+					$("#postmessageO-div").hide();
+					$("#postDutyChartTableOvertime").show();
+					$("#totalduration").html('<center><b>Total Overtime Working Hours: '+totalduration+' Hours</b></center>'); 
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -170,8 +184,15 @@ $(document).ready(function() {
 						'<center>'+users[i].shift.toUpperCase()+'</center>'
 					];
 				}
-
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#datemessage-div").show();
+					$("#dateDutyChartTable").hide();
+				}
+				else{
+					$("#datemessage-div").hide();
+					$("#dateDutyChartTable").show();
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -247,8 +268,16 @@ $(document).ready(function() {
 						'<center>'+duration+' Hours</center>'
 					];
 				}
-				$("#totaldurationd").html('<center><b>Total Overtime Working Hours: '+totaldurationd+' Hours</b></center>'); 
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#datemessageO-div").show();
+					$("#dateDutyChartTableOvertime").hide();
+				}
+				else{
+					$("#datemessageO-div").hide();
+					$("#dateDutyChartTableOvertime").show();
+					$("#totaldurationd").html('<center><b>Total Overtime Working Hours: '+totaldurationd+' Hours</b></center>'); 
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -289,8 +318,15 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#rangemessage-div").show();
+					$("#rangeDutyChartTable").hide();
+				}
+				else{
+					$("#rangemessage-div").hide();
+					$("#rangeDutyChartTable").show();
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -367,8 +403,16 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-				$("#totaldurationr").html('<center><b>Total Overtime Working Hours: '+totaldurationr+' Hours</b></center>'); 
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#rangemessageO-div").show();
+					$("#rangeDutyChartTableOvertime").hide();
+				}
+				else{
+					$("#rangemessageO-div").hide();
+					$("#rangeDutyChartTableOvertime").show();
+					$("#totaldurationr").html('<center><b>Total Overtime Working Hours: '+totaldurationr+' Hours</b></center>'); 
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -414,8 +458,15 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#rangepostmessage-div").show();
+					$("#rangepostDutyChartTable").hide();
+				}
+				else{
+					$("#rangepostmessage-div").hide();
+					$("#rangepostDutyChartTable").show();
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -491,8 +542,16 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-				$("#totaldurationrp").html('<center><b>Total Overtime Working Hours: '+totaldurationrp+' Hours</b></center>'); 
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#rangepostmessageO-div").show();
+					$("#rangepostDutyChartTableOvertime").hide();
+				}
+				else{
+					$("#rangepostmessageO-div").hide();
+					$("#rangepostDutyChartTableOvertime").show();
+					$("#totaldurationrp").html('<center><b>Total Overtime Working Hours: '+totaldurationrp+' Hours</b></center>'); 
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -539,8 +598,15 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#rangeguardmessage-div").show();
+					$("#rangeguardDutyChartTable").hide();
+				}
+				else{
+					$("#rangeguardmessage-div").hide();
+					$("#rangeguardDutyChartTable").show();
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.
@@ -615,8 +681,16 @@ $(document).ready(function() {
 						'<center>'+moment(users[i].date).format('DD MMM YYYY')+'</center>'
 					];
 				}
-				$("#totaldurationrg").html('<center><b>Total Overtime Working Hours: '+totaldurationrg+' Hours</b></center>'); 
-				$usersTable.fnAddData(data);
+				if(users.length == 0){
+					$("#rangeguardmessageO-div").show();
+					$("#rangeguardDutyChartTableOvertime").hide();
+				}
+				else{
+					$("#rangeguardmessageO-div").hide();
+					$("#rangeguardDutyChartTableOvertime").show();
+					$("#totaldurationrg").html('<center><b>Total Overtime Working Hours: '+totaldurationrg+' Hours</b></center>'); 
+					$usersTable.fnAddData(data);
+				}
 			})();
 		}).always(function() {
 			// Hide the loading gif, when request is complete.

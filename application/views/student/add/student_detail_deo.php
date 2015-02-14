@@ -1264,6 +1264,7 @@
                             $ui->checkbox()
                                ->name('correspondence_addr')
                                ->id('correspondence_addr')
+                               ->checked()
                                ->width(2)
                                ->show();
 

@@ -33,14 +33,19 @@ class Send_new_file_ajax extends CI_Controller
 
 		$this->load->model('user_model');
 		
+		$emp_id = $this->session->userdata('id');
+
 		$data_array = array();
 		$sno = 1;
 		if ($result)
 		{
 			foreach ($result as $row)
 			{			
-				$data_array[$sno][1] = $row->id;
-				$data_array[$sno++][2] = $this->user_model->getNameById($row->id);
+				if ($row->id != $emp_id)
+				{
+					$data_array[$sno][1] = $row->id;
+					$data_array[$sno++][2] = $this->user_model->getNameById($row->id);
+				}
 			}
 		}
 		$total_rows = ($sno-1);		

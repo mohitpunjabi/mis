@@ -1,9 +1,8 @@
 <script type="text/javascript" language="javascript">
-      window.onload = function()
-      {
-          onload_emp_id();
-		  onload_auth('auth');
-      };
+$(document).ready(function() {
+	onload_emp_id();
+	onload_auth('auth');
+});
 </script>
 <?php
 $ui = new UI();
@@ -27,7 +26,7 @@ $ui = new UI();
 						->label('Employee Id')
 						->name('emp_id')
 						->id('emp_id')
-						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))//Enter options
+						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))
 						->show();
 					$r1col1->close();
 					
@@ -54,7 +53,7 @@ $ui = new UI();
 							->label('Employee name')
 							->name('employee_select')
 							->id('employee_select')
-							->options(array($ui->option()->value('0')->text('Select Employee')->disabled()->selected()))//Enter options
+							->options(array($ui->option()->value('0')->text('Select Employee')->disabled()->selected()))
 							->show();
 					$r3col1->close();
 				$row3->close();
@@ -65,7 +64,7 @@ $ui = new UI();
 							->label('Authorization')
 							->name('auth')
 							->id('auth')
-							->options(array($ui->option()->value('0')->text('Select Auth')->disabled()->selected()))//Enter options
+							->options(array($ui->option()->value('0')->text('Select Auth')->disabled()->selected()))
 							->show();
 							
 					$ui->button()

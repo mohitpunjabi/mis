@@ -38,7 +38,7 @@
 							   ->label("Username");
 
 				$password = $ui->input()
-							   ->type("text")
+							   ->type("password")
 							   ->name("password")
 							   ->placeholder("Password")
 							   ->required()

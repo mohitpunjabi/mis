@@ -24,6 +24,7 @@
 		//if it is a common semester then show that also.
 		if(isset($CS_session['group']))
 		{
+			//echo "inside set group;";
 			$semester = $counter."_".$CS_session['group'];
 			$box_form = $ui->box()->id("box_form_".$counter)->title("Subjects for Semester". $counter."(group ".$CS_session['group'].")")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
@@ -39,7 +40,6 @@
 					  <th>Contact Hours</th>
 					  <th>Elective</th>
 					  <th>Type</th>
-					  <th>Edit</th>
 					</tr>';
 					
 				for($i=1;$i<=$subjects["count"][$semester];$i++)
@@ -91,18 +91,7 @@
 						  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
 						  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
 					echo '
-						</td>	
-						<td>';	
-							 $ui->button()
-								->value('Edit')
-								->uiType('primary')
-								->id("editbutton_".$semester."_".$i)
-								->icon($ui->icon("edit"))
-								->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
-								->name('edit')
-								->show();
-					echo '
-						</td>		
+						</td>			
 					</tr>';
 				}//inner for loop 
 				$aggr_id = $CS_session['aggr_id'];
@@ -130,7 +119,6 @@
 						  <th>Contact Hours</th>
 						  <th>Elective</th>
 						  <th>Type</th>
-						  <th>Edit</th>
 						</tr>';
 					//echo $subjects['count'][$semester];	
 					for($i=1;$i<=$subjects["count"][$semester];$i++)
@@ -208,7 +196,6 @@
 						  <th>Contact Hours</th>
 						  <th>Elective</th>
 						  <th>Type</th>
-						  <th>Edit</th>
 						</tr>';
 						
 					for($i=1;$i<=$subjects["count"][$semester];$i++)
@@ -273,27 +260,13 @@
 							  if($subjects["subject_details"][$semester][$i+$j]->type=="Sessional") echo "Sessional";
 							  if($subjects["subject_details"][$semester][$i+$j]->type =="Non-Contact") echo "Non-Contact";
 						echo '
-							</td>	
-							<td>';
-								$seq_no = intval($i)+intval($j);
-								$ui->button()
-									->value('Edit')
-									->uiType('primary')
-									->id("editbutton_".$semester."_".$i)
-									->icon($ui->icon("edit"))
-									->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
-									->name('edit')
-									->show();
-						echo '
-							</td>		
+							</td>			
 						</tr>';	
 						}//for closed..
 							$i = $j+$i-1;
 						}//if closed.
 						else
 						{
-							//if(isset($subjects["subject_details"][$semester]))
-							//{
 						echo '
 						<tr>
 							<td>';
@@ -342,18 +315,7 @@
 							  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
 							  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
 						echo '
-							</td>	
-							<td>';
-								 $ui->button()
-								 	->value('Edit')
-								 	->uiType('primary')
-								 	->id("editbutton_".$semester."_".$i)
-								 	->icon($ui->icon("edit"))
-								 	->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
-								 	->name('edit')
-								 	->show();
-						echo '
-							</td>		
+							</td>									
 						</tr>';
 					//}
 						}//else closed

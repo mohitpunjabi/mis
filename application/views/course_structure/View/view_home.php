@@ -4,7 +4,7 @@
 			$column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
 			
 				$formbox =  $ui->box()->id('box_form')->open();
-                    $form=$ui->form()->id("add_course_form")->action("course_structure/edit/EditCourseStructure")->multipart()->open();
+                    $form=$ui->form()->id("add_course_form")->action("course_structure/view/ViewCourseStructure")->multipart()->open();
 					
 						$array_options = array();
 						$array_options[0] = $ui->option()->value("")->text("Select Department")->disabled();

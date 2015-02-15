@@ -36,6 +36,11 @@ class View extends MY_Controller
 		$semester = $data["CS_session"]['semester'];
 		$session = $data["CS_session"]['session'];
 		
+		if($data["CS_session"]['dept_id'] == "comm")
+		{
+			$data['CS_session']['group'] = $this->input->post('group');	
+		}
+		
 		$expected_aggr_id = $course_id.'_'.$branch_id.'_'.$session;
 		
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))

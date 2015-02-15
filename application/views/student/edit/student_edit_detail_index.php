@@ -46,9 +46,10 @@
 
                             $student_details_2_1->close();
 
-                            $ui->input()
-                               ->type('submit')
+                            $ui->button()
+                               ->submit(true)
                                ->value('Submit')
+                               ->uiType('primary')
                                ->id('submit_button_id')
                                ->width(2)
                                ->show();

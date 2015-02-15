@@ -62,11 +62,11 @@
 			select_exam_scores();
 		});
 
-		$('#correspondence_addr').on('change', function() {
+		$('#correspondence_addr').on('ifChanged', function() {
 			corrAddr();
 		});
 
-		$('[name="depends_on"]').on('change', function() {
+		$('[name="depends_on"]').on('ifChanged', function() {
     		depends_on_whom();
 		});
 	});
@@ -261,13 +261,26 @@
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
-        if(!y.checked)
+        if(y.checked)
         {
-        	document.getElementById('corr_addr_visibility').style.display = 'block';
+        	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
+        }
+	}
+
+	function corrAddr1()
+    {
+        var y=document.getElementById("correspondence_addr");
+        if(y.checked)
+        {
         	document.getElementById('corr_addr_visibility').style.display = 'none';
+        }
+        else
+        {
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
 	
@@ -284,7 +297,7 @@
 		var fgai=document.getElementById("father_gross_income");
 		var mgai=document.getElementById("mother_gross_income");
 
-		if(!dpe)
+		if(dpe)
 		{
 			m.disabled=true;
 			f.disabled=true;
@@ -306,6 +319,28 @@
 			fgai.disabled=false;
 			mgai.disabled=false;
 		}
+		
+	}
+
+	function depends_on_whom1()
+	{
+		var m=document.getElementById("mother_name");
+		var f= document.getElementById("father_name");
+		var g=document.getElementById("guardian_name");
+		var r=document.getElementById("guardian_relation_name");
+		var fo=document.getElementById("father_occupation");
+		var mo=document.getElementById("mother_occupation");
+		var fgai=document.getElementById("father_gross_income");
+		var mgai=document.getElementById("mother_gross_income");
+
+			m.disabled=true;
+			f.disabled=true;
+			g.disabled=false;
+			r.disabled=false;
+			fo.disabled=true;
+			mo.disabled=true;
+			fgai.disabled=true;
+			mgai.disabled=true;
 		
 	}
 	

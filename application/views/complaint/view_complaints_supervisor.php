@@ -8,7 +8,7 @@
 		   ->tab("registered_complaints", "Registerd Complaints", true)
 		   ->tab("closed_complaints", "Closed Complaints")
 		   ->tab("rejected_complaints", "Rejected Complaints")
-		   ->tab("all_complaints", "Complete Complaints")
+		   ->tab("all_complaints", "Completed Complaints")
 		   ->open();
 
 		$tab1 = $ui->tabPane()->id("registered_complaints")->active()->open();

@@ -8,7 +8,7 @@
 		   ->tab("registered_complaints", "Registerd Complaints", true)
 		   ->tab("closed_complaints", "Closed Complaints")
 		   ->tab("rejected_complaints", "Rejected Complaints")
-		   ->tab("all_complaints", "Completed Complaints")
+		   ->tab("all_complaints", "All Complaints")
 		   ->open();
 
 		$tab1 = $ui->tabPane()->id("registered_complaints")->active()->open();
@@ -161,7 +161,7 @@
 			if ($total_rows_all == 0) {
 				$ui->callout()
 				   ->uiType("info")
-				   ->title("NO Complaint not found.")
+				   ->title("NO Complaints found.")
 				   ->desc("")
 				   ->show();
 			}

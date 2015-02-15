@@ -9,7 +9,7 @@
 			$errorMessage = "Invalid username or password. Please try again.";
 		}
 		else if($error_code == 2) {
-			$uiType = "You do not have access to that location.";
+			$errorMessage = "You do not have access to that location.";
 		}
 		else if($error_code == 0) {
 			$errorHead = "Login";

@@ -159,8 +159,6 @@ class Add extends MY_Controller
 		}
 		else
 		{
-			//var_dump($this->input->post());
-			//die();
 			for($i = 1;$i<=$count_elective;$i++)
 			{
 				$data["options"][$i] = $this->input->post("options".$i);	
@@ -182,7 +180,10 @@ class Add extends MY_Controller
       $this->session->set_userdata($data);
       $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted 
 	  successfully");
-      redirect("course_structure/add");
+	  if($data['CS_session']['course_id'] == "comm")
+	  	redirect("course_structure/AddCS_Common");
+	  else
+      	redirect("course_structure/add");
     }
   }
   

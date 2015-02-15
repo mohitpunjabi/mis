@@ -46,6 +46,7 @@
 											->placeholder('Subject ID')
 											->id('id'.$counter)
 											->name('id'.$counter)
+											->required()
 											->show();
 								echo '
 									</td>
@@ -54,11 +55,13 @@
 										->placeholder('Subject Name')
 										->id('name'.$counter)
 										->name('name'.$counter)
+										->required()
 										->show(); 
 								echo '
 									</td> 
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Lectures")->disabled()->selected());
 									for($it = 0;$it<=5;$it++)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -67,11 +70,13 @@
 									   ->id("L".$counter)
 									   ->name("L".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 									echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Tutorials")->disabled()->selected());
 									for($it = 0;$it<=5;$it++)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -80,11 +85,13 @@
 									   ->id("T".$counter)
 									   ->name("T".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Practical")->disabled()->selected());
 									for($it = 0; $it<=5; $it+=0.5)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -93,6 +100,7 @@
 									   ->id("P".$counter)
 									   ->name("P".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
@@ -101,11 +109,13 @@
 											->placeholder('Credit Hours')
 											->id('credit_hours'.$counter)
 											->name('credit_hours'.$counter)
+											->required()
 											->show();
 								echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Type"));
 									array_push($array_option,$ui->option()->value("Theory")->text("Theory"));
 									array_push($array_option,$ui->option()->value("Practical")->text("Practical"));
 									array_push($array_option,$ui->option()->value("Sessional")->text("Sessional"));
@@ -115,6 +125,7 @@
 									   ->id("type".$counter)
 									   ->name("type".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>

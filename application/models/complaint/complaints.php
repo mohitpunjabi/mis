@@ -1,6 +1,6 @@
 <?php
 
-class Complaint_details extends CI_Model
+class Complaints extends CI_Model
 {
 	var $table = 'complaint';
 

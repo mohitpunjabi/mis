@@ -1,29 +1,222 @@
-<center><h2>Edit the Details of <?php echo $details_of_a_postname['postname'];?> Post</h2></center>
-<table width="100%"><tr><th></th></tr></table>
-	<?php  echo form_open_multipart('guard/manage_post/edit');   ?>
-<table width="100%">
-	<tr>
-		<td>Post ID</td>
-		<td><input type="text" name="postids" id="postids" disabled="disabled" value="<?php echo $details_of_a_postname['post_id'];?>"/></td>
-	</tr>
-	<tr>
-		<td>Post Name</td>
-		<td><input type="text" placeholder="Post Name" required="required" name="postname" id="postname"  value="<?php echo $details_of_a_postname['postname'];?>"/></td>
-	</tr>
-	<tr>
-		<td>Number of Guards in Shift A</td>
-		<td><input type="number"  min="1" placeholder="Number of Guards" required="required" name="number_a" id="number_a" value="<?php echo $details_of_a_postname['number_a'];?>"/></td>
-	</tr>
-	<tr>
-		<td>Number of Guards in Shift B</td>
-		<td><input type="number"  min="1" placeholder="Number of Guards" required="required" name="number_b" id="number_b" value="<?php echo $details_of_a_postname['number_b'];?>"/></td>
-	</tr>
-	<tr>
-		<td>Number of Guards in Shift C</td>
-		<td><input type="number"  min="1" placeholder="Number of Guards" required="required" name="number_c" id="number_c" value="<?php echo $details_of_a_postname['number_c'];?>"/></td>
-	</tr>
-</table>
-<input type="hidden" value="<?php echo $details_of_a_postname['post_id'];?>" name="post_id" id="post_id"/>
-<?php	echo form_submit('savesubmit','Edit');
-		echo form_close();
+<?php
+$ui = new UI();
+$headingBox = $ui->box()
+				 ->uiType('info')
+				 ->title('Edit the Details of Post')
+				 ->solid()
+				 ->open();
+	$form = $ui->form()
+		   ->multipart()
+		   ->action('guard/manage_post/edit')
+		   ->open();
+						  
+	$postidRow = $ui->row()
+					->id('postidRow')
+					->open();
+
+			$guardlabel = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Post ID';
+                $guardlabel->close();
+
+                $guardinput = $ui->col()
+                              ->width(8)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+							    
+								$ui->input()
+								   ->value($details_of_a_postname['post_id'])
+								   ->disabled()
+								   ->show();			
+							                  
+				$guardinput->close();		
+	$postidRow->close();
+	
+	$postRow = $ui->row()
+					->id('postRow')
+					->open();
+
+			$postlabel = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Post Name';
+                $postlabel->close();
+
+                $postinput = $ui->col()
+                              ->width(8)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+							  
+							    $ui->input()
+								   ->id('postname')
+								   ->name('postname')
+								   ->required()
+								   ->placeholder('Enter Post Name')
+								   ->value($details_of_a_postname['postname'])
+								   ->show();			
+                
+				$postinput->close();		
+	$postRow->close();
+	$ipRow = $ui->row()
+					->id('ipRow')
+					->open();
+
+			$guardlabel = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                              echo 'IP Address of Post';
+                $guardlabel->close();
+
+                $guardinput = $ui->col()
+                              ->width(8)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+							    
+								$ui->input()
+								   ->id('ipaddress')
+								   ->name('ipaddress')
+								   ->placeholder('Enter IP Address')
+								   ->value($details_of_a_postname['ipaddress'])
+								   ->show();			
+							                  
+				$guardinput->close();		
+	$ipRow->close();
+	$shiftRow = $ui->row()
+					->id('shiftRowA')
+					->open();
+
+			$shiftlabel = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Number of Guards in Shift A';
+                $shiftlabel->close();
+
+                $shiftinput = $ui->col()
+                              ->width(8)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+							    $ui->input()
+								   ->id('number_a')
+								   ->name('number_a')
+								   ->placeholder('Enter Number of Guard in shift A')
+								   ->value($details_of_a_postname['number_a'])
+								   ->required()
+								   ->extras("min='1'")
+								   ->type('number')
+								   ->show();			
+							  	                
+				$shiftinput->close();		
+	$shiftRow->close();
+	$shiftRow = $ui->row()
+					->id('shiftRowB')
+					->open();
+
+			$shiftlabel = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Number of Guards in Shift B';
+                $shiftlabel->close();
+
+                $shiftinput = $ui->col()
+                              ->width(8)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+							    $ui->input()
+								   ->id('number_b')
+								   ->name('number_b')
+								   ->placeholder('Enter Number of Guard in shift B')
+								   ->value($details_of_a_postname['number_b'])
+								   ->required()
+								   ->extras("min='1'")
+								   ->type('number')
+								   ->show();			
+							  	                
+				$shiftinput->close();		
+	$shiftRow->close();
+	$shiftRow = $ui->row()
+					->id('shiftRowC')
+					->open();
+
+			$shiftlabel = $ui->col()
+                              ->width(4)
+                              ->t_width(8)
+                              ->m_width(12)
+                              ->open();
+                              echo 'Number of Guards in Shift C';
+                $shiftlabel->close();
+
+                $shiftinput = $ui->col()
+                              ->width(8)
+                              ->t_width(4)
+                              ->m_width(12)
+                              ->open();
+							    $ui->input()
+								   ->id('number_c')
+								   ->name('number_c')
+								   ->placeholder('Enter Number of Guard in shift C')
+								   ->value($details_of_a_postname['number_c'])
+								   ->required()
+								   ->extras("min='1'")
+								   ->type('number')
+								   ->show();			
+							  	                
+				$shiftinput->close();		
+	$shiftRow->close();
+	$buttonRow = $ui->row()
+					->open();
+					
+			$abuttonCol = $ui->col()
+                              ->width(5)
+                              ->t_width(2)
+                              ->m_width(2)
+                              ->open();
+			$abuttonCol->close();
+			$bbuttonCol = $ui->col()
+                              ->width(2)
+                              ->t_width(8)
+                              ->m_width(8)
+                              ->open();
+							  
+						$ui->button()
+						   ->value('Save')
+						   ->uiType('primary')
+						   ->icon($ui->icon('save'))
+						   ->submit()
+						   ->name('savesubmit')
+						   ->show();
+			$bbuttonCol->close();
+			$cbuttonCol = $ui->col()
+                              ->width(5)
+                              ->t_width(2)
+                              ->m_width(2)
+                              ->open();
+			$cbuttonCol->close();
+	$buttonRow->close();
+	
+		$ui->input()
+		   ->id('post_id')
+		   ->name('post_id')
+		   ->extras("type='hidden'")
+		   ->value($details_of_a_postname['post_id'])
+		   ->show();			
+	$form->close();
+$headingBox->close();	
+
 ?>
+</center>

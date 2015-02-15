@@ -15,6 +15,7 @@ class UI {
 	function select()	{	return new Select();	}
 	function option()	{	return new Option();	}
 	function button()	{	return new Button();	}
+	function printButton()	{	return new PrintButton();	}
 	function alert()	{	return new Alert();		}
 	function callout()	{	return new Callout();	}
 	function label()	{	return new Label();		}
@@ -134,6 +135,11 @@ class Element {
 
 	function containerExtras( $extras = '' ) {
 		$this->containerProps['extras'] .= ($this->containerProps['extras'] == '')?	$extras:' '.$extras;
+		return $this;
+	}
+	
+	function noPrint() {
+		$this->containerClasses("no-print");
 		return $this;
 	}
 
@@ -287,15 +293,14 @@ class Box extends Element {
 
 	function open() {
 		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
-		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
-                    <div class="box-header" '.$tooltipAttr.'>';
-
-		if($this->icon) $this->icon->show();
-
-		echo '
-                        <h3 class="box-title">'.$this->title.'</h3>
-                    </div>
-        			<div class="box-body">';
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';		
+			if($this->icon || $this->title != '') {
+				echo '<div class="box-header" '.$tooltipAttr.'>';
+					if($this->icon) $this->icon->show();
+					if($this->title != '') echo '<h3 class="box-title">'.$this->title.'</h3>';
+				echo '</div>';
+			}
+        echo '<div class="box-body">';
         return $this;
 	}
 
@@ -331,7 +336,7 @@ class TabBox extends Box {
 		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 		echo '<ul class="nav nav-tabs">';
-			if($this->title != '' && $this->icon) {
+			if($this->title != '') {
               echo '<li class="header pull-left" '.$tooltipAttr.'>';
 					if($this->icon) $this->icon->show();
 					echo $this->title;
@@ -885,6 +890,17 @@ class Button extends Input {
 		}
 		echo $val.'</button>';
 	}
+}
+
+class PrintButton extends Button {
+
+	public function __construct() {
+		parent::__construct();
+		$this->icon(new Icon("print"));
+		$this->value("Print");
+		$this->extras('onclick="window.print()"');
+	}
+
 }
 
 class Option extends Element {

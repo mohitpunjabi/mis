@@ -122,7 +122,7 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                 $row6 = $ui->row()->open();
                     $ui->select()->width(3)->name('category')
                                     ->label('Category<span style= "color:red;"> *</span>')
-                                    ->options(array($ui->option()->value('General')->text('GEN'),
+                                    ->options(array($ui->option()->value('General')->text('GEN')->selected(),
                                                     $ui->option()->value('OBC')->text('OBC'),
                                                     $ui->option()->value('SC')->text('SC'),
                                                     $ui->option()->value('ST')->text('ST'),

@@ -1,43 +1,91 @@
-<div id="print">
-<h2><center><?php echo $day.' Duty Chart'; ?></center></h2>
- <table align="center">
-	<tr>
-		<th>Duty Date</th>
-		<th>Guard Name</th>
-		<th class="print-no-display">Photo</th>
-		<th>Post Name</th>
-		<th>Shift</th>
-		<th style="visibility:hidden";></th>
-		<th>Duty Date</th>
-		<th>Guard Name</th>
-		<th class="print-no-display">Photo</th>
-		<th>Post Name</th>
-		<th>Shift</th>
-	</tr>
-	<?php
-	$i=1;
-	foreach($all_duties_chart as $key => $duty) { 
-		if ($duty->shift == 'a') $shift = 'A';
-		if ($duty->shift == 'b') $shift = 'B';
-		if ($duty->shift == 'c') $shift = 'C';
-		if($i%2 !=0) echo '<tr>';
-		echo '
-				<td align="center">'.date('d M Y',strtotime($duty->date)+19800).'</td>
-				<td align="center">'.$duty->firstname.' '.$duty->lastname.'</td>
-				<td style="height: 60px; 
-									width: 40px;
-									background-image: url('.base_url().'assets/images/guard/'.$duty->photo.');
-									background-size: auto 100%;
-									background-position: 50% 50%;
-									background-repeat: no-repeat;
-								   " class="print-no-display"></td>
-				<td align="center">'.$duty->postname.'</td>
-				<td align="center">'.$shift.'</td>
-				';
-		if($i%2 ==0) echo '</tr>'; else echo '<td style="visibility:hidden";></td>';
-		$i=$i+1;
+<script type="text/javascript">
+$(document).ready(function() {
+	var showPhoto = function () {
+		this.div = $('<div style="border: 2px solid #aaa; position: fixed; height: 300px; width: 300px; min-width: 60px;  background-size: auto 100%; background-position: 50% 50%; background-repeat: no-repeat;"></div>');
+		return this;
 	}
-	?>
-	</table>
+	showPhoto.prototype = {
+		show: function(imageUrl, x, y, xoffset, yoffset, size, screen) {
+			var top = y-yoffset;
+			if (top + 200 > window.innerHeight) {
+				top -= 120;
+			}
+			this.div.css({
+				"background-image": "url('"+imageUrl+"')",
+				"top": (top)+"px",
+				"left": (x+61-xoffset)+"px",
+				"height": "200px",
+				"width": parseInt(200*size.width/size.height)+"px"
+			});
+			$(document.body).append(this.div);
+		},
+		hide: function() {
+			this.div.detach();
+		}
+	}
+	var photo = new showPhoto();
+	$("#compDutyChartTable").delegate(".photo-zoom", "mouseenter", function(e) {
+		e.preventDefault();
+		console.log(e);
+		var imageUrl = $(this).data('photo-url');
+		// console.log(imageUrl);
+		var image = document.createElement("img");
+		image.src = imageUrl;
+		
+		image.onload = function() {
+			photo.show(imageUrl, e.clientX, e.clientY, e.offsetX, e.offsetY, {height: this.height, width: this.width});
+		};
+	});
+	$("#compDutyChartTable").delegate(".photo-zoom", "mouseout", function(e) {
+		e.preventDefault();
+		photo.hide();
+	});
+});
+</script>
+<div id="print">
+<?php
+
+$ui = new UI();
+$headingBox = $ui->box()
+				 ->id('compDutyChartBox')
+				 ->uiType('info')
+				 ->title('Complete Duty Chart')
+				 ->solid()
+				 ->open();
 	
-	</div>
+	$table = $ui->table()
+				->id('compDutyChartTable')
+				->responsive()
+				->hover()
+				->bordered()
+				->striped()
+				->sortable()
+				->paginated()
+				->searchable()
+				->open();
+?>
+		<thead>
+            <tr>
+				<th class="print-no-display" width="30px">Photo</th>
+				<th><center>Guard Name</center></th>
+				<th><center>Post Name</center></th>
+				<th><center>Shift</center></th>
+				<th><center>Duty Date</center></th>
+            </tr>
+		</thead>
+
+        <tfoot>
+            <tr>
+                <th class="print-no-display" width="30px">Photo</th>
+				<th><center>Guard Name</center></th>
+				<th><center>Post Name</center></th>
+				<th><center>Shift</center></th>
+				<th><center>Duty Date</center></th>
+            </tr>
+        </tfoot>	
+<?php	
+	$table->close();
+$headingBox->close();				 
+				 
+?>
+</div>

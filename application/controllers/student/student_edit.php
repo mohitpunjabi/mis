@@ -58,7 +58,7 @@ class Student_edit extends MY_Controller
 
 			//$this->edit_validation($stu_id,'profile_pic_status');
 
-			$this->session->set_flashdata('flashSuccess','student '.$stu_id.' profile picture updated and sent for validation.');
+			$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' profile picture updated.');
 			redirect('student/student_edit');
 		}
 	}
@@ -171,7 +171,7 @@ class Student_edit extends MY_Controller
 			'last_name' => ucwords(strtolower($this->authorization->strclean($this->input->post('lastname')))) ,
 			'sex' => $this->input->post('sex') ,
 			'category' => $this->input->post('category') ,
-			'dob' => $this->input->post('dob') ,
+			'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 			'marital_status' => $this->input->post('mstatus') ,
 			'physically_challenged' => $this->input->post('pd') ,
 			'dept_id' => $this->input->post('department')
@@ -248,7 +248,7 @@ class Student_edit extends MY_Controller
 		}
 
 		$stu_details = array(
-			'admn_date' => $this->input->post('entrance_date') ,
+			'admn_date' => date('Y-m-d',strtotime($this->input->post('entrance_date'))) ,
 			'enrollment_no' => $this->input->post('roll_no') ,
 			'type' => $this->input->post('stu_type') ,
 			'identification_mark' => strtolower($this->authorization->strclean($this->input->post('identification_mark'))) ,
@@ -262,7 +262,7 @@ class Student_edit extends MY_Controller
 		$stu_fee_details = array(
 			'fee_mode' => $this->input->post('fee_paid_mode') ,
 			'fee_amount' => $this->input->post('fee_paid_amount') ,
-			'payment_made_on' => $this->input->post('fee_paid_date') ,
+			'payment_made_on' => date('Y-m-d',strtotime($this->input->post('fee_paid_date'))) ,
 			'transaction_id' => $this->input->post('fee_paid_dd_chk_onlinetransaction_cashreceipt_no')
 		);
 
@@ -275,7 +275,7 @@ class Student_edit extends MY_Controller
 			'guardian_relation' => $guardian_relation ,
 			'bank_name' => $this->authorization->strclean($this->input->post('bank_name')) ,
 			'account_no' => $this->authorization->strclean($this->input->post('bank_account_no')) ,
-			'aadhar_card_no' => $this->authorization->strclean($this->input->post('aadhar_no'))
+			'aadhaar_card_no' => $this->authorization->strclean($this->input->post('aadhaar_no'))
 		);
 
 		$stu_academic = array(

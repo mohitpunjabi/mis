@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CV extends MY_Controller {
@@ -9,7 +8,7 @@ class CV extends MY_Controller {
 		parent::__construct(array('tpo', 'stu'));
 		
 		//$this->addJS("course_structure/edit.js");
-		$this->addCSS("tnpcell/cs_layout.css");
+		//$this->addCSS("tnpcell/cs_layout.css");
 		//$this->load->model('tnp/basic_model','',TRUE);
   }
 	public function index()
@@ -65,7 +64,7 @@ class CV extends MY_Controller {
     $this->load->model('tnpcell/cv_model','',TRUE);
     $data['projects']= $this->cv_model->get_projects($user_id);
     $data['achievements']= $this->cv_model->get_achievements($user_id);
-    $this->drawHeader();
+    $this->drawHeader("Your CV");
     $this->load->view('tnpcell/print_cv',$data);
 	  $this->drawFooter();
     
@@ -77,7 +76,7 @@ class CV extends MY_Controller {
     $this->load->model('tnpcell/cv_model','',TRUE);
     $data['projects']= $this->cv_model->get_projects($user_id);
     $data['achievements']= $this->cv_model->get_achievements($user_id);
-    $this->drawHeader();
+    $this->drawHeader("Edit Your CV");
     $this->load->view('tnpcell/edit_cv',$data);
 	  $this->drawFooter();
   }

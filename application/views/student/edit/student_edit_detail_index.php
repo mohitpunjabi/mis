@@ -1,29 +1,63 @@
-<p><?php if($error!="")  $this->notification->drawNotification('',$error,'error'); ?></p>
-<?php  echo form_open_multipart('student/student_edit/select_details_to_edit','onSubmit="return form_validation();"');?>
-<h1>Please enter the Student Id and select the form</h1>
-<table align="center">
-	<tr>
-		<th>
-        	Admission No.
-        </th>
-        <td>
-        	<input type="text" name="stu_id" required="required" />
-        </td>
-	</tr>
-	<tr>
-		<th>
-        	Select Form
-        </th>
-        <td>
-        	<select name="select_form">
-        		<option value="0">Change profile picture</option>
-    			<option value="1">Basic Details</option>
-    			<option value="2">Education Details</option>
-        	</select>
-        </td>
-	</tr>
-</table>
-<center><input type = "submit" value="Go"/></center>
-<!--center><input type = "button" value="Check" onClick="form_validation()"/></center>
-<center><input type = "submit" id="go_to_next" value="Go"/></center-->
-<?php echo form_close(); ?>
+<?php
+
+    $ui = new UI();
+
+        $form=$ui->form()
+                 ->action('student/student_edit/select_details_to_edit')
+                 ->multipart()
+                 ->id('form_submit')
+                 ->open();
+
+            $select_details_to_edit_box = $ui->box()
+                                             ->uiType('primary')
+                                             ->solid()
+                                             ->title('Enter the Student Id and Select the Form')
+                                             ->open();
+
+
+                $student_admn_no = $ui->row()
+                                      ->open();
+
+                        $ui->input()
+                           ->label('Admission No.')
+                           ->uiType('primary')
+                           ->id('stu_id')
+                           ->width(6)
+                           ->name('stu_id')
+                           ->show();
+
+                        $ui->select()
+                           ->label('Select Form')
+                           ->name('select_form')
+                           ->options(array($ui->option()->value('0')->text('Change Profile Picture'),
+                                           $ui->option()->value('1')->text('Edit Basic Details'),
+                                           $ui->option()->value('2')->text('Edit Education Details')))
+                           ->width(6)
+                           ->show();
+
+                $student_admn_no->close();
+
+                $student_details_row_2 = $ui->row()
+                                              ->open();
+
+                        $student_details_2_1 = $ui->col()
+                                                  ->width(5)
+                                                  ->open();
+
+                            $student_details_2_1->close();
+
+                            $ui->button()
+                               ->submit(true)
+                               ->value('Submit')
+                               ->uiType('primary')
+                               ->id('submit_button_id')
+                               ->width(2)
+                               ->show();
+
+                    $student_details_row_2->close();
+
+            $select_details_to_edit_box->close();
+
+        $form->close();
+
+?>

@@ -59,9 +59,9 @@ class Student_add_deo extends MY_Controller
 		$data['error'] = $error;
 
 		//Fetching Student types
-		$this->load->model('student/student_type_model','',TRUE);
+		/*$this->load->model('student/student_type_model','',TRUE);
 		$data['stu_type'] = $this->student_type_model->get_all_types();
-
+*/
 		//Fetching all States
 		//$this->load->model('student/student_states_model','',TRUE);
 		//$data['states'] = $this->student_states_model->get_all_states();
@@ -134,7 +134,7 @@ class Student_add_deo extends MY_Controller
 	{
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('firstname','First Name','trim|required');
-		$this->form_validation->set_rules('stud_name_hindi','Student Name in Hindi','required');
+		//$this->form_validation->set_rules('stud_name_hindi','Student Name in Hindi','required');
 		if($this->input->post('depends_on'))
 		{
 		 	$this->form_validation->set_rules('guardian_name','Guardian Name','trim|required');
@@ -153,9 +153,10 @@ class Student_add_deo extends MY_Controller
 		$this->form_validation->set_rules('parent_landline','Parent Landline','numeric');
 		$this->form_validation->set_rules('pob','Place of Birth','trim|required');
 		$admn_based_on = $this->input->post('admn_based_on');
-		if($admn_based_on === 'others')
-			$this->form_validation->set_rules('other_mode_of_admission','Other Mode of Admission','trim|required');
-		else if($admn_based_on === 'iitjee')
+		//if($admn_based_on === 'others')
+			//$this->form_validation->set_rules('other_mode_of_admission','Other Mode of Admission','trim|required');
+		//else 
+		if($admn_based_on === 'iitjee')
 		{
 			$this->form_validation->set_rules('iitjee_rank','IIT JEE Rank','required|numeric');
 			$this->form_validation->set_rules('iitjee_cat_rank','IIT JEE Category Rank','required|numeric');
@@ -165,7 +166,7 @@ class Student_add_deo extends MY_Controller
 		else if($admn_based_on === 'cat')
 			$this->form_validation->set_rules('cat_score','Cat Score','required|numeric');
 		$this->form_validation->set_rules('identification_mark','Identification Mark','trim|required');
-		$this->form_validation->set_rules('migration_cert','Migration Certificate','trim|required');
+		//$this->form_validation->set_rules('migration_cert','Migration Certificate','trim|required');
 		$this->form_validation->set_rules('nationality','Nationality','trim|required');
 		$this->form_validation->set_rules('bank_name','Bank Name','trim|required');
 		$this->form_validation->set_rules('bank_account_no','Account No','trim|required');
@@ -196,13 +197,15 @@ class Student_add_deo extends MY_Controller
 		//$this->form_validation->set_rules('email','Email','trim|required|valid_email');
 		//$this->form_validation->set_rules('alternate_email_id','Alternate Email','trim|valid_email');
 		$this->form_validation->set_rules('mobile','Mobile No','required|regex_match[/^[0-9]{10}$/]');
-		//$this->form_validation->set_rules('alternate_mobile','Alternate Mobile No','required|regex_match[/^[0-9]{10}$/]');
-		$this->form_validation->set_rules('fee_paid_amount','Fee Paid Amount','numeric');
+		//$this->form_validation->set_rules('alternate_mobile','Alternate Mobile No','regex_match[/^[0-9]{10}$/]');
+		//$this->form_validation->set_rules('fee_paid_amount','Fee Paid Amount','numeric');
 		if($this->form_validation->run() === FALSE)
 		{
 			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			redirect('student/student_add');
+			redirect('student/student_add_deo');
 		}
+		/*else
+			redirect('student/student_edit');*/
 		$stu_id = strtolower($this->input->post('stu_id'));
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)
@@ -226,7 +229,7 @@ class Student_add_deo extends MY_Controller
 				'last_name' => ucwords(strtolower($this->authorization->strclean($this->input->post('lastname')))) ,
 				'sex' => $this->input->post('sex') ,
 				'category' => $this->input->post('category') ,
-				'dob' => $this->input->post('dob') ,
+				'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 				'email' => $this->authorization->strclean($this->input->post('email')) ,
 				'photopath' => 'student/'.$stu_id.'/'.$upload['file_name'] ,
 				'marital_status' => $this->input->post('mstatus') ,
@@ -326,7 +329,7 @@ class Student_add_deo extends MY_Controller
 
 			$stu_details = array(
 				'admn_no' => $stu_id ,
-				'admn_date' => $this->input->post('entrance_date') ,
+				'admn_date' => date('Y-m-d',strtotime($this->input->post('entrance_date'))) ,
 				'enrollment_no' => $this->input->post('roll_no') ,
 				'type' => $this->input->post('stu_type') ,
 				'identification_mark' => strtolower($this->authorization->strclean($this->input->post('identification_mark'))) ,
@@ -344,7 +347,7 @@ class Student_add_deo extends MY_Controller
 				'fee_mode' => $this->input->post('fee_paid_mode') ,
 				'fee_amount' => $this->input->post('fee_paid_amount') ,
 				'fee_in_favour' => 'indian school of mines' ,
-				'payment_made_on' => $this->input->post('fee_paid_date') ,
+				'payment_made_on' => date('Y-m-d',strtotime($this->input->post('fee_paid_date'))) ,
 				'transaction_id' => $this->input->post('fee_paid_dd_chk_onlinetransaction_cashreceipt_no')
 			);
 
@@ -358,7 +361,7 @@ class Student_add_deo extends MY_Controller
 				'guardian_relation' => $guardian_relation ,
 				'bank_name' => $this->authorization->strclean($this->input->post('bank_name')) ,
 				'account_no' => $this->authorization->strclean($this->input->post('bank_account_no')) ,
-				'aadhar_card_no' => $this->authorization->strclean($this->input->post('aadhar_no')) ,
+				'aadhaar_card_no' => $this->authorization->strclean($this->input->post('aadhaar_no')) ,
 				'extra_curricular_activity' => strtolower($this->authorization->strclean($this->input->post('extra_activity'))) ,
 				'other_relevant_info' => strtolower($this->authorization->strclean($this->input->post('any_other_information')))
 			);
@@ -503,12 +506,17 @@ class Student_add_deo extends MY_Controller
 			$this->user_details_model->insert($user_details);
 			$this->user_other_details_model->insert($user_other_details);
 			$this->user_address_model->insert_batch($user_address);
-			$this->student_academic_model->insert($stu_academic);
-			$this->student_details_model->insert($stu_details);
-			$this->student_other_details_model->insert($stu_other_details);
-			$this->student_fee_details_model->insert($stu_fee_details);
+			if(!$this->student_academic_model->insert($stu_academic))
+				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_academic_model.');
+			if(!$this->student_details_model->insert($stu_details))
+				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_details.');
+			if(!$this->student_other_details_model->insert($stu_other_details))
+				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_other_details.');
+			if(!$this->student_fee_details_model->insert($stu_fee_details))
+				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_fee_details.');
 			//$this->student_current_entry_model->insert($stu_current_entry);
-			$this->student_education_details_model->insert_batch($stu_education_details);
+			if(!$this->student_education_details_model->insert_batch($stu_education_details))
+				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_education_details.');
 			//$this->Student_type_model->insert($stu_type);
 			//$this->Student_new_student_type->update();
 

@@ -17,18 +17,13 @@ class Guard_menu_model extends CI_Model
 		
 		$menu['guard_sup']['Guard Management']['Duties'] = array();
 		//$menu['guard_sup']['Guard Management']['Duties']['Auto Assignment'] = site_url('guard/duties/auto_assignment');
-		$menu['guard_sup']['Guard Management']['Duties']['Manual Assignment'] = site_url('guard/duties/manual_assignment');
+		$menu['guard_sup']['Guard Management']['Duties']['Assign Duties'] = array();
+		$menu['guard_sup']['Guard Management']['Duties']['Assign Duties']['Regular'] = site_url('guard/duties/assign_regular');
+		$menu['guard_sup']['Guard Management']['Duties']['Assign Duties']['Overtime'] = site_url('guard/duties/assign_overtime');
+		
 		$menu['guard_sup']['Guard Management']['Duties']['Assign Duty to a Guard'] = site_url('guard/duties/assign_to_a_guard');
 		
-		$menu['guard_sup']['Guard Management']['Duties']['View Duty Chart'] = array();
-		$menu['guard_sup']['Guard Management']['Duties']['View Duty Chart']['Today'] = site_url('guard/duties/today_chart');
-		$menu['guard_sup']['Guard Management']['Duties']['View Duty Chart']['Tomorrow'] = site_url('guard/duties/tomorrow_chart');
-		$menu['guard_sup']['Guard Management']['Duties']['View Duty Chart']['Complete'] = site_url('guard/duties/complete_chart');	
-		
-		
-		$menu['guard_sup']['Guard Management']['Duties']['Overtime Duties'] = array();
-		$menu['guard_sup']['Guard Management']['Duties']['Overtime Duties']['Assign Duties'] = site_url('guard/over_time/assign_to_a_guard');
-		$menu['guard_sup']['Guard Management']['Duties']['Overtime Duties']['View Duties'] = site_url('guard/over_time/view');
+		$menu['guard_sup']['Guard Management']['Duties']['View Duty Chart'] = site_url('guard/duties/view');
 		
 				
 		$menu['guard_sup']['Guard Management']['Manage Guard'] = array();

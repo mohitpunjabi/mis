@@ -78,6 +78,7 @@
                         </div>
                     </form>
                     <!-- /.search form -->
+
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                     
@@ -110,72 +111,74 @@
 				if(isset($notifications[$key]["read"])) $readCount = count($notifications[$key]["read"]);
 				?>
                 
-                        <li class="treeview">
+                        <li class="treeview -mis-menu-authtype">
                             <a href="#">
 								<i class="fa fa-angle-right"></i>
                                 <span><?= ucfirst($authKeys[$key]) ?></span>
-                                <small class="badge pull-right <?php if($unreadCount > 0) echo "bg-red"; ?>"><?= $unreadCount ?></small>                                
+                                <small class="badge pull-right role <?php if($unreadCount > 0) echo "bg-red"; ?>"><?= $unreadCount ?></small>
+				<?
+					echo '<div class="notification-drawer closed">';
+	
+					echo '<div class="unread">';
+					if($unreadCount > 0) {
+						echo '<h3>Unread Notifications &raquo;</h3>';
+						foreach($notifications[$key]["unread"] as $row) {					
+							$dateTime = new DateTime();
+							$dateTime->setTimestamp(strtotime($row->send_date));
+							$dateTime->setTimeZone($dateTimeZone);
+							
+							
+							$ui->alert()
+							   ->title(ucwords($row->title))
+							   ->desc($row->description)
+							   ->uiType($row->type)
+		//					   ->path($row->path)
+		//					   ->date($dateTime->format('m/d/Y H:i A'))
+		//					   ->photo(base_url().'assets/images/'.$row->photopath))
+							   ->show();
+						}
+					}
+					echo '</div>';
+	
+	
+					echo '<div class="read">';
+					if($readCount > 0) {
+						echo '<h3>Old Notifications &raquo;</h3>';
+						foreach($notifications[$key]["read"] as $row) {
+							$dateTime = new DateTime();
+							$dateTime->setTimestamp(strtotime($row->send_date));
+							$dateTime->setTimeZone($dateTimeZone);
+	
+							$ui->alert()
+							   ->title(ucwords($row->title))
+							   ->desc($row->description)
+							   ->uiType($row->type)
+		//					   ->path($row->path)
+		//					   ->date($dateTime->format('m/d/Y H:i A'))
+		//					   ->photo(base_url().'assets/images/'.$row->photopath))
+							   ->show();
+						}
+					}
+					echo '</div>';
+	
+					if($readCount == 0 && $unreadCount == 0) echo "<center><br />No more notifications.</center>";
+	
+					echo '</div>';
+				?>                    
                             </a>
+
                             <ul class="treeview-menu">
                             	<?= _drawNavbarMenuItem($val); ?>
                             </ul>
                         </li>
 
-				<?php
-/*
-				echo '<div class="-mis-menu-authtype collapsed">
-						<div class="role">'.ucfirst($authKeys[$key]).'</div>';
-
-				if($unreadCount > 0) echo '<span class="-mis-counter active">'.$unreadCount.'</span>';
-				else 				 echo '<span class="-mis-counter">'.$unreadCount.'</span>';
-
-				echo '<!-- <div class="notification-drawer">';
-
-				echo '<div class="unread">';
-				if($unreadCount > 0) {
-					echo '<h3>Unread Notifications &raquo;</h3>';
-					foreach($notifications[$key]["unread"] as $row) {
-					
-					$dateTime = new DateTime();
-					$dateTime->setTimestamp(strtotime($row->send_date));
-					$dateTime->setTimeZone($dateTimeZone);
-					
-					
-					$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, $dateTime->format('m/d/Y H:i A'), base_url().'assets/images/'.$row->photopath);
-					}
-				}
-				echo '</div>';
-
-
-				echo '<div class="read">';
-				if($readCount > 0) {
-					echo '<h3>Old Notifications &raquo;</h3>';
-					foreach($notifications[$key]["read"] as $row) {
-						$dateTime = new DateTime();
-						$dateTime->setTimestamp(strtotime($row->send_date));
-						$dateTime->setTimeZone($dateTimeZone);
-
-						$this->notification->drawNotification(ucwords($row->title), $row->description, $row->type, $row->path, $dateTime->format('m/d/Y H:i A'), base_url().'assets/images/'.$row->photopath);
-					}
-				echo '</div>';
-
-				if($readCount == 0 && $unreadCount == 0) echo "<center><br />No more notifications.</center>";
-
-				echo '</div> -->';
-				
-
-				echo '<ul>';
-				_drawNavbarMenuItem($val);
-					echo '</ul>';
-				echo '</div>';
-			}
-			*/
-		}
-		?>
+		<? } ?>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
             </aside>
+
+
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">

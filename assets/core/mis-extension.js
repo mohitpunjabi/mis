@@ -10,3 +10,12 @@ $.fn.extend({
 		});
 	}
 });
+
+$(document).ready(function() {
+	$(".-mis-menu-authtype .role").click(function(e) {
+//		alert();
+		$(".notification-drawer").removeClass("closed");
+		$(this).next(".notification-drawer").addClass("closed");
+		e.stopImmediatePropagation();
+	});
+});

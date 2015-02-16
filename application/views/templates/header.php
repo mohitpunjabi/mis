@@ -126,13 +126,10 @@
 							$dateTime = new DateTime();
 							$dateTime->setTimestamp(strtotime($row->send_date));
 							$dateTime->setTimeZone($dateTimeZone);
-							
-							
-							$ui->alert()
+							$ui->callout()
 							   ->title(ucwords($row->title))
-							   ->desc($row->description)
-							   ->uiType($row->type)
-		//					   ->path($row->path)
+							   ->desc($row->description . ' <span class="label label-info pull-right" onclick="window.location=\''.site_url($row->path).'\'">Know More &raquo;</span>')
+							   ->uiType("info")
 		//					   ->date($dateTime->format('m/d/Y H:i A'))
 		//					   ->photo(base_url().'assets/images/'.$row->photopath))
 							   ->show();
@@ -141,25 +138,29 @@
 					echo '</div>';
 	
 	
-					echo '<div class="read">';
+					$readCol = $ui->col()->width(12)->classes("read")->open();
 					if($readCount > 0) {
-						echo '<h3>Old Notifications &raquo;</h3>';
+						echo '<hr />';
 						foreach($notifications[$key]["read"] as $row) {
 							$dateTime = new DateTime();
 							$dateTime->setTimestamp(strtotime($row->send_date));
 							$dateTime->setTimeZone($dateTimeZone);
-	
-							$ui->alert()
-							   ->title(ucwords($row->title))
-							   ->desc($row->description)
-							   ->uiType($row->type)
-		//					   ->path($row->path)
+							echo "<div class='margin'>";
+							echo '<b>'.ucwords($row->title).'</b>';
+							echo '<p>'.$row->description . ' <span class="label label-info pull-right" onclick="window.location=\''.site_url($row->path).'\'">Know More &raquo; </span> </p>';
+							echo '<hr />';
+							echo "</div>";
+/*	
+							$ui->callout()
+							   ->desc()
+							   ->uiType("info")
 		//					   ->date($dateTime->format('m/d/Y H:i A'))
 		//					   ->photo(base_url().'assets/images/'.$row->photopath))
 							   ->show();
+*/
 						}
 					}
-					echo '</div>';
+					$readCol->close();
 	
 					if($readCount == 0 && $unreadCount == 0) echo "<center><br />No more notifications.</center>";
 	

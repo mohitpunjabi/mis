@@ -14,8 +14,16 @@ $.fn.extend({
 $(document).ready(function() {
 	$(".-mis-menu-authtype .role").click(function(e) {
 //		alert();
-		$(".notification-drawer").removeClass("closed");
-		$(this).next(".notification-drawer").addClass("closed");
+		$(".notification-drawer").addClass("closed");
+		$(this).next(".notification-drawer").removeClass("closed");
 		e.stopImmediatePropagation();
+	});
+	
+	$('html').click(function() {
+		$(".notification-drawer").addClass("closed");
+	});
+	
+	$('.notification-drawer').click(function(event){
+	    event.stopPropagation();
 	});
 });

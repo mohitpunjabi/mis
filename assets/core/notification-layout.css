@@ -2,11 +2,13 @@
 	position: fixed;
 	left: 230px;
 	width: 400px;
-	top: 40px;
+	top: 60px;
 	bottom: 10px;
 	overflow-y: auto;
 	box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);
 	background: #FAFAFA;
+	z-index: 100;
+	cursor: default;
 }
 
 .notification-drawer.closed {
@@ -27,6 +29,7 @@
 	color: #777;
 	font-weight: 600;
 	text-align: center;
+	font-size: 16px;
 }
 
 .notification-drawer > .read  .-mis-notification-link:hover {

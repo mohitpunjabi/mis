@@ -429,6 +429,13 @@ $headingBox = $ui->box()
 			
 			
 			$tab1 = $ui->tabPane()->id("regularp")->active()->open();	
+					echo '<div id="postmessage-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given post.")
+								  ->uiType("info")
+								  ->show();
+					echo '</div>';		
 							$table = $ui->table()
 										->id('postDutyChartTable')
 										->responsive()
@@ -462,6 +469,13 @@ $headingBox = $ui->box()
 	            $tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimep")->open();
+					echo '<div id="postmessageO-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given post.")
+								  ->uiType("info")
+								  ->show();
+					echo '</div>';
 					echo '<div id="totalduration"></div>';
 					$table = $ui->table()->id('postDutyChartTableOvertime')
 										 ->responsive()
@@ -522,6 +536,15 @@ $headingBox = $ui->box()
 			
 			
 			$tab1 = $ui->tabPane()->id("regulard")->active()->open();	
+					echo '<div id="datemessage-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date.")
+								  ->uiType("info")
+								  ->show();
+					echo '</div>';
+								
+								
 								$table = $ui->table()
 											->id('dateDutyChartTable')
 											->responsive()
@@ -556,6 +579,13 @@ $headingBox = $ui->box()
 				$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimed")->open();
+					echo '<div id="datemessageO-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date.")
+								  ->uiType("info")
+								  ->show();
+					echo '</div>';
 					echo '<div id="totaldurationd"></div>';
 							$table = $ui->table()
 											->id('dateDutyChartTableOvertime')
@@ -619,6 +649,14 @@ $headingBox = $ui->box()
 			
 			
 			$tab1 = $ui->tabPane()->id("regularr")->active()->open();
+						echo '<div id="rangemessage-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date range.")
+								  ->uiType("info")
+								  ->show();
+						echo '</div>';		
+								
 								$table = $ui->table()
 											->id('rangeDutyChartTable')
 											->responsive()
@@ -654,6 +692,13 @@ $headingBox = $ui->box()
 				$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimer")->open();
+					echo '<div id="rangemessageO-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date range.")
+								  ->uiType("info")
+								  ->show();
+					echo '</div>';
 							echo '<div id="totaldurationr"></div>';
 							$table = $ui->table()
 											->id('rangeDutyChartTableOvertime')
@@ -719,6 +764,14 @@ $headingBox = $ui->box()
 			
 			
 			$tab1 = $ui->tabPane()->id("regularrp")->active()->open();
+							echo '<div id="rangepostmessage-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date range at a post.")
+								  ->uiType("info")
+								  ->show();
+							echo '</div>';
+							
 							$table = $ui->table()
 										->id('rangepostDutyChartTable')
 										->responsive()
@@ -752,7 +805,14 @@ $headingBox = $ui->box()
 						$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimerp")->open();
-								echo '<div id="totaldurationrp"></div>';
+							echo '<div id="rangepostmessageO-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date range at a post.")
+								  ->uiType("info")
+								  ->show();
+							echo '</div>';
+							echo '<div id="totaldurationrp"></div>';
 							$table = $ui->table()
 											->id('rangepostDutyChartTableOvertime')
 											->responsive()
@@ -815,6 +875,14 @@ $headingBox = $ui->box()
 			
 			
 			$tab1 = $ui->tabPane()->id("regularrg")->active()->open();
+						echo '<div id="rangeguardmessage-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date range for a guard.")
+								  ->uiType("info")
+								  ->show();
+						echo '</div>';
+						
 						$table = $ui->table()
 									->id('rangeguardDutyChartTable')
 									->responsive()
@@ -846,6 +914,13 @@ $headingBox = $ui->box()
 				$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimerg")->open();
+						echo '<div id="rangeguardmessageO-div" style="display:none;">';
+								$box = $ui->callout()
+								  ->title("Empty List")
+								  ->desc("List is empty for the given date range for a guard.")
+								  ->uiType("info")
+								  ->show();
+						echo '</div>';
 								echo '<div id="totaldurationrg"></div>';
 								$table = $ui->table()
 									->id('rangeguardDutyChartTableOvertime')

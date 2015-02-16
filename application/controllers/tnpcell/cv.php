@@ -64,7 +64,7 @@ class CV extends MY_Controller {
     $this->load->model('tnpcell/cv_model','',TRUE);
     $data['projects']= $this->cv_model->get_projects($user_id);
     $data['achievements']= $this->cv_model->get_achievements($user_id);
-    $this->drawHeader();
+    $this->drawHeader("Your CV");
     $this->load->view('tnpcell/print_cv',$data);
 	  $this->drawFooter();
     
@@ -76,15 +76,30 @@ class CV extends MY_Controller {
     $this->load->model('tnpcell/cv_model','',TRUE);
     $data['projects']= $this->cv_model->get_projects($user_id);
     $data['achievements']= $this->cv_model->get_achievements($user_id);
-    $this->drawHeader();
+    $this->drawHeader("Edit Your CV");
     $this->load->view('tnpcell/edit_cv',$data);
 	  $this->drawFooter();
   }
-  public function update_project($projectdetails)
+  public function update_project()
   {
-    $this->load->model('tnpcell/cv_model','',TRUE);
-    echo "reached controller";
-    $this->cv_model->update(0,$projectdetails);
+	  $data = file_get_contents('php://input');
+	  $data = json_decode($data, true);
+      $this->load->model('tnpcell/cv_model','',TRUE);
+	  
+	  $project_details['place'] = $data['place'];
+	  $project_details['title'] = $data['title'];
+	  $project_details['role']= $data['role'];
+	  $project_details['description'] = $data['description'];
+	  $project_details['duration'] = $data['duration'];
+	  //$id= $data['id'];
+	  
+	  
+	  	if($this->cv_model->update_project($project_details,$id))
+		{
+			echo "success";
+		}
+		else	
+			echo "failed";
   }
 }
 /* End of file welcome.php */

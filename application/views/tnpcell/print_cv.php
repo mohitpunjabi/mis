@@ -2,13 +2,11 @@
 	$ui = new UI();
     $outer_row = $ui->row()->id('or')->open();
     $column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
-    
-    echo '<h3><b><center>Your CV</b></center>';
-    echo 'Project/Internship/Excursion/Training</h3>';    
+	$box = $ui->box()->title("Project/Internship/Excursion/Training")->open();
     $table = $ui->table()->responsive()->hover()->bordered()->open();
 							echo '
-								  <tr>
-									<th>Sl.No</th>
+				  <tr>
+				  <th>Sl.No</th>
                   <th>Title</th>
                   <th>Place</th>
                   <th>Duration</th>
@@ -47,7 +45,8 @@
 		$i++;
     }
     $table->close();
-	  echo '<h3>Awards & Achievements</h3>';
+	$box->close();
+	 $box = $ui->box()->title("Awards & Achievements")->open();
      $table2 = $ui->table()->responsive()->hover()->bordered()->open();
      foreach($achievements as $row) {
         echo '
@@ -61,6 +60,7 @@
                 </tr> ';
      }
      $table2->close();
+	$box->close();
 		$column1->close();
 	$outer_row->close();
 ?>

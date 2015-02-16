@@ -29,7 +29,7 @@ $ui = new UI();
 							<td>'.$row->ctc."<br>".$row->gross."<br>".$row->take_home.'</td>
 							<td>';
 							if(isset($row->status))
-								$ui->label()->uiType("info")->text($row->status)->show();
+								$ui->label()->uiType("info")->text($row->status)->show(); 
 							else
 								$ui->label()->uiType("warning")->text("Pending")->show();
 					echo 

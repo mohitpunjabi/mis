@@ -1,72 +1,98 @@
-<?php echo form_open (); ?> 
-<div id="container">
-	<h1>File Details</h1>
-	<FIELDSET>
-	<table align="center" nozebra>
-	<LEGEND><b>File Details : </b></LEGEND>
-		<tr>
-			<td>File Number : </td>
-			<td> 
-				<input type="text" name="file_no" id="file_no" > 
-			</td>
-			<td>File Subject : </td>
-			<td> 
-				<input type="text" name="file_sub" id="file_sub" size="55"> 
-			</td>
-		</tr>
+<?php
+	$ui = new UI();
+
+	$row = $ui->row()->open();
 	
-	</table>
-	</FIELDSET>
-	<FIELDSET>
-	<table align="center" nozebra>
-	<LEGEND><b>File will be Sent to : </b></LEGEND>
-		<tr>
-			<td>Department Type : </td>
-			<td> 
-				<select name="type" id="type" onchange="get_departments(this.value)">
-					<option type="text" value="">Select</option>
-					<option type="text" value="academic">Academic</option>
-					<option type="text" value="nonacademic">Non Academic</option>
-				</select>
-			</td>
-		<td>Select Department : </td>
-			<td>
-				<select name="department_name" id="department_name" onchange="get_designation_name(this.value)">
-					<option type="text" value="">Select</option>
-				</select>
-			</td> 
-		</tr>
-		<tr>
-			<td>Designation : </td>
-			<td> 
-				<select name="designation" id="designation" onchange="get_emp_name(this.value)">
-					<option type="text" value="">Select</option>
-				</select>
-			</td>
-			<td>Employee Name : </td>
-			<td> 
-				<select name="emp_name" id="emp_name">
-					<option type="text" value="">Select</option>
-				</select>
-			</td>
-		</tr> 
-	</table>
-	</FIELDSET>
-	<FIELDSET>
-	<table align="center" nozebra>
-	<LEGEND><b>Add Remarks : </b></LEGEND>
-		<tr>
-			<td>Remarks : </td>
-			<td> 
-				<textarea name="remarks" id="remarks" ></textarea>
-				<!--<input type="text" name="emp_id" id="emp_id">-->
-			</td>
-			<td> 
-				<input type="button" value="Send File" onClick="display_send_notification()">
-			</td>
-		</tr>
-	</table>
-	</FIELDSET>
-</div>
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
 	
-<div id="send_notification"></div>
+	$column2 = $ui->col()->width(8)->open();
+	$box = $ui->box()
+			  ->title('File Details')
+			  ->solid()	
+			  ->uiType('primary')
+			  ->open();
+
+	$form = $ui->form()->action('file_tracking/send_new_file/insert_file_details')->open();
+
+	$inputRow1 = $ui->row()->open();
+		 $ui->input()
+			->placeholder('Enter file number')
+			->type('text')
+			->label('File Number')
+			->name('file_no')
+			->width(6)
+		    ->show();
+		 $ui->input()
+			->placeholder('Enter file subject')
+			->type('text')
+			->label('File Subject')
+			->name('file_sub')
+			->required()
+	 		->width(6)
+		    ->show();
+	$inputRow1->close();
+
+	$inputRow2 = $ui->row()->open();
+		 $ui->select()
+			->label('Department Type')
+			->name('type')
+			->id('type')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')->selected(),
+							$ui->option()->value('academic')->text('Academic'),
+							$ui->option()->value('nonacademic')->text('Non Academic')))
+		    ->width(6)
+		    ->show();
+		 $ui->select()
+			->label('Select Department')
+			->name('department_name')
+			->id('department_name')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')))
+
+			->width(6)
+		   	->show();
+	$inputRow2->close();
+
+	$inputRow3 = $ui->row()->open();
+     	 $ui->select()
+			->label('Designation')
+			->name('designation')
+			->id('designation')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')))
+   			->width(6)
+		   	->show();
+		 $ui->select()
+			->label('Employee Name')
+			->name('emp_name')
+			->id('emp_name')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+		    ->width(6)
+		    ->show();
+	$inputRow3->close();
+
+	$ui->textarea()
+	   ->label('Remarks')
+	   ->name('remarks')
+	   ->placeholder('Remarks')
+	   ->show();
+?>
+<center>
+<?php
+	 $ui->button()
+		->value('Send File')
+		->submit(true)
+		->uiType('primary')
+		->show();
+	
+	$form->close();
+	$box->close();
+	
+	$column2->close();
+	
+	$row->close();
+?>
+</center>

@@ -38,7 +38,6 @@ $ui->someElem()
 				$ui->printButton()->show();
 			$printBox->close();
 		$printCol->close();
-
 	$topRow->close();
 
 ?><h2 class="page-header">Different box types</h2><?

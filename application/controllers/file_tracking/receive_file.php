@@ -5,8 +5,8 @@ class Receive_file extends MY_Controller
 	function __construct()
 	{
 		parent::__construct(array('emp','deo'));
-		$this->addJS ("file_tracking/file_tracking_script.js");
-		$this->addCSS("file_tracking/file_tracking_layout.css");
+		$this->addJS ("file_tracking/validate_track_num.js");
+//		$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 	public function index()
 	{
@@ -30,7 +30,7 @@ class Receive_file extends MY_Controller
 		$data = array (
 						'file_id' => $file_id
 					  );
-		$this->drawHeader ("Validate Track Number");
+		$this->drawHeader ("Track Number Validation");
 		$this->load->view('file_tracking/receive_file/validate_track_num',$data);
 		$this->drawFooter ();
 	}

@@ -195,13 +195,14 @@
 
                     <div class="flash-data">
                         <?php
+                            $ui = new UI();
                             if($this->session->flashdata('flashSuccess'))
-                                echo "<p class='notification success'>".$this->session->flashdata('flashSuccess')."</p>";
+                                $ui->alert()->uiType("success")->desc($this->session->flashdata('flashSuccess'))->show();
                             if($this->session->flashdata('flashError'))
-                                echo "<p class='notification error'>".$this->session->flashdata('flashError')."</p>";
+                                $ui->alert()->uiType("error")->desc($this->session->flashdata('flashError'))->show();
                             if($this->session->flashdata('flashInfo'))
-                                echo "<p class='notification '>".$this->session->flashdata('flashInfo')."</p>";
+                                $ui->alert()->uiType("info")->desc($this->session->flashdata('flashInfo'))->show();
                             if($this->session->flashdata('flashWarning'))
-                                echo "<p class='notification warning'>".$this->session->flashdata('flashWarning')."</p>";
+                                $ui->alert()->uiType("warning")->desc($this->session->flashdata('flashWarning'))->show();
                         ?>
                     </div>

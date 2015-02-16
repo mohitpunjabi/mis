@@ -1,57 +1,78 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Please login to continue</title>
-</head>
+<?php $ui = new UI(); ?>
+    <body class="skin-blue">
+		<div class="center">
+<?
+		$errorHead = "Error";
+		$uiType = "error";
+		$errorMessage = "An error occured while logging in. Please try again.";
+		if($error_code == 1) {
+			$errorMessage = "Invalid username or password. Please try again.";
+		}
+		else if($error_code == 2) {
+			$errorMessage = "You do not have access to that location.";
+		}
+		else if($error_code == 0) {
+			$errorHead = "Login";
+			$uiType = "info";
+			$errorMessage = "Please enter your username and password";
+		}
+		else if($error_code == 4) {
+			$errorHead = "Password Changed";
+			$errorMessage = "Your Password has been changed. Please login again to continue.";
+			$uiType = "info";
+		}
 
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/core/mis-layout.css" />
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/core/login.css" />
-<script type="text/javascript" src="<?= base_url() ?>assets/core/jquery.min.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/core/mis-layout.js"></script>
 
-<body>
-	<div class="container">
-    	<div class="big-logo">
-        </div>
+		$logoImg = '<img class="big-logo" src="'.base_url().'assets/images/mis-logo-big.png" height="40" style="padding-right: 5px"/>';
+		$formBox = $ui->box()->title($logoImg . " Please login to continue")->containerClasses("form-box")->open();
+			$ui->callout()
+			   ->uiType($uiType)
+			   ->desc($errorMessage)
+			   ->show();
+			$form = $ui->form()->id("login")->action("login/login_user")->open();
+				$username = $ui->input()
+							   ->type("text")
+							   ->name("username")
+							   ->placeholder("Username")
+							   ->required()
+							   ->label("Username");
 
-        <div class="login-box">
-			<div class="inner-box">
-            <h1 class="page-head">Login to continue</h1>
+				$password = $ui->input()
+							   ->type("password")
+							   ->name("password")
+							   ->placeholder("Password")
+							   ->required()
+							   ->label("Password");
+							   
+				if($error_code == 1) {
+						$password->uiType("error");
+				}
+				
+				$username->show();
+				$password->show();
+			
+				$ui->button()
+				   ->type("submit")
+				   ->value("Login")
+				   ->icon($ui->icon("sign-in"))
+				   ->uiType("primary")
+				   ->id("submit")
+				   ->block()
+				   ->show();
+?>
+				<hr />
+				<center>
+				<a href="#">Forgot Password</a> &bull;
+				<a href="#">Online Help</a> &bull;
+				<a href="#">Wiki</a> &bull;
+                <a href="#">Developers</a>
+				</center>
+<?
+		
+			$form->close();
+		$formBox->close();
 
-            <?php
-                $errorHead = "Error";
-                $errorMessage = "An error occured while logging in. Please try again.";
-                if($error_code == 1) $this->notification->drawNotification('Error',"Invalid username or password. Please try again.",'error');
-                if($error_code == 2) $this->notification->drawNotification('Error',"You do not have access to that location.",'error');
-                if($error_code == 0) $this->notification->drawNotification("Login", "Please enter your username and password");
-                else if($error_code == 4) $this->notification->drawNotification("Password Changed", "Your Password has been changed. Please login again to continue.","success");
-
-                echo form_open('login/login_user',"'id'='login'");   ?>
-            	<table align="center" nozebra>
-                	<tr>
-                    	<td align="right">Username</td>
-                        <td align="left"><input type="text" placeholder="Username" name="username" value=""
-                        required /></td>
-                    </tr>
-
-                	<tr>
-                    	<td align="right">Password</td>
-                        <td align="left"><input type="password" placeholder="Password" name="password" required /></td>
-                    </tr>
-                    <tr>
-                    	<td></td>
-                        <td align="left"><input type="submit" value="Login" id="submit" /></td>
-                    </tr>
-                </table>
-                <?php echo form_close(); ?>
-
-                <hr />
-                <a href="#">Forgot Password</a> |
-                <a href="#">Online Help</a> |
-                <a href="#">Indian School of Mines, Dhanbad</a>
-            </div>
-        </div>
-    </div>
+?>
+	</div>
 </body>
 </html>

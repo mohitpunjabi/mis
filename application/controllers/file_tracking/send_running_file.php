@@ -5,8 +5,9 @@ class Send_running_file extends MY_Controller
 	function __construct()
 	{
 		parent::__construct(array('emp','deo'));
-		$this->addJS("file_tracking/file_tracking_script.js");
-		$this->addCSS("file_tracking/file_tracking_layout.css");
+//		$this->addJS("file_tracking/file_tracking_script.js");
+		$this->addJS("file_tracking/send_file.js");
+		//$this->addCSS("file_tracking/file_tracking_layout.css");
 	}
 
 	public function index($file_id,$file_sub,$sent_by_emp_id)
@@ -17,7 +18,7 @@ class Send_running_file extends MY_Controller
 		$query = $this->file_details->get_file_num($file_id);
 //		$data['emp_id'] = $emp_id;
 //		$data['department'] = $this->file_details->get_department_by_id();
-		foreach ($query->result() as $row) 
+		foreach ($query->result() as $row)
 				$file_no = $row->file_no;
 		$data['file_no'] = $file_no;
 		$data['file_id'] = $file_id;

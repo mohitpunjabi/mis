@@ -67,6 +67,11 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	function delete_course($course)
+	{
+		return $this->db->delete($this->table_course,array("id"=>$course));
+	}
+	
 	function get_course_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_course,array('id'=>$id));
@@ -79,7 +84,10 @@ class Basic_model extends CI_Model
 		$query = $this->db->query("SELECT DISTINCT course_branch.course_id,id,name,duration FROM 
 		courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
 		dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
-		return $query->result();
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
 	}
 	
 	
@@ -94,6 +102,11 @@ class Basic_model extends CI_Model
 		$query = $this->db->get($this->table_branch);
 		return $query->result();
 	}
+	
+	function delete_branch($branch)
+	{
+		return $this->db->delete($this->table_branch,array("id"=>$branch));
+	}
 
 	
 	function get_branches_by_course($course){
@@ -105,7 +118,10 @@ class Basic_model extends CI_Model
 	
 	function get_branches_by_course_and_dept($course,$dept){
 		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '$course' AND dept_course.dept_id = '$dept'");
-		return $query->result();
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
 	}
 
 	
@@ -168,10 +184,15 @@ class Basic_model extends CI_Model
 			return $query->result();
 	}
 	
-	
+	function check_if_aggr_id_exist_in_CS($aggr_id)
+	{
+		$query = $this->db->get_where($this->table_dept_course,array("aggr_id"=>$aggr_id));
+		return $query->num_rows();	
+	}
 	function select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{
-		$query = $this->db->query("SELECT subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 
+		$query = $this->db->query("SELECT 
+		subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 
 		subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id <= '$aggr_id' AND 
 		course_structure.semester = '$semester' AND elective != '0' ORDER BY course_structure.aggr_id DESC");
 		return $query->result();
@@ -212,9 +233,6 @@ class Basic_model extends CI_Model
 		$query = $this->db->query("SELECT aggr_id FROM dept_course INNER JOIN course_branch ON course_branch.course_branch_id = dept_course.course_branch_id WHERE course_branch.course_id = '$course' AND course_branch.branch_id = '$branch' AND aggr_id <= '$expected_aggr_id'  ORDER BY aggr_id DESC");
 		return $query->result();
 	}
-	
-	
-	
 	
 }
 

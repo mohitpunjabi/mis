@@ -11,7 +11,10 @@ Class Student_academic_model extends CI_Model
 
 	function insert($data)
 	{
-		$query = $this->db->insert($this->table,$data);
+		if($this->db->insert($this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	function get_stu_academic_details_by_id($stu_id = '')
@@ -26,6 +29,11 @@ Class Student_academic_model extends CI_Model
 		}
 		else
 			return FALSE;
+	}
+
+	function update_by_id($data,$id)
+	{
+		$this->db->update($this->table,$data,array('id'=>$id));
 	}
 }
 

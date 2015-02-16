@@ -13,8 +13,10 @@ class Student_ajax extends CI_Controller
 		//var_dump($dept);
 		if($course)
 		{
-			$this->load->model('Branches_model','',TRUE);
-			$data['branches']=$this->Branches_model->get_branches_by_courses($course,$dept);
+			$this->load->model('course_structure/basic_model','',TRUE);
+			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($course,$dept);
+			//$this->load->model('Branches_model','',TRUE);
+			//$data['branches']=$this->Branches_model->get_branches_by_courses($course,$dept);
 			//echo ('hello');
 			$this->load->view('student/ajax/student_update_branches',$data);
 		}
@@ -27,8 +29,10 @@ class Student_ajax extends CI_Controller
 
 	public function update_courses($dept = '')
 	{
-		$this->load->model('Courses_model','',TRUE);
-		$data['courses']=$this->Courses_model->get_courses_by_dept($dept);
+		$this->load->model('course_structure/basic_model','',TRUE);
+		$data['courses'] = $this->basic_model->get_course_offered_by_dept($dept);
+		// $this->load->model('Courses_model','',TRUE);
+		// $data['courses']=$this->Courses_model->get_courses_by_dept($dept);
 		$this->load->view('student/ajax/student_update_courses',$data);
 	}
 
@@ -36,8 +40,8 @@ class Student_ajax extends CI_Controller
 	{
 		if($id !== '')
 		{
-			$this->load->model('User/Users_model','',TRUE);
-			$data['user'] = $this->Users_model->getUserById($id);
+			$this->load->model('user/user_details_model','',TRUE);
+			$data['user'] = $this->user_details_model->getUserById($id);
 			if($data['user'])
 				$this->load->view('student/ajax/student_update_user_id',$data);
 		}

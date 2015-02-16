@@ -11,7 +11,10 @@ Class Student_details_model extends CI_Model
 
 	function insert($data)
 	{
-		$query = $this->db->insert($this->table,$data);
+		if($this->db->insert($this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	function get_all_student_id()
@@ -43,6 +46,11 @@ Class Student_details_model extends CI_Model
 		}
 		else
 			return FALSE;
+	}
+
+	function update_by_id($data,$id)
+	{
+		$this->db->update($this->table,$data,array('admn_no'=>$id));
 	}
 }
 

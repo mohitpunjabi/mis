@@ -1,12 +1,6 @@
-
-	function onclick_emp_id()
-	{
-		document.getElementById('search_eid').style.display="table-row";
-	}
-
 	function onclick_empname()
 	{
-		document.getElementById('employee').style.display="table-row";
+		$('#employee').show();
 		var emp_name=document.getElementById('employee_select');
 		var dept=document.getElementById('emp_dept').value;
 		var xmlhttp;
@@ -30,8 +24,15 @@
 		emp_name.innerHTML = "<i class=\"loading\"></i>";
 	}
 
-	function onclick_emp_nameid()
-	{
+	function onclick_emp_nameid() {
 		var emp_name_id=document.getElementById('employee_select').value;
 		document.getElementById('emp_id').value=emp_name_id;
 	}
+
+	$(document).ready(function() {
+		$("#search_btn").click(function(){
+			$("#search_eid").show();
+		});
+		$("#emp_dept").on('change', onclick_empname);
+		$("#employee_select").on('change',onclick_emp_nameid);
+	});

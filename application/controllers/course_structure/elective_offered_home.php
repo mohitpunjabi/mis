@@ -7,12 +7,7 @@ class Elective_offered_home extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('hod'));
 		
-		//$this->addJS("course_structure/add.js");
-		//$this->addJS("course_structure/edit.js");
 		$this->addJS("course_structure/elective_offered.js");
-		$this->addCSS("course_structure/cs_layout.css");
-		
-		//$this->load->model('elective_offered/basic_model','',TRUE);
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
 
@@ -88,20 +83,6 @@ class Elective_offered_home extends MY_Controller
 			$dept_id = $dept[0]->dept_id;
 			
 			$this->output->set_content_type('application/json');
-			
-			//Get the branches
-			/*$branches = $this->basic_model->get_branches_by_course_and_dept($course,$dept_id);
-			$i = 0;
-			$data['count'] = 0;
-			foreach($branches as $row)
-			{
-				$data['branch_id'][$i] = $row->id;
-				$data['branch_name'][$i] =$branch->name;
-				$i++;
-				$data['count']++;
-			}
-*/
-			//$this->output->set_output(json_encode($data));
 			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course_and_dept($course,$dept_id)));
 		}
 	}

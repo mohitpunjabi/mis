@@ -64,6 +64,11 @@ class Allot_date extends MY_Controller {
 		echo $this->tnp_basic_model->update_tnp_calender($tnp_calender,$company_id);
 	}
 	
+	public function RemoveAllotedDate($company_id)
+	{
+		echo $this->tnp_basic_model->delete_tnp_calender($company_id);
+	}
+	
 	function json_get_company_inrange($from,$to)
 	{
 		$this->output->set_content_type('application/json');

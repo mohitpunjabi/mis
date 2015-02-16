@@ -86,7 +86,20 @@ function reschedule_in_reschedule(company_id,date_from,date_to)
 
 function RemoveAllotedDate(company_id)
 {
-	alert();
+	$box_reschedule_top.showLoading();
+	$.ajax({
+		url:site_url("tnpcell/allot_date/RemoveAllotedDate/"+company_id),
+		success:function(data){
+			//alert("Company Rescheduled successfully");
+			$box_reschedule_top.hideLoading();
+			document.location.href = "allot_date";
+		},
+		type:"post",
+		fail:function(error){
+			console.log(error);
+			$box_reschedule_top.hideLoading();
+		}
+	});
 }
 
 

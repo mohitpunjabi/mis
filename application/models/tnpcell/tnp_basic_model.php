@@ -131,7 +131,12 @@ class Tnp_basic_model extends CI_Model
 	{
 		$this->db->where("company_id",$company_id);
 		$query = $this->db->update($this->table_tnp_calender,$tnp_calender);
-		//$this->db->query($query);
+		return $query;
+	}
+	
+	function delete_tnp_calender($company_id)
+	{
+		$query = $this->db->delete($this->table_tnp_calender,array('company_id'=>$company_id));
 		return $query;
 	}
 }

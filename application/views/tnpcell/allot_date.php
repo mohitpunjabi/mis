@@ -11,58 +11,72 @@
 				$tab1 = $ui->tabPane()->id("tabPanemakeschedule")->active()->open();
 					$box_makeschedule =  $ui->box()->id('box_makeschedule_top')->title("Create Schedule")->open();
 						$form=$ui->form()->id("add_course_form")->action("tnpcell/allot_date/AllotDatesToCompany")->multipart()->open();
-						$row_upper = $ui->row()->open();
-							$ui->datePicker()
-							   ->extras("required")
-							   ->width(6)
-							   ->dateformat("yyyy-mm-dd")
-							   ->id("date_from")
-							   ->name("date_from")
-							   ->label("Allot Date From ")
-							   ->placeholder("Select Date")
-							   ->show();
-							   
-							$ui->datePicker()
-							   ->width(6)
-							   ->extras("required")
-							   ->dateformat("yyyy-mm-dd")
-							   ->id("date_to")
-							   ->name("date_to")
-							   ->label("Allot Date To ")
-							   ->placeholder("Select Date")
-							   ->show();
-							$row_upper->close();
-							$ui->button()
-								->width(2)
-								->value('Check Slot')
-								->uiType('primary')
-								->extras("valign='middle' style = 'vertical-align:middle;'")
-								->id("btn_checkslot")
-								->name('button')
-								->show();
-							echo "<br><br>";
 							$row_lower = $ui->row()->open();
-							$array_options = array();
-							array_push($array_options,$ui->option()->extras("value=''")->text("Select Company")->disabled()->selected());
-							foreach($company_basic_info as $row)
+								$array_options = array();
+								array_push($array_options,$ui->option()->extras("value=''")->text("Select Company")->disabled()->selected());
+								foreach($company_basic_info as $row)
 								array_push($array_options,$ui->option()->value($row->company_id)->text($row->company_name." (".$row->session.")"));
-							   
-							$ui->select()
-							   ->label("Select Company")
-							   ->id("ddl_company")
-							   ->name("ddl_company")
-							   ->width(12)
-							   ->options($array_options)
-							   ->required()
-							   ->show();
-							
+								   
+								$ui->select()
+								   ->label("Select Company")
+								   ->id("ddl_company")
+								   ->name("ddl_company")
+								   ->width(12)
+								   ->options($array_options)
+								   ->required()
+								   ->show();
 							$row_lower->close();
+									
+							$row_upper = $ui->row()->open();
+							$col1 = $ui->col()->width(5)->open();
+								$ui->datePicker()
+								   ->extras("required")
+								   //->width(6)
+								   ->dateformat("yyyy-mm-dd")
+								   ->id("date_from")
+								   ->name("date_from")
+								   ->label("Allot Date From ")
+								   ->placeholder("Select Date")
+								   ->show();
+							$col1->close();
+							
+							$col1 = $ui->col()->width(5)->open();
+								$ui->datePicker()
+								   //->width(6)
+								   ->extras("required")
+								   ->dateformat("yyyy-mm-dd")
+								   ->id("date_to")
+								   ->name("date_to")
+								   ->label("Allot Date To ")
+								   ->placeholder("Select Date")
+								   ->show();
+							$col1->close();
+							$col1 = $ui->col()->width(2)->extras("style='padding-top:24px;'")->open();
+								
+								$ui->button()
+									//->width(3)
+									->value('Check Slot')
+									->uiType('primary')
+									->extras("valign='middle' style = 'vertical-align:middle;'")
+									->id("btn_checkslot")
+									->name('button')
+									->show();
+							
+							$col1->close();
+									
+							$row_upper->close();
+							
+								
 							$ui->button()
 								->value('Allot Date')
+								->width(3)
 								->uiType('primary')
 								->submit()
 								->name('submit')
 								->show();
+							
+							echo "<br><br>";
+						
 						$form->close();
 					$box_makeschedule->close();
 					

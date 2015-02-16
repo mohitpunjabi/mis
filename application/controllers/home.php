@@ -42,8 +42,8 @@ class Home extends MY_Controller {
 		$this->checkCircularValidity();
 		$this->checkNoticeValidity();
 		$this->checkMinuteValidity();
-
-		$this->load->view('home', array("notices" => $this->notice->get_notices()));
+		$this->load->model("information/view_circular_model", "circular", TRUE);
+		$this->load->view('home',array("unreadNotice"=>$this->notice->get_new_notice_count(),"unreadCircular"=>$this->circular->get_new_circular_count()));
 		$this->drawFooter();
 	}
 
@@ -73,6 +73,22 @@ class Home extends MY_Controller {
 		$id_pass=$this->authorization->strclean($this->session->userdata('id'));
 		if($user && $user->password == $this->authorization->encode_password($id_pass, $user->created_date))
 			redirect('change_password');
+	}
+
+	function getNotices($date = '')
+	{
+		if($date == '')	$date = date('Y-m-d');
+		$this->load->model("information/view_notice_model", "notice", TRUE);
+		$this->load->view('ajax/notices', array("notices" => $this->notice->get_notices($date),"Qdate" => $date));
+
+	}
+
+	function getCirculars($date = '')
+	{
+		if($date == '')	$date = date('Y-m-d');
+		$this->load->model("information/view_circular_model", "circular", TRUE);
+		$this->load->view('ajax/circulars', array("circulars" => $this->circular->get_circulars($date),"Qdate" => $date));
+
 	}
 }
 

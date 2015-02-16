@@ -3,51 +3,62 @@
 	$row = $ui->row()->open();
 		$eventsCol = $ui->col()->width(8)->open();
 			$eventsTabBox = $ui->tabBox()
-						   	   ->tab("notices", $ui->icon("info-circle") ." Notices" . ' <small class="badge bg-red">2</small>', true) // 'true' means active
+						   	   ->tab("notices", $ui->icon("info-circle") ." Notices" . ' <small class="badge bg-red">'.$unreadNotice.'</small>', true) // 'true' means active
 						   	   ->tab("circulars", $ui->icon("file-text-o") . " Circulars")
 						   	   ->tab("minutes", $ui->icon("users") . " Meetings "  . ' <small class="badge bg-red">12</small>')
 						       ->open();
-							   
+
 				$noticesTab = $ui->tabPane()
 								 ->id("notices")
 								 ->active()
 								 ->open();
 					?>
-                           <ul class="timeline">
-                                <!-- timeline time label -->
-                                <li class="time-label">
-                                    <span class="bg-blue">
-                                        14 Feb 2014
-                                    </span>
-                                </li>
-                                <!-- /.timeline-label -->
-                                <!-- timeline item -->
-                                <li>
-                                    <i class="fa fa-info-circle"></i>
-                                    <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                                        <h3 class="timeline-header"><a href="#">Dr. Chiranjeev Kumar</a><br />Head of Department, Computer Science and Engineering</h3>
-                                        <div class="timeline-body">
-                                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                            weebly ning heekya handango imeem plugg dopplr jibjab.
-                                        </div>
-                                        <div class='timeline-footer'>
-                                            <a class="btn btn-primary btn-xs">Download Attachments</a>
-                                        </div>
-                                    </div>
-                                </li>
+                <div id="notices">
+                </div>
+
+
+<!-- <div>
+<?php foreach($notices as $key => $notice) { ?>
+
+<div class="notice">
+    <div class="sender-info">
+        <div class="dp">
+            <img src="<?= base_url()."assets/images/".$notice->photopath; ?>" />
+        </div>
+        <div class="sender">
+            <p class="sender-designation"><?= ucwords($notice->auth_name) ?>, <?= $notice->department ?></p>
+            <p class="sender-name"><?= $notice->salutation ?> <?= $notice->first_name ?> <?= $notice->middle_name ?> <?= $notice->last_name ?></p>
+            <p class="notice-date"><?= date_format(new DateTime($notice->posted_on), "d M Y h:m:s") ?></p>
+        </div>
+    </div>
+
+    <div class="notice-content">
+        <div class="content">
+            <?= $notice->notice_sub ?>
+        </div>
+
+        <div class="attachments">
+            <a href="<?= base_url()."assets/files/information/notice/".$notice->notice_path ?>">Download attachment</a>
+        </div>
+    </div>
+
+</div>
+
+
+<?php } ?>
+</div> -->
                                 <!-- END timeline item -->
                                 <!-- timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-user bg-aqua"></i>
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
                                         <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
                                     </div>
-                                </li>
+                                </li> -->
                                 <!-- END timeline item -->
                                 <!-- timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-comments bg-yellow"></i>
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
@@ -61,17 +72,17 @@
                                             <a class="btn btn-warning btn-flat btn-xs">View comment</a>
                                         </div>
                                     </div>
-                                </li>
+                                </li> -->
                                 <!-- END timeline item -->
                                 <!-- timeline time label -->
-                                <li class="time-label">
+                                <!-- <li class="time-label">
                                     <span class="bg-green">
                                         3 Jan. 2014
                                     </span>
-                                </li>
+                                </li> -->
                                 <!-- /.timeline-label -->
                                 <!-- timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-camera bg-purple"></i>
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
@@ -84,9 +95,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <!-- END timeline item -->
+                                 --><!-- END timeline item -->
                                 <!-- timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-video-camera bg-maroon"></i>
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
@@ -98,28 +109,30 @@
                                             <a href="#" class="btn btn-xs bg-maroon">See comments</a>
                                         </div>
                                     </div>
-                                </li>
+                                </li> -->
                                 <!-- END timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-clock-o"></i>
                                 </li>
-                            </ul>
+                            </ul> -->
 					<?
 				$noticesTab->close();
-				
+
 				$circularsTab = $ui->tabPane()
 								 ->id("circulars")
 								 ->open();
 ?>
-                           <ul class="timeline">
+                <div id="circulars">
+                </div>
+                          <!--  <ul class="timeline">
                                 <li class="time-label">
                                     <span class="bg-green">
                                         3 Jan. 2014
                                     </span>
-                                </li>
+                                </li> -->
                                 <!-- /.timeline-label -->
                                 <!-- timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-camera bg-purple"></i>
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
@@ -131,10 +144,10 @@
                                             <img src="http://placehold.it/150x100" alt="..." class='margin'/>
                                         </div>
                                     </div>
-                                </li>
+                                </li> -->
                                 <!-- END timeline item -->
                                 <!-- timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-video-camera bg-maroon"></i>
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
@@ -146,15 +159,15 @@
                                             <a href="#" class="btn btn-xs bg-maroon">See comments</a>
                                         </div>
                                     </div>
-                                </li>
+                                </li> -->
                                 <!-- END timeline item -->
-                                <li>
+                                <!-- <li>
                                     <i class="fa fa-clock-o"></i>
                                 </li>
-                            </ul>
+                            </ul> -->
 <?
 				$circularsTab->close();
-				
+
 				$minutesTab = $ui->tabPane()
 								 ->id("minutes")
 								 ->open();
@@ -163,35 +176,8 @@
 				$minutesTab->close();
 			$eventsTabBox->close();
 ?>
-<?php foreach($notices as $key => $notice) { ?>
-
-<div class="notice">
-	<div class="sender-info">
-        <div class="dp">
-            <img src="<?= base_url()."assets/images/".$notice->photopath; ?>" />
-        </div>
-        <div class="sender">
-            <p class="sender-designation"><?= ucwords($notice->auth_name) ?>, <?= $notice->department ?></p>
-            <p class="sender-name"><?= $notice->salutation ?> <?= $notice->first_name ?> <?= $notice->middle_name ?> <?= $notice->last_name ?></p>
-            <p class="notice-date"><?= date_format(new DateTime($notice->posted_on), "d M Y h:m:s") ?></p>
-        </div>
-    </div>
-    
-    <div class="notice-content">
-    	<div class="content">
-			<?= $notice->notice_sub ?>
-        </div>
-        	
-        <div class="attachments">
-        	<a href="<?= base_url()."assets/files/information/notice/".$notice->notice_path ?>">Download attachment</a>
-        </div>
-    </div>    
-    
-</div>
 
 
-<?php } 
-?>
 
 
 
@@ -208,11 +194,37 @@
 				?><div id="calendar"></div><?
 			$calendar->close();
 		$calendarCol->close();
-		
+
 	$row->close();
 ?>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#calendar").datepicker();
+
+    $(document).ready(function() {
+        $("#calendar").datepicker("setDate", moment("<?= date('d-m-Y',time()+19800);?>", "DD-MM-YYYY").toDate());
+        $("#calendar").datepicker().on('changeDate',function(e) {
+            getNotices(e.format('yyyy-mm-dd'));
+            getCirculars(e.format('yyyy-mm-dd'));
+        });
+
+        getNotices('<?= date("Y-m-d",time()+19800);?>');
+        getCirculars('<?= date("Y-m-d",time()+19800);?>');
 	});
+
+    function getNotices(date) {
+        $.ajax({
+            url: site_url("home/getNotices" + "/" + date),
+            success: function(result) {
+                $("#notices").html(result);
+            }
+        });
+    }
+
+    function getCirculars(date) {
+        $.ajax({
+            url: site_url("home/getCirculars" + "/" + date),
+            success: function(result) {
+                $("#circulars").html(result);
+            }
+        });
+    }
 </script>

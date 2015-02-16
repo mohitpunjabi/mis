@@ -23,7 +23,7 @@
         <link href="<?= base_url() ?>assets/core/adminLTE/css/ionslider/ion.rangeSlider.css" rel="stylesheet" type="text/css">
 		<link href="<?= base_url() ?>assets/core/adminLTE/css/ionslider/ion.rangeSlider.skinFlat.css" rel="stylesheet" type="text/css">
         <link href="<?= base_url() ?>assets/core/adminLTE/css/ionslider/ion.rangeSlider.skinNice.css" rel="stylesheet" type="text/css">
-        
+        <link href="<?= base_url() ?>assets/core/notification-layout.css" rel="stylesheet" type="text/css">
 <!--		<link href="<?= base_url() ?>assets/core/mis-layout.css" rel="stylesheet" type="text/css" /> -->
 		<?php if(isset($css)) echo $css; ?>
 

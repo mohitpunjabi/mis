@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class View_complaint extends MY_Controller
+class View_own_complaint extends MY_Controller
 {
 	public function __construct()
 	{
@@ -10,9 +10,9 @@ class View_complaint extends MY_Controller
 
 	public function index()
 	{
-		$this->load->model ('complaint/complaint_details', '', TRUE);
+		$this->load->model ('complaint/complaints', '', TRUE);
 		$user_id = $this->session->userdata('id');
-		$res = $this->complaint_details->user_complaint_list($user_id);
+		$res = $this->complaints->user_complaint_list($user_id);
 				
 		$total_rows = $res->num_rows();
 		$data_array = array();
@@ -23,7 +23,7 @@ class View_complaint extends MY_Controller
 			$j=1;
 			$data_array[$sno][$j++] = $row->complaint_id;
 			$data_array[$sno][$j++] = $row->status;
-			$data_array[$sno][$j++] = $row->date_n_time;
+			$data_array[$sno][$j++] = date('j M Y g:i A', strtotime($row->date_n_time));
 			$data_array[$sno][$j++] = $row->type;
 			$data_array[$sno][$j++] = $row->location;
 			$data_array[$sno][$j++] = $row->location_details;
@@ -44,7 +44,7 @@ class View_complaint extends MY_Controller
 		else 
 		{
 			$this->drawHeader ("List of all Registered Complaints");
-			$this->load->view('complaint/view_complaint',$data);
+			$this->load->view('complaint/view_own_complaint',$data);
 			$this->drawFooter();
 		}
 	}

@@ -13,15 +13,19 @@ class View extends MY_Controller
 		{
 			$this->addJS('employee/edit_employee_script.js');
 
-			$this->load->model('employee/emp_basic_details_model','',TRUE);
-			$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
+			if($emp_id == '') {
+				$this->load->model('employee/emp_basic_details_model','',TRUE);
+				$data['employees']=$this->emp_basic_details_model->getAllEmployeesId();
 
-			$this->load->model('departments_model','',TRUE);
-			$data['departments']=$this->departments_model->get_departments();
+				$this->load->model('departments_model','',TRUE);
+				$data['departments']=$this->departments_model->get_departments();
 
-			$this->drawHeader("View Employee");
-			$this->load->view('employee/view/index',$data);
-			$this->drawFooter();
+				$this->drawHeader("View Employee");
+				$this->load->view('employee/view/index',$data);
+				$this->drawFooter();
+			}
+			else
+				$this->_load_view($emp_id,0);
 		}
 		else if($this->authorization->is_auth('emp'))
 		{

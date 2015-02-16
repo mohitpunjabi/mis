@@ -121,7 +121,17 @@
 								<td>'.$i++.'</td>
 								<td>'.$row->company_name.'</td>
 								<td>'.$date_from." to ".$date_to.'</td>
-								<td>'.$row->status.'</td>
+								<td>';
+									if($row->status == "Proposed")
+											$ui->label()->uiType("info")->text($row->status)->show();		
+										else if($row->status == "Confirmed")
+											$ui->label()->uiType("success")->text($row->status)->show();		
+										else if($row->status == "Rejected")
+											$ui->label()->uiType("danger")->text($row->status)->show();		
+										else if($row->status == "Pending")
+											$ui->label()->uiType("warning")->text($row->status)->show();		
+						echo '
+								</td>
 							</tr>';	
 						}								
 					$table->close();
@@ -135,39 +145,46 @@
 							echo '
 							<thead>
 								<tr>
-									<th>S.No</th>
 									<th>Company Name</th>
 									<th>Date</th>
 									<th>Status</th>
 									<th>Reschedule From</th>
 									<th>Reschedule To</th>
+									<th>Student Visibility</th>
 									<th>Check Slot</th>
 									<th>Reschedule</th>
 									<th>Remove</th>
 								</tr>
 							</thead>
 							';
-							$i = 1;
 							$array_options = array();
 							foreach($alloted_company_basic_info as $row)
-							{
-								
-								$date_from =  date("d-M-Y", strtotime($row->date_from));
-								$date_to =  date("d-M-Y", strtotime($row->date_to));
+							{	
+								$date_from = date("d-M-y",strtotime($row->date_from));
+								$date_to = date("d-M-y",strtotime($row->date_to));
 							echo '
 								<tr>';
-								$form=$ui->form()->id("form_reschedule")->action("tnpcell/allot_date/RescheduleCompany")->multipart()->open();
 							echo '
-									<td>'.$i++.'</td>
 									<td>'.$row->company_name.'</td>
 									<td>'.$date_from." to ".$date_to.'</td>
-									<td>'.$row->status.'</td>
+									<td>';
+										if($row->status == "Proposed")
+											$ui->label()->uiType("info")->text($row->status)->show();		
+										else if($row->status == "Confirmed")
+											$ui->label()->uiType("success")->text($row->status)->show();		
+										else if($row->status == "Rejected")
+											$ui->label()->uiType("danger")->text($row->status)->show();		
+										else if($row->status == "Pending")
+											$ui->label()->uiType("warning")->text($row->status)->show();		
+									
+							echo '
+									</td>
 									<td>';
 										$ui->datePicker()
 										   ->required()
 										   ->dateformat("yyyy-mm-dd")
-										   ->id("date_reschedulefrom")
-										   ->name("date_reschedulefrom")
+										   ->id("date_reschedulefrom_".$row->company_id)
+										   ->name("date_reschedulefrom_".$row->company_id)
 										   ->placeholder("Select Date")
 										   ->show();
 							echo 
@@ -176,29 +193,38 @@
 										$ui->datePicker()
 										   ->required()
 										   ->dateformat("yyyy-mm-dd")
-										   ->id("date_rescheduleto")
-										   ->name("date_rescheduleto")
+										   ->id("date_rescheduleto_".$row->company_id)
+										   ->name("date_rescheduleto_".$row->company_id)
 										   ->placeholder("Select Date")
 										   ->show();
 							echo 
 									'</td>
 									<td>';
+										$ui->checkbox()
+										   ->id("stu_visibility_".$row->company_id)
+										   ->name("stu_visibility_".$row->company_id)	
+										   ->checked(($row->stu_visibility)?true:false)
+										   ->show();
+							echo '
+									</td>
+									<td>';
 										$ui->button()
 										->value('Check Slot')
 										->uiType('primary')
+										->extras('onclick = checkslot_in_reschedule('."'".$row->company_id."'".')')
 										->id("btn_checkslot_reschedule")
-										->name('button')
+										->name('btn_checkslot_reschedule')
 										->show();
 										
-										$ui->input()->type('hidden')->value($row->company_id)->name("hidden_company_id")->show();
+										//$ui->input()->type('hidden')->value($row->company_id)->name("hidden_company_id")->show();
 									
 							echo '
 									</td>
 									<td>';
 										$ui->button()
-											->value('Reschedule')
+											->value('Save')
 											->uiType('primary')
-											->submit()
+											->extras("onclick = helper_reschedule_in_reschedule('".$row->company_id."')")
 											->id("btn_reschedule")
 											->name('submit')
 											->show();
@@ -215,7 +241,6 @@
 											->show();
 							echo '
 									</td>';
-								$form->close();
 							echo '
 								</tr>';
 								

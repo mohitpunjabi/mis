@@ -5,8 +5,12 @@
 
 		document.getElementById("add").onclick = function() {onclick_add();};
 
-		$('[name="depends_on"]').on('change', function() {
+		/*$('[name="depends_on"]').on('change', function() {
     		depends_on_whom();
+		});*/
+
+		$("#depends_on").on('ifChanged',function() {
+			depends_on_whom();
 		});
 
 		$('#stu_type').on('change', function() {
@@ -25,7 +29,7 @@
 			select_exam_scores();
 		});
 
-		$('#correspondence_addr').on('change', function() {
+		$('#correspondence_addr').on('ifChanged', function() {
 			corrAddr();
 		});
 
@@ -103,7 +107,7 @@
 		var fgai=document.getElementById("father_gross_income");
 		var mgai=document.getElementById("mother_gross_income");
 
-		if(!dpe)
+		if(dpe)
 		{
 			m.disabled=true;
 			f.disabled=true;
@@ -125,7 +129,6 @@
 			fgai.disabled=false;
 			mgai.disabled=false;
 		}
-		
 	}
 
 	function preview_pic()
@@ -371,7 +374,7 @@
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
-        if(!y.checked)
+        if(y.checked)
         {
         	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
@@ -586,10 +589,10 @@
 
 	function push_na_in_empty()
 	{
-		if( document.getElementById('middlename').value.trim() == '')
+		/*if( document.getElementById('middlename').value.trim() == '')
 			document.getElementById('middlename').value = 'na';
 		if( document.getElementById('lastname').value.trim() == '')
-			document.getElementById('lastname').value = 'na';
+			document.getElementById('lastname').value = 'na';*/
 		if( document.getElementById('roll_no').value.trim() == '')
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')

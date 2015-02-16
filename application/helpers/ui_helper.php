@@ -293,15 +293,14 @@ class Box extends Element {
 
 	function open() {
 		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
-		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>
-                    <div class="box-header" '.$tooltipAttr.'>';
-
-		if($this->icon) $this->icon->show();
-
-		echo '
-                        <h3 class="box-title">'.$this->title.'</h3>
-                    </div>
-        			<div class="box-body">';
+		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';		
+			if($this->icon || $this->title != '') {
+				echo '<div class="box-header" '.$tooltipAttr.'>';
+					if($this->icon) $this->icon->show();
+					if($this->title != '') echo '<h3 class="box-title">'.$this->title.'</h3>';
+				echo '</div>';
+			}
+        echo '<div class="box-body">';
         return $this;
 	}
 
@@ -337,7 +336,7 @@ class TabBox extends Box {
 		$tooltipAttr = ($this->tooltip != '')? 'data-toggle="tooltip" data-original-title="'.$this->tooltip.'"': "";
 		echo '<div '.$this->_parse_attributes().' '.$this->_parse_container_attributes().'>';
 		echo '<ul class="nav nav-tabs">';
-			if($this->title != '' && $this->icon) {
+			if($this->title != '') {
               echo '<li class="header pull-left" '.$tooltipAttr.'>';
 					if($this->icon) $this->icon->show();
 					echo $this->title;

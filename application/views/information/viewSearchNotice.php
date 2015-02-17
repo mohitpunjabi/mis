@@ -1,3 +1,8 @@
+<?php
+	$ui = new UI();
+	$outer_row = $ui->row()->open();
+	$column1 = $ui->col()->width(12)->open();
+	$table = $ui->table()->responsive()->hover()->bordered()->striped()->id('content')->open();
 <table align="center" id ="content">
 	<tr>
 		
@@ -10,7 +15,8 @@
 	</tr>
 	
 	<?php
-	foreach($notices as $key => $notice) { 
+	foreach($notices as $key => $notice) 
+	{ 
 		echo '<tr>
 				
 				<td align="center">'.$notice->notice_no.'</td>

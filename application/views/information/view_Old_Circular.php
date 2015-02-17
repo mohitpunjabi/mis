@@ -7,15 +7,13 @@
 	$column1->close();
 
 	$column2 = $ui->col()->width(10)->open();
-		$tabBox1 = $ui->box()
+		$tabBox1 = $ui->tabBox()
 				   ->icon($ui->icon("file"))
-				   ->title("Circulars Posted By You")
-				   ->uiType('primary')
-				   ->solid()
-				   //->tab("current", "Current Circulars", true)
+				   ->title("Previous Versions of Circular id - ".$prevcircular)
+				   ->tab("current", "Old Versions", true)
 				   ->open();
 
-			//$tab1 = $ui->tabPane()->id("current")->active()->open();
+			$tab1 = $ui->tabPane()->id("current")->active()->open();
 					$table = $ui->table()->hover()->bordered()
 								->sortable()->searchable()->paginated()
 							    ->open();
@@ -47,20 +45,13 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->uiType('primary')->value('Download')->mini()->show();?></a>
-								<?php 
-									
-								?>
-										  		<br>and</br>
-										  		<a href="<?=base_url().'index.php/information/edit_circular/index/'.$auth_id.'/'.$circular->circular_id?>"><?=$ui->button()->uiType('primary')->mini()->value('Edit')->show(); echo'</a>';
-									
-									echo'</td>
+									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
+								
+									<?php echo'</td>
 								</tr>';
 					}
 					$table->close();
 				
-		//$tab1->close();
-
 		$tabBox1->close();
 
 	$column2->close();

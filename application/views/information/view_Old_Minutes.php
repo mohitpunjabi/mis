@@ -4,16 +4,15 @@
 	$outer_row = $ui->row()->open();
 
 	
+
 	$column2 = $ui->col()->width(12)->open();
-		$tabBox1 = $ui->box()
-				   ->uiType('primary')
-				   ->solid()
+		$tabBox1 = $ui->tabBox()
 				   ->icon($ui->icon("file"))
-				   ->title("Minutes Posted By You")
-				  // ->tab("current", "Current Minutes", true)
+				   ->title("Previous Versions of Minutes id - ".$prevminutes)
+				   ->tab("current", "Old Versions", true)
 				   ->open();
 
-			//$tab1 = $ui->tabPane()->id("current")->active()->open();
+			$tab1 = $ui->tabPane()->id("current")->active()->open();
 					$table = $ui->table()->hover()->bordered()
 								->sortable()->searchable()->paginated()
 							    ->open();
@@ -49,19 +48,14 @@
 								</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/minutes/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->mini()->uiType('primary')->icon($ui->icon("download"))->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/minutes/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
 								<?php 
-									
-								?>
-										  		<br>and</br>
-										  		<a href="<?=base_url().'index.php/information/edit_minute/index/'.$auth_id.'/'.$minute->minutes_id?>"><?=$ui->button()->mini()->uiType('primary')->icon($ui->icon("edit"))->value('Edit')->show(); echo'</a>';
 									
 									echo'</td>
 								</tr>';
 					}
 					$table->close();
 				
-//$tab1->close();
 		$tabBox1->close();
 
 	$column2->close();

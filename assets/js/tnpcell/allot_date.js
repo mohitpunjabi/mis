@@ -42,7 +42,6 @@ $(document).ready(function(){
 		else
 			checkslot_reschedule($("#date_reschedulefrom").val(),$("#date_rescheduleto").val());
 	});
-
 	
 	function checkslot($from,$to)
 	{
@@ -71,8 +70,7 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
-	
+
 	function checkslot_reschedule($from,$to)
 	{
 		//alert($from);
@@ -101,6 +99,11 @@ $(document).ready(function(){
 				$box_reschedule_top.hideLoading();
 			}
 		});
+	}
+	
+	function RemoveAllotedDate(company_id)
+	{
+		alert();
 	}
 });
 

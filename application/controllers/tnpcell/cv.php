@@ -80,11 +80,26 @@ class CV extends MY_Controller {
     $this->load->view('tnpcell/edit_cv',$data);
 	  $this->drawFooter();
   }
-  public function update_project($projectdetails)
+  public function update_project()
   {
-    $this->load->model('tnpcell/cv_model','',TRUE);
-    echo "reached controller";
-    $this->cv_model->update(0,$projectdetails);
+	  $data = file_get_contents('php://input');
+	  $data = json_decode($data, true);
+      $this->load->model('tnpcell/cv_model','',TRUE);
+	  
+	  $project_details['place'] = $data['place'];
+	  $project_details['title'] = $data['title'];
+	  $project_details['role']= $data['role'];
+	  $project_details['description'] = $data['description'];
+	  $project_details['duration'] = $data['duration'];
+	  //$id= $data['id'];
+	  
+	  
+	  	if($this->cv_model->update_project($project_details,$id))
+		{
+			echo "success";
+		}
+		else	
+			echo "failed";
   }
 }
 /* End of file welcome.php */

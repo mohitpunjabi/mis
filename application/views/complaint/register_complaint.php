@@ -21,7 +21,7 @@
 		   ->label('Type of Complaint')
 		   ->name('type')
 		   ->required()
-		   ->options(array( $ui->option()->value("")->text('Select'),
+		   ->options(array( $ui->option()->value('""')->text('Select'),
 							$ui->option()->value("Civil")->text('Civil'),
 							$ui->option()->value("Electrical")->text('Electrical'),
 							$ui->option()->value("Internet")->text('Internet'),
@@ -34,8 +34,9 @@
 		$ui->select()
 		   ->label('Location')
 		   ->name('location')
+		   ->id('location')
 		   ->required()
-		   ->options(array( $ui->option()->value("")->text('Select'),
+		   ->options(array( $ui->option()->value('""')->text('Select'),
 							$ui->option()->value("Department")->text('Department'),
 							$ui->option()->value("Office")->text('Office'),
 							$ui->option()->value("Residence")->text('Residence'),
@@ -59,15 +60,15 @@
 	$inputRow1->close();
 
 	$inputRow2 = $ui->row()->open();
-		$ui->input()->type('text')->placeholder('Location Details')->label('Location Details')->name('locationDetails')->required()
+		$ui->textarea()->placeholder('Location Details')->label('Location Details')->name('locationDetails')->id('locationDetails')->required()
 		   ->width(6)
 		   ->show();
-		$ui->input()->type('text')->placeholder('Time of Availability')->label('Time of Availability')->name('time')->required()
+		$ui->textarea()->label('Problem Details')->name("problemDetails")->placeholder("Problem Details")->required()
 		   ->width(6)
 		   ->show();
 	$inputRow2->close();
 
-	$ui->textarea()->label('Problem Details')->name("problemDetails")->placeholder("Problem Details")->required()->show();
+	$ui->input()->type('text')->placeholder('Time of Availability')->label('Time of Availability')->name('time')->required()->show();
 ?>
 <center>
 <?php

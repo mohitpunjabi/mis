@@ -4,8 +4,7 @@ class Register_complaint extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct(array('emp','stu'));
-	//	$this->addJS ("file_tracking/file_tracking_script.js");
-	//	$this->addCSS("file_tracking/file_tracking_layout.css");
+		$this->addJS ("complaint/get_residence_address.js");
 	}
 
 	public function index()
@@ -39,8 +38,8 @@ class Register_complaint extends MY_Controller
 				'complaint_id' => $complaint_id	  
 					  );
 		
-		$this->load->model ('complaint/complaint_details', '', TRUE);
-		$this->complaint_details->insert($data);
+		$this->load->model ('complaint/complaints', '', TRUE);
+		$this->complaints->insert($data);
 
 		$this->session->set_flashdata('flashSuccess','Complaint successfully Registered. Your Complaint ID : '.$complaint_id.' .');
 		redirect('home');

@@ -11,12 +11,18 @@ class Student_education_details_model extends CI_Model
 
 	function insert($data)
 	{
-		$this->db->insert($this->table,$data);
+		if($this->db->insert($this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	function insert_batch($data)
 	{
-		$this->db->insert_batch($this->table,$data);
+		if($this->db->insert_batch($this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	function getStuEduById($id = '')

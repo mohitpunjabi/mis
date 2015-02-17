@@ -9,7 +9,7 @@
 			$errorMessage = "Invalid username or password. Please try again.";
 		}
 		else if($error_code == 2) {
-			$uiType = "You do not have access to that location.";
+			$errorMessage = "You do not have access to that location.";
 		}
 		else if($error_code == 0) {
 			$errorHead = "Login";
@@ -19,6 +19,11 @@
 		else if($error_code == 4) {
 			$errorHead = "Password Changed";
 			$errorMessage = "Your Password has been changed. Please login again to continue.";
+			$uiType = "info";
+		}
+		else if($error_code == 5) {
+			$errorHead = "Account created";
+			$errorMessage = "Your account has been created. Please enter your username and password to login.";
 			$uiType = "info";
 		}
 

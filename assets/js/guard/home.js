@@ -54,11 +54,11 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#postmessage-div").show();
-					$("#postDutyChartTable").hide();
+					$("#postDutyChartTableRow").hide();
 				}
 				else{
 					$("#postmessage-div").hide();
-					$("#postDutyChartTable").show();
+					$("#postDutyChartTableRow").show();
 					$usersTable.fnAddData(data);
 				}
 			})();
@@ -137,12 +137,12 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#postmessageO-div").show();
-					$("#postDutyChartTableOvertime").hide();
+					$("#postDutyChartTableOvertimeRow").hide();
 					$("#totalduration").hide();
 				}
 				else{
 					$("#postmessageO-div").hide();
-					$("#postDutyChartTableOvertime").show();
+					$("#postDutyChartTableOvertimeRow").show();
 					$("#totalduration").html('<center><b>Total Overtime Working Hours: '+totalduration+' Hours</b></center>'); 
 					$usersTable.fnAddData(data);
 				}
@@ -187,11 +187,11 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#datemessage-div").show();
-					$("#dateDutyChartTable").hide();
+					$("#dateDutyChartTableRow").hide();
 				}
 				else{
 					$("#datemessage-div").hide();
-					$("#dateDutyChartTable").show();
+					$("#dateDutyChartTableRow").show();
 					$usersTable.fnAddData(data);
 				}
 			})();
@@ -271,12 +271,12 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#datemessageO-div").show();
-					$("#dateDutyChartTableOvertime").hide();
+					$("#dateDutyChartTableOvertimeRow").hide();
 					$("#totaldurationd").hide();
 				}
 				else{
 					$("#datemessageO-div").hide();
-					$("#dateDutyChartTableOvertime").show();
+					$("#dateDutyChartTableOvertimeRow").show();
 					$("#totaldurationd").html('<center><b>Total Overtime Working Hours: '+totaldurationd+' Hours</b></center>'); 
 					$usersTable.fnAddData(data);
 				}
@@ -322,11 +322,11 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#rangemessage-div").show();
-					$("#rangeDutyChartTable").hide();
+					$("#rangeDutyChartTableRow").hide();
 				}
 				else{
 					$("#rangemessage-div").hide();
-					$("#rangeDutyChartTable").show();
+					$("#rangeDutyChartTableRow").show();
 					$usersTable.fnAddData(data);
 				}
 			})();
@@ -407,12 +407,12 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#rangemessageO-div").show();
-					$("#rangeDutyChartTableOvertime").hide();
+					$("#rangeDutyChartTableOvertimeRow").hide();
 					$("#totaldurationr").hide();
 				}
 				else{
 					$("#rangemessageO-div").hide();
-					$("#rangeDutyChartTableOvertime").show();
+					$("#rangeDutyChartTableOvertimeRow").show();
 					$("#totaldurationr").html('<center><b>Total Overtime Working Hours: '+totaldurationr+' Hours</b></center>'); 
 					$usersTable.fnAddData(data);
 				}
@@ -463,11 +463,11 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#rangepostmessage-div").show();
-					$("#rangepostDutyChartTable").hide();
+					$("#rangepostDutyChartTableRow").hide();
 				}
 				else{
 					$("#rangepostmessage-div").hide();
-					$("#rangepostDutyChartTable").show();
+					$("#rangepostDutyChartTableRow").show();
 					$usersTable.fnAddData(data);
 				}
 			})();
@@ -547,12 +547,12 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#rangepostmessageO-div").show();
-					$("#rangepostDutyChartTableOvertime").hide();
+					$("#rangepostDutyChartTableOvertimeRow").hide();
 					$("#totaldurationrp").hide();
 				}
 				else{
 					$("#rangepostmessageO-div").hide();
-					$("#rangepostDutyChartTableOvertime").show();
+					$("#rangepostDutyChartTableOvertimeRow").show();
 					$("#totaldurationrp").html('<center><b>Total Overtime Working Hours: '+totaldurationrp+' Hours</b></center>'); 
 					$usersTable.fnAddData(data);
 				}
@@ -604,11 +604,11 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#rangeguardmessage-div").show();
-					$("#rangeguardDutyChartTable").hide();
+					$("#rangeguardDutyChartTableRow").hide();
 				}
 				else{
 					$("#rangeguardmessage-div").hide();
-					$("#rangeguardDutyChartTable").show();
+					$("#rangeguardDutyChartTableRow").show();
 					$usersTable.fnAddData(data);
 				}
 			})();
@@ -687,12 +687,12 @@ $(document).ready(function() {
 				}
 				if(users.length == 0){
 					$("#rangeguardmessageO-div").show();
-					$("#rangeguardDutyChartTableOvertime").hide();
+					$("#rangeguardDutyChartTableOvertimeRow").hide();
 					$("#totaldurationrg").hide();
 				}
 				else{
 					$("#rangeguardmessageO-div").hide();
-					$("#rangeguardDutyChartTableOvertime").show();
+					$("#rangeguardDutyChartTableOvertimeRow").show();
 					$("#totaldurationrg").html('<center><b>Total Overtime Working Hours: '+totaldurationrg+' Hours</b></center>'); 
 					$usersTable.fnAddData(data);
 				}

@@ -109,7 +109,7 @@ $tabsRow = $ui->row()->open();
 					}
 				$tab1->close();
 				$tab1 = $ui->tabPane()->id("complete")->open();
-					if(count($details_of_guards_at_a_date_today)==0)
+					if(count($all_duties_chart)==0)
 					{
 						$box = $ui->callout()
 								  ->title("Empty List")

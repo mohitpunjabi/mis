@@ -1,9 +1,8 @@
 <script type="text/javascript" language="javascript">
-      window.onload = function()
-      {
-		  onload_auth('auth_id');
-		  onload_dept();
-      };
+$(document).ready(function() {
+	onload_auth('auth_id');
+	onload_dept();
+});
 </script>
 <?php
 $ui = new UI();
@@ -27,7 +26,7 @@ $ui = new UI();
 						->name('auth_id')
 						->id('auth_id')
 						->extras('onchange="onchange_auth();"')
-						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))//Enter options
+						->options(array($ui->option()->value('0')->text('Select')->disabled()->selected()))
 						->show();
 					
 					$ui->select()
@@ -35,7 +34,7 @@ $ui = new UI();
 						->name('dept_id')
 						->id('dept_id')
 						->extras('onchange="onchange_auth();"')
-						->options(array($ui->option()->value('all')->text('Select User Department')->selected()))//Enter options
+						->options(array($ui->option()->value('all')->text('Select User Department')->selected()))
 						->show();
 					$r1col1->close();
 					

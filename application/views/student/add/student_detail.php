@@ -2,6 +2,8 @@
 
     $ui = new UI();
 
+      ?><div id="present_student_div" width="80%" style="width:80%;"><?php
+
         $form=$ui->form()
                  ->action('student/student_add/insert_basic_details/'.$stu_id)
                  ->multipart()
@@ -1139,5 +1141,5 @@
             $student_details_row->close();
 
         $form->close();
-
 ?>
+</div>

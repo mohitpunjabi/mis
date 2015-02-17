@@ -8,7 +8,7 @@ class Student_add extends CI_Controller//MY_Controller
 	}
 
 
-	var $_css;
+	var $_css="student/present_student_add.css";
 	var $_js;
 	var $userId;
 

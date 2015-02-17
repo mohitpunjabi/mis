@@ -579,6 +579,7 @@ class Input extends Element {
 
 	function type($type = '') {
 		$this->properties["type"] = $type;
+		if($type == "file") $this->classes("no-padding");
 		return $this;
 	}
 
@@ -1131,6 +1132,7 @@ class ImagePicker extends Input {
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > Upload_image Class Initialized");
+		$this->containerClasses("image-picker");
 	}
 
 	function show() {
@@ -1150,13 +1152,9 @@ class ImagePicker extends Input {
 					reader.onload = function(){
 						var dataURL = reader.result;
 						$("#'.$this->properties['id'].'").parent().find("img").attr("src", dataURL);
-						// output.src = dataURL;
 					};
 					reader.readAsDataURL(input.files[0]);
 				});
-
-			<!-- This is a hack -->
-			$("#'.$this->properties['id'].'").next().addClass("no-padding");
 			});
 
 		</script>

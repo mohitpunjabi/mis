@@ -562,6 +562,7 @@ class Input extends Element {
 	var $placeholder = '';
 	var $label = '';
 	var $uiType = '';
+	var $help = '';
 	var $addonRight = null;
 	var $addonLeft = null;
 
@@ -611,6 +612,11 @@ class Input extends Element {
 		$this->addonRight = $addon;
 		return $this;
 	}
+	
+	function help($help) {
+		$this->help = $help;
+		return $this;
+	}
 
 	protected function shouldMakeInputGroup() {
 		return $this->addonLeft != null || $this->addonRight != null;
@@ -653,6 +659,10 @@ class Input extends Element {
 					 ->show();
 		}
 	}
+	
+	protected function showHelp() {
+		echo '<p class="help-block">'.$this->help.'</p>';
+	}
 
 	function show() {
 		//form-group div
@@ -663,6 +673,7 @@ class Input extends Element {
 
 			$this->openAddon();
 			echo "<input " . $this->_parse_attributes() . " />";
+			$this->showHelp();
 			$this->closeAddon();
 
 		echo "</div>";
@@ -703,8 +714,8 @@ class Radio extends Input {
 		echo '<input ';
 		echo $this->_parse_attributes().' /> '
 			.(($this->label != '')?	$this->label:'').
-			 '</label>
-			 </div>';
+			 '</label>';
+		echo '</div>';
 	}
 }
 
@@ -770,6 +781,7 @@ class Textarea extends Input {
 			echo "<textarea " . $this->_parse_attributes() . ">" . $value;
 			echo "</textarea>";
 
+		$this->showHelp();
 		$this->closeAddon();
 
 		echo "</div>";

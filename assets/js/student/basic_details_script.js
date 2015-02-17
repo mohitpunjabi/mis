@@ -1,25 +1,3 @@
-	// $(document).ready(function() {
-	// 	$("td, th").css("visibility", "hidden");
-	// 	$("td#stuId").css("visibility", "visible");
-	// 	$("#stuIdIcon").hide();
-	// });
-	/*$( document ).ready(function() {
-		onclick_add_row();
-		var student_type = document.getElementById('stu_type').value;
-		//<?php echo $stu_type; ?>
-		//var abcd = <?php echo $stu_type; ?>;
-		//console.log(abcd);
-		if(student_type == 'ug')
-			document.getElementById('add').style.display='none';
-		var row=document.getElementById("tableid").rows;
-		var branch1 = document.getElementsByName('branch4[]')[row.length-3];
-		var branch2 = document.getElementsByName('branch4[]')[row.length-2];
-		document.getElementsByName('branch4[]')[row.length-3].value = '10';
-		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
-		document.getElementsByName('branch4[]')[row.length-2].value = '12';
-		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
-	});*/
-
 	$(document).ready(function() {
 		document.getElementById('corr_addr_visibility').style.display = 'none';
 
@@ -71,48 +49,6 @@
 		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
 		document.getElementsByName('branch4[]')[row.length-2].value = '12';
 		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
-	}
-
-	function fetch_details()
-	{
-		var stu_id = document.getElementsByName("stu_id")[0].value;
-		$("#fetch_id_btn").hide();
-		$("#stuIdIcon").show();
-		//alert(stu_id);
-		var xmlhttp;
-		if (window.XMLHttpRequest)
-		{// code for IE7+, Firefox, Chrome, Opera, Safari
-		 	xmlhttp=new XMLHttpRequest();
-		}
-		else
-	  	{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-	  	{
-	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		    {
-		    	//alert("success");
-		    	//alert(xmlhttp.responseText);
-		    	//td.innerHTML = xmlhttp.responseText;
-				if(xmlhttp.responseText != '')
-				{
-				 	alert('User Already exists.');
-				 	$("#fetch_id_btn").show();
-				 	$("#stuIdIcon").hide();
-				}
-				else
-				{
-					$("td, th").css("visibility", "visible");
-					$("#fetch_id_btn").hide();
-					$("#stuIdIcon").hide();
-				}
-		    }
-		    //else
-		    //	alert("failed");
-	  	}
-		xmlhttp.open("POST",site_url("student/student_ajax/check_if_user_exists/"+stu_id),true);
-		xmlhttp.send();
 	}
 
 	function preview_pic()
@@ -183,27 +119,32 @@
 		if(pass == '')
 		{
 			alert("Please enter the password.");
+			$('#password').focus();
 			return false;
 		}
 		if(c_pass == '')
 		{
 			alert("Please enter the Confirm Password field.");
+			$('#confirm_password').focus();
 			return false;
 		}
 		var pass_pattern = /^\S+$/;//([a-z]|[A-Z]|[0-9]|@|.|*|$);
 		if(!pass_pattern.test(pass))
 		{
 			alert("Password must contain only alphabets, digits and special characters.");
+			$('#password').focus();
 			return false;
 		}
 		if(!pass_pattern.test(c_pass))
 		{
 			alert("Confirm Password must contain only alphabets, digits and special characters.");
+			$('#confirm_password').focus();
 			return false;
 		}
 		if(c_pass != pass)
 		{
 			alert("Password and Confirm Password must be same.");
+			$('#password').focus();
 			return false;
 		}
 		return true;
@@ -226,21 +167,25 @@
 			if(line1.trim() == '' || line2.trim() == '' || city.trim() =='' || pincode.trim() == '' || state.trim() == '' || country.trim() == ''|| contact.trim() == '')
 			{
 				alert("Please fill all the fields of correspondence address.");
+				$('#line13').focus();
 				return false;
 			}
 			else if(isNaN(pincode))
 			{
 				alert("Pincode can contain only numbers.");
+				$('#pincode3').focus();
 				return false;
 			}
 			if(isNaN(contact))
 			{
 				alert("Correspondance Contact can contain only numbers.");
+				$('#contact3').focus();
 				return false;
 			}
 			else if(contact >= 10000000000 || contact < 1000000000)
 			{
 				alert("Correspondence mobile number not in range.");
+				$('#contact3').focus();
 				return false;
 			}
 			return true;
@@ -253,7 +198,8 @@
 		var branch = document.getElementById("branch_id").value;
 		if(branch == "none" || course == "none")
 		{
-				alert("Branch or Course not selected or exists.")
+				alert("Branch or Course not selected or exists.");
+				$('#course_id').focus();
 				return false;
 		}
 		else
@@ -287,7 +233,8 @@
 			var mgai=document.getElementById("mother_gross_income").value;
 			if(m.trim() == '' || f.trim() == '' || fo.trim() == '' || mo.trim() == '' || fgai.trim() == '' || mgai.trim() == '')
 			{
-				alert("Please fill all details of parents.")
+				alert("Please fill all details of parents.");
+				$('#father_name').focus();
 				return false;
 			}
 			else
@@ -299,7 +246,8 @@
 			var r=document.getElementById("guardian_relation_name").value;
 			if(g.trim() == '' || r.trim() == '')
 			{
-				alert("Please fill all details of guardian.")
+				alert("Please fill all details of guardian.");
+				$('#guardian_name').focus();
 				return false;
 			}
 			else
@@ -316,7 +264,8 @@
 			var iitjee_cat_rank = document.getElementById('iitjee_cat_rank').value;
 			if((iitjee_cat_rank == 0 || iitjee_cat_rank.trim() == '') && (iitjee_rank == 0 || iitjee_rank.trim() == ''))
 			{
-				alert("Please fill the IIT-JEE rank or the category rank.")
+				alert("Please fill the IIT-JEE rank or the category rank.");
+				$('#iitjee_rank').focus();
 				return false;
 			}
 			else
@@ -327,7 +276,8 @@
 			var gate_score = document.getElementById('gate_score').value;
 			if(gate_score.trim() == '' || gate_score == 0 || isNaN(gate_score))
 			{
-				alert("Please fill the gate score.")
+				alert("Please fill the gate score.");
+				$('#gate_score').focus();
 				return false;
 			}
 			else
@@ -338,7 +288,8 @@
 			var cat_score = document.getElementById('cat_score').value;
 			if(cat_score ==0 || cat_score.trim() == '' || isNaN(cat_score))
 			{
-				alert("Please fill the cat score.")
+				alert("Please fill the cat score.");
+				$('#cat_score').focus();
 				return false;
 			}
 			else
@@ -349,7 +300,8 @@
 			var other_mode_of_admission = document.getElementById('other_mode_of_admission').value;
 			if(other_mode_of_admission.trim() == '')
 			{
-				alert("Please fill the other mode of admission.")
+				alert("Please fill the other mode of admission.");
+				$('#other_mode_of_admission').focus();
 				return false;
 			}
 			else
@@ -367,6 +319,7 @@
 			if(student_other_type.trim() == '')
 			{
 				alert('Please enter the other "Student Other Type".');
+				$('#student_other_type').focus();
 				return false;
 			}
 			else
@@ -384,6 +337,7 @@
 			if(file.size>204800)
 			{
 				alert('The file size must be less than 200KB');
+				$('#photo').focus();
 				return false;
 			}
 			else
@@ -392,6 +346,7 @@
 		else
 		{
 			alert('The image should be in bmp, gif, png, jpg or jpeg format.');
+			$('#photo').focus();
 			return false;
 		}
 	}
@@ -564,61 +519,73 @@
 		if(isNaN(document.getElementById('father_gross_income').value))
 		{
 			alert("Father's Gross Income can only contain digits.");
+			$('#father_gross_income').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('mother_gross_income').value))
 		{
 			alert("Mother's Gross Income can only contain digits.");
+			$('#mother_gross_income').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('parent_mobile').value))
 		{
 			alert("Parent Mobile number can contain only digits.");
+			$('#parent_mobile').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('parent_landline').value))
 		{
 			alert("Paerent Landline number can only contain digits.");
+			$('#parent_landline').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('pincode1').value))
 		{
 			alert("Pincode of present address can only contain digits.");
+			$('#pincode1').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('pincode2').value))
 		{
 			alert("Pincode of premanent address can only contain digits.");
+			$('#pincode2').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('contact1').value))
 		{
 			alert("Contact of present address can contain only digits.");
+			$('#contact1').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('contact2').value))
 		{
 			alert("Contact of permanent address can contain only digits.");
+			$('#contact2').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('mobile').value))
 		{
-			alert("Mobile number can contain only digits.");
+			alert("Your mobile number can contain only digits.");
+			$('#mobile').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('fee_paid_amount').value))
 		{
 			alert("Fee Paid Amount field can contain only digits.");
+			$('#fee_paid_amount').focus();
 			return false;
 		}
 		if(document.getElementById('alternate_mobile').value != '' && isNaN(document.getElementById('alternate_mobile').value))
 		{
 			alert("Alternate Mobile number can contain only digits.");
+			$('#alternate_mobile').focus();
 			return false;
 		}
 		if(isNaN(document.getElementById('iitjee_cat_rank').value) || isNaN(document.getElementById('iitjee_rank').value))
 		{
-			alert("Rank can only contain digits.")
+			alert("IIT JEE Rank can only contain digits.");
+			$('#iitjee_rank').focus();
 			return false;
 		}
 		return true;
@@ -629,32 +596,36 @@
 		var parent_mobile_no = document.getElementById('parent_mobile').value;
 		var present_contact_no = document.getElementById('contact1').value;
 		var permanent_contact_no = document.getElementById('contact2').value;
-		var correspondence_contact_no = document.getElementById('contact3').value;
 		var mobile_no = document.getElementById('mobile').value;
 		var alternate_mobile_no = document.getElementById('alternate_mobile').value;
 		if(parent_mobile_no >= 10000000000 || parent_mobile_no < 1000000000)
 		{
 			alert("Parent mobile number not in range");
+			$('#parent_mobile').focus();
 			return false;
 		}
 		else if(present_contact_no >= 10000000000 || present_contact_no < 1000000000)
 		{
 			alert("Present address mobile number not in range");
+			$('#contact1').focus();
 			return false;
 		}
 		else if(permanent_contact_no >= 10000000000 || permanent_contact_no < 1000000000)
 		{
 			alert("Permanent address mobile number not in range");
+			$('#contact2').focus();
 			return false;
 		}
 		else if(mobile_no >= 10000000000 || mobile_no < 1000000000)
 		{
 			alert("Your mobile number not in range");
+			$('#mobile').focus();
 			return false;
 		}
 		else if(alternate_mobile_no != '' && (alternate_mobile_no >= 10000000000 || alternate_mobile_no < 1000000000))
 		{
 			alert("Your alternate mobile number not in range");
+			$('#alternate_mobile').focus();
 			return false;
 		}
 		return true;
@@ -662,10 +633,10 @@
 
 	function push_na_in_empty()
 	{
-		if( document.getElementById('middlename').value.trim() == '')
+		/*if( document.getElementById('middlename').value.trim() == '')
 			document.getElementById('middlename').value = 'na';
 		if( document.getElementById('lastname').value.trim() == '')
-			document.getElementById('lastname').value = 'na';
+			document.getElementById('lastname').value = 'na';*/
 		if( document.getElementById('roll_no').value.trim() == '')
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')
@@ -709,7 +680,10 @@
 		var g=document.getElementsByName("grade4[]")[row.length-2].value;
 
 		if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
-			alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
+		{
+			alert('Education details Sno '+(row.length-1)+' : Please fill up all the fields !!');
+			$('#tableid').focus();
+		}
 		else
 		{
 			if(row.length > 6)
@@ -739,7 +713,8 @@
 				
 			if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
 			{
-				alert('Sno '+(i+1)+': Please fill up all the fields !!');
+				alert('Educational details Sno '+(i+1)+': Please fill up all the fields !!');
+				$('#tableid').focus();
 				return false;
 			}
 		}

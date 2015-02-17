@@ -52,7 +52,16 @@ class Leave_users_details_model extends CI_Model {
 //            $data['approving_user_id'] = $approving_user_id;
         
         // Currently only for departments;
-        if($approving_user_id == $user_id  && $user_auth_type != "hod"){
+
+        if($user_auth_type == 'dsw'){
+
+            $data['auth_id'] = "dt";
+            
+            $data['user_id'] = $this->get_director_user_id();
+
+            return $data;
+        }
+        if($approving_user_id == $user_id  && !$this->is_hod($user_id)){
             
             $user_dept = $this->get_user_dept($user_id);
             $dept_head = $this->get_dept_head($user_dept);
@@ -65,7 +74,7 @@ class Leave_users_details_model extends CI_Model {
         }
         
         // TODO: add sectional head
-        else if($approving_user_id == $user_id  && $user_auth_type == "hod"){
+        else if($approving_user_id == $user_id  && $this->is_hod($user_id)){
             
             //return director;
             $data['auth_id'] = "dt";
@@ -75,7 +84,7 @@ class Leave_users_details_model extends CI_Model {
         
         $user_designation = $this->get_user_designation($user_id);
         
-        if( $user_designation == "astprof" && $approving_user_auth_type == "hod"){
+        if( $user_designation == "astprof" && $this->is_hod($user_id)){
             
             if($leave_period <= 10.0){
                 return NULL;
@@ -92,7 +101,7 @@ class Leave_users_details_model extends CI_Model {
         }
         
         else if(($user_designation == "ascprof" || $user_designation == "prof")
-                && $approving_user_auth_type == "hod"){
+                && $this->is_hod($user_id)){
             
             
             //Here return should be Dean(F & P) , Know id of Dean(F & P)
@@ -109,6 +118,18 @@ class Leave_users_details_model extends CI_Model {
         
     }
     
+
+    function is_hod($user_id){
+
+        $dept = $this->get_user_dept($user_id);
+
+        $dept_head = $this->get_dept_head($dept);
+
+        if($user_id == $dept_head)
+            return true;
+        else
+            return false;
+    }
     function get_user_auth_type($emp_id){
         
         $sql = "SELECT auth_id FROM user_auth_types"

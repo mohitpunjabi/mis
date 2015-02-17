@@ -183,7 +183,7 @@ class Student_add extends CI_Controller//MY_Controller
 		if($this->form_validation->run() === FALSE)
 		{
 			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			return;//redirect('student/student_add');
+			//return;redirect('student/student_add');
 		}
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)

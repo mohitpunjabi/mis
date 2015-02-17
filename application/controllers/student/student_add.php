@@ -88,6 +88,7 @@ class Student_add extends CI_Controller//MY_Controller
 
 		//view
 		$this->drawHeader("Add Student Details");
+		$this->load->view('templates/header_assets');
 		$this->load->view('student/add/student_detail',$data);
 		$this->drawFooter();
 

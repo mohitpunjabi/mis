@@ -2,6 +2,12 @@
 
     $ui = new UI();
 
+	$containerRow = $ui->row()->open();
+	$stubCol = $ui->col()->width(1)->open();
+	$stubCol->close();
+	$containerCol = $ui->col()->width(10)->open();
+	
+
         $form=$ui->form()
                  ->action('student/student_add/insert_basic_details/'.$stu_id)
                  ->multipart()
@@ -11,23 +17,12 @@
 
             $student_admn_no = $ui->row()
                                   ->open();
+				?><h2 class="page-header">Admission No. <?= $stu_id ?></h2><?
 
-                $column1 = $ui->col()
-                              ->width(4)
-                              ->open();
-
-                    echo '<label>Admission No.</label>';
-
-                $column1->close();
-
-                $column2 = $ui->col()
-                              ->width(6)
-                              ->open();
-
-                    echo $stu_id;
-
-                $column2->close();
-
+				$ui->callout()
+				   ->uiType("info")
+				   ->desc("Please fill you the following details to continue.")
+				   ->show();
             $student_admn_no->close();
 
             $student_details_row = $ui->row()
@@ -276,7 +271,6 @@
 
                         $student_father_details_box = $ui->box()
                                                          ->uiType('primary')
-                                                         ->solid()
                                                          ->title('Father\'s Details')
                                                          ->open();
 
@@ -309,7 +303,6 @@
 
                         $student_mother_details_box = $ui->box()
                                                          ->uiType('primary')
-                                                         ->solid()
                                                          ->title('Mother\'s Details')
                                                          ->open();
 
@@ -341,7 +334,6 @@
 
                         $student_guardian_details_box = $ui->box()
                                                            ->uiType('primary')
-                                                           ->solid()
                                                            ->title('Guardian\'s Details')
                                                            ->open();
 
@@ -411,7 +403,6 @@
 
                         $present_address_details_box = $ui->box()
                                                           ->uiType('primary')
-                                                          ->solid()
                                                           ->title('Present Address')
                                                           ->open();
 
@@ -470,7 +461,6 @@
 
                         $permanent_address_details_box = $ui->box()
                                                           ->uiType('primary')
-                                                          ->solid()
                                                           ->title('Permanent Address')
                                                           ->width(6)
                                                           ->open();
@@ -1140,4 +1130,5 @@
 
         $form->close();
 
-?>
+	$containerCol->close();
+	$containerRow->close();

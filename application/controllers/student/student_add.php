@@ -468,7 +468,7 @@ class Student_add extends CI_Controller//MY_Controller
 
 			$this->db->trans_complete();
 
-			redirect("ftp_login(ftp_stream, username, password)");
+			redirect("login/logout/5");
 		}
 	}
 

@@ -674,9 +674,9 @@ class Input extends Element {
 
 			$this->openAddon();
 			echo "<input " . $this->_parse_attributes() . " />";
-			$this->showHelp();
 			$this->closeAddon();
 
+			$this->showHelp();
 		echo "</div>";
 	}
 
@@ -781,10 +781,9 @@ class Textarea extends Input {
 
 			echo "<textarea " . $this->_parse_attributes() . ">" . $value;
 			echo "</textarea>";
-
-		$this->showHelp();
 		$this->closeAddon();
 
+		$this->showHelp();
 		echo "</div>";
 	}
 }
@@ -827,6 +826,7 @@ class Select extends Input {
 			echo "</select>";
 
 		$this->closeAddon();
+		$this->showHelp();
 
 		echo "</div>";
 	}

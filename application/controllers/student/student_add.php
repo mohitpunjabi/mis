@@ -29,7 +29,7 @@ class Student_add extends CI_Controller//MY_Controller
 	}
 
 	function drawFooter() {
-		$this->load->view("student/add/footer");
+		$this->load->view("templates/footer");
 	}
 
 	function addJS($js) {

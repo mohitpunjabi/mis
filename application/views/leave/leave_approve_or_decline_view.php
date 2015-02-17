@@ -19,7 +19,7 @@ $ref_self = $_SERVER['PHP_SELF'];
 if (isset($args)) {
 	$ref_self .= $args;
 }
-$ref_self = str_replace('/mis/index.php', '', $ref_self);
+$ref_self = strstr($ref_self, 'index.php');
 
 $row = $ui->row()->open();
 	$margincol = $ui->col()->width(2)->open();
@@ -41,7 +41,7 @@ $row = $ui->row()->open();
 				}	
 			$table->close();
 		$box->close();
-		$form = $ui->form()->action($ref_self)->open();
+		$form = $ui->form()->action(base_url().$ref_self)->open();
 			$appcol = $ui->col()->width(6)->open();
 ?>
 <center>

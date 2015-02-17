@@ -116,7 +116,7 @@
                                ->label('Date of Birth')
                                ->width(3)
                                ->name('dob')
-                               ->placeholder(date("d-m-Y", time()+(19800)))
+                               ->value(date("d-m-Y", time()+(19800)))
                                ->dateFormat('dd-mm-yyyy')
                                ->show();
 
@@ -345,12 +345,14 @@
                                                            ->title('Guardian\'s Details')
                                                            ->open();
 
+                            echo '<input type="checkbox" name="depends_on" id="depends_on"/>        ';
+
                             echo '<label>Fill Guardian Details</label>';
 
-                            $ui->checkbox()
+                            /*$ui->checkbox()
                                ->name('depends_on')
                                ->id('depends_on')
-                               ->show();
+                               ->show();*/
 
                             $ui->input()
                                ->label('Guardian\'s Name')
@@ -532,7 +534,7 @@
                                                        ->open();
                         $check_corr_address_col_0->close();
 
-                        $check_corr_address_col_1 = $ui->col()
+                        /*$check_corr_address_col_1 = $ui->col()
                                                        ->width(1)
                                                        ->open();
 
@@ -542,11 +544,13 @@
                                ->checked()
                                ->show();
 
-                        $check_corr_address_col_1->close();
+                        $check_corr_address_col_1->close();*/
 
                         $check_corr_address_col_2 = $ui->col()
                                                        ->width(7)
                                                        ->open();
+
+                            echo '<input type="checkbox" name="correspondence_addr" id="correspondence_addr" checked/>        ';
 
                             echo '<label>Correspondence address same as Permanent address.</label>';
 
@@ -754,7 +758,7 @@
                            ->label('Date of Admission')
                            ->width(3)
                            ->name('entrance_date')
-                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->value(date("d-m-Y", time()+(19800)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
 
@@ -967,7 +971,7 @@
                            ->label('Fees Paid Date')
                            ->width(3)
                            ->name('fee_paid_date')
-                           ->placeholder(date("d-m-Y", time()+(19800)))
+                           ->value(date("d-m-Y", time()+(19800)))
                            ->dateFormat('dd-mm-yyyy')
                            ->show();
 
@@ -1124,11 +1128,12 @@
                                               ->open();
                 $shift_submit_button_col->close();
 
-                $ui->input()
-                   ->type('submit')
+                $ui->button()
+                   ->submit(true)
                    ->value('Submit')
-                   ->width(2)
+                   ->uiType('primary')
                    ->id('submit_button_id')
+                   ->width(2)
                    ->show();
 
             $student_details_row->close();

@@ -2,10 +2,11 @@
 
 	$row = $ui->row()->open();
 		$eventsCol = $ui->col()->width(8)->open();
+			$unreadBadge = ($unreadNotice > 0)? '<small class="badge bg-red">'.$unreadNotice.'</small>': '';
 			$eventsTabBox = $ui->tabBox()
-						   	   ->tab("notices", $ui->icon("info-circle") ." Notices" . ' <small class="badge bg-red">'.$unreadNotice.'</small>', true) // 'true' means active
+						   	   ->tab("notices", $ui->icon("info-circle") ." Notices " . $unreadBadge, true)
 						   	   ->tab("circulars", $ui->icon("file-text-o") . " Circulars")
-						   	   ->tab("minutes", $ui->icon("users") . " Meetings "  . ' <small class="badge bg-red">12</small>')
+						   	   ->tab("minutes", $ui->icon("users") . " Meetings ")
 						       ->open();
 
 				$noticesTab = $ui->tabPane()

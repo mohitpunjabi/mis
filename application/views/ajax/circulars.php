@@ -8,9 +8,9 @@
                         <span class="bg-blue">'.date('d M Y',strtotime($Qdate)).'</span>
                     </li>';
         echo '<li>
-                <i class="fa fa-info-circle"></i>
+                <i class="fa fa-file-text-o"></i>
                 <div class="timeline-item">
-                    <div class="timeline-body">There was no circular posted on or before '.date('d M Y',strtotime($Qdate)).'.</div>
+                    <div class="timeline-body">No circulars were posted on or before '.date('d M Y',strtotime($Qdate)).'.</div>
                 </div>
             </li>';
     }
@@ -39,7 +39,7 @@
                 <i class="fa fa-info-circle"></i>
                 <div class="timeline-item">
                     <span class="time"><i class="fa fa-clock-o"></i> '.$circular_time.'</span>
-                    <h3 class="timeline-header"><a href="'.site_url('employee/view/index/0/'.$circular->id).'">'.$sender_name.'</a><br />'.$sender_designation.'</h3>
+                    <h3 class="timeline-header"><a href="'.site_url('employee/view/index/0/'.$circular->id).'">'.$sender_name.'</a><br /><small>'.$sender_designation.'</small></h3>
                     <div class="timeline-body">'.$circular_sub.'</div>
                     <div class="timeline-footer">
                         <a class="btn btn-primary btn-xs" href="'.$attachment.'">Download Attachments</a>

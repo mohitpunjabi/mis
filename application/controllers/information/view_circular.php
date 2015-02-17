@@ -7,45 +7,20 @@ class View_circular extends MY_Controller
 		parent::__construct();
 	}
 
-	public function index($link='')
-	{
-		if($link=='' || $link== 'current')
-		{
-			$data['firstLink']  = 'List of Current Circular';
-			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_circular/index/archieved">List of Archived Circular</a>';
-			$this->load->model('information/view_circular_model','',TRUE);
-			$data['circulars'] = $this->view_circular_model->get_circulars();
-			
-			if(count($data['circulars']) == 0)
-			{
-				$this->session->set_flashdata('flashError','There is no any circular to view.');
-				redirect('home');
-			}
-				
-			$this->drawHeader('View Circular');
-			$this->load->view('information/viewCircular',$data);
-			$this->drawFooter();
-		}
-		else if ($link =='archieved')
-		{
-			$data['firstLink']  = 'List of Archived Circular';
-			$data['secondLink'] = '<a href="'.base_url().'index.php/information/view_circular/index/current">List of Current Circular</a>';
-			$this->load->model('information/viewcircular_model','',TRUE);
-			$data['circulars'] = $this->viewcircular_model->get_circulars();
-			
-			if(count($data['circulars']) == 0)
-			{
-				$this->session->set_flashdata('flashError','There is no any circular to view.');
-				redirect('home');
-			}
-				
-			$this->drawHeader('View Circular');
-			$this->load->view('information/viewCircular',$data);
-			$this->drawFooter();
-		}
+	public function index()
+	{	
+		$this->load->model('information/view_circular_model','',TRUE);
+		$data['circulars'] = $this->view_circular_model->get_circulars();
+		$data['count_current_circular']=count($data['circulars']);
 		
+		$this->load->model('information/viewcircular_model','',TRUE);
+		$data['circulars_archived'] = $this->viewcircular_model->get_circulars();
+		$data['count_archived_circular']=count($data['circulars_archived']);
+		$this->drawHeader('View Circular');
+		$this->load->view('information/viewCircular',$data);
+		$this->drawFooter();
+			
 	}
-	
 	
 	public function prev($circular_id='')
 	{
@@ -63,10 +38,9 @@ class View_circular extends MY_Controller
 			$this->session->set_flashdata('flashError','There is no any circular to view.');
 			redirect('home');
 		}
-	
 		$data['prevcircular'] = $circular_id;
-		$this->drawHeader('View circular');
-		$this->load->view('information/viewCircular',$data);
+		$this->drawHeader('View Circular');
+		$this->load->view('information/view_Old_Circular',$data);
 		$this->drawFooter();
 	}
 	

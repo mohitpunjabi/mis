@@ -22,6 +22,12 @@ class Change_Password extends MY_Controller
 
 		$old_pass=$this->input->post('old_password');
 		$new_pass=$this->input->post('new_password');
+
+		if($new_pass == $this->session->userdata('id'))
+		{
+			$this->session->set_flashdata('flashError','Your new password cannot be your user ID.');
+			redirect('change_password');
+		}
 		$new_pass_clean=$this->authorization->strclean($this->input->post('new_password'));
 		$new_hash=$this->authorization->encode_password($new_pass_clean,$date);
 

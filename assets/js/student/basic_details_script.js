@@ -1,3 +1,120 @@
+	// $(document).ready(function() {
+	// 	$("td, th").css("visibility", "hidden");
+	// 	$("td#stuId").css("visibility", "visible");
+	// 	$("#stuIdIcon").hide();
+	// });
+	/*$( document ).ready(function() {
+		onclick_add_row();
+		var student_type = document.getElementById('stu_type').value;
+		//<?php echo $stu_type; ?>
+		//var abcd = <?php echo $stu_type; ?>;
+		//console.log(abcd);
+		if(student_type == 'ug')
+			document.getElementById('add').style.display='none';
+		var row=document.getElementById("tableid").rows;
+		var branch1 = document.getElementsByName('branch4[]')[row.length-3];
+		var branch2 = document.getElementsByName('branch4[]')[row.length-2];
+		document.getElementsByName('branch4[]')[row.length-3].value = '10';
+		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
+		document.getElementsByName('branch4[]')[row.length-2].value = '12';
+		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
+	});*/
+
+	$(document).ready(function() {
+		document.getElementById('corr_addr_visibility').style.display = 'none';
+
+		document.getElementById("add").onclick = function() {onclick_add();};
+
+		$('[name="depends_on"]').on('ifChanged', function() {
+    		depends_on_whom();
+		});
+
+		$('#stu_type').on('change', function() {
+			button_for_add();
+		});
+
+		$('#depts').on('change', function() {
+			options_of_courses();
+		});
+
+		$('#course_id').on('change', function() {
+			options_of_branches();
+		});
+
+		$('#id_admn_based_on').on('change', function() {
+			select_exam_scores();
+		});
+
+		$('#correspondence_addr').on('ifChanged', function() {
+			corrAddr();
+		});
+
+		$('#form_submit').on('submit', function(e) {
+			if(!form_validation())
+				e.preventDefault();
+		});
+
+		add_row_on_page_load();
+
+	});
+
+	function add_row_on_page_load()
+	{
+		onclick_add_row();
+		var student_type = document.getElementById('stu_type').value;
+		if(student_type == 'ug')
+			document.getElementById('add').style.display='none';
+		var row=document.getElementById("tableid").rows;
+		var branch1 = document.getElementsByName('branch4[]')[row.length-3];
+		var branch2 = document.getElementsByName('branch4[]')[row.length-2];
+		document.getElementsByName('branch4[]')[row.length-3].value = '10';
+		document.getElementsByName('branch4[]')[row.length-3].disabled = true;
+		document.getElementsByName('branch4[]')[row.length-2].value = '12';
+		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
+	}
+
+	function fetch_details()
+	{
+		var stu_id = document.getElementsByName("stu_id")[0].value;
+		$("#fetch_id_btn").hide();
+		$("#stuIdIcon").show();
+		//alert(stu_id);
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		 	xmlhttp=new XMLHttpRequest();
+		}
+		else
+	  	{// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+	  	{
+	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+		    	//alert("success");
+		    	//alert(xmlhttp.responseText);
+		    	//td.innerHTML = xmlhttp.responseText;
+				if(xmlhttp.responseText != '')
+				{
+				 	alert('User Already exists.');
+				 	$("#fetch_id_btn").show();
+				 	$("#stuIdIcon").hide();
+				}
+				else
+				{
+					$("td, th").css("visibility", "visible");
+					$("#fetch_id_btn").hide();
+					$("#stuIdIcon").hide();
+				}
+		    }
+		    //else
+		    //	alert("failed");
+	  	}
+		xmlhttp.open("POST",site_url("student/student_ajax/check_if_user_exists/"+stu_id),true);
+		xmlhttp.send();
+	}
+
 	function preview_pic()
 	{
 		var file=document.getElementById('photo').files[0];
@@ -15,14 +132,81 @@
 		}
 	}
 
+	function check_if_student_type_others()
+    {
+    	var student_type = document.getElementById('stu_type').value;
+    	var student_other_type = document.getElementById('student_other_type');
+    	if(student_type == 'others')
+    		student_other_type.disabled = false;
+    	else
+    		student_other_type.disabled = true;
+    }
+
 	function form_validation()
 	{
-		var pgv = parent_gaurdian_validation();
+		/*var pgv = parent_gaurdian_validation();
 		var abov = admission_based_on_validation();
 		var cb = course_branch_validation();
 		var cav = correspondence_addr_validation();
+		var stv = student_type_validation();
+		var anv = all_number_validation();
 		var iv = image_validation();
-		return pgv && abov && cb && cav && iv;
+		return pgv && abov && cb && cav && stv && iv;*/
+		if(!password_validation())
+			return false;
+		if(!parent_guardian_validation())
+			return false;
+		if(!admission_based_on_validation())
+			return false;
+		if(!correspondence_addr_validation())
+			return false;
+		if(!student_type_validation())
+			return false;
+		if(!all_number_validation())
+			return false;
+		if(!mobile_number_size_validation())
+			return false;
+		if(!course_branch_validation())
+			return false;
+		if(!education_validation())
+			return false;
+		if(!image_validation())
+			return false;
+		push_na_in_empty();
+		return true;
+	}
+
+	function password_validation()
+	{
+		var pass = document.getElementById('password').value;
+		var c_pass = document.getElementById('confirm_password').value;
+		if(pass == '')
+		{
+			alert("Please enter the password.");
+			return false;
+		}
+		if(c_pass == '')
+		{
+			alert("Please enter the Confirm Password field.");
+			return false;
+		}
+		var pass_pattern = /^\S+$/;//([a-z]|[A-Z]|[0-9]|@|.|*|$);
+		if(!pass_pattern.test(pass))
+		{
+			alert("Password must contain only alphabets, digits and special characters.");
+			return false;
+		}
+		if(!pass_pattern.test(c_pass))
+		{
+			alert("Confirm Password must contain only alphabets, digits and special characters.");
+			return false;
+		}
+		if(c_pass != pass)
+		{
+			alert("Password and Confirm Password must be same.");
+			return false;
+		}
+		return true;
 	}
 
 	function correspondence_addr_validation()
@@ -39,13 +223,27 @@
 			var pincode = document.getElementById("pincode3").value;
 			var country = document.getElementById("country3").value;
 			var contact = document.getElementById("contact3").value;
-			if(line1 == '' || line2 == '' || city =='' || state == ''|| pincode == ''|| country == ''|| contact == '')
+			if(line1.trim() == '' || line2.trim() == '' || city.trim() =='' || pincode.trim() == '' || state.trim() == '' || country.trim() == ''|| contact.trim() == '')
 			{
-				alert("Please fill all the fields of correspondence address.")
+				alert("Please fill all the fields of correspondence address.");
 				return false;
 			}
-			else
-				return true;
+			else if(isNaN(pincode))
+			{
+				alert("Pincode can contain only numbers.");
+				return false;
+			}
+			if(isNaN(contact))
+			{
+				alert("Correspondance Contact can contain only numbers.");
+				return false;
+			}
+			else if(contact >= 10000000000 || contact < 1000000000)
+			{
+				alert("Correspondence mobile number not in range.");
+				return false;
+			}
+			return true;
 		}
 	}
 
@@ -62,7 +260,7 @@
 			return true;
 	}
 
-	function parent_gaurdian_validation()
+	function parent_guardian_validation()
 	{
 		var dpe = document.getElementById("depends_on").checked;
 		/*if(dpe)
@@ -87,7 +285,7 @@
 			var mo=document.getElementById("mother_occupation").value;
 			var fgai=document.getElementById("father_gross_income").value;
 			var mgai=document.getElementById("mother_gross_income").value;
-			if(m == '' || f == '' || fo == '' || mo == '' || fgai == '' || mgai == '')
+			if(m.trim() == '' || f.trim() == '' || fo.trim() == '' || mo.trim() == '' || fgai.trim() == '' || mgai.trim() == '')
 			{
 				alert("Please fill all details of parents.")
 				return false;
@@ -99,7 +297,7 @@
 		{
 			var g=document.getElementById("guardian_name").value;
 			var r=document.getElementById("guardian_relation_name").value;
-			if(g == '' || r == '')
+			if(g.trim() == '' || r.trim() == '')
 			{
 				alert("Please fill all details of guardian.")
 				return false;
@@ -116,7 +314,7 @@
 		{
 			var iitjee_rank = document.getElementById('iitjee_rank').value;
 			var iitjee_cat_rank = document.getElementById('iitjee_cat_rank').value;
-			if((iitjee_cat_rank == 0 || iitjee_cat_rank == '') && (iitjee_rank == 0 || iitjee_rank == ''))
+			if((iitjee_cat_rank == 0 || iitjee_cat_rank.trim() == '') && (iitjee_rank == 0 || iitjee_rank.trim() == ''))
 			{
 				alert("Please fill the IIT-JEE rank or the category rank.")
 				return false;
@@ -127,7 +325,7 @@
 		else if(admission_based_on == 'gate')
 		{
 			var gate_score = document.getElementById('gate_score').value;
-			if(gate_score == '' || gate_score == 0)
+			if(gate_score.trim() == '' || gate_score == 0 || isNaN(gate_score))
 			{
 				alert("Please fill the gate score.")
 				return false;
@@ -138,7 +336,7 @@
 		else if(admission_based_on == 'cat')
 		{
 			var cat_score = document.getElementById('cat_score').value;
-			if(cat_score ==0 || cat_score == '')
+			if(cat_score ==0 || cat_score.trim() == '' || isNaN(cat_score))
 			{
 				alert("Please fill the cat score.")
 				return false;
@@ -149,9 +347,26 @@
 		else if(admission_based_on == 'others')
 		{
 			var other_mode_of_admission = document.getElementById('other_mode_of_admission').value;
-			if(other_mode_of_admission == '')
+			if(other_mode_of_admission.trim() == '')
 			{
 				alert("Please fill the other mode of admission.")
+				return false;
+			}
+			else
+				return true;
+		}
+		return true;
+	}
+
+	function student_type_validation()
+	{
+		var student_type = document.getElementById('stu_type').value;
+		if(student_type == 'others')
+		{
+			var student_other_type = document.getElementById('student_other_type').value;
+			if(student_other_type.trim() == '')
+			{
+				alert('Please enter the other "Student Other Type".');
 				return false;
 			}
 			else
@@ -184,16 +399,14 @@
 	
 	function corrAddr()
     {
-        var x=document.getElementById("corr_addr");
         var y=document.getElementById("correspondence_addr");
-        if(!y.checked)
+        if(y.checked)
         {
-            x.style.display='block';
-            //document.getElementById("line13").='true';
+            document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
-            x.style.display='none';
+            document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
 	
@@ -235,58 +448,6 @@
 		}
 		
 	}
-	
-	/*function depends_on_iitjee()
-	{
-		var dpe_iitjee = document.getElementById("depends_on_iit").checked;
-		var g=document.getElementById("iitjee_rank");
-		var h=document.getElementById("iitjee_cat_rank");
-		if(dpe_iitjee)
-		{
-			g.disabled=false;
-			h.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-			h.disabled=true;
-		}
-		
-	}
-
-	
-	function depends_on_cat()
-	{
-		var dpe_cat = document.getElementById("depends_on_cat_score").checked;
-		var g=document.getElementById("cat_score");
-		if(dpe_cat)
-		{
-			g.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-		}
-		
-	}
-	
-	function depends_on_gate()
-	{
-		var dpe_gate = document.getElementById("depends_on_gate_score").checked;
-		var g=document.getElementById("gate_score");
-		if(dpe_gate)
-		{
-			g.disabled=false;
-						
-		}
-		else
-		{
-			g.disabled=true;
-		}
-		
-	}*/
 
 	function select_exam_scores()
 	{
@@ -342,6 +503,7 @@
     {
     	//alert("hi");
         var tr=document.getElementById('branch_id');
+        var course=document.getElementById('course_id').value;
 //        var tr=document.getElementById('branch_div');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
@@ -359,22 +521,20 @@
             {
             	//alert ("success");
                 tr.innerHTML=xmlhttp.responseText;
-                options_of_courses();
             }
         }
         //xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true); this is original line to select branch we need to select courses
-		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+dept),true);
+		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }
 
     function options_of_courses()
-	//function options_of_courses()
     {
         //set_id_of_branch();
         //alert('reached course');
         var tr=document.getElementById('course_id');
-        var branch=document.getElementById('branch_id').value;
+        var dept=document.getElementById('depts').value;
         var xmlhttp;
         if (window.XMLHttpRequest)
         {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -390,13 +550,213 @@
             {
             	//alert('success');
                 tr.innerHTML=xmlhttp.responseText;
+                options_of_branches();
             }
         }
         //alert(branch);
-        xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+branch),true);
+        xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
     }
+
+    function all_number_validation()
+	{
+		if(isNaN(document.getElementById('father_gross_income').value))
+		{
+			alert("Father's Gross Income can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('mother_gross_income').value))
+		{
+			alert("Mother's Gross Income can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('parent_mobile').value))
+		{
+			alert("Parent Mobile number can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('parent_landline').value))
+		{
+			alert("Paerent Landline number can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('pincode1').value))
+		{
+			alert("Pincode of present address can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('pincode2').value))
+		{
+			alert("Pincode of premanent address can only contain digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('contact1').value))
+		{
+			alert("Contact of present address can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('contact2').value))
+		{
+			alert("Contact of permanent address can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('mobile').value))
+		{
+			alert("Mobile number can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('fee_paid_amount').value))
+		{
+			alert("Fee Paid Amount field can contain only digits.");
+			return false;
+		}
+		if(document.getElementById('alternate_mobile').value != '' && isNaN(document.getElementById('alternate_mobile').value))
+		{
+			alert("Alternate Mobile number can contain only digits.");
+			return false;
+		}
+		if(isNaN(document.getElementById('iitjee_cat_rank').value) || isNaN(document.getElementById('iitjee_rank').value))
+		{
+			alert("Rank can only contain digits.")
+			return false;
+		}
+		return true;
+	}
+
+	function mobile_number_size_validation()
+	{
+		var parent_mobile_no = document.getElementById('parent_mobile').value;
+		var present_contact_no = document.getElementById('contact1').value;
+		var permanent_contact_no = document.getElementById('contact2').value;
+		var correspondence_contact_no = document.getElementById('contact3').value;
+		var mobile_no = document.getElementById('mobile').value;
+		var alternate_mobile_no = document.getElementById('alternate_mobile').value;
+		if(parent_mobile_no >= 10000000000 || parent_mobile_no < 1000000000)
+		{
+			alert("Parent mobile number not in range");
+			return false;
+		}
+		else if(present_contact_no >= 10000000000 || present_contact_no < 1000000000)
+		{
+			alert("Present address mobile number not in range");
+			return false;
+		}
+		else if(permanent_contact_no >= 10000000000 || permanent_contact_no < 1000000000)
+		{
+			alert("Permanent address mobile number not in range");
+			return false;
+		}
+		else if(mobile_no >= 10000000000 || mobile_no < 1000000000)
+		{
+			alert("Your mobile number not in range");
+			return false;
+		}
+		else if(alternate_mobile_no != '' && (alternate_mobile_no >= 10000000000 || alternate_mobile_no < 1000000000))
+		{
+			alert("Your alternate mobile number not in range");
+			return false;
+		}
+		return true;
+	}
+
+	function push_na_in_empty()
+	{
+		if( document.getElementById('middlename').value.trim() == '')
+			document.getElementById('middlename').value = 'na';
+		if( document.getElementById('lastname').value.trim() == '')
+			document.getElementById('lastname').value = 'na';
+		if( document.getElementById('roll_no').value.trim() == '')
+			document.getElementById('roll_no').value = 'na';
+		if( document.getElementById('parent_landline').value.trim() == '')
+			document.getElementById('parent_landline').value = 0;
+		if( document.getElementById('aadhaar_no').value.trim() == '')
+			document.getElementById('aadhaar_no').value = 'na';
+		if( document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value.trim() == '')
+			document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = 'na';
+		if( document.getElementById('fee_paid_amount').value.trim() == '')
+			document.getElementById('fee_paid_amount').value = 0;
+		if( document.getElementById('alternate_email_id').value.trim() == '')
+			document.getElementById('alternate_email_id').value = 'na';
+		if( document.getElementById('alternate_mobile').value == '')
+			document.getElementById('alternate_mobile').value = 0;
+		if( document.getElementById('hobbies').value.trim() == '')
+			document.getElementById('hobbies').value = 'na';
+		if( document.getElementById('favpast').value.trim() == '')
+			document.getElementById('favpast').value = 'na';
+		if(document.getElementById('any_other_information').value.trim() == '')
+			document.getElementById('any_other_information').value = 'na';
+		if(document.getElementById('extra_activity').value.trim() == '')
+			document.getElementById('extra_activity').value = 'na';
+	}
+
+	function onclick_add_row()
+	{
+		var row=document.getElementById("tableid").rows;
+		var newrow=document.getElementById("tableid").insertRow(row.length);
+		newrow.innerHTML=document.getElementById("addrow").innerHTML;
+		var newid=newrow.cells[0].id="sno"+Number(row.length-2);
+		document.getElementById(newid).innerHTML=row.length-1;
+		//document.getElementsByName('branch4[]')[row.length-1].disabled=false;
+	}
+
+	function onclick_add()
+	{	
+		var row=document.getElementById("tableid").rows;
+		var e=document.getElementsByName("exam4[]")[row.length-2].value;
+		var b=document.getElementsByName("branch4[]")[row.length-2].value;
+		var c=document.getElementsByName("clgname4[]")[row.length-2].value;
+		var g=document.getElementsByName("grade4[]")[row.length-2].value;
+
+		if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
+			alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
+		else
+		{
+			if(row.length > 6)
+			{
+				alert('You are not allowed to add more rows.');
+				return false;
+			}
+			//onclick_add_row();
+			var newrow=document.getElementById("tableid").insertRow(row.length);
+			newrow.innerHTML=document.getElementById("addrow").innerHTML;
+			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
+			document.getElementById(newid).innerHTML=row.length-1;
+			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
+		}
+	}
+	
+	function education_validation()
+	{
+		var n_row=document.getElementById("tableid").rows.length;
+		var i=0;
+		for(i=0;i<=n_row-2;i++)
+		{
+			var e=document.getElementsByName("exam4[]")[i].value;
+			var b=document.getElementsByName("branch4[]")[i].value;
+			var c=document.getElementsByName("clgname4[]")[i].value;
+			var g=document.getElementsByName("grade4[]")[i].value;
+				
+			if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
+			{
+				alert('Sno '+(i+1)+': Please fill up all the fields !!');
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function button_for_add()
+	{
+		if(document.getElementById('stu_type').value == 'ug')
+		{
+			document.getElementById('add').style.display='none';
+		}
+		else
+		{
+			document.getElementById('add').style.display='block';
+		}
+	}
 
     /*function set_id_of_branch()
     {

@@ -7,9 +7,7 @@ class Add_branch extends MY_Controller
 		// This is to call the parent constructor
 		parent::__construct(array('deo'));
 		
-		//$this->addJS("course_structure/add.js");
-		$this->addJS("course_structure/edit.js");
-		$this->addCSS("course_structure/cs_layout.css");
+		$this->addJS("course_structure/add.js");	
 		$this->load->library('session');
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
@@ -19,7 +17,7 @@ class Add_branch extends MY_Controller
 		$data=array();
 		$data['result_course'] = $this->basic_model->get_course();
 		$data['result_dept'] = $this->basic_model->get_depts();	
-    	$this->drawHeader();
+    	$this->drawHeader("Add or Map a Branch with Course");
 		$this->load->view('course_structure/add_branch',$data);
 		$this->drawFooter();
 	}

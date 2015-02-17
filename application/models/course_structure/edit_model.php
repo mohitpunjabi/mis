@@ -1,6 +1,6 @@
 <?php
 
-class Add_model extends CI_Model
+class Edit_model extends CI_Model
 {
 	var $table_subject = 'subjects';
 	var $table_coursestructure = 'course_structure';
@@ -31,9 +31,14 @@ class Add_model extends CI_Model
 		return $this->db->_error_message(); 
 	}
 	
-	function update($data, $where)
+	function update_subjects($values, $where)
 	{
-		$this->db->update($this->table,$data,$where);
+		$this->db->where($where);
+		//$this->db->where('id',$subjectid);
+		return $this->db->update($this->table_subject,$values);
+		//return $this->db->_error_message();
+		//$this->db->query("UPDATE subjects SET name = '$name' WHERE subject_id = '$subject_id'");
+		//return $this->db->affected_rows();
 	}
 
 	function delete($where)

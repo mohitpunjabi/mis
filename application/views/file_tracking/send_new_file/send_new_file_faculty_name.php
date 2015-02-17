@@ -4,8 +4,8 @@
 	while ($sno <= $total_rows)
 	{
 ?>
-		<option type="text" value="<?php echo $data_array[$sno][1]; ?>" ><?php echo $data_array[$sno][2]; ?></option>
+			<option type="text" value="<?php echo $data_array[$sno][1]; ?>" ><?php echo $data_array[$sno][2]; ?></option>
 <?php
-		$sno++;	
+			$sno++;	
 	}
 ?>

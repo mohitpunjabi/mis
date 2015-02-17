@@ -436,6 +436,7 @@ $headingBox = $ui->box()
 								  ->uiType("info")
 								  ->show();
 					echo '</div>';		
+					$tableRow= $ui->row()->id('postDutyChartTableRow')->open();
 							$table = $ui->table()
 										->id('postDutyChartTable')
 										->responsive()
@@ -466,6 +467,7 @@ $headingBox = $ui->box()
 								</tfoot>	
 						<?php
 							$table->close();
+					$tableRow->close();
 	            $tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimep")->open();
@@ -477,6 +479,7 @@ $headingBox = $ui->box()
 								  ->show();
 					echo '</div>';
 					echo '<div id="totalduration"></div>';
+					$tableRow= $ui->row()->id('postDutyChartTableOvertimeRow')->open();
 					$table = $ui->table()->id('postDutyChartTableOvertime')
 										 ->responsive()
 										 ->hover()
@@ -509,6 +512,7 @@ $headingBox = $ui->box()
 									  </tfoot>';
 									 
 					$table->close();
+				$tableRow->close();
 				$tab1->close();
 			
 			$tabBox->close();
@@ -543,7 +547,7 @@ $headingBox = $ui->box()
 								  ->uiType("info")
 								  ->show();
 					echo '</div>';
-								
+						$tableRow= $ui->row()->id('dateDutyChartTableRow')->open();		
 								
 								$table = $ui->table()
 											->id('dateDutyChartTable')
@@ -576,6 +580,7 @@ $headingBox = $ui->box()
 									</tfoot>	
 							<?php
 								$table->close();
+						$tableRow->close();
 				$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimed")->open();
@@ -587,6 +592,7 @@ $headingBox = $ui->box()
 								  ->show();
 					echo '</div>';
 					echo '<div id="totaldurationd"></div>';
+					$tableRow= $ui->row()->id('dateDutyChartTableOvertimeRow')->open();
 							$table = $ui->table()
 											->id('dateDutyChartTableOvertime')
 											->responsive()
@@ -622,6 +628,7 @@ $headingBox = $ui->box()
 									</tfoot>	
 							<?php
 								$table->close();
+						$tableRow->close();
 				$tab1->close();
 			
 			$tabBox->close();
@@ -656,7 +663,7 @@ $headingBox = $ui->box()
 								  ->uiType("info")
 								  ->show();
 						echo '</div>';		
-								
+							$tableRow= $ui->row()->id('rangeDutyChartTableRow')->open();	
 								$table = $ui->table()
 											->id('rangeDutyChartTable')
 											->responsive()
@@ -689,6 +696,7 @@ $headingBox = $ui->box()
 									</tfoot>	
 							<?php
 								$table->close();
+						$tableRow->close();
 				$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimer")->open();
@@ -700,6 +708,7 @@ $headingBox = $ui->box()
 								  ->show();
 					echo '</div>';
 							echo '<div id="totaldurationr"></div>';
+							$tableRow= $ui->row()->id('rangeDutyChartTableOvertimeRow')->open();
 							$table = $ui->table()
 											->id('rangeDutyChartTableOvertime')
 											->responsive()
@@ -737,6 +746,7 @@ $headingBox = $ui->box()
 									</tfoot>	
 							<?php
 								$table->close();
+							$tableRow->close();
 				$tab1->close();
 			
 			$tabBox->close();
@@ -771,7 +781,7 @@ $headingBox = $ui->box()
 								  ->uiType("info")
 								  ->show();
 							echo '</div>';
-							
+							$tableRow= $ui->row()->id('rangepostDutyChartTableRow')->open();
 							$table = $ui->table()
 										->id('rangepostDutyChartTable')
 										->responsive()
@@ -802,6 +812,7 @@ $headingBox = $ui->box()
 								</tfoot>	
 						<?php
 							$table->close();
+							$tableRow->close();
 						$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimerp")->open();
@@ -813,6 +824,7 @@ $headingBox = $ui->box()
 								  ->show();
 							echo '</div>';
 							echo '<div id="totaldurationrp"></div>';
+							$tableRow= $ui->row()->id('rangepostDutyChartTableOvertimeRow')->open();
 							$table = $ui->table()
 											->id('rangepostDutyChartTableOvertime')
 											->responsive()
@@ -848,6 +860,7 @@ $headingBox = $ui->box()
 									</tfoot>	
 							<?php
 								$table->close();
+						$tableRow->close();
 				$tab1->close();
 			
 			$tabBox->close();
@@ -882,7 +895,7 @@ $headingBox = $ui->box()
 								  ->uiType("info")
 								  ->show();
 						echo '</div>';
-						
+						$tableRow= $ui->row()->id('rangeguardDutyChartTableRow')->open();
 						$table = $ui->table()
 									->id('rangeguardDutyChartTable')
 									->responsive()
@@ -911,6 +924,7 @@ $headingBox = $ui->box()
 							</tfoot>	
 					<?php
 						$table->close();
+					$tableRow->close();
 				$tab1->close();
 				
 				$tab1 = $ui->tabPane()->id("overtimerg")->open();
@@ -922,6 +936,7 @@ $headingBox = $ui->box()
 								  ->show();
 						echo '</div>';
 								echo '<div id="totaldurationrg"></div>';
+								$tableRow= $ui->row()->id('rangeguardDutyChartTableOvertimeRow')->open();
 								$table = $ui->table()
 									->id('rangeguardDutyChartTableOvertime')
 									->responsive()
@@ -954,6 +969,7 @@ $headingBox = $ui->box()
 							</tfoot>	
 					<?php
 						$table->close();
+					$tableRow->close();
 				$tab1->close();
 			
 			$tabBox->close();

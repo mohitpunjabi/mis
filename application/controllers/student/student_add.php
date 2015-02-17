@@ -8,7 +8,7 @@ class Student_add extends CI_Controller//MY_Controller
 	}
 
 
-	var $_css="student/present_student_add.css";
+	var $_css;
 	var $_js;
 	var $userId;
 
@@ -53,12 +53,10 @@ class Student_add extends CI_Controller//MY_Controller
 
 	public function add_basic_details($error = '')
 	{
-		/*if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
+		if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
 			show_404();	
 		}
-		else $this->userId = $this->input->get("id");*/
-
-		$this->userId = '2011JE0786'; // delete this and uncomment the above lines
+		else $this->userId = $this->input->get("id");
 
 		$_css = "";
 		$_js = "";
@@ -88,6 +86,7 @@ class Student_add extends CI_Controller//MY_Controller
 
 		//view
 		$this->drawHeader("Add Student Details");
+		$this->load->view('templates/header_assets');
 		$this->load->view('student/add/student_detail',$data);
 		$this->drawFooter();
 

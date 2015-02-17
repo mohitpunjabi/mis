@@ -112,7 +112,6 @@ class Student_add extends CI_Controller//MY_Controller
 
 	public function insert_basic_details($stu_id)
 	{
-		var_dump($stu_id);
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('password', 'Password', 'required|callback__passwordRegex|matches[confirm_password]');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required');
@@ -453,6 +452,7 @@ class Student_add extends CI_Controller//MY_Controller
 			$this->load->model('student/student_fee_details_model','',TRUE);
 			$this->load->model('student/student_academic_model','',TRUE);
 			$this->load->model('student/student_education_details_model','',TRUE);
+			//echo 'hi';
 
 			$this->db->trans_start();
 
@@ -470,6 +470,8 @@ class Student_add extends CI_Controller//MY_Controller
 
 			redirect("login/logout/5");
 		}
+		else
+			var_dump($stu_id);
 	}
 
 	function upload_image($stu_id = '', $name ='')

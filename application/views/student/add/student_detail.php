@@ -6,7 +6,6 @@
 	$stubCol = $ui->col()->width(1)->open();
 	$stubCol->close();
 	$containerCol = $ui->col()->width(10)->open();
-	
 
         $form=$ui->form()
                  ->action('student/student_add/insert_basic_details/'.$stu_id)
@@ -1146,6 +1145,7 @@
             $student_details_row->close();
 
         $form->close();
+?>
 
 	$containerCol->close();
 	$containerRow->close();

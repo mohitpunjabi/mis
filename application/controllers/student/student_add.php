@@ -117,7 +117,7 @@ class Student_add extends CI_Controller//MY_Controller
 		$this->form_validation->set_rules('password', 'Password', 'required|callback__passwordRegex|matches[confirm_password]');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required');
 		$this->form_validation->set_rules('firstname','First Name','trim|required');
-		$this->form_validation->set_rules('stud_name_hindi','Student Name in Hindi','required');
+		//$this->form_validation->set_rules('stud_name_hindi','Student Name in Hindi','required');
 		if($this->input->post('depends_on'))
 		{
 		 	$this->form_validation->set_rules('guardian_name','Guardian Name','trim|required');
@@ -148,7 +148,7 @@ class Student_add extends CI_Controller//MY_Controller
 		else if($admn_based_on === 'cat')
 			$this->form_validation->set_rules('cat_score','Cat Score','required|numeric');
 		$this->form_validation->set_rules('identification_mark','Identification Mark','trim|required');
-		$this->form_validation->set_rules('migration_cert','Migration Certificate','trim|required');
+		//$this->form_validation->set_rules('migration_cert','Migration Certificate','trim|required');
 		$this->form_validation->set_rules('nationality','Nationality','trim|required');
 		$this->form_validation->set_rules('bank_name','Bank Name','trim|required');
 		$this->form_validation->set_rules('bank_account_no','Account No','trim|required');
@@ -184,7 +184,7 @@ class Student_add extends CI_Controller//MY_Controller
 		if($this->form_validation->run() === FALSE)
 		{
 			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			redirect('student/student_add');
+			return;//redirect('student/student_add');
 		}
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)
@@ -470,8 +470,6 @@ class Student_add extends CI_Controller//MY_Controller
 
 			redirect("login/logout/5");
 		}
-		else
-		{}
 	}
 
 	function upload_image($stu_id = '', $name ='')

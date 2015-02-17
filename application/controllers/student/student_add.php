@@ -29,7 +29,7 @@ class Student_add extends CI_Controller//MY_Controller
 	}
 
 	function drawFooter() {
-		$this->load->view("student/add/footer");
+		$this->load->view("templates/footer");
 	}
 
 	function addJS($js) {
@@ -47,12 +47,10 @@ class Student_add extends CI_Controller//MY_Controller
 
 	public function add_basic_details($error = '')
 	{
-		/*if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
+		if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
 			show_404();	
 		}
-		else $this->userId = $this->input->get("id");*/
-
-		$this->userId = '2011JE0786'; // delete this and uncomment the above lines
+		else $this->userId = $this->input->get("id");
 
 		$_css = "";
 		$_js = "";

@@ -64,7 +64,7 @@ class CV extends MY_Controller {
     $this->load->model('tnpcell/cv_model','',TRUE);
     $data['projects']= $this->cv_model->get_projects($user_id);
     $data['achievements']= $this->cv_model->get_achievements($user_id);
-    $this->drawHeader();
+    $this->drawHeader("Your CV");
     $this->load->view('tnpcell/print_cv',$data);
 	  $this->drawFooter();
     
@@ -76,7 +76,7 @@ class CV extends MY_Controller {
     $this->load->model('tnpcell/cv_model','',TRUE);
     $data['projects']= $this->cv_model->get_projects($user_id);
     $data['achievements']= $this->cv_model->get_achievements($user_id);
-    $this->drawHeader();
+    $this->drawHeader("Edit Your CV");
     $this->load->view('tnpcell/edit_cv',$data);
 	  $this->drawFooter();
   }

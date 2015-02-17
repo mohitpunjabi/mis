@@ -57,7 +57,6 @@
 
 	function onchange_auth()
 	{
-		document.getElementById('view_users').style.display="inherit";
 		var auth_id=document.getElementById('auth_id').value;
 		var dept_id=document.getElementById('dept_id').value;
 		var view_users=document.getElementById('view_users');
@@ -111,7 +110,7 @@
 			view_users.innerHTML = "<center><i class=\"loading\"></i></center>";
 		}
 	}
-	//
+	
 		function onload_emp_id()
 	{
 		var dept=document.getElementById('emp_id');		

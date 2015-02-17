@@ -57,7 +57,7 @@ class Tnp_basic_model extends CI_Model
 	
 	function get_company_list()
 	{		
-		$query = $this->db->query("SELECT user_id,jnf_users.company_id,jnf_user_details.company_name,jnf_user_details.website,jnf_user_details.session,		jnf_salary.ctc,jnf_salary.gross,jnf_salary.take_home,jnf_company_details.category,jnf_company_details.industry,jnf_company_details.job_designation,jnf_company_details.job_description,jnf_company_details.job_posting,tnp_calender.date_from,tnp_calender.date_to,tnp_calender.status FROM jnf_users INNER JOIN jnf_user_details ON jnf_user_details.company_id = jnf_users.company_id INNER JOIN jnf_salary ON jnf_salary.company_id = jnf_users.company_id INNER JOIN jnf_company_details ON jnf_company_details.company_id = jnf_users.company_id INNER JOIN tnp_calender ON tnp_calender.company_id = jnf_users.company_id");
+		$query = $this->db->query("SELECT user_id,jnf_users.company_id,jnf_user_details.company_name,jnf_user_details.website,jnf_user_details.session,		jnf_salary.ctc,jnf_salary.gross,jnf_salary.take_home,jnf_company_details.category,jnf_company_details.industry,jnf_company_details.job_designation,jnf_company_details.job_description,jnf_company_details.job_posting,tnp_calender.date_from,tnp_calender.date_to,tnp_calender.status FROM jnf_users INNER JOIN jnf_user_details ON jnf_user_details.company_id = jnf_users.company_id INNER JOIN jnf_salary ON jnf_salary.company_id = jnf_users.company_id INNER JOIN jnf_company_details ON jnf_company_details.company_id = jnf_users.company_id LEFT JOIN tnp_calender ON tnp_calender.company_id = jnf_users.company_id");
 		return $query->result();	
 	}
 	

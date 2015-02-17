@@ -4,7 +4,7 @@ class Get_guards extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('guard_sup'));
+		parent::__construct(array('guard_sup','seo'));
 	}
 	
 	function index($post_id='',$date='',$from_time='',$to_time='',$range='')

@@ -9,12 +9,12 @@ class Basic_model extends CI_Model{
 
 	public function search($data){
 		//$query='';
-		$basic_query = 'select distinct rec.begin_date as begin_date,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type, types.type_name as type_name ,rec.no_of_authors as no_of_authors,rec.other_authors as other_authors from prk_record as rec join prk_types as types on rec.type_id = types.type_id where rec.no_of_approval >= rec.no_of_authors ';
+		$basic_query = 'select distinct rec.place as place,rec.end_date as end_date,rec.page_no as page_no,rec.begin_date as begin_date,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type, types.type_name as type_name ,rec.no_of_authors as no_of_authors,rec.place as place,rec.vol_no as vol_no,rec.issue_no as issue_no,rec.other_authors as other_authors from prk_record as rec join prk_types as types on rec.type_id = types.type_id where rec.no_of_approval >= rec.no_of_authors ';
 		if($data['dept_id'] == 'all'){
 			
 		}
 		else{
-			$basic_query = 'select distinct rec.begin_date as begin_date,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type, types.type_name as type_name ,rec.no_of_authors as no_of_authors,rec.other_authors as other_authors from prk_record as rec join prk_types as types on rec.type_id = types.type_id join prk_ism_author as ism_auth on ism_auth.rec_id = rec.rec_id where rec.no_of_approval >= rec.no_of_authors AND ism_auth.emp_id in (select id from user_details where dept_id="'.$data["dept_id"].'") ';
+			$basic_query = 'select distinct rec.vol_no as vol_no,rec.issue_no as issue_no,rec.page_no as page_no,rec.place as place,rec.end_date as end_date,rec.begin_date as begin_date,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type, types.type_name as type_name ,rec.no_of_authors as no_of_authors,rec.other_authors as other_authors from prk_record as rec join prk_types as types on rec.type_id = types.type_id join prk_ism_author as ism_auth on ism_auth.rec_id = rec.rec_id where rec.no_of_approval >= rec.no_of_authors AND ism_auth.emp_id in (select id from user_details where dept_id="'.$data["dept_id"].'") ';
 
 			if($data['emp_id'] != false){
 				if($data['emp_id']!='all')
@@ -28,7 +28,7 @@ class Basic_model extends CI_Model{
 			$basic_query .= ' AND DATE(rec.begin_date) >= "'.$data["begin_date"].'" ';
 		}
 		if(!empty($data['end_date'])){
-			$basic_query .= ' AND DATE(rec.begin_date) <= "'.$data["end_date"].'" ';
+			$basic_query .= ' AND DATE(rec.end_date) <= "'.$data["end_date"].'" ';
 		}
 		$basic_query .= ' order by types.type_sequence ASC';
 		//return $basic_query;

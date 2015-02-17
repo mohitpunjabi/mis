@@ -4,7 +4,7 @@ class Manage_guard extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('guard_sup'));
+		parent::__construct(array('seo'));
 		$this->addJS('employee/print_script.js');
 	}
 	

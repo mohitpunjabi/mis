@@ -28,14 +28,8 @@ class Student_add extends CI_Controller//MY_Controller
 		return false;
 	}
 
-	function drawHeader($title = "MIS") {
-		$this->load->view("student/add/header", array("title" => $title,
-													"javascript" => $this->_js,
-													"css" => $this->_css));
-	}
-
 	function drawFooter() {
-		$this->load->view("student/add/footer");
+		$this->load->view("templates/footer");
 	}
 
 	function addJS($js) {
@@ -53,12 +47,10 @@ class Student_add extends CI_Controller//MY_Controller
 
 	public function add_basic_details($error = '')
 	{
-		/*if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
+		if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
 			show_404();	
 		}
-		else $this->userId = $this->input->get("id");*/
-
-		$this->userId = '2011JE0786'; // delete this and uncomment the above lines
+		else $this->userId = $this->input->get("id");
 
 		$_css = "";
 		$_js = "";
@@ -87,7 +79,9 @@ class Student_add extends CI_Controller//MY_Controller
 		$this->addJS('student/basic_details_script.js');
 
 		//view
-		$this->drawHeader("Add Student Details");
+		$this->load->view('templates/header_assets', array("title" => "Management Information System - Please fill your details",
+													"javascript" => $this->_js,
+													"css" => $this->_css));
 		$this->load->view('student/add/student_detail',$data);
 		$this->drawFooter();
 

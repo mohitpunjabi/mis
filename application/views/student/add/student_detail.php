@@ -6,7 +6,6 @@
 	$stubCol = $ui->col()->width(1)->open();
 	$stubCol->close();
 	$containerCol = $ui->col()->width(10)->open();
-	
 
         $form=$ui->form()
                  ->action('student/student_add/insert_basic_details/'.$stu_id)
@@ -248,6 +247,7 @@
                         $ui->input()
                            ->label('Identification Mark')
                            ->name('identification_mark')
+                           ->placeholder('Any visible mark on body.')
                            ->required()
                            ->width(12)
                            ->show();
@@ -739,7 +739,7 @@
                                                 ->open();
 
                         $ui->input()
-                           ->label('Migration Certiificate')
+                           ->label('Migration Certiificate No.')
                            ->width(3)
                            ->name('migration_cert')
                            ->show();
@@ -994,7 +994,7 @@
                 $student_editable_details_box = $ui->box()
                                                   ->uiType('primary')
                                                   ->solid()
-                                                  ->title('Editable Details')
+                                                  ->title('Other Details')
                                                   ->open();
 
                     $editable_details_row_1 = $ui->row()
@@ -1052,7 +1052,7 @@
                            ->show();
 
                         $ui->input()
-                           ->label('Extra-Curricular Activities ( if any):')
+                           ->label('Extra-Curricular Activities')
                            ->name('extra_activity')
                            ->id('extra_activity')
                            ->width(3)
@@ -1084,7 +1084,7 @@
                                          ->width(12)
                                          ->name('photo')
                                          ->required()
-										 ->help("Please use a recent passport size photograph.")
+                                         ->help("Please use a recent passport size photograph of maximum size 200KB.")
                                          ->show();
 
                     $photo_details_row_1->close();

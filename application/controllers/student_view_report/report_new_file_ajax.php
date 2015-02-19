@@ -12,6 +12,9 @@ class Report_new_file_ajax extends CI_Controller
 		// Will never be used
 	}
 
+	
+	
+	
 	public function get_dept()
 	{
 		$this->load->model('student_view_report/report_model','',TRUE);

@@ -20,7 +20,7 @@ class Regular_check extends MY_Controller
 		$this->drawFooter();
 		
 	}
-	function view($id,$fid){
+	function view($id,$fid,$p=0){
 			
 			if(isset($id)){
 				
@@ -31,7 +31,15 @@ class Regular_check extends MY_Controller
 				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1));
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
 				$this->load->view('templates/header_assets');
+				if($p==1){
+						$this->load->helper(array('dompdf', 'file'));
+						//$html.=	$this->load->view('templates/header_assets');
+						$html= $this->load->view('student_sem_form/department/view1.php',$data,TRUE);
+						pdf_create($html, 'Regform_'.$data['student'][0]->admn_no);
+					}else{
+				
 				$this->load->view('student_sem_form/department/view.php',$data);
+					}
 			}
 	}
 	

@@ -562,6 +562,7 @@ class Input extends Element {
 	var $placeholder = '';
 	var $label = '';
 	var $uiType = '';
+	var $help = '';
 	var $addonRight = null;
 	var $addonLeft = null;
 
@@ -578,6 +579,7 @@ class Input extends Element {
 
 	function type($type = '') {
 		$this->properties["type"] = $type;
+		if($type == "file") $this->classes("no-padding");
 		return $this;
 	}
 
@@ -609,6 +611,11 @@ class Input extends Element {
 
 	function addonRight($addon) {
 		$this->addonRight = $addon;
+		return $this;
+	}
+	
+	function help($help) {
+		$this->help = $help;
 		return $this;
 	}
 
@@ -653,6 +660,10 @@ class Input extends Element {
 					 ->show();
 		}
 	}
+	
+	protected function showHelp() {
+		echo '<p class="help-block">'.$this->help.'</p>';
+	}
 
 	function show() {
 		//form-group div
@@ -665,6 +676,7 @@ class Input extends Element {
 			echo "<input " . $this->_parse_attributes() . " />";
 			$this->closeAddon();
 
+			$this->showHelp();
 		echo "</div>";
 	}
 
@@ -703,8 +715,8 @@ class Radio extends Input {
 		echo '<input ';
 		echo $this->_parse_attributes().' /> '
 			.(($this->label != '')?	$this->label:'').
-			 '</label>
-			 </div>';
+			 '</label>';
+		echo '</div>';
 	}
 }
 
@@ -769,9 +781,9 @@ class Textarea extends Input {
 
 			echo "<textarea " . $this->_parse_attributes() . ">" . $value;
 			echo "</textarea>";
-
 		$this->closeAddon();
 
+		$this->showHelp();
 		echo "</div>";
 	}
 }
@@ -814,6 +826,7 @@ class Select extends Input {
 			echo "</select>";
 
 		$this->closeAddon();
+		$this->showHelp();
 
 		echo "</div>";
 	}
@@ -1119,6 +1132,7 @@ class ImagePicker extends Input {
 	public function __construct() {
 		parent::__construct();
 		log_message('debug', "UI_helper > Upload_image Class Initialized");
+		$this->containerClasses("image-picker");
 	}
 
 	function show() {
@@ -1138,13 +1152,9 @@ class ImagePicker extends Input {
 					reader.onload = function(){
 						var dataURL = reader.result;
 						$("#'.$this->properties['id'].'").parent().find("img").attr("src", dataURL);
-						// output.src = dataURL;
 					};
 					reader.readAsDataURL(input.files[0]);
 				});
-
-			<!-- This is a hack -->
-			$("#'.$this->properties['id'].'").next().addClass("no-padding");
 			});
 
 		</script>

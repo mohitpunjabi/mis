@@ -20,9 +20,8 @@ class Post_minute_model extends CI_Model
 	{
 		$this->db->select_max('minutes_id');
 		$query = $this->db->get($this->table);
-		
+		$this->db->select_max('minutes_id');
 		$query2 = $this->db->get('info_minute_archieve_details');
-		
 		if($query->row()->minutes_id == NULL && $query2->row()->minutes_id == NULL)
 			return 	$query->row();
 		else if($query->row()->minutes_id > $query2->row()->minutes_id)

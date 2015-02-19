@@ -2,6 +2,11 @@
 
     $ui = new UI();
 
+	$containerRow = $ui->row()->open();
+	$stubCol = $ui->col()->width(1)->open();
+	$stubCol->close();
+	$containerCol = $ui->col()->width(10)->open();
+
         $form=$ui->form()
                  ->action('student/student_add/insert_basic_details/'.$stu_id)
                  ->multipart()
@@ -11,23 +16,13 @@
 
             $student_admn_no = $ui->row()
                                   ->open();
+				?><h1 class="page-header"><img src="<?= base_url() ?>assets/images/mis-logo-big.png" width="50"/> Welcome to the Management Information System</h1><?
 
-                $column1 = $ui->col()
-                              ->width(4)
-                              ->open();
-
-                    echo '<label>Admission No.</label>';
-
-                $column1->close();
-
-                $column2 = $ui->col()
-                              ->width(6)
-                              ->open();
-
-                    echo $stu_id;
-
-                $column2->close();
-
+				$ui->callout()
+				   ->uiType("info")
+				   ->title("Admission No. $stu_id")
+				   ->desc("Please fill this form to register yourself to the Management Information System.")
+				   ->show();
             $student_admn_no->close();
 
             $student_details_row = $ui->row()
@@ -252,6 +247,7 @@
                         $ui->input()
                            ->label('Identification Mark')
                            ->name('identification_mark')
+                           ->placeholder('Any visible mark on body.')
                            ->required()
                            ->width(12)
                            ->show();
@@ -276,7 +272,6 @@
 
                         $student_father_details_box = $ui->box()
                                                          ->uiType('primary')
-                                                         ->solid()
                                                          ->title('Father\'s Details')
                                                          ->open();
 
@@ -296,6 +291,7 @@
                                ->label('Father\'s Gross Annual Income')
                                ->id('father_gross_income')
                                ->name('father_gross_income')
+							   ->addonLeft("Rs.")
                                ->show();
 
                         $student_father_details_box->close();
@@ -309,7 +305,6 @@
 
                         $student_mother_details_box = $ui->box()
                                                          ->uiType('primary')
-                                                         ->solid()
                                                          ->title('Mother\'s Details')
                                                          ->open();
 
@@ -329,6 +324,7 @@
                                ->label('Mother\'s Gross Annual Income')
                                ->id('mother_gross_income')
                                ->name('mother_gross_income')
+							   ->addonLeft("Rs.")
                                ->show();
 
                         $student_mother_details_box->close();
@@ -341,13 +337,17 @@
 
                         $student_guardian_details_box = $ui->box()
                                                            ->uiType('primary')
-                                                           ->solid()
                                                            ->title('Guardian\'s Details')
                                                            ->open();
 
-                            echo '<input type="checkbox" name="depends_on" id="depends_on"/>        ';
+							$ui->callout()
+							   ->uiType("info")
+							   ->desc("Fill the guardian's details if applicable")
+							   ->show();
 
-                            echo '<label>Fill Guardian Details</label>';
+                            echo '<input type="checkbox" name="depends_on" id="depends_on"/>';
+
+                            echo ' <label> Fill Guardian Details</label>';
 
                             /*$ui->checkbox()
                                ->name('depends_on')
@@ -411,7 +411,6 @@
 
                         $present_address_details_box = $ui->box()
                                                           ->uiType('primary')
-                                                          ->solid()
                                                           ->title('Present Address')
                                                           ->open();
 
@@ -470,7 +469,6 @@
 
                         $permanent_address_details_box = $ui->box()
                                                           ->uiType('primary')
-                                                          ->solid()
                                                           ->title('Permanent Address')
                                                           ->width(6)
                                                           ->open();
@@ -741,7 +739,7 @@
                                                 ->open();
 
                         $ui->input()
-                           ->label('Migration Certiificate')
+                           ->label('Migration Certiificate No.')
                            ->width(3)
                            ->name('migration_cert')
                            ->show();
@@ -996,7 +994,7 @@
                 $student_editable_details_box = $ui->box()
                                                   ->uiType('primary')
                                                   ->solid()
-                                                  ->title('Editable Details')
+                                                  ->title('Other Details')
                                                   ->open();
 
                     $editable_details_row_1 = $ui->row()
@@ -1054,7 +1052,7 @@
                            ->show();
 
                         $ui->input()
-                           ->label('Extra-Curricular Activities ( if any):')
+                           ->label('Extra-Curricular Activities')
                            ->name('extra_activity')
                            ->id('extra_activity')
                            ->width(3)
@@ -1086,6 +1084,7 @@
                                          ->width(12)
                                          ->name('photo')
                                          ->required()
+                                         ->help("Please use a recent passport size photograph of maximum size 200KB.")
                                          ->show();
 
                     $photo_details_row_1->close();
@@ -1100,6 +1099,13 @@
 
                     $password_detail_row = $ui->row()
                                               ->open();
+
+						$callCol = $ui->col()->width(12)->open();
+						$ui->callout()
+						   ->uiType("warning")
+						   ->desc("This password is different from that of the Feedback System. This is the password that will be used to login to MIS, once your account has been created.")
+						   ->show();
+						$callCol->close();
 
                         $ui->input()
                            ->type('password')
@@ -1130,14 +1136,16 @@
 
                 $ui->button()
                    ->submit(true)
-                   ->value('Submit')
+                   ->value('Submit your details')
                    ->uiType('primary')
+				   ->large()
                    ->id('submit_button_id')
-                   ->width(2)
                    ->show();
+			?><br /><br /><?
 
             $student_details_row->close();
 
         $form->close();
 
-?>
+	$containerCol->close();
+	$containerRow->close();

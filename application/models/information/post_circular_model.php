@@ -20,9 +20,8 @@ class Post_circular_model extends CI_Model
 	{
 		$this->db->select_max('circular_id');
 		$query = $this->db->get($this->table);
-
+		$this->db->select_max('circular_id');
 		$query2 = $this->db->get('info_circular_archieve_details');
-		
 		if($query->row()->circular_id == NULL && $query2->row()->circular_id == NULL)
 			return 	$query->row();
 		else if($query->row()->circular_id > $query2->row()->circular_id)

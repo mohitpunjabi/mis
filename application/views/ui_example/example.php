@@ -752,6 +752,7 @@ $formRow = $ui->row()->open();
 
 
 			$ui->input()->type("text")->label("Text")->placeholder("Text")->show();
+			$ui->input()->type("text")->label("A textbox with help")->placeholder("Text")->help("Some help text goes here")->show();
 
 			$ui->input()->type("text")->label("Text Disabled")->placeholder("Text Disabled")->disabled()->show();
 

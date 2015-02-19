@@ -46,10 +46,11 @@ class Tnp_basic_model extends CI_Model
 			$this->db->where("jnf_users.company_id",$company_id);
 			
 		$this->db->where("jnf_users.company_id IN (SELECT company_id FROM tnp_calender)");
-		$this->db->distinct();
+		//$this->db->distinct();
 		$this->db->join($this->table_jnf_user_details,"jnf_user_details.company_id = jnf_users.company_id");
+		$this->db->join($this->table_tnp_calender,"tnp_calender.company_id = jnf_users.company_id");
+		
 		$query = $this->db->from($this->table_jnf_users);
-		$query = $this->db->from($this->table_tnp_calender);
 		$query = $this->db->get();
 		
 		return $query->result();	

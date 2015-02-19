@@ -124,11 +124,13 @@
         <div class="col-sm-12" >
         The From was <?php echo ($student[0]->hod_status == 0 ? '<span class="label label-warning">Pending</span>' :($student[0]->hod_status == 2 ? '<span class="label label-danger">Rejected</span>' :'<span class="label label-success">Approved</span>')); ?> From Department side Since <?php echo date('d M Y / H:i',strtotime($student[0]->hod_time)) ?>
         </div>
-        <?php } ?>
+        <?php } ?>	
        </div>
+      
 
 	
 </scetion>
+<?php //print_r($student) ?>
 
 
 <script type="text/javascript">
@@ -147,8 +149,8 @@
 		});
  		 window.onunload = refreshParent;
         function refreshParent() {
-            window.opener.location.reload();
-			self.close();
+           // window.opener.location.reload();
+		//	self.close();
         }
 </script>
 <?php //print_r($student) ?>

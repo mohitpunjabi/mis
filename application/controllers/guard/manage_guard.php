@@ -16,7 +16,7 @@ class Manage_guard extends MY_Controller
 	
 	function add()
 	{
-		
+		$this->addJS('guard/guard.js');
 		if($this->input->post('addsubmit') == TRUE)
 		{
 			

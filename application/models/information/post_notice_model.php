@@ -20,7 +20,8 @@ class Post_notice_model extends CI_Model
 	{
 		$this->db->select_max('notice_id');
 		$query = $this->db->get($this->table);
-
+		
+		$this->db->select_max('notice_id');
 		$query2 = $this->db->get('info_notice_archieve_details');
 		
 		if($query->row()->notice_id == NULL && $query2->row()->notice_id == NULL)

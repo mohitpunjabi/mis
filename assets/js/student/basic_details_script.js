@@ -25,7 +25,7 @@
 
 		document.getElementById("add").onclick = function() {onclick_add();};
 
-		$('[name="depends_on"]').on('change', function() {
+		$('[name="depends_on"]').on('ifChanged', function() {
     		depends_on_whom();
 		});
 
@@ -45,7 +45,7 @@
 			select_exam_scores();
 		});
 
-		$('#correspondence_addr').on('change', function() {
+		$('#correspondence_addr').on('ifChanged', function() {
 			corrAddr();
 		});
 
@@ -400,7 +400,7 @@
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
-        if(!y.checked)
+        if(y.checked)
         {
             document.getElementById('corr_addr_visibility').style.display = 'none';
         }

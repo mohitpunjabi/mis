@@ -17,7 +17,7 @@
                                       ->uiType('primary')
                                       ->open();
 
-                    /*$photoedit_row_4 = $ui->row()
+                    $photoedit_row_4 = $ui->row()
                                           ->open();
 
                         $photoedit_col_4_1 = $ui->col()
@@ -39,7 +39,7 @@
 
                         $photoedit_col_4_2->close();
 
-                    $photoedit_row_4->close();*/
+                    $photoedit_row_4->close();
 
                     $photoedit_row_1 = $ui->row()
                                           ->open();
@@ -64,9 +64,10 @@
 
                         $photoedit_col_2_1->close();
 
-                        $ui->input()
-                           ->type('submit')
+                        $ui->button()
+                           ->submit(true)
                            ->value('Save')
+                           ->uiType('primary')
                            ->width(2)
                            ->show();
 
@@ -85,6 +86,7 @@
 
                         $ui->button()
                            ->value('Back')
+                           ->uiType('primary')
                            ->width(1)
                            ->show();?></a><?php
 

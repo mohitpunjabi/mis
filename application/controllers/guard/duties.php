@@ -4,7 +4,7 @@ class Duties extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('guard_sup'));
+		parent::__construct(array('guard_sup','seo'));
 		$this->addJS('employee/print_script.js');
 	}
 	

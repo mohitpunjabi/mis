@@ -1,143 +1,126 @@
-	<?php 
+<?php
+	$ui = new UI();
 	$errors=validation_errors();
-	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
-	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/post_notice/index/'.$auth_id);   ?>
-	Fields marked with <span style= "color:red;">*</span> are mandatory.
-	<table width='90%'>
-		<tr><th colspan=2></th></tr>
-		<tr>
-			<td width='20%'>
-    			Notice ID<span style= "color:red;"> *</span>
-            </td>
-			<td width='28%'>
-	        	<?php 
-				if($id->notice_id == NULL)
-				{
-					$data = array(
-							'name'=>'notice_ids',
-							'required'=>'required',
-							'value'=>'1',
-							'disabled'=>'disabled'
-							);
-					echo form_input($data);
-					//will produce
-					//echo '<input type="text" name="notice_ids" required="required" disabled="disabled"/>';
-				}
-				else
-				{
-					$data = array(
-							'name'=>'notice_ids',
-							'required'=>'required',
-							'value'=>$id->notice_id + 1,
-							'disabled'=>'disabled'
-							);
-					echo form_input($data);
-					//will produce
-					//echo '<input type="text" name="notice_ids" required="required" value ="'.$no->notice_id.'" disabled="disabled"/>';
-					
-				}
-				$value=1;
-				if($id->notice_id != NULL)
-				   $value = $id->notice_id +1;
+	if($errors!='')
+		$this->notification->drawNotification('Validation Errors',validation_errors(),'error');
+	$row = $ui->row()->open();
+	
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
+	
+	$column2 = $ui->col()->width(9)->open();
+	$box = $ui->box()
+			  ->title('Notice Details')
+			  ->solid()	
+			  ->uiType('primary')
+			  ->open();
+	$form = $ui->form()->action('information/post_notice/index/'.$auth_id)->open();
+	$star_notice=$ui->row()->open();
+	//echo" Fields marked with <span style= 'color:red;'>*</span> are mandatory.";
+	$star_notice->close();
+	$inputRow1 = $ui->row()->open();
+		if($id->notice_id == NULL)
+		{
+			
+			$ui->input()
+			   ->label('Notice ID<span style= "color:red;"> *</span>')
+			   ->type('text')
+			   ->name('notice_ids')
+			   ->required()
+			   ->value('1')
+			   ->disabled()
+			   ->width(6)
+			   ->show();
+
+		}
+		else
+		{
+			$ui->input()
+			   ->type('text')
+			   ->label('Notice ID<span style= "color:red;"> *</span>')
+			   ->name('notice_ids')
+			   ->required()
+			   ->width(6)
+			   ->value($id->notice_id + 1)
+			   ->disabled()
+			   ->show();			
+		}
+
+		 $ui->input()
+		    ->type('text')
+		    ->label('Notice Number<span style= "color:red;"> *</span>')
+		    ->name('notice_no')
+		    ->required()
+		    ->width(6)
+		    ->placeholder('Enter Notice Number  (Ex: CSE_10185)')
+		    ->show();
+
+	$inputRow1->close();
+
+	$inputRow2 = $ui->row()->open();
+		 $ui->select()
+		    ->label('Viewed By<span style= "color:red;"> *</span>')
+			->name('notice_cat')
+			->options(array($ui->option()->value('emp')->text('Employee')->selected(),
+							$ui->option()->value('stu')->text('Student'),
+							$ui->option()->value('all')->text('All')))
+			->width(6)
+			->show();
+
+		 $ui->textarea()
+		    ->label('Notice Subject<span style= "color:red;"> *</span>')
+            ->placeholder('Enter the notice Subject in not more than 200 characters')
+            ->name('notice_sub')
+            ->required()->width(8)
+            ->show();
+	$inputRow2->close();
+
+	$inputRow3 = $ui->row()->open();
+     	 $ui->input()
+		    ->label('Notice File<span style= "color:red;"> *</span>')
+     	    ->type('file')
+     	    ->name('notice_path')
+     	    ->required()
+     	    ->width(6)
+     	    ->show();
+
+		 $ui->datePicker()
+			->name('last_date')
+		    ->label('Last Date<span style= "color:red;"> *</span> (Atleast today)')			
+			//->extras(min='date("Y-m-d")')
+			->value(date("dd-mm-yy"))
+			->dateFormat('dd-mm-yy')->width(6)
+			->show();
+
+
+	$inputRow3->close();
+	echo"(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)";
+	$value=1;
+		if($id->notice_id != NULL)
+		   $value = $id->notice_id +1;
 				
-				//hidden field because disabled input has 0 value only
-				echo form_hidden('notice_id',$value);
 				
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td width='20%'>
-    			Notice Number<span style= "color:red;"> *</span>
-            </td>
-			<td width='28%'>
-	        	<?php 
-					$noticeno = array(
-								'name'=>'notice_no',
-								'id'=>'notice_no',
-								'required'=>'required',
-								'placeholder'=>'Enter Notice Number'
-								);
-					echo form_input($noticeno);
-					//will produce
-					//echo '<input type="text" name="notice_no" id="notice_no" required="required"/>';
-				?>
-				(Ex: CSE_NOT10185)
-			</td>
-		</tr>
-		<tr>
-			<td width='20%'>
-    			Viewed By<span style= "color:red;"> *</span>
-	        </td>
-	        <td width='30%'>
-			<?php
-				$categories = array(
-							  'emp'=>'Employee',
-							  'stu'=>'Student',
-							  'all'=>'All'
-							   );
-				echo form_dropdown('notice_cat',$categories,'emp');
-				/*will produce
-				echo '<select name="notice_cat">
-						<option value="emp">Employee</option>
-						<option value="stu">Student</option>
-						</option value="both">Both</option>
-					</select>';				
-				*/
-			?>
-	   	    </td>
-		</tr>
-		<tr>
-			<td width ="20%">
-				Notice Subject<span style="color:red;">*</span>
-			</td>
-			<td width="30%">
-				<?php
-					$subject = array(
-								'name'=>'notice_sub',
-								'rows'=>'3',
-								'cols'=>'80',
-								'required'=>'required',
-								'placeholder'=>'Enter the notice Subject in not more than 200 characters'
-								);
-					echo form_textarea($subject);
-					/*
-						will produce
-						echo <input type="textarea" rows="3" cols="80" name ="notice_sub" required="required"/>
-					*/
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td width ="20%">
-				Notice File<span style="color:red;">*</span>
-			</td>
-			<td width="30%">
-				<?php
-					$file = array(
-							'name'=>'notice_path',
-							'required'=>'required'
-							);
-					echo form_upload($file);
-					/*
-						will produce
-						echo <input type="file" name="notice_path"/>
-					*/
-				?>
-				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
-			</td>
-		</tr>
-		<tr>
-			<td width ="20%">
-				Last Date<span style="color:red;">*</span>
-			</td>
-			<td width="30%">
-				<input type="date" name="last_date" id="last_date" min="<?php echo date("Y-m-d");?>" value = "<?php echo date("Y-m-d");?>"/> 
-			(atleast today's date)
-			</td>
-		</tr>
-	 </table> 
-	<?php 
-	echo form_submit('mysubmit','Post Notice');
-	echo form_close(); ?>
+		$ui->input()
+		   ->type('hidden')
+		   ->name('notice_id')
+		   ->required()
+		   ->value($value)
+		   ->show();
+?>
+<center>
+<?php
+	 $ui->button()
+		->value('Post Notice')
+	    ->uiType('primary')
+	    ->submit()
+	    ->name('mysubmit')
+	    ->show();
+	
+	$form->close();
+	$box->close();
+	
+	$column2->close();
+	
+	$row->close();
+?>
+</center>

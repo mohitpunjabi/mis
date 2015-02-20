@@ -43,7 +43,7 @@ class Get_results extends CI_Model
 				
 				$q=$this->db->select('subject_id')->getwhere($this->result,array('admission_no'=>$sid,'semster'=>$semid));
 				if($q->num_rows() > 0){
-						return $q->result()->subject_id;	
+						echo $q->result()->subject_id;	 die();
 					}
 				
 			}

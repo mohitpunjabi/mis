@@ -40,11 +40,12 @@ class Get_results extends CI_Model
 		}*/
 		
 		function getGPAperSemester($sid,$semid){
-				
+				if($this->db->table_exists($this->result)){
 				$q=$this->db->select('subject_id')->getwhere($this->result,array('admission_no'=>$sid,'semster'=>$semid));
 				if($q->num_rows() > 0){
 						echo $q->result()->subject_id;	 die();
 					}
+				}
 				
 			}
 		

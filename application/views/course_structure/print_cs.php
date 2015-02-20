@@ -20,6 +20,7 @@
     for($semester=$start_semester;$semester<=$end_semester;$semester++)
 	{
 		
+		$elective_name = 1;
 		$ui = new UI();
 		echo "<h3>Subjects for Semester". $semester."<br></h3>";	
 		$table = $ui->table()->responsive()->hover()->bordered()->open();
@@ -44,7 +45,8 @@
 				echo '
 				<tr>
 					<td colspan="10" align="center">';
-						echo $subjects["group_details"][$semester][$i]->elective_name;
+						echo "Elective ".$elective_name++;
+						//echo $subjects["group_details"][$semester][$i]->elective_name;
 						$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				echo'
 					</td>

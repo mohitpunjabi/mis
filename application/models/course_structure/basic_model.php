@@ -216,6 +216,11 @@ class Basic_model extends CI_Model
 		$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
 		return $query->result();
 	}
+	function get_elective_count($group_id)
+	{
+		$query =  $this->db->get_where($this->table_subject,array('elective'=>$group_id));	
+		return $query->num_rows();
+	}
 	
 	function update($data, $where)
 	{

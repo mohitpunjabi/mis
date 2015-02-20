@@ -21,6 +21,7 @@
 	
     for($semester=$start_semester;$semester<=$end_semester;$semester++)
 	{
+		$elective_name = 1;
 		$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $semester."")->open();	
 		$table = $ui->table()->responsive()->hover()->bordered()->open();
 			echo '
@@ -45,7 +46,8 @@
 				echo '
 				<tr>
 					<td colspan="11" align="center">';
-						echo $subjects["group_details"][$semester][$i]->elective_name;
+						echo "Elective ".$elective_name++;
+						//echo $subjects["group_details"][$semester][$i]->elective_name;
 						$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				echo'
 					</td>
@@ -107,18 +109,18 @@
 						$ui->button()
 							->value('Edit')
 							->uiType('primary')
-							->id("editbutton_".$semester."_".$i)
+							->id("editbutton_".$semester."_".($i+$j))
 							->icon($ui->icon("edit"))
-							->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
+							->extras(' onclick = EditSubject(\''.$semester.'\',\''.($i+$j).'\') ')
 							->name('edit')
 							->show();
 
 						$ui->button()
 							->value('Save')
 							->uiType('success')
-							->id("savebutton_".$semester."_".$i)
+							->id("savebutton_".$semester."_".($i+$j))
 							->icon($ui->icon("save"))
-							->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+							->extras(' onclick = SaveSubject(\''.$semester.'\',\''.($i+$j).'\') ')
 							->name('edit')
 							->classes("savebutton")
 							->show();

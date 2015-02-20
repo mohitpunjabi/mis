@@ -75,7 +75,10 @@ class Edit extends MY_Controller
 			$end_semester = $semester;
 			//
 		}
+		
+		
 		$data['flag'] = 1;
+		
 		for($counter=$start_semester;$counter<=$end_semester;$counter++)
 		{
 			$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
@@ -84,26 +87,30 @@ class Edit extends MY_Controller
 		  {
 		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
 			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-			   if($group_id != 0 && !isset($data["subjects"]["elective_count"][$group_id]))
-			   	 $data["subjects"]["elective_count"][$group_id] = 0;
 			   
-			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
-			   id)->sequence;
-			   
-			   $data["subjects"][$group_id] = 0;
-			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
 			   if($group_id != 0)
 			   {
-				    //$data['flag']['group_id'][$i] = $group_id;
-					$group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
-			   		$data["subjects"]["group_details"][$counter][$i] = $group_detials[0];
-			    	$data["subjects"]["elective_count"][$group_id]++;
-			   }
+				   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
+				   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+			   	   $data["subjects"]["group_details"][$counter][$i] = $group_detials[0];	
+				}
+			       
+				$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+			   
+			   $data["subjects"][$group_id] = 0;
 			   $i++;
 		  }
-		  $data["subjects"]["count"][$counter]=$i-1;		  
-		  	
-		}	
+		  $data["subjects"]["count"][$counter]=$i-1;		   	
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+			
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  

@@ -139,7 +139,10 @@ class Add extends MY_Controller
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
 			if($this->add_model->insert_coursestructure($coursestructure_details))
+			{
 				$data['error'] = $this->add_model->insert_subjects($subject_details);
+			}
+				
 		}
 	
 		$list_type= $this->input->post("list_type");
@@ -197,6 +200,7 @@ class Add extends MY_Controller
     $aggr_id = $session_data["aggr_id"];
     $count_elective = $session_data["count_elective"];
 	$count=$count_elective;
+	
 	if($session_data['list_type'] == 1)
 	{
     	$count_elective = 1;
@@ -218,12 +222,19 @@ class Add extends MY_Controller
 		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
 	 
 		$options = $session_data['options'][$counter];
-		$sequence_elective = $session_data['elective'][$counter];
+		//$sequence_elective = $session_data['elective'][$counter];
 		
 		if($session_data['list_type'] == 1)
-			$group_id = $session_data["count_elective"].'_'.uniqid();
+		{		
+			for($j = 1;$j <= $session_data["count_elective"];$j++)
+			{
+				$group_id[$j] = $session_data["count_elective"].'_'.uniqid();		
+			}	
+		}	
 		else
-			$group_id = '1_'.uniqid();
+		{
+			$group_id[1] = '1_'.uniqid();			
+		}
 		
 		for($i = 1;$i <= $options;$i++)
 		{
@@ -236,32 +247,60 @@ class Add extends MY_Controller
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
 			//add group id to elective feild in database.
-			$subject_details['elective'] = $group_id;
+			//
 			$subject_details['type'] = $elective_details['type'];
 			
 			$coursestructure_details['id'] = $subject_details['id'];
 			$coursestructure_details['semester'] = $sem;
-			$sequence = $this->input->post("sequence".$counter."_".$i);
-			
-			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
-			//var_dump($this->input->post());
-			//die();
-			$coursestructure_details['sequence'] = $sequence; 
 			$coursestructure_details['aggr_id'] = $aggr_id;			
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
 			
-			$this->db->trans_start();
-			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
-			$data['error'] = $this->add_model->insert_subjects($subject_details);
-			$this->db->trans_complete();
+			//$this->db->trans_start();
+			if($session_data['list_type'] == 1)
+			{
+				for($j = 1;$j <= $session_data["count_elective"];$j++)
+				{
+					$subject_details['elective'] = $group_id[$j];
+					$sequence = $this->input->post("sequence".$counter."_".$i);
+					$sequence = $session_data['seq_elective'][$j].".".$sequence;
+					$coursestructure_details['sequence'] = $sequence; 
+					//var_dump($coursestructure_details);
+					$res = $this->add_model->insert_coursestructure($coursestructure_details);
+					$data['error'] = $this->add_model->insert_subjects($subject_details);
+				}
+			}
+			else
+			{
+				$subject_details['elective'] = $group_id[1];
+				$sequence = $this->input->post("sequence".$counter."_".$i);
+				$sequence = $session_data['seq_elective'][$counter].".".$sequence;
+				$coursestructure_details['sequence'] = $sequence; 
+				
+				$res = $this->add_model->insert_coursestructure($coursestructure_details);
+				$data['error'] = $this->add_model->insert_subjects($subject_details);
+			}
 		} 
-		
+
+		//die();
 		//insert into elective_group table.
-		$elective_group['elective_name'] = $elective_details['elective_name'];
-		$elective_group['group_id'] = $subject_details['elective'];
-		$elective_group['aggr_id'] = $aggr_id;
-		$data['error'] = $this->add_model->insert_elective_group($elective_group);	
+		if($session_data['list_type'] == 1)
+		{
+			for($j = 1;$j <= $session_data["count_elective"];$j++)
+			{
+				$elective_group['elective_name'] = $elective_details['elective_name'];
+				$elective_group['group_id'] = $group_id[$j];
+				$elective_group['aggr_id'] = $aggr_id;
+				$data['error'] = $this->add_model->insert_elective_group($elective_group);	
+			}
+		}
+		else
+		{
+			$elective_group['elective_name'] = $elective_details['elective_name'];
+			$elective_group['group_id'] = $group_id[1];
+			$elective_group['aggr_id'] = $aggr_id;
+			$data['error'] = $this->add_model->insert_elective_group($elective_group);	
+		}
 		
     }
 	

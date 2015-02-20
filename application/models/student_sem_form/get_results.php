@@ -27,7 +27,7 @@ class Get_results extends CI_Model
 			foreach($q as $r){
 					  $tm=$this->getMarks($this->get_numeric($r->total));
 					   $j=$this->get_numeric($r->credit_hr);
-					   $s = ($j*$tm*$s);
+					  $s = ($j*$tm*$s);
 					    $chr = ($j * $chr);
 					
 				}	

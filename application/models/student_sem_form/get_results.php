@@ -46,7 +46,7 @@ class Get_results extends CI_Model
 				if($q->num_rows() > 0){
 						$d= $q->result;	 \
 						return $d->subject_id;
-						die();
+						
 					}
 				}
 				

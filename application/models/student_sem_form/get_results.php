@@ -41,9 +41,9 @@ class Get_results extends CI_Model
 		
 		function getGPAperSemester($sid,$semid){
 				
-				$q=$this->db->select('total_m')->getwhere($this->result,array('admission_no'=>$sid,'semster'=>$semid));
+				$q=$this->db->select('subject_id')->getwhere($this->result,array('admission_no'=>$sid,'semster'=>$semid));
 				if($q->num_rows() > 0){
-						return $q->result()->total_m;	
+						return $q->result()->subject_id;	
 					}
 				
 			}

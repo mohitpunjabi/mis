@@ -29,7 +29,7 @@ WHERE
   `course_branch`.`branch_id` = '".$branch_id."' AND 
   `course_structure`.`semester` = '".$semster."' AND
    `course_structure`.`sequence` REGEXP '^[0-9]+$' AND
-   `course_structure`.`aggr_id`='btech_cse_2012_2013' order by `course_structure`.`sequence`";
+   `course_structure`.`aggr_id`='btech_cse_2012_2013' order by `course_structure`.`sequence` ASC";
 		$data['subjects']= $this->db->query($query)->result_array();
 		 
 		 return $data;

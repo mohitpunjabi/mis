@@ -45,14 +45,19 @@
               <th>SUbject Code</th>
               <th>SUbject Name</th>
           </thead>
-          <tbody>
-          	  <?php foreach($subjects as $subject) { ?>
+          <tbody> 
+          	
+          	  <?php
+			  		
+				 foreach($subjects as $subject) { 
+				 	foreach($subject as $s) {
+					?>
               <tr>
-                <td><?php echo $subject[0]['sequence']; ?></td>
-                <td><?php echo $subject[0]['sequence']; ?></td>
-                <td><?php echo $subject[0]['name']; ?></td>
+                <td><?php echo $s['sequence']; ?></td>
+                <td><?php echo $s['subject_id']; ?></td>
+                <td><?php echo $s['name'];  ?></td>
               </tr>
-    	  <?php }  foreach($confirm['ele'] as $s) { ?>
+    	  <?php }}  foreach($confirm['ele'] as $s) { ?>
       <tr>
         <td><?php echo $s['sub_seq']; ?></td>
         <td><?php echo $s['sub_seq']; ?></td>
@@ -153,4 +158,4 @@
 			self.close();
         }
 </script>
-<?php //print_r($student) ?>
+<?php print_r($subjects) ?>

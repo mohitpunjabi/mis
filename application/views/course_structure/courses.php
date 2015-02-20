@@ -85,7 +85,7 @@
 									</td>
 									<td>';
 									$array_option = array();
-									for($it = 0; $it<=5; $it+=0.5)
+									for($it = 0; $it<=10; $it+=0.5)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
 									$ui->select()

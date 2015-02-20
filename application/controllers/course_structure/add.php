@@ -124,7 +124,7 @@ class Add extends MY_Controller
 			$subject_details['tutorial'] = $this->input->post("T".$i);
 			$subject_details['practical'] = $this->input->post("P".$i);
 			
-			$credit_hours= $this->input->post('credit_hours'.$i);//$subject_details['lecture']*2 + $subject_details['tutorial'] + $subject_details['practical'];
+			$credit_hours= $this->input->post('credit_hours'.$i);
 		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + $subject_details['practical'];
 
 			$subject_details['credit_hours'] = $credit_hours;
@@ -162,8 +162,6 @@ class Add extends MY_Controller
 		}
 		else
 		{
-			//var_dump($this->input->post());
-			//die();
 			for($i = 1;$i<=$count_elective;$i++)
 			{
 				$data["options"][$i] = $this->input->post("options".$i);	

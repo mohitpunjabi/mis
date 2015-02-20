@@ -104,6 +104,8 @@
 					</td>			
 				</tr>';	
 				}//for closed..
+				//adding extra row to differtiate between elective and core subjects.
+				echo '<tr><td colspan = "10"></td></tr>';
 					$i = $j+$i-1;
 				}//if closed.
 				else

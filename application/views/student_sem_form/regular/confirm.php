@@ -78,7 +78,7 @@
 					</div>
 					<?php } ?>
 						</div>
-                        <h5>Note: Red box means FAIL and Green Box means PASS</h5>
+                        <h5>Note: Red box means <span class="label label-danger">FAIL</span> and Green Box means <span class="label label-success">PASS</span></h5>
 					</div>
 					
 					

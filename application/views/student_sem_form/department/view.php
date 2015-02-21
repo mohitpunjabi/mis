@@ -48,7 +48,7 @@
           <tbody>
           	  <?php
 			  	print_r($subjects);
-			   foreach($subjects as $subject) {
+			   foreach($subjects[0] as $subject) {
 				  	foreach($subject as $s){
 				   ?>
               <tr>

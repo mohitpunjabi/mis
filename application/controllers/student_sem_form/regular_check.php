@@ -28,7 +28,7 @@ class Regular_check extends MY_Controller
 				$this->load->model('student_sem_form/get_subject','',TRUE);
 				$this->load->model('student_sem_form/get_results','',TRUE);
 				$data['student']=$this->sbasic_model->hod_view_student($id,$fid);
-				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1));
+				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1),$data['student'][0]->admission_id);
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
 				$this->load->view('templates/header_assets');
 				if($p==1){

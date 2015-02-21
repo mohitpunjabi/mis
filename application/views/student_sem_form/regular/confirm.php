@@ -31,16 +31,16 @@
 							<?php echo form_input(array('name'=>'studentName','id'=>'studentName','value'=>$this->session->userdata('name'),'disabled'=>'disabled','class'=>'form-control',)) ?>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-4">
 						<div class="form-group">
 							<label for="studentName">Name of Course</label>
-							<?php echo form_input(array('name'=>'nameofCourse','id'=>'nameofCourse','value'=>$this->session->userdata('course_id'),'disabled'=>'disabled','class'=>'form-control',)) ?>
+							<?php echo form_input(array('name'=>'nameofCourse','id'=>'nameofCourse','value'=>$this->sbasic_model->getCourseById($this->session->userdata('course_id'))->name,'disabled'=>'disabled','class'=>'form-control',)) ?>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-4">
 						<div class="form-group">
 							<label for="studentName">Name of Branch</label>
-							<?php echo form_input(array('name'=>'nameofBranch','id'=>'nameofCourse','value'=>$this->session->userdata('branch_id'),'disabled'=>'disabled','class'=>'form-control',)) ?>
+							<?php echo form_input(array('name'=>'nameofBranch','id'=>'nameofCourse','value'=>$this->sbasic_model->getBranchById($this->session->userdata('branch_id'))->name,'disabled'=>'disabled','class'=>'form-control',)) ?>
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -65,19 +65,20 @@
 				<h3 class="box-title">GPA & Results of all Previous Semester</h3>
 			</div>
 				<div class="box-body">
-				<h5>Note: Red box Means Fail and Green Box Mean Pass (Please strike Out whichever is not applicable !)</h5>
+				
 				<div class="row">
 					<?php for($p=1; $p<=(int)$this->session->userdata('semester'); $p++){
 						$q=$this->get_results->getGPAperSemester($this->session->userdata('id'),$p);
 						?>
 					<div class="col-md-1">
 						<div class="form-group has-success">
-							<label for="studentName "><?php echo $p ?></label>
-							<?php echo $q; ?>
+							<center><label for="studentName"><?php echo $p ?></label></center>
+							<?php echo form_input(array('name'=>'session','id'=>"sem_".$p,'value'=>$q,'disabled'=>'disabled','class'=>'form-control',)); ?>
 						</div>
 					</div>
 					<?php } ?>
 						</div>
+                        <h5>Note: Red box Means Fail and Green Box Mean Passed</h5>
 					</div>
 					
 					

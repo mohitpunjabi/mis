@@ -26,7 +26,7 @@ class Regular_form extends MY_Controller {
 		if($this->sbasic_model->checkStudent($this->session->userdata('id'),($this->session->userdata('semester')+1))==false && $re[0]->re_id != $id ){
 			 redirect('/student_sem_form/regular_form/error', 'refresh');
 			}}
-			$sub=$this->get_subject->getElective($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1));
+			$sub=$this->get_subject->getElective($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
 			$dates =$this->sbasic_model->getOcdatedes();
 			//Validation
 			$this->load->helper(array('form', 'url'));
@@ -60,7 +60,7 @@ class Regular_form extends MY_Controller {
 		//confirm//
 		function confirm(){
 				$last['lastId']= $this->lnid;
-				$sub=$this->get_subject->getSubject($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1));
+				$sub=$this->get_subject->getSubject($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
 				$this->load->model('student_sem_form/get_results','',TRUE);
 				$data=$this->get_subject->getConfirm($this->lnid);
 				$data= array_merge($data,$sub);

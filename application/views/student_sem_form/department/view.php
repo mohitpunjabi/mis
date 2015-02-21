@@ -48,13 +48,14 @@
           <tbody>
           	  <?php
 			  	print_r($subjects);
+				$i=0;
 			   foreach($subjects as $subject) {
 				  	
 				   ?>
               <tr>
-                <td><?php echo $subject[0]['sequence']; ?></td>
-                <td><?php echo $subject[0]['subject_id']; ?></td>
-                <td><?php echo $subject[0]['name']; ?></td>
+                <td><?php echo $subject[$i]['sequence']; ?></td>
+                <td><?php echo $subject[$i]['subject_id']; ?></td>
+                <td><?php echo $subject[$i]['name'];  $i++;?></td>
               </tr>
     	  <?php } foreach($confirm['ele'] as $s) { ?>
       <tr>

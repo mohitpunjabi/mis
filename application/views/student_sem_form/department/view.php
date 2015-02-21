@@ -53,9 +53,9 @@
 				  	
 				   ?>
               <tr>
-                <td><?php echo $subject[$i]['sequence']; ?></td>
-                <td><?php echo $subject[$i]['subject_id']; ?></td>
-                <td><?php echo $subject[$i]['name'];  $i++;?></td>
+                <td><?php echo $subject[0][$i]['sequence']; ?></td>
+                <td><?php echo $subject[0][$i]['subject_id']; ?></td>
+                <td><?php echo $subject[0][$i]['name'];  $i++;?></td>
               </tr>
     	  <?php } foreach($confirm['ele'] as $s) { ?>
       <tr>

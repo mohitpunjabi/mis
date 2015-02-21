@@ -46,7 +46,9 @@
               <th>SUbject Name</th>
           </thead>
           <tbody>
-          	  <?php foreach($subjects as $subject) {
+          	  <?php
+			  	print_r($subjects);
+			   foreach($subjects as $subject) {
 				  	foreach($subject as $s){
 				   ?>
               <tr>

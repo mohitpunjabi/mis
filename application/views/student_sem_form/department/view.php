@@ -49,14 +49,14 @@
           	  <?php
 			  	print_r($subjects);
 			   foreach($subjects as $subject) {
-				  	
+				  	foreach($subject as $s){
 				   ?>
               <tr>
                 <td><?php echo $s[0]['sequence']; ?></td>
-                <td><?php echo $s[0]['sequence']; ?></td>
+                <td><?php echo $s[0]['subject_id']; ?></td>
                 <td><?php echo $s[0]['name']; ?></td>
               </tr>
-    	  <?php }  foreach($confirm['ele'] as $s) { ?>
+    	  <?php }}  foreach($confirm['ele'] as $s) { ?>
       <tr>
         <td><?php echo $s['sub_seq']; ?></td>
         <td><?php echo $s['sub_seq']; ?></td>

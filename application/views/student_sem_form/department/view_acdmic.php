@@ -158,4 +158,4 @@
 			self.close();
         }
 </script>
-<?php //print_r($subjects) ?>
+<?php print_r($subjects) ?>

@@ -19,7 +19,7 @@
         </div>
         </div>
         <div class="col-sm-4">
-        <img src="<?php echo base_url().$student[0]->photopath ?>" alt="<?php echo $student[0]->salutation." ".$student[0]->first_name." ".$student[0]->middle_name." ".$student[0]->last_name; ?>" width="200" />
+        <img src="<?php echo base_url()."assets/images/".$student[0]->photopath ?>" alt="<?php echo $student[0]->salutation." ".$student[0]->first_name." ".$student[0]->middle_name." ".$student[0]->last_name; ?>" width="200" />
         </div>
         </div>
         

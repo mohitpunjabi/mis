@@ -5,16 +5,22 @@
         	</div>
         </div>
         <div class="row invoice-info">
-        	<div class="col-sm-3 invoice-col" style="background:#F4F4F4;"><strong>Name of student</strong></div>
-            <div class="col-sm-9 invoice-col"><span style="text-transform:capitalize;"><?php echo $student[0]->salutation." ".$student[0]->first_name." ".$student[0]->middle_name." ".$student[0]->last_name; ?></span> / <?php echo $student[0]->name_in_hindi; ?></div>
-            <div class="col-sm-3 invoice-col" style="background:#F4F4F4;"><strong>Admission No.</strong></div>
-            <div class="col-sm-3 invoice-col"><?php echo $student[0]->admn_no; ?></div>
-            <div class="col-sm-3 invoice-col" style="background:#F4F4F4;"><strong>Name of Course / Branch.</strong></div>
-            <div class="col-sm-3 invoice-col"><?php echo  $this->sbasic_model->getCourseById($student[0]->course_id)->name; ?> / <?php echo $this->sbasic_model->getBranchById($student[0]->branch_id)->name; ?></div>
-            <div class="col-sm-3 invoice-col" style="background:#F4F4F4;"><strong>Registering Semester / Session.</strong></div>
-            <div class="col-sm-3 invoice-col"><?php echo $student[0]->semester+1; ?></div>
-             <div class="col-sm-3 invoice-col" style="background:#F4F4F4;"><strong>Form Date:</strong></div>
-            <div class="col-sm-3 invoice-col"><?php echo $student[0]->timestamp; ?></div>
+        	<div class="col-sm-8">
+        	<div class="col-sm-4 invoice-col" style="background:#F4F4F4;"><strong>Name of student</strong></div>
+            <div class="col-sm-8 invoice-col"><span style="text-transform:capitalize;"><?php echo $student[0]->salutation." ".$student[0]->first_name." ".$student[0]->middle_name." ".$student[0]->last_name; ?></span> / <?php echo $student[0]->name_in_hindi; ?></div><div style="clear:both;"></div>
+            <div class="col-sm-4 invoice-col" ><strong>Admission No.</strong></div>
+            <div class="col-sm-8 invoice-col"><?php echo $student[0]->admn_no; ?></div><div style="clear:both;"></div>
+            <div class="col-sm-4 invoice-col" style="background:#F4F4F4;"><strong>Name of Course / Branch.</strong></div>
+            <div class="col-sm-8 invoice-col"><?php echo  $this->sbasic_model->getCourseById($student[0]->course_id)->name; ?> / <?php echo $this->sbasic_model->getBranchById($student[0]->branch_id)->name; ?></div>
+            <div class="col-sm-4 invoice-col" ><strong>Registering Semester / Session.</strong></div>
+            <div class="col-sm-8 invoice-col"><?php echo $student[0]->semester+1; ?></div><div style="clear:both;">
+             <div class="col-sm-4 invoice-col" style="background:#F4F4F4;"><strong>Form Date:</strong></div>
+            <div class="col-sm-8 invoice-col"><?php echo $student[0]->timestamp; ?></div>
+        </div>
+        </div>
+        <div class="col-sm-4">
+        <img src="<?php echo base_url().$student[0]->photopath ?>" alt="<?php echo $student[0]->salutation." ".$student[0]->first_name." ".$student[0]->middle_name." ".$student[0]->last_name; ?>" width="200" />
+        </div>
         </div>
         
         <div class="row">
@@ -82,7 +88,7 @@
             <div class="col-sm-6 invoice-col"><?php echo $student[0]->transaction_id; ?></div>
            </div>
           <div class="col-sm-6">
-          <div class="col-sm-6 invoice-col"><img src="<?php echo base_url()."assets/sem_slip/".$student[0]->recipt_path; ?>" alt="" width="200" /> <img src="<?php echo base_url().$student[0]->photopath ?>" alt="<?php echo $student[0]->salutation." ".$student[0]->first_name." ".$student[0]->middle_name." ".$student[0]->last_name; ?>" width="200" /></div>
+          <div class="col-sm-6 invoice-col"><img src="<?php echo base_url()."assets/sem_slip/".$student[0]->recipt_path; ?>" alt="" width="200" /> </div>
           </div>
          </div>
          <div class="row">

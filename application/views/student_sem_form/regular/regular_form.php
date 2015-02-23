@@ -72,7 +72,7 @@ $d1 = $d+1;
 		 <table class="table table-bordered">
 		<tr>
 		<td >Date of Payment </th>
-		<td><?php echo form_input(array('name'=>'dateofPayment','id'=>'dateofPayment','value'=>$this->input->post('dateofPayment'),'placeholder'=>'Enter Date','class'=>'form-control', 'data-date-format'=>'yyyy-m-d',)) ?></td>
+		<td><?php echo form_input(array('name'=>'dateofPayment','id'=>'dateofPayment','value'=>$this->input->post('dateofPayment'),'placeholder'=>'Enter Date','class'=>'form-control', 'data-date-format'=>'d M yyyy',)) ?></td>
 	</tr>
 		<tr>
 		<td>Amount Paid</th>
@@ -108,6 +108,9 @@ $d1 = $d+1;
 <?php echo form_close(); ?>
  <script>
 $(function() {
-$( "#dateofPayment" ).datepicker();
+$( "#dateofPayment" ).datepicker({
+	endDate: '+0d',
+     autoclose: true
+	});
 });
 </script>

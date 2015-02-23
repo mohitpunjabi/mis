@@ -75,7 +75,7 @@ class Regular_form extends MY_Controller {
 		//Fee Details Save//
 		protected function fee_save(){
 				//Insert Image and Details
-				$data['fee_date'] = $this->input->post('dateofPayment');
+				$data['fee_date'] = date('Y-m-d', strtotime($this->input->post('dateofPayment')));
 				$data['stu_id'] = $this->session->userdata('id');
 				$data['fee_amt'] = $this->input->post('amount');
 				$data['transaction_id'] = $this->input->post('transId');

@@ -54,7 +54,7 @@
           <tbody> 
           	
           	  <?php
-			  		print_r($subjects);
+			  		//print_r($subjects);
 				 foreach($subjects as $subject) { 
 				 	foreach($subject as $s) {
 					?>
@@ -164,4 +164,4 @@
 			self.close();
         }
 </script>
-<?php print_r($subjects) ?>
+<?php // print_r($subjects) ?>

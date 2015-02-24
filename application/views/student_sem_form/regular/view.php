@@ -88,7 +88,12 @@
             <div class="col-sm-6 invoice-col"><?php echo $student[0]->transaction_id; ?></div>
            </div>
           <div class="col-sm-6">
-          <div class="col-sm-6 invoice-col"><img src="<?php echo base_url()."assets/sem_slip/".$student[0]->recipt_path; ?>" alt="" width="200" /> </div>
+          <div class="col-sm-6 invoice-col"><img src="<?php echo base_url()."assets/sem_slip/".$student[0]->recipt_path; ?>" alt="" width="200" />
+          
+           <?php if($student[0]->late_recipt_path){ ?>
+           <img src="<?php echo base_url()."assets/sem_slip/".$student[0]->late_recipt_path; ?>" alt="" width="200" />
+           <?php } ?>
+           </div>
           </div>
          </div>
          <div class="row">

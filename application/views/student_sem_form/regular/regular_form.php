@@ -111,9 +111,9 @@ $d1 = $d+1;
 			 for($i; $i<($this->session->userdata('semester')+1); $i++){ ?>
             	<div class="col-sm-1">
                 	<label for="semester".<?=$i ?>><?=$i ?></label>&nbsp;
-                    <input type="checkbox" name="sem[<?=$j ?>]" class="rs" value="<?=$i ?>" />
+                    <input type="checkbox" name="sem[]" class="rs" value="<?=$i ?>" />
                 </div>	
-			<?php $i++; $j++;} ?>
+			<?php $i++; } ?>
             </div>
             <div id="cresult">
             </div>
@@ -163,30 +163,21 @@ $( "#dateofPayment,#cdateofPayment" ).datepicker({
      autoclose: true
 	});
 	$('.rs').on('ifChecked', function(event){
-				
-				for(i=1; i<=$('.rs').length; i++){
-				if($('input[name="sem['+i+']"]:checked').val()){
-							//alert($('input[name="sem['+i+']"]:checked').val());
-							$('#cresult').html("<i class='icon-spinner icon-spin icon-large'></i>");
-							$.ajax({
-									url: '<?=base_url()?>index.php/student_sem_form/regular_form/getAsub/'+$('input[name="sem['+i+']"]:checked').val()+'/<?=$this->session->userdata('id'); ?>/<?=$this->session->userdata('dept_id'); ?>/<?=$this->session->userdata('course_id'); ?>/<?=$this->session->userdata('branch_id'); ?>',
+		
+						$.ajax({
+									url: '<?=base_url()?>index.php/student_sem_form/regular_form/getAsub/'+$(this).val()+'/<?=$this->session->userdata('id'); ?>/<?=$this->session->userdata('dept_id'); ?>/<?=$this->session->userdata('course_id'); ?>/<?=$this->session->userdata('branch_id'); ?>',
 									type: "GET",
 									
 								}).done(function(data) {
 										$('#cresult').append(data);
 									});
-					}
-				}
+		
 	
 	});
 	$('.rs').on('ifUnchecked',function(event){
-			for(i=1; i<=$('.rs').length; i++){
-				if($('input[name="sem['+i+']"]:checked').val()){
-					
-					}else{
-						$('#cesub-'+i).remove();
-						}
-			}
+			
+						$('#cesub-'+$(this).val()).remove();
+						
 		});
 	$('input[name="cenable"]').on('ifChecked',function(){
 			$('#cyes').show('slow');

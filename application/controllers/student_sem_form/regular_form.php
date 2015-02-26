@@ -227,6 +227,42 @@ class Regular_form extends MY_Controller {
 				$this->load->view('student_sem_form/regular/view.php',$data);
 			}
 	}
+	
+	function getAsub($sem,$sid,$depid,$cid,$bid){
+		//echo $sem;
+		$sd="";
+			$this->load->model('student_sem_form/get_subject','',TRUE);
+			$data['subjects']=$this->get_subject->getSubject($cid,$bid,$sem,$sid);
+				
+				if(is_array($data['subjects'])){
+					
+					$sd.='
+					<div id="cesub-'.$sem.'">
+					<div class="form-group" >
+					<label for="samester-'.$sem.'">Select Carryover First Subject in Semester '.$sem.'</label>
+					<select name="csub1-'.$sem.'" class="form-control">';
+				foreach($data['subjects'] as $stu){
+				foreach($stu as $s)
+					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';
+					}
+				$sd.='</select>
+				</div>
+				<div class="form-group" >
+					<label for="samester-'.$sem.'">Select Carryover Second Subject in Semester '.$sem.' (Optional)</label>
+					<select name="csub2-'.$sem.'" class="form-control">';
+				foreach($data['subjects'] as $stu){
+				foreach($stu as $s)
+					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';
+					}
+				$sd.='</select>
+				</div>
+				</div>
+				';
+				}else{
+					$sd = "No Result Found!";
+					}
+			echo $sd;
+		}
 }
 ?>
 

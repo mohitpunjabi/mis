@@ -166,7 +166,7 @@ $( "#dateofPayment,#cdateofPayment" ).datepicker({
 		
 				for(i=1; i<=$('.rs').length; i++){
 				if($('input[name="sem['+i+']"]:checked').val()){
-							//alert($('input[name="sem['+i+']"]:checked').val());
+							alert($('input[name="sem['+i+']"]:checked').val());
 							$('#cresult').html("<i class='icon-spinner icon-spin icon-large'></i>");
 							$.ajax({
 									url: '<?=base_url()?>index.php/student_sem_form/regular_form/getAsub/'+$('input[name="sem['+i+']"]:checked').val()+'/<?=$this->session->userdata('id'); ?>/<?=$this->session->userdata('dept_id'); ?>/<?=$this->session->userdata('course_id'); ?>/<?=$this->session->userdata('branch_id'); ?>',

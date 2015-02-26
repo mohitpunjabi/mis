@@ -113,7 +113,7 @@ $d1 = $d+1;
                 	<label for="semester".<?=$i ?>><?=$i ?></label>&nbsp;
                     <input type="checkbox" name="sem[<?=$i ?>]" class="rs" value="<?=$i ?>" />
                 </div>	
-			<?php } ?>
+			<?php $i++;} ?>
             </div>
             <div id="cresult">
             </div>

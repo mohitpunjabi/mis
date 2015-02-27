@@ -13,7 +13,14 @@ class Get_subject extends CI_Model
 		parent::__construct();
 	}
 	
-	function getSubject($course_id,$branch_id,$semster){
+	
+	function getSubject($course_id,$branch_id,$semster,$stuid){
+			$d=$this->getStudentAcdamicDetails($stuid);
+			$curaid = $course_id."_".$branch_id."_".$d[0]->enrollment_year;
+		
+		$this->load->model('course_structure/basic_model');
+		$agr =$this->basic_model->get_latest_aggr_id($course_id,$branch_id,$curaid);
+		
 		$query="SELECT 
   `course_structure`.`sequence`,
   `subjects`.`id`,
@@ -28,14 +35,21 @@ WHERE
   `course_branch`.`course_id` = '".$course_id."' AND 
   `course_branch`.`branch_id` = '".$branch_id."' AND 
   `course_structure`.`semester` = '".$semster."' AND
-   `course_structure`.`sequence` REGEXP '^[0-9]+$'";
+   `course_structure`.`sequence` REGEXP '^[0-9]+$' AND
+   `course_structure`.`aggr_id`='".$agr[0]->aggr_id."' order by `course_structure`.`sequence`";
 		$data['subjects']= $this->db->query($query)->result_array();
 		 
 		 return $data;
 	}
 	
 	// Get Elective Subject From Corse Structure //
-	function getElective($course_id,$branch_id,$semster){
+	function getElective($course_id,$branch_id,$semster,$stuid){
+			$d=$this->getStudentAcdamicDetails($stuid);
+			 $curaid = $course_id."_".$branch_id."_".$d[0]->enrollment_year;
+		
+		$this->load->model('course_structure/basic_model');
+		$agr =$this->basic_model->get_latest_aggr_id($course_id,$branch_id,$curaid);
+		
 	$query =	"SELECT   `subjects`.`id`, `subjects`.`subject_id`, `subjects`.`name`,  `course_structure`.`sequence`
 		 FROM
 		  `elective_offered`
@@ -47,7 +61,8 @@ WHERE
 		WHERE
 		  `course_branch`.`course_id` = '".$course_id."' AND 
 		  `course_branch`.`branch_id` = '".$branch_id."' AND 
-		  `course_structure`.`semester` = '".$semster."'";
+		  `course_structure`.`semester` = '".$semster."' AND
+		  `elective_offered`.`aggr_id` = '".$agr[0]->aggr_id."'";
 		
 	   $data['ele']=$this->db->query($query)->result_array();
 	
@@ -62,6 +77,9 @@ WHERE
 		return $data;
 		}
 		
+		function getStudentAcdamicDetails($id){
+			return $this->db->get_where('stu_academic',array('id'=>$id))->result();
+			}
 	
 }
 ?>

@@ -1,3 +1,9 @@
+$(document).ready(function(){
+	$("#photo").change(function(){
+						readURL(this);
+						});
+});
+
 $(document).ready(function() {
 	var showPhoto = function () {
 		this.div = $('<div style="position: fixed; z-index: 1000000; height: 300px; width: 300px; min-width: 60px;  background-size: auto 100%; background-position: 50% 50%; background-repeat: no-repeat;transition: all 0.5s cubic-bezier(.23,1.34,1,.93);"></div>');
@@ -62,3 +68,32 @@ $(document).ready(function() {
 		photo.hide();
 	});
 });
+
+
+
+function readURL(input) {
+	var allowedTypes = {
+		"image/jpeg": true,
+		"image/bmp": true,
+		"image/jpg": true,
+		"image/png": true,
+		"image/gif": true
+	};
+        if (input.files && input.files[0]) {
+			var file = input.files[0];
+			var error = false;
+			if(!allowedTypes[file.type]) {
+				alert("Invalid filetype, Choose again!");
+				error = true;
+			}
+			else if(file.size > 1024*1024) {
+				alert('Image Size is greator than 1 MB, Choose again!');
+				//showError('Size is greater than 1MB.', errorTarget);
+				error = true;
+			}
+			if(error) {
+				input.value = null;
+				$("#preview").attr("style", "");
+			}
+        }
+}

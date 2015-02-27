@@ -26,7 +26,7 @@ class Regular_form extends MY_Controller {
 		if($this->sbasic_model->checkStudent($this->session->userdata('id'),($this->session->userdata('semester')+1))==false && $re[0]->re_id != $id ){
 			 redirect('/student_sem_form/regular_form/error', 'refresh');
 			}}
-			$sub=$this->get_subject->getElective($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1));
+			$sub=$this->get_subject->getElective($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
 			$dates =$this->sbasic_model->getOcdatedes();
 			//Validation
 			$this->load->helper(array('form', 'url'));
@@ -60,7 +60,7 @@ class Regular_form extends MY_Controller {
 		//confirm//
 		function confirm(){
 				$last['lastId']= $this->lnid;
-				$sub=$this->get_subject->getSubject($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1));
+				$sub=$this->get_subject->getSubject($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
 				$this->load->model('student_sem_form/get_results','',TRUE);
 				$data=$this->get_subject->getConfirm($this->lnid);
 				$data= array_merge($data,$sub);
@@ -75,7 +75,7 @@ class Regular_form extends MY_Controller {
 		//Fee Details Save//
 		protected function fee_save(){
 				//Insert Image and Details
-				$data['fee_date'] = $this->input->post('dateofPayment');
+				$data['fee_date'] = date('Y-m-d', strtotime($this->input->post('dateofPayment')));
 				$data['stu_id'] = $this->session->userdata('id');
 				$data['fee_amt'] = $this->input->post('amount');
 				$data['transaction_id'] = $this->input->post('transId');
@@ -219,7 +219,7 @@ class Regular_form extends MY_Controller {
 				$this->load->model('student_sem_form/get_subject','',TRUE);
 				$this->load->model('student_sem_form/get_results','',TRUE);
 				$data['student']=$this->sbasic_model->hod_view_student($id,$fid);
-				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1));
+				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1),$this->session->userdata('id'));
 				
 				
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
@@ -227,6 +227,42 @@ class Regular_form extends MY_Controller {
 				$this->load->view('student_sem_form/regular/view.php',$data);
 			}
 	}
+	
+	function getAsub($sem,$sid,$depid,$cid,$bid){
+		//echo $sem;
+		$sd="";
+			$this->load->model('student_sem_form/get_subject','',TRUE);
+			$data['subjects']=$this->get_subject->getSubject($cid,$bid,$sem,$sid);
+				
+				if(is_array($data['subjects'])){
+					
+					$sd.='
+					<div id="cesub-'.$sem.'">
+					<div class="form-group" >
+					<label for="samester-'.$sem.'">Select Carryover First Subject in Semester '.$sem.'</label>
+					<select name="csub1-'.$sem.'" class="form-control">';
+				foreach($data['subjects'] as $stu){
+				foreach($stu as $s)
+					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';
+					}
+				$sd.='</select>
+				</div>
+				<div class="form-group" >
+					<label for="samester-'.$sem.'">Select Carryover Second Subject in Semester '.$sem.' (Optional)</label>
+					<select name="csub2-'.$sem.'" class="form-control">';
+				foreach($data['subjects'] as $stu){
+				foreach($stu as $s)
+					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';
+					}
+				$sd.='</select>
+				</div>
+				</div>
+				';
+				}else{
+					$sd = "No Result Found!";
+					}
+			echo $sd;
+		}
 }
 ?>
 

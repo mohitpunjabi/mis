@@ -72,7 +72,7 @@ $d1 = $d+1;
 		 <table class="table table-bordered">
 		<tr>
 		<td >Date of Payment </th>
-		<td><?php echo form_input(array('name'=>'dateofPayment','id'=>'dateofPayment','value'=>$this->input->post('dateofPayment'),'placeholder'=>'Enter Date','class'=>'form-control', 'data-date-format'=>'yyyy-m-d',)) ?></td>
+		<td><?php echo form_input(array('name'=>'dateofPayment','id'=>'dateofPayment','value'=>$this->input->post('dateofPayment'),'placeholder'=>'Enter Date','class'=>'form-control', 'data-date-format'=>'d M yyyy',)) ?></td>
 	</tr>
 		<tr>
 		<td>Amount Paid</th>
@@ -95,7 +95,56 @@ $d1 = $d+1;
         </tr>
          <?php }?>
 	</table>
-		 
+	 <?php if(($this->session->userdata('semester')+1) > 2){ ?>
+		 <h2 class="page-header">Do you have Any Carry Over <input type="checkbox" name="cenable" /></h2>
+         <div class="col-sm-12" id="cyes">
+         <label> Select Semester Where you Have Carryover</label>
+         	<div class="row">
+            
+         	<?php
+					if(($this->session->userdata('semester')+1) % 2 == 1){
+						$i = 1;
+						}else{
+							$i=2;
+						}
+					$j=1;
+			 for($i; $i<($this->session->userdata('semester')+1); $i++){ ?>
+            	<div class="col-sm-1">
+                	<label for="semester".<?=$i ?>><?=$i ?></label>&nbsp;
+                    <input type="checkbox" name="sem[]" class="rs" value="<?=$i ?>" />
+                </div>	
+			<?php $i++; } ?>
+            </div>
+            <div id="cresult">
+            </div>
+         
+         <br />
+
+	<h2 class="page-header">Details of Fee Deposite for Carryover through Internet Banking</h2>
+	
+		 <table class="table table-bordered">
+		<tr>
+		<td >Date of Payment </th>
+		<td><?php echo form_input(array('name'=>'cdateofPayment','id'=>'cdateofPayment','value'=>$this->input->post('cdateofPayment'),'placeholder'=>'Enter Date','class'=>'form-control', 'data-date-format'=>'d M yyyy',)) ?></td>
+	</tr>
+		<tr>
+		<td>Amount Paid</th>
+		<td><?php echo form_input(array('name'=>'camount','id'=>'camount','value'=>$this->input->post('camount'),'placeholder'=>'Amount','class'=>'form-control',)) ?></td>
+	</tr>
+		<tr>
+		<td>Transaction id / Reference No. </th>
+		<td><?php echo form_input(array('name'=>'ctransId','id'=>'ctransId','value'=>$this->input->post('ctransId'),'placeholder'=>'Transaction Id','class'=>'form-control',)) ?></td>
+	</tr>
+		<tr>
+		<td>Pay Slip Upload </td>
+		<td><?php echo form_upload(array('name'=>'cslip','id'=>'cslip',)) ?></td>
+		
+    </tr>
+  	</table>
+    </div>
+    <?php } ?> 
+ 
+<div style="clear:both;"></div>
 		 <div class="box-footer">
 		 <?php
 		 	echo form_hidden('flg',$flg);
@@ -108,6 +157,34 @@ $d1 = $d+1;
 <?php echo form_close(); ?>
  <script>
 $(function() {
-$( "#dateofPayment" ).datepicker();
+	$('#cyes').hide();
+$( "#dateofPayment,#cdateofPayment" ).datepicker({
+	endDate: '+0d',
+     autoclose: true
+	});
+	$('.rs').on('ifChecked', function(event){
+		
+						$.ajax({
+									url: '<?=base_url()?>index.php/student_sem_form/regular_form/getAsub/'+$(this).val()+'/<?=$this->session->userdata('id'); ?>/<?=$this->session->userdata('dept_id'); ?>/<?=$this->session->userdata('course_id'); ?>/<?=$this->session->userdata('branch_id'); ?>',
+									type: "GET",
+									
+								}).done(function(data) {
+										$('#cresult').append(data);
+									});
+		
+	
+	});
+	$('.rs').on('ifUnchecked',function(event){
+			
+						$('#cesub-'+$(this).val()).remove();
+						
+		});
+	$('input[name="cenable"]').on('ifChecked',function(){
+			$('#cyes').show('slow');
+		});
+		$('input[name="cenable"]').on('ifUnchecked',function(){
+			$('#cyes').hide('slow');
+		});
+		
 });
 </script>

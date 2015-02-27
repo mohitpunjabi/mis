@@ -12,14 +12,25 @@ class Report_model extends CI_Model
 	var $table_course_branch = 'course_branch';
 	var $table_elective_offered = 'elective_offered';
   	var $table_depts = 'departments';
+	
 
 	function __construct()
 	{
 		// Call the Model constructor
 		parent::__construct();
 	}
-	
- 	function get_depts()
+	function get_admn_no()
+	{
+		$query = $this->db->query("SELECT admn_no FROM `stu_details`");
+			foreach($query->result_array() as $row){
+				//$new_row['label']=htmlentities(stripslashes($row['name_in_hindi']." - ".$row['admn_no']));
+				$new_row['value']=htmlentities(stripslashes($row['admn_no']));
+				$row_set[] = $new_row; //build an array
+			}
+			echo json_encode($row_set); //format the array into json data
+	}
+ 	
+	function get_depts()
 	{
 		$query = $this->db->get_where($this->table_depts, array('type'=>'academic'));
 		return $query->result();

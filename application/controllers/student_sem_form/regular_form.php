@@ -38,6 +38,19 @@ class Regular_form extends MY_Controller {
 			if($dates[0]->type == 2)
 			$this->form_validation->set_rules('slip1', 'Slip1', 'callback_handle_upload1');
 			
+			if($this->input->post('cenable') =='CY'){
+				$this->form_validation->set_rules('cdateofPayment', 'Carryover Date of Payment', 'required');
+				$this->form_validation->set_rules('camount', 'Carryover Amount', 'required|numeric');
+				$this->form_validation->set_rules('ctransId', 'Carryover Transaction id / Reference No.', 'required');
+				$this->form_validation->set_rules('cslip', 'Carryover Slip', 'callback_handle_upload');
+				$csem=$this->input->post('sem');
+				if(is_array($csem)){
+					foreach($csem as $cs){
+							$this->form_validation->set_rules('csub1-'.$cs, 'Semester '.$cs.' Subject 1 is Required if you dont have Carryover Please Uncheck the Carry Over check box', 'required');
+						}
+				}
+				}
+			
 			if ($this->form_validation->run() == true){
 				
 				if($this->fee_save())
@@ -101,10 +114,10 @@ class Regular_form extends MY_Controller {
 		}
 		
 		
-		//Image Upload Validation Handler || Image upload//
+		//Image Upload Validation Handler || Image upload Regular fee//
 		function handle_upload()
 		  {
-			   $config['upload_path']   = './assets/sem_slip/';
+			   $config['upload_path']   = './assets/images/semester_reg/sem_slip/';
 				$config['allowed_types'] = 'pdf|jpg|png|jpeg';
 				$config['file_name'] = $this->session->userdata('id')."_".($this->session->userdata('semester')+1);
 				$this->load->library('upload', $config);
@@ -134,10 +147,10 @@ class Regular_form extends MY_Controller {
 			}
 		  }
 		  
-		  //Image Upload Validation Handler || Image upload//
+		  //Image Upload Validation Handler || Image upload late Fee//
 		function handle_upload1()
 		  {
-			  	$config['upload_path']   = './assets/sem_slip/';
+			  	$config['upload_path']   = './assets/images/semester_reg/sem_slip/';
 				$config['allowed_types'] = 'pdf|jpg|png|jpeg';
 				$config['file_name'] = $this->session->userdata('id')."_".($this->session->userdata('semester')+1)."_"."late";
 				$this->load->library('upload', $config);
@@ -167,6 +180,41 @@ class Regular_form extends MY_Controller {
 			  return false;
 			}
 		  }
+		  
+		  //Image Upload Validation Handler || Image upload carryover//
+		  function handle_upload2()
+		  {
+			  	$config['upload_path']   = './assets/images/semester_reg/carryover_slip/';
+				$config['allowed_types'] = 'pdf|jpg|png|jpeg';
+				$config['file_name'] = $this->session->userdata('id')."_".($this->session->userdata('semester')+1);
+				$this->load->library('upload', $config);
+			  
+			if (isset($_FILES['slip1']) && !empty($_FILES['slip1']['name']))
+			  {
+
+			  if ($this->upload->do_upload('slip1'))
+			  {
+				// set a $_POST value for 'image' that we can use later
+				$upload_data    = $this->upload->data();
+				$this->img_name1 = $upload_data['file_name'];
+				$_POST['slip1'] = $upload_data['file_name'];
+				return true;
+			  }
+			  else
+			  {
+				// possibly do some clean up ... then throw an error
+				$this->form_validation->set_message('handle_upload', $this->upload->display_errors());
+				return false;
+			  }
+			}
+			else
+			{
+			  // throw an error because nothing was uploaded
+			  $this->form_validation->set_message('handle_upload', "You must upload Late fee Receipt!");
+			  return false;
+			}
+		  }
+		  
 		 function regular_form_save(){
 				//admission_id ,course_id, branch_id,semster,session_year,session,timestamp,status 
 				$session = (($this->session->userdata('semester')+1)%2 == 0)?'Winter':'Monsoon';  

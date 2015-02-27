@@ -96,7 +96,7 @@ $d1 = $d+1;
          <?php }?>
 	</table>
 	 <?php if(($this->session->userdata('semester')+1) > 2){ ?>
-		 <h2 class="page-header">Do you have Any Carry Over <input type="checkbox" name="cenable" /></h2>
+		 <h2 class="page-header">Do you have Any Carry Over <input type="checkbox" name="cenable" value="CY" /></h2>
          <div class="col-sm-12" id="cyes">
          <label> Select Semester Where you Have Carryover</label>
          	<div class="row">
@@ -163,7 +163,6 @@ $( "#dateofPayment,#cdateofPayment" ).datepicker({
      autoclose: true
 	});
 	$('.rs').on('ifChecked', function(event){
-		
 						$.ajax({
 									url: '<?=base_url()?>index.php/student_sem_form/regular_form/getAsub/'+$(this).val()+'/<?=$this->session->userdata('id'); ?>/<?=$this->session->userdata('dept_id'); ?>/<?=$this->session->userdata('course_id'); ?>/<?=$this->session->userdata('branch_id'); ?>',
 									type: "GET",
@@ -171,18 +170,14 @@ $( "#dateofPayment,#cdateofPayment" ).datepicker({
 								}).done(function(data) {
 										$('#cresult').append(data);
 									});
-		
-	
-	});
+		});
 	$('.rs').on('ifUnchecked',function(event){
-			
 						$('#cesub-'+$(this).val()).remove();
-						
 		});
 	$('input[name="cenable"]').on('ifChecked',function(){
 			$('#cyes').show('slow');
 		});
-		$('input[name="cenable"]').on('ifUnchecked',function(){
+	$('input[name="cenable"]').on('ifUnchecked',function(){
 			$('#cyes').hide('slow');
 		});
 		

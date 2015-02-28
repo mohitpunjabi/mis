@@ -5,8 +5,8 @@
 			document.getElementById('lastname').value = '';
 		if(document.getElementById('parent_landline').value == '0')
 			document.getElementById('parent_landline').value = '';
-		if(document.getElementById('aadhar_no').value == 'na')
-			document.getElementById('aadhar_no').value = '';
+		if(document.getElementById('aadhaar_no').value == 'na')
+			document.getElementById('aadhaar_no').value = '';
 		// if(document.getElementById('extra_activity').value == 'na')
 		// 	document.getElementById('extra_activity').value = '';
 		// if(document.getElementById('any_other_information').value == 'na')
@@ -43,7 +43,32 @@
 		select_exam_scores();
 		if(document.getElementById('roll_no').value == 'na')
 			document.getElementById('roll_no').value = '';
-		corrAddr()
+		corrAddr();
+
+		$('#form_submit').on('submit', function(e) {
+			if(!form_validation())
+				e.preventDefault();
+		});
+
+		$('#depts').on('change', function() {
+			options_of_courses();
+		});
+
+		$('#course_id').on('change', function() {
+			options_of_branches();
+		});
+
+		$('#id_admn_based_on').on('change', function() {
+			select_exam_scores();
+		});
+
+		$('#correspondence_addr').on('ifChanged', function() {
+			corrAddr();
+		});
+
+		$('[name="depends_on"]').on('ifChanged', function() {
+    		depends_on_whom();
+		});
 	});
 
 
@@ -235,23 +260,33 @@
 	
 	function corrAddr()
     {
-        var x=document.getElementById("corr_addr");
         var y=document.getElementById("correspondence_addr");
-        if(!y.checked)
+        if(y.checked)
         {
-            x.style.display='block';
-            //document.getElementById("line13").='true';
+        	document.getElementById('corr_addr_visibility').style.display = 'none';
         }
         else
         {
-            x.style.display='none';
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
+        }
+	}
+
+	function corrAddr1()
+    {
+        var y=document.getElementById("correspondence_addr");
+        if(y.checked)
+        {
+        	document.getElementById('corr_addr_visibility').style.display = 'none';
+        }
+        else
+        {
+        	document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
 	
 	function depends_on_whom()
 	{
 		var dpe = document.getElementById("depends_on").checked;
-//var dpe_relation = document.getElementById("depends_on_relation").checked;
 
 		var m=document.getElementById("mother_name");
 		var f= document.getElementById("father_name");
@@ -284,6 +319,28 @@
 			fgai.disabled=false;
 			mgai.disabled=false;
 		}
+		
+	}
+
+	function depends_on_whom1()
+	{
+		var m=document.getElementById("mother_name");
+		var f= document.getElementById("father_name");
+		var g=document.getElementById("guardian_name");
+		var r=document.getElementById("guardian_relation_name");
+		var fo=document.getElementById("father_occupation");
+		var mo=document.getElementById("mother_occupation");
+		var fgai=document.getElementById("father_gross_income");
+		var mgai=document.getElementById("mother_gross_income");
+
+			m.disabled=true;
+			f.disabled=true;
+			g.disabled=false;
+			r.disabled=false;
+			fo.disabled=true;
+			mo.disabled=true;
+			fgai.disabled=true;
+			mgai.disabled=true;
 		
 	}
 	
@@ -391,10 +448,8 @@
 
     function options_of_branches()
     {
-    	//alert("hi");
         var tr=document.getElementById('branch_id');
         var course=document.getElementById('course_id').value;
-//        var tr=document.getElementById('branch_div');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
         if (window.XMLHttpRequest)
@@ -409,7 +464,6 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	//alert ("success");
                 tr.innerHTML=xmlhttp.responseText;
             }
         }
@@ -421,8 +475,6 @@
 
     function options_of_courses()
     {
-        //set_id_of_branch();
-        //alert('reached course');
         var tr=document.getElementById('course_id');
         var dept=document.getElementById('depts').value;
         var xmlhttp;
@@ -438,12 +490,10 @@
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
-            	//alert('success');
                 tr.innerHTML=xmlhttp.responseText;
                 options_of_branches();
             }
         }
-        //alert(branch);
         xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
         tr.innerHTML="<option selected=\"selected\">Loading...</option>";
@@ -550,8 +600,8 @@
 			document.getElementById('roll_no').value = 'na';
 		if( document.getElementById('parent_landline').value.trim() == '')
 			document.getElementById('parent_landline').value = 0;
-		if( document.getElementById('aadhar_no').value.trim() == '')
-			document.getElementById('aadhar_no').value = 'na';
+		if( document.getElementById('aadhaar_no').value.trim() == '')
+			document.getElementById('aadhaar_no').value = 'na';
 		if( document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value.trim() == '')
 			document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = 'na';
 		if( document.getElementById('fee_paid_amount').value.trim() == '')

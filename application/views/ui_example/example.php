@@ -1,20 +1,44 @@
 <?php
 	$ui = new UI();
 	
-	$ui->callout()
-	   ->title("This is just a tiny example")
-	   ->uiType("warning")
-	   ->desc('This example shows only a handful of the UI options. ' .
-	   		  'See the <a href="http://172.16.8.5/wiki/index.php/UI_Library">UI Library wiki</a> for a detailed list of options. ' .
-			  'Help us build this page by adding more example codes.')
-	   ->show();
+	// This row will not be printed because of the noPrint() property
+	$topRow = $ui->row()->noPrint()->open();
+		$alertCol = $ui->col()->width(6)->open();	
+			$ui->callout()
+			   ->title("This is just a small example")
+			   ->uiType("warning")
+			   ->desc('This example shows only a handful of the UI options. ' .
+					  'See the <a href="http://172.16.8.5/wiki/index.php/UI_Library">UI Library wiki</a> for a detailed list of options. ' .
+					  'Help us build this page by adding more example codes.')
+			   ->show();
+		
+			$ui->alert()
+			   ->title("Is this example working for you?")
+			   ->uiType("info")
+			   ->desc('If the example is not working for you, the error is probably because of php short tags (<code>&lt;?</code>). Instead of converting all short tags to <code>&lt;?php</code>, you can enable the <code>short_open_tag</code> property in the php.ini file. <a href="http://stackoverflow.com/q/2185320/1492578" target="_blank">Here\'s how!</a>')
+			   ->show();
+		$alertCol->close();
 
-	$ui->alert()
-	   ->title("Is this example working for you?")
-	   ->uiType("info")
-	   ->desc('If the example is not working for you, the error is probably because of php short tags (<code>&lt;?</code>). Instead of converting all short tags to <code>&lt;?php</code>, you can enable the <code>short_open_tag</code> property in the php.ini file. <a href="http://stackoverflow.com/q/2185320/1492578" target="_blank">Here\'s how!</a>')
-	   ->show();
+		$printCol = $ui->col()->width(6)->open();
+			$printBox = $ui->box()
+			               ->icon($ui->icon("print"))
+						   ->title("Print this page")
+						   ->tooltip("Printing this page wouldn't print this row. How awesome is that!")
+						   ->open();
+?>
+<p>Everything in the view will be printed by default. To ignore something that shouldn't be printed, use the <code>noPrint()</code> property on that <code>Element</code>.</p>
+<pre>
+$ui->someElem()
+   ...
+   ->noPrint()
+</pre>
+<p>To make a Print button, use <code>$ui->printButton()->show()</code>. All other properties of <code>Button</code>s are still valid on the print button. For instance, you can set its id, name, UI type or value.</p>
 
+<?
+				$ui->printButton()->show();
+			$printBox->close();
+		$printCol->close();
+	$topRow->close();
 
 ?><h2 class="page-header">Different box types</h2><?
 
@@ -728,6 +752,7 @@ $formRow = $ui->row()->open();
 
 
 			$ui->input()->type("text")->label("Text")->placeholder("Text")->show();
+			$ui->input()->type("text")->label("A textbox with help")->placeholder("Text")->help("Some help text goes here")->show();
 
 			$ui->input()->type("text")->label("Text Disabled")->placeholder("Text Disabled")->disabled()->show();
 

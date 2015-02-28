@@ -4,14 +4,15 @@ class Publication extends MY_Controller{
 
 	public function __construct(){
 		parent::__construct(array('deo','ft','emp'));
-		$this->addCSS('publication/layout.css');
+		$this->addJS("publication/add_publication.js");
+		//$this->addCSS('publication/layout.css');
 		$this->load->model('publication/basic_model','',TRUE);
 	}
 
 	public function index(){
 		/*var_dump($temp[0]->type_name);
 		var_dump($this->session->userdata("name"));*/
-		$this->addJS("publication/add_publication.js");
+		//$this->addJS("publication/add_publication.js");
 		$data= array();
 		$data['prk_types'] = $this->basic_model->get_prk_types();
 		$this->drawHeader();
@@ -60,6 +61,7 @@ class Publication extends MY_Controller{
 		$data['page_no'] = $this->input->post('page_range');
 		$data['other_info'] = $this->input->post('other_info');
 		$data['no_of_authors'] = $this->input->post('no_of_authors');
+
 		//to check the no of authors outside ism
 		$count = 0;
 		$authors = array();
@@ -73,7 +75,7 @@ class Publication extends MY_Controller{
 				$authors['other'][$count]['last_name'] = $this->input->post('author_'.$i.'_lname');
 				$authors['other'][$count]['email_id'] = $this->input->post('author_'.$i.'_email');
 				$authors['other'][$count]['institution'] = $this->input->post('author_'.$i.'_institution');
-
+				echo "abc";
 				$count++;
 			}
 			else{
@@ -81,6 +83,7 @@ class Publication extends MY_Controller{
 				$authors['ism'][$i-$count-1]['rec_id'] =$data['rec_id'];
 				$authors['ism'][$i-$count-1]['emp_id'] = $this->input->post('author_'.$i.'_emp_id');
 				$authors['ism'][$i-$count-1]['notify_status'] =0;
+				echo "azv";
 				if($this->input->post('author_'.$i.'_emp_id') == $this->session->userdata('id')){
 					$authors['ism'][$i-$count-1]['notify_status'] =1;
 					$is_user_author=true;
@@ -248,9 +251,9 @@ class Publication extends MY_Controller{
 
 	public function search_result(){
 		$temp = array();
-		$temp['dept_id'] = $this->input->post('dept_id');
-		$temp['emp_id'] = $this->input->post('emp_id');
-		$temp['type_id'] = $this->input->post('publication_type');
+		$temp['dept_id'] = $this->input->post('department_name');
+		$temp['emp_id'] = $this->input->post('faculty_name');
+		$temp['type_id'] = $this->input->post('type_of_pub');
 		$temp['begin_date'] = $this->input->post('begin_date');
 		$temp['end_date'] = $this->input->post('end_date');
 		$temp['publications'] = $this->basic_model->search($temp);
@@ -267,6 +270,12 @@ class Publication extends MY_Controller{
 				$data['publications'][$i]['authors']['ism'] = $this->basic_model->get_ism_author_detail_by_pub($pub->rec_id);
 				$data['publications'][$i]['type_name'] = $pub->type_name;
 				$data['publications'][$i]['type_id'] = $pub->type;
+				$data['publications'][$i]['vol_no'] = $pub->vol_no;
+				$data['publications'][$i]['issue_no'] = $pub->issue_no;
+				$data['publications'][$i]['begin_date'] = $pub->begin_date;
+				$data['publications'][$i]['page_no'] = $pub->page_no;
+				$data['publications'][$i]['place'] = $pub->place;
+				$data['publications'][$i]['end_date'] = $pub->end_date;
 				if($data['publications'][$i]['other_authors'] > 0){
 					$data['publications'][$i]['authors']['others'] = $this->basic_model->get_other_author_detail_by_pub($pub->rec_id);
 				}

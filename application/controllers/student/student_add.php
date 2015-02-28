@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Student_add extends CI_Controller
+class Student_add extends CI_Controller//MY_Controller
 {
 	function __construct()
 	{
@@ -28,14 +28,8 @@ class Student_add extends CI_Controller
 		return false;
 	}
 
-	function drawHeader($title = "MIS") {
-		$this->load->view("student/add/header", array("title" => $title,
-													"javascript" => $this->_js,
-													"css" => $this->_css));
-	}
-
 	function drawFooter() {
-		$this->load->view("student/add/footer");
+		$this->load->view("templates/footer");
 	}
 
 	function addJS($js) {
@@ -49,48 +43,7 @@ class Student_add extends CI_Controller
 	public function index($error='')
 	{
 		$this->add_basic_details($error);
-		// $this->load->model('student/student_current_entry_model','',TRUE);
-		// $entry = $this->student_current_entry_model->get_current_entry_status_by_id($this->userId);
-		// if($entry === FALSE)
-		// 	$this->step(0,'',$error);
-		// else
-		// 	$this->step($entry->curr_step,$entry->id,$error);
 	}
-
-	private function step($num = 0,$student = '',$error = '')
-	{
-		switch($num)
-		{
-			case 0: $this->add_basic_details($error);break;
-			case 1: 
-					$this->load->model('student/Student_details_model','',TRUE);
-					$student_type = $this->Student_details_model->get_student_type_a_student($student);
-					$this->add_student_education_details($student,$student_type,$error);break;
-		}
-	}
-
-
-	// public function index($error='')
-	// {
-	// 	$this->load->model('student/Student_current_entry_model','',TRUE);
-	// 	$entry = $this->Student_current_entry_model->get_current_entry();
-	// 	if($entry === FALSE)
-	// 		$this->step(0,'',$error);
-	// 	else
-	// 		$this->step($entry->curr_step,$entry->id,$error);
-	// }
-
-	// private function step($num = 0,$student = '',$error = '')
-	// {
-	// 	switch($num)
-	// 	{
-	// 		case 0: $this->add_basic_details($error);break;
-	// 		case 1: 
-	// 				$this->load->model('student/Student_details_model','',TRUE);
-	// 				$student_type = $this->Student_details_model->get_student_type_a_student($student);
-	// 				$this->add_student_education_details($student,$student_type,$error);break;
-	// 	}
-	// }
 
 	public function add_basic_details($error = '')
 	{
@@ -98,6 +51,7 @@ class Student_add extends CI_Controller
 			show_404();	
 		}
 		else $this->userId = $this->input->get("id");
+
 		$_css = "";
 		$_js = "";
 		//Handling Error
@@ -105,20 +59,11 @@ class Student_add extends CI_Controller
 
 		$data['stu_id'] = $this->userId;
 
-		//Fetching Student types
-		$this->load->model('student/student_type_model','',TRUE);
-		$data['stu_type'] = $this->student_type_model->get_all_types();
-
-		//Fetching all States
-		//$this->load->model('student/student_states_model','',TRUE);
-		//$data['states'] = $this->student_states_model->get_all_states();
-
 		//Fetching Departments
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$data['academic_departments']=$this->basic_model->get_depts();
 		$depts = $data['academic_departments'];
 
-		//var_dump($depts[0]->id);
 		$data['courses']=$this->basic_model->get_course_offered_by_dept($depts[0]->id);
 
 		$course = $data['courses'];
@@ -129,27 +74,15 @@ class Student_add extends CI_Controller
 			$data['courses'] = FALSE;
 			$data['branches'] = FALSE;
 		}
-		
-		/*old   $this->load->model('Branches_model','',TRUE);
-		old   $data['branches']=$this->Branches_model->get_branches_by_courses($depts[0]->id);
-		var_dump($data['branches']);
-
-		old   $branch = $data['branches'];
-		$this->load->model('Courses_model','',TRUE);
-		if($branch)
-			$data['courses']=$this->Courses_model->get_courses_by_dept($branch[0]->id);
-		else
-			$data['courses']=FALSE;*/
 
 		//javascript
 		$this->addJS('student/basic_details_script.js');
-		//$this->addJS("student/education_details_script.js");
-		//$this->addJS("employee/print_script.js");
 
 		//view
-		$this->drawHeader("Add Student Details");
+		$this->load->view('templates/header_assets', array("title" => "Management Information System - Please fill your details",
+													"javascript" => $this->_js,
+													"css" => $this->_css));
 		$this->load->view('student/add/student_detail',$data);
-		//$this->load->view('student/add/student_educational_details',$data);
 		$this->drawFooter();
 
 	}
@@ -179,12 +112,11 @@ class Student_add extends CI_Controller
 
 	public function insert_basic_details($stu_id)
 	{
-		var_dump($stu_id);
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('password', 'Password', 'required|callback__passwordRegex|matches[confirm_password]');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required');
 		$this->form_validation->set_rules('firstname','First Name','trim|required');
-		$this->form_validation->set_rules('stud_name_hindi','Student Name in Hindi','required');
+		//$this->form_validation->set_rules('stud_name_hindi','Student Name in Hindi','required');
 		if($this->input->post('depends_on'))
 		{
 		 	$this->form_validation->set_rules('guardian_name','Guardian Name','trim|required');
@@ -215,7 +147,7 @@ class Student_add extends CI_Controller
 		else if($admn_based_on === 'cat')
 			$this->form_validation->set_rules('cat_score','Cat Score','required|numeric');
 		$this->form_validation->set_rules('identification_mark','Identification Mark','trim|required');
-		$this->form_validation->set_rules('migration_cert','Migration Certificate','trim|required');
+		//$this->form_validation->set_rules('migration_cert','Migration Certificate','trim|required');
 		$this->form_validation->set_rules('nationality','Nationality','trim|required');
 		$this->form_validation->set_rules('bank_name','Bank Name','trim|required');
 		$this->form_validation->set_rules('bank_account_no','Account No','trim|required');
@@ -251,13 +183,11 @@ class Student_add extends CI_Controller
 		if($this->form_validation->run() === FALSE)
 		{
 			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			redirect('student/student_add');
+			return;//redirect('student/student_add');
 		}
-		//$stu_id = strtolower($this->input->post('stu_id'));
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)
 		{
-			//.var_dump($upload);return;
 			$date = date("Y-m-d H:i:s",time());
 			$encode_pass=$this->authorization->strclean($this->input->post('password'));
 			$encode_pass=$this->authorization->encode_password($encode_pass,$date);
@@ -319,22 +249,6 @@ class Student_add extends CI_Controller
 				'father_name' => $father_name ,
 				'mother_name' => $mother_name
 			);
-
-			/*if($this->input->post('stu_type') === 'others')
-			{
-				$student_type = $this->input->post('student_other_type');
-				$this->load->model('student/student_new_student_type','',TRUE);
-				$new_student_type_id = $this->student_new_student_type->get_new_id();
-				$stu_type = array(
-					'id' => $new_student_type ,
-					'name' => $student_type
-				);
-			}
-			else
-			{
-				$student_type = $this->input->post('stu_type');
-				$stu_type = false;
-			}*/
 
 			$admn_based_on = $this->input->post('admn_based_on');
 			$iit_jee_rank = $this->input->post('iitjee_rank');
@@ -408,7 +322,7 @@ class Student_add extends CI_Controller
 				'guardian_relation' => $guardian_relation ,
 				'bank_name' => $this->authorization->strclean($this->input->post('bank_name')) ,
 				'account_no' => $this->authorization->strclean($this->input->post('bank_account_no')) ,
-				'aadhar_card_no' => $this->authorization->strclean($this->input->post('aadhar_no')) ,
+				'aadhaar_card_no' => $this->authorization->strclean($this->input->post('aadhaar_no')) ,
 				'extra_curricular_activity' => strtolower($this->authorization->strclean($this->input->post('extra_activity'))) ,
 				'other_relevant_info' => strtolower($this->authorization->strclean($this->input->post('any_other_information')))
 			);
@@ -493,11 +407,6 @@ class Student_add extends CI_Controller
 				);
 			}
 
-			// $stu_current_entry = array(
-			// 	'id' => $stu_id ,
-			// 	'curr_step' => 1
-			// );
-
 			$exam = $this->input->post('exam4');
 			$branch = $this->input->post('branch4');
 			$clgname = $this->input->post('clgname4');
@@ -543,9 +452,7 @@ class Student_add extends CI_Controller
 			$this->load->model('student/student_fee_details_model','',TRUE);
 			$this->load->model('student/student_academic_model','',TRUE);
 			$this->load->model('student/student_education_details_model','',TRUE);
-			//$this->load->model('student/student_current_entry_model','',TRUE);
-			//$this->load->model('student/Student_type_model','',TRUE);
-			//$this->load->model('student/Student_new_student_type','',TRUE);
+			//echo 'hi';
 
 			$this->db->trans_start();
 
@@ -557,69 +464,14 @@ class Student_add extends CI_Controller
 			$this->student_details_model->insert($stu_details);
 			$this->student_other_details_model->insert($stu_other_details);
 			$this->student_fee_details_model->insert($stu_fee_details);
-			//$this->student_current_entry_model->insert($stu_current_entry);
 			$this->student_education_details_model->insert_batch($stu_education_details);
-			//$this->Student_type_model->insert($stu_type);
-			//$this->Student_new_student_type->update();
 
 			$this->db->trans_complete();
 
-			redirect("ftp_login(ftp_stream, username, password)");
+			redirect("login/logout/5");
 		}
 		else
-		{}
-	}
-
-	function insert_education_details($stu_id = '')
-	{
-		//$stu_id = strtolower($this->input->post('student_id'));
-		$this->load->library('authorization');
-		$exam = $this->input->post('exam4');
-		$branch = $this->input->post('branch4');
-		$clgname = $this->input->post('clgname4');
-		$year = $this->input->post('year4');
-		$grade = $this->input->post('grade4');
-		$div = $this->input->post('div4');
-
-		$i = 0;
-		$class = '10';
-		while($i<2)
-		{
-			$stu_education_details[$i]['id'] = $stu_id;
-			$stu_education_details[$i]['sno'] = $i+1;
-			$stu_education_details[$i]['exam'] = strtolower($this->authorization->strclean($exam[$i]));
-			$stu_education_details[$i]['branch'] = $class;
-			$stu_education_details[$i]['institute'] = strtolower($this->authorization->strclean($clgname[$i]));
-			$stu_education_details[$i]['year'] = $year[$i];
-			$stu_education_details[$i]['grade'] = strtolower($this->authorization->strclean($grade[$i]));
-			$stu_education_details[$i]['division'] = strtolower($div[$i]);
-			$class = '12';
-			$i++;
-		}
-		while($i<$n)
-		{
-			$stu_education_details[$i]['id'] = $stu_id;
-			$stu_education_details[$i]['sno'] = $i+1;
-			$stu_education_details[$i]['exam'] = strtolower($this->authorization->strclean($exam[$i]));
-			$stu_education_details[$i]['branch'] = strtolower($this->authorization->strclean($branch[$i-2]));
-			$stu_education_details[$i]['institute'] = strtolower($this->authorization->strclean($clgname[$i]));
-			$stu_education_details[$i]['year'] = $year[$i];
-			$stu_education_details[$i]['grade'] = strtolower($this->authorization->strclean($grade[$i]));
-			$stu_education_details[$i]['division'] = strtolower($div[$i]);
-			$i++;
-		}
-
-		$this->load->model('student/student_education_details_model','',TRUE);
-		$this->load->model('student/student_current_entry_model','',TRUE);
-
-		$this->db->trans_start();
-
-		$this->student_education_details_model->insert_batch($stu_education_details);
-		$this->student_current_entry_model->delete($stu_id);
-
-		$this->db->trans_complete();
-
-		redirect('student/student_add');
+			var_dump($stu_id);
 	}
 
 	function upload_image($stu_id = '', $name ='')
@@ -646,13 +498,6 @@ class Student_add extends CI_Controller
 	       	$this->index('ERROR: File Name not set.');
 			return FALSE;
 	    }
-
-	    //dont upload files with no file name
-		/*for($i=0 ; $i < $n_family ; $i++)
-			if($_FILES[$name]["name"][$i] == '')
-			{
-				unset($_FILES[$name]["name"][$i]);
-			}*/
 
 		$config['file_name'] = $filename;
 

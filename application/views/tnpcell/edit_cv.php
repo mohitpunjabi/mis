@@ -2,9 +2,7 @@
 	$ui = new UI();
     $outer_row = $ui->row()->id('or')->open();
     $column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
-    
-    echo '<h3><b><center>Your CV</b></center>';
-    echo 'Project/Internship/Excursion/Training</h3>';    
+	$box = $ui->box()->title("Project/Internship/Excursion/Training")->open();
     $table = $ui->table()->responsive()->hover()->bordered()->open();
 							echo '
 								  <tr>
@@ -47,9 +45,9 @@
               $ui->button()
                  ->value('Edit')
                  ->uiType('primary')
-                 ->id("editbutton")
+                 ->id("editbutton_project".$i)
                  ->icon($ui->icon("edit"))
-                 ->extras(' onclick = EditProject(\''.$i.'\') ')
+                 ->extras(' onclick = EditProject("'.$i.'","'.$row->id.'")')
                  ->name('edit')
                  ->show();
               echo ' </td>
@@ -57,7 +55,8 @@
 		$i++;
     }
     $table->close();
-	  echo '<h3>Awards & Achievements</h3>';
+	$box->close();
+	$box = $ui->box()->title("Awards & Achievements")->open();
      $table2 = $ui->table()->responsive()->hover()->bordered()->open();
      $i=1;
      foreach($achievements as $row) {
@@ -73,9 +72,9 @@
                 $ui->button()
                  ->value('Edit')
                  ->uiType('primary')
-                 ->id("editbutton")
+                 ->id("editbutton_achievements".$i)
                  ->icon($ui->icon("edit"))
-                 ->extras(' onclick = EditAchievements(\''.$i.'\') ')
+                 ->extras(' onclick = EditAchievements("'.$i.'")')
                  ->name('edit')
                  ->show();
         echo ' </td>
@@ -83,6 +82,7 @@
       $i++;
      }
      $table2->close();
+	 $box->close();
 		$column1->close();
 	$outer_row->close();
 ?>

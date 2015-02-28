@@ -1,5 +1,8 @@
-
-<script type="text/javascript">
+$(document).ready(function(){
+	$("#photo").change(function(){
+						readURL(this);
+						});
+});
 $('.-mis-content').delegate(".flash-data.error-msg a.close-btn", 'click', function(e) {
 		e.preventDefault();
 		$(this).parent().remove();
@@ -19,27 +22,28 @@ function showError(errorMessage, errorTarget) {
 function readURL(input) {
 	var allowedTypes = {
 		"image/jpeg": true,
-		"image/bmp": true
+		"image/bmp": true,
+		"image/jpg": true,
+		"image/png": true,
+		"image/gif": true
 	};
         if (input.files && input.files[0]) {
 			var file = input.files[0];
-			var errorTarget = '.-mis-content';
-			console.log(file);
-			$(errorTarget).find(".flash-data.error-msg").remove();
 			var error = false;
 			if(!allowedTypes[file.type]) {
-				showError('Invalid filetype.', errorTarget);
+				alert("Invalid filetype, Choose again!");
 				error = true;
 			}
-			if(file.size > 1024*1024) {
-				showError('Size is greater than 1MB.', errorTarget);
+			else if(file.size > 1024*1024) {
+				alert('Image Size is greator than 1 MB, Choose again!');
+				//showError('Size is greater than 1MB.', errorTarget);
 				error = true;
 			}
 			if(error) {
 				input.value = null;
 				$("#preview").attr("style", "");
 			}
-            var reader = new FileReader();
+            /*var reader = new FileReader();
 
             reader.onload = function (e) {
                 $('#preview').css({
@@ -52,7 +56,6 @@ function readURL(input) {
 					});
             };
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[0]);*/
         }
-    }
-</script>
+}

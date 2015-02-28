@@ -47,8 +47,6 @@ class View extends MY_Controller
 		else
 			$aggr_id = $expected_aggr_id;
 		
-		//echo $aggr_id;
-		//die();
 		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
@@ -83,9 +81,11 @@ class View extends MY_Controller
 			   
 			   if($group_id != 0)
 			   {
+				   $data['subjects']['group_details']['group_id'][$counter][$i] = $group_id;
 				   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
 				   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
-			   	   $data["subjects"]["group_details"][$counter][$i] = $group_detials[0];	
+				   
+			   	   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
 				}
 			       
 				$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 

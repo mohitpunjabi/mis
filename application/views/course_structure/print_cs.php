@@ -19,8 +19,6 @@
 	}	
     for($semester=$start_semester;$semester<=$end_semester;$semester++)
 	{
-		
-		$elective_name = 1;
 		$ui = new UI();
 		echo "<h3>Subjects for Semester". $semester."<br></h3>";	
 		$table = $ui->table()->responsive()->hover()->bordered()->open();
@@ -37,17 +35,22 @@
 				  <th>Elective</th>
 				  <th style = "width:15px;">Type</th>
 				</tr>';
-				
 			for($i=1;$i<=$subjects["count"][$semester];$i++)
 			{
-				if(isset($subjects["group_details"][$semester][$i]->group_id))
+				if(isset($subjects["group_details"]['group_id'][$semester][$i]))
 				{
+					$group_id = $subjects["group_details"]['group_id'][$semester][$i];
+					//echo "hiii".$group_id;
+					//die();
+					
 				echo '
 				<tr>
 					<td colspan="10" align="center">';
-						echo "Elective ".$elective_name++;
+						//var_dump($subjects["group_details"]['group_id'][$semester][$i]);
+						//die();
+						echo $subjects["group_details"][$group_id]->elective_name;
 						//echo $subjects["group_details"][$semester][$i]->elective_name;
-						$group_id = $subjects["group_details"][$semester][$i]->group_id;
+						//$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				echo'
 					</td>
 				</tr>';

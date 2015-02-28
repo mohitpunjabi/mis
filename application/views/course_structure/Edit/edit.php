@@ -47,8 +47,8 @@
 				<tr>
 					<td colspan="11" align="center">';
 						echo "Elective ".$elective_name++;
-						//echo $subjects["group_details"][$semester][$i]->elective_name;
-						$group_id = $subjects["group_details"][$semester][$i]->group_id;
+						echo $subjects["group_details"][$semester][$i]->elective_name;
+						//$group_id = $subjects["group_details"][$semester][$i]->group_id;
 				echo'
 					</td>
 				</tr>';

@@ -209,13 +209,14 @@
 								{
 									echo '
 									<tr class="diff_options">
-										<td>Number of options for Elective '.$i.'</td>
+										<td>Number of options and order for Elective '.$i.'</td>
 										<td>';
 											$ui->input()->width("6")->placeholder("Number of options")->name("options".$i)->show();
 											
 										$array_option = array();
 										for($it = 1;$it<=$CS_session['count_elective']+$CS_session['count_core'];$it++)
-										array_push($array_option,$ui->option()->value($it)->text($it));
+											array_push($array_option,$ui->option()->value($it)->text($it));
+										
 										$ui->select()
 										   ->name("seq_e".$i)
 										   ->width("6")

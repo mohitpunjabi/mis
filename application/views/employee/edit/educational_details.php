@@ -5,15 +5,15 @@
             $box = $ui->box()->id('show_details')->title('Educational Qualifications')->uiType('primary')->open();
                 if($emp_education_details != FALSE) {
 	                $table = $ui->table()->id('tbl4')->responsive()->bordered()->striped()->open();
-	                    echo '<thead valign="middle" ><tr align="center">
-	                        <th align="center">S no.</th>
-	                        <th>Examination</th>
-	                        <th>Course(Specialization)</th>
-	                        <th>College/University/Institute</th>
-	                        <th>Year</th>
-	                        <th>Percentage/Grade</th>
-	                        <th>Class/Division</th>
-	                        <th>Edit/Delete</th>
+	                    echo '<thead><tr align="center">
+	                        <td style="vertical-align:middle" ><b>S no.</b></td>
+	                        <td style="vertical-align:middle" ><b>Examination</b></td>
+	                        <td style="vertical-align:middle" ><b>Course(Specialization)</b></td>
+	                        <td style="vertical-align:middle" ><b>College/University/Institute</b></td>
+	                        <td style="vertical-align:middle" ><b>Year</b></td>
+	                        <td style="vertical-align:middle" ><b>Percentage/Grade</b></td>
+	                        <td style="vertical-align:middle" ><b>Class/Division</b></td>
+	                        <td style="vertical-align:middle" ><b>Edit/Delete</b></td>
 	                        </tr>
 	                        </thead><tbody>';
 	                    $i=1;

@@ -97,9 +97,8 @@ function onclick_save(i) {
 	var f=document.getElementById("edit_from"+i).value;
 	var t=document.getElementById("edit_to"+i).value;
 	var p=document.getElementById("edit_payscale"+i).value;
-	var r=document.getElementById("edit_reason"+i).value;
 
-	if(a=="" || d=="" || f=="" || t=="" || p=="" || r=="")
+	if(a=="" || d=="" || f=="" || t=="" || p=="")
 		alert("!! Please fill up all the fields !!");
 	else if(moment(f,"DD-MM-YYYY").isAfter(moment(t,'DD-MM-YYYY')))
 		alert("!! Fill the period correctly !!");

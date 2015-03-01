@@ -211,7 +211,17 @@ class Edit extends MY_Controller
 				'state' => strtolower($this->input->post('state1')) ,
 				'pincode' => $this->input->post('pincode1') ,
 				'country' => strtolower($this->input->post('country1')) ,
-				'contact_no' => $this->input->post('contact1') ,
+				'contact_no' => $this->input->post('contact11') ,
+		);
+
+		$user_permanent_address = array(
+				'line1' => $this->input->post('line12') ,
+				'line2' => $this->input->post('line22') ,
+				'city' => strtolower($this->input->post('city2')) ,
+				'state' => strtolower($this->input->post('state2')) ,
+				'pincode' => $this->input->post('pincode2') ,
+				'country' => strtolower($this->input->post('country2')) ,
+				'contact_no' => $this->input->post('contact12') ,
 		);
 
 		//loading models
@@ -233,6 +243,7 @@ class Edit extends MY_Controller
 			$this->faculty_details_model->updateById($faculty_details,$emp_id);
 		$this->emp_pay_details_model->updateById($emp_pay_details,$emp_id);
 		$this->user_address_model->updatePresentAddrById($user_present_address,$emp_id);
+		$this->user_address_model->updatePermanentAddrById($user_permanent_address,$emp_id);
 
 		$this->db->trans_complete();
 		//transaction completed

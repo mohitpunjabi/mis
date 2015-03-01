@@ -280,13 +280,13 @@ function view_prev_emp_details($emp_prev_exp_details) {
 	$ui = new UI();
 	echo '<h3 class="page-header" align="center">Previous Employment Details</h3>';
 	$table = $ui->table()->id('tbl2')->responsive()->condensed()->bordered()->striped()->open();
-            echo '<thead valign="middle" ><tr align="center">
-                <th>Full address of Employer</th>
-                <th>Position held</th>
-                <th>Date of joining</th>
-	        	<th>Date of leaving</th>
-                <th>Pay Scale</th>
-                <th>Remarks</th>
+            echo '<thead><tr align="center">
+                <td style="vertical-align:middle"><b>Full address of Employer</b></td>
+                <td style="vertical-align:middle"><b>Position held</b></td>
+                <td style="vertical-align:middle"><b>Date of joining</b></td>
+	        	<td style="vertical-align:middle"><b>Date of leaving</b></td>
+                <td style="vertical-align:middle"><b>Pay Scale</b></td>
+                <td style="vertical-align:middle"><b>Remarks</b></td>
             </tr>
             </thead><tbody>';
 
@@ -312,14 +312,14 @@ function view_family_details($emp_family_details) {
 	echo '<h3 class="page-header" align="center">Dependent Family Member Details</h3>';
 
 	$table = $ui->table()->id('tbl3')->responsive()->bordered()->striped()->open();
-	echo '<thead valign="middle" ><tr align="center">
-	    <th>Name</th>
-	    <th>Relationship</th>
-	    <th>Date of Birth</th>
-	    <th>Profession</th>
-	    <th>Present Postal Address</th>
-	    <th>Active/Inactive</th>
-	    <th colspan="2">Photograph</th>
+	echo '<thead><tr align="center">
+	    <td style="vertical-align:middle"><b>Name</b></td>
+	    <td style="vertical-align:middle"><b>Relationship</b></td>
+	    <td style="vertical-align:middle"><b>Date of Birth</b></td>
+	    <td style="vertical-align:middle"><b>Profession</b></td>
+	    <td style="vertical-align:middle"><b>Present Postal Address</b></td>
+	    <td style="vertical-align:middle"><b>Active/Inactive</b></td>
+	    <td colspan="2" style="vertical-align:middle"><b>Photograph</b></td>
 	    </tr>
 	    </thead><tbody>';
 	foreach($emp_family_details as $row)
@@ -348,14 +348,14 @@ function view_education_details($emp_education_details) {
 	echo '<h3 class="page-header" align="center">Educational Qualifications</h3>';
 
 	$table = $ui->table()->id('tbl4')->responsive()->bordered()->striped()->open();
-        echo '<thead valign="middle" ><tr align="center">
-            <th>Examination</th>
-            <th>Course(Specialization)</th>
-            <th>College/University/Institute</th>
-            <th>Year</th>
-            <th>Percentage/Grade</th>
-            <th>Class/Division</th>
-            </tr>
+        echo '<thead><tr align="center">
+            <td style="vertical-align:middle"><b>Examination</b></td>
+            <td style="vertical-align:middle"><b>Course(Specialization)</b></td>
+            <td style="vertical-align:middle"><b>College/University/Institute</b></td>
+            <td style="vertical-align:middle"><b>Year</b></td>
+            <td style="vertical-align:middle"><b>Percentage/Grade</b></td>
+            <td style="vertical-align:middle"><b>Class/Division</b></td>
+         	</tr>
             </thead><tbody>';
 
         foreach($emp_education_details as $row)
@@ -379,14 +379,14 @@ function view_stay_details($emp_last5yrstay_details) {
 	echo '<h3 class="page-header" align="center">Last 5 Year Stay Details</h3>';
 
     $table = $ui->table()->id('tbl5')->responsive()->bordered()->striped()->open();
-        echo '<thead valign="middle" ><tr align="center">
-				<th colspan=2>Duration</th>
-				<th rowspan=2>Residential Address</th>
-				<th rowspan=2>Name of District Headquarters</th>
+        echo '<thead><tr align="center">
+				<td colspan=2 style="vertical-align:middle" ><b>Duration</b></td>
+				<td rowspan=2 style="vertical-align:middle" ><b>Residential Address</b></td>
+				<td rowspan=2 style="vertical-align:middle" ><b>Name of District Headquarters</b></td>
         	</tr>
         	<tr align="center">
-            	<th>From</th>
-            	<th>To</th>
+            	<td style="vertical-align:middle"><b>From</b></td>
+            	<td style="vertical-align:middle"><b>To</b></td>
         	</tr></thead><tbody>';
 
         foreach($emp_last5yrstay_details as $row)

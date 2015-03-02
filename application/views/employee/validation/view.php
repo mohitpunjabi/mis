@@ -25,7 +25,7 @@
 					            $ui->callout()->title("Rejected")->desc("Please contact the Establishment Section for the same.".(($reject)? "<br>Reason behind rejection : ".$reject->reason : ""))->uiType('danger')->show();
 					        }
 					    }
-						view_profile_pic($emp);
+						view_profile_pic($photo);
 					}
 					else
 						$ui->callout()->title('Not Found')->desc("Your details have not been updated. Please check after some time.")->uiType('warning')->show();
@@ -46,10 +46,22 @@
 					            $ui->callout()->title("Rejected")->desc("Please contact the Establishment Section for the same.".(($reject)? "<br>Reason behind rejection : ".$reject->reason : ""))->uiType('danger')->show();
 					        }
 					    }
-						$data['name'] = $this->employee_model->getNameById($emp->id);
+
+						$data['name'] = $emp->salutation.'. '.ucwords(trim($emp->first_name)).' '.trim(ucwords(trim($emp->middle_name)).' '.ucwords(trim($emp->last_name)));
 						$data['deparment']=$this->departments_model->getDepartmentById($emp->dept_id)->name;
     					$data['designation']=$this->designations_model->getDesignationById($emp->designation)->name;
     					$data['address'] = $this->employee_model->getAddressById($emp->id);
+
+						$data['permanent_pretty'] = $permanent_address->line1.',<br>'.((trim($permanent_address->line2)=='')? '':$permanent_address->line2.',<br>')
+                    						.ucwords($permanent_address->city).', '.ucwords($permanent_address->state).' - '.$permanent_address->pincode.'<br>'
+                    						.ucwords($permanent_address->country).'<br>
+                    						Contact no. '.$permanent_address->contact_no;
+
+				        $data['present_pretty'] = $present_address->line1.',<br>'.((trim($present_address->line2)=='')? '':$present_address->line2.',<br>')
+						                    .ucwords($present_address->city).', '.ucwords($present_address->state).' - '.$present_address->pincode.'<br>'
+						                    .ucwords($present_address->country).'<br>
+						                    Contact no. '.$present_address->contact_no;
+
 
 						view_basic_details($data,$emp,$ft);
 					}
@@ -148,8 +160,8 @@
 $ui->button()->large()->uiType('primary')->value('Back')->icon($ui->icon('arrow-left'))->id('back_btn')->show();
 
 
-function view_profile_pic($emp) {
-    echo '<center><img src="'.base_url().'assets/images/'.$emp->photopath.'"  height="150" /></center><br>';
+function view_profile_pic($photo) {
+    echo '<center><img src="'.base_url().'assets/images/'.$photo.'"  height="150" /></center><br>';
 }
 
 
@@ -225,10 +237,10 @@ function view_basic_details($data,$emp,$ft) {
   			echo '<br>';
   			$row5 = $ui->row()->open();
   				$col1 = $ui->col()->width(6)->t_width(6)->m_width(6)->open();
-  					echo '<label>Present Address</label><br>'.$data['address']->present_pretty;
+  					echo '<label>Present Address</label><br>'.$data['present_pretty'];
   				$col1->close();
   				$col2 = $ui->col()->width(6)->t_width(6)->m_width(6)->open();
-  					echo '<label>Permanent Address</label><br>'.$data['address']->permanent_pretty;
+  					echo '<label>Permanent Address</label><br>'.$data['permanent_pretty'];
   				$col2->close();
   			$row5->close();
 

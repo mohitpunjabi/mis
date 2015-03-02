@@ -110,10 +110,16 @@ class Edit extends MY_Controller
 		if($upload)
 		{
 			$this->load->model('user/user_details_model','',TRUE);
-			$res=$this->user_details_model->getUserById($emp_id);
-			$old_photo = ($res == FALSE)?	FALSE:$res->photopath;
-			$this->user_details_model->updateById(array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']),$emp_id);
-			if($old_photo)	unlink(APPPATH.'../assets/images/'.$old_photo);
+
+			//insert details if there exists no entry of emp_id otherwise update details
+			$pending = $this->user_details_model->getPendingDetailsById($emp_id);
+			if($pending)
+				$this->user_details_model->updatePendingDetailsById(array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']),$emp_id);
+			else {
+				$res=$this->user_details_model->getUserById($emp_id);
+				$details = array_merge((array)$res,array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']));
+				$this->user_details_model->insertPendingDetails($details);
+			}
 
 			$this->edit_validation($emp_id,'profile_pic_status');
 
@@ -133,6 +139,15 @@ class Edit extends MY_Controller
 		$this->load->model('employee/faculty_details_model','',TRUE);
 		$this->load->model('employee/emp_pay_details_model','',TRUE);
 		$this->load->model('user/user_address_model','',TRUE);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
+
+		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		if($data['emp_validation_details'])	{
+
+
+
+
+		}
 
 		$data['user_details']=$this->user_details_model->getUserById($emp_id);
 		$data['user_other_details']=$this->user_other_details_model->getUserById($emp_id);
@@ -156,6 +171,7 @@ class Edit extends MY_Controller
 	function update_basic_details($emp_id)
 	{
 		$user_details = array(
+			'id' => $emp_id ,
 			'salutation' => $this->input->post('salutation') ,
 			'first_name' => ucwords(strtolower($this->input->post('firstname'))) ,
 			'middle_name' => ucwords(strtolower($this->input->post('middlename'))) ,
@@ -170,6 +186,7 @@ class Edit extends MY_Controller
 		);
 
 		$user_other_details = array(
+			'id' => $emp_id ,
 			'religion' => strtolower($this->input->post('religion')) ,
 			'nationality' => strtolower($this->input->post('nationality')) ,
 			'kashmiri_immigrant' => $this->input->post('kashmiri') ,
@@ -183,6 +200,7 @@ class Edit extends MY_Controller
 
 		$dt = DateTime::createFromFormat("d-m-Y", $this->input->post('retire'));
 		$emp_basic_details = array(
+			'id' => $emp_id ,
 			'auth_id' => $this->input->post('tstatus') ,
 			'designation' => $this->input->post('designation') ,
 			'office_no' => $this->input->post('office') ,
@@ -195,33 +213,40 @@ class Edit extends MY_Controller
 		if($this->input->post('tstatus') == 'ft')
 		{
 			$faculty_details = array(
+				'id' => $emp_id ,
 				'research_interest' => strtolower($this->input->post('research_int'))
 			);
 		}
 
 		$emp_pay_details = array(
+			'id' => $emp_id ,
 			'pay_code' => $this->input->post('gradepay') ,
 			'basic_pay' => $this->input->post('basicpay')
 		);
 
-		$user_present_address = array(
-				'line1' => $this->input->post('line11') ,
-				'line2' => $this->input->post('line21') ,
-				'city' => strtolower($this->input->post('city1')) ,
-				'state' => strtolower($this->input->post('state1')) ,
-				'pincode' => $this->input->post('pincode1') ,
-				'country' => strtolower($this->input->post('country1')) ,
-				'contact_no' => $this->input->post('contact11') ,
-		);
-
-		$user_permanent_address = array(
-				'line1' => $this->input->post('line12') ,
-				'line2' => $this->input->post('line22') ,
-				'city' => strtolower($this->input->post('city2')) ,
-				'state' => strtolower($this->input->post('state2')) ,
-				'pincode' => $this->input->post('pincode2') ,
-				'country' => strtolower($this->input->post('country2')) ,
-				'contact_no' => $this->input->post('contact12') ,
+		$user_address = array(
+							array(
+								'id' => $emp_id ,
+								'line1' => $this->input->post('line11') ,
+								'line2' => $this->input->post('line21') ,
+								'city' => strtolower($this->input->post('city1')) ,
+								'state' => strtolower($this->input->post('state1')) ,
+								'pincode' => $this->input->post('pincode1') ,
+								'country' => strtolower($this->input->post('country1')) ,
+								'contact_no' => $this->input->post('contact11') ,
+								'type' => 'present'
+							),
+							array(
+								'id' => $emp_id ,
+								'line1' => $this->input->post('line12') ,
+								'line2' => $this->input->post('line22') ,
+								'city' => strtolower($this->input->post('city2')) ,
+								'state' => strtolower($this->input->post('state2')) ,
+								'pincode' => $this->input->post('pincode2') ,
+								'country' => strtolower($this->input->post('country2')) ,
+								'contact_no' => $this->input->post('contact12') ,
+								'type' => 'permanent'
+							)
 		);
 
 		//loading models
@@ -233,17 +258,51 @@ class Edit extends MY_Controller
 		$this->load->model('user/user_address_model','',TRUE);
 
 		//starting transaction for insertion in database
-
 		$this->db->trans_start();
 
-		$this->user_details_model->updateById($user_details,$emp_id);
-		$this->user_other_details_model->updateById($user_other_details,$emp_id);
-		$this->emp_basic_details_model->updateById($emp_basic_details,$emp_id);
-		if($this->input->post('tstatus') == 'ft')
-			$this->faculty_details_model->updateById($faculty_details,$emp_id);
-		$this->emp_pay_details_model->updateById($emp_pay_details,$emp_id);
-		$this->user_address_model->updatePresentAddrById($user_present_address,$emp_id);
-		$this->user_address_model->updatePermanentAddrById($user_permanent_address,$emp_id);
+		//insert details if there exists no entry of corresponding emp_id otherwise update details
+		$pending = $this->user_details_model->getPendingDetailsById($emp_id);
+		if($pending)
+			$this->user_details_model->updatePendingDetailsById($user_details,$emp_id);
+		else {
+			$res=$this->user_details_model->getUserById($emp_id);
+			$details = array_merge((array)$res,$user_details);
+			$this->user_details_model->insertPendingDetails($details);
+		}
+
+		$pending = $this->user_other_details_model->getPendingDetailsById($emp_id);
+		if($pending)
+			$this->user_other_details_model->updatePendingDetailsById($user_other_details,$emp_id);
+		else
+			$this->user_other_details_model->insertPendingDetails($user_other_details);
+
+		$pending = $this->emp_basic_details_model->getPendingDetailsById($emp_id);
+		if($pending)
+			$this->emp_basic_details_model->updatePendingDetailsById($emp_basic_details,$emp_id);
+		else
+			$this->emp_basic_details_model->insertPendingDetails($emp_basic_details);
+
+		if($this->input->post('tstatus') == 'ft') {
+			$pending = $this->faculty_details_model->getPendingDetailsById($emp_id);
+			if($pending)
+				$this->faculty_details_model->updatePendingDetailsById($faculty_details,$emp_id);
+			else
+				$this->faculty_details_model->insertPendingDetails($faculty_details);
+		}
+
+		$pending = $this->emp_pay_details_model->getPendingDetailsById($emp_id);
+		if($pending)
+			$this->emp_pay_details_model->updatePendingDetailsById($emp_pay_details,$emp_id);
+		else
+			$this->emp_pay_details_model->insertPendingDetails($emp_pay_details);
+
+		$pending = $this->user_address_model->getPendingDetailsById($emp_id);
+		if($pending) {
+			$this->user_address_model->updatePendingPresentDetailsById($user_address[0],$emp_id);
+			$this->user_address_model->updatePendingPermanentDetailsById($user_address[1],$emp_id);
+		}
+		else
+			$this->user_address_model->insertPendingDetails($user_address);
 
 		$this->db->trans_complete();
 		//transaction completed
@@ -322,7 +381,18 @@ class Edit extends MY_Controller
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
-		$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
+
+		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->prev_exp_status : 'approved';
+		if($data['validation_status'] != 'approved') {
+			//pending/rejected data
+			$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+		}
+		else {
+			//real data
+			$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
+		}
 
 		//joining date of the employee
 		$this->load->model('employee/emp_basic_details_model','',TRUE);
@@ -361,7 +431,14 @@ class Edit extends MY_Controller
 		$emp_prev_exp_details['address'] = strtolower($addr);
 		$emp_prev_exp_details['remarks'] = strtolower($reason);
 
-		$this->emp_prev_exp_details_model->insert($emp_prev_exp_details);
+		//$this->emp_prev_exp_details_model->insert($emp_prev_exp_details);
+
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_prev_exp_details_model->copyDetailstoPendingById($emp_id);
+
+		$this->emp_prev_exp_details_model->insertPendingDetails($emp_prev_exp_details);
 
 		$this->edit_validation($emp_id,'prev_exp_status');
 		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' previous employment details updated and sent for validation.');
@@ -375,7 +452,12 @@ class Edit extends MY_Controller
 
 		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 
-		$this->emp_prev_exp_details_model->update_record(array('designation'=>strtolower($this->input->post('edit_designation'.$row)),
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_prev_exp_details_model->copyDetailstoPendingById($emp_id);
+
+		$this->emp_prev_exp_details_model->updatePendingDetailsWhere(array('designation'=>strtolower($this->input->post('edit_designation'.$row)),
 																'from'=>date('Y-m-d',strtotime($this->input->post('edit_from'.$row))),
 																'to'=>date('Y-m-d',strtotime($this->input->post('edit_to'.$row))),
 																'pay_scale'=>strtolower($this->input->post('edit_payscale'.$row)),

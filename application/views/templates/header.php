@@ -68,7 +68,7 @@
                             <a href="#"><i class="glyphicon glyphicon-user"></i> <?= $this->session->userdata('id'); ?></a>
                         </div>
                     </div>
-                    <!-- search form -->
+                    <!-- search form
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control" placeholder="Search..."/>
@@ -84,23 +84,42 @@
                     
 <?php
 
-			function _drawNavbarMenuItem($mi) {
-				foreach($mi as $key => $val) {
-					$arrow = (is_array($val))? ' <i class="fa fa-angle-right pull-right"></i>': "";
-					$treeview =  (is_array($val))? 'class="treeview"': "";
-					echo '<li '.$treeview.'><a href="'.((is_string($val))? $val: "#").'">'.$arrow.$key.'</a>';
+			function _drawNavbarMenuItem($mi, $order = null) {
+                if($order != null) {
+                    foreach($order as $index => $key) {
+                        $val = $mi[$key];
+                        $arrow = (is_array($val))? ' <i class="fa fa-angle-right pull-right"></i>': "";
+                        $treeview =  (is_array($val))? 'class="treeview"': "";
+                        echo '<li '.$treeview.'><a href="'.((is_string($val))? $val: "#").'">'.$arrow.$key.'</a>';
 
-					if(is_array($val)) {
-						echo '<ul class="treeview-menu">';
-						_drawNavbarMenuItem($val);
-						echo '</ul>';
-					}
+                        if(is_array($val)) {
+                            echo '<ul class="treeview-menu">';
+                            _drawNavbarMenuItem($val);
+                            echo '</ul>';
+                        }
 
-					echo '</li>';
-				}
+                        echo '</li>';
+                    }
+                }
+                else {
+                    foreach ($mi as $key => $val) {
+                        $arrow = (is_array($val)) ? ' <i class="fa fa-angle-right pull-right"></i>' : "";
+                        $treeview = (is_array($val)) ? 'class="treeview"' : "";
+                        echo '<li ' . $treeview . '><a href="' . ((is_string($val)) ? $val : "#") . '">' . $arrow . $key . '</a>';
+
+                        if (is_array($val)) {
+                            echo '<ul class="treeview-menu">';
+                            _drawNavbarMenuItem($val);
+                            echo '</ul>';
+                        }
+
+                        echo '</li>';
+                    }
+                }
 			}
 
 			$dateTimeZone = new DateTimeZone('Asia/Kolkata');
+
 			foreach($menu as $key => $val) {
 				$unreadCount = 0;
 				$readCount = 0;
@@ -169,7 +188,11 @@
                             </a>
 
                             <ul class="treeview-menu">
-                            	<?= _drawNavbarMenuItem($val); ?>
+                                <?
+                                    $menuKeys = array_keys($val);
+                                    sort($menuKeys);
+                                ?>
+                            	<?= _drawNavbarMenuItem($val, $menuKeys); ?>
                             </ul>
                         </li>
 

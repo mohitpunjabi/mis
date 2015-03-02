@@ -1,5 +1,4 @@
 <?php
-	echo "abc";
 //print_r($result);?>
 
 	<option type="text" value="all" ><?php echo "All"; ?></option>

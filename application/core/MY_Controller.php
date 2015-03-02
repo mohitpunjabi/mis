@@ -21,6 +21,14 @@
 			$this->load->model('user/user_notifications_model', '', TRUE);
 	    }
 
+        private function getMenuKey($menuItem) {
+            //if(is_array($menuItem))
+            return "";
+        }
+        private function menuCmp($a, $b) {
+            return strcmp($this->getMenuKey($a), $this->getMenuKey($b));
+        }
+
 	    private function getMenu()
 	    {
 	    	$user_id = $this->CI->session->userdata('id');

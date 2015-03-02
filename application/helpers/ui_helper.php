@@ -969,27 +969,32 @@ class Label extends Element {
 		return $this;
 	}
 
+    function __toString() {
+        $icon = "";
+
+        if($this->forId != '') {
+            $this->classes("control-label");
+            if($this->uiType != '') {
+                switch(strtolower($this->uiType)) {
+                    case "success":	$icon = '<i class="fa fa-check"></i> ';break;
+                    case "danger":
+                    case "error":	$icon = '<i class="fa fa-times-circle-o"></i> ';break;
+                    case "warning":	$icon = '<i class="fa fa-warning"></i> ';break;
+                }
+            }
+        }
+        else {
+            $this->classes("label");
+            $this->classes("label-" . $this->uiType);
+        }
+
+        $labelString = '<label '.$this->_parse_attributes().' >';
+        $labelString .= $icon . $this->text.'</label>';
+        return $labelString;
+    }
+
 	function show() {
-		$icon = "";
-
-		if($this->forId != '') {
-			$this->classes("control-label");
-			if($this->uiType != '') {
-				switch(strtolower($this->uiType)) {
-					case "success":	$icon = '<i class="fa fa-check"></i> ';break;
-					case "danger":
-					case "error":	$icon = '<i class="fa fa-times-circle-o"></i> ';break;
-					case "warning":	$icon = '<i class="fa fa-warning"></i> ';break;
-				}
-			}
-		}
-		else {
-			$this->classes("label");
-			$this->classes("label-" . $this->uiType);
-		}
-
-		echo '<label '.$this->_parse_attributes().' >';
-		echo $icon . $this->text.'</label>';
+        echo $this->__toString();
 	}
 }
 

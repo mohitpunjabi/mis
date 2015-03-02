@@ -5,7 +5,7 @@
     $aggr_id= $CS_session['aggr_id'];
     $session=$CS_session['session'];
     echo $CS_session['course_name']." ";
-    echo "(".$branch_name.") Applicable for the Session ".$session;
+    echo "(".$branch_name.") Applicable from the Session ".$session;
 	if($CS_session["semester"] != 0)
 	{
 		$start_semester = $CS_session["semester"];
@@ -112,6 +112,16 @@
 							->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
 							->name('edit')
 							->show();
+
+						$ui->button()
+							->value('Save')
+							->uiType('success')
+							->id("savebutton_".$semester."_".$i)
+							->icon($ui->icon("save"))
+							->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+							->name('edit')
+							->classes("savebutton")
+							->show();
 				echo '
 					</td>		
 				</tr>';	
@@ -181,6 +191,16 @@
 							->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
 							->name('edit')
 							->show();
+							
+						$ui->button()
+							->value('Save')
+							->uiType('success')
+							->id("savebutton_".$semester."_".$i)
+							->icon($ui->icon("save"))
+							->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+							->name('edit')
+							->classes("savebutton")
+							->show();
 				echo '
 					</td>		
 				</tr>';
@@ -205,6 +225,3 @@
 		$table->close();
 		$box_form->close();
 	}
-	
-  
-?>

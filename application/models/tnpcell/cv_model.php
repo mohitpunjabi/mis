@@ -31,14 +31,12 @@ class Cv_model extends CI_Model
     $query=$this->db->get_where($this->table_achievements, array('user_id'=>$user_id));
     return $query->result();
   }
-  function update($type, $data)
+  function update_project($data, $id)
 	{
-		if($type==0)  $table= $table_projects;
-    else $table= $table_achievements;
-    $details = array('place' => $data['place'], 'title' => $data['title'], 'description' => $data['description']);
+    $details = array('id' => $id);
     $this->db->where($details);
-    $this->db->update($table, $data);
-    return true;
+    $this->db->update($this->table_projects, $data);
+    return $this->db->affected_rows();
 	}
 }
 

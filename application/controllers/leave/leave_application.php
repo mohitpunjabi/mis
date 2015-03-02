@@ -306,7 +306,7 @@ class Leave_application extends MY_Controller {
             $this->leave_bal_model->update_balance($this->emp_id, $updated_bal, Leave_constants::$TYPE_CASUAL_LEAVE);
 
             // send notification
-            $this->send_notification($leave_id, Leave_constants::$TYPE_RESTRICTED_LEAVE);
+            $this->send_notification($leave_id, Leave_constants::$TYPE_CASUAL_LEAVE);
         }
 
         // TODO: because of internal error insertion fails notify user about that

@@ -34,7 +34,7 @@ class Leave_cancel_permission extends MY_Controller {
 
     $data = array(
         'leave_details' => $leave,
-        'args' => '/{$emp_id}/{$leave_id}'
+        'args' => "/{$emp_id}/{$leave_id}"
       );
 
     // if approve is clicked

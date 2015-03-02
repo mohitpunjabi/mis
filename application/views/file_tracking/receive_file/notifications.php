@@ -14,7 +14,7 @@
 			$ui->callout()
 			   ->uiType("info")
 			   ->title($row->title)
-			   ->desc("<b>" . date("d M Y", strtotime($row->send_date)) . "</b>: " . $row->description ." <a href=\"".site_url($row->module_id."/".$row->path)."\">Know more &raquo;</a>")
+			   ->desc("<b>" . date("d M Y", strtotime($row->send_date)) . "</b>: " . $row->description ." <a href=\"".site_url($row->path)."\">Know more &raquo;</a>")
 			   ->show();
 		}
 	}

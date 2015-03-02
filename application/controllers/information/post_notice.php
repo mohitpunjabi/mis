@@ -2,16 +2,17 @@
 
 class Post_notice extends MY_Controller
 {
+    protected $authIds = array('hod','est_ar','exam_dr','dt','dsw');
 	function __construct()
 	{
-		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
+		parent::__construct($this->authIds);
 	}
 
 	public function index($auth_id='')
 	{
-		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
+		if(!in_array($auth_id, $this->authIds))
 		{
-			$this->session->set_flashdata('flashError','Access Denied!');
+			$this->session->set_flashdata('flashError','Access Denied!'.$auth_id);
 			redirect('home');
 		}
 		$this->load->helper(array('form', 'url'));
@@ -84,7 +85,7 @@ class Post_notice extends MY_Controller
 	        else
 	        {
 	        	$this->session->set_flashdata('flashError','ERROR: File Name not set.');
-	        	redirect('information/post_notice');
+	        	redirect('information/post_notice/index/'.$auth_id);
 				return FALSE;
 	        }
 	   
@@ -102,7 +103,7 @@ class Post_notice extends MY_Controller
 			if ( ! $this->upload->do_multi_upload($name))		//do_multi_upload is back compatible with do_upload
 			{
 				$this->session->set_flashdata('flashError',$this->upload->display_errors('',''));
-				redirect('information/post_notice');
+				redirect('information/post_notice/index/'.$auth_id);
 				return FALSE;
 			}
 			else

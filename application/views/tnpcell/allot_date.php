@@ -116,7 +116,6 @@
 				
 				$tab3 = $ui->tabPane()->id("tabPanesreschedule")->open();
 					$box1 =  $ui->box()->id('box_reschedule_top')->title("Reschedule Companies")->open();
-					$form=$ui->form()->id("form_reschedule")->action("tnpcell/allot_date/RescheduleCompany")->multipart()->open();
 						$table = $ui->table()->id("table_reschedule_top")->hover()->bordered()->searchable()->sortable()->paginated(true)->open
 						();
 							echo '
@@ -130,6 +129,7 @@
 									<th>Reschedule To</th>
 									<th>Check Slot</th>
 									<th>Reschedule</th>
+									<th>Remove</th>
 								</tr>
 							</thead>
 							';
@@ -137,10 +137,13 @@
 							$array_options = array();
 							foreach($alloted_company_basic_info as $row)
 							{
+								
 								$date_from =  date("d-M-Y", strtotime($row->date_from));
 								$date_to =  date("d-M-Y", strtotime($row->date_to));
 							echo '
-								<tr>
+								<tr>';
+								$form=$ui->form()->id("form_reschedule")->action("tnpcell/allot_date/RescheduleCompany")->multipart()->open();
+							echo '
 									<td>'.$i++.'</td>
 									<td>'.$row->company_name.'</td>
 									<td>'.$date_from." to ".$date_to.'</td>
@@ -187,10 +190,23 @@
 											->show();
 							echo '
 									</td>
+									<td>';
+										$ui->button()
+											->value('Remove')
+											->uiType('danger')
+											->extras("onclick = RemoveAllotedDate('".$row->company_id."')")
+											->icon($ui->icon("trash"))
+											->id("btn_reschedule_remove")
+											->name('submit')
+											->show();
+							echo '
+									</td>';
+								$form->close();
+							echo '
 								</tr>';
+								
 							}								
 						$table->close();
-					$form->close();
 				$box1->close();
 					
 				$box_alreadyrescheduled =  $ui->box()->id('box_reschedule_bottom')->title("Companies In the above slot")->open();

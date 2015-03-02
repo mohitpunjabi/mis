@@ -45,9 +45,9 @@
               $ui->button()
                  ->value('Edit')
                  ->uiType('primary')
-                 ->id("editbutton")
+                 ->id("editbutton_project".$i)
                  ->icon($ui->icon("edit"))
-                 ->extras(' onclick = EditProject(\''.$i.'\') ')
+                 ->extras(' onclick = EditProject("'.$i.'","'.$row->id.'")')
                  ->name('edit')
                  ->show();
               echo ' </td>
@@ -72,9 +72,9 @@
                 $ui->button()
                  ->value('Edit')
                  ->uiType('primary')
-                 ->id("editbutton")
+                 ->id("editbutton_achievements".$i)
                  ->icon($ui->icon("edit"))
-                 ->extras(' onclick = EditAchievements(\''.$i.'\') ')
+                 ->extras(' onclick = EditAchievements("'.$i.'")')
                  ->name('edit')
                  ->show();
         echo ' </td>

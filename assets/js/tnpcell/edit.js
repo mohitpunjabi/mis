@@ -1,5 +1,6 @@
-function EditProject(seq)
+function EditProject(seq,id)
 {
+	
     if($("#editbutton_project"+seq).val() == "Edit")
     {
       $("[name='place"+seq+"']").prop('disabled',false);
@@ -16,36 +17,33 @@ function EditProject(seq)
       var duration= $("[name='duration"+seq+"']").prop('disabled',true);
       var role= $("[name='role"+seq+"']").prop('disabled',true);
       var description= $("[name='description"+seq+"']").prop('disabled',true);
-      var xmlhttp;
-      if (window.XMLHttpRequest)
-      {// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-      }
-      else
-      {// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-      }		
-      xmlhttp.onreadystatechange=function()
-      {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200)
-        {
-          alert(xmlhttp.responseText);
-          //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-        }
-      }
-      var project_details = new Array();
-      project_details['place']= place;
-      project_details['title']= title;
-      project_details['role']= role;
-      project_details['description']= description;
-      alert("are you sure?");
-      xmlhttp.open("POST",site_url(base_url+"index.php/tnpcell/cv/update_project/"+project_details),true);
-      xmlhttp.send();
-      xmlDoc=xmlhttp.responseXML;
-      console.log(xmlhttp.responseText);
+	  
+	  var $project_details = {'id':id,'place':$("[name='place"+seq+"']").val(),'title':$("[name='title"+seq+"']").val(),'role':$("[name='role"+seq+       "']").val(),'description':$("[name='description"+seq+"']").val(),'duration':$("[name='duration"+seq+"']").val()};
+	 // $project_details = JSON.stringify($project_details);
+	  $project_details = JSON.stringify($project_details);
+	 		
+	  $.ajax({
+		 url:site_url("tnpcell/cv/update_project"),
+		 success:function (data){
+		 	console.log(data);
+		 },
+		 type:"POST",
+		 data:$project_details,
+		 fail:function(error){
+				//$box_form.hideLoading();
+				console.log(error);
+			}
+		 
+	  });
       $("#editbutton_project"+seq).val("Edit");
     }
 }
 function EditAchievements(seq)
 {
+	if($("#editbutton_achievements"+seq).val() == "Edit")
+    {
+      $("[name='category"+seq+"']").prop('disabled',false);
+      $("[name='info"+seq+"']").prop('disabled',false);
+      $("#editbutton_achievements"+seq).val("Save");	
+    }
 }

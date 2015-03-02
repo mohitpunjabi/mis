@@ -127,8 +127,8 @@ class Leave_approval extends MY_Controller {
         $this->bm->update_leave_status($leave_id, $leave_status);
 
         // get user auth type
-        $this->load->model('leave/leave_users_details_model', 'ludm');
-        $requester_auth_type = $this->ludm->get_user_auth_type($emp_id);
+        /*$this->load->model('leave/leave_users_details_model', 'ludm');
+        $requester_auth_type = $this->ludm->get_user_auth_type($emp_id);*/
 
 //        var_dump($requester_auth_type);
         
@@ -149,7 +149,7 @@ class Leave_approval extends MY_Controller {
         // notify user of its approval
         $this->notification->notify(
                 $emp_id,
-                $requester_auth_type,
+                'emp',
                 $title,
                 $msg,
                 "leave/leave_history"

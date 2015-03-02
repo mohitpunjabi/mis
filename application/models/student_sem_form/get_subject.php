@@ -80,6 +80,14 @@ WHERE
 		function getStudentAcdamicDetails($id){
 			return $this->db->get_where('stu_academic',array('id'=>$id))->result();
 			}
+		
+		function getSubjectById($id){
+			$q=$this->db->get_where($this->table_subject,array('id'=>$id));
+				if($q->num_rows($q)){
+						return $q->result();
+					}
+					return false;
+			}
 	
 }
 ?>

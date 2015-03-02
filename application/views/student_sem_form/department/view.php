@@ -73,6 +73,70 @@
           </table>
           </div>
           </div>
+          <!-- Carry Over -->
+            <? if(is_array($carryover)){?>
+            <div class="box box-warning">
+            <div class="box-header">
+            <h2 class="box-title">Carryover Subject(s) & Fee Details</h2>
+            </div>
+            <div class="box-body">
+            	<table class="table table-hover">
+                	<thead>
+							<tr>
+                            <th>Semester</th>
+							<th>Subject One Code</th>
+							<th>Subject One Name</th>
+                            <th>Subject Two Code</th>
+							<th>Subject Two Name</th>
+							</tr>
+							</thead>
+                      <tbody>
+                      <?php foreach($carryover as $c) { ?>
+                      <tr>
+                      <td><?php echo $c['semester'] ?></td>
+                      <?php if($c['subject1_id']) { ?>
+                      <td><?php echo $this->get_subject->getSubjectById($c['subject1_id'])->subject_id ?></td>
+                      <td><?php echo $this->get_subject->getSubjectById($c['subject1_id'])->name  ?></td>
+                        <?php } else {?>
+                      <td></td>
+                      <td></td>
+                      <?php } ?>
+					  <?php if($c['subject2_id']) { ?>
+                      <td><?php echo $this->get_subject->getSubjectById($c['subject2_id'])->subject_id ?></td>
+                      <td><?php echo $this->get_subject->getSubjectById($c['subject2_id'])->name  ?></td>
+                      <?php } else {?>
+                      <td></td>
+                      <td></td>
+                      <?php } ?>
+                      </tr>
+                      <?php } ?>
+                      
+                      </tbody>
+                </table>
+                <h4 class="page-heading">Carry Over Fee Details</h4>
+                <div class="row">
+                <div class="col-sm-6">
+                <div class="form-group">
+                	<label>Date of Payment</label>
+                    <input type="text" class="form-control" disabled="disabled" value="<?php echo $carryover[0]['fee_date'] ?>" />
+                </div>
+                <div class="form-group">
+                	<label>Amount Paid</label>
+                    <input type="text" class="form-control" disabled="disabled" value="<?php echo $carryover[0]['fee_amt'] ?>" />
+                </div>
+                <div class="form-group">
+                	<label>Transaction id / Reference No.</label>
+                    <input type="text" class="form-control" disabled="disabled" value="<?php echo $carryover[0]['trans_id'] ?>" />
+                </div>
+                </div>
+                <div class="col-sm-6">
+               		<img src="<?php echo base_url(); ?>assets/images/semester_reg/sem_slip/<?php echo $carryover[0]['fee_slip'] ?>" alt="Pay Slip of Carry Over" width="200"  />
+                </div>
+                </div>
+            </div>
+            
+            </div>
+            <? } ?>
         <div class="row">
 			<div class="col-xs-12">
 				<h2 class="page-header"><i class="fa fa-user"></i> Details of Fee Deposite. </h2>
@@ -88,9 +152,9 @@
             <div class="col-sm-6 invoice-col"><?php echo $student[0]->transaction_id; ?></div>
            </div>
           <div class="col-sm-6">
-          <div class="col-sm-6 invoice-col"><img src="<?php echo base_url()."assets/sem_slip/".$student[0]->recipt_path; ?>" alt="" width="200" /> 
+          <div class="col-sm-6 invoice-col"><img src="<?php echo base_url()."assets/images/semester_reg/sem_slip/".$student[0]->recipt_path; ?>" alt="" width="200" /> 
            <?php if($student[0]->late_recipt_path){ ?>
-           <img src="<?php echo base_url()."assets/sem_slip/".$student[0]->late_recipt_path; ?>" alt="" width="200" />
+           <img src="<?php echo base_url()."assets/images/semester_reg/sem_slip/".$student[0]->late_recipt_path; ?>" alt="" width="200" />
            <?php } ?>
           </div>
           </div>

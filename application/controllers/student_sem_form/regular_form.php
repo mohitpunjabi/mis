@@ -42,7 +42,7 @@ class Regular_form extends MY_Controller {
 				$this->form_validation->set_rules('cdateofPayment', 'Carryover Date of Payment', 'required');
 				$this->form_validation->set_rules('camount', 'Carryover Amount', 'required|numeric');
 				$this->form_validation->set_rules('ctransId', 'Carryover Transaction id / Reference No.', 'required');
-				$this->form_validation->set_rules('cslip', 'Carryover Slip', 'callback_handle_upload');
+				$this->form_validation->set_rules('cslip', 'cslip', 'callback_handle_upload');
 				$csem=$this->input->post('sem');
 				if(is_array($csem)){
 					foreach($csem as $cs){
@@ -108,10 +108,35 @@ class Regular_form extends MY_Controller {
 								$this->add_form->insertSemSubject($data1);
 						$fid++;
 						} 
+						$this->CarryoverDetailSave();
 						return true;
 				
 					
 		}
+		
+		// Carry Over Details Save//
+		protected function CarryoverDetailSave(){
+					
+					if($this->input->post('cenable')){
+							if(is_array($this->input->post('sem'))){
+									$this->load->model('student_sem_form/add_form','',TRUE);
+									foreach($this->input->post('sem') as $s){
+											$data['form_id']=$this->lnid;
+											$data['stu_id']=$this->session->userdata('id');
+											$data['semester']=$s;
+											$data['subject1_id']=$this->input->post('csub1-'.$s);
+											$data['subject2_id']=$this->input->post('csub2-'.$s);
+											$data['fee_date']=date('Y-m-d', strtotime($this->input->post('cdateofPayment')));
+											$data['fee_amt']=$this->input->post('camount');
+										
+											$data['fee_slip']=$this->img_carry;
+											$data['trans_id']=$this->input->post('ctransId');
+											$this->add_form->insertCarryover($data);
+										}	
+								}
+						}
+			}
+			//
 		
 		
 		//Image Upload Validation Handler || Image upload Regular fee//
@@ -289,6 +314,7 @@ class Regular_form extends MY_Controller {
 					<div class="form-group" >
 					<label for="samester-'.$sem.'">Select Carryover First Subject in Semester '.$sem.'</label>
 					<select name="csub1-'.$sem.'" class="form-control">';
+					$sd.='<option value="">Please Select Subject</option>';
 				foreach($data['subjects'] as $stu){
 				foreach($stu as $s)
 					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';
@@ -298,6 +324,7 @@ class Regular_form extends MY_Controller {
 				<div class="form-group" >
 					<label for="samester-'.$sem.'">Select Carryover Second Subject in Semester '.$sem.' (Optional)</label>
 					<select name="csub2-'.$sem.'" class="form-control">';
+					$sd.='<option value="">Please Select Subject</option>';
 				foreach($data['subjects'] as $stu){
 				foreach($stu as $s)
 					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';

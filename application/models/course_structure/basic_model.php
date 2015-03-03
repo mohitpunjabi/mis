@@ -227,10 +227,9 @@ class Basic_model extends CI_Model
 		$this->db->update($this->table,$data,$where);
 	}
 
-	function delete_course_structure($coursestructure_details)
+	function delete_course_structure($semester,$aggr_id)
 	{
-		return $this->db->delete($this->table_course_structure,array('semester'=>$coursestructure_details["semester"],'aggr_id'=>
-		$coursestructure_details['aggr_id']));
+		return $this->db->delete($this->table_course_structure,array('semester'=>$semester,'aggr_id'=>$aggr_id));
 	}
 	
 	

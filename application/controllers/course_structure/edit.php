@@ -203,10 +203,10 @@ class Edit extends MY_Controller
 	public function DeleteCourseStructure($semester,$aggr_id)
 	{
 		$this->load->model("basic_model");
-		$coursestructure_details['semester'] = $semester;
-		$coursestructure_details['aggr_id'] = $aggr_id;
+		//$coursestructure_details['semester'] = $semester;
+		//$coursestructure_details['aggr_id'] = $aggr_id;
 
-		if($this->basic_model->delete_course_structure($coursestructure_details))
+		if($this->basic_model->delete_course_structure($semester,$aggr_id))
 			echo true;
 		else 
 			echo false;

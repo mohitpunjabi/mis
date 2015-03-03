@@ -117,7 +117,8 @@
 								->id("savebutton_".$semester."_".$i)
 								->icon($ui->icon("save"))
 								->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
-								->name('edit')
+								->name('save')
+								->classes("savebutton")
 								->show();
 					echo '
 						</td>		
@@ -240,7 +241,8 @@
 									->id("savebutton_".$semester."_".$i)
 									->icon($ui->icon("save"))
 									->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
-									->name('edit')
+									->name('save')
+									->classes("savebutton")
 									->show();
 						echo '
 							</td>		
@@ -367,7 +369,8 @@
 									->id("savebutton_".$semester."_".$i)
 									->icon($ui->icon("save"))
 									->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
-									->name('edit')
+									->name('save')
+									->classes("savebutton")
 									->show();
 						echo '
 							</td>		
@@ -444,7 +447,8 @@
 										->id("savebutton_".$semester."_".$i)
 										->icon($ui->icon("save"))
 										->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
-										->name('edit')
+										->name('save')
+										->classes("savebutton")
 										->show();
 						echo '
 							</td>		

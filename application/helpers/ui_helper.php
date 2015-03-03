@@ -36,7 +36,7 @@ class UI {
 
 
 class Element {
-	var $properties = array(
+    protected $properties = array(
 					'id'		=>	'' ,
 					'name'		=>	'' ,
 					'value' 	=>	'' ,
@@ -44,7 +44,7 @@ class Element {
 					'disabled'	=>	'' ,
 					'extras' 	=>	'' );
 
-	var $containerProps = array(
+    protected $containerProps = array(
 					'class' 	=> '',
 					'extras' 	=> '',
 					'style'		=> '',
@@ -143,7 +143,7 @@ class Element {
 		return $this;
 	}
 
-	function _parse_attributes() {
+	protected function _parse_attributes() {
 		$att = '';
 		foreach ($this->properties as $key => $val) {
 			if($key == 'extras')
@@ -155,7 +155,7 @@ class Element {
 		return $att;
 	}
 
-	function _parse_container_attributes() {
+	protected function _parse_container_attributes() {
 		$att = '';
 
 		if($this->width > 0)	$this->containerClasses('col-md-' . $this->width);
@@ -483,7 +483,7 @@ class Table extends Element {
 						"bFilter": '.(($this->searchable)? 'true': 'false').',
 						"bSort": '.(($this->sortable)? 'true': 'false').',
 						"bInfo": '.(($this->paginated)? 'true': 'false').',
-						"bAutoWidth": '.(($this->paginated)? 'true': 'false').',
+						"bAutoWidth": '.(($this->paginated)? 'true': 'false').'
 					});
 				});
 			</script>

@@ -2,21 +2,27 @@
 
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
-            $box = $ui->box()->id('show_details')->title('Previous Employment Details')->uiType('primary')->open();
+
+            switch ($validation_status) {
+                case "approved" : $status=array("ui_type" => "success", "text" => "");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
+                case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
+            }
+            $box = $ui->box()->id('show_details')->title('Previous Employment Details '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();
 				if($emp_prev_exp_details != FALSE) {
 	                $table = $ui->table()->id('tbl2')->responsive()->condensed()->bordered()->striped()->open();
-	                    echo '<thead valign="middle" ><tr align="center">
-	                        <th rowspan="2" >S no.</th>
-	                        <th rowspan="2">Full address of Employer</th>
-	                        <th rowspan="2">Position held</th>
-	                        <th colspan="2">Organization</th>
-	                        <th rowspan="2">Pay Scale</th>
-	                        <th rowspan="2">Remarks</th>
-	                        <th rowspan="2">Edit/Delete</th>
+	                    echo '<thead><tr style="text-align:center" >
+	                        <td rowspan="2" style="vertical-align:middle" ><b>S no.</b></td>
+	                        <td rowspan="2" style="vertical-align:middle" ><b>Full address of Employer</b></td>
+	                        <td rowspan="2" style="vertical-align:middle" ><b>Position held</b></td>
+	                        <td colspan="2" style="vertical-align:middle" ><b>Organization</b></td>
+	                        <td rowspan="2" style="vertical-align:middle" ><b>Pay Scale</b></td>
+	                        <td rowspan="2" style="vertical-align:middle" ><b>Remarks</b></td>
+	                        <td rowspan="2" style="vertical-align:middle" ><b>Edit/Delete</b></td>
 	                    </tr>
 	                    <tr align="center">
-	                        <th>From</th>
-	                        <th>To</th>
+	                        <td style="vertical-align:middle"><b>From</b></td>
+	                        <td style="vertical-align:middle"><b>To</b></td>
 	                    </tr></thead><tbody>';
 	                    $i=1;
 	                    foreach($emp_prev_exp_details as $row) {

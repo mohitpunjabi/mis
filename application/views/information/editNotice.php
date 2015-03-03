@@ -47,12 +47,12 @@
 							</td>
 							<td align="center">
 							
-							<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->uiType('primary')->mini()->value('Download')->show();?></a>
+							<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->icon($ui->icon("download"))->uiType('primary')->mini()->value('Download')->show();?></a>
 						<?php 
 							
 						?>
 								  		<br>and</br>
-								  		<a href="<?=base_url().'index.php/information/edit_notice/index/'.$auth_id.'/'.$notice->notice_id?>"><?=$ui->button()->uiType('primary')->mini()->value('Edit')->show(); echo'</a>';
+								  		<a href="<?=base_url().'index.php/information/edit_notice/index/'.$auth_id.'/'.$notice->notice_id?>"><?=$ui->button()->icon($ui->icon("edit"))->uiType('primary')->mini()->value('Edit')->show(); echo'</a>';
 							
 							echo'</td>
 						</tr>';

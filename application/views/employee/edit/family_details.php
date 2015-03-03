@@ -2,19 +2,25 @@
 
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
-            $box = $ui->box()->id('show_details')->title('Dependent Family Members Details')->uiType('primary')->open();
+
+            switch ($validation_status) {
+                case "approved" : $status=array("ui_type" => "success", "text" => "");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
+                case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
+            }
+            $box = $ui->box()->id('show_details')->title('Dependent Family Members Details '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();
             	if($emp_family_details != FALSE) {
 	                $table = $ui->table()->id('tbl3')->responsive()->condensed()->bordered()->striped()->open();
-	                    echo '<thead valign="middle" ><tr align="center">
-	                        <th align="center">S no.</th>
-	                        <th>Name</th>
-	                        <th>Relationship</th>
-	                        <th>Date of Birth</th>
-	                        <th>Profession</th>
-	                        <th>Present Postal Address</th>
-	                        <th>Active/Inactive</th>
-	                        <th>Photograph</th>
-	                        <th>Edit</th>
+	                    echo '<thead><tr align="center">
+	                        <td style="vertical-align:middle" ><b>S no.</b></td>
+	                        <td style="vertical-align:middle" ><b>Name</b></td>
+	                        <td style="vertical-align:middle" ><b>Relationship</b></td>
+	                        <td style="vertical-align:middle" ><b>Date of Birtd</b></td>
+	                        <td style="vertical-align:middle" ><b>Profession</b></td>
+	                        <td style="vertical-align:middle" ><b>Present Postal Address</b></td>
+	                        <td style="vertical-align:middle" ><b>Active/Inactive</b></td>
+	                        <td style="vertical-align:middle" ><b>Photograph</b></td>
+	                        <td style="vertical-align:middle" ><b>Edit</b></td>
 	                        </tr>
 	                        </thead><tbody>';
 	                    $i=1;

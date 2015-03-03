@@ -49,7 +49,7 @@
 								</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/minutes/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->mini()->uiType('primary')->icon($ui->icon("download"))->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/minute/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->mini()->uiType('primary')->icon($ui->icon("download"))->value('Download')->show();?></a>
 								<?php 
 									
 								?>

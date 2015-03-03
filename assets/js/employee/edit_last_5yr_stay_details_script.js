@@ -33,6 +33,10 @@ function onclick_delete(i)
 	  	{
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
+		    	$('#show_details').fadeOut('slow',function(){
+			    	$(this).removeClass('box-success').removeClass('box-danger').addClass('box-warning').fadeIn('fast');
+			    	$('#show_details').find('.box-title').html("Last 5 Year Stay Details <label class=\"label label-warning\">Pending for Approval</label>");
+			    });
 			    table.innerHTML=xmlhttp.responseText;
 			    $('#show_details').hideLoading();
 		    }

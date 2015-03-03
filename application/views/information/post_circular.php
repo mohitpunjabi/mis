@@ -15,7 +15,7 @@
 			  ->uiType('primary')
 			  ->open();
 
-	$form = $ui->form()->action('information/post_circular/index/'.$auth_id)->open();
+	$form = $ui->form()->action('information/post_circular/index/'.$auth_id)->extras('enctype="multipart/form-data"')->open();
 	$star_circular=$ui->row()->open();
 	//echo" Fields marked with <span style= 'color:red;'>*</span> are mandatory.";
 	$star_circular->close();
@@ -86,11 +86,11 @@
      	    ->show();
 
 		 $ui->datePicker()
-			->name('last_date')
+			->name('valid_upto')
 		    ->label('Last Date<span style= "color:red;"> *</span> (Atleast today)')			
 			//->extras(min='date("Y-m-d")')
-			->value(date("dd-mm-yy"))
-			->dateFormat('dd-mm-yy')->width(6)
+			->value(date("yy-mm-dd"))
+			->dateFormat('yy-mm-dd')->width(6)
 			->show();
 
 

@@ -91,12 +91,7 @@
 									</td>
 									<td>';
 									$array_option = array();
-<<<<<<< HEAD
 									for($it = 0; $it<=10; $it+=0.5)
-=======
-									//array_push($array_option,$ui->option()->value('""')->text("Practical")->disabled()->selected());
-									for($it = 0; $it<=5; $it+=0.5)
->>>>>>> feature/course_str_1st_year
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
 									$ui->select()

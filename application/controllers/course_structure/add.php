@@ -12,10 +12,9 @@ class Add extends MY_Controller
 
 	public function index($error='')
 	{
-		
+		$this->session->keep_flashdata('message');
 		$data = array();
-		$data["result_dept"] = $this->basic_model->get_depts();
-		
+		$data["result_dept"] = $this->basic_model->get_depts();	
 		$this->drawHeader("Add a new course structure");
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
@@ -100,7 +99,6 @@ class Add extends MY_Controller
  	 
  	 public function AddCoreSubjects()
   	{
-  		//$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;
@@ -113,8 +111,6 @@ class Add extends MY_Controller
 		$count_core = $session_values["count_core"];
 		$data['count_core'] = $count_core;
 		$i=1;
-		//var_dump($this->input->post());
-		//die();
 		//for loop for inserting core subjects...
 		for($i = 1;$i <= $count_core;$i++)
 		{
@@ -142,8 +138,7 @@ class Add extends MY_Controller
 			if($this->add_model->insert_coursestructure($coursestructure_details))
 			{
 				$data['error'] = $this->add_model->insert_subjects($subject_details);
-			}
-				
+			}	
 		}
 	
 		$list_type= $this->input->post("list_type");
@@ -153,7 +148,6 @@ class Add extends MY_Controller
 		if($list_type == 1)
 		{
 			$data["options"][1] = $this->input->post("options1");
-			
 			$data["CS_session"]["options"][1] = $data["options"][1];
 			for($i = 1;$i<=$count_elective;$i++)
 			{
@@ -172,21 +166,19 @@ class Add extends MY_Controller
 				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
 			}
 		}
-		
-    if($count_elective>=1)
+	$this->session->set_userdata($data);	
+	if($count_elective>=1)
     {
-		$this->session->set_userdata($data);
 		$this->drawHeader("Enter the details for Elective subjects");
 		$this->load->view('course_structure/add_elective',$data);
 		$this->drawFooter();
     }
     else
     {
-      $this->session->set_userdata($data);
       $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted 
 	  successfully");
 	  if($data['CS_session']['course_id'] == "comm")
-	  	redirect("course_structure/AddCS_Common");
+	  	redirect("course_structure/addCS_Common");
 	  else
       	redirect("course_structure/add");
     }
@@ -196,7 +188,9 @@ class Add extends MY_Controller
   {
     //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
-    $session_data = $this->session->userdata("CS_session");
+	
+	$session_data = $this->session->userdata("CS_session");
+	
 	$sem = $session_data['sem'];
     $aggr_id = $session_data["aggr_id"];
     $count_elective = $session_data["count_elective"];
@@ -222,7 +216,6 @@ class Add extends MY_Controller
 		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
 	 
 		$options = $session_data['options'][$counter];
-		//$sequence_elective = $session_data['elective'][$counter];
 		
 		if($session_data['list_type'] == 1)
 		{		
@@ -237,8 +230,7 @@ class Add extends MY_Controller
 		}
 		
 		for($i = 1;$i <= $options;$i++)
-		{
-			
+		{	
 			$subject_id = $this->input->post("id".$counter."_".$i);
 			$name = $this->input->post("name".$counter."_".$i);
 			$lecture = $elective_details['lecture'];
@@ -290,7 +282,6 @@ class Add extends MY_Controller
 				$subject_details['elective'] = $group_id[1];
 				$subject_details['type'] = $type;
 				
-				
 				$coursestructure_details['id'] = $subject_details['id'];
 				$coursestructure_details['semester'] = $sem;
 					
@@ -311,9 +302,7 @@ class Add extends MY_Controller
 		{
 			for($j = 1;$j <= $session_data["count_elective"];$j++)
 			{
-				//keepong the default group name .
 				$elective_group['elective_name'] = $this->input->post("name_".$counter."_".$j);
-				//$elective_group['elective_name'] = $elective_details['elective_name'];
 				$elective_group['group_id'] = $group_id[$j];
 				$elective_group['aggr_id'] = $aggr_id;
 				$data['error'] = $this->add_model->insert_elective_group($elective_group);	
@@ -321,21 +310,15 @@ class Add extends MY_Controller
 		}
 		else
 		{
-			
-			//keeping the default group name .
 			$elective_group['elective_name'] = $this->input->post("name_".$counter);
-			//$elective_group['elective_name'] = $elective_details['elective_name'];
 			$elective_group['group_id'] = $group_id[1];
 			$elective_group['aggr_id'] = $aggr_id;
 			$data['error'] = $this->add_model->insert_elective_group($elective_group);	
 		}
     }
 	
-//	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
       $this->session->set_flashdata("flashSuccess","Course structure for semester ".$sem." inserted successfully");
-
     redirect("course_structure/add");
-	//$this->load->view('print_cs',$data);
   }
   
   

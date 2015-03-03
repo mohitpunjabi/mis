@@ -21,135 +21,6 @@
 	
     for($counter=$start_semester;$counter<=$end_semester;$counter++)
 	{
-<<<<<<< HEAD
-		$elective_name = 1;
-		$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $semester."")->open();	
-		$table = $ui->table()->responsive()->hover()->bordered()->open();
-			echo '
-				<tr>
-				  <th>Sl. No</th>
-				  <th>Subject ID</th>
-				  <th>Subject Name</th>
-				  <th>Lecture</th>
-				  <th>Tutorial</th>
-				  <th>Practical</th>
-				  <th>Credit Hours</th>
-				  <th>Contact Hours</th>
-				  <th>Elective</th>
-				  <th>Type</th>
-				  <th>Edit</th>
-				</tr>';
-				
-			for($i=1;$i<=$subjects["count"][$semester];$i++)
-			{
-				if(isset($subjects["group_details"][$semester][$i]->group_id))
-				{
-				echo '
-				<tr>
-					<td colspan="11" align="center">';
-						echo "Elective ".$elective_name++;
-						echo $subjects["group_details"][$semester][$i]->elective_name;
-						//$group_id = $subjects["group_details"][$semester][$i]->group_id;
-				echo'
-					</td>
-				</tr>';
-				for($j = 0;$j<$subjects["elective_count"][$group_id];$j++)
-				{
-					$seq_no = intval($i)+intval($j);
-				echo 
-				'<tr>
-					<td>';
-						echo $subjects["sequence_no"][$semester][$i+$j];
-						echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectid_".$semester."_".$seq_no)->id($subjects["subject_details"][$semester][$i+$j]->id)->value(
-						$subjects["subject_details"][$semester][$i+$j]->subject_id)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectname_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->name)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectL_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->lecture)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectT_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->tutorial)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectP_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->practical)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectcredithours_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->credit_hours)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectcontacthours_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->contact_hours)->disabled()->show();
-				echo '
-					</td>
-					<td>';
-						  if($subjects["subject_details"][$semester][$i+$j]->elective==0) 
-							 echo "No";
-						  else 
-							echo "Yes";
-				echo '
-					</td>
-					<td>';
-					  if($subjects["subject_details"][$semester][$i+$j]->type=="Theory") echo "Theory";
-					  if($subjects["subject_details"][$semester][$i+$j]->type=="Practical") echo "Practical";
-					  if($subjects["subject_details"][$semester][$i+$j]->type=="Sessional") echo "Sessional";
-					  if($subjects["subject_details"][$semester][$i+$j]->type =="Non-Contact") echo "Non-Contact";
-				echo '
-					</td>	
-					<td>';
-						$seq_no = intval($i)+intval($j);
-						$ui->button()
-							->value('Edit')
-							->uiType('primary')
-							->id("editbutton_".$semester."_".($i+$j))
-							->icon($ui->icon("edit"))
-							->extras(' onclick = EditSubject(\''.$semester.'\',\''.($i+$j).'\') ')
-							->name('edit')
-							->show();
-
-						$ui->button()
-							->value('Save')
-							->uiType('success')
-							->id("savebutton_".$semester."_".($i+$j))
-							->icon($ui->icon("save"))
-							->extras(' onclick = SaveSubject(\''.$semester.'\',\''.($i+$j).'\') ')
-							->name('edit')
-							->classes("savebutton")
-							->show();
-				echo '
-					</td>		
-				</tr>';	
-				}//for closed..
-				//adding extra row to differtiate between elective and core subjects.
-				echo '<tr><td colspan = "10"></td></tr>';
-					$i = $j+$i-1;
-				}//if closed.
-				else
-				{
-					//if(isset($subjects["subject_details"][$semester]))
-					//{
-				echo '
-				<tr>
-					<td>';
-						echo $subjects["sequence_no"][$semester][$i];
-						echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectid_".$semester."_".$i)->id($subjects["subject_details"][$semester][$i]->id)->value($subjects["subject_details"][$semester][$i]->subject_id)->disabled()->show();
-					echo '
-					</td>
-					<td>';
-						$ui->input()->name("subjectname_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->name)->disabled()->show();
-=======
 		//if it is a common semester then show that also.
 		if(isset($CS_session['group']))
 		{
@@ -173,7 +44,6 @@
 					
 				for($i=1;$i<=$subjects["count"][$semester];$i++)
 				{					
->>>>>>> feature/course_str_1st_year
 					echo '
 					<tr>
 						<td>';
@@ -238,6 +108,15 @@
 								->id("editbutton_".$semester."_".$i)
 								->icon($ui->icon("edit"))
 								->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
+								->name('edit')
+								->show();
+								
+								$ui->button()
+								->value('Save')
+								->uiType('success')
+								->id("savebutton_".$semester."_".$i)
+								->icon($ui->icon("save"))
+								->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
 								->name('edit')
 								->show();
 					echo '
@@ -354,6 +233,15 @@
 									->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
 									->name('edit')
 									->show();
+									
+									$ui->button()
+									->value('Save')
+									->uiType('success')
+									->id("savebutton_".$semester."_".$i)
+									->icon($ui->icon("save"))
+									->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+									->name('edit')
+									->show();
 						echo '
 							</td>		
 						</tr>';
@@ -397,40 +285,12 @@
 						  <th>Edit</th>
 						</tr>';
 						
-<<<<<<< HEAD
-						 $ui->button()
-							->value('Edit')
-							->uiType('primary')
-							->id("editbutton_".$semester."_".$i)
-							->icon($ui->icon("edit"))
-							->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
-							->name('edit')
-							->show();
-							
-						$ui->button()
-							->value('Save')
-							->uiType('success')
-							->id("savebutton_".$semester."_".$i)
-							->icon($ui->icon("save"))
-							->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
-							->name('edit')
-							->classes("savebutton")
-							->show();
-				echo '
-					</td>		
-				</tr>';
-			//}
-				}//else closed
-			}//inner for loop 
-				   $aggr_id = $CS_session['aggr_id'];
-					echo '
-=======
+
 					for($i=1;$i<=$subjects["count"][$semester];$i++)
 					{
 						if(isset($subjects["group_details"][$semester][$i]->group_id))
 						{
 						echo '
->>>>>>> feature/course_str_1st_year
 						<tr>
 							<td colspan="11" align="center">';
 								echo $subjects["group_details"][$semester][$i]->elective_name;
@@ -500,16 +360,24 @@
 									->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
 									->name('edit')
 									->show();
+									
+								$ui->button()
+									->value('Save')
+									->uiType('success')
+									->id("savebutton_".$semester."_".$i)
+									->icon($ui->icon("save"))
+									->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+									->name('edit')
+									->show();
 						echo '
 							</td>		
 						</tr>';	
 						}//for closed..
+						echo '<tr><td colspan = "11"></td></tr>';
 							$i = $j+$i-1;
 						}//if closed.
 						else
 						{
-							//if(isset($subjects["subject_details"][$semester]))
-							//{
 						echo '
 						<tr>
 							<td>';
@@ -569,6 +437,15 @@
 									->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
 									->name('edit')
 									->show();
+									
+									$ui->button()
+										->value('Save')
+										->uiType('success')
+										->id("savebutton_".$semester."_".$i)
+										->icon($ui->icon("save"))
+										->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+										->name('edit')
+										->show();
 						echo '
 							</td>		
 						</tr>';

@@ -24,7 +24,6 @@
 		//if it is a common semester then show that also.
 		if(isset($CS_session['group']))
 		{
-			//echo "inside set group;";
 			$semester = $counter."_".$CS_session['group'];
 			$box_form = $ui->box()->id("box_form_".$counter)->title("Subjects for Semester". $counter."(group ".$CS_session['group'].")")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
@@ -120,7 +119,6 @@
 						  <th>Elective</th>
 						  <th>Type</th>
 						</tr>';
-					//echo $subjects['count'][$semester];	
 					for($i=1;$i<=$subjects["count"][$semester];$i++)
 					{
 						echo '
@@ -202,8 +200,11 @@
 					{
 						if(isset($subjects["group_details"]['group_id'][$semester][$i]))
 						{
+							//die("group id set");
 							$group_id = $subjects["group_details"]['group_id'][$semester][$i];
-				
+						echo '
+							<td colspan = "10" align = "center">';
+								echo $subjects['group_details'][$group_id]->elective_name;	
 						echo'
 							</td>
 						</tr>';
@@ -260,6 +261,7 @@
 							</td>			
 						</tr>';	
 						}//for closed..
+						echo '<tr><td colspan ="10"></td></tr>';
 							$i = $j+$i-1;
 						}//if closed.
 						else

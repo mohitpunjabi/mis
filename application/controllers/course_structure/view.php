@@ -60,19 +60,21 @@ class View extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch_name']=$row_branch[0]->name;
 		
+		
+		//$semester == 0 when All(for all semester) has been selected in view CS. 
 		if($semester == 0)
 		{
 			$start_semester = 1;
 			$end_semester = 2*$row_course[0]->duration;
-			//$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
 		}
 		else
 		{
 			$start_semester = $semester;
 			$end_semester = $semester;
-			//
 		}
 		$data['flag'] = 1;
+		
+		
 		for($k=$start_semester;$k<=$end_semester;$k++)
 		{
 
@@ -112,9 +114,7 @@ class View extends MY_Controller
 					{
 						$counter = $k."_".$comm_group;
 						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$session);	
-						//var_dump($result_ids);
-						//die();
-		  				$i=1;
+						$i=1;
 						foreach($result_ids as $row)
 						{
 						   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);

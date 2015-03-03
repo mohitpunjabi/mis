@@ -5,7 +5,7 @@
 
             switch ($validation_status) {
                 case "approved" : $status=array("ui_type" => "success", "text" => "");break;
-                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
                 case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
             }
             $box = $ui->box()->id('show_details')->title('Previous Employment Details '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();

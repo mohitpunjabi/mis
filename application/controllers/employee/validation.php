@@ -39,6 +39,10 @@ class Validation extends MY_Controller
 		$this->load->model('employee/faculty_details_model','',TRUE);
 		$this->load->model('departments_model','',TRUE);
 		$this->load->model('designations_model','',TRUE);
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+		$this->load->model('employee/emp_family_details_model','',TRUE);
+		$this->load->model('employee/emp_education_details_model','',TRUE);
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 		$this->load->model('employee/emp_validation_details_model','',TRUE);
 
 		$data['emp_id']=$emp_id;
@@ -74,7 +78,7 @@ class Validation extends MY_Controller
 				$data['present_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'present');
 				$data['ft']=$this->faculty_details_model->getPendingDetailsById($emp_id);
 			}
-/*
+
 			//case 2 : prev exp status
 			if($data['emp_validation_details']->prev_exp_status == 'approved')
 				$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
@@ -98,12 +102,6 @@ class Validation extends MY_Controller
 				$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
 			else
 				$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
-*/
-			$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
-			$data['emp_family_details'] = $this->employee_model->getFamilyDetailsById($emp_id);
-			$data['emp_education_details'] = $this->employee_model->getEducationDetailsById($emp_id);
-			$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
-
 		}
 		else {
 			$this->session->set_flashdata('flashInfo','The employee '.$emp_id.' details have been Approved');
@@ -154,6 +152,7 @@ class Validation extends MY_Controller
 			//insert details from pending tables to real tables
 			switch($step) {
 				case 0:
+						$this->db->trans_start();
 						$res=$this->user_details_model->getUserById($emp_id);
 						$old_photo = ($res == FALSE)?	FALSE:$res->photopath;
 						$new_photo = $this->user_details_model->getPendingDetailsById($emp_id)->photopath;
@@ -165,9 +164,13 @@ class Validation extends MY_Controller
 						$basic_status = $this->emp_validation_details_model->getValidationDetailsById($emp_id)->basic_details_status;
 						if($basic_status == 'approved')
 							$this->user_details_model->deletePendingDetailsWhere(array('id'=>$emp_id));
+
+						$this->db->trans_complete();
 						break;
 
 				case 1:
+						$this->db->trans_start();
+
 						$details = (array)($this->user_details_model->getPendingDetailsById($emp_id));
 						unset($details['photopath']);
 						$this->user_details_model->updateById($details,$emp_id);
@@ -201,6 +204,55 @@ class Validation extends MY_Controller
 						$this->emp_pay_details_model->deletePendingDetailsWhere(array('id'=>$emp_id));
 						$this->faculty_details_model->deletePendingDetailsWhere(array('id'=>$emp_id));
 
+						$this->db->trans_complete();
+						break;
+
+				case 2:
+						$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+
+						$this->db->trans_start();
+						//delete records from real table
+						$this->emp_prev_exp_details_model->delete_record(array('id'=>$emp_id));
+						//move details from pending table to real table
+						$this->emp_prev_exp_details_model->moveDetailsFromPendingById($emp_id);
+
+						$this->db->trans_complete();
+						break;
+
+				case 3:
+						$this->load->model('employee/emp_family_details_model','',TRUE);
+
+						$this->db->trans_start();
+						//delete records from real table
+						$this->emp_family_details_model->delete_record(array('id'=>$emp_id));
+						//move details from pending table to real table
+						$this->emp_family_details_model->moveDetailsFromPendingById($emp_id);
+
+						$this->db->trans_complete();
+						break;
+
+				case 4:
+						$this->load->model('employee/emp_education_details_model','',TRUE);
+
+						$this->db->trans_start();
+						//delete records from real table
+						$this->emp_education_details_model->delete_record(array('id'=>$emp_id));
+						//move details from pending table to real table
+						$this->emp_education_details_model->moveDetailsFromPendingById($emp_id);
+
+						$this->db->trans_complete();
+						break;
+
+				case 5:
+						$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+
+						$this->db->trans_start();
+						//delete records from real table
+						$this->emp_last5yrstay_details_model->delete_record(array('id'=>$emp_id));
+						//move details from pending table to real table
+						$this->emp_last5yrstay_details_model->moveDetailsFromPendingById($emp_id);
+
+						$this->db->trans_complete();
 						break;
 			}
 

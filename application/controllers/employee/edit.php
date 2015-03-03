@@ -411,8 +411,14 @@ class Edit extends MY_Controller
 	{
 		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
 
-		if($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id))
-			$sno = count($this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id));
+		$this->db->trans_start();
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_prev_exp_details_model->copyDetailsToPendingById($emp_id);
+
+		if($this->emp_prev_exp_details_model->getPendingDetailsById($emp_id))
+			$sno = count($this->emp_prev_exp_details_model->getPendingDetailsById($emp_id));
 		else $sno = 0;
 
 		$designation = $this->input->post('designation2');
@@ -431,15 +437,8 @@ class Edit extends MY_Controller
 		$emp_prev_exp_details['address'] = strtolower($addr);
 		$emp_prev_exp_details['remarks'] = strtolower($reason);
 
-		//$this->emp_prev_exp_details_model->insert($emp_prev_exp_details);
-
-		//pending table if empty then copy records to pending table
-		$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
-		if(!$pending)
-			$this->emp_prev_exp_details_model->copyDetailstoPendingById($emp_id);
-
 		$this->emp_prev_exp_details_model->insertPendingDetails($emp_prev_exp_details);
-
+		$this->db->trans_complete();
 		$this->edit_validation($emp_id,'prev_exp_status');
 		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' previous employment details updated and sent for validation.');
 
@@ -455,7 +454,7 @@ class Edit extends MY_Controller
 		//pending table if empty then copy records to pending table
 		$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
 		if(!$pending)
-			$this->emp_prev_exp_details_model->copyDetailstoPendingById($emp_id);
+			$this->emp_prev_exp_details_model->copyDetailsToPendingById($emp_id);
 
 		$this->emp_prev_exp_details_model->updatePendingDetailsWhere(array('designation'=>strtolower($this->input->post('edit_designation'.$row)),
 																'from'=>date('Y-m-d',strtotime($this->input->post('edit_from'.$row))),
@@ -476,7 +475,18 @@ class Edit extends MY_Controller
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('employee/emp_family_details_model','',TRUE);
-		$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
+
+		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->family_details_status : 'approved';
+		if($data['validation_status'] != 'approved') {
+			//pending/rejected data
+			$data['emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
+		}
+		else {
+			//real data
+			$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
+		}
 
 		$this->drawHeader('Edit Family Details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/family_details',$data);
@@ -486,8 +496,15 @@ class Edit extends MY_Controller
 	function update_family_details($emp_id)
 	{
 		$this->load->model('employee/emp_family_details_model','',TRUE);
-		if($this->emp_family_details_model->getEmpFamById($emp_id))
-			$sno = count($this->emp_family_details_model->getEmpFamById($emp_id));
+
+		$this->db->trans_start();
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_family_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_family_details_model->copyDetailsToPendingById($emp_id);
+
+		if($this->emp_family_details_model->getPendingDetailsById($emp_id))
+			$sno = count($this->emp_family_details_model->getPendingDetailsById($emp_id));
 		else $sno = 0;
 
 		$upload = $this->_upload_image($emp_id,'photo3',$sno+1);
@@ -509,9 +526,11 @@ class Edit extends MY_Controller
 			$emp_family_details['dob'] = $dob;
 			$emp_family_details['active_inactive'] = $active;
 
-			$this->emp_family_details_model->insert($emp_family_details);
+			$this->emp_family_details_model->insertPendingDetails($emp_family_details);
+			$this->db->trans_complete();
 			$this->edit_validation($emp_id,'family_details_status');
 			$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' family details updated and sent for validation.');
+
 			redirect('employee/edit/edit_form');
 		}
 	}
@@ -521,6 +540,12 @@ class Edit extends MY_Controller
 		$emp_id = $this->session->userdata('EDIT_EMPLOYEE_ID');
 
 		$this->load->model('employee/emp_family_details_model','',TRUE);
+
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_family_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_family_details_model->copyDetailsToPendingById($emp_id);
+
 		$fam_array = array('dob'=>date('Y-m-d',strtotime($this->input->post('edit_dob'.$row))),
 							'profession'=>strtolower($this->input->post('edit_profession'.$row)),
 							'active_inactive'=>$this->input->post('edit_active'.$row),
@@ -531,7 +556,7 @@ class Edit extends MY_Controller
 			if($upload)	$fam_array = array_merge($fam_array,array('photopath'=>'employee/'.$emp_id.'/'.$upload['file_name']));
 		}
 
-		$this->emp_family_details_model->update_record($fam_array, array('id'=>$emp_id, 'sno'=>$row));
+		$this->emp_family_details_model->updatePendingDetailsWhere($fam_array, array('id'=>$emp_id, 'sno'=>$row));
 
 		$this->edit_validation($emp_id,'family_details_status');
 		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' family details updated and sent for validation.');
@@ -544,7 +569,18 @@ class Edit extends MY_Controller
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('employee/emp_education_details_model','',TRUE);
-		$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
+
+		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->educational_status : 'approved';
+		if($data['validation_status'] != 'approved') {
+			//pending/rejected data
+			$data['emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+		}
+		else {
+			//real data
+			$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
+		}
 
 		$this->drawHeader('Edit Educational Qualifications',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/educational_details',$data);
@@ -555,8 +591,14 @@ class Edit extends MY_Controller
 	{
 		$this->load->model('employee/emp_education_details_model','',TRUE);
 
-		if($this->emp_education_details_model->getEmpEduById($emp_id))
-			$sno = count($this->emp_education_details_model->getEmpEduById($emp_id));
+		$this->db->trans_start();
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_education_details_model->copyDetailstoPendingById($emp_id);
+
+		if($this->emp_education_details_model->getPendingDetailsById($emp_id))
+			$sno = count($this->emp_education_details_model->getPendingDetailsById($emp_id));
 		else $sno = 0;
 
 		$exam = $this->input->post('exam4');
@@ -575,8 +617,8 @@ class Edit extends MY_Controller
 		$emp_education_details['grade'] = strtolower($grade);
 		$emp_education_details['division'] = strtolower($div);
 
-		$this->emp_education_details_model->insert($emp_education_details);
-
+		$this->emp_education_details_model->insertPendingDetails($emp_education_details);
+		$this->db->trans_complete();
 		$this->edit_validation($emp_id,'educational_status');
 		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' educational qualifications updated and sent for validation.');
 
@@ -589,7 +631,12 @@ class Edit extends MY_Controller
 
 		$this->load->model('employee/emp_education_details_model','',TRUE);
 
-		$this->emp_education_details_model->update_record(array('exam'=>strtolower($this->input->post('edit_exam'.$row)),
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_education_details_model->copyDetailsToPendingById($emp_id);
+
+		$this->emp_education_details_model->updatePendingDetailsWhere(array('exam'=>strtolower($this->input->post('edit_exam'.$row)),
 																'branch'=>strtolower($this->input->post('edit_branch'.$row)),
 																'institute'=>strtolower($this->input->post('edit_clgname'.$row)),
 																'year'=>$this->input->post('edit_year'.$row),
@@ -608,7 +655,18 @@ class Edit extends MY_Controller
 
 		$data['emp_id']=$emp_id;
 		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
-		$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
+
+		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->stay_status : 'approved';
+		if($data['validation_status'] != 'approved') {
+			//pending/rejected data
+			$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+		}
+		else {
+			//real data
+			$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
+		}
 
 		$this->drawHeader('Edit last 5 year stay details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/last_five_year_stay_details',$data);
@@ -619,8 +677,14 @@ class Edit extends MY_Controller
 	{
 		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 
-		if($this->emp_last5yrstay_details_model->getEmpStayById($emp_id))
-			$sno = count($this->emp_last5yrstay_details_model->getEmpStayById($emp_id));
+		$this->db->trans_start();
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_last5yrstay_details_model->copyDetailsToPendingById($emp_id);
+
+		if($this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id))
+			$sno = count($this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id));
 		else $sno = 0;
 
 		$from = $this->input->post('from5');
@@ -635,8 +699,8 @@ class Edit extends MY_Controller
 		$emp_last5yrstay_details['res_addr'] = $addr;
 		$emp_last5yrstay_details['dist_hq_name'] = strtolower($district);
 
-		$this->emp_last5yrstay_details_model->insert($emp_last5yrstay_details);
-
+		$this->emp_last5yrstay_details_model->insertPendingDetails($emp_last5yrstay_details);
+		$this->db->trans_complete();
 		$this->edit_validation($emp_id,'stay_status');
 		$this->session->set_flashdata('flashSuccess','Employee '.$emp_id.' last five year stay details updated and sent for validation.');
 
@@ -649,7 +713,12 @@ class Edit extends MY_Controller
 
 		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 
-		$this->emp_last5yrstay_details_model->update_record(array('from'=>date('Y-m-d',strtotime($this->input->post('edit_from'.$row))),
+		//pending table if empty then copy records to pending table
+		$pending = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+		if(!$pending)
+			$this->emp_last5yrstay_details_model->copyDetailsToPendingById($emp_id);
+
+		$this->emp_last5yrstay_details_model->updatePendingDetailsWhere(array('from'=>date('Y-m-d',strtotime($this->input->post('edit_from'.$row))),
 																'to'=>date('Y-m-d',strtotime($this->input->post('edit_to'.$row))),
 																'res_addr'=>$this->input->post('edit_addr'.$row),
 																'dist_hq_name'=>strtolower($this->input->post('edit_dist'.$row))),

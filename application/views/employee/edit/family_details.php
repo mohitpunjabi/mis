@@ -2,7 +2,13 @@
 
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
-            $box = $ui->box()->id('show_details')->title('Dependent Family Members Details')->uiType('primary')->open();
+
+            switch ($validation_status) {
+                case "approved" : $status=array("ui_type" => "success", "text" => "");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
+                case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
+            }
+            $box = $ui->box()->id('show_details')->title('Dependent Family Members Details '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();
             	if($emp_family_details != FALSE) {
 	                $table = $ui->table()->id('tbl3')->responsive()->condensed()->bordered()->striped()->open();
 	                    echo '<thead><tr align="center">

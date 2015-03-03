@@ -60,6 +60,18 @@ class Emp_prev_exp_details_model extends CI_Model
 		}
 	}
 
+	function MoveDetailsFromPendingById($id='')
+	{
+		//copy details to real table from pending table
+		$query = $this->db->where('id',$id)->get('pending_'.$this->table);
+		foreach ($query->result() as $row) {
+			$this->db->insert($this->table,$row);
+		}
+
+		//delete pending details from pending table
+		$this->db->delete('pending_'.$this->table,array('id' => $id));
+	}
+
 	function insertPendingDetails($data)
 	{
 		$this->db->insert('pending_'.$this->table,$data);

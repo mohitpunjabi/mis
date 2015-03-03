@@ -3,6 +3,7 @@
 class Regular_form extends MY_Controller {
 		private  $img_name;
 		private  $img_name1;
+		private  $img_carry;
 		private $lnid;
 		
 	function __construct()
@@ -42,11 +43,11 @@ class Regular_form extends MY_Controller {
 				$this->form_validation->set_rules('cdateofPayment', 'Carryover Date of Payment', 'required');
 				$this->form_validation->set_rules('camount', 'Carryover Amount', 'required|numeric');
 				$this->form_validation->set_rules('ctransId', 'Carryover Transaction id / Reference No.', 'required');
-				$this->form_validation->set_rules('cslip', 'Carryover Slip', 'callback_handle_upload');
+				$this->form_validation->set_rules('cslip', 'cslip', 'callback_handle_upload2');
 				$csem=$this->input->post('sem');
 				if(is_array($csem)){
 					foreach($csem as $cs){
-							$this->form_validation->set_rules('csub1-'.$cs, 'Semester '.$cs.' Subject 1 is Required if you dont have Carryover Please Uncheck the Carry Over check box', 'required');
+						//	$this->form_validation->set_rules('csub1-'.$cs, 'Semester '.$cs.' Subject 1 is Required if you dont have Carryover Please Uncheck the Carry Over check box', 'required');
 						}
 				}
 				}
@@ -73,12 +74,20 @@ class Regular_form extends MY_Controller {
 		//confirm//
 		function confirm(){
 				$last['lastId']= $this->lnid;
+				//Subject
 				$sub=$this->get_subject->getSubject($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
+				//result
 				$this->load->model('student_sem_form/get_results','',TRUE);
+			
+				
+					//print_r($data['carryover']); die();
 				$data=$this->get_subject->getConfirm($this->lnid);
 				$data= array_merge($data,$sub);
 				$data= array_merge($data,$last);
-				//$data= array_merge($data,$result);
+			
+				//carryOver
+				$this->load->model('student_sem_form/get_carryover','',TRUE);
+				$data['carryover']=$this->get_carryover->getCarryoverByformId($this->lnid); 
 				//print_r($data); die();
 				$this->drawHeader("Semester Registration Card for REGULAR Student");
 				$this->load->view('student_sem_form/regular/confirm',$data);
@@ -108,10 +117,35 @@ class Regular_form extends MY_Controller {
 								$this->add_form->insertSemSubject($data1);
 						$fid++;
 						} 
+						$this->CarryoverDetailSave();
 						return true;
 				
 					
 		}
+		
+		// Carry Over Details Save//
+		protected function CarryoverDetailSave(){
+					
+					if($this->input->post('cenable')){
+							if(is_array($this->input->post('sem'))){
+									$this->load->model('student_sem_form/add_form','',TRUE);
+									foreach($this->input->post('sem') as $s){
+											$data['form_id']=$this->lnid;
+											$data['stu_id']=$this->session->userdata('id');
+											$data['semester']=$s;
+											$data['subject1_id']=$this->input->post('csub1-'.$s);
+											$data['subject2_id']=$this->input->post('csub2-'.$s);
+											$data['fee_date']=date('Y-m-d', strtotime($this->input->post('cdateofPayment')));
+											$data['fee_amt']=$this->input->post('camount');
+										
+											$data['fee_slip']=$this->img_carry;
+											$data['trans_id']=$this->input->post('ctransId');
+											$this->add_form->insertCarryover($data);
+										}	
+								}
+						}
+			}
+			//
 		
 		
 		//Image Upload Validation Handler || Image upload Regular fee//
@@ -186,18 +220,18 @@ class Regular_form extends MY_Controller {
 		  {
 			  	$config['upload_path']   = './assets/images/semester_reg/carryover_slip/';
 				$config['allowed_types'] = 'pdf|jpg|png|jpeg';
-				$config['file_name'] = $this->session->userdata('id')."_".($this->session->userdata('semester')+1);
+				$config['file_name'] = $this->session->userdata('id')."_carryover_".($this->session->userdata('semester')+1);
 				$this->load->library('upload', $config);
 			  
-			if (isset($_FILES['slip1']) && !empty($_FILES['slip1']['name']))
+			if (isset($_FILES['cslip']) && !empty($_FILES['cslip']['name']))
 			  {
 
-			  if ($this->upload->do_upload('slip1'))
+			  if ($this->upload->do_upload('cslip'))
 			  {
 				// set a $_POST value for 'image' that we can use later
-				$upload_data    = $this->upload->data();
-				$this->img_name1 = $upload_data['file_name'];
-				$_POST['slip1'] = $upload_data['file_name'];
+				$upload_data   = $this->upload->data();
+				$this->img_carry = $upload_data['file_name'];
+				$_POST['cslip'] = $upload_data['file_name'];
 				return true;
 			  }
 			  else
@@ -266,10 +300,11 @@ class Regular_form extends MY_Controller {
 				
 				$this->load->model('student_sem_form/get_subject','',TRUE);
 				$this->load->model('student_sem_form/get_results','',TRUE);
+				$this->load->model('student_sem_form/get_carryover','',TRUE);
 				$data['student']=$this->sbasic_model->hod_view_student($id,$fid);
 				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1),$this->session->userdata('id'));
 				
-				
+				$data['carryover']=$this->get_carryover->getCarryoverByformId($data['student'][0]->form_id);
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
 				$this->load->view('templates/header_assets');
 				$this->load->view('student_sem_form/regular/view.php',$data);
@@ -290,6 +325,7 @@ class Regular_form extends MY_Controller {
 					<label for="samester-'.$sem.'">Select Carryover First Subject in Semester '.$sem.'</label>
 					<select name="csub1-'.$sem.'" class="form-control">';
 				foreach($data['subjects'] as $stu){
+					$sd.='<option value="">Please Select Subject</option>';
 				foreach($stu as $s)
 					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';
 					}
@@ -298,6 +334,7 @@ class Regular_form extends MY_Controller {
 				<div class="form-group" >
 					<label for="samester-'.$sem.'">Select Carryover Second Subject in Semester '.$sem.' (Optional)</label>
 					<select name="csub2-'.$sem.'" class="form-control">';
+					$sd.='<option value="">Please Select Subject</option>';
 				foreach($data['subjects'] as $stu){
 				foreach($stu as $s)
 					$sd.='<option value="'.$s['id'].'">'.$s['name'].'('.$s['subject_id'].')</option>';

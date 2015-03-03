@@ -15,7 +15,7 @@
 			  ->uiType('primary')
 			  ->open();
 
-	$form = $ui->form()->action('information/edit_circular/edit/'.$circular_row->circular_id)->open();
+	$form = $ui->form()->extras('enctype="multipart/form-data"')->action('information/edit_circular/edit/'.$circular_row->circular_id)->open();
 	$star_circular=$ui->row()->open();
 	//echo" Fields marked with <span style= 'color:red;'>*</span> are mandatory.";
 	$star_circular->close();
@@ -77,7 +77,7 @@
 		    ->label('Last Date<span style= "color:red;"> *</span> (Atleast today)')			
 			//->extras(min='date("Y-m-d")')
 			->value($circular_row->valid_upto)
-			->dateFormat('dd-mm-yy')
+			->dateFormat('yyyy-mm-dd')
 			->width(6)
 			->show();
 	$inputRow2->close();
@@ -95,27 +95,24 @@
 	$inputRow4 = $ui->row()->open();
 	$coll=$ui->col()->width(3)->open();
 		echo '<a href="'.base_url().'assets/files/information/circular/'.$circular_row->circular_path.'" title="download file" download="'.$circular_row->circular_path.'">'.$circular_row->circular_path.'</a>';
-	    $js = 'onclick="javascript:document.getElementById(\'filebox\').style.visibility=\'visible\';
-											   document.getElementById(\'circular_path\').required = true;
-									"';
+	    $js = 'onclick="javascript:document.getElementById(\'filebox\').style.display=\'block\';"';
 	$coll->close();
 	$colll=$ui->col()->width(4)->open();
 		$ui->button()
 			->value('Change File')
 		    ->uiType('primary')
 		    ->extras($js)
-		    ->submit()
 		    ->show();
 	$colll->close();
 	$inputRow4->close();
-	$inputRow5=$ui->row()->id('filebox')->extras('style="visibility:hidden"')->open();
+	$inputRow5=$ui->row()->id('filebox')->extras('style="display:none"')->open();
 		   
 		     	 $ui->input()
 				    ->label('Circular File<span style= "color:red;"> *</span>')
 		     	    ->type('file')
 		     	    ->id('circular_path')
 		     	    ->name('circular_path')
-		     	    ->required()
+		     	    //->required()
 		     	    ->width(6)
 		     	    ->show();   
 
@@ -127,6 +124,12 @@
 		   ->name('circular_id')
 		   ->required()
 		   ->value($circular_row->circular_id)
+		   ->show();
+		$ui->input()
+		   ->type('hidden')
+		   ->name('modification_value')
+		   ->required()
+		   ->value($circular_row->modification_value)
 		   ->show();
 		echo"(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)"; 
 ?>

@@ -229,7 +229,7 @@ $row = $ui->row()->open();
 
         $emp_box->close();
 
-        $pay_box = $ui->box()->uiType('primary')->solid()->title('Payment Details')->open();
+        $pay_box = $ui->box()->uiType('primary')->solid()->title('Salary Details')->open();
 
             $ui->select()->name('payscale')->id('payscale')->label('Pay Band<span style= "color:red;"> *</span>')
                         ->options($pay_options)->required()->show();
@@ -296,40 +296,39 @@ $row = $ui->row()->open();
             $col2 = $ui->col()->width(6)->t_width(6)->open();
             echo '<h3 class="page-header">Permanent Address</h3>';
                 $ui->textarea()->name('line12')
-                                ->disabled()
+                                ->required()
                                 ->label('Address Line 1<span style= "color:red;"> *</span>')
                                 ->value($permanent_address->line1)
                                 ->show();
                 $ui->input()->name('line22')
-                                ->disabled()
                                 ->value($permanent_address->line2)
                                 ->label('Address Line 2')
                                 ->show();
                 $ui->input()->name('city2')
                                 ->label('City<span style= "color:red;"> *</span>')
-                                ->disabled()
+                                ->required()
                                 ->value($permanent_address->city)
                                 ->show();
                 $ui->input()->name('state2')
                                 ->label('State<span style= "color:red;"> *</span>')
-                                ->disabled()
+                                ->required()
                                 ->value($permanent_address->state)
                                 ->show();
                 $ui->input()->name('pincode2')
                                 ->label('Pin Code<span style= "color:red;"> *</span>')
                                 ->type('tel')
-                                ->disabled()
+                                ->required()
                                 ->value($permanent_address->pincode)
                                 ->show();
                 $ui->input()->name('country2')
                                 ->label('Country<span style= "color:red;"> *</span>')
-                                ->disabled()
+                                ->required()
                                 ->value($permanent_address->country)
                                 ->show();
                 $ui->input()->name('contact12')
                                 ->label('Contact No<span style= "color:red;"> *</span>')
                                 ->type('tel')
-                                ->disabled()
+                                ->required()
                                 ->value($permanent_address->contact_no)
                                 ->show();
             $col2->close();

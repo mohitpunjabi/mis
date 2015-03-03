@@ -109,10 +109,12 @@ class Edit_minute extends MY_Controller
 		{
 				//current date
 			$date = date("Y-m-d H:i:s");
-			
+			$meeting_type=$this->input->post('meeting_type');
+			if($meeting_type=='others')
+				$meeting_type=$this->input->post('meeting_others');
 			$data = array('minutes_id'=>$this->input->post('minutes_id'),
 						  'minutes_no'=>$this->input->post('minutes_no'),
-						  'meeting_type'=>$this->input->post('meeting_type'),
+						  'meeting_type'=>$meeting_type,
 						  'meeting_cat'=>$this->input->post('meeting_cat'),
 						  'valid_upto'=>$this->input->post('valid_upto'),
 						  'date_of_meeting'=>$this->input->post('date_of_meeting'),

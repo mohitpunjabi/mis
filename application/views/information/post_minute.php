@@ -15,7 +15,7 @@
 			  ->uiType('primary')
 			  ->open();
 
-	$form = $ui->form()->action('information/post_minute/index/'.$auth_id)->open();
+	$form = $ui->form()->extras('enctype="multipart/form-data"')->action('information/post_minute/index/'.$auth_id)->open();
 	$inputRow1 = $ui->row()->open();
 		if($id->minutes_id == NULL)
 		{
@@ -97,9 +97,9 @@
 		$ui->datePicker()
 						->name('date_of_meeting')
 						->label('Date of Meeting<span style= "color:red;"> *</span>')
-						->value(date("dd-mm-yy"))
+						->value(date("yy-mm-dd"))
 						->width(6)
-						->dateFormat('dd-mm-yy')
+						->dateFormat('yy-mm-dd')
 						->show();
 		$ui->input()->type('text')->name('place_of_meeting')->width(6)->required()->placeholder('CSE Department')->label('Place of Meeting<span style= "color:red;"> *</span>')->show();
 
@@ -107,11 +107,11 @@
 	
 	$inputRow5 = $ui->row()->open(); 	 
 		 $ui->datePicker()
-			->name('last_date')
+			->name('valid_upto')
 		    ->label('Last Date<span style= "color:red;"> *</span> (Atleast today)')			
-			//->extras(min='date("Y-m-d")')
-			->value(date("dd-mm-yy"))
-			->dateFormat('dd-mm-yy')->width(6)
+			//->extras("min='".date("Y-m-d")."'")
+			->value(date("yy-mm-dd"))
+			->dateFormat('yy-mm-dd')->width(6)
 			->show();
 	$inputRow5->close();
 	echo"(Allowed File Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)";

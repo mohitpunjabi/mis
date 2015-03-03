@@ -26,7 +26,7 @@
 								<th>Minutes Number</th>
 								<th >Meeting Type</th>
 								<th >Meeting Date</th>	
-								<th >Meeting Type</th>						
+								<th >Meeting Place</th>						
 								<th>Posted On/ Edited On</th>
 								<th >Issued By</th>
 								<th>Revision Status</th>
@@ -52,7 +52,7 @@
 								</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/minutes/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->mini()->uiType('primary')->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/minute/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->icon($ui->icon("download"))->mini()->uiType('primary')->value('Download')->show();?></a>
 								<?php 
 									if ($minute->modification_value != 0)
 									{
@@ -91,7 +91,7 @@
 								<th>Minutes Number</th>
 								<th >Meeting Type</th>
 								<th >Meeting Date</th>	
-								<th >Meeting Type</th>						
+								<th >Meeting Place</th>						
 								<th>Posted On/ Edited On</th>
 								<th >Issued By</th>
 								<th>Revision Status</th>
@@ -117,13 +117,13 @@
 								</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/minutes/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/minute/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->icon($ui->icon("download"))->uiType('primary')->mini()->value('Download')->show();?></a>
 								<?php 
 									if ($minute->modification_value != 0  && $flag==1)
 									{
 								?>
 										  		<br>and</br>
-										  		<a href="<?=base_url().'index.php/information/view_minute/prev/'.$minute->minutes_id?>"><?=$ui->button()->uiType('primary')->value('Get Prev Version')->show(); echo'</a>';
+										  		<a href="<?=base_url().'index.php/information/view_minute/prev/'.$minute->minutes_id?>"><?=$ui->button()->uiType('primary')->mini()->value('Get Prev Version')->show(); echo'</a>';
 									}
 									echo'</td>
 								</tr>';

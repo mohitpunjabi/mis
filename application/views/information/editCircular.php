@@ -47,12 +47,12 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->uiType('primary')->value('Download')->mini()->show();?></a>
+									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->icon($ui->icon("download"))->uiType('primary')->value('Download')->mini()->show();?></a>
 								<?php 
 									
 								?>
 										  		<br>and</br>
-										  		<a href="<?=base_url().'index.php/information/edit_circular/index/'.$auth_id.'/'.$circular->circular_id?>"><?=$ui->button()->uiType('primary')->mini()->value('Edit')->show(); echo'</a>';
+										  		<a href="<?=base_url().'index.php/information/edit_circular/index/'.$auth_id.'/'.$circular->circular_id?>"><?=$ui->button()->uiType('primary')->mini()->icon($ui->icon("edit"))->value('Edit')->show(); echo'</a>';
 									
 									echo'</td>
 								</tr>';

@@ -2,19 +2,25 @@
 
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
-            $box = $ui->box("show_details")->title('Last 5 Year Stay Details')->uiType('primary')->open();
+
+            switch ($validation_status) {
+                case "approved" : $status=array("ui_type" => "success", "text" => "");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
+                case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
+            }
+            $box = $ui->box()->id('show_details')->title('Last 5 Year Stay Details '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();
             	if($emp_last5yrstay_details != FALSE) {
 	                $table = $ui->table()->id('tbl5')->responsive()->bordered()->striped()->open();
-	                    echo '<thead valign="middle" ><tr align="center">
-				              	<th rowspan=2>S no.</th>
-								<th colspan=2>Duration</th>
-								<th rowspan=2>Residential Address</th>
-								<th rowspan=2>Name of District Headquarters</th>
-								<th rowspan=2>Edit/Delete</th>
+	                    echo '<thead><tr align="center">
+				              	<td rowspan=2 style="vertical-align:middle" ><b>S no.</b></td>
+								<td colspan=2 style="vertical-align:middle" ><b>Duration</b></td>
+								<td rowspan=2 style="vertical-align:middle" ><b>Residential Address</b></td>
+								<td rowspan=2 style="vertical-align:middle" ><b>Name of District Headquarters</b></td>
+								<td rowspan=2 style="vertical-align:middle" ><b>Edit/Delete</b></td>
 	                    	</tr>
 	                    	<tr align="center">
-	                        	<th>From</th>
-	                        	<th>To</th>
+	                        	<td style="vertical-align:middle" ><b>From</b></td>
+	                        	<td style="vertical-align:middle" ><b>To</b></td>
 	                    	</tr></thead><tbody>';
 	                    $i=1;
 	                    foreach($emp_last5yrstay_details as $row)

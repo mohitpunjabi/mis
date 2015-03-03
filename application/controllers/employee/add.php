@@ -124,7 +124,7 @@ class Add extends MY_Controller
 					'state' => strtolower($this->input->post('state1')) ,
 					'pincode' => $this->input->post('pincode1') ,
 					'country' => strtolower($this->input->post('country1')) ,
-					'contact_no' => $this->input->post('contact1') ,
+					'contact_no' => $this->input->post('contact11') ,
 					'type' => 'present'
 				),
 				array(
@@ -135,7 +135,7 @@ class Add extends MY_Controller
 					'state' => strtolower($this->input->post('state2')) ,
 					'pincode' => $this->input->post('pincode2') ,
 					'country' => strtolower($this->input->post('country2')) ,
-					'contact_no' => $this->input->post('contact2') ,
+					'contact_no' => $this->input->post('contact12') ,
 					'type' => 'permanent'
 				)
 			);

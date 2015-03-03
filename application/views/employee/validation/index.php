@@ -7,18 +7,18 @@ $head = $ui->row()->open();
 		}
 		else {
 			$table = $ui->table()->bordered()->condensed()->responsive()->open();
-			echo "<thead><tr>
-					<th rowspan='2'>Employee Id</th>
-					<th rowspan='2'>Employee Name</th>
-					<th colspan='6'>Status</th>
+			echo "<thead><tr align='center'>
+					<td rowspan='2' style='vertical-align:middle' ><b>Employee Id</b></td>
+					<td rowspan='2' style='vertical-align:middle' ><b>Employee Name</b></td>
+					<td colspan='6' style='vertical-align:middle' ><b>Status</b></td>
 				</tr>
-				<tr>
-					<th>Profile Pic</th>
-					<th>Basic Details</th>
-					<th>Previous Employment Details</th>
-					<th>Dependent Family Member Details</th>
-					<th>Educational Qualifications</th>
-					<th>Last 5 Year Stay Details</th>
+				<tr align='center'>
+					<td style='vertical-align:middle'><b>Profile Pic</b></td>
+					<td style='vertical-align:middle'><b>Basic Details</b></td>
+					<td style='vertical-align:middle'><b>Previous Employment Details</b></td>
+					<td style='vertical-align:middle'><b>Dependent Family Member Details</b></td>
+					<td style='vertical-align:middle'><b>Educational Qualifications</b></td>
+					<td style='vertical-align:middle'><b>Last 5 Year Stay Details</b></td>
 				</tr></thead><tbody>";
 
 			$i=0;

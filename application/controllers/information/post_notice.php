@@ -2,17 +2,16 @@
 
 class Post_notice extends MY_Controller
 {
-    protected $authIds = array('hod','est_ar','exam_dr','dt','dsw');
 	function __construct()
 	{
-		parent::__construct($this->authIds);
+		parent::__construct(array('hod','est_ar','exam_dr','dt','dsw'));
 	}
 
 	public function index($auth_id='')
 	{
-		if(!in_array($auth_id, $this->authIds))
+		if($auth_id =='' || ($auth_id !='hod' && $auth_id !='dt' && $auth_id !='dsw' && $auth_id !='est_ar' && $auth_id !='exam_dr'))
 		{
-			$this->session->set_flashdata('flashError','Access Denied!'.$auth_id);
+			$this->session->set_flashdata('flashError','Acccess Denied!'.$auth_id);
 			redirect('home');
 		}
 		$this->load->helper(array('form', 'url'));
@@ -39,7 +38,7 @@ class Post_notice extends MY_Controller
 		}
 		else
 		{
-			$upload=$this->upload_file('notice_path',$this->input->post('notice_id'));
+			$upload=$this->upload_file('notice_path',$this->input->post('notice_id'),$auth_id);
 			if($upload)
 			{
 				$date = date("Y-m-d H:i:s");
@@ -65,7 +64,7 @@ class Post_notice extends MY_Controller
 	}
 	
 	
-	private function upload_file($name ='',$sno = 0)
+	private function upload_file($name ='',$sno = 0,$auth_id='')
 	{
 		$config['upload_path'] = 'assets/files/information/notice';
 		$config['allowed_types'] = 'pdf|doc|docx|jpg|jpeg|png';

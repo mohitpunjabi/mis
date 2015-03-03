@@ -50,7 +50,7 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->mini()->uiType('primary')->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->icon($ui->icon("download"))->mini()->uiType('primary')->value('Download')->show();?></a>
 								<?php 
 									if ($notice->modification_value != 0)
 									{
@@ -110,13 +110,13 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->icon($ui->icon("download"))->mini()->uiType('primary')->value('Download')->show();?></a>
 								<?php 
 									if ($notice->modification_value != 0  && $flag==1)
 									{
 								?>
 										  		<br>and</br>
-										  		<a href="<?=base_url().'index.php/information/view_notice/prev/'.$notice->notice_id?>"><?=$ui->button()->uiType('primary')->value('Get Prev Version')->show(); echo'</a>';
+										  		<a href="<?=base_url().'index.php/information/view_notice/prev/'.$notice->notice_id?>"><?=$ui->button()->uiType('primary')->mini()->value('Get Prev Version')->show(); echo'</a>';
 									}
 									echo'</td>
 								</tr>';

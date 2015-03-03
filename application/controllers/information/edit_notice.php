@@ -91,7 +91,7 @@ class Edit_notice extends MY_Controller
 						  'notice_path'=>$upload['file_name'],
 						  'last_date'=>$this->input->post('last_date'),
 						  'posted_on'=>$date,
-						  'modification_value'=>$this->input->post('modification_value') + 1
+						  'modification_value'=>($this->input->post('modification_value') + 1)
 						  );
 			    
 				$this->edit_notice_model->insertM($data['notice_id']);

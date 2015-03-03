@@ -46,6 +46,7 @@
 											->placeholder('Subject ID')
 											->id('id'.$counter)
 											->name('id'.$counter)
+											->required()
 											->show();
 								echo '
 									</td>
@@ -54,11 +55,13 @@
 										->placeholder('Subject Name')
 										->id('name'.$counter)
 										->name('name'.$counter)
+										->required()
 										->show(); 
 								echo '
 									</td> 
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Lectures")->disabled()->selected());
 									for($it = 0;$it<=5;$it++)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -67,11 +70,13 @@
 									   ->id("L".$counter)
 									   ->name("L".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 									echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Tutorials")->disabled()->selected());
 									for($it = 0;$it<=5;$it++)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -80,12 +85,18 @@
 									   ->id("T".$counter)
 									   ->name("T".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
 									<td>';
 									$array_option = array();
+<<<<<<< HEAD
 									for($it = 0; $it<=10; $it+=0.5)
+=======
+									//array_push($array_option,$ui->option()->value('""')->text("Practical")->disabled()->selected());
+									for($it = 0; $it<=5; $it+=0.5)
+>>>>>>> feature/course_str_1st_year
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
 									$ui->select()
@@ -93,6 +104,7 @@
 									   ->id("P".$counter)
 									   ->name("P".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
@@ -101,11 +113,13 @@
 											->placeholder('Credit Hours')
 											->id('credit_hours'.$counter)
 											->name('credit_hours'.$counter)
+											->required()
 											->show();
 								echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Type"));
 									array_push($array_option,$ui->option()->value("Theory")->text("Theory"));
 									array_push($array_option,$ui->option()->value("Practical")->text("Practical"));
 									array_push($array_option,$ui->option()->value("Sessional")->text("Sessional"));
@@ -115,6 +129,7 @@
 									   ->id("type".$counter)
 									   ->name("type".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
@@ -140,8 +155,9 @@
 									<td>Please Select the type for Elective list</td>
 									<td>';
 										$ui->select()
-										   ->options(array($ui->option()->value("0")->text("Please Select")->disabled()->selected(),$ui->option()->value("1")->text("Same List For 
-										   AllElectives"),$ui->option()->value("2")->text("Seperate List For All Electives")))
+										   ->options(array($ui->option()->value("0")->text("Please Select")->disabled()->selected(),$ui->option()->
+										   value("1")->text("Same List For AllElectives"),$ui->option()->value("2")->text("Seperate List For All 
+										   Electives")))
 										   ->id("list-type")
 										   ->name("list_type")
 										   ->show();
@@ -218,6 +234,7 @@
 											array_push($array_option,$ui->option()->value($it)->text($it));
 										
 										$ui->select()
+										   ->label("Order of Elective ".$i)
 										   ->name("seq_e".$i)
 										   ->width("6")
 										   ->options($array_option)

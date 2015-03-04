@@ -248,7 +248,40 @@ class Publication extends MY_Controller{
 		$this->drawFooter();
 
 	}
+	public function view(){
+		$temp = array();
+		$temp['emp_id'] = $this->session->userdata('id');
+		$temp['publications'] = $this->basic_model->get_own_publications($temp);
+		//var_dump($temp);
+		//echo $this->session->userdata('id');
+		$i=0;
+		foreach($temp['publications'] as $pub){
+			$data['publications'][$i] = array();
+			$data['publications'][$i]['rec_id'] = $pub->rec_id;
+			$data['publications'][$i]['title'] = $pub->title;
+			$data['publications'][$i]['name'] = $pub->name;
+			$data['publications'][$i]['no_of_authors'] = $pub->no_of_authors;
+			$data['publications'][$i]['other_authors'] = $pub->other_authors;
+			$data['publications'][$i]['authors']['ism'] = $this->basic_model->get_ism_author_detail_by_pub($pub->rec_id);
+			$data['publications'][$i]['type_name'] = $pub->type_name;
+			$data['publications'][$i]['type_id'] = $pub->type;
+			$data['publications'][$i]['vol_no'] = $pub->vol_no;
+			$data['publications'][$i]['issue_no'] = $pub->issue_no;
+			$data['publications'][$i]['begin_date'] = $pub->begin_date;
+			$data['publications'][$i]['page_no'] = $pub->page_no;
+			$data['publications'][$i]['place'] = $pub->place;
+			$data['publications'][$i]['end_date'] = $pub->end_date;
+			if($data['publications'][$i]['other_authors'] > 0){
+				$data['publications'][$i]['authors']['others'] = $this->basic_model->get_other_author_detail_by_pub($pub->rec_id);
+			}
 
+			$i++;
+		}
+		$this->drawHeader('Search Publication');
+		$this->load->view('publication/view_own_publications',$data);
+		$this->drawFooter();
+		
+	}
 	public function search_result(){
 		$temp = array();
 		$temp['dept_id'] = $this->input->post('department_name');

@@ -1,19 +1,18 @@
 <?php
 	$ui = new UI();
 	
-	$column = $ui->col()->width(2)->open();
-	$column->close();
 	for ($i=0; $i<=10; $i++)
 		$str[$i]="";
 	$num = 0;
-
+	for ($i=0; $i<=10; $i++)
+		$current_num[$i]=1;
 	for ($i=0; $i<sizeof($publications); $i++)
 	{
 		$type = $publications[$i]['type_id'];
 		$j=$i+1;
 		$no_of_ism_authors = $publications[$i]['no_of_authors'] - $publications[$i]['other_authors'];
 		$no_of_authors = $publications[$i]['no_of_authors'];
-		$str[$type] .= "<tr><td>".$j.". </td><td> ";
+		$str[$type] .= "<tr><td>".$current_num[$type]++.". </td><td> ";
 		$count = 0;
 		foreach ($publications[$i]['authors']['ism'] as $key=>$auth)
 		{
@@ -59,7 +58,7 @@
 		}
 		$str[$type] .= "</td></tr>";
 	}
-	$column1 = $ui->col()->width(8)->open();
+	$column1 = $ui->col()->width(12)->open();
 		$box = $ui->box()->uiType('primary')->solid()->title('Search Publications')->open();
 			$table = $ui->table()->hover()->bordered()->open();
 			for ($i=1; $i<=5; $i++)

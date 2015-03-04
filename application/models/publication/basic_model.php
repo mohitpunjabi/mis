@@ -35,7 +35,11 @@ class Basic_model extends CI_Model{
 		$query = $this->db->query($basic_query);
 		return $query->result();
 	}
-
+	public function get_own_publications($data){
+		$basic_query = 'select distinct rec.place as place, rec.end_date as end_date, rec.page_no as page_no,rec.begin_date as begin_date,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type,types.type_name as type_name,rec.no_of_authors as no_of_authors,rec.place as place,rec.vol_no as vol_no,rec.issue_no as issue_no,rec.other_authors as other_authors from prk_record as rec join prk_types as types on rec.type_id = types.type_id where rec.no_of_approval >=rec.no_of_authors ';
+		$query = $this->db->query($basic_query);
+		return $query->result();
+	}
 	public function get_prk_types($type_id=''){
 		if($type_id ==''){
 			$query = $this->db->get($this->table_prk_types);

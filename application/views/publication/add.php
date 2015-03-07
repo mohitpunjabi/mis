@@ -18,11 +18,7 @@
 	
 	$inputRow1 = $ui->row()->open();
 	$Col1 = $ui->col()->width(6)->open();
-		$ui->input()
-		   ->label('Title of Paper')
-		   ->name('title')
-		   ->required()
-		   ->show();
+		$ui->input()->label('Title')->name('title')->required()->show();
 	$Col1->close();
 	$Col2 =  $ui->col()->width(6)->open();
 		$ui->select()
@@ -36,7 +32,8 @@
 				$ui->option()->value(2)->text("International Journal"),
 				$ui->option()->value(3)->text("National Conference"),
 				$ui->option()->value(4)->text("International Conference"),
-				$ui->option()->value(5)->text("Others")
+				$ui->option()->value(5)->text("Book"),
+				$ui->option()->value(6)->text("Book Chapter")
 			))
 		   ->show();
 

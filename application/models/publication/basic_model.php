@@ -8,7 +8,6 @@ class Basic_model extends CI_Model{
 	var $table_user_details = 'user_details';
 
 	public function search($data){
-		//$query='';
 		$basic_query = 'SELECT DISTINCT rec.chapter_no as chapter_no,rec.publisher as publisher,rec.chapter_name as chapter_name,rec.edition as edition,rec.isbn_no as isbn_no,rec.place as place,rec.end_date as end_date,rec.page_no as page_no,rec.begin_date as begin_date,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type, types.type_name as type_name ,rec.no_of_authors as no_of_authors,rec.place as place,rec.vol_no as vol_no,rec.issue_no as issue_no,rec.other_authors as other_authors from prk_record as rec join prk_types as types on rec.type_id = types.type_id where rec.no_of_approval >= rec.no_of_authors ';
 		if($data['dept_id'] == 'all'){
 			
@@ -110,8 +109,7 @@ class Basic_model extends CI_Model{
 	}
 
 	public function get_emp_by_dept($dept){
-		$this->db->select(array('id',"concat(salutation,' ',first_name,' ',middle_name,' ',last_name) as name"));
-		$query= $this->db->get_where($this->table_user_details,array('dept_id'=>$dept));
+		$query = $this->db->query("SELECT rec.id as id,rec.salutation as salutation,concat(first_name,' ',middle_name,' ',last_name) AS name FROM user_details as rec join users as user WHERE rec.id = user.id AND user.auth_id = 'emp' AND rec.dept_id = '{$dept}' ORDER BY name");
 		return $query->result();
 	}
 

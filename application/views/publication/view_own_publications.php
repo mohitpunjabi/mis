@@ -119,6 +119,9 @@
 					else if ($i==5){
 						?><th colspan="4">Books</th><?php
 					}
+					else if ($i==6){
+						?><th colspan="4">Book Chapters</th><?php
+					}
 					echo $str[$i]; 
 				}
 		$table->close();

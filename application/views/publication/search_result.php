@@ -44,7 +44,7 @@
 			$str[$type] .= $publications[$i]['issue_no'].", ".$date.", ";
 			$str[$type] .= "pp ".$publications[$i]['page_no'].".";
 		}
-		else if ($type==3 || $type==4 || $type==5)
+		else if ($type==3 || $type==4)
 		{
 			$begin_date = "";
 			$end_date = "";
@@ -55,6 +55,33 @@
 			$str[$type] .= "Published in the ".$publications[$i]['name'].", held at ";
 			$str[$type] .= $publications[$i]['place']." during ".$begin_date;
 			$str[$type] .= " to ".$end_date.", pp ".$publications[$i]['page_no'].".";
+		}
+		else if ($type == 5)
+		{
+			$str[$type] .= "authored the book titled ".$publications[$i]['title']." published by ";
+			$str[$type] .= $publications[$i]['publisher']." which is currently in its ";
+			if ($publications[$i]['edition']%10 == 1)
+				$str[$type] .= $publications[$i]['edition']."st edition.";
+			else if ($publications[$i]['edition']%10 == 2)
+				$str[$type] .= $publications[$i]['edition']."nd edition.";
+			else if ($publications[$i]['edition']%10 == 3)
+				$str[$type] .= $publications[$i]['edition']."rd edition.";
+			else
+				$str[$type] .= $publications[$i]['edition']."th edition.";
+		}
+		else if ($type == 6)
+		{
+			$str[$type] .= " authored the chapter titled ".$publications[$i]['chapter_name']." in the book ";
+			$str[$type] .= $publications[$i]['title']." which is published by ".$publications[$i]['publisher'];
+			$str[$type] .= "and is in its ";
+			if ($publications[$i]['edition']%10 == 1)
+				$str[$type] .= $publications[$i]['edition']."st edition.";
+			else if ($publications[$i]['edition']%10 == 2)
+				$str[$type] .= $publications[$i]['edition']."nd edition.";
+			else if ($publications[$i]['edition']%10 == 3)
+				$str[$type] .= $publications[$i]['edition']."rd edition.";
+			else
+				$str[$type] .= $publications[$i]['edition']."th edition.";
 		}
 		$str[$type] .= "</td></tr>";
 	}
@@ -76,7 +103,10 @@
 						?><th colspan="4">International Conference</th><?php
 					}
 					else if ($i==5){
-						?><th colspan="4">Others</th><?php
+						?><th colspan="4">Books</th><?php
+					}
+					else if ($i==6){
+						?><th colspan="4">Book Chapters</th><?php
 					}
 					echo $str[$i]; 
 				}

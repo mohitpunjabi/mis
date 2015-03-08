@@ -48,9 +48,8 @@
 					    }
 
 						$data['name'] = $emp->salutation.'. '.ucwords(trim($emp->first_name)).' '.trim(ucwords(trim($emp->middle_name)).' '.ucwords(trim($emp->last_name)));
-						$data['deparment']=$this->departments_model->getDepartmentById($emp->dept_id)->name;
+						$data['department']=$this->departments_model->getDepartmentById($emp->dept_id)->name;
     					$data['designation']=$this->designations_model->getDesignationById($emp->designation)->name;
-    					$data['address'] = $this->employee_model->getAddressById($emp->id);
 
 						$data['permanent_pretty'] = $permanent_address->line1.',<br>'.((trim($permanent_address->line2)=='')? '':$permanent_address->line2.',<br>')
                     						.ucwords($permanent_address->city).', '.ucwords($permanent_address->state).' - '.$permanent_address->pincode.'<br>'
@@ -191,7 +190,7 @@ function view_basic_details($data,$emp,$ft) {
   			echo '<br>';
 			$row2 = $ui->row()->open();
   				$col1 = $ui->col()->width(3)->t_width(3)->m_width(6)->open();
-  					echo '<label>Department</label><br>'.$data['deparment'];
+  					echo '<label>Department</label><br>'.$data['department'];
   				$col1->close();
   				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
   					echo '<label>Designation</label><br>'.ucwords($data['designation']);

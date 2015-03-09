@@ -142,12 +142,6 @@ class Edit extends MY_Controller
 		$this->load->model('employee/emp_validation_details_model','',TRUE);
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
-		if($data['emp_validation_details'])	{
-
-
-
-
-		}
 
 		$data['user_details']=$this->user_details_model->getUserById($emp_id);
 		$data['user_other_details']=$this->user_other_details_model->getUserById($emp_id);

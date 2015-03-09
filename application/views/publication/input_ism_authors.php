@@ -1,6 +1,5 @@
 <?php
 	$ui= new UI();
-	//echo 'department_name'.$author_no;
 	$row = $ui->row()->open();
 	
 		$row1 = $ui->row()->open();

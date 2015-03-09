@@ -45,12 +45,8 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
-								
-										  		<br>and</br>
-										  		<a href="<?=base_url().'index.php/information/view_notice/prev/'.$notice->notice_id?>"><?=$ui->button()->uiType('primary')->value('Get Prev Version')->show(); echo'</a>';
-									
-									echo'</td>
+									<a href="<?=base_url().'assets/files/information/notice/'.$notice->notice_path?>" download="<?=$notice->notice_path?>"><?=$ui->button()->mini()->uiType('primary')->icon($ui->icon("download"))->value('Download')->show();?></a>
+									<?php '</td>
 								</tr>';
 					}
 					$table->close();

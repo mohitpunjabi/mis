@@ -22,7 +22,7 @@
 								<th>Minutes Number</th>
 								<th >Meeting Type</th>
 								<th >Meeting Date</th>	
-								<th >Meeting Type</th>						
+								<th >Meeting Place</th>						
 								<th>Posted On/ Edited On</th>
 								<th >Issued By</th>
 								<th>Revision Status</th>
@@ -48,7 +48,8 @@
 								</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/minutes/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
+									
+									<a href="<?=base_url().'assets/files/information/minute/'.$minute->minutes_path?>" download="<?=$minute->minutes_path?>"><?=$ui->button()->icon($ui->icon("download"))->uiType('primary')->mini()->value('Download')->show();?></a>
 								<?php 
 									
 									echo'</td>

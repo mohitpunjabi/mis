@@ -1,6 +1,5 @@
 <?php
 	$ui = new UI();
-	//echo $total_authors;
 	for ($i=1; $i<=$total_authors; $i++)
 	{
 		$row = $ui->row()->open();

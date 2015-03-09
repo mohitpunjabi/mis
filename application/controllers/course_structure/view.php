@@ -6,7 +6,6 @@ class View extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('deo','hod'));
-		
 		$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
 	}
@@ -37,6 +36,11 @@ class View extends MY_Controller
 		$semester = $data["CS_session"]['semester'];
 		$session = $data["CS_session"]['session'];
 		
+		if($data["CS_session"]['dept_id'] == "comm")
+		{
+			$data['CS_session']['group'] = $this->input->post('group');	
+		}
+		
 		$expected_aggr_id = $course_id.'_'.$branch_id.'_'.$session;
 		
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))
@@ -47,9 +51,6 @@ class View extends MY_Controller
 		else
 			$aggr_id = $expected_aggr_id;
 		
-		//echo $aggr_id;
-		//die();
-		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
 		$row_course = $this->basic_model->get_course_details_by_id($course_id);
@@ -59,47 +60,112 @@ class View extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch_name']=$row_branch[0]->name;
 		
+		
+		//$semester == 0 when All(for all semester) has been selected in view CS. 
 		if($semester == 0)
 		{
 			$start_semester = 1;
 			$end_semester = 2*$row_course[0]->duration;
-			//$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
 		}
 		else
 		{
 			$start_semester = $semester;
 			$end_semester = $semester;
-			//
 		}
 		$data['flag'] = 1;
-		for($counter=$start_semester;$counter<=$end_semester;$counter++)
+		
+		
+		for($k=$start_semester;$k<=$end_semester;$k++)
 		{
-			$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
-		  	$i=1;
-		  foreach($result_ids as $row)
-		  {
-		   	   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
-			   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-			   if($group_id != 0 && !isset($data["subjects"]["elective_count"][$group_id]))
-			   	 $data["subjects"]["elective_count"][$group_id] = 0;
-			   
-			   $data["subjects"]["sequence_no"][$counter][$i] = $this->basic_model->get_course_structure_by_id($data["subjects"]["subject_details"][$counter][$i]->
-			   id)->sequence;
-			   
-			   $data["subjects"][$group_id] = 0;
-			   //var_dump($data["subjects"]["subject_details"][$counter][$i]);
-			   if($group_id != 0)
-			   {
-				    //$data['flag']['group_id'][$i] = $group_id;
-					$group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
-			   		$data["subjects"]["group_details"][$counter][$i] = $group_detials[0];
-			    	$data["subjects"]["elective_count"][$group_id]++;
-			   }
-			   $i++;
-		  }
-		  $data["subjects"]["count"][$counter]=$i-1;		  
-		  	
-		}	
+
+			//if it is a common course branch ie for 1st year.
+			if($data["CS_session"]['dept_id'] == "comm")
+			{
+				$counter = $k."_".$this->input->post("group");	
+				$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+		  		$i=1;
+				foreach($result_ids as $row)
+			    {
+				   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+				   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+				   
+				   if($group_id != 0)
+				   {
+					   $data['subjects']['group_details']['group_id'][$counter][$i] = $group_id;
+					   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
+					   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+					   
+					   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
+					}
+					   
+					$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+				   
+				   $data["subjects"][$group_id] = 0;
+				   $i++;
+			    }
+			    $data["subjects"]["count"][$counter]=$i-1;		  
+			}
+			else
+			{
+				//calculate subject details for semester 1 and 2 which are common to all.
+				if($k == 1 || $k == 2)
+				{	
+					for($comm_group = 1;$comm_group <=2;$comm_group++)
+					{
+						$counter = $k."_".$comm_group;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$session);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+						   
+						   if($group_id != 0)
+						   {
+							   $data['subjects']['group_details']['group_id'][$counter][$i] = $group_id;
+							   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
+							   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+							   
+							   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
+							}
+							   
+							$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+						   
+						   $data["subjects"][$group_id] = 0;
+						   $i++;
+						}
+						$data["subjects"]["count"][$counter]=$i-1;		  			
+					}		
+				}
+				//calculate subject details for other semester which are not common to all.
+				else
+				{
+					$counter = $k;
+					$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+		  			$i=1;
+					foreach($result_ids as $row)
+					{
+					   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+					   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+					   
+					   if($group_id != 0)
+					   {
+						   $data['subjects']['group_details']['group_id'][$counter][$i] = $group_id;
+						   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
+						   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+						   
+						   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
+						}
+						   
+						$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+					   
+					   $data["subjects"][$group_id] = 0;
+					   $i++;
+					}
+					$data["subjects"]["count"][$counter]=$i-1;
+				}	
+			}
+		}
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Course structure");  

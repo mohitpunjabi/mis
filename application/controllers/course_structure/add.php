@@ -11,8 +11,8 @@ class Add extends MY_Controller
 		$CS_session = $this->session->userdata("CS_session");
 		//var_dump($CS_session);
 		
-		if(!isset($CS_session['aggr_id']) || $CS_session['aggr_id'] == '__' )
-			redirect("/home");
+		//if(!isset($CS_session['aggr_id']) || $CS_session['aggr_id'] == '__' )
+			//redirect("/home");
 	}
 
 	public function index($error='')

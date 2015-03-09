@@ -200,7 +200,7 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                     ->show();
             $emp_box->close();
 
-            $pay_box = $ui->box()->uiType('primary')->solid()->title('Payment Details')->open();
+            $pay_box = $ui->box()->uiType('primary')->solid()->title('Salary Details')->open();
 
                 $ui->select()->name('payscale')->id('payscale')->label('Pay Band<span style= "color:red;"> *</span>')
                             ->options($pay_options)->required()->show();

@@ -53,10 +53,16 @@ class Publication extends MY_Controller{
 			$data['end_date'] = (new DateTime($this->input->post('end_date')));
 			$data['end_date'] = $data['end_date']->format('Y-m-d h:i:s');
 		}
-		else{
-			$data['place'] = $this->input->post('venue');
-			$data['vol_no'] = $this->input->post('vol_no');
-			$data['issue_no'] = $this->input->post('issue_no');
+		else if ($data['type_id']=='5'){
+			$data['edition'] = $this->input->post('edition');
+			$data['isbn_no'] = $this->input->post('isbn_no');
+			$data['publisher'] = $this->input->post('publisher');
+		}
+		else if ($data['type_id']=='6'){
+			$data['chapter_name'] = $this->input->post('chapter_name');
+			$data['chapter_no'] = $this->input->post('chapter_no');
+			$data['isbn_no'] = $this->input->post('isbn_no');
+			$data['publisher'] = $this->input->post('publisher');
 		}
 		$data['page_no'] = $this->input->post('page_range');
 		$data['other_info'] = $this->input->post('other_info');
@@ -132,6 +138,12 @@ class Publication extends MY_Controller{
 			$data['publication']['place'] = $temp[0]->place;
 			$data['publication']['vol_no'] = $temp[0]->vol_no;
 			$data['publication']['issue_no'] = $temp[0]->issue_no;
+			$data['publication']['edition'] = $temp[0]->edition;
+			$data['publication']['isbn_no'] = $temp[0]->isbn_no;
+			$data['publication']['venue'] = $temp[0]->place;
+			$data['publication']['publisher'] = $temp[0]->publisher;
+			$data['publication']['chapter_name'] = $temp[0]->chapter_name;
+			$data['publication']['chapter_no'] = $temp[0]->chapter_no;
 			$data['publication']['begin_date'] = $temp[0]->begin_date;
 			$data['publication']['end_date'] = $temp[0]->end_date;
 			$data['publication']['page_no'] = $temp[0]->page_no;
@@ -187,27 +199,43 @@ class Publication extends MY_Controller{
 		$data['rec_id'] = $sess['rec_id'];
 		$data['title'] = $this->input->post('title');
 		$data['type_id'] = $sess['type_id'];
-		$data['name'] = $this->input->post('publication_name');
+		if ($data['type_id'] == 1 || $data['type_id']==2 || $data['type_id']==3 || $data['type_id']==4)
+			$data['name'] = $this->input->post('publication_name');
 		$data['begin_date'] = (new DateTime($this->input->post('begin_date')));
 		$data['begin_date'] = $data['begin_date']->format('Y-m-d h:i:s');
 		$data['place'] = '';
 		$data['vol_no'] = '';
+		$data['venue'] = '';
 		$data['issue_no'] = '';
 		$data['end_date'] = '';
+		$data['edition'] = '';
+		$data['publisher'] = '';
+		$data['chapter_name'] = '';
+		$data['chapter_no'] = '';
+		$data['isbn_no'] = '';
+		$data['page_no'] = '';
+
 
 		if($data['type_id'] == '1' || $data['type_id'] =='2'){
 			$data['vol_no'] = $this->input->post('vol_no');
 			$data['issue_no'] = $this->input->post('issue_no');
 		}
 		else if($data['type_id'] == '3' || $data['type_id'] =='4'){
-			$data['place'] = $this->input->post('venue');
+			$data['place'] = $this->input->post('place');
+			$data['page_no'] = $this->input->post('page_no');
 			$data['end_date'] = (new DateTime($this->input->post('end_date')));
 			$data['end_date'] = $data['end_date']->format('Y-m-d h:i:s');
 		}
-		else{
-			$data['place'] = $this->input->post('venue');
-			$data['vol_no'] = $this->input->post('vol_no');
-			$data['issue_no'] = $this->input->post('issue_no');
+		else if ($data['type_id'] == '5'){
+			$data['publisher'] = $this->input->post('publisher');
+			$data['edition'] = $this->input->post('edition');
+			$data['isbn_no'] = $this->input->post('isbn_no');
+		}
+		else if ($data['type_id'] == '6'){
+			$data['publisher'] = $this->input->post('publisher');
+			$data['chapter_name'] = $this->input->post('chapter_name');
+			$data['chapter_no'] = $this->input->post('chapter_no');
+			$data['isbn_no'] = $this->input->post('isbn_no');
 		}
 		$data['page_no'] = $this->input->post('page_no');
 		$data['other_info'] = $this->input->post('other_info');
@@ -238,17 +266,46 @@ class Publication extends MY_Controller{
 		redirect('publication/publication/editpublication');
 		//var_dump($this->input->post());
 	}
+	
+	public function view(){
+		$temp = array();
+		$temp['emp_id'] = $this->session->userdata('id');
+		$temp['publications'] = $this->basic_model->get_own_publications($temp);
+		//var_dump($temp);
+		//echo $this->session->userdata('id');
+		$i=0;
+		foreach($temp['publications'] as $pub){
+			$data['publications'][$i] = array();
+			$data['publications'][$i]['rec_id'] = $pub->rec_id;
+			$data['publications'][$i]['title'] = $pub->title;
+			$data['publications'][$i]['name'] = $pub->name;
+			$data['publications'][$i]['no_of_authors'] = $pub->no_of_authors;
+			$data['publications'][$i]['other_authors'] = $pub->other_authors;
+			$data['publications'][$i]['authors']['ism'] = $this->basic_model->get_ism_author_detail_by_pub($pub->rec_id);
+			$data['publications'][$i]['type_name'] = $pub->type_name;
+			$data['publications'][$i]['type_id'] = $pub->type;
+			$data['publications'][$i]['vol_no'] = $pub->vol_no;
+			$data['publications'][$i]['edition'] = $pub->edition;
+			$data['publications'][$i]['publisher'] = $pub->publisher;
+			$data['publications'][$i]['isbn_no'] = $pub->isbn_no;
+			$data['publications'][$i]['chapter_name'] = $pub->chapter_name;
+			$data['publications'][$i]['chapter_no'] = $pub->chapter_no;
+			$data['publications'][$i]['issue_no'] = $pub->issue_no;
+			$data['publications'][$i]['begin_date'] = $pub->begin_date;
+			$data['publications'][$i]['page_no'] = $pub->page_no;
+			$data['publications'][$i]['place'] = $pub->place;
+			$data['publications'][$i]['end_date'] = $pub->end_date;
+			if($data['publications'][$i]['other_authors'] > 0){
+				$data['publications'][$i]['authors']['others'] = $this->basic_model->get_other_author_detail_by_pub($pub->rec_id);
+			}
 
-	public function search(){
-		$data= array();
-		$data['prk_types'] = $this->basic_model->get_prk_types();
-		$this->addJS('publication/search_publication.js');
+			$i++;
+		}
 		$this->drawHeader('Search Publication');
-		$this->load->view('publication/search_query',$data);
+		$this->load->view('publication/view_own_publications',$data);
 		$this->drawFooter();
-
+		
 	}
-
 	public function search_result(){
 		$temp = array();
 		$temp['dept_id'] = $this->input->post('department_name');
@@ -272,6 +329,12 @@ class Publication extends MY_Controller{
 				$data['publications'][$i]['type_id'] = $pub->type;
 				$data['publications'][$i]['vol_no'] = $pub->vol_no;
 				$data['publications'][$i]['issue_no'] = $pub->issue_no;
+				$data['publications'][$i]['edition'] = $pub->edition;
+				$data['publications'][$i]['isbn_no'] = $pub->isbn_no;
+				$data['publications'][$i]['issue_no'] = $pub->issue_no;
+				$data['publications'][$i]['publisher'] = $pub->publisher;
+				$data['publications'][$i]['chapter_name'] = $pub->chapter_name;
+				$data['publications'][$i]['chapter_no'] = $pub->chapter_no;
 				$data['publications'][$i]['begin_date'] = $pub->begin_date;
 				$data['publications'][$i]['page_no'] = $pub->page_no;
 				$data['publications'][$i]['place'] = $pub->place;
@@ -314,6 +377,18 @@ class Publication extends MY_Controller{
 					$data['publications'][$i]['rec_id'] = $pub->rec_id;
 					$data['publications'][$i]['title'] = $pub->title;
 					$data['publications'][$i]['name'] = $pub->name;
+					$data['publications'][$i]['type_id'] = $pub->type_id;
+					$data['publications'][$i]['place'] = $pub->place;
+					$data['publications'][$i]['vol_no'] = $pub->vol_no;
+					$data['publications'][$i]['issue_no'] = $pub->issue_no;
+					$data['publications'][$i]['edition'] = $pub->edition;
+					$data['publications'][$i]['isbn_no'] = $pub->isbn_no;
+					$data['publications'][$i]['publisher'] = $pub->publisher;
+					$data['publications'][$i]['chapter_name'] = $pub->chapter_name;
+					$data['publications'][$i]['chapter_no'] = $pub->chapter_no;
+					$data['publications'][$i]['begin_date'] = $pub->begin_date;
+					$data['publications'][$i]['end_date'] = $pub->end_date;
+					$data['publications'][$i]['page_no'] = $pub->page_no;
 					$data['publications'][$i]['no_of_authors'] = $pub->no_of_authors;
 					$data['publications'][$i]['other_authors'] = $pub->other_authors;
 					$data['publications'][$i]['authors']['ism'] = $this->basic_model->get_ism_author_detail_by_pub($pub->rec_id);
@@ -333,6 +408,35 @@ class Publication extends MY_Controller{
 				redirect('publication/publication/index');
 			}
 		}
+	}
+	public function decline_view($rec_id=''){
+		$data = array();
+		$data['rec_id']=$rec_id;
+		$data['emp_id']=$this->session->userdata('id');
+		$this->drawHeader('Decline Publication');
+		$this->load->view('publication/decline.php',$data);
+		$this->drawFooter();
+	}
+
+	public function decline_action(){
+		$data = array();
+		$data['rec_id'] = $this->input->post('rec_id');
+		$data['reason'] = $this->input->post('reason');
+		//var_dump($data);
+		$this->basic_model->remove_own_from_publication($data['rec_id'],$this->session->userdata('id'));
+		$data['ism_authors'] = $this->basic_model->get_approved_author($data['rec_id']);
+		//var_dump($data);
+		foreach ($data['ism_authors'] as $authors){
+			$temp = $this->basic_model->get_name_of_author_by_emp_id($authors->emp_id);
+			//var_dump($temp);
+			$title = "Declining of Publication by ".$temp->name;
+			$description = $data['reason'];
+			$link = "publication/publication/view";
+			$this->notification->notify($authors->emp_id,"emp",$title,$description,$link,"");
+		}
+		$this->session->set_flashdata("flashSuccess","Successfully declined the publication.");
+		redirect('publication/publication/approve');
+		
 	}
 }
 

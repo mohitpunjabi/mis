@@ -50,7 +50,7 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->mini()->uiType('primary')->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->icon($ui->icon("download"))->mini()->uiType('primary')->value('Download')->show();?></a>
 								<?php 
 									if ($circular->modification_value != 0)
 									{
@@ -111,7 +111,7 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
+									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->icon($ui->icon("download"))->mini()->uiType('primary')->value('Download')->show();?></a>
 								<?php 
 									if ($circular->modification_value != 0  && $flag==1)
 									{

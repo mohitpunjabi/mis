@@ -45,7 +45,8 @@
 									</td>
 									<td align="center">
 									
-									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->uiType('primary')->value('Download')->show();?></a>
+									
+									<a href="<?=base_url().'assets/files/information/circular/'.$circular->circular_path?>" download="<?=$circular->circular_path?>"><?=$ui->button()->icon($ui->icon("download"))->mini()->uiType('primary')->value('Download')->show();?></a>
 								
 									<?php echo'</td>
 								</tr>';

@@ -31,9 +31,12 @@ class Regular_check_acdamic extends MY_Controller
 				$this->load->model('student_sem_form/sbasic_model','',TRUE);
 				$this->load->model('student_sem_form/get_subject','',TRUE);
 				$this->load->model('student_sem_form/get_results','',TRUE);
+				$this->load->model('student_sem_form/get_carryover','',TRUE);
 				$data['student']=$this->sbasic_model->hod_view_student($id,$fid);
 				
 				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1),$data['student'][0]->admission_id);
+				
+				$data['carryover']=$this->get_carryover->getCarryoverByformId($data['student'][0]->form_id);
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
 				$this->load->view('templates/header_assets');
 				if($p==1){

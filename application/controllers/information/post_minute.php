@@ -37,7 +37,7 @@ class Post_minute extends MY_Controller
 		}
 		else
 		{
-			$upload=$this->upload_file('minutes_path',$this->input->post('minute_id'));
+			$upload=$this->upload_file('minutes_path',$this->input->post('minutes_id'));
 			if($upload)
 			{
 				//deparment of logged in employee
@@ -50,7 +50,7 @@ class Post_minute extends MY_Controller
 				if($others=='others')
 					$others  = $this->input->post('meeting_others');
 				
-				$data = array('minutes_id'=>$this->input->post('minute_id'),
+				$data = array('minutes_id'=>$this->input->post('minutes_id'),
 						  'minutes_no'=>$this->input->post('minutes_no'),
 						  'meeting_type'=>$others, 
 						  'meeting_cat'=>$this->input->post('meeting_cat'),

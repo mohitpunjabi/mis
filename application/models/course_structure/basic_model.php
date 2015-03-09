@@ -179,7 +179,8 @@ class Basic_model extends CI_Model
 	
 	function get_subjects_by_sem($sem,$aggr_id)
 	{
-		$query = $this->db->query("SELECT * FROM course_structure WHERE semester = '$sem' AND aggr_id = '$aggr_id' ORDER BY cast(SUBSTRING_INDEX(`sequence`, '.', 1) as decimal) asc, 
+		$query = $this->db->query("SELECT * FROM course_structure WHERE semester = '$sem' AND aggr_id = '$aggr_id' ORDER BY 
+		cast(SUBSTRING_INDEX(`sequence`, '.', 1) as decimal) asc, 
 		cast(SUBSTRING_INDEX(`sequence`, '.', -1) as decimal) asc");
 		//$this->db->order_by("sequence","ASC");
 		//$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
@@ -214,7 +215,9 @@ class Basic_model extends CI_Model
 	
 	function select_elective_group_by_group_id($group_id)
 	{
-		$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
+		$query = $this->db->query("SELECT * FROM  `elective_group` WHERE `group_id` = '".$group_id."' ");
+
+		//$query = $this->db->get_where($this->table_elective_group,array('group_id'=>$group_id));
 		return $query->result();
 	}
 	function get_elective_count($group_id)

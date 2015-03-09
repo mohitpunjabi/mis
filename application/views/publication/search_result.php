@@ -1,19 +1,18 @@
 <?php
 	$ui = new UI();
 	
-	$column = $ui->col()->width(2)->open();
-	$column->close();
 	for ($i=0; $i<=10; $i++)
 		$str[$i]="";
 	$num = 0;
-
+	for ($i=0; $i<=10; $i++)
+		$current_num[$i]=1;
 	for ($i=0; $i<sizeof($publications); $i++)
 	{
 		$type = $publications[$i]['type_id'];
 		$j=$i+1;
 		$no_of_ism_authors = $publications[$i]['no_of_authors'] - $publications[$i]['other_authors'];
 		$no_of_authors = $publications[$i]['no_of_authors'];
-		$str[$type] .= "<tr><td>".$j.". </td><td> ";
+		$str[$type] .= "<tr><td>".$current_num[$type]++.". </td><td> ";
 		$count = 0;
 		foreach ($publications[$i]['authors']['ism'] as $key=>$auth)
 		{
@@ -45,7 +44,7 @@
 			$str[$type] .= $publications[$i]['issue_no'].", ".$date.", ";
 			$str[$type] .= "pp ".$publications[$i]['page_no'].".";
 		}
-		else if ($type==3 || $type==4 || $type==5)
+		else if ($type==3 || $type==4)
 		{
 			$begin_date = "";
 			$end_date = "";
@@ -57,12 +56,39 @@
 			$str[$type] .= $publications[$i]['place']." during ".$begin_date;
 			$str[$type] .= " to ".$end_date.", pp ".$publications[$i]['page_no'].".";
 		}
+		else if ($type == 5)
+		{
+			$str[$type] .= "authored the book titled ".$publications[$i]['title']." published by ";
+			$str[$type] .= $publications[$i]['publisher']." which is currently in its ";
+			if ($publications[$i]['edition']%10 == 1)
+				$str[$type] .= $publications[$i]['edition']."st edition.";
+			else if ($publications[$i]['edition']%10 == 2)
+				$str[$type] .= $publications[$i]['edition']."nd edition.";
+			else if ($publications[$i]['edition']%10 == 3)
+				$str[$type] .= $publications[$i]['edition']."rd edition.";
+			else
+				$str[$type] .= $publications[$i]['edition']."th edition.";
+		}
+		else if ($type == 6)
+		{
+			$str[$type] .= " authored the chapter titled ".$publications[$i]['chapter_name']." in the book ";
+			$str[$type] .= $publications[$i]['title']." which is published by ".$publications[$i]['publisher'];
+			$str[$type] .= "and is in its ";
+			if ($publications[$i]['edition']%10 == 1)
+				$str[$type] .= $publications[$i]['edition']."st edition.";
+			else if ($publications[$i]['edition']%10 == 2)
+				$str[$type] .= $publications[$i]['edition']."nd edition.";
+			else if ($publications[$i]['edition']%10 == 3)
+				$str[$type] .= $publications[$i]['edition']."rd edition.";
+			else
+				$str[$type] .= $publications[$i]['edition']."th edition.";
+		}
 		$str[$type] .= "</td></tr>";
 	}
-	$column1 = $ui->col()->width(8)->open();
+	$column1 = $ui->col()->width(12)->open();
 		$box = $ui->box()->uiType('primary')->solid()->title('Search Publications')->open();
 			$table = $ui->table()->hover()->bordered()->open();
-			for ($i=1; $i<=5; $i++)
+			for ($i=1; $i<=10; $i++)
 				if ($str[$i]!=""){
 					if ($i==1){
 						?><th colspan="4">National Journal</th><?php
@@ -77,98 +103,14 @@
 						?><th colspan="4">International Conference</th><?php
 					}
 					else if ($i==5){
-						?><th colspan="4">Others</th><?php
+						?><th colspan="4">Books</th><?php
+					}
+					else if ($i==6){
+						?><th colspan="4">Book Chapters</th><?php
 					}
 					echo $str[$i]; 
 				}
 			$table->close();
 		$box->close();
 	$column1->close();
-	
-
 ?>
-
-<!--
-<div id="container">
-  <h1>Welcome to Searh Publications Page!</h1>
-  <center>
-  <font face="Arial" size="3">
-  <b>Search Result for Publications</b><br><br>
-  
-  <div>
-	<table>
-	  <?php
-		$type=0;
-		for($i=0;$i<sizeof($publications);){
-		  $type = $publications[$i]['type_id'];
-		  echo "<th>".$publications[$i]['type_name']."</th>";
-		  while($i < sizeof($publications) && $type == $publications[$i]['type_id']){
-			echo "<tr>";
-			echo " <td>";
-			
-			/*
-			* Start of the name of the authors
-			*/            
-			$str ='<strong>';
-			$no_of_ism_authors = $publications[$i]['no_of_authors'] - $publications[$i]['other_authors'];
-			foreach ($publications[$i]['authors']['ism'] as $key=>$auth) {
-			  if($publications[$i]['other_authors'] > 0){
-				if($key == 0){//handles both single author and first author in Multiple authors
-				  $str .= $auth->name." ";
-				}
-				if($key != 0 ){
-				  $str .= " ,".$auth->name." ";
-				}
-			  }
-			  else{
-				if($key == 0){//handles both single author and first author in Multiple authors
-				  $str .= $auth->name." ";
-				}
-				if($key != 0 && $publications[$i]['no_of_authors'] > 1){
-				  if($key < $no_of_ism_authors - 1)
-					$str .= " ,".$auth->name." ";
-				  else{
-					$str .= " & ".$auth->name." ";
-				  }
-				}
-			  }
-			}
-			if($publications[$i]['other_authors']>0){
-			  foreach ($publications[$i]['authors']['others'] as $key=>$auth) {
-				if($key < $publications[$i]['other_authors']-1)
-				  $str .= " ,".$auth->name." ";
-				else{
-				  $str .= " & ".$auth->name."";
-				}
-			  }  
-			}
-			$str .="</strong>";
-			echo $str;
-
-			/*
-			* Start of the title of the Publication
-			*/
-			echo ",<strong>\"".$publications[$i]['title']."\"</strong> Published in the ";
-			
-			/*
-			* Start of the Parts based on the Publications Type
-			*/
-			if($publications[$i]['type_id'] < 3){// National & international Journal
-			  echo ",".$publications[$i]['type_name'].", ".$publications[$i]['name'];  
-			}
-			else{
-
-			}
-			echo "</tr>";
-			$i++;
-		  }
-		}
-	  ?>
-	</table>
-  </div>
-
-  </font>
-  </center>
-  <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-</div>
--->

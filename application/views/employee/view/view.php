@@ -47,15 +47,8 @@ echo '<div id="print" >';
 						$data['name'] = $emp->salutation.'. '.ucwords(trim($emp->first_name)).' '.trim(ucwords(trim($emp->middle_name)).' '.ucwords(trim($emp->last_name)));
 						$data['department']=$this->departments_model->getDepartmentById($emp->dept_id)->name;
     					$data['designation']=$this->designations_model->getDesignationById($emp->designation)->name;
-    					$data['permanent_pretty'] = $permanent_address->line1.',<br>'.((trim($permanent_address->line2)=='')? '':$permanent_address->line2.',<br>')
-                    						.ucwords($permanent_address->city).', '.ucwords($permanent_address->state).' - '.$permanent_address->pincode.'<br>'
-                    						.ucwords($permanent_address->country).'<br>
-                    						Contact no. '.$permanent_address->contact_no;
-
-				        $data['present_pretty'] = $present_address->line1.',<br>'.((trim($present_address->line2)=='')? '':$present_address->line2.',<br>')
-						                    .ucwords($present_address->city).', '.ucwords($present_address->state).' - '.$present_address->pincode.'<br>'
-						                    .ucwords($present_address->country).'<br>
-						                    Contact no. '.$present_address->contact_no;
+    					$data['permanent_pretty'] = $permanent_address->line1.',<br>'.((trim($permanent_address->line2)=='')? '':$permanent_address->line2.',<br>').ucwords($permanent_address->city).', '.ucwords($permanent_address->state).' - '.$permanent_address->pincode.'<br>'.ucwords($permanent_address->country).'<br>Contact no. '.$permanent_address->contact_no;
+				        $data['present_pretty'] = $present_address->line1.',<br>'.((trim($present_address->line2)=='')? '':$present_address->line2.',<br>').ucwords($present_address->city).', '.ucwords($present_address->state).' - '.$present_address->pincode.'<br>'.ucwords($present_address->country).'<br>Contact no. '.$present_address->contact_no;
 
     					if($emp_validation_details)
 					    {
@@ -84,15 +77,8 @@ echo '<div id="print" >';
 							$pending_data['department']=$this->departments_model->getDepartmentById($pending_emp->dept_id)->name;
     						$pending_data['designation']=$this->designations_model->getDesignationById($pending_emp->designation)->name;
 
-							$pending_data['permanent_pretty'] = $pending_permanent_address->line1.',<br>'.((trim($pending_permanent_address->line2)=='')? '':$pending_permanent_address->line2.',<br>')
-                    						.ucwords($pending_permanent_address->city).', '.ucwords($pending_permanent_address->state).' - '.$pending_permanent_address->pincode.'<br>'
-                    						.ucwords($pending_permanent_address->country).'<br>
-                    						Contact no. '.$pending_permanent_address->contact_no;
-
-				        	$pending_data['present_pretty'] = $pending_present_address->line1.',<br>'.((trim($pending_present_address->line2)=='')? '':$pending_present_address->line2.',<br>')
-						                    .ucwords($pending_present_address->city).', '.ucwords($pending_present_address->state).' - '.$pending_present_address->pincode.'<br>'
-						                    .ucwords($pending_present_address->country).'<br>
-						                    Contact no. '.$pending_present_address->contact_no;
+							$pending_data['permanent_pretty'] = $pending_permanent_address->line1.',<br>'.((trim($pending_permanent_address->line2)=='')? '':$pending_permanent_address->line2.',<br>').ucwords($pending_permanent_address->city).', '.ucwords($pending_permanent_address->state).' - '.$pending_permanent_address->pincode.'<br>'.ucwords($pending_permanent_address->country).'<br>Contact no. '.$pending_permanent_address->contact_no;
+				        	$pending_data['present_pretty'] = $pending_present_address->line1.',<br>'.((trim($pending_present_address->line2)=='')? '':$pending_present_address->line2.',<br>').ucwords($pending_present_address->city).', '.ucwords($pending_present_address->state).' - '.$pending_present_address->pincode.'<br>'.ucwords($pending_present_address->country).'<br>Contact no. '.$pending_present_address->contact_no;
 
 						    $basic_details_status = $emp_validation_details->basic_details_status;
 					    }
@@ -300,9 +286,7 @@ echo '<div id="print" >';
 echo '</div>';
 
 function view_profile_pic($photo) {
-	$ui = new UI();
-    echo '<center><img src="'.base_url().'assets/images/'.$photo.'"  height="150" />';
-    echo '</center><br>';
+    echo '<center><img src="'.base_url().'assets/images/'.$photo.'"  height="150" /></center><br>';
 }
 
 

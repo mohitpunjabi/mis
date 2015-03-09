@@ -80,6 +80,7 @@ class View extends MY_Controller
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
+		//initialization
 		$data['pending_photo'] = false;
 		$data['pending_emp'] = false;
 		$data['pending_permanent_address'] = false;
@@ -125,8 +126,6 @@ class View extends MY_Controller
 
 		$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
 		$data['pending_emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
-
-		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
 		$this->drawHeader("View Employee Details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/view/view',$data);

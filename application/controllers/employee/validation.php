@@ -49,9 +49,54 @@ class Validation extends MY_Controller
 		$data['step']=$step;
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+
+		//initialization
+		$data['pending_photo'] = false;
+		$data['pending_emp'] = false;
+		$data['pending_permanent_address'] = false;
+		$data['pending_present_address'] = false;
+		$data['pending_ft'] = false;
+
 		if($data['emp_validation_details'])	{
 
 			$users = $this->users_model->getUserById($emp_id);
+			$user_details = $this->user_details_model->getPendingDetailsById($emp_id);
+			$user_other_details = $this->user_other_details_model->getPendingDetailsById($emp_id);
+			$emp_basic_details = $this->emp_basic_details_model->getPendingDetailsById($emp_id);
+			$emp_pay_details = $this->emp_pay_details_model->getPendingDetailsById($emp_id);
+
+			//approved details from real tables and rejected/pending details from pending tables
+			//case 0 : profile pic status
+			if($data['emp_validation_details']->profile_pic_status != 'approved' && $user_details)
+				$data['pending_photo'] = $user_details->photopath;
+
+			//case 1 : basic details status
+			if($data['emp_validation_details']->basic_details_status != 'approved' && $users && $user_details && $user_other_details && $emp_basic_details && $emp_pay_details) {
+				$user = (object)(array_merge((array)$users,(array)$user_details,(array)$user_other_details));
+				$data['pending_emp'] = (object)(array_merge((array)$user,(array)$emp_basic_details,(array)$emp_pay_details,array('auth_id'=>array($user->auth_id,$emp_basic_details->auth_id))));
+				$data['pending_permanent_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'permanent');
+				$data['pending_present_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'present');
+				$data['pending_ft']=$this->faculty_details_model->getPendingDetailsById($emp_id);
+			}
+			$data['photo'] = $this->employee_model->getPhotoById($emp_id);
+			$data['emp']=$this->employee_model->getById($emp_id);
+			$data['permanent_address'] = $this->user_address_model->getAddrById($emp_id,'permanent');
+			$data['present_address'] = $this->user_address_model->getAddrById($emp_id,'present');
+			$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
+
+			$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
+			$data['pending_emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+
+			$data['emp_family_details'] = $this->employee_model->getFamilyDetailsById($emp_id);
+			$data['pending_emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
+
+			$data['emp_education_details'] = $this->employee_model->getEducationDetailsById($emp_id);
+			$data['pending_emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+
+			$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
+			$data['pending_emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+
+			/*$users = $this->users_model->getUserById($emp_id);
 			$user_details = $this->user_details_model->getPendingDetailsById($emp_id);
 			$user_other_details = $this->user_other_details_model->getPendingDetailsById($emp_id);
 			$emp_basic_details = $this->emp_basic_details_model->getPendingDetailsById($emp_id);
@@ -101,7 +146,7 @@ class Validation extends MY_Controller
 			if($data['emp_validation_details']->stay_status == 'approved')
 				$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
 			else
-				$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+				$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);*/
 		}
 		else {
 			$this->session->set_flashdata('flashInfo','The employee '.$emp_id.' details have been Approved');

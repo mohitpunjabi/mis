@@ -273,6 +273,7 @@ class Publication extends MY_Controller{
 		$temp['publications'] = $this->basic_model->get_own_publications($temp);
 		//var_dump($temp);
 		//echo $this->session->userdata('id');
+		$data['flag'] = 0;
 		$i=0;
 		foreach($temp['publications'] as $pub){
 			$data['publications'][$i] = array();
@@ -298,7 +299,7 @@ class Publication extends MY_Controller{
 			if($data['publications'][$i]['other_authors'] > 0){
 				$data['publications'][$i]['authors']['others'] = $this->basic_model->get_other_author_detail_by_pub($pub->rec_id);
 			}
-
+			$data['flag'] = 1;
 			$i++;
 		}
 		$this->drawHeader('Search Publication');
@@ -351,7 +352,7 @@ class Publication extends MY_Controller{
 		}
 		else{
 			$this->session->set_flashdata("flashError","No Result for the Search");
-				redirect('publication/publication/search');
+				redirect('publication/publication/view');
 		}
 	}
 
@@ -424,6 +425,7 @@ class Publication extends MY_Controller{
 		$data['reason'] = $this->input->post('reason');
 		//var_dump($data);
 		$this->basic_model->remove_own_from_publication($data['rec_id'],$this->session->userdata('id'));
+		$this->basic_model->decrease_no_of_approval_after_decline($data['rec_id']);
 		$data['ism_authors'] = $this->basic_model->get_approved_author($data['rec_id']);
 		//var_dump($data);
 		foreach ($data['ism_authors'] as $authors){

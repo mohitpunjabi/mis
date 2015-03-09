@@ -80,14 +80,16 @@ class Basic_model extends CI_Model{
 	}
 
 	public function get_not_approved_user_pub($emp_id){
-		$query = $this->db->query("SELECT rec.page_no as page_no,rec.chapter_name as chapter_name,rec.begin_date as begin_date,rec.end_date as end_date,rec.isbn_no as isbn_no,rec.publisher as publisher,rec.chapter_no as chapter_no,rec.place as place,rec.vol_no as vol_no,rec.issue_no as issue_no,rec.edition as edition,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type_id,rec.no_of_authors as no_of_authors,rec.other_authors as other_authors from prk_record as rec join prk_ism_author as auth ON auth.rec_id = rec.rec_id where auth.notify_status = 0 AND auth.emp_id = {$emp_id}");
+		$query = $this->db->query("SELECT rec.page_no as page_no,rec.chapter_name as chapter_name,rec.begin_date as begin_date,rec.end_date as end_date,rec.isbn_no as isbn_no,rec.publisher as publisher,rec.chapter_no as chapter_no,rec.place as place,rec.vol_no as vol_no,rec.issue_no as issue_no,rec.edition as edition,rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type_id,rec.no_of_authors as no_of_authors,rec.other_authors as other_authors from prk_record as rec join prk_ism_author as auth WHERE auth.rec_id = rec.rec_id AND auth.notify_status = 0 AND auth.emp_id = {$emp_id}");
 		return $query->result();
 	}
 
 	public function remove_own_from_publication($rec_id,$emp_id){
 		$query = $this->db->query("DELETE FROM prk_ism_author where emp_id = {$emp_id} and rec_id = \"{$rec_id}\"");
 	}
-
+	public function decrease_no_of_approval_after_decline($rec_id){
+		$query = $this->db->query("UPDATE prk_record SET no_of_authors = no_of_authors - 1 WHERE rec_id = \"{$rec_id}\"");
+	}
 	public function get_name_of_author_by_emp_id($emp_id){
 		$query = $this->db->query("SELECT concat(salutation,' ',first_name,' ',middle_name,' ',last_name) AS name FROM user_details WHERE id =\"{$emp_id}\"");
 		return $query->result();

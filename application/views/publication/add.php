@@ -39,7 +39,7 @@
 
 	$Col2->close();
 	$innerCol1 = $ui->col()->id("publication_name_one")->width(6)->open();
-				$ui->input()->label('Name of Jorunal')->name('publication_name')->show();
+				$ui->input()->label('Name of Jorunal<sub>*</sub>')->name('publication_name')->show();
 			$innerCol1->close();
 	$innerColumn3 = $ui->col()->id("date_picker_one")->width(6)->open();
 				$ui->datePicker()->label('Date')->id('date')

@@ -4,8 +4,8 @@
     $branch_name=$CS_session['branch_name'];
     $aggr_id= $CS_session['aggr_id'];
     $session=$CS_session['session'];
-    echo $CS_session['course_name']." ";
-    echo "(".$branch_name.") Applicable from the Session ".$session;
+    //echo $CS_session['course_name']." ";
+    //echo "(".$branch_name.") Applicable from the Session ".$session;
 	if($CS_session["semester"] != 0)
 	{
 		$start_semester = $CS_session["semester"];
@@ -25,7 +25,7 @@
 		if(isset($CS_session['group']))
 		{
 			$semester = $counter."_".$CS_session['group'];
-			$box_form = $ui->box()->id("box_form_".$counter)->title("Subjects for Semester". $counter."(group ".$CS_session['group'].")")->open();		
+			$box_form = $ui->box()->id("box_form_".$counter)->title("Subjects for Semester". $counter."(group ".$CS_session['group'].") (".$course_name.", ".$branch_name.")")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>
@@ -149,7 +149,7 @@
 			{
 				$semester = $counter."_".$comm_group;	
 				//echo $semester;
-				$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $counter."(Group ".$comm_group.")")->open();
+				$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $counter."(Group ".$comm_group.") (".$course_name.", ".$branch_name.")")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -270,7 +270,7 @@
 		else if(!isset($CS_session['group']) && ($counter != 1 || $counter != 2))
 		{
 			$semester = $counter;
-			$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $counter."")->open();			
+			$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $counter." (".$course_name.", ".$branch_name.")")->open();			
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>

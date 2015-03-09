@@ -150,8 +150,9 @@
 									<td>Please Select the type for Elective list</td>
 									<td>';
 										$ui->select()
+											->required()
 										   ->options(array($ui->option()->value("0")->text("Please Select")->disabled()->selected(),$ui->option()->
-										   value("1")->text("Same List For AllElectives"),$ui->option()->value("2")->text("Seperate List For All 
+										   value("1")->text("Same List For All Electives"),$ui->option()->value("2")->text("Seperate List For All 
 										   Electives")))
 										   ->id("list-type")
 										   ->name("list_type")

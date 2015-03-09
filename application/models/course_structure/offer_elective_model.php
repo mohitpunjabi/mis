@@ -45,4 +45,5 @@ var $table_elective_group = 'elective_group';
 	}
 }
 /* End of file menu_model.php */
+
 /* Location: mis/application/models/course_structure/menu_model.php */

@@ -142,7 +142,6 @@ class View extends MY_Controller
 				{
 					$counter = $k;
 					$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
-
 		  			$i=1;
 					foreach($result_ids as $row)
 					{
@@ -156,9 +155,9 @@ class View extends MY_Controller
 						   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
 						   
 						   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
-					   }
+						}
 						   
-					   $data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+						$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
 					   
 					   $data["subjects"][$group_id] = 0;
 					   $i++;

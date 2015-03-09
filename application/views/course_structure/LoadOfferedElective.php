@@ -7,9 +7,7 @@
                     $form=$ui->form()->id("add_course_form")->action("course_structure/elective_offered/CreateMapping")->multipart()->open();
 						$table = $ui->table()->responsive()->hover()->bordered()->open();
 							foreach($group_id as $key=>$val)
-							{
-								//echo "hii";
-								//die();
+							{								
 								echo '
 									<tr align="center">
 										<th colspan = "8" align="center">';
@@ -43,15 +41,15 @@
 											Contact Hours
 										</th>
 									</tr>';
-									
+										//echo $subject[$val]['count'];
+										
 										for($i = 0;$i<$subject[$val]['count'];$i++)
 										{
 									echo '
 									<tr>
 										<td>';
 										//if it is already selected elective.
-										if(isset($subject[$subject[$val]['id'][$i]]['selected']) && $subject[$subject[$val]['id'][
-										$i]]['selected'])
+										if(isset($subject[$subject[$val]['id'][$i]]['selected']) && $subject[$subject[$val]['id'][$i]]['selected'])
 										{
 											$ui->checkbox()
 												->name('checkbox[]')

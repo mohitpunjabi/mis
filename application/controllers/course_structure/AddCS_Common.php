@@ -50,7 +50,8 @@ class AddCS_Common extends MY_Controller
 		//if CS already exisit for this semester then show error.
 		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
 		{
-			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then add new.");
+			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then 
+			add new.");
 			redirect("course_structure/AddCS_Common");
 		}
 			

@@ -8,6 +8,11 @@ class Add extends MY_Controller
 		parent::__construct(array('deo', 'hod'));
 		$this->addJS("course_structure/add_course_structure.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
+		$CS_session = $this->session->userdata("CS_session");
+		//var_dump($CS_session);
+		
+		if(!isset($CS_session['aggr_id']) || $CS_session['aggr_id'] == '__' )
+			redirect("/home");
 	}
 
 	public function index($error='')

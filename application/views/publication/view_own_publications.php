@@ -6,6 +6,7 @@
 	$num = 0;
 	for ($i=0; $i<=10; $i++)
 		$current_num[$i]=1;
+	if (sizeof($publications)!=0)
 	for ($i=0; $i<sizeof($publications); $i++)
 	{
 		$type = $publications[$i]['type_id'];
@@ -98,11 +99,11 @@
 				   ->tab("search","Search")
 				   ->open();
 
-	
+	echo $str[3];	
 	$allPublication = $ui->tabPane()->id("all")->active()->open();
 
 		$table = $ui->table()->hover()->bordered()->open();
-			for ($i=1; $i<=5; $i++)
+			for ($i=1; $i<=10; $i++)
 				if ($str[$i]!=""){
 					if ($i==1){
 						?><th colspan="4">National Journal</th><?php

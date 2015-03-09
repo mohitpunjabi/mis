@@ -88,7 +88,7 @@
 	$column1 = $ui->col()->width(12)->open();
 		$box = $ui->box()->uiType('primary')->solid()->title('Search Publications')->open();
 			$table = $ui->table()->hover()->bordered()->open();
-			for ($i=1; $i<=5; $i++)
+			for ($i=1; $i<=10; $i++)
 				if ($str[$i]!=""){
 					if ($i==1){
 						?><th colspan="4">National Journal</th><?php

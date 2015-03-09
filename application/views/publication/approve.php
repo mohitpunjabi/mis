@@ -71,6 +71,7 @@
 		}
 		else if ($type == 6)
 		{
+			//echo $type;
 			$str[$type] .= " authored the chapter titled ".$publications[$i]['chapter_name']." in the book ";
 			$str[$type] .= $publications[$i]['title']." which is published by ".$publications[$i]['publisher'];
 			$str[$type] .= "and is in its ";
@@ -86,13 +87,13 @@
 		$str[$type] .= "</td><th><a href='".base_url().'index.php/publication/publication/approve/'.$publications[$i]['rec_id']."'>Approve</a></th>";
 		$str[$type] .= "<th><a href='".base_url().'index.php/publication/publication/decline_view/'.$publications[$i]['rec_id']."'>Decline</a></th></tr>";
 	}
-
+	//echo $str[6];
 	$column1 = $ui->col()->width(2)->open();
 	$column1->close();
 	$column2 = $ui->col()->width(8)->open();
 		$box = $ui->box()->uiType('primary')->solid()->title('Approve Publications')->open();
 		$table = $ui->table()->hover()->bordered()->open();
-			for ($i=1; $i<=5; $i++)
+			for ($i=1; $i<=10; $i++)
 				if ($str[$i]!=""){
 					if ($i==1){
 						?><th colspan="4">National Journal</th><?php
@@ -107,7 +108,7 @@
 						?><th colspan="4">International Conference</th><?php
 					}
 					else if ($i==5){
-						?><th colspan="4">Others</th><?php
+						?><th colspan="4">Books</th><?php
 					}
 					else if ($i==6){
 						?><th colspan="4">Book Chapters</th><?php

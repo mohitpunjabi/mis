@@ -6,29 +6,15 @@
 		$row = $ui->row()->open();
 		$row1 = $ui->row()->open();
 
-			$innerCol1 = $ui->col()->width(6)->open();
-				$ui->input()->label('Name of Jorunal')->name('publication_name')->required()->show();
-			$innerCol1->close();
+			$innerColumn4 = $ui->col()->width(6)->open();
+				$ui->input()->label('Issue No.')->name('issue_no')->required()->show();
+			$innerColumn4->close();
 
 			$innerCol2 = $ui->col()->width(6)->open();
 				$ui->input()->label('Volume No.')->name('vol_no')->required()->show();
 			$innerCol2->close();
 
 		$row1->close();
-
-		$row2 = $ui->row()->open();
-
-			$innerColumn3 = $ui->col()->width(6)->open();
-				$ui->datePicker()->label('Date')->id('date')
-				   ->name('begin_date')->placeholder("dd-mm-yyyy")
-				   ->dateFormat('dd-mm-yyyy')->show();
-			$innerColumn3->close();
-			$innerColumn4 = $ui->col()->width(6)->open();
-				$ui->input()->label('Issue No.')->name('issue_no')->required()->show();
-			$innerColumn4->close();
-			
-
-		$row2->close();
 
 		$row3 = $ui->row()->open();
 
@@ -73,19 +59,6 @@
 
 		$row1->close();
 
-		$row2 = $ui->row()->open();
-
-			$innerColumn3 = $ui->col()->width(6)->open();
-				$ui->datePicker()->label('Begin date')->name('begin_date')->placeholder("dd-mm-yyyy")
-						->dateFormat('yy-mm-dd')->show();
-			$innerColumn3->close();
-			$innerColumn4 = $ui->col()->width(6)->open();
-				$ui->datePicker()->label('End date')->name('end_date')->placeholder("dd-mm-yyyy")
-						->dateFormat('yy-mm-dd')->show();
-			$innerColumn4->close();
-
-		$row2->close();
-
 		$row3 = $ui->row()->open();
 
 			$innerColumn6 = $ui->col()->width(6)->open();
@@ -128,22 +101,7 @@
 				$ui->input()->label('Edition')->name('edition')->required()->show();
 			$innerCol2->close();
 
-			
-
 		$row1->close();
-
-		$row2 = $ui->row()->open();
-
-			$innerColumn3 = $ui->col()->width(6)->open();
-				$ui->datePicker()->label('Date')->id('date')
-				   ->name('begin_date')->placeholder("dd-mm-yyyy")
-				   ->dateFormat('dd-mm-yyyy')->show();
-			$innerColumn3->close();
-			$innerColumn4 = $ui->col()->width(6)->open();
-				$ui->input()->label('ISBN No.')->name('isbn_no')->required()->show();
-			$innerColumn4->close();
-
-		$row2->close();
 
 		$Col = $ui->col()->width(4)->open();
 		$Col->close();
@@ -176,22 +134,8 @@
 
 		$row2 = $ui->row()->open();
 
-			$innerColumn3 = $ui->col()->width(6)->open();
-				$ui->datePicker()->label('Date')->id('date')
-				   ->name('begin_date')->placeholder("dd-mm-yyyy")
-				   ->dateFormat('dd-mm-yyyy')->show();
-			$innerColumn3->close();
-
 			$innerColumn4 = $ui->col()->width(6)->open();
 				$ui->input()->label('Chapter no.')->name('chapter_no')->required()->show();
-			$innerColumn4->close();
-
-		$row2->close();
-
-		$row3 = $ui->row()->open();
-
-			$innerColumn4 = $ui->col()->width(6)->open();
-				$ui->input()->label('ISBN No.')->name('isbn_no')->required()->show();
 			$innerColumn4->close();
 
 			$innerColumn5 = $ui->col()->width(6)->open();
@@ -199,7 +143,7 @@
 				   ->placeholder("Any other details")->required()->show();
 			$innerColumn5->close();
 
-		$row3->close();
+		$row2->close();
 
 		$Col = $ui->col()->width(4)->open();
 		$Col->close();

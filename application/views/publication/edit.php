@@ -10,7 +10,7 @@
 			$row1 = $ui->row()->open();
 
 				$Col1 = $ui->col()->width(6)->open();
-					$ui->input()->label('Title of Journal')->name('title')->required()->show();
+					$ui->input()->label('Title of Journal')->name('title')->value($publication['name'])->required()->show();
 				$Col1->close();
 
 				$innerCol1 = $ui->col()->width(6)->open();
@@ -62,7 +62,7 @@
 			$row1 = $ui->row()->open();
 
 				$Col1 = $ui->col()->width(6)->open();
-					$ui->input()->label('Title')->name('title')->required()->show();
+					$ui->input()->label('Title')->name('title')->required()->value($publication['title'])->show();
 				$Col1->close();
 
 				$innerColumn1 = $ui->col()->width(6)->open();
@@ -114,7 +114,7 @@
 			$row1 = $ui->row()->open();
 
 				$Col1 = $ui->col()->width(6)->open();
-					$ui->input()->label('Title of Book')->name('title')->required()->show();
+					$ui->input()->label('Title of Book')->name('title')->value($publication['title'])->required()->show();
 				$Col1->close();
 
 				$innerColumn1 = $ui->col()->width(6)->open();
@@ -150,7 +150,7 @@
 			$row1 = $ui->row()->open();
 
 				$Col1 = $ui->col()->width(6)->open();
-					$ui->input()->label('Title of Book')->name('title')->required()->show();
+					$ui->input()->label('Title of Book')->name('title')->value($publication['title'])->required()->show();
 				$Col1->close();
 
 				$innerColumn4 = $ui->col()->width(6)->open();

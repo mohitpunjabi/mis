@@ -138,8 +138,9 @@ class Publication extends MY_Controller{
 			$data['publication']['place'] = $temp[0]->place;
 			$data['publication']['vol_no'] = $temp[0]->vol_no;
 			$data['publication']['issue_no'] = $temp[0]->issue_no;
-			$data['publication']['editoin'] = $temp[0]->edition;
+			$data['publication']['edition'] = $temp[0]->edition;
 			$data['publication']['isbn_no'] = $temp[0]->isbn_no;
+			$data['publication']['venue'] = $temp[0]->place;
 			$data['publication']['publisher'] = $temp[0]->publisher;
 			$data['publication']['chapter_name'] = $temp[0]->chapter_name;
 			$data['publication']['chapter_no'] = $temp[0]->chapter_no;
@@ -204,6 +205,7 @@ class Publication extends MY_Controller{
 		$data['begin_date'] = $data['begin_date']->format('Y-m-d h:i:s');
 		$data['place'] = '';
 		$data['vol_no'] = '';
+		$data['venue'] = '';
 		$data['issue_no'] = '';
 		$data['end_date'] = '';
 		$data['edition'] = '';

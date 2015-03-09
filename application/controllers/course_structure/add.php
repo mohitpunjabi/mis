@@ -9,7 +9,6 @@ class Add extends MY_Controller
 		$this->addJS("course_structure/add_course_structure.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$CS_session = $this->session->userdata("CS_session");
-		//var_dump($CS_session);
 		
 		//if(!isset($CS_session['aggr_id']) || $CS_session['aggr_id'] == '__' )
 			//redirect("/home");

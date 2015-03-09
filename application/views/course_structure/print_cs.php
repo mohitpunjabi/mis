@@ -19,7 +19,8 @@
 	
     for($counter=$start_semester;$counter<=$end_semester;$counter++)
 	{
-		
+		$total_credit_hours = 0;
+		$total_contact_hours = 0;	
 		//if it is a common semester then show that also.
 		if(isset($CS_session['group']))
 		{
@@ -69,10 +70,12 @@
 						echo '
 						</td>
 						<td>';
+							$total_credit_hours += intval($subjects["subject_details"][$semester][$i]->credit_hours);
 							echo $subjects["subject_details"][$semester][$i]->credit_hours;
 						echo '
 						</td>
 						<td>';
+							$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
 							echo $subjects["subject_details"][$semester][$i]->contact_hours;
 						echo '
 						</td>
@@ -93,6 +96,8 @@
 					</tr>';
 				}//inner for loop 
 				$aggr_id = $CS_session['aggr_id'];
+				echo '<tr><td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td><td 
+				colspan="3"></td></tr>';
 			$table->close();
 			$box_form->close();	
 		}
@@ -101,6 +106,8 @@
 		{
 			for($comm_group = 1;$comm_group <=2;$comm_group++)
 			{
+				$total_contact_hours = 0;
+				$total_credit_hours = 0;
 				$semester = $counter."_".$comm_group;	
 				//echo $semester;
 				$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester ". $counter."(group ".$comm_group.")(".$course_name." ".$branch_name.")")->open();
@@ -147,10 +154,12 @@
 							echo '
 							</td>
 							<td>';
+								$total_credit_hours += intval($subjects["subject_details"][$semester][$i]->credit_hours);
 								echo $subjects["subject_details"][$semester][$i]->credit_hours;
 							echo '
 							</td>
 							<td>';
+								$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
 								echo $subjects["subject_details"][$semester][$i]->contact_hours;
 							echo '
 							</td>
@@ -171,7 +180,9 @@
 							</td>			
 						</tr>';
 					}//inner for loop 
-						  $aggr_id = $CS_session['aggr_id'];
+					$aggr_id = $CS_session['aggr_id'];
+					echo '<tr><td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td>
+					<td colspan="3"></td></tr>';	  
 				$table->close();			
 				$box_form->close();
 			}//for for common group closed.							
@@ -262,6 +273,9 @@
 						</tr>';	
 						}//for closed..
 						echo '<tr><td colspan ="10"></td></tr>';
+						$total_credit_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->credit_hours); 
+						$total_contact_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
+						
 							$i = $j+$i-1;
 						}//if closed.
 						else
@@ -293,10 +307,12 @@
 							echo '
 							</td>
 							<td>';
+								$total_credit_hours += intval($subjects["subject_details"][$semester][$i]->credit_hours); 
 								echo $subjects["subject_details"][$semester][$i]->credit_hours;
 							echo '
 							</td>
 							<td>';
+								$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
 								echo $subjects["subject_details"][$semester][$i]->contact_hours;
 							echo '
 							</td>
@@ -319,6 +335,8 @@
 					//}
 						}//else closed
 					}//inner for loop 
+					
+				echo '<tr><td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td><td colspan="3"></td></tr>';
 				$table->close();
 			$box_form->close();
 		}

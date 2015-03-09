@@ -179,7 +179,8 @@ class Basic_model extends CI_Model
 	
 	function get_subjects_by_sem($sem,$aggr_id)
 	{
-		$query = $this->db->query("SELECT * FROM course_structure WHERE semester = '$sem' AND aggr_id 	= '$aggr_id' ORDER BY SUBSTRING('sequence',1) ASC");
+		$query = $this->db->query("SELECT * FROM course_structure WHERE semester = '$sem' AND aggr_id = '$aggr_id' ORDER BY cast(SUBSTRING_INDEX(`sequence`, '.', 1) as decimal) asc, 
+		cast(SUBSTRING_INDEX(`sequence`, '.', -1) as decimal) asc");
 		//$this->db->order_by("sequence","ASC");
 		//$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
 		return $query->result();

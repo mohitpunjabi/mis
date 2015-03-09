@@ -96,8 +96,18 @@ class Edit extends MY_Controller
 		$this->addJS("employee/emp_profile_picture_script.js");
 
 		$this->load->model('user/user_details_model','',TRUE);
-		$res=$this->user_details_model->getUserById($emp_id);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
+
+		$emp_validation_details = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		$res = $this->user_details_model->getUserById($emp_id);
+
+		$pending = false;
+		if($emp_validation_details && $emp_validation_details->profile_pic_status != 'approved')
+			$pending = $this->user_details_model->getPendingDetailsById($emp_id);
+
 		$data['photopath'] = ($res == FALSE)?	FALSE:$res->photopath;
+		$data['pending_photopath'] = ($pending == FALSE)?	FALSE:$pending->photopath;
+		$data['status'] = ($emp_validation_details)? $emp_validation_details->profile_pic_status : 'approved';
 		$data['emp_id']=$emp_id;
 		$this->drawHeader('Change Employee picture',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/profile_pic',$data);
@@ -143,13 +153,26 @@ class Edit extends MY_Controller
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 
-		$data['user_details']=$this->user_details_model->getUserById($emp_id);
-		$data['user_other_details']=$this->user_other_details_model->getUserById($emp_id);
-		$data['emp']=$this->emp_basic_details_model->getEmployeeById($emp_id);
-		$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
-		$data['emp_pay_details']=$this->emp_pay_details_model->getEmpPayDetailsById($emp_id);
-		$data['permanent_address']=$this->user_address_model->getAddrById($emp_id,'permanent');
-		$data['present_address']=$this->user_address_model->getAddrById($emp_id,'present');
+		//initializing pending data with real data
+		$data['pending_user_details'] = $data['user_details'] = $this->user_details_model->getUserById($emp_id);
+		$data['pending_user_other_details'] = $data['user_other_details'] = $this->user_other_details_model->getUserById($emp_id);
+		$data['pending_emp'] = $data['emp'] = $this->emp_basic_details_model->getEmployeeById($emp_id);
+		$data['pending_ft'] = $data['ft'] = $this->faculty_details_model->getFacultyById($emp_id);
+		$data['pending_emp_pay_details'] = $data['emp_pay_details'] = $this->emp_pay_details_model->getEmpPayDetailsById($emp_id);
+		$data['pending_permanent_address'] = $data['permanent_address'] = $this->user_address_model->getAddrById($emp_id,'permanent');
+		$data['pending_present_address'] = $data['present_address'] = $this->user_address_model->getAddrById($emp_id,'present');
+		$data['status'] = 'approved';
+
+		if($data['emp_validation_details'] && $data['emp_validation_details']->basic_details_status != 'approved') {
+			$data['pending_user_details'] = $this->user_details_model->getPendingDetailsById($emp_id);
+			$data['pending_user_other_details'] = $this->user_other_details_model->getPendingDetailsById($emp_id);
+			$data['pending_emp'] = $this->emp_basic_details_model->getPendingDetailsById($emp_id);
+			$data['pending_ft'] = $this->faculty_details_model->getPendingDetailsById($emp_id);
+			$data['pending_emp_pay_details'] = $this->emp_pay_details_model->getPendingDetailsById($emp_id);
+			$data['pending_permanent_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'permanent');
+			$data['pending_present_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'present');
+			$data['status'] = $data['emp_validation_details']->basic_details_status;
+		}
 
 		$this->load->model('departments_model','',TRUE);
 		$this->load->model('designations_model','',TRUE);
@@ -379,14 +402,9 @@ class Edit extends MY_Controller
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->prev_exp_status : 'approved';
-		if($data['validation_status'] != 'approved') {
-			//pending/rejected data
-			$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
-		}
-		else {
-			//real data
+
+			$data['pending_emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
 			$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id);
-		}
 
 		//joining date of the employee
 		$this->load->model('employee/emp_basic_details_model','',TRUE);
@@ -473,14 +491,9 @@ class Edit extends MY_Controller
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->family_details_status : 'approved';
-		if($data['validation_status'] != 'approved') {
-			//pending/rejected data
-			$data['emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
-		}
-		else {
-			//real data
+
+			$data['pending_emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
 			$data['emp_family_details'] = $this->emp_family_details_model->getEmpFamById($emp_id);
-		}
 
 		$this->drawHeader('Edit Family Details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/family_details',$data);
@@ -567,14 +580,9 @@ class Edit extends MY_Controller
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->educational_status : 'approved';
-		if($data['validation_status'] != 'approved') {
-			//pending/rejected data
-			$data['emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
-		}
-		else {
-			//real data
+
+			$data['pending_emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
 			$data['emp_education_details'] = $this->emp_education_details_model->getEmpEduById($emp_id);
-		}
 
 		$this->drawHeader('Edit Educational Qualifications',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/educational_details',$data);
@@ -653,14 +661,9 @@ class Edit extends MY_Controller
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		$data['validation_status'] = ($data['emp_validation_details'])? $data['emp_validation_details']->stay_status : 'approved';
-		if($data['validation_status'] != 'approved') {
-			//pending/rejected data
-			$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
-		}
-		else {
-			//real data
+
+			$data['pending_emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
 			$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getEmpStayById($emp_id);
-		}
 
 		$this->drawHeader('Edit last 5 year stay details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/last_five_year_stay_details',$data);

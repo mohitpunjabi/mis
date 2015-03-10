@@ -1,5 +1,14 @@
 <?php $ui = new UI();
 
+                                    //states options
+                                    $present_state_options = array($ui->option()->value("")->text("Choose One")->disabled()->selected());
+                                    foreach($states as $row)
+                                        array_push($present_state_options,$ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($row->state_name == $pending_present_address->state));
+
+                                    $permanent_state_options = array($ui->option()->value("")->text("Choose One")->disabled()->selected());
+                                    foreach($states as $row)
+                                        array_push($permanent_state_options,$ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($row->state_name == $pending_permanent_address->state));
+
                                     //designation options
                                     $designations=$this->designations_model->get_designations("type in ('".(($pending_emp->auth_id == 'ft')? 'ft':'nft')."','others')");
                                     $des_options = array();
@@ -386,11 +395,11 @@ $row = $ui->row()->open();
                                 ->value($pending_present_address->city)
                                 ->required()
                                 ->show();
-                $ui->input()->name('state1')
+                $ui->select()->name('state1')
                                 ->label('State<span style= "color:red;"> *</span>')
-                                ->help(($pending_present_address->state == $present_address->state)? '':'Above detail is '.$status.'.<br>Previously accepted : '.$present_address->state)
+                                ->help(($pending_present_address->state == $present_address->state)? '':'Above detail is '.$status.'.<br>Previously accepted : '.ucwords($present_address->state))
                                 ->uiType(($pending_present_address->state == $present_address->state)?  '':$type)
-                                ->value($pending_present_address->state)
+                                ->options($present_state_options)
                                 ->required()
                                 ->show();
                 $ui->input()->name('pincode1')
@@ -440,12 +449,12 @@ $row = $ui->row()->open();
                                 ->uiType(($pending_permanent_address->city == $permanent_address->city)?  '':$type)
                                 ->value($pending_permanent_address->city)
                                 ->show();
-                $ui->input()->name('state2')
+                $ui->select()->name('state2')
                                 ->label('State<span style= "color:red;"> *</span>')
                                 ->required()
-                                ->help(($pending_permanent_address->state == $permanent_address->state)? '':'Above detail is '.$status.'.<br>Previously accepted : '.$permanent_address->state)
+                                ->help(($pending_permanent_address->state == $permanent_address->state)? '':'Above detail is '.$status.'.<br>Previously accepted : '.ucwords($permanent_address->state))
                                 ->uiType(($pending_permanent_address->state == $permanent_address->state)?  '':$type)
-                                ->value($pending_permanent_address->state)
+                                ->options($permanent_state_options)
                                 ->show();
                 $ui->input()->name('pincode2')
                                 ->label('Pin Code<span style= "color:red;"> *</span>')

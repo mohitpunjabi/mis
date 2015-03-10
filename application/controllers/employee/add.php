@@ -36,8 +36,10 @@ class Add extends MY_Controller
 
 		// get distinct pay bands
 		$this->load->model('Pay_scales_model','',TRUE);
-		$data['pay_bands']=$this->Pay_scales_model->get_pay_bands();
+		$this->load->model('indian_states_model','',TRUE);
 
+		$data['pay_bands']=$this->Pay_scales_model->get_pay_bands();
+		$data['states']=$this->indian_states_model->getStates();
 		//javascript
 		$this->addJS('employee/basic_details_script.js');
 

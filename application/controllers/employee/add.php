@@ -36,8 +36,10 @@ class Add extends MY_Controller
 
 		// get distinct pay bands
 		$this->load->model('Pay_scales_model','',TRUE);
-		$data['pay_bands']=$this->Pay_scales_model->get_pay_bands();
+		$this->load->model('indian_states_model','',TRUE);
 
+		$data['pay_bands']=$this->Pay_scales_model->get_pay_bands();
+		$data['states']=$this->indian_states_model->getStates();
 		//javascript
 		$this->addJS('employee/basic_details_script.js');
 
@@ -156,13 +158,27 @@ class Add extends MY_Controller
 			$this->db->trans_start();
 
 			$this->users_model->insert($users);
+
 			$this->user_details_model->insert($user_details);
+			$this->user_details_model->insertPendingDetails($user_details);
+
 			$this->user_other_details_model->insert($user_other_details);
+			$this->user_other_details_model->insertPendingDetails($user_other_details);
+
 			$this->emp_basic_details_model->insert($emp_basic_details);
-			if($this->input->post('tstatus') == 'ft')
+			$this->emp_basic_details_model->insertPendingDetails($emp_basic_details);
+
+			if($this->input->post('tstatus') == 'ft') {
 				$this->faculty_details_model->insert($faculty_details);
+				$this->faculty_details_model->insertPendingDetails($faculty_details);
+			}
+
 			$this->emp_pay_details_model->insert($emp_pay_details);
+			$this->emp_pay_details_model->insertPendingDetails($emp_pay_details);
+
 			$this->user_address_model->insert_batch($user_address);
+			$this->user_address_model->insertPendingDetails($user_address);
+
 			$this->emp_current_entry_model->insert($emp_current_entry);
 
 			$this->db->trans_complete();
@@ -225,7 +241,12 @@ class Add extends MY_Controller
 				$emp_prev_exp_details['address'] = strtolower($addr);
 				$emp_prev_exp_details['remarks'] = strtolower($reason);
 
+				$this->db->trans_start();
+
 				$this->emp_prev_exp_details_model->insert($emp_prev_exp_details);
+				$this->emp_prev_exp_details_model->insertPendingDetails($emp_prev_exp_details);
+
+				$this->db->trans_complete();
 			}
 			else if(strtolower(trim($this->input->post('submit')))=='next')
 			{
@@ -286,7 +307,12 @@ class Add extends MY_Controller
 					$emp_family_details['dob'] = $dob;
 					$emp_family_details['active_inactive'] = $active;
 
+					$this->db->trans_start();
+
 					$this->emp_family_details_model->insert($emp_family_details);
+					$this->emp_family_details_model->insertPendingDetails($emp_family_details);
+
+					$this->db->trans_complete();
 				}
 				else return;
 			}
@@ -346,7 +372,12 @@ class Add extends MY_Controller
 				$emp_education_details['grade'] = strtolower($grade);
 				$emp_education_details['division'] = strtolower($div);
 
+				$this->db->trans_start();
+
 				$this->emp_education_details_model->insert($emp_education_details);
+				$this->emp_education_details_model->insertPendingDetails($emp_education_details);
+
+				$this->db->trans_complete();
 			}
 			else if(strtolower(trim($this->input->post('submit')))=='next') {
 				$this->load->model('employee/emp_current_entry_model','',TRUE);
@@ -399,7 +430,12 @@ class Add extends MY_Controller
 				$emp_last5yrstay_details['res_addr'] = $addr;
 				$emp_last5yrstay_details['dist_hq_name'] = strtolower($district);
 
+				$this->db->trans_start();
+
 				$this->emp_last5yrstay_details_model->insert($emp_last5yrstay_details);
+				$this->emp_last5yrstay_details_model->insertPendingDetails($emp_last5yrstay_details);
+
+				$this->db->trans_complete();
 			}
 			else if(strtolower(trim($this->input->post('submit')))=='next') {
 				//loading models

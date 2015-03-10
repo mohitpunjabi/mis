@@ -60,7 +60,7 @@
 								->show();
 							
 							$ui->button()
-								->value('Edit course Structure')
+								->value('View course Structure')
 								->uiType('primary')
 								->submit()
 								->name('submit')

@@ -194,10 +194,13 @@ class Basic_model extends CI_Model
 	}
 	function select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{
-		$query = $this->db->query("SELECT 
-		subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,course_structure.aggr_id FROM 
+		$query = $this->db->query("SELECT			
+		subjects.id,subject_id,name,lecture,tutorial,practical,credit_hours,contact_hours,elective,type,
+		course_structure.aggr_id,course_structure.sequence 
+		FROM 
 		subjects INNER JOIN course_structure ON course_structure.id = subjects.id WHERE course_structure.aggr_id <= '$aggr_id' AND 
-		course_structure.semester = '$semester' AND elective != '0' ORDER BY course_structure.aggr_id DESC");
+		course_structure.semester = '$semester' AND elective != '0' ORDER BY cast(SUBSTRING_INDEX(`sequence`, '.', 1) as decimal) 
+		asc, cast(SUBSTRING_INDEX(`sequence`, '.', -1) as decimal) asc");
 		return $query->result();
 	}
 	function select_all_subject_by_aggr_id_and_semester($aggr_id,$semester)

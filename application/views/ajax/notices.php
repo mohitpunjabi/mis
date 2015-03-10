@@ -39,7 +39,7 @@
                 <i class="fa fa-info-circle"></i>
                 <div class="timeline-item">
                     <span class="time"><i class="fa fa-clock-o"></i> '.$notice_time.'</span>
-                    <h3 class="timeline-header"><a href="'.site_url('employee/view/index/0/'.$notice->id).'">'.$sender_name.'</a><br /><small>'.$sender_designation.'</small></h3>
+                    <h3 class="timeline-header"><a>'.$sender_name.'</a><br /><small>'.$sender_designation.'</small></h3>
                     <div class="timeline-body">'.$notice_sub.'</div>
                     <div class="timeline-footer">
                         <a class="btn btn-primary btn-xs" href="'.$attachment.'">Download Attachments</a>

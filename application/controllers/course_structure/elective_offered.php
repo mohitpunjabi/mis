@@ -44,11 +44,8 @@ class Elective_offered extends MY_Controller
 		$j = 0;
 		$data['group_id'] = array();
 		$data['elective_count'] = 0;
-		
 		foreach($subject_details as $row)
 		{
-			//echo "hii";
-			//$j = 0;	
 			$group_id = $row->elective;
 			if(!in_array($group_id,$data['group_id']))
 			{
@@ -73,8 +70,17 @@ class Elective_offered extends MY_Controller
 			$data['subject'][$group_id]['credit_hours'][$i]= $row->credit_hours;
 			$data['subject'][$group_id]['contact_hours'][$i]= $row->contact_hours;
 			$data['subject'][$group_id]['count']++;
-			$i++;			
+			$i++;
+			//echo "i = ".$i."<br>";
+			
+			
+			//die();			
 		}
+		//var_dump($data['subject'][$group_id]['id']);
+		//die();
+
+		//var_dump($data);
+		//die();
 		//show the list of already selected elective ..
 		$already_selected_elective = $this->offer_elective_model->select_elective_offered_by_aggr_id($aggr_id,$semester);	
 		//var_dump($already_selected_elective);

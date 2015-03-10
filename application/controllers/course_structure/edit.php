@@ -188,8 +188,8 @@ class Edit extends MY_Controller
 		$lecture = $data['L'];
 		$tutorial = $data['T'];
 		$practical = $data['P'];
-		$credit_hours = $data['L'];
-		$contact_hours = $data['L'];
+		$credit_hours = $data['credit_hours'];
+		$contact_hours = $data['contact_hours'];
 		
 		$values = array("subject_id"=>$subjectid,"name"=>$name,"lecture"=>$lecture,"tutorial"=>$tutorial,"practical"=>$practical,"credit_hours"=>
 		$credit_hours,"contact_hours"=>$contact_hours);

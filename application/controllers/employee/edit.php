@@ -43,9 +43,12 @@ class Edit extends MY_Controller
 
 			$this->load->model('departments_model','',TRUE);
 			$this->load->model('designations_model','',TRUE);
+			$this->load->model('indian_states_model','',TRUE);
+
 			// get distinct pay bands
 			$this->load->model('pay_scales_model','',TRUE);
 			$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
+			$data['states']=$this->indian_states_model->getStates();
 
 			$this->drawHeader("Edit Basic details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 			$this->load->view('employee/edit/own_basic_details',$data);
@@ -176,9 +179,12 @@ class Edit extends MY_Controller
 
 		$this->load->model('departments_model','',TRUE);
 		$this->load->model('designations_model','',TRUE);
+		$this->load->model('indian_states_model','',TRUE);
 		// get distinct pay bands
 		$this->load->model('pay_scales_model','',TRUE);
+
 		$data['pay_bands']=$this->pay_scales_model->get_pay_bands();
+		$data['states']=$this->indian_states_model->getStates();
 
 		$this->drawHeader('Edit basic details',"<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/edit/basic_details',$data);
@@ -373,7 +379,9 @@ class Edit extends MY_Controller
 		$this->load->model('employee/emp_basic_details_model','',TRUE);
 		$this->load->model('employee/faculty_details_model','',TRUE);
 		$this->load->model('user/user_address_model','',TRUE);
+		$this->load->model('employee/emp_validation_details_model','',TRUE);
 
+		$emp_validation_details = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
 		//starting transaction for insertion in database
 
 		$this->db->trans_start();
@@ -384,6 +392,16 @@ class Edit extends MY_Controller
 		if(isset($faculty_details))
 			$this->faculty_details_model->updateById($faculty_details,$emp_id);
 		$this->user_address_model->updatePresentAddrById($user_present_address,$emp_id);
+
+		//update the pending tables too, because employee changes have higher priority then deo changes
+		if($emp_validation_details->basic_details_status != 'approved') {
+			$this->user_details_model->updatePendingDetailsById($user_details,$emp_id);
+			$this->user_other_details_model->updatePendingDetailsById($user_other_details,$emp_id);
+			$this->emp_basic_details_model->updatePendingDetailsById($emp_basic_details,$emp_id);
+			if(isset($faculty_details))
+				$this->faculty_details_model->updatePendingDetailsById($faculty_details,$emp_id);
+			$this->user_address_model->updatePendingPresentDetailsById($user_present_address,$emp_id);
+		}
 
 		$this->db->trans_complete();
 		//transaction completed

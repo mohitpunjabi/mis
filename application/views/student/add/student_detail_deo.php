@@ -412,6 +412,13 @@
                                                   ->title('Address Details')
                                                   ->open();
 
+                    $state_array = array();
+                    foreach ($states as $row)
+                    {
+                      $state_array[] = $ui->option()->value($row->id)->text($row->row);
+                      $state_array = array_values($state_array);
+                    }
+
                     $address_details_row_1 = $ui->row()
                                                 ->open();
 
@@ -443,10 +450,16 @@
                                ->required()
                                ->show();
 
-                            $ui->input()
+                            /*$ui->input()
                                ->label('State')
                                ->name('state1')
                                ->required()
+                               ->show();*/
+
+                            $ui->select()
+                               ->label('State')
+                               ->name('state1')
+                               ->options($state_array)
                                ->show();
 
                             $ui->input()
@@ -503,10 +516,16 @@
                                ->required()
                                ->show();
 
-                            $ui->input()
+                            /*$ui->input()
                                ->label('State')
                                ->name('state2')
                                ->required()
+                               ->show();*/
+
+                            $ui->select()
+                               ->label('State')
+                               ->name('state2')
+                               ->options($state_array)
                                ->show();
 
                             $ui->input()
@@ -608,10 +627,16 @@
                                    ->id('city3')
                                    ->show();
 
-                                $ui->input()
+                                /*$ui->input()
                                    ->label('State')
                                    ->name('state3')
                                    ->id('state3')
+                                   ->show();*/
+
+                                $ui->select()
+                                   ->label('State')
+                                   ->name('state3')
+                                   ->options($state_array)
                                    ->show();
 
                                 $ui->input()

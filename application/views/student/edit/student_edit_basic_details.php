@@ -752,6 +752,26 @@
                                                   ->title('Address Details')
                                                   ->open();
 
+                    $state1_array = array();
+                    foreach ($states as $row)
+                    {
+                      if($present_address->state == $row->id)
+                        $state1_array[] = $ui->option()->value($row->id)->text($row->row)->selected();
+                      else
+                        $state1_array[] = $ui->option()->value($row->id)->text($row->row);
+                      $state1_array = array_values($state1_array);
+                    }
+
+                    $state2_array = array();
+                    foreach ($states as $row)
+                    {
+                      if($permanent_address->state == $row->id)
+                        $state2_array[] = $ui->option()->value($row->id)->text($row->row)->selected();
+                      else
+                        $state2_array[] = $ui->option()->value($row->id)->text($row->row);
+                      $state2_array = array_values($state2_array);
+                    }
+
                     $address_details_row_1 = $ui->row()
                                                 ->open();
 
@@ -786,11 +806,17 @@
                                ->required()
                                ->show();
 
-                            $ui->input()
+                            /*$ui->input()
                                ->label('State')
                                ->name('state1')
                                ->required()
                                ->value($present_address->state)
+                               ->show();*/
+
+                            $ui->select()
+                               ->label('State')
+                               ->name('state1')
+                               ->options($state1_array)
                                ->show();
 
                             $ui->input()
@@ -852,12 +878,19 @@
                                ->required()
                                ->show();
 
-                            $ui->input()
+                            /*$ui->input()
                                ->label('State')
                                ->name('state2')
                                ->value($permanent_address->state)
                                ->required()
+                               ->show();*/
+
+                            $ui->select()
+                               ->label('State')
+                               ->name('state2')
+                               ->options($state2_array)
                                ->show();
+
 
                             $ui->input()
                                ->label('Pincode')
@@ -942,6 +975,16 @@
                                                           ->open();
 
                                 if($coress_recv){
+
+                                $state3_array = array();
+                                foreach ($states as $row)
+                                {
+                                  if($correspondence_address->state == $row->id)
+                                    $state3_array[] = $ui->option()->value($row->id)->text($row->row)->selected();
+                                  else
+                                    $state3_array[] = $ui->option()->value($row->id)->text($row->row);
+                                  $state3_array = array_values($state3_array);
+                                }
                                 $ui->input()
                                    ->label('Address Line 1')
                                    ->name('line13')
@@ -960,10 +1003,16 @@
                                    ->value($correspondence_address->city)
                                    ->show();
 
-                                $ui->input()
+                                /*$ui->input()
                                    ->label('State')
                                    ->name('state3')
                                    ->value($correspondence_address->state)
+                                   ->show();*/
+
+                                $ui->select()
+                                   ->label('State')
+                                   ->name('state3')
+                                   ->options($state3_array)
                                    ->show();
 
                                 $ui->input()

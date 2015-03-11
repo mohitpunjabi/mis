@@ -5,13 +5,28 @@ $row = $ui->row()->open();
     $col = $ui->col()->width(6)->open();
         $profile_box = $ui->box()->uiType('primary')->solid()->title('Change Profile Picture')->open();
 
-                echo '<center><div class="form-group"  >
-                        <label class="control-label"  for="view_photo"  >Profile Picture</label><div class="input-group">';
-                if($photopath == FALSE || $photopath == "")
-                    echo '<img src="'.base_url().'assets/images/employee/noProfileImage.png" id="view_photo" width="145" height="150"/>';
-                else
-                    echo '<img id="view_photo" src="'.base_url().'assets/images/'.$photopath.'"  height="150" />';
-                echo '</div></div></center>';
+            $row1 = $ui->row()->open();
+                echo '<center><div class="form-group"  >';
+                if($pending_photopath)  $col1 = $ui->col()->width(6)->open();
+                else    $col1 = $ui->col()->open();
+                    if($photopath == FALSE || $photopath == "")
+                        echo '<img src="'.base_url().'assets/images/employee/noProfileImage.png" id="view_photo" width="145" height="150"/>';
+                    else
+                        echo '<img id="view_photo" src="'.base_url().'assets/images/'.$photopath.'"  height="150" />';
+                $col1->close();
+
+                if($pending_photopath) {
+                    $col2 = $ui->col()->width(6)->open();
+                        if($pending_photopath == FALSE || $pending_photopath == "")
+                            echo '<img src="'.base_url().'assets/images/employee/noProfileImage.png" id="pending_photo" width="145" height="150"/>';
+                        else
+                            echo '<img id="pending_photo" src="'.base_url().'assets/images/'.$pending_photopath.'"  height="150" />';
+                    if($status == 'pending')    echo '<br>'.$ui->label()->uiType('info')->text('Pending');
+                    else if($status == 'rejected')    echo '<br>'.$ui->label()->uiType('danger')->text('Rejected');
+                    $col2->close();
+                }
+                echo '</div></center>';
+            $row1->close();
 
             $row2 = $ui->row()->open();
                 $ui->imagePicker()->width(12)->label("Select New Picture<span style= \"color:red;\"> *</span>")->required()->id('photo')->name('photo')->show();
@@ -22,6 +37,7 @@ $row = $ui->row()->open();
             echo '</a>';
             $ui->button()->submit()->classes("pull-right")->value('Save')->name('submit')->large()->uiType('primary')->icon($ui->icon("floppy-o"))->show();
             echo "<br />";
+
         $profile_box->close();
     $col->close();
 $row->close();

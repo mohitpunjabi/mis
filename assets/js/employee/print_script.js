@@ -31,4 +31,59 @@ $(document).ready(function() {
 		window.print();
 		//printContent('print');
 	});
+
+	$('.pending, .rejected, #pending_photo, #pending_emp_prev_exp_details, #pending_emp_family_details, #pending_emp_education_details, #pending_emp_last5yrstay_details').hide();
+
+	//for both pending and rejected
+	$('#pending_pic').click(function(){
+		$('#pending_photo').toggle();
+		$('#pending_pic').html(($('#pending_pic').html() == 'Show')?	'Hide':'Show');
+	});
+	//for both pending and rejected
+	$('#pending_basic').click(function(){
+		$('.pending, .rejected').toggle();
+		$('.pending').css("color", "#3A87AD");
+		$('.rejected').css("color", "#d9534f");
+		$('#pending_basic').html(($('#pending_basic').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#pending_prev_exp').click(function(){
+		$('#pending_emp_prev_exp_details').toggle();
+		$('#pending_prev_exp').html(($('#pending_prev_exp').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#pending_family').click(function(){
+		$('#pending_emp_family_details').toggle();
+		$('#pending_family').html(($('#pending_family').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#pending_education').click(function(){
+		$('#pending_emp_education_details').toggle();
+		$('#pending_education').html(($('#pending_education').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#pending_last_five').click(function(){
+		$('#pending_emp_last5yrstay_details').toggle();
+		$('#pending_last_five').html(($('#pending_last_five').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#rejected_prev_exp').click(function(){
+		$('#pending_emp_prev_exp_details').toggle();
+		$('#rejected_prev_exp').html(($('#rejected_prev_exp').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#rejected_family').click(function(){
+		$('#pending_emp_family_details').toggle();
+		$('#rejected_family').html(($('#rejected_family').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#rejected_education').click(function(){
+		$('#pending_emp_education_details').toggle();
+		$('#rejected_education').html(($('#rejected_education').html() == 'Show')?	'Hide':'Show');
+	});
+
+	$('#rejected_last_five').click(function(){
+		$('#pending_emp_last5yrstay_details').toggle();
+		$('#rejected_last_five').html(($('#rejected_last_five').html() == 'Show')?	'Hide':'Show');
+	});
 });

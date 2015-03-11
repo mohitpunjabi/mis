@@ -13,7 +13,6 @@ $.fn.extend({
 
 $(document).ready(function() {
 	$(".-mis-menu-authtype .role").click(function(e) {
-//		alert();
 		$(".notification-drawer").addClass("closed");
 		$(this).next(".notification-drawer").removeClass("closed");
 		e.stopImmediatePropagation();
@@ -26,4 +25,7 @@ $(document).ready(function() {
 	$('.notification-drawer').click(function(event){
 	    event.stopPropagation();
 	});
+
+    $(".sidebar-menu li.active").last().parentsUntil($("ul.sidebar-menu"), "ul.treeview-menu").show();
+    $(".sidebar-menu li.active").last().parentsUntil($("ul.sidebar-menu"), "li.treeview.-mis-menu-authtype").addClass("active");
 });

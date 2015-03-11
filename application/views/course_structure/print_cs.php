@@ -96,8 +96,11 @@
 					</tr>';
 				}//inner for loop 
 				$aggr_id = $CS_session['aggr_id'];
-				echo '<tr><td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td><td 
-				colspan="3"></td></tr>';
+				echo '
+					<tr>
+						<td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td><td
+						scolspan="3"></td>
+					</tr>';
 			$table->close();
 			$box_form->close();	
 		}
@@ -341,6 +344,12 @@
 			$box_form->close();
 		}
 	}
-	
+			//$dir = base_url("/assets/files/course_structure/".$CS_session['aggr_id']).".pdf";
+			//echo $dir;
+			if(isset($syllabus_path))
+			{
+				echo '<a href = '.base_url($syllabus_path).'>Download Syllabus</a>';	
+			}
+			
   
 ?>	

@@ -50,6 +50,16 @@ class View extends MY_Controller
 		}	
 		else
 			$aggr_id = $expected_aggr_id;
+			
+		$course_branch_id = $this->basic_model->select_course_branch($course_id,$branch_id);
+		$course_branch_id = $course_branch_id[0]->course_branch_id;
+		
+		$this->load->model("course_structure/syllabus");
+		if($this->syllabus->check_if_syllabus_exist($aggr_id,$course_branch_id))
+		{
+			$result_syllabus = $this->syllabus->check_if_syllabus_exist($aggr_id,$course_branch_id);
+			$data['syllabus_path'] = $result_syllabus[0]->syllabus_path;
+		}
 		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		

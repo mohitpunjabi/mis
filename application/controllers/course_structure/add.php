@@ -10,8 +10,6 @@ class Add extends MY_Controller
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$CS_session = $this->session->userdata("CS_session");
 		
-		//if(!isset($CS_session['aggr_id']) || $CS_session['aggr_id'] == '__' )
-			//redirect("/home");
 	}
 
 	public function index($error='')

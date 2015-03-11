@@ -63,8 +63,8 @@ class Student_add_deo extends MY_Controller
 		$data['stu_type'] = $this->student_type_model->get_all_types();
 */
 		//Fetching all States
-		//$this->load->model('student/student_states_model','',TRUE);
-		//$data['states'] = $this->student_states_model->get_all_states();
+		$this->load->model('student/student_states_model','',TRUE);
+		$data['states'] = $this->student_states_model->get_all_states();
 
 		//Fetching Departments
 		$this->load->model('course_structure/basic_model','',TRUE);

@@ -59,6 +59,9 @@ class Student_add extends CI_Controller//MY_Controller
 
 		$data['stu_id'] = $this->userId;
 
+		$this->load->model('student/student_states_model','',TRUE);
+		$data['states'] = $this->student_states_model->get_all_states();
+
 		//Fetching Departments
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$data['academic_departments']=$this->basic_model->get_depts();
@@ -183,7 +186,7 @@ class Student_add extends CI_Controller//MY_Controller
 		if($this->form_validation->run() === FALSE)
 		{
 			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			return;//redirect('student/student_add');
+			//return;redirect('student/student_add');
 		}
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)

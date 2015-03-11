@@ -32,6 +32,12 @@ class Upload_syllabus extends MY_Controller
 		$session = $this->input->post("session");
 		$file = $this->input->post("file_upload");
 		
+		if(!$this->input->post() ||$_FILES['file_upload']['error'] != 0)
+		{
+			$this->session->set_flashdata("flashError","File size is too large to be uploaded.Please upload file of size less then 5 MB");
+			redirect("course_structure/upload_syllabus");	
+		}
+		
 		$expected_aggr_id = $course_id.'_'.$branch_id.'_'.$session;
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))
 		{
@@ -43,21 +49,20 @@ class Upload_syllabus extends MY_Controller
 		
 		$course_branch_id = $this->basic_model->select_course_branch($course_id,$branch_id);
 		$course_branch_id = $course_branch_id[0]->course_branch_id;
-				
 		
+		$file_name = basename($_FILES['file_upload']['name']);
 		
-		$file_name = $_FILES['file_upload']['name'];
 		$dir = "assets/files/course_structure/";
 		if(!file_exists($dir))
 		{
 			mkdir($dir,0777,true);	
 		}
-		$target_file = $dir.basename($_FILES["file_upload"]["name"]);
+		$target_file = $_FILES['file_upload']['name'];
 		$newfilename = $aggr_id.".".pathinfo($target_file,PATHINFO_EXTENSION);
 		$newfilename = $dir.$newfilename;
 		
 		//if file is too large then show error message.
-		if($_FILES['file_upload']['size'] >= 500000)
+		if($_FILES['file_upload']['size'] >= 50000000)
 		{
 			$this->session->set_flashdata("flashError","File size is too large to be uploaded.Please upload file of size less then 5 MB");
 			redirect("course_structure/upload_syllabus");	
@@ -66,7 +71,7 @@ class Upload_syllabus extends MY_Controller
 		//check the extension of the file to be uploaded.
 		if(pathinfo($target_file,PATHINFO_EXTENSION) != 'pdf')
 		{
-			//die("Extension");
+			die("Extension");
 			$this->session->set_flashdata("flashError","Please upload a file in PDF Format");
 			redirect("course_structure/upload_syllabus");	
 		}
@@ -75,8 +80,9 @@ class Upload_syllabus extends MY_Controller
 		{
 			$this->syllabus->delete_syllabus($aggr_id,$course_branch_id);
 			unlink($newfilename);	
+			die("deleted from folder and database");
 		}	
-		//check if the course structure for this session exist or not.
+		
 		if(!$this->syllabus->check_if_syllabus_exist($aggr_id,$course_branch_id))
 		{
 			$syllabus_details['course_branch_id'] = $course_branch_id;

@@ -32,6 +32,8 @@ class Syllabus extends CI_Model
 		$query = $this->db->get_where($this->table_syllabus,array("aggr_id"=>$aggr_id,"course_branch_id"=>$course_branch_id));
 		if($query->num_rows() > 0)
 			return $query->result();	
+		else
+			return false;
 	}
 	
 	function delete_syllabus($aggr_id,$course_branch_id)

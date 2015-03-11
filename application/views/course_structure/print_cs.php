@@ -344,8 +344,7 @@
 			$box_form->close();
 		}
 	}
-			//$dir = base_url("/assets/files/course_structure/".$CS_session['aggr_id']).".pdf";
-			//echo $dir;
+			
 			if(isset($syllabus_path))
 			{
 				echo '<a href = '.base_url($syllabus_path).'>Download Syllabus</a>';	

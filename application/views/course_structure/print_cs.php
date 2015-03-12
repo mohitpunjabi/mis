@@ -145,7 +145,7 @@
 							echo '
 							</td>
 							<td>';
-								$subjects["subject_details"][$semester][$i]->lecture;
+								echo $subjects["subject_details"][$semester][$i]->lecture;
 							echo '
 							</td>
 							<td>';

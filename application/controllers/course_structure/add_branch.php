@@ -24,10 +24,14 @@ class Add_branch extends MY_Controller
   
   public function add()
   {
-    
+    $special = "/[^A-Za-z0-9\-]/";
+	
+	
     $branch_details['id'] = $this->input->post("branch_id");
+	$branch_details['id'] = preg_replace($special,"",$branch_details['id']);
 	$branch_details['id'] = strtolower(trim($branch_details['id']));
     $branch_details['name'] = $this->input->post("branch_name");
+	
 	
 	$course_branch_details['course_branch_id'] = uniqid();
 	$course_branch_details['course_id'] = $this->input->post("course");

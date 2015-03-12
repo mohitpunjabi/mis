@@ -50,6 +50,10 @@ class View extends MY_Controller
 		}	
 		else
 			$aggr_id = $expected_aggr_id;
+		
+		$array_aggr_id = explode("_",$aggr_id);
+		
+		$latest_session = $array_aggr_id[count($array_aggr_id)-2]."_".$array_aggr_id[count($array_aggr_id)-1];
 			
 		$course_branch_id = $this->basic_model->select_course_branch($course_id,$branch_id);
 		$course_branch_id = $course_branch_id[0]->course_branch_id;
@@ -123,7 +127,7 @@ class View extends MY_Controller
 					for($comm_group = 1;$comm_group <=2;$comm_group++)
 					{
 						$counter = $k."_".$comm_group;
-						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$session);	
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$latest_session);	
 						$i=1;
 						foreach($result_ids as $row)
 						{

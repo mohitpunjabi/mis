@@ -52,7 +52,6 @@ class View extends MY_Controller
 			$aggr_id = $expected_aggr_id;
 		
 		$array_aggr_id = explode("_",$aggr_id);
-		
 		$latest_session = $array_aggr_id[count($array_aggr_id)-2]."_".$array_aggr_id[count($array_aggr_id)-1];
 			
 		$course_branch_id = $this->basic_model->select_course_branch($course_id,$branch_id);

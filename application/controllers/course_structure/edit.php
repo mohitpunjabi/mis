@@ -58,7 +58,10 @@ class Edit extends MY_Controller
 			$aggr_id = $expected_aggr_id;
 		
 		
-		$data["CS_session"]['aggr_id'] = trim($aggr_id);
+		$array_aggr_id = explode("_",$aggr_id);
+		$latest_session = $array_aggr_id[count($array_aggr_id)-2]."_".$array_aggr_id[count($array_aggr_id)-1];
+		
+		//$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
 		$row_course = $this->basic_model->get_course_details_by_id($course_id);
 		$row_branch = $this->basic_model->get_branch_details_by_id($branch_id);
@@ -117,7 +120,7 @@ class Edit extends MY_Controller
 					for($comm_group = 1;$comm_group <=2;$comm_group++)
 					{
 						$counter = $k."_".$comm_group;
-						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$session);	
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$latest_session);	
 						$i=1;
 						foreach($result_ids as $row)
 					    {

@@ -338,8 +338,8 @@ class Add extends MY_Controller
 	{
 		if($course != '' && $dept != ''){
 			$this->output->set_content_type('application/json');
-			$this->output->set_output(json_encode(array("hello"=>$course)));
-			//$this->output->set_output(json_encode($this->basic_model->get_branches_by_course_and_dept($course,$dept)));
+			//$this->output->set_output(json_encode(array("hello"=>$course)));
+			$this->output->set_output(json_encode($this->basic_model->get_branches_by_course_and_dept($course,$dept)));
 		}
 	}
 

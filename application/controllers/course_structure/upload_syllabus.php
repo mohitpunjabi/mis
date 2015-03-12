@@ -76,11 +76,11 @@ class Upload_syllabus extends MY_Controller
 			redirect("course_structure/upload_syllabus");	
 		}
 		
-		if(file_exists($newfilename))
+		if(file_exists($newfilename) || $this->syllabus->check_if_syllabus_exist($aggr_id,$course_branch_id))
 		{
 			$this->syllabus->delete_syllabus($aggr_id,$course_branch_id);
 			unlink($newfilename);	
-			die("deleted from folder and database");
+			//die("deleted from folder and database");
 		}	
 		
 		if(!$this->syllabus->check_if_syllabus_exist($aggr_id,$course_branch_id))

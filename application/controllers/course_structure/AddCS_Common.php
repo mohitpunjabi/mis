@@ -31,6 +31,7 @@ class AddCS_Common extends MY_Controller
 		$aggr_id= $course.'_'.$branch.'_'.$session;
 		
 		$result_course_branch = $this->basic_model->select_course_branch($course,$branch);
+		
 		$dept_course['course_branch_id'] = $result_course_branch[0]->course_branch_id;
 		$dept_course['dept_id'] = $dept;
 		$dept_course['aggr_id'] = $aggr_id;
@@ -41,7 +42,7 @@ class AddCS_Common extends MY_Controller
 		{
 			$this->basic_model->insert_dept_course($dept_course);
 		}
-		
+		die("inserted successfully");
 		//if CS already exisit for this semester then show error.
 		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
 		{

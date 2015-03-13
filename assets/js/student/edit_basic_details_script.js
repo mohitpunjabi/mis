@@ -257,7 +257,7 @@
 		}
 		return true;
 	}
-	
+
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
@@ -283,7 +283,7 @@
         	document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
-	
+
 	function depends_on_whom()
 	{
 		var dpe = document.getElementById("depends_on").checked;
@@ -319,7 +319,7 @@
 			fgai.disabled=false;
 			mgai.disabled=false;
 		}
-		
+
 	}
 
 	function depends_on_whom1()
@@ -341,9 +341,9 @@
 			mo.disabled=true;
 			fgai.disabled=true;
 			mgai.disabled=true;
-		
+
 	}
-	
+
 	/*function depends_on_iitjee()
 	{
 		var dpe_iitjee = document.getElementById("depends_on_iit").checked;
@@ -353,17 +353,17 @@
 		{
 			g.disabled=false;
 			h.disabled=false;
-						
+
 		}
 		else
 		{
 			g.disabled=true;
 			h.disabled=true;
 		}
-		
+
 	}
 
-	
+
 	function depends_on_cat()
 	{
 		var dpe_cat = document.getElementById("depends_on_cat_score").checked;
@@ -371,15 +371,15 @@
 		if(dpe_cat)
 		{
 			g.disabled=false;
-						
+
 		}
 		else
 		{
 			g.disabled=true;
 		}
-		
+
 	}
-	
+
 	function depends_on_gate()
 	{
 		var dpe_gate = document.getElementById("depends_on_gate_score").checked;
@@ -387,13 +387,13 @@
 		if(dpe_gate)
 		{
 			g.disabled=false;
-						
+
 		}
 		else
 		{
 			g.disabled=true;
 		}
-		
+
 	}*/
 
 	function select_exam_scores()

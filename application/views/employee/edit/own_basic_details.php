@@ -125,6 +125,7 @@ $row = $ui->row()->open();
                     echo '<label>Gender<span style= "color:red;"> *</span></label>';
                     $ui->radio()->name('sex')->value('m')->label('Male')->disabled()->checked($user_details->sex == 'm')->show();
                     $ui->radio()->name('sex')->value('f')->label('Female')->disabled()->checked($user_details->sex == 'f')->show();
+                    $ui->radio()->name('sex')->value('k')->label('Others')->disabled()->checked($user_details->sex == 'k')->show();
                 $col1->close();
 
                 $col2 = $ui->col()->width(3)->open();

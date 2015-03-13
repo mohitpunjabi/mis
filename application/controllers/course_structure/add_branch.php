@@ -37,6 +37,7 @@ class Add_branch extends MY_Controller
 	$branch_id = strtolower(trim($branch_id));
 	
 	$result_course_branch = $this->basic_model->select_course_branch($course_id,$branch_id);
+	
 	if($result_course_branch)
 		$course_branch_details['course_branch_id'] = $result_course_branch[0]->course_branch_id;
 	else

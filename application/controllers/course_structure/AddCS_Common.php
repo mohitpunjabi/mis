@@ -29,11 +29,6 @@ class AddCS_Common extends MY_Controller
 		//make semester equal to semester_group;
 		$sem = $sem."_".$group;
 		$aggr_id= $course.'_'.$branch.'_'.$session;
-		//if($dept == 0 || $course == 0 || $branch == 0 || $session == 0 || $sem == 0)
-		//{
-		//	$this->session->set_flashdata("flashError","Please select a valid option.");
-		//	redirect("course_structure/add");
-		//}
 		
 		$result_course_branch = $this->basic_model->select_course_branch($course,$branch);
 		$dept_course['course_branch_id'] = $result_course_branch[0]->course_branch_id;

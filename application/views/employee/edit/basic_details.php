@@ -169,7 +169,7 @@ $row = $ui->row()->open();
 
                     $ui->radio()->name('sex')->value('m')->label('Male')->checked($pending_user_details->sex == 'm')->show();
                     $ui->radio()->name('sex')->value('f')->label('Female')->checked($pending_user_details->sex == 'f')->show();
-                    $ui->radio()->name('sex')->value('k')->label('Others')->checked($pending_user_details->sex == 'k')->show();
+                    $ui->radio()->name('sex')->value('o')->label('Others')->checked($pending_user_details->sex == 'o')->show();
 
                     if($pending_user_details->sex != $user_details->sex) {
                         $sex_val = ($user_details->sex=='m')? 'Male':(($user_details->sex=='f')? 'Female':'Others');

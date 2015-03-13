@@ -415,7 +415,7 @@
                     $state_array = array();
                     foreach ($states as $row)
                     {
-                      $state_array[] = $ui->option()->value($row->id)->text($row->row);
+                      $state_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name));
                       $state_array = array_values($state_array);
                     }
 

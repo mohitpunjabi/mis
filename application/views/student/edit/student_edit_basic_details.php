@@ -755,21 +755,15 @@
                     $state1_array = array();
                     foreach ($states as $row)
                     {
-                      if($present_address->state == $row->id)
-                        $state1_array[] = $ui->option()->value($row->id)->text($row->row)->selected();
-                      else
-                        $state1_array[] = $ui->option()->value($row->id)->text($row->row);
-                      $state1_array = array_values($state1_array);
+                        $state1_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($present_address->state == $row->state_name);
+                        $state1_array = array_values($state1_array);
                     }
 
                     $state2_array = array();
                     foreach ($states as $row)
                     {
-                      if($permanent_address->state == $row->id)
-                        $state2_array[] = $ui->option()->value($row->id)->text($row->row)->selected();
-                      else
-                        $state2_array[] = $ui->option()->value($row->id)->text($row->row);
-                      $state2_array = array_values($state2_array);
+                        $state2_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($permanent_address->state == $row->state_name);
+                        $state2_array = array_values($state2_array);
                     }
 
                     $address_details_row_1 = $ui->row()
@@ -945,7 +939,7 @@
                                                        ->width(7)
                                                        ->open();
 
-                            ?><input type='checkbox' id ="correspondence_addr"  name="correspondence_addr" <?php if(!$correspondence_address) echo "checked"; ?>/><?php 
+                            ?><input type='checkbox' id ="correspondence_addr"  name="correspondence_addr" <?php if(!$correspondence_address) echo "checked"; ?>/><?php
 
                             echo '<label>Correspondence address same as Permanent address.</label>';
 
@@ -979,11 +973,8 @@
                                 $state3_array = array();
                                 foreach ($states as $row)
                                 {
-                                  if($correspondence_address->state == $row->id)
-                                    $state3_array[] = $ui->option()->value($row->id)->text($row->row)->selected();
-                                  else
-                                    $state3_array[] = $ui->option()->value($row->id)->text($row->row);
-                                  $state3_array = array_values($state3_array);
+                                    $state3_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($correspondence_address->state == $row->state_name);
+                                    $state3_array = array_values($state3_array);
                                 }
                                 $ui->input()
                                    ->label('Address Line 1')

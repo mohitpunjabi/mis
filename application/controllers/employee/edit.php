@@ -821,7 +821,8 @@ class Edit extends MY_Controller
         }
         else
         {
-        	$this->index('ERROR: File Name not set.');
+        	$this->session->set_flashdata('flashError','ERROR: File Name not set.');
+			redirect('employee/edit/edit_form');
 			return FALSE;
         }
 
@@ -839,7 +840,8 @@ class Edit extends MY_Controller
 		if ( ! $this->upload->do_multi_upload($name))		//do_multi_upload is back compatible with do_upload
 		{
 			$error = $this->upload->display_errors();
-			$this->index('ERROR: '.$error);
+			$this->session->set_flashdata('flashError','ERROR : '.$error);
+			redirect('employee/edit/edit_form');
 			return FALSE;
 		}
 		else

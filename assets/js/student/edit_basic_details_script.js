@@ -55,7 +55,11 @@
 		});
 
 		$('#course_id').on('change', function() {
-			options_of_branches();
+			if($('#course_id').val() == 'na') {
+				$('#branch_id').html('<option value = "na" selected >Not Applicable</option>');
+			}
+			else
+				options_of_branches();
 		});
 
 		$('#id_admn_based_on').on('change', function() {

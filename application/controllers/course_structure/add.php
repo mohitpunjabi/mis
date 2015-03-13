@@ -142,9 +142,15 @@ class Add extends MY_Controller
 				$data['error'] = $this->add_model->insert_subjects($subject_details);
 			}	
 		}
-	
-		$list_type= $this->input->post("list_type");
-		$data['CS_session']['list_type'] = $list_type;
+		if($this->input->post('list_type') == false)
+		{
+			$this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session'][
+			'branch']." for semester ".$sem." inserted successfully");
+			redirect("course_structure/add");
+			
+			$list_type= 0;
+			$data['CS_session']['list_type'] = $list_type;	
+		}
 		
 		//if same list is selected
 		if($list_type == 1)

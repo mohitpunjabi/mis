@@ -124,7 +124,7 @@ class Add extends MY_Controller
 			$subject_details['practical'] = $this->input->post("P".$i);
 			
 			$credit_hours= $this->input->post('credit_hours'.$i);
-		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + $subject_details['practical'];
+		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + floatval($subject_details['practical']);
 
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
@@ -221,7 +221,7 @@ class Add extends MY_Controller
 		
 		//$credit_hours= $elective_details['lecture']*2 + $elective_details['tutorial'] + $elective_details['practical'];
 		$credit_hours= $this->input->post("credit_hours".$counter);
-		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
+		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + floatval($elective_details['practical']);
 	 
 		$options = $session_data['options'][$counter];
 		

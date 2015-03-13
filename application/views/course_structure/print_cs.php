@@ -70,12 +70,18 @@
 						echo '
 						</td>
 						<td>';
+							
 							$total_credit_hours += intval($subjects["subject_details"][$semester][$i]->credit_hours);
 							echo $subjects["subject_details"][$semester][$i]->credit_hours;
 						echo '
 						</td>
 						<td>';
-							$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
+							$array_contact_hours = explode(".",$subjects["subject_details"][$semester][$i]->contact_hours);	
+							if(count($array_contact_hours)>0)
+								$total_contact_hours += floatval($subjects["subject_details"][$semester][$i]->contact_hours);
+							else
+								$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
+							
 							echo $subjects["subject_details"][$semester][$i]->contact_hours;
 						echo '
 						</td>
@@ -162,7 +168,12 @@
 							echo '
 							</td>
 							<td>';
-								$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
+								$array_contact_hours = explode(".",$subjects["subject_details"][$semester][$i]->contact_hours);	
+								if(count($array_contact_hours)>0)
+									$total_contact_hours += floatval($subjects["subject_details"][$semester][$i]->contact_hours);
+								else
+									$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
+								
 								echo $subjects["subject_details"][$semester][$i]->contact_hours;
 							echo '
 							</td>
@@ -277,7 +288,14 @@
 						}//for closed..
 						echo '<tr><td colspan ="10"></td></tr>';
 						$total_credit_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->credit_hours); 
-						$total_contact_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
+						
+						$array_contact_hours = explode(".",$subjects["subject_details"][$semester][$i+$j -1]->contact_hours);	
+						if(count($array_contact_hours)>0)
+							$total_contact_hours += floatval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
+						else
+							$total_contact_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
+						
+						//$total_contact_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
 						
 							$i = $j+$i-1;
 						}//if closed.
@@ -315,7 +333,14 @@
 							echo '
 							</td>
 							<td>';
-								$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
+							
+								$array_contact_hours = explode(".",$subjects["subject_details"][$semester][$i]->contact_hours);	
+								if(count($array_contact_hours)>0)
+									$total_contact_hours += floatval($subjects["subject_details"][$semester][$i]->contact_hours);
+								else
+									$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
+								
+								//$total_contact_hours += intval($subjects["subject_details"][$semester][$i]->contact_hours);
 								echo $subjects["subject_details"][$semester][$i]->contact_hours;
 							echo '
 							</td>

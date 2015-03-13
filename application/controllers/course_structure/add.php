@@ -142,7 +142,8 @@ class Add extends MY_Controller
 				$data['error'] = $this->add_model->insert_subjects($subject_details);
 			}	
 		}
-		if($this->input->post('list_type') == false)
+		
+		if($this->input->post('list_type') == false && $this->input->post('options1') == false)
 		{
 			$this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session'][
 			'branch']." for semester ".$sem." inserted successfully");
@@ -151,27 +152,31 @@ class Add extends MY_Controller
 			$list_type= 0;
 			$data['CS_session']['list_type'] = $list_type;	
 		}
-		
-		//if same list is selected
-		if($list_type == 1)
-		{
-			$data["options"][1] = $this->input->post("options1");
-			$data["CS_session"]["options"][1] = $data["options"][1];
-			for($i = 1;$i<=$count_elective;$i++)
-			{
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
-			}
-		}
 		else
 		{
-			for($i = 1;$i<=$count_elective;$i++)
+			$list_type= $this->input->post("list_type");
+			$data['CS_session']['list_type'] = $list_type;
+			//if same list is selected
+			if($list_type == 1)
 			{
-				$data["options"][$i] = $this->input->post("options".$i);	
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);
-				
-				$data["CS_session"]["options"][$i] = $data["options"][$i];
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				$data["options"][1] = $this->input->post("options1");
+				$data["CS_session"]["options"][1] = $data["options"][1];
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
+			}
+			else
+			{
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["options"][$i] = $this->input->post("options".$i);	
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);
+					
+					$data["CS_session"]["options"][$i] = $data["options"][$i];
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
 			}
 		}
 	$this->session->set_userdata($data);	

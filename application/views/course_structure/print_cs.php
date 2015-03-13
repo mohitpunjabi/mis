@@ -25,7 +25,8 @@
 		if(isset($CS_session['group']))
 		{
 			$semester = $counter."_".$CS_session['group'];
-			$box_form = $ui->box()->id("box_form_".$counter)->title("Subjects for Semester ". $counter."(group ".$CS_session['group'].") (".$course_name." ".$branch_name.")")->open();		
+			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter."(group ".$CS_session['group'].") (".
+			$course_name."-".$branch_name.")-Valid From ".$session."")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>
@@ -111,7 +112,8 @@
 			$box_form->close();	
 		}
 		//if CS for common is not selected then also show the CS in any case.
-		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2))
+		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2) && ($CS_session['duration'] == 1 || $CS_session['duration'] == 4 
+		|| $CS_session['duration'] == 5))
 		{
 			for($comm_group = 1;$comm_group <=2;$comm_group++)
 			{
@@ -119,7 +121,7 @@
 				$total_credit_hours = 0;
 				$semester = $counter."_".$comm_group;	
 				//echo $semester;
-				$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester ". $counter."(group ".$comm_group.")(".$course_name." ".$branch_name.")")->open();
+				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter."(group ".$comm_group.") (".$course_name.",".$branch_name.")-Valid From ".$session."")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -201,11 +203,13 @@
 				$box_form->close();
 			}//for for common group closed.							
 		}//else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2)) closed
-		else if(!isset($CS_session['group']) && ($counter != 1 || $counter != 2))
+		else if(!isset($CS_session['group']))
 		{
+			//var_dump($subjects['count']);
+			//die();
 			$semester = $counter;
-			$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester ". $counter." (".$course_name.",".
-			$branch_name.")")->open();			
+			$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (".$course_name.",".
+			$branch_name.")-Valid From ".$session."")->open();			
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -294,8 +298,6 @@
 							$total_contact_hours += floatval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
 						else
 							$total_contact_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
-						
-						//$total_contact_hours += intval($subjects["subject_details"][$semester][$i+$j -1]->contact_hours);
 						
 							$i = $j+$i-1;
 						}//if closed.

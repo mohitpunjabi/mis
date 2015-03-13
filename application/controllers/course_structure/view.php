@@ -101,7 +101,6 @@ class View extends MY_Controller
 		
 		for($k=$start_semester;$k<=$end_semester;$k++)
 		{
-
 			//if it is a common course branch ie for 1st year.
 			if($data["CS_session"]['dept_id'] == "comm")
 			{
@@ -132,7 +131,7 @@ class View extends MY_Controller
 			else
 			{
 				//calculate subject details for semester 1 and 2 which are common to all.
-				if($k == 1 || $k == 2)
+				if(($k == 1 || $k == 2) && ($row_course[0]->duration == 1 || $row_course[0]->duration == 4 || $row_course[0]->duration == 5))
 				{	
 					for($comm_group = 1;$comm_group <=2;$comm_group++)
 					{

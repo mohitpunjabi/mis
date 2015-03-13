@@ -118,7 +118,7 @@ class Edit extends MY_Controller
 			else
 			{
 				//calculate subject details for semester 1 and 2 which are common to all.
-				if($k == 1 || $k == 2)
+				if(($k == 1 || $k == 2) && ($row_course[0]->duration == 1 || $row_course[0]->duration == 4 || $row_course[0]->duration == 5))
 				{	
 					for($comm_group = 1;$comm_group <=2;$comm_group++)
 					{

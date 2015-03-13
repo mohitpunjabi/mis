@@ -71,7 +71,7 @@ $(document).ready(function(){
 		$course_selection = $('#course_selection');
 		$dept_selection = $('#dept_selection');
 		
-		alert($course_selection.find(':selected').val());
+		//alert($course_selection.find(':selected').val());
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){

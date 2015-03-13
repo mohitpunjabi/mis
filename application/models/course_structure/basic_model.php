@@ -128,7 +128,7 @@ class Basic_model extends CI_Model
 	function get_branch_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_branch,array('id'=>$id));
-		//if($query->num_rows()>0)
+		if($query->num_rows()>0)
 			return $query->result();
 	}
 	
@@ -156,6 +156,7 @@ class Basic_model extends CI_Model
     	$query = $this->db->get_where($this->table_course_branch, array('course_id'=>$course_id,'branch_id'=>$branch_id));
 		if($query->num_rows() >= 1)
 			return $query->result();
+		return false;
 	}
 	
 	function insert_course_branch($course_branch_mapping)

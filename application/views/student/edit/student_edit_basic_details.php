@@ -616,8 +616,14 @@
 
                         $course_array = array();
 
-                        if($courses === FALSE)
+                        //case : student type =jrf then course == na // Not Applicable
+                        $course_array[] = $ui->option()->value('na')->text('Not Applicable')->selected($stu_academic_details->course_id == 'na');
+                        $course_array = array_values($course_array);
+
+                        if($courses === FALSE) {
                             $course_array[] = $ui->option()->value('none')->text('No Course');
+                            $course_array = array_values($course_array);
+                        }
                         else
                             foreach ($courses as $row)
                             {
@@ -629,9 +635,14 @@
                             }
 
                         $branch_array = array();
+                        //case : student type =jrf then branch == na // Not Applicable
+                        $branch_array[] = $ui->option()->value('na')->text('Not Applicable')->selected($stu_academic_details->branch_id == 'na');
+                        $branch_array = array_values($branch_array);
 
-                        if($branches === FALSE)
+                        if($branches === FALSE) {
                             $branch_array[] = $ui->option()->value('none')->text('No Branch');
+                            $branch_array = array_values($branch_array);
+                        }
                         else
                             foreach ($branches as $row)
                             {

@@ -42,7 +42,7 @@ class AddCS_Common extends MY_Controller
 		{
 			$this->basic_model->insert_dept_course($dept_course);
 		}
-		die("inserted successfully");
+		//die("inserted successfully");
 		//if CS already exisit for this semester then show error.
 		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
 		{

@@ -190,6 +190,19 @@ class Basic_model extends CI_Model
 		return $query->result();
 	}
 	
+	function get_subjects_by_sem_and_dept($sem,$aggr_id,$dept_id)
+	{
+		$query = $this->db->query("SELECT * FROM course_structure 
+		INNER JOIN dept_course ON dept_course.aggr_id = course_structure.aggr_id 
+		WHERE semester = '$sem' AND course_structure.aggr_id = '$aggr_id' AND dept_course.dept_id = '$dept_id'
+		ORDER BY 
+		cast(SUBSTRING_INDEX(`sequence`, '.', 1) as decimal) asc, 
+		cast(SUBSTRING_INDEX(`sequence`, '.', -1) as decimal) asc");
+		//$this->db->order_by("sequence","ASC");
+		//$query = $this->db->get_where($this->table_course_structure,array('semester'=>$sem, 'aggr_id'=>$aggr_id));
+		return $query->result();
+	}
+	
 	function check_if_aggr_id_exist_in_CS($aggr_id)
 	{
 		$query = $this->db->get_where($this->table_dept_course,array("aggr_id"=>$aggr_id));

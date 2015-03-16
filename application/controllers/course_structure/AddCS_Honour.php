@@ -46,7 +46,7 @@ class AddCS_Honour extends MY_Controller
 		}
 		//die("inserted successfully");
 		//if CS already exisit for this semester then show error.
-		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
+		if($this->basic_model->get_subjects_by_sem_and_dept($sem,$aggr_id,$dept))
 		{
 			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then 
 			add new.");
@@ -65,7 +65,7 @@ class AddCS_Honour extends MY_Controller
 		$data["CS_session"]['branch']=$row_branch[0]->name;
 		$data["CS_session"]['session']=$session;
 		$this->session->set_userdata($data);
-		
+		$data['honour'] = true;
 		$this->drawHeader("Enter the number of core and elective subjects");
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();

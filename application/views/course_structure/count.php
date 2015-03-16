@@ -12,13 +12,27 @@ $ui = new UI();
 						->id('count_core')
 						->name('count_core')
 						->show();
-						
-					$ui->input()
+					if((isset($honour) && $honour == true) || (isset($minor) && $minor== true) || (isset($common) && $common == true))
+					{
+						$ui->input()
 						->placeholder('input text')
 						->label('Elective Subjects')
 						->id('count_elective')
 						->name('count_elective')
+						->value("0")
+						->disabled()
 						->show();
+					}
+					else
+					{
+						$ui->input()
+						->placeholder('input text')
+						->label('Elective Subjects')
+						->id('count_elective')
+						->name('count_elective')
+						->show();	
+					}
+					
 					
 					$ui->button()
 						->value('Proceed')

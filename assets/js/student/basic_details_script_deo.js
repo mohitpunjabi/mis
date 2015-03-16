@@ -44,6 +44,8 @@
 		$('#form_submit').on('submit', function(e) {
 			if(!form_validation())
 				e.preventDefault();
+			else
+				alert('form validated');
 		});
 
 		add_row_on_page_load();
@@ -168,6 +170,7 @@
 
 	function form_validation()
 	{
+		alert('validating');
 		if(!parent_guardian_validation())
 			return false;
 		if(!admission_based_on_validation())
@@ -195,9 +198,13 @@
 
 		var ca=document.getElementById("correspondence_addr").checked;
 		if(ca)
+		{
+			alert('no correspondence address');
 			return true;
+		}
 		else
 		{
+			alert('validating correspondence address');
 			var line1 = document.getElementById("line13").value;
 			var line2 = document.getElementById("line23").value;
 			var city = document.getElementById("city3").value;
@@ -496,6 +503,7 @@
 
     function all_number_validation()
 	{
+		alert('validating all numbers');
 		if(isNaN(document.getElementById('father_gross_income').value))
 		{
 			alert("Father's Gross Income can only contain digits.");

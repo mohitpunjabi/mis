@@ -14,7 +14,7 @@ class AddCS_Honour extends MY_Controller
 		$data = array();
 		$data['result_dept'] = $this->basic_model->get_depts();
 		$this->drawHeader("Add a Course Structure for Honour");
-		$this->load->view('course_structure/addCS_Honour',$data);
+		$this->load->view('course_structure/AddCS_Honour',$data);
 		$this->drawFooter();
 	}
 	

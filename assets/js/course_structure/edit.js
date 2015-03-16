@@ -27,6 +27,7 @@ function SaveSubject(semester,seq_no)
 	$subjectP = $("[name='subjectP_"+semester+"_"+seq_no+"']");
 	$subjectcredithours = $("[name='subjectcredithours_"+semester+"_"+seq_no+"']");
 	$subjectcontacthours = $("[name='subjectcontacthours_"+semester+"_"+seq_no+"']");
+	//$contacthours = $subjectL.val() + $subjectT.val() + $subjectP.val();
 	
 	$subjectid.prop("disabled",true);
 	$subjectname.prop("disabled",true);
@@ -35,8 +36,9 @@ function SaveSubject(semester,seq_no)
 	$subjectP.prop("disabled",true);
 	$subjectcredithours.prop("disabled",true);
 	$subjectcontacthours.prop("disabled",true);
-	var $subjectdetails = {'id':$subjectid.attr('id'),'subject_id':$subjectid.val(),'name':$subjectname.val(),'L':$subjectL.val(),'T':$subjectT.val(),'P':$subjectP.val(),'credit_hours':$subjectcredithours.val(),'contacthours':$subjectcontacthours.val()};
+	var $subjectdetails = {'id':$subjectid.attr('id'),'subject_id':$subjectid.val(),'name':$subjectname.val(),'L':$subjectL.val(),'T':$subjectT.val(),'P':$subjectP.val(),'credit_hours':$subjectcredithours.val(),'contact_hours':$subjectcontacthours.val()};
 	$subjectdetails = JSON.stringify($subjectdetails);
+
 	
 	$box_form = $("#box_form_"+semester);	
 	$box_form.showLoading();
@@ -77,8 +79,8 @@ function DeleteSemester(semester,aggr_id)
 			if (xmlhttp.readyState==4 && xmlhttp.status==200)
 			{
 				$box_form.hideLoading();
-				//alert("Deleted Successfully");
-				document.location.href = site_url("course_structure/edit/EditCourseStructure  ");
+				alert("Deleted Successfully");
+				document.location.href = site_url("course_structure/edit");
 			}
 		}	
 		xmlhttp.open("GET",site_url("course_structure/edit/DeleteCourseStructure/"+semester+"/"+aggr_id),true);

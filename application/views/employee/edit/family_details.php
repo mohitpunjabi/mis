@@ -2,23 +2,30 @@
 
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
-            $box = $ui->box()->id('show_details')->title('Dependent Family Members Details')->uiType('primary')->open();
-            	if($emp_family_details != FALSE) {
+
+            switch ($validation_status) {
+                case "approved" : $status=array("ui_type" => "success", "text" => "");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
+                case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
+            }
+            $box = $ui->box()->id('show_details')->title('Dependent Family Members Details '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();
+            	$details = (count($pending_emp_family_details))? $pending_emp_family_details : $emp_family_details;
+                if(count($details)) {
 	                $table = $ui->table()->id('tbl3')->responsive()->condensed()->bordered()->striped()->open();
-	                    echo '<thead valign="middle" ><tr align="center">
-	                        <th align="center">S no.</th>
-	                        <th>Name</th>
-	                        <th>Relationship</th>
-	                        <th>Date of Birth</th>
-	                        <th>Profession</th>
-	                        <th>Present Postal Address</th>
-	                        <th>Active/Inactive</th>
-	                        <th>Photograph</th>
-	                        <th>Edit</th>
+	                    echo '<thead><tr align="center">
+	                        <td style="vertical-align:middle" ><b>S no.</b></td>
+	                        <td style="vertical-align:middle" ><b>Name</b></td>
+	                        <td style="vertical-align:middle" ><b>Relationship</b></td>
+	                        <td style="vertical-align:middle" ><b>Date of Birtd</b></td>
+	                        <td style="vertical-align:middle" ><b>Profession</b></td>
+	                        <td style="vertical-align:middle" ><b>Present Postal Address</b></td>
+	                        <td style="vertical-align:middle" ><b>Active/Inactive</b></td>
+	                        <td style="vertical-align:middle" ><b>Photograph</b></td>
+	                        <td style="vertical-align:middle" ><b>Edit</b></td>
 	                        </tr>
 	                        </thead><tbody>';
 	                    $i=1;
-	                    foreach($emp_family_details as $row)
+	                    foreach($details as $row)
 	                    {
 	                        if($row->active_inactive=="Active")	$color="#00a65a";
 	                        else 	$color="#f56954";
@@ -42,6 +49,47 @@
 	            else
 	            	$ui->callout()->title('Empty')->desc('No Family Detailss Found.')->uiType('danger')->show();
             $box->close();
+
+            if(count($pending_emp_family_details)) {
+                $box = $ui->box()->id('original_details')->title('Dependent Family Member Details')->uiType('success')->open();
+                    if(count($emp_family_details)) {
+                        $table = $ui->table()->id('tbl')->responsive()->condensed()->bordered()->striped()->open();
+                            echo '<thead><tr align="center">
+                                <td style="vertical-align:middle" ><b>S no.</b></td>
+                                <td style="vertical-align:middle" ><b>Name</b></td>
+                                <td style="vertical-align:middle" ><b>Relationship</b></td>
+                                <td style="vertical-align:middle" ><b>Date of Birtd</b></td>
+                                <td style="vertical-align:middle" ><b>Profession</b></td>
+                                <td style="vertical-align:middle" ><b>Present Postal Address</b></td>
+                                <td style="vertical-align:middle" ><b>Active/Inactive</b></td>
+                                <td style="vertical-align:middle" ><b>Photograph</b></td>
+                                </tr>
+                                </thead><tbody>';
+                            $i=1;
+                            foreach($emp_family_details as $row)
+                            {
+                                if($row->active_inactive=="Active") $color="#00a65a";
+                                else    $color="#f56954";
+                                echo '<tr name="row[]" align="center" >
+                                        <td>'.$i.'</td>
+                                        <td>'.ucwords($row->name).'</td>
+                                        <td>'.$row->relationship.'</td>
+                                        <td>'.date('d M Y', strtotime($row->dob)).'<br>(Age: '.floor((time() - strtotime($row->dob))/(365*24*60*60)).' years)</td>
+                                        <td>'.ucwords($row->profession).'</td>
+                                        <td>'.$row->present_post_addr.'</td>
+                                        <td><b><font color="'.$color.'">'.$row->active_inactive.'</font></b></td>
+                                        <td><img src="'.base_url().'assets/images/'.$row->photopath.'" height="150"/></td>';
+                                echo   '</tr>';
+                                $i++;
+                            }
+                            echo'</tbody>';
+                        $table->close();
+                    }
+                    else
+                        $ui->callout()->title('Empty')->desc('No Family Detailss Found.')->uiType('danger')->show();
+                $box->close();
+            }
+
         $col->close();
     $upRow->close();
 

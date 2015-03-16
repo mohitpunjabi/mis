@@ -6,7 +6,6 @@ class Elective_offered extends MY_Controller
 	{
 		// This is to call the parent constructor
 		parent::__construct(array('hod'));
-		
 		$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$this->load->model('course_structure/offer_elective_model','',TRUE);
@@ -45,11 +44,8 @@ class Elective_offered extends MY_Controller
 		$j = 0;
 		$data['group_id'] = array();
 		$data['elective_count'] = 0;
-		
 		foreach($subject_details as $row)
 		{
-			//echo "hii";
-			//$j = 0;	
 			$group_id = $row->elective;
 			if(!in_array($group_id,$data['group_id']))
 			{
@@ -74,29 +70,28 @@ class Elective_offered extends MY_Controller
 			$data['subject'][$group_id]['credit_hours'][$i]= $row->credit_hours;
 			$data['subject'][$group_id]['contact_hours'][$i]= $row->contact_hours;
 			$data['subject'][$group_id]['count']++;
-			$i++;			
+			$i++;
+			//echo "i = ".$i."<br>";
+			
+			
+			//die();			
 		}
-		//var_dump($data['group_id']);
+		//var_dump($data['subject'][$group_id]['id']);
 		//die();
-		
+
+		//var_dump($data);
+		//die();
 		//show the list of already selected elective ..
 		$already_selected_elective = $this->offer_elective_model->select_elective_offered_by_aggr_id($aggr_id,$semester);	
 		//var_dump($already_selected_elective);
 		
 		foreach($already_selected_elective as $row)
-		{
-			//echo "hii";
-			//die();
 			$data['subject'][$row->id]['selected'] = 1;	
-		}
 		
-		//die();
-		
-
 		
 		$this->session->set_userdata('aggr_id',$aggr_id);
+		$this->session->set_userdata('semester',$semester);
 		$this->session->set_userdata($data);
-		//var_dump($this->session->all_userdata());
 		$this->drawHeader();
 		$this->load->view('course_structure/LoadOfferedElective',$data);
 		$this->drawFooter();
@@ -107,19 +102,14 @@ class Elective_offered extends MY_Controller
 		$formValues = $this->input->post('checkbox');
 		$aggr_id = $this->session->userdata('aggr_id');
 		$semester = $this->session->userdata('semester');
-		
 		//delete all elective offered for this batch and semester.
 		$result_del = $this->offer_elective_model->delete_elective_offered($aggr_id,$semester);
-		echo $result_del;
-		//die();
 		if($result_del)
 		{
-		//var_dump($this->session->all_userdata());
 			foreach($formValues as $key=>$val)
 			{
 				$data['aggr_id'] = $aggr_id;
 				$data['id'] = $val;
-				//var_dump($data);
 				if(!$this->offer_elective_model->select_elective_offered($data['aggr_id'],$data['id']))
 				{
 					$this->offer_elective_model->insert_elective_offered($data);
@@ -134,8 +124,7 @@ class Elective_offered extends MY_Controller
 			
 			$this->session->set_flashdata("flashError","Error in database Operation.Please try after some time.");
 			//redirect("course_structure/elective_offered_home");	
-		}
-			
+		}	
 	}
 }
 ?>

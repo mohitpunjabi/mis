@@ -103,7 +103,7 @@ class Reports extends MY_Controller
 		
 					
 		
-		$this->drawHeader("View Student Details");
+		//$this->drawHeader("View Student Details");
 			
 		
 			if(is_object($data['user_details']))

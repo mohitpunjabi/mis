@@ -35,6 +35,11 @@ function onclick_delete(i) {
 		xmlhttp.onreadystatechange=function() {
 	  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
+
+			    $('#show_details').fadeOut('slow',function(){
+			    	$(this).removeClass('box-success').removeClass('box-danger').addClass('box-warning').fadeIn('fast');
+			    	$('#show_details').find('.box-title').html("Previous Employment Details <label class=\"label label-warning\">Pending for Approval</label>");
+			    });
 			    table.innerHTML=xmlhttp.responseText;
 			    $('#show_details').hideLoading();
 		    }
@@ -97,9 +102,8 @@ function onclick_save(i) {
 	var f=document.getElementById("edit_from"+i).value;
 	var t=document.getElementById("edit_to"+i).value;
 	var p=document.getElementById("edit_payscale"+i).value;
-	var r=document.getElementById("edit_reason"+i).value;
 
-	if(a=="" || d=="" || f=="" || t=="" || p=="" || r=="")
+	if(a=="" || d=="" || f=="" || t=="" || p=="")
 		alert("!! Please fill up all the fields !!");
 	else if(moment(f,"DD-MM-YYYY").isAfter(moment(t,'DD-MM-YYYY')))
 		alert("!! Fill the period correctly !!");

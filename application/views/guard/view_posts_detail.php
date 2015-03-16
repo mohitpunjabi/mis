@@ -49,7 +49,7 @@ $tabsRow = $ui->row()->open();
 								$total = $post->number_a + $post->number_b + $post->number_c;
 								echo '<tr>
 										<td align="center">'.$post->postname.'</td>
-										<td align="center">'.$post->ipaddress.'</td>
+										<td align="center"><a href = "http://'.$post->ipaddress.'" target= "_blank" title="'.$post->postname.'">'.$post->ipaddress.'</a></td>
 										<td align="center">'.$post->number_a.'</td>
 										<td align="center">'.$post->number_b.'</td>
 										<td align="center">'.$post->number_c.'</td>

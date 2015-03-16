@@ -14,7 +14,7 @@ class Get_results extends CI_Model
 			}
 				/////Get GPA PER SEMSTER parameter $sid is Student Id and $semid is Semester id
 		
-		function getGPAperSemester($sid,$semid){
+		/*function getGPAperSemester($sid,$semid){
 			if($this->db->table_exists($this->result)){
 			$q=$this->db->query("select credit_hr,(sessional_m + theory_m + practical_m) as total from ".$this->result."  where admission_no='".$sid."' and semster='".$semid."'");
 				if($q->num_rows() > 0){
@@ -27,7 +27,7 @@ class Get_results extends CI_Model
 			foreach($q as $r){
 					  $tm=$this->getMarks($this->get_numeric($r->total));
 					   $j=$this->get_numeric($r->credit_hr);
-					   $s = ($j*$tm*$s);
+					  $s = ($j*$tm*$s);
 					    $chr = ($j * $chr);
 					
 				}	
@@ -37,7 +37,20 @@ class Get_results extends CI_Model
 					}
 			}
 			return false;
-		}
+		}*/
+		
+		function getGPAperSemester($sid,$semid){
+				//echo $sid;
+				if($this->db->table_exists($this->result)){
+				$q=$this->db->select('subject_id')->get_where($this->result,array('admission_no'=>$sid,'semster'=>$semid));
+				if($q->num_rows() > 0){
+						$d=$q->result_array();	 
+						return " -: ".$d[0]['subject_id']; 
+						
+					}
+				}
+				
+			}
 		
 		
 	

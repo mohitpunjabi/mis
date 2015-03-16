@@ -10,6 +10,10 @@ function validation(step) {
 	document.getElementById('reason'+step).required=true;
 }
 $(document).ready(function() {
+
+	$('.pending').css("color", "#3A87AD");
+	$('.rejected').css("color", "#d9534f");
+
 	$("#back_btn").click(function(e){
 		window.location.href = site_url("employee/validation");
 	});

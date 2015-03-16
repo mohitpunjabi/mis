@@ -12,7 +12,7 @@ class Get_residence_address_ajax extends MY_Controller
 	{
 		$emp_id = $this->session->userdata('id');
 		$this->load->model('user/user_address_model', '', TRUE);
-		$res_address = $this->user_address_model->getAddrById ($emp_id, 'permanent');
+		$res_address = $this->user_address_model->getAddrById ($emp_id, 'primary');
 		if (!$res_address)
 			echo "";
 		else

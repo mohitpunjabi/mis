@@ -1,5 +1,5 @@
 <?php 
-   echo "<h4>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h4>";
+   echo "<h4>".$CS_session['course_name']." (".$CS_session['branch'].") for Session ".$CS_session['session']."</h4>";
    
    $ui = new UI();
     $outer_row = $ui->row()->id('or')->open();
@@ -150,8 +150,9 @@
 									<td>Please Select the type for Elective list</td>
 									<td>';
 										$ui->select()
+											->required()
 										   ->options(array($ui->option()->value("0")->text("Please Select")->disabled()->selected(),$ui->option()->
-										   value("1")->text("Same List For AllElectives"),$ui->option()->value("2")->text("Seperate List For All 
+										   value("1")->text("Same List For All Electives"),$ui->option()->value("2")->text("Seperate List For All 
 										   Electives")))
 										   ->id("list-type")
 										   ->name("list_type")

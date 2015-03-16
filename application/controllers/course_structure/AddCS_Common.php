@@ -29,13 +29,9 @@ class AddCS_Common extends MY_Controller
 		//make semester equal to semester_group;
 		$sem = $sem."_".$group;
 		$aggr_id= $course.'_'.$branch.'_'.$session;
-		//if($dept == 0 || $course == 0 || $branch == 0 || $session == 0 || $sem == 0)
-		//{
-		//	$this->session->set_flashdata("flashError","Please select a valid option.");
-		//	redirect("course_structure/add");
-		//}
 		
 		$result_course_branch = $this->basic_model->select_course_branch($course,$branch);
+		
 		$dept_course['course_branch_id'] = $result_course_branch[0]->course_branch_id;
 		$dept_course['dept_id'] = $dept;
 		$dept_course['aggr_id'] = $aggr_id;
@@ -46,11 +42,12 @@ class AddCS_Common extends MY_Controller
 		{
 			$this->basic_model->insert_dept_course($dept_course);
 		}
-		
+		//die("inserted successfully");
 		//if CS already exisit for this semester then show error.
 		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
 		{
-			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then add new.");
+			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then 
+			add new.");
 			redirect("course_structure/AddCS_Common");
 		}
 			

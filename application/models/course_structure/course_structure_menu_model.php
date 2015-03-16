@@ -24,6 +24,8 @@ class Course_structure_menu_model extends CI_Model
 		$menu['deo']["Course Structure"]["Edit Course Structure"] = site_url('course_structure/edit');
 		$menu['deo']["Course Structure"]["View Course Structure"] = site_url('course_structure/view');
 		
+		$menu['deo']["Course Structure"]["Upload Syllabus"] = site_url('course_structure/upload_syllabus');
+		
 		//$menu['deo']=array();
 		$menu['hod']['Course Structure']=array();
 		$userid = $this->session->userdata('id');

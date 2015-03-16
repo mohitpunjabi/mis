@@ -4,8 +4,8 @@
     $branch_name=$CS_session['branch_name'];
     $aggr_id= $CS_session['aggr_id'];
     $session=$CS_session['session'];
-    echo $CS_session['course_name']." ";
-    echo "(".$branch_name.") Applicable from the Session ".$session;
+    //echo $CS_session['course_name']." ";
+    //echo "(".$branch_name.") Applicable from the Session ".$session;
 	if($CS_session["semester"] != 0)
 	{
 		$start_semester = $CS_session["semester"];
@@ -25,7 +25,7 @@
 		if(isset($CS_session['group']))
 		{
 			$semester = $counter."_".$CS_session['group'];
-			$box_form = $ui->box()->id("box_form_".$counter)->title("Subjects for Semester". $counter."(group ".$CS_session['group'].")")->open();		
+			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester". $counter."(group ".$CS_session['group'].") (".$course_name.",".$branch_name.")-Valid From ".$session."")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>
@@ -143,13 +143,14 @@
 			$box_form->close();	
 		}
 		//if CS for common is not selected then also show the CS in any case.
-		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2))
+		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2) && ($CS_session['duration'] == 1 || $CS_session['duration'] == 4 
+		|| $CS_session['duration'] == 5))
 		{
 			for($comm_group = 1;$comm_group <=2;$comm_group++)
 			{
 				$semester = $counter."_".$comm_group;	
 				//echo $semester;
-				$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $counter."(Group ".$comm_group.")")->open();
+				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester". $counter."(Group ".$comm_group.") (".$course_name.",".$branch_name.")-Valid From ".$session."")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -267,10 +268,11 @@
 				$box_form->close();
 			}//for for common group closed.							
 		}//else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2)) closed
-		else if(!isset($CS_session['group']) && ($counter != 1 || $counter != 2))
+		else if(!isset($CS_session['group']))
 		{
 			$semester = $counter;
-			$box_form = $ui->box()->id("box_form_".$semester)->title("Subjects for Semester". $counter."")->open();			
+			$box_form = $ui->box()->id("box_form_".$semester)->title("Semester". $counter." (".$course_name.", ".$branch_name.")-Valid From ".
+			$session."")->open();			
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -388,31 +390,38 @@
 								echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectid_".$semester."_".$i)->id($subjects["subject_details"][$semester][$i]->id)->value($subjects["subject_details"][$semester][$i]->subject_id)->disabled()->show();
+								$ui->input()->name("subjectid_".$semester."_".$i)->id($subjects["subject_details"][$semester][$i]->id)->value(
+								$subjects["subject_details"][$semester][$i]->subject_id)->disabled()->show();
 							echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectname_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->name)->disabled()->show();
+								$ui->input()->name("subjectname_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->name)->
+								disabled()->show();
 							echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectL_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->lecture)->disabled()->show();
+								$ui->input()->name("subjectL_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->lecture)->
+								disabled()->show();
 							echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectT_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->tutorial)->disabled()->show();
+								$ui->input()->name("subjectT_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->tutorial)->
+								disabled()->show();
 							echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectP_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->practical)->disabled()->show();
+								$ui->input()->name("subjectP_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->practical)->
+								disabled()->show();
 							echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectcredithours_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->credit_hours)->disabled()->show();
+								$ui->input()->name("subjectcredithours_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->
+								credit_hours)->disabled()->show();
 							echo '
 							</td>
 							<td>';
-								$ui->input()->name("subjectcontacthours_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->contact_hours)->disabled()->show();
+								$ui->input()->name("subjectcontacthours_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->
+								contact_hours)->disabled()->show();
 							echo '
 							</td>
 							<td>';

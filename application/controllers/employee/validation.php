@@ -49,6 +49,14 @@ class Validation extends MY_Controller
 		$data['step']=$step;
 
 		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+
+		//initialization
+		$data['pending_photo'] = false;
+		$data['pending_emp'] = false;
+		$data['pending_permanent_address'] = false;
+		$data['pending_present_address'] = false;
+		$data['pending_ft'] = false;
+
 		if($data['emp_validation_details'])	{
 
 			$users = $this->users_model->getUserById($emp_id);
@@ -59,49 +67,34 @@ class Validation extends MY_Controller
 
 			//approved details from real tables and rejected/pending details from pending tables
 			//case 0 : profile pic status
-			if($data['emp_validation_details']->profile_pic_status == 'approved')
-				$data['photo'] = $this->employee_model->getPhotoById($emp_id);
-			else
-				$data['photo'] = $user_details->photopath;
+			if($data['emp_validation_details']->profile_pic_status != 'approved' && $user_details)
+				$data['pending_photo'] = $user_details->photopath;
 
 			//case 1 : basic details status
-			if($data['emp_validation_details']->basic_details_status == 'approved') {
-				$data['emp'] = $this->employee_model->getById($emp_id);
-				$data['permanent_address'] = $this->user_address_model->getAddrById($emp_id,'permanent');
-				$data['present_address'] = $this->user_address_model->getAddrById($emp_id,'present');
-				$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
-			}
-			else {
+			if($data['emp_validation_details']->basic_details_status != 'approved' && $users && $user_details && $user_other_details && $emp_basic_details && $emp_pay_details) {
 				$user = (object)(array_merge((array)$users,(array)$user_details,(array)$user_other_details));
-				$data['emp'] = (object)(array_merge((array)$user,(array)$emp_basic_details,(array)$emp_pay_details,array('auth_id'=>array($user->auth_id,$emp_basic_details->auth_id))));
-				$data['permanent_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'permanent');
-				$data['present_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'present');
-				$data['ft']=$this->faculty_details_model->getPendingDetailsById($emp_id);
+				$data['pending_emp'] = (object)(array_merge((array)$user,(array)$emp_basic_details,(array)$emp_pay_details,array('auth_id'=>array($user->auth_id,$emp_basic_details->auth_id))));
+				$data['pending_permanent_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'permanent');
+				$data['pending_present_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'present');
+				$data['pending_ft']=$this->faculty_details_model->getPendingDetailsById($emp_id);
 			}
+			$data['photo'] = $this->employee_model->getPhotoById($emp_id);
+			$data['emp']=$this->employee_model->getById($emp_id);
+			$data['permanent_address'] = $this->user_address_model->getAddrById($emp_id,'permanent');
+			$data['present_address'] = $this->user_address_model->getAddrById($emp_id,'present');
+			$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
 
-			//case 2 : prev exp status
-			if($data['emp_validation_details']->prev_exp_status == 'approved')
-				$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
-			else
-				$data['emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+			$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
+			$data['pending_emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
 
-			//case 3 : family details status
-			if($data['emp_validation_details']->family_details_status == 'approved')
-				$data['emp_family_details'] = $this->employee_model->getFamilyDetailsById($emp_id);
-			else
-				$data['emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
+			$data['emp_family_details'] = $this->employee_model->getFamilyDetailsById($emp_id);
+			$data['pending_emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
 
-			//case 4 : educational status
-			if($data['emp_validation_details']->educational_status == 'approved')
-				$data['emp_education_details'] = $this->employee_model->getEducationDetailsById($emp_id);
-			else
-				$data['emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+			$data['emp_education_details'] = $this->employee_model->getEducationDetailsById($emp_id);
+			$data['pending_emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
 
-			//case 5 : stay status
-			if($data['emp_validation_details']->stay_status == 'approved')
-				$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
-			else
-				$data['emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+			$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
+			$data['pending_emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
 		}
 		else {
 			$this->session->set_flashdata('flashInfo','The employee '.$emp_id.' details have been Approved');
@@ -159,7 +152,8 @@ class Validation extends MY_Controller
 
 						$this->user_details_model->updateById(array('photopath'=>$new_photo),$emp_id);
 
-						if($old_photo)	unlink(APPPATH.'../assets/images/'.$old_photo);
+						//if old_photo and new_photo have same name ( in case of adding employee, data is copied in pending tables too, but one image present) then it should not be deleted.
+						if($old_photo && $old_photo != $new_photo)	unlink(APPPATH.'../assets/images/'.$old_photo);
 
 						$basic_status = $this->emp_validation_details_model->getValidationDetailsById($emp_id)->basic_details_status;
 						if($basic_status == 'approved')

@@ -8,6 +8,8 @@ class Add extends MY_Controller
 		parent::__construct(array('deo', 'hod'));
 		$this->addJS("course_structure/add_course_structure.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
+		$CS_session = $this->session->userdata("CS_session");
+		
 	}
 
 	public function index($error='')
@@ -122,7 +124,7 @@ class Add extends MY_Controller
 			$subject_details['practical'] = $this->input->post("P".$i);
 			
 			$credit_hours= $this->input->post('credit_hours'.$i);
-		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + $subject_details['practical'];
+		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + floatval($subject_details['practical']);
 
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
@@ -140,30 +142,41 @@ class Add extends MY_Controller
 				$data['error'] = $this->add_model->insert_subjects($subject_details);
 			}	
 		}
-	
-		$list_type= $this->input->post("list_type");
-		$data['CS_session']['list_type'] = $list_type;
 		
-		//if same list is selected
-		if($list_type == 1)
+		if($this->input->post('list_type') == false && $this->input->post('options1') == false)
 		{
-			$data["options"][1] = $this->input->post("options1");
-			$data["CS_session"]["options"][1] = $data["options"][1];
-			for($i = 1;$i<=$count_elective;$i++)
-			{
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
-			}
+			$this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session'][
+			'branch']." for semester ".$sem." inserted successfully");
+			redirect("course_structure/add");
+			
+			$list_type= 0;
+			$data['CS_session']['list_type'] = $list_type;	
 		}
 		else
 		{
-			for($i = 1;$i<=$count_elective;$i++)
+			$list_type= $this->input->post("list_type");
+			$data['CS_session']['list_type'] = $list_type;
+			//if same list is selected
+			if($list_type == 1)
 			{
-				$data["options"][$i] = $this->input->post("options".$i);	
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);
-				
-				$data["CS_session"]["options"][$i] = $data["options"][$i];
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				$data["options"][1] = $this->input->post("options1");
+				$data["CS_session"]["options"][1] = $data["options"][1];
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
+			}
+			else
+			{
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["options"][$i] = $this->input->post("options".$i);	
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);
+					
+					$data["CS_session"]["options"][$i] = $data["options"][$i];
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
 			}
 		}
 	$this->session->set_userdata($data);	
@@ -213,7 +226,7 @@ class Add extends MY_Controller
 		
 		//$credit_hours= $elective_details['lecture']*2 + $elective_details['tutorial'] + $elective_details['practical'];
 		$credit_hours= $this->input->post("credit_hours".$counter);
-		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
+		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + floatval($elective_details['practical']);
 	 
 		$options = $session_data['options'][$counter];
 		

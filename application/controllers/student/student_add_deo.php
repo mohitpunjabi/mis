@@ -23,7 +23,7 @@ class Student_add_deo extends MY_Controller
 	// 	switch($num)
 	// 	{
 	// 		case 0: $this->add_basic_details($error);break;
-	// 		case 1: 
+	// 		case 1:
 	// 				$this->load->model('student/Student_details_model','',TRUE);
 	// 				$student_type = $this->Student_details_model->get_student_type_a_student($student);
 	// 				$this->add_student_education_details($student,$student_type,$error);break;
@@ -46,7 +46,7 @@ class Student_add_deo extends MY_Controller
 	// 	switch($num)
 	// 	{
 	// 		case 0: $this->add_basic_details($error);break;
-	// 		case 1: 
+	// 		case 1:
 	// 				$this->load->model('student/Student_details_model','',TRUE);
 	// 				$student_type = $this->Student_details_model->get_student_type_a_student($student);
 	// 				$this->add_student_education_details($student,$student_type,$error);break;
@@ -63,8 +63,8 @@ class Student_add_deo extends MY_Controller
 		$data['stu_type'] = $this->student_type_model->get_all_types();
 */
 		//Fetching all States
-		//$this->load->model('student/student_states_model','',TRUE);
-		//$data['states'] = $this->student_states_model->get_all_states();
+		$this->load->model('indian_states_model','',TRUE);
+		$data['states']=$this->indian_states_model->getStates();
 
 		//Fetching Departments
 		$this->load->model('course_structure/basic_model','',TRUE);
@@ -82,7 +82,7 @@ class Student_add_deo extends MY_Controller
 			$data['courses'] = FALSE;
 			$data['branches'] = FALSE;
 		}
-		
+
 		/*old   $this->load->model('Branches_model','',TRUE);
 		old   $data['branches']=$this->Branches_model->get_branches_by_courses($depts[0]->id);
 		var_dump($data['branches']);
@@ -155,7 +155,7 @@ class Student_add_deo extends MY_Controller
 		$admn_based_on = $this->input->post('admn_based_on');
 		//if($admn_based_on === 'others')
 			//$this->form_validation->set_rules('other_mode_of_admission','Other Mode of Admission','trim|required');
-		//else 
+		//else
 		if($admn_based_on === 'iitjee')
 		{
 			$this->form_validation->set_rules('iitjee_rank','IIT JEE Rank','required|numeric');
@@ -444,7 +444,9 @@ class Student_add_deo extends MY_Controller
 						'type' => 'correspondance'
 					)
 				);
-			}
+				/*var_dump($user_address);
+				return ;
+*/			}
 
 			// $stu_current_entry = array(
 			// 	'id' => $stu_id ,

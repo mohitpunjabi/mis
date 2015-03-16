@@ -9,6 +9,14 @@
 
 		$('#stu_type').on('change', function() {
 			button_for_add();
+
+			if($('#stu_type').val() == 'jrf') {
+				$('#course_id, #branch_id').append($('<option>', {
+    				value: 'na',
+    				text: 'Not Applicable' ,
+    				selected : 'true'
+				}));
+			}
 		});
 
 		$('#depts').on('change', function() {
@@ -327,7 +335,7 @@
 		}
 		return true;
 	}
-	
+
 	function image_validation()
 	{
 		var file=document.getElementById('photo').files[0];
@@ -351,7 +359,7 @@
 		}
 	}
 
-	
+
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
@@ -364,7 +372,7 @@
             document.getElementById('corr_addr_visibility').style.display = 'block';
         }
 	}
-	
+
 	function depends_on_whom()
 	{
 		var dpe = document.getElementById("depends_on").checked;
@@ -401,7 +409,7 @@
 			fgai.disabled=false;
 			mgai.disabled=false;
 		}
-		
+
 	}
 
 	function select_exam_scores()
@@ -673,7 +681,7 @@
 
 	function onclick_add()
 	{	
-		var row=document.getElementById("tableid").rows;
+		/*var row=document.getElementById("tableid").rows;
 		var e=document.getElementsByName("exam4[]")[row.length-2].value;
 		var b=document.getElementsByName("branch4[]")[row.length-2].value;
 		var c=document.getElementsByName("clgname4[]")[row.length-2].value;
@@ -684,7 +692,8 @@
 			alert('Education details Sno '+(row.length-1)+' : Please fill up all the fields !!');
 			$('#tableid').focus();
 		}
-		else
+		else*/
+		if(education_validation())
 		{
 			if(row.length > 6)
 			{
@@ -699,7 +708,7 @@
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
 		}
 	}
-	
+
 	function education_validation()
 	{
 		var n_row=document.getElementById("tableid").rows.length;
@@ -710,7 +719,7 @@
 			var b=document.getElementsByName("branch4[]")[i].value;
 			var c=document.getElementsByName("clgname4[]")[i].value;
 			var g=document.getElementsByName("grade4[]")[i].value;
-				
+
 			if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
 			{
 				alert('Educational details Sno '+(i+1)+': Please fill up all the fields !!');

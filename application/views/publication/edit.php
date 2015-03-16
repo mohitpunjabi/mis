@@ -1,103 +1,206 @@
 <?php
-	
-	$ui = new UI();
+	$ui =  new UI();
+	$col = $ui->col()->width(2)->open();
+	$col->close();
+	$form = $ui->form()->action('publication/publication/submit_edit')->open();
+	$col11 = $ui->col()->width(8)->open();
+	$box = $ui->box()->uiType('primary')->solid()->title('Edit Publication')->open();
+		if ($publication['type_id']==1 || $publication['type_id']==2)
+		{
+			$row1 = $ui->row()->open();
 
-	$col1 =  $ui->col()->width(2)->open();
-	$col1->close();
-	$begin_date = "";
-	$end_date = "";
-	for ($i = 0; $i<10; $i++){
-		$begin_date .= $publication['begin_date'][$i];
-		$end_date .= $publication['end_date'][$i];
-	}
-	$form_attrinutes = array("id"=>"edit_publication_form");
-	$form = $ui->form()->action('publication/publication/submit_edit',$form_attrinutes)->open();
-	$col2 = $ui->col()->width(8)->open();
-		$box = $ui->box()->uiType('primary')->solid()->title('Edit Publication')->open();
-			$table = $ui->table()->hover()->bordered()->open();
-				?>
-					<tr>
-						<td>Title<td>
-						<td><input type="text" name="title" value="<?php echo $publication['title']; ?>"></td>
-					</tr>
-				<?php
-				?>
-					<tr>
-						<td>Name<td>
-						<td><input type="text" name="publication_name" value="<?php echo $publication['name']; ?>"></td>
-					</tr>
-				<?php
-				if (!empty($publication['place'])){
-					?>
-					<tr>
-						<td>Place<td>
-						<td><input type="text" name="venue" value="<?php echo $publication['place']; ?>"></td>
-					</tr>
-				<?php
-				}
-				if (!empty($publication['vol_no'])){
-					?>
-					<tr>
-						<td>Volume No.<td>
-						<td><input type="text" name="vol_no" value="<?php echo $publication['vol_no']; ?>"></td>
-					</tr>
-				<?php
-				}
-				if (!empty($publication['vol_no'])){
-					?>
-					<tr>
-						<td>Issue No.<td>
-						<td><input type="text" name="issue_no" value="<?php echo $publication['issue_no']; ?>"></td>
-					</tr>
-				<?php
-				}
-				if ($publication['type_id'] == '3' || $publication['type_id'] == '4'){
-					?>
-					<tr>
-						<td>Begin Date<td>
-						<td><input type="text" name="begin_date" value="<?php echo $begin_date; ?>"></td>
-					</tr>
-				<?php
-				}
-				else{
-					?>
-					<tr>
-						<td>Date of Publications<td>
-						<td><input type="text" name="begin_date" value="<?php echo $begin_date; ?>"></td>
-					</tr>
-				<?php
-				}
-				if ($publication['type_id'] == '3' || $publication['type_id'] == '4'){
-					?>
-					<tr>
-						<td>End Date<td>
-						<td><input type="text" name="end_date" value="<?php echo $end_date; ?>"></td>
-					</tr>
-				<?php
-				}
-				?>
-					<tr>
-						<td>Page Range<td>
-						<td><input type="text" name="page_no" value="<?php echo $publication['page_no']; ?>"></td>
-					</tr>
-				<?php
-				?>
-					<tr>
-						<td>Other Informations<td>
-						<td><input type="text" name="other_info" value="<?php echo $publication['other_info']; ?>"></td>
-					</tr>
-				<?php
-			$table->close();
-			?><br><br><center><?php
-				 $ui->button()
-					->value('Edit')
-					->submit(true)
-					->id('Edit')
-					->uiType('primary')
-					->show();
-					?></center>
-					<?php
-		$box->close();
-	$col2->close();
-	$form->close();	
+				$Col1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Title of Journal')->name('title')->value($publication['name'])->required()->show();
+				$Col1->close();
+
+				$innerCol1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Name of Jorunal')->name('publication_name')->value($publication['name'])->show();
+				$innerCol1->close();
+
+			$row1->close();
+
+			$row2 = $ui->row()->open();
+
+				$innerCol2 = $ui->col()->width(6)->open();
+					$ui->input()->label('Volume No.')->name('vol_no')->value($publication['vol_no'])->show();
+				$innerCol2->close();
+
+				$innerColumn3 = $ui->col()->width(6)->open();
+					$ui->datePicker()->label('Date')->id('date')
+					   ->name('begin_date')->placeholder("dd-mm-yyyy")
+					   ->value($publication['begin_date'])
+					   ->dateFormat('dd-mm-yyyy')->show();
+				$innerColumn3->close();				
+
+			$row2->close();
+
+			$row3 = $ui->row()->open();
+
+				$innerColumn4 = $ui->col()->width(6)->open();
+					$ui->input()->label('Issue No.')->name('issue_no')->value($publication['issue_no'])->show();
+				$innerColumn4->close();
+
+				$innerColumn5 = $ui->col()->width(6)->open();
+					$ui->input()->label('Page Range')->name('page_no')->value($publication['page_no'])->show();
+				$innerColumn5->close();
+
+			$row3->close();
+
+			$row4 = $ui->row()->open();
+
+				$innerColumn6 = $ui->col()->width(6)->open();
+					$ui->textarea()->label('Any other informations')->name("other_info")
+					   ->placeholder("Any other details")->required()->value($publication['other_info'])->show();
+				$innerColumn6->close();
+
+			$row4->close();
+
+		}
+
+		if ($publication['type_id']==3 || $publication['type_id']==4)
+		{
+			$row1 = $ui->row()->open();
+
+				$Col1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Title')->name('title')->required()->value($publication['title'])->show();
+				$Col1->close();
+
+				$innerColumn1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Name of Conference')->name('publication_name')->value($publication['name'])->show();
+				$innerColumn1->close();
+
+			$row1->close();
+
+			$row2 = $ui->row()->open();
+
+				$innerColumn2 = $ui->col()->width(6)->open();
+					$ui->input()->label('Venue')->name('venue')->value($publication['venue'])->show();
+				$innerColumn2->close();
+
+				$innerColumn3 = $ui->col()->width(6)->open();
+					$ui->datePicker()->label('Begin date')->name('begin_date')->placeholder("dd-mm-yyyy")
+							->dateFormat('yy-mm-dd')->value($publication['begin_date'])->show();
+				$innerColumn3->close();
+
+			$row2->close();
+
+			$row3 = $ui->row()->open();
+
+				$innerColumn4 = $ui->col()->width(6)->open();
+					$ui->datePicker()->label('End date')->name('end_date')->placeholder("dd-mm-yyyy")
+							->dateFormat('yy-mm-dd')->value($publication['end_date'])->show();
+				$innerColumn4->close();
+
+				$innerColumn6 = $ui->col()->width(6)->open();
+					$ui->input()->label('Page Range')->name('page_no')->required()->show();
+				$innerColumn6->close();
+
+			$row3->close();
+
+			$row4 = $ui->row()->open();
+
+				$innerColumn5 = $ui->col()->width(6)->open();
+					$ui->textarea()->label('Any other informations')->name("other_info")
+					   ->placeholder("Any other details")->required()->value($publication['other_info'])->show();
+				$innerColumn5->close();
+
+			$row4->close();
+
+		}
+
+
+		if ($publication['type_id']==5)
+		{
+			$row1 = $ui->row()->open();
+
+				$Col1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Title of Book')->name('title')->value($publication['title'])->required()->show();
+				$Col1->close();
+
+				$innerColumn1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Publisher')->name('publisher')->value($publication['publisher'])->show();
+				$innerColumn1->close();				
+
+			$row1->close();
+
+			$row2 = $ui->row()->open();
+
+				$innerCol2 = $ui->col()->width(6)->open();
+					$ui->input()->label('Edition')->name('edition')->value($publication['edition'])->show();
+				$innerCol2->close();
+
+				$innerColumn3 = $ui->col()->width(6)->open();
+					$ui->datePicker()->label('Date')->id('date')
+					   ->name('begin_date')->placeholder("dd-mm-yyyy")->value($publication['begin_date'])
+					   ->dateFormat('dd-mm-yyyy')->show();
+				$innerColumn3->close();
+
+			$row2->close();
+
+			$row3 = $ui->row()->open();
+
+				$innerColumn4 = $ui->col()->width(6)->open();
+					$ui->input()->label('ISBN No.')->name('isbn_no')->value($publication['isbn_no'])->show();
+				$innerColumn4->close();
+
+			$row3->close();
+		}
+		if ($publication['type_id']==6)
+		{
+			$row1 = $ui->row()->open();
+
+				$Col1 = $ui->col()->width(6)->open();
+					$ui->input()->label('Title of Book')->name('title')->value($publication['title'])->required()->show();
+				$Col1->close();
+
+				$innerColumn4 = $ui->col()->width(6)->open();
+					$ui->input()->label('Publisher')->name('publisher')->value($publication['publisher'])->show();
+				$innerColumn4->close();
+
+			$row1->close();
+
+			$row2 = $ui->row()->open();
+
+				$innerCol2 = $ui->col()->width(6)->open();
+					$ui->input()->label('Chapter Name')->name('chapter_name')->value($publication['chapter_name'])->show();
+				$innerCol2->close();
+
+				$innerColumn3 = $ui->col()->width(6)->open();
+					$ui->datePicker()->label('Date')->id('date')
+					   ->name('begin_date')->placeholder("dd-mm-yyyy")->value($publication['begin_date'])
+					   ->dateFormat('dd-mm-yyyy')->show();
+				$innerColumn3->close();
+
+			$row2->close();
+
+			$row3 = $ui->row()->open();
+
+				$innerColumn4 = $ui->col()->width(6)->open();
+					$ui->input()->label('Chapter no.')->name('chapter_no')->value($publication['chapter_no'])->show();
+				$innerColumn4->close();
+
+
+				$innerColumn4 = $ui->col()->width(6)->open();
+					$ui->input()->label('ISBN No.')->name('isbn_no')->value($publication['isbn_no'])->show();
+				$innerColumn4->close();
+
+			$row3->close();
+
+			$row4 = $ui->row()->open();
+
+				$innerColumn5 = $ui->col()->width(6)->open();
+					$ui->textarea()->label('Any other informations')->name("other_info")
+					   ->placeholder("Any other details")->value($publication['other_info'])->show();
+				$innerColumn5->close();
+
+			$row4->close();
+		}
+	$ui->button()->value('Edit')->submit(true)->id('Edit')->uiType('primary')->show();
+	$box->close();
+	$col11->close();
+	$form->close();
 ?>
+
+<script>
+	$('#date').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayBtn: 'linked'});
+</script>

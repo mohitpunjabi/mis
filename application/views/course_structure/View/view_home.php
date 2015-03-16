@@ -7,7 +7,7 @@
                     $form=$ui->form()->id("add_course_form")->action("course_structure/view/ViewCourseStructure")->multipart()->open();
 					
 						$array_options = array();
-						$array_options[0] = $ui->option()->value("0")->text("Select Department")->disabled();
+						$array_options[0] = $ui->option()->value("")->text("Select Department")->disabled();
 						foreach ($result_dept as $row) 
 							array_push($array_options,$ui->option()->value($row->id)->text($row->name));
 										
@@ -16,6 +16,7 @@
 								->name('dept')
 								->id("dept_selection")
 								->options($array_options)
+								->required()
 								->show();
 							
 							
@@ -23,6 +24,7 @@
 								->label('Select Course')
 								->name('course')
 								->id("course_selection")
+								->required()
 								->containerId('cont_course_selection')
 								->show();
 								
@@ -30,13 +32,15 @@
 								->label('Select Branch')
 								->name('branch')
 								->id("branch_selection")
+								->required()
 								->containerId('cont_branch_selection')
 								->show();
 								
 								$ui->select()
-								->label('Select Session')
+								->label('Valid From')
 								->name('session')
 								->id("session_selection")
+								->required()
 								->containerId('cont_session_selection')
 								->show();
 								
@@ -44,11 +48,19 @@
 								->label('Select Semester')
 								->name('sem')
 								->id("semester")
+								->required()
 								->containerId('cont_semester')
+								->show();
+								
+								$ui->select()
+								->label('Select Group')
+								->name('group')
+								->id("group_selection")
+								->containerId('cont_group')
 								->show();
 							
 							$ui->button()
-								->value('View Course Structure')
+								->value('View course Structure')
 								->uiType('primary')
 								->submit()
 								->name('submit')

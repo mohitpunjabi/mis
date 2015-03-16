@@ -8,14 +8,15 @@ class Add extends MY_Controller
 		parent::__construct(array('deo', 'hod'));
 		$this->addJS("course_structure/add_course_structure.js");
 		$this->load->model('course_structure/basic_model','',TRUE);
+		$CS_session = $this->session->userdata("CS_session");
+		
 	}
 
 	public function index($error='')
 	{
-		
+		$this->session->keep_flashdata('message');
 		$data = array();
-		$data["result_dept"] = $this->basic_model->get_depts();
-		
+		$data["result_dept"] = $this->basic_model->get_depts();	
 		$this->drawHeader("Add a new course structure");
 		$this->load->view('course_structure/add',$data);
 		$this->drawFooter();
@@ -100,7 +101,6 @@ class Add extends MY_Controller
  	 
  	 public function AddCoreSubjects()
   	{
-  		//$this->addJS("course_structure/add.js");
 		$this->load->model('course_structure/add_model','',TRUE);
 		$session_values = $this->session->userdata("CS_session");
 		$data['CS_session'] = $session_values;
@@ -109,11 +109,10 @@ class Add extends MY_Controller
 		$aggr_id = trim($session_values["aggr_id"]);
 		
 		$count_elective = $session_values["count_elective"];
+		
 		$count_core = $session_values["count_core"];
 		$data['count_core'] = $count_core;
 		$i=1;
-		//var_dump($this->input->post());
-		//die();
 		//for loop for inserting core subjects...
 		for($i = 1;$i <= $count_core;$i++)
 		{
@@ -124,8 +123,8 @@ class Add extends MY_Controller
 			$subject_details['tutorial'] = $this->input->post("T".$i);
 			$subject_details['practical'] = $this->input->post("P".$i);
 			
-			$credit_hours= $this->input->post('credit_hours'.$i);//$subject_details['lecture']*2 + $subject_details['tutorial'] + $subject_details['practical'];
-		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + $subject_details['practical'];
+			$credit_hours= $this->input->post('credit_hours'.$i);
+		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + floatval($subject_details['practical']);
 
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
@@ -139,64 +138,77 @@ class Add extends MY_Controller
 			
 			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
 			if($this->add_model->insert_coursestructure($coursestructure_details))
-				$data['error'] = $this->add_model->insert_subjects($subject_details);
-		}
-	
-		$list_type= $this->input->post("list_type");
-		$data['CS_session']['list_type'] = $list_type;
-		
-		//if same list is selected
-		if($list_type == 1)
-		{
-			$data["options"][1] = $this->input->post("options1");
-			
-			$data["CS_session"]["options"][1] = $data["options"][1];
-			for($i = 1;$i<=$count_elective;$i++)
 			{
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
-			}
+				$data['error'] = $this->add_model->insert_subjects($subject_details);
+			}	
+		}
+		
+		if($this->input->post('list_type') == false && $this->input->post('options1') == false)
+		{
+			$this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session'][
+			'branch']." for semester ".$sem." inserted successfully");
+			redirect("course_structure/add");
+			
+			$list_type= 0;
+			$data['CS_session']['list_type'] = $list_type;	
 		}
 		else
 		{
-			//var_dump($this->input->post());
-			//die();
-			for($i = 1;$i<=$count_elective;$i++)
+			$list_type= $this->input->post("list_type");
+			$data['CS_session']['list_type'] = $list_type;
+			//if same list is selected
+			if($list_type == 1)
 			{
-				$data["options"][$i] = $this->input->post("options".$i);	
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);
-				
-				$data["CS_session"]["options"][$i] = $data["options"][$i];
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				$data["options"][1] = $this->input->post("options1");
+				$data["CS_session"]["options"][1] = $data["options"][1];
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
+			}
+			else
+			{
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["options"][$i] = $this->input->post("options".$i);	
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);
+					
+					$data["CS_session"]["options"][$i] = $data["options"][$i];
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
 			}
 		}
-    if($count_elective>=1)
+	$this->session->set_userdata($data);	
+	if($count_elective>=1)
     {
-		$this->session->set_userdata($data);
 		$this->drawHeader("Enter the details for Elective subjects");
 		$this->load->view('course_structure/add_elective',$data);
 		$this->drawFooter();
     }
     else
     {
-      $this->session->set_userdata($data);
       $this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session']['branch']." for semester ".$sem." inserted 
 	  successfully");
-      redirect("course_structure/add");
+	  if($data['CS_session']['course_id'] == "comm")
+	  	redirect("course_structure/addCS_Common");
+	  else
+      	redirect("course_structure/add");
     }
   }
   
   public function AddElectiveSubjects()
   {
-  	$this->addJS("course_structure/add.js");
-	
-	  //this function inserts elective subject in database.
+    //this function inserts elective subject in database.
 	$this->load->model('course_structure/add_model','',TRUE);  
-    $session_data = $this->session->userdata("CS_session");
+	
+	$session_data = $this->session->userdata("CS_session");
+	
 	$sem = $session_data['sem'];
     $aggr_id = $session_data["aggr_id"];
     $count_elective = $session_data["count_elective"];
 	$count=$count_elective;
+	
 	if($session_data['list_type'] == 1)
 	{
     	$count_elective = 1;
@@ -206,8 +218,7 @@ class Add extends MY_Controller
    	 	$count=1;
 	}
     for($counter = 1;$counter<=$count_elective;$counter++)
-    {
-		$elective_details['elective_name'] = $this->input->post("name".$counter);
+    {	
 		$elective_details['lecture'] = $this->input->post("L".$counter);
 		$elective_details['tutorial'] = $this->input->post("T".$counter);
 		$elective_details['practical'] = $this->input->post("P".$counter);
@@ -215,62 +226,115 @@ class Add extends MY_Controller
 		
 		//$credit_hours= $elective_details['lecture']*2 + $elective_details['tutorial'] + $elective_details['practical'];
 		$credit_hours= $this->input->post("credit_hours".$counter);
-		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
+		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + floatval($elective_details['practical']);
 	 
 		$options = $session_data['options'][$counter];
-		$sequence_elective = $session_data['elective'][$counter];
 		
 		if($session_data['list_type'] == 1)
-			$group_id = $session_data["count_elective"].'_'.uniqid();
+		{		
+			for($j = 1;$j <= $session_data["count_elective"];$j++)
+			{
+				$group_id[$j] = $session_data["count_elective"].'_'.uniqid();		
+			}	
+		}	
 		else
-			$group_id = '1_'.uniqid();
+		{
+			$group_id[1] = '1_'.uniqid();			
+		}
 		
 		for($i = 1;$i <= $options;$i++)
-		{
-			$subject_details['id'] = uniqid();			
-			$subject_details['subject_id'] = $this->input->post("id".$counter."_".$i);
-			$subject_details['name'] = $this->input->post("name".$counter."_".$i);
-			$subject_details['lecture'] = $elective_details['lecture'];
-			$subject_details['tutorial'] = $elective_details['tutorial'];
-			$subject_details['practical'] = $elective_details['practical'];
-			$subject_details['credit_hours'] = $credit_hours;
-			$subject_details['contact_hours'] = $contact_hours;
-			//add group id to elective feild in database.
-			$subject_details['elective'] = $group_id;
-			$subject_details['type'] = $elective_details['type'];
+		{	
+			$subject_id = $this->input->post("id".$counter."_".$i);
+			$name = $this->input->post("name".$counter."_".$i);
+			$lecture = $elective_details['lecture'];
+			$tutorial = $elective_details['tutorial'];
+			$practical = $elective_details['practical'];
+			$credit_hours = $credit_hours;
+			$contact_hours = $contact_hours;
+			$type = $elective_details['type'];
 			
-			$coursestructure_details['id'] = $subject_details['id'];
-			$coursestructure_details['semester'] = $sem;
-			$sequence = $this->input->post("sequence".$counter."_".$i);
-			
-			$sequence = $session_data['seq_elective'][$counter].".".$sequence;
-			//var_dump($this->input->post());
-			//die();
-			$coursestructure_details['sequence'] = $sequence; 
-			$coursestructure_details['aggr_id'] = $aggr_id;			
-			
-			//first insert into course structure table and then to subjects table to maintain foreign key contraints.
-			
-			$this->db->trans_start();
-			$data['error'] = $this->add_model->insert_coursestructure($coursestructure_details);
-			$data['error'] = $this->add_model->insert_subjects($subject_details);
-			$this->db->trans_complete();
+			if($session_data['list_type'] == 1)
+			{
+				for($j = 1;$j <= $session_data["count_elective"];$j++)
+				{
+					$subject_details['id'] = uniqid();
+					$subject_details['subject_id'] = $subject_id;
+					$subject_details['name'] = $name;
+					$subject_details['lecture'] = $lecture;
+					$subject_details['tutorial'] = $tutorial;
+					$subject_details['practical'] = $practical;
+					$subject_details['credit_hours'] = $credit_hours;
+					$subject_details['contact_hours'] = $contact_hours;					
+					$subject_details['elective'] = $group_id[$j];
+					$subject_details['type'] = $type;
+					
+					$coursestructure_details['id'] = $subject_details['id'];
+					$coursestructure_details['semester'] = $sem;
+					
+					$sequence = $this->input->post("sequence".$counter."_".$i);
+					$sequence = $session_data['seq_elective'][$j].".".$sequence;
+					$coursestructure_details['sequence'] = ($sequence); 
+					$coursestructure_details['aggr_id'] = $aggr_id;
+					
+					$this->db->trans_start();
+					$res = $this->add_model->insert_coursestructure($coursestructure_details);
+					$data['error'] = $this->add_model->insert_subjects($subject_details);
+					$this->db->trans_complete();
+				}
+			}
+			else
+			{
+				$subject_details['id'] = uniqid();
+				$subject_details['subject_id'] = $subject_id;
+				$subject_details['name'] = $name;
+				$subject_details['lecture'] = $lecture;
+				$subject_details['tutorial'] = $tutorial;
+				$subject_details['practical'] = $practical;
+				$subject_details['credit_hours'] = $credit_hours;
+				$subject_details['contact_hours'] = $contact_hours;					
+				$subject_details['elective'] = $group_id[1];
+				$subject_details['type'] = $type;
+				
+				$coursestructure_details['id'] = $subject_details['id'];
+				$coursestructure_details['semester'] = $sem;
+					
+				$sequence = $this->input->post("sequence".$counter."_".$i);
+				$sequence = $session_data['seq_elective'][$counter].".".$sequence;
+				$coursestructure_details['sequence'] = ($sequence); 
+				$coursestructure_details['aggr_id'] = $aggr_id;
+				
+				$this->db->trans_start();
+				$res = $this->add_model->insert_coursestructure($coursestructure_details);
+				$data['error'] = $this->add_model->insert_subjects($subject_details);
+				$this->db->trans_complete();
+			}
 		} 
 		
 		//insert into elective_group table.
-		$elective_group['elective_name'] = $elective_details['elective_name'];
-		$elective_group['group_id'] = $subject_details['elective'];
-		$elective_group['aggr_id'] = $aggr_id;
-		$data['error'] = $this->add_model->insert_elective_group($elective_group);	
-		
+		if($session_data['list_type'] == 1)
+		{
+			for($j = 1;$j <= $session_data["count_elective"];$j++)
+			{
+				$elective_group['elective_name'] = $this->input->post("name_".$counter."_".$j);
+				$elective_group['group_id'] = $group_id[$j];
+				$elective_group['aggr_id'] = $aggr_id;
+				$data['error'] = $this->add_model->insert_elective_group($elective_group);	
+			}
+		}
+		else
+		{
+			$elective_group['elective_name'] = $this->input->post("name_".$counter);
+			$elective_group['group_id'] = $group_id[1];
+			$elective_group['aggr_id'] = $aggr_id;
+			$data['error'] = $this->add_model->insert_elective_group($elective_group);	
+		}
     }
 	
-//	$this->session->set_flashdata("flashSuccess","Course structure for ".$session_data['course_name']." in ".$session_data['branch']." for semester ".$sem." inserted successfully");
       $this->session->set_flashdata("flashSuccess","Course structure for semester ".$sem." inserted successfully");
-
     redirect("course_structure/add");
-	//$this->load->view('print_cs',$data);
   }
+  
+  
   
   	public function json_get_course($dept='')
 	{

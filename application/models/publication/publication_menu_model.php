@@ -15,14 +15,14 @@ class publication_menu_model extends CI_Model
 		$menu['emp']=array();
 		$menu['emp']['Publication Record'] = array();
 		$menu['emp']['Publication Record']['Add New Publication'] = site_url('publication/publication/index');
-		$menu['emp']['Publication Record']['View Publications'] = site_url('publication/publication/search');
+		$menu['emp']['Publication Record']['View Publications'] = site_url('publication/publication/view');
 		$menu['emp']['Publication Record']['Edit Publications'] = site_url('publication/publication/editpublication');
 		$menu['emp']['Publication Record']['Approve Publications'] = site_url('publication/publication/approve');
 		
 		//auth ==> deo
 		$menu['deo']=array();
 		$menu['deo']['Publication Record']['Add New Publication'] = site_url('publication/publication/index');
-		$menu['deo']['Publication Record']['View Publications'] = site_url('publication/publication/search');
+		$menu['deo']['Publication Record']['View Publications'] = site_url('publication/publication/view');
 		$menu['deo']['Publication Record']['Edit Publications'] = site_url('publication/publication/editpublication');
 		$menu['deo']['Publication Record']['Approve Publications'] = site_url('publication/publication/approve');
 

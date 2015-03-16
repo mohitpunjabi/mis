@@ -8,7 +8,15 @@ class Reports extends MY_Controller
 		$this->addJS("student_view_report/stu_report_file.js");
 		
 	}
-
+	//Ajax//
+	public function get_admissionno()
+	{
+		$this->load->model('student_view_report/report_model','',TRUE);
+		$this->report_model->get_admn_no();
+		
+			
+	}
+	//Ajax//	
 	public function index()
 	{
 		
@@ -95,7 +103,7 @@ class Reports extends MY_Controller
 		
 					
 		
-		$this->drawHeader("View Student Details");
+		//$this->drawHeader("View Student Details");
 			
 		
 			if(is_object($data['user_details']))

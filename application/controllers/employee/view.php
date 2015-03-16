@@ -70,18 +70,62 @@ class View extends MY_Controller
 		$data['step']=$form;
 		$this->load->model('employee_model','',TRUE);
 		$this->load->model('employee/faculty_details_model','',TRUE);
+		$this->load->model('employee/emp_family_details_model','',TRUE);
+		$this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+		$this->load->model('employee/emp_education_details_model','',TRUE);
+		$this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
 		$this->load->model('employee/emp_validation_details_model','',TRUE);
 		$this->load->model('departments_model','',TRUE);
 		$this->load->model('designations_model','',TRUE);
 
+		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+
+		//initialization
+		$data['pending_photo'] = false;
+		$data['pending_emp'] = false;
+		$data['pending_permanent_address'] = false;
+		$data['pending_present_address'] = false;
+		$data['pending_ft'] = false;
+
+		if($data['emp_validation_details'])	{
+
+			$users = $this->users_model->getUserById($emp_id);
+			$user_details = $this->user_details_model->getPendingDetailsById($emp_id);
+			$user_other_details = $this->user_other_details_model->getPendingDetailsById($emp_id);
+			$emp_basic_details = $this->emp_basic_details_model->getPendingDetailsById($emp_id);
+			$emp_pay_details = $this->emp_pay_details_model->getPendingDetailsById($emp_id);
+
+			//approved details from real tables and rejected/pending details from pending tables
+			//case 0 : profile pic status
+			if($data['emp_validation_details']->profile_pic_status != 'approved')
+				$data['pending_photo'] = $user_details->photopath;
+
+			//case 1 : basic details status
+			if($data['emp_validation_details']->basic_details_status != 'approved') {
+				$user = (object)(array_merge((array)$users,(array)$user_details,(array)$user_other_details));
+				$data['pending_emp'] = (object)(array_merge((array)$user,(array)$emp_basic_details,(array)$emp_pay_details,array('auth_id'=>array($user->auth_id,$emp_basic_details->auth_id))));
+				$data['pending_permanent_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'permanent');
+				$data['pending_present_address'] = $this->user_address_model->getPendingDetailsById($emp_id,'present');
+				$data['pending_ft']=$this->faculty_details_model->getPendingDetailsById($emp_id);
+			}
+		}
 
 		$data['emp']=$this->employee_model->getById($emp_id);
+		$data['permanent_address'] = $this->user_address_model->getAddrById($emp_id,'permanent');
+		$data['present_address'] = $this->user_address_model->getAddrById($emp_id,'present');
 		$data['ft']=$this->faculty_details_model->getFacultyById($emp_id);
+
 		$data['emp_prev_exp_details'] = $this->employee_model->getPreviousEmploymentDetailsById($emp_id);
+		$data['pending_emp_prev_exp_details'] = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+
 		$data['emp_family_details'] = $this->employee_model->getFamilyDetailsById($emp_id);
+		$data['pending_emp_family_details'] = $this->emp_family_details_model->getPendingDetailsById($emp_id);
+
 		$data['emp_education_details'] = $this->employee_model->getEducationDetailsById($emp_id);
+		$data['pending_emp_education_details'] = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+
 		$data['emp_last5yrstay_details'] = $this->employee_model->getStayDetailsById($emp_id);
-		$data['emp_validation_details'] = $this->emp_validation_details_model->getValidationDetailsById($emp_id);
+		$data['pending_emp_last5yrstay_details'] = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
 
 		$this->drawHeader("View Employee Details","<h4><b>Employee Id </b>< ".$emp_id.' ></h4>');
 		$this->load->view('employee/view/view',$data);

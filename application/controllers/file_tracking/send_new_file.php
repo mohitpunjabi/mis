@@ -112,7 +112,7 @@ class Send_new_file extends MY_Controller
 		$this->load->model ('file_tracking/file_move_details', '', TRUE);
 		$this->file_move_details->insert ($data_arr);
 
-		$this->notification->notify ($rcvd_emp_id, "emp", "Receive a File",$description, "receive_file/validate_track_num/".$file_id, "");
+		$this->notification->notify ($rcvd_emp_id, "emp", "Receive a File",$description, "file_tracking/receive_file/validate_track_num/".$file_id, "");
 		//$data_arr2['track_num'] = $track_num;
 //		$this->load->view('file_tracking/send_new_file/notification', $data_arr2);
 

@@ -41,10 +41,9 @@ var $table_elective_group = 'elective_group';
 	    
 		if($this->db->affected_rows() >=0 || !$this->db->_error_message())
 			return true;
-		
-		else
-			return false;	
+
 	}
 }
 /* End of file menu_model.php */
+
 /* Location: mis/application/models/course_structure/menu_model.php */

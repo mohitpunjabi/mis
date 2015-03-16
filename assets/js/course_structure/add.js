@@ -9,22 +9,26 @@ $(document).ready(function(){
 	$branch_selection = $('#branch_selection');
 	$semester_selection = $("#semester");
 	$session_selection = $("#session_selection");
+	$group_selection = $("#group_selection");
 	
 	$cont_course_selection = $('#cont_course_selection');
 	$cont_branch_selection = $('#cont_branch_selection');
 	$cont_semester_selection = $("#cont_semester");
 	$cont_session_selection = $("#cont_session_selection");
+	$cont_group_selection = $("#cont_group");
 	
 	
 	$course_selection.hide();
 	$branch_selection.hide();
 	$semester_selection.hide();
 	$session_selection.hide();
+	$group_selection.hide();
 	
 	$cont_course_selection.hide();
 	$cont_branch_selection.hide();
 	$cont_semester_selection.hide();
 	$cont_session_selection.hide();
+	$cont_group_selection.hide();
 	
 	$duration = 1;
 	
@@ -32,7 +36,7 @@ $(document).ready(function(){
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
 			success:function(data){
-				var base_str = "<option value = '0' selected='selected' disabled>Select Course</option>";
+				var base_str = "<option value = '' selected='selected' disabled>Select Course</option>";
 				for($d=0 ; $d < data.length;$d++) {
 					base_str += "<option data-duration='"+data[$d]['duration']+"' value='"+ data[$d]['id']+"'>"+data[$d]["name"]+"</option>";
 				}
@@ -73,7 +77,7 @@ $(document).ready(function(){
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){
 				
-				base_str_branch = "<option selected = 'selected' disabled>Select Branch</option>";
+				base_str_branch = "<option value = '' selected = 'selected' disabled>Select Branch</option>";
 				for($d=0 ; $d < data.length;$d++){
 					base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
@@ -84,7 +88,7 @@ $(document).ready(function(){
 				
 				var d = new Date();
 				var n = d.getFullYear();
-				base_str = "<option selected = 'selected' disabled>Valid From</option>";
+				base_str = "<option value = '' selected = 'selected' disabled>Valid From</option>";
 				
 				for($d=n-5;$d<=n+5;$d++)
 				{
@@ -116,17 +120,8 @@ $(document).ready(function(){
 	function add_semester(duration){
 		
 		base_str = "";
-		if($course_selection.find(':selected').val() == 'ug_comm')
-		{
-			for(counter = 1; counter <= 2 ; counter++){
-				if(counter == 1)
-					base_str += "<option value=\""+counter+"\">"+"Physics(Group "+counter+")"+"</option>";
-				else if(counter == 2)
-					base_str += "<option value=\""+counter+"\">"+"Chemistry(Group "+counter+")"+"</option>";
-			}
-			
-		}
-		else if(duration < 4){
+		
+		if(duration < 4){
 			base_str = "<option value = '0'>All</option>";
 			for(counter = 1; counter <= 2*duration ; counter++){
 				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
@@ -142,6 +137,17 @@ $(document).ready(function(){
 		
 		$cont_semester_selection.show();
 		$semester_selection.show().html(base_str);
+		
+		if($dept_selection.find(':selected').val() == 'comm')
+		{		
+			base_str_group = "";
+			base_str_group += "<option value = '1'>Group 1</option>";
+			base_str_group += "<option value = '2'>Group 2</option>";
+			
+			$("#cont_group").show();
+			$("#group_selection").show().html(base_str_group);
+		}
+		
 	}
 
 	$dept_selection.change(function(){

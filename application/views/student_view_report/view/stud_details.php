@@ -19,7 +19,14 @@ echo '<div id="print" >';
 		  
 		   $deparment=$this->departments_model->getDepartmentById($user_details->dept_id)->name;
 		  
+			if(isset($this->student_typeugpg_model->getTypeById($student_details->type)->name))
+			{
 			$tstype=$this->student_typeugpg_model->getTypeById($student_details->type)->name;
+			}
+			else
+			{
+				$tstype=" ";
+			}
 			$tbgroup=$student_details->blood_group;
 			
 			if($tbgroup=='apos')
@@ -418,11 +425,11 @@ echo '<div id="print" >';
 									$col1->close();
 									
 									$col2 = $ui->col()->width(2)->open();
-										echo "<label>Course(Specialization)</label>";
+										echo "<label>Course/<br>Specialization)</label>";
 									$col2->close();
 									
 									$col3 = $ui->col()->width(2)->open();
-										echo "<label>College/University/Institute</label>";
+										echo "<label>College/University/<br>Institute</label>";
 									$col3->close();
 									
 									$col4 = $ui->col()->width(2)->open();
@@ -430,11 +437,11 @@ echo '<div id="print" >';
 									$col4->close();
 									
 									$col5 = $ui->col()->width(2)->open();
-									echo "<label>Percentage/Grade</label>";
+									echo "<label>Percentage/<br>Grade</label>";
 									$col5->close();
 									
 									$col6 = $ui->col()->width(2)->open();
-									echo "<label>Class/Division</label>";
+									echo "<label>Class/<br>Division</label>";
 									$col6->close();
 									
 									
@@ -496,7 +503,7 @@ echo '<div id="print" >';
 							$col3->close();
 							
 							$col4 = $ui->col()->width(3)->open();
-								echo $student_details->enrollment_no;
+								echo strtoupper($student_details->enrollment_no);
 							$col4->close();
 							
 							

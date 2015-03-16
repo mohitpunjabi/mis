@@ -67,7 +67,25 @@ class Sbasic_model extends CI_Model
 	/// End Date Set////	
 	
 	public function hod_vaise_student($dep){
-			$query = $this->db->query("select * from stu_sem_reg_form as sf, stu_details as sd, user_details as ud, stu_sem_reg_fee as srf  where branch_id='".$dep."' and srf.form_id = sf.sem_form_id and sd.admn_no = sf.admission_id and ud.id = sf.admission_id order by sf.semster and YEAR(timestamp)='".date('Y')."'");
+			$query = $this->db->query("select * from stu_sem_reg_form as sf, stu_details as sd, user_details as ud, stu_sem_reg_fee as srf  where branch_id='".$dep."' and srf.form_id = sf.sem_form_id and sd.admn_no = sf.admission_id and ud.id = sf.admission_id and YEAR(timestamp)='".date('Y')."' order by sf.semster");
+			if($query->num_rows() > 0){
+					return $query->result();
+			}else return false;
+	}
+	
+	public function acdamic_vaise_student($did='',$cid='',$bid='',$sid=''){
+			$q = "select * from stu_sem_reg_form as sf, stu_details as sd, user_details as ud, stu_sem_reg_fee as srf  where srf.form_id = sf.sem_form_id and sd.admn_no = sf.admission_id and ud.id = sf.admission_id and YEAR(timestamp)='".date('Y')."'";
+			if($did)
+				$q.=" and ud.dept_id='".$did."'";
+			if($cid)
+				$q.=" and sf.course_id='".$cid."'";
+			if($bid)
+				$q.=" and sf.branch_id='".$did."'";
+			if($sid)
+				$q.=" and sf.semester='".$sid."'";
+				$q.=" order by sf.semster";
+			
+			$query = $this->db->query($q);
 			if($query->num_rows() > 0){
 					return $query->result();
 			}else return false;
@@ -112,6 +130,11 @@ WHERE
 	 	return $this->db->get_where($this->branches,array('id'=>$id))->row();
 			
 	  }
+	
+	public function getDepatmentById($id){
+			return $this->db->select('name')->get_where('departments',array('id'=>$id))->row();
+		}
+		
   public function getApprovedFormByStudent($id){
 	  	$query = $this->db->select('sem_form_id,semster')->get_where($this->sem_form,array('hod_status'=>'1','acdmic_status'=>'1','admission_id'=>$id));
 		 

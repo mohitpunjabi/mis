@@ -7,6 +7,12 @@
                                     else
                                         foreach($pay_bands as $row)
                                             array_push($pay_options,$ui->option()->value($row->pay_band)->text(strtoupper($row->pay_band).' ('.$row->pay_band_description.')'));
+
+                                    //states options
+                                    $state_options = array($ui->option()->value("")->text("Choose One")->disabled()->selected());
+                                    foreach($states as $row)
+                                        array_push($state_options,$ui->option()->value($row->state_name)->text(ucwords($row->state_name)));
+
 if($error!="")
     $ui->alert()->uiType('danger')->title('ERROR')->desc($error)->show();
 
@@ -89,6 +95,7 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                         echo '<label>Gender<span style= "color:red;"> *</span></label>';
                         $ui->radio()->name('sex')->value('m')->label('Male')->checked()->show();
                         $ui->radio()->name('sex')->value('f')->label('Female')->show();
+                        $ui->radio()->name('sex')->value('o')->label('Others')->show();
                     $col1->close();
 
                     $col2 = $ui->col()->width(3)->open();
@@ -200,7 +207,7 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                     ->show();
             $emp_box->close();
 
-            $pay_box = $ui->box()->uiType('primary')->solid()->title('Payment Details')->open();
+            $pay_box = $ui->box()->uiType('primary')->solid()->title('Salary Details')->open();
 
                 $ui->select()->name('payscale')->id('payscale')->label('Pay Band<span style= "color:red;"> *</span>')
                             ->options($pay_options)->required()->show();
@@ -237,8 +244,9 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                                     ->label('City<span style= "color:red;"> *</span>')
                                     ->required()
                                     ->show();
-                    $ui->input()->name('state1')
+                    $ui->select()->name('state1')
                                     ->label('State<span style= "color:red;"> *</span>')
+                                    ->options($state_options)
                                     ->required()
                                     ->show();
                     $ui->input()->name('pincode1')
@@ -271,8 +279,9 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                                     ->label('City<span style= "color:red;"> *</span>')
                                     ->required()
                                     ->show();
-                    $ui->input()->name('state2')
+                    $ui->select()->name('state2')
                                     ->label('State<span style= "color:red;"> *</span>')
+                                    ->options($state_options)
                                     ->required()
                                     ->show();
                     $ui->input()->name('pincode2')

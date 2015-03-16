@@ -15,8 +15,11 @@ class Add_model extends CI_Model
 
 	function insert_subjects($subject_details)
 	{	
-    	$this->db->insert($this->table_subject, $subject_details);
-		return $this->db->_error_message(); 
+		$insert_query = $this->db->insert_string($this->table_subject,$subject_details);
+		$insert_query = str_replace("INSERT","INSERT IGNORE",$insert_query);
+    	$this->db->query($insert_query);
+		
+		return ($this->db->_error_message()); 
 	}
 	
 	function insert_coursestructure($coursestructure_details)
@@ -24,7 +27,10 @@ class Add_model extends CI_Model
 		$insert_query = $this->db->insert_string($this->table_coursestructure,$coursestructure_details);
 		$insert_query = str_replace("INSERT","INSERT IGNORE",$insert_query);
     	$this->db->query($insert_query);
-		return ($this->db->affected_rows() != 1) ? false : true;
+		if($this->db->affected_rows() > 0)
+			return true;
+		   //return ($this->db->_error_message());
+		 //else : true;
 	}
 	
 	function insert_elective_group($elective_group)

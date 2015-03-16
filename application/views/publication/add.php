@@ -18,11 +18,7 @@
 	
 	$inputRow1 = $ui->row()->open();
 	$Col1 = $ui->col()->width(6)->open();
-		$ui->input()
-		   ->label('Title of Paper')
-		   ->name('title')
-		   ->required()
-		   ->show();
+		$ui->input()->label('Title')->name('title')->required()->show();
 	$Col1->close();
 	$Col2 =  $ui->col()->width(6)->open();
 		$ui->select()
@@ -36,15 +32,38 @@
 				$ui->option()->value(2)->text("International Journal"),
 				$ui->option()->value(3)->text("National Conference"),
 				$ui->option()->value(4)->text("International Conference"),
-				$ui->option()->value(5)->text("Others")
+				$ui->option()->value(5)->text("Book"),
+				$ui->option()->value(6)->text("Book Chapter")
 			))
 		   ->show();
 
 	$Col2->close();
+	$innerCol1 = $ui->col()->id("publication_name_one")->width(6)->open();
+				$ui->input()->label('Name of Jorunal<sub>*</sub>')->name('publication_name')->show();
+			$innerCol1->close();
+	$innerColumn3 = $ui->col()->id("date_picker_one")->width(6)->open();
+				$ui->datePicker()->label('Date')->id('date')
+				   ->name('begin_date')->placeholder("dd-mm-yyyy")
+				   ->dateFormat('dd-mm-yyyy')->show();
+	$innerColumn3->close();
+	$innerColumn4 = $ui->col()->id("isbn_first")->width(6)->open();
+				$ui->input()->label('ISBN No.')->name('isbn_no')->show();
+			$innerColumn4->close();
+	$innerColumn3 = $ui->col()->id("date_picker_the")->width(6)->open();
+				$ui->datePicker()->label('Begin date')->name('begin_date')->placeholder("dd-mm-yyyy")
+						->dateFormat('dd-mm-yyyy')->show();
+	$innerColumn3->close();
+	$innerColumn4 = $ui->col()->id("date_picker_two")->width(6)->open();
+				$ui->datePicker()->label('End date')->name('end_date')->placeholder("dd-mm-yyyy")
+						->dateFormat('dd-mm-yyyy')->show();
+	$innerColumn4->close();
+
+
 	$inputRow1->close();
 	
 
 	$row2 = $ui->col()->id('pub_type')->width(12)->open();	
+	
 	$row2->close();
 
 	$row3 = $ui->row()->open();
@@ -62,47 +81,38 @@
 ?>
 <script charset="utf-8">
 	$("#publication_type").on('change', function() {
-		get_publication_type(this.value); // or $(this).val()
+		get_publication_type(this.value);
+		if (this.value == 1 || this.value == 2)
+		{
+			$('#date_picker_one').show();
+			$('#publication_name_one').show();
+			$('#date_picker_the').hide();
+			$('#date_picker_two').hide();
+			$('#isbn_first').hide();
+		}
+		else if(this.value==3||this.value==4)
+		{
+			$('#date_picker_one').hide();
+			$('#publication_name_one').hide();
+			$('#date_picker_the').show();
+			$('#date_picker_two').show();
+			$('#isbn_first').hide();
+		}
+		else
+		{
+			$('#date_picker_one').show();
+			$('#publication_name_one').hide();
+			$('#date_picker_the').hide();
+			$('#date_picker_two').hide();
+			$('#isbn_first').show();
+		}
 	});
+	$(window).load(function(){
+		$('#publication_name_one').hide();
+		$('#date_picker_one').hide();
+		$('#date_picker_two').hide();
+		$('#date_picker_the').hide();
+		$('#isbn_first').hide();
+	});
+	//$("#date")
 </script>
-<!--<div id="container">
-	<h1>Welcome to Publication Record Page!</h1>
-  <center>
-  <font face="Arial" size="3">
-	<b>Add New Publication</b><br><br>
-	<?php
-		$form_attrinutes = array("id"=>"add_publication_form","method"=>"post");
-	  echo form_open('publication/publication/addpublication',$form_attrinutes);
-	?>
-	<div id="publication_wrapper">
-	  <fieldset>
-		<legend>Details</legend>
-		<table id="details_table">
-		  <tr>
-			<td>Enter Title of The Paper *</td>
-			<td><input type="text" name="title" required="true"></td>
-		  </tr>
-		  <tr>
-			<td>Types of the Publication</td>
-			<td>
-			  <select name="publication_type" id="publication_type">
-				<option value="0">Select Type</option>
-				<?php
-				  foreach($prk_types as $type){
-					echo "<option value='".$type->type_id."'>".$type->type_name."</option>";  
-				  } 
-				?>
-			  </select>
-			</td>
-		  </tr>
-		</table>
-	  </fieldset>
-	</div>  
-	<?php
-	echo form_submit('submit', 'Add Publication');
-	echo form_close();
-	?>
-  </font>
-  </center>
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-</div>-->

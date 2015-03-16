@@ -2,22 +2,29 @@
 
     $upRow = $ui->row()->open();
         $col = $ui->col()->open();
-            $box = $ui->box()->id('show_details')->title('Educational Qualifications')->uiType('primary')->open();
-                if($emp_education_details != FALSE) {
+
+            switch ($validation_status) {
+                case "approved" : $status=array("ui_type" => "success", "text" => "");break;
+                case "pending"  : $status=array("ui_type" => "warning", "text" => "Pending for Approval");break;
+                case "rejected" : $status=array("ui_type" => "danger", "text" => "Rejected");break;
+            }
+            $box = $ui->box()->id('show_details')->title('Educational Qualifications '.$ui->label()->uiType($status['ui_type'])->text($status['text']))->uiType($status['ui_type'])->open();
+                $details = (count($pending_emp_education_details))? $pending_emp_education_details : $emp_education_details;
+                if(count($details)) {
 	                $table = $ui->table()->id('tbl4')->responsive()->bordered()->striped()->open();
-	                    echo '<thead valign="middle" ><tr align="center">
-	                        <th align="center">S no.</th>
-	                        <th>Examination</th>
-	                        <th>Course(Specialization)</th>
-	                        <th>College/University/Institute</th>
-	                        <th>Year</th>
-	                        <th>Percentage/Grade</th>
-	                        <th>Class/Division</th>
-	                        <th>Edit/Delete</th>
+	                    echo '<thead><tr align="center">
+	                        <td style="vertical-align:middle" ><b>S no.</b></td>
+	                        <td style="vertical-align:middle" ><b>Examination</b></td>
+	                        <td style="vertical-align:middle" ><b>Course(Specialization)</b></td>
+	                        <td style="vertical-align:middle" ><b>College/University/Institute</b></td>
+	                        <td style="vertical-align:middle" ><b>Year</b></td>
+	                        <td style="vertical-align:middle" ><b>Percentage/Grade</b></td>
+	                        <td style="vertical-align:middle" ><b>Class/Division</b></td>
+	                        <td style="vertical-align:middle" ><b>Edit/Delete</b></td>
 	                        </tr>
 	                        </thead><tbody>';
 	                    $i=1;
-	                    foreach($emp_education_details as $row)
+	                    foreach($details as $row)
 	                    {
 	                        echo '<tr name="row[]" align="center">
 	                                <td>'.$i.'</td>
@@ -39,6 +46,43 @@
 	            else
 	            	$ui->callout()->title('Empty')->desc('No Educational Qualifications Found.')->uiType('danger')->show();
             $box->close();
+
+            if(count($pending_emp_education_details)) {
+                $box = $ui->box()->id('original_details')->title('Educational Qualifications')->uiType('success')->open();
+                    if(count($emp_education_details)) {
+                        $table = $ui->table()->id('tbl')->responsive()->bordered()->striped()->open();
+                            echo '<thead><tr align="center">
+                                <td style="vertical-align:middle" ><b>S no.</b></td>
+                                <td style="vertical-align:middle" ><b>Examination</b></td>
+                                <td style="vertical-align:middle" ><b>Course(Specialization)</b></td>
+                                <td style="vertical-align:middle" ><b>College/University/Institute</b></td>
+                                <td style="vertical-align:middle" ><b>Year</b></td>
+                                <td style="vertical-align:middle" ><b>Percentage/Grade</b></td>
+                                <td style="vertical-align:middle" ><b>Class/Division</b></td>
+                                </tr>
+                                </thead><tbody>';
+                            $i=1;
+                            foreach($emp_education_details as $row)
+                            {
+                                echo '<tr name="row[]" align="center">
+                                        <td>'.$i.'</td>
+                                        <td>'.strtoupper($row->exam).'</td>
+                                        <td>'.strtoupper($row->branch).'</td>
+                                        <td>'.strtoupper($row->institute).'</td>
+                                        <td>'.$row->year.'</td>
+                                        <td>'.strtoupper($row->grade).'</td>
+                                        <td>'.ucwords($row->division).'</td>';
+                                echo   '</tr>';
+                                $i++;
+                            }
+                            echo'</tbody>';
+                        $table->close();
+                    }
+                    else
+                        $ui->callout()->title('Empty')->desc('No Educational Qualifications Found.')->uiType('danger')->show();
+                $box->close();
+            }
+
         $col->close();
     $upRow->close();
 

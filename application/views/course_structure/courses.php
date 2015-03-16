@@ -1,5 +1,5 @@
 <?php 
-   echo "<h4>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h4>";
+   echo "<h4>".$CS_session['course_name']." (".$CS_session['branch'].") for Session ".$CS_session['session']."</h4>";
    
    $ui = new UI();
     $outer_row = $ui->row()->id('or')->open();
@@ -35,7 +35,7 @@
 										$ui->select()
 										   ->label()
 										   ->name("sequence".$counter)
-										   ->id("sequence".$counter)
+										   ->id("sequence_".$counter)
 										   ->options($array_option)
 										   ->show();
 							
@@ -46,6 +46,7 @@
 											->placeholder('Subject ID')
 											->id('id'.$counter)
 											->name('id'.$counter)
+											->required()
 											->show();
 								echo '
 									</td>
@@ -54,11 +55,13 @@
 										->placeholder('Subject Name')
 										->id('name'.$counter)
 										->name('name'.$counter)
+										->required()
 										->show(); 
 								echo '
 									</td> 
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Lectures")->disabled()->selected());
 									for($it = 0;$it<=5;$it++)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -67,11 +70,13 @@
 									   ->id("L".$counter)
 									   ->name("L".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 									echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Tutorials")->disabled()->selected());
 									for($it = 0;$it<=5;$it++)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
@@ -80,12 +85,13 @@
 									   ->id("T".$counter)
 									   ->name("T".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
 									<td>';
 									$array_option = array();
-									for($it = 0; $it<=5; $it+=0.5)
+									for($it = 0; $it<=10; $it+=0.5)
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										
 									$ui->select()
@@ -93,6 +99,7 @@
 									   ->id("P".$counter)
 									   ->name("P".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
@@ -101,11 +108,13 @@
 											->placeholder('Credit Hours')
 											->id('credit_hours'.$counter)
 											->name('credit_hours'.$counter)
+											->required()
 											->show();
 								echo '
 									</td>
 									<td>';
 									$array_option = array();
+									//array_push($array_option,$ui->option()->value('""')->text("Type"));
 									array_push($array_option,$ui->option()->value("Theory")->text("Theory"));
 									array_push($array_option,$ui->option()->value("Practical")->text("Practical"));
 									array_push($array_option,$ui->option()->value("Sessional")->text("Sessional"));
@@ -115,6 +124,7 @@
 									   ->id("type".$counter)
 									   ->name("type".$counter)
 									   ->options($array_option)
+									   ->required()
 									   ->show();
 								echo '
 									</td>
@@ -140,8 +150,10 @@
 									<td>Please Select the type for Elective list</td>
 									<td>';
 										$ui->select()
-										   ->options(array($ui->option()->value("0")->text("Please Select")->disabled()->selected(),$ui->option()->value("1")->text("Same List For 
-										   AllElectives"),$ui->option()->value("2")->text("Seperate List For All Electives")))
+											->required()
+										   ->options(array($ui->option()->value("0")->text("Please Select")->disabled()->selected(),$ui->option()->
+										   value("1")->text("Same List For All Electives"),$ui->option()->value("2")->text("Seperate List For All 
+										   Electives")))
 										   ->id("list-type")
 										   ->name("list_type")
 										   ->show();
@@ -168,6 +180,7 @@
 									  array_push($array_option,$ui->option()->value($j)->text($j));
 								  $ui->select()
 								     ->name("seq_e1")
+								     ->id('sequence_'.($CS_session['count_core']+$CS_session['count_elective']))
 									 ->options($array_option)
 									 ->show();
 							echo '
@@ -199,26 +212,30 @@
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										$ui->select()
 										   ->name("seq_e".$i)
+										   ->id('sequence_'.($CS_session['count_core']+$i))
 										   ->options($array_option)
 										   ->show();
 								echo '
-									</td>';
+									</td></tr>';
 								}
 								
 								for($i = 1;$i<=$CS_session['count_elective'];$i++)
 								{
 									echo '
 									<tr class="diff_options">
-										<td>Number of options for Elective '.$i.'</td>
+										<td>Number of options and order for Elective '.$i.'</td>
 										<td>';
 											$ui->input()->width("6")->placeholder("Number of options")->name("options".$i)->show();
 											
 										$array_option = array();
+										array_push($array_option,$ui->option()->value($it)->text("Order of Elective ".$i));
 										for($it = 1;$it<=$CS_session['count_elective']+$CS_session['count_core'];$it++)
-										array_push($array_option,$ui->option()->value($it)->text($it));
+											array_push($array_option,$ui->option()->value($it)->text($it));
+										
 										$ui->select()
 										   ->name("seq_e".$i)
 										   ->width("6")
+										   ->id('sequence_'.($CS_session['count_core']+$i))
 										   ->options($array_option)
 										   ->show();	
 									echo '
@@ -279,8 +296,34 @@
       }
     });
 
-  });  
-  
+  });
+  var select_val=[];
+  for(i=0;i<elective_count+core_count;i++){
+  	select_val[i]=0;
+  }  
+  $(document).on('change','select[id^="sequence_"]',function(event){
+
+  	var _this = $(this);
+  	var id = _this.attr('id');
+  	id = id.split('_');
+  	id = parseInt(id[1]);
+  	
+	var flag = true;
+	for(i=0;i<elective_count+core_count;i++){
+  	
+	  	if(select_val[i] === parseInt(_this.val())){
+	  		alert('No two subjects can have same sequence number');
+	  		flag = false;
+	  		_this.focus();
+	  		event.preventDefault();
+	  	}
+	
+	}
+	if(flag){
+		select_val[id] = parseInt(_this.val());
+	}
+  	
+  });
   $(document).ready(function(){
 	  $('tr.diff_options').hide();
 	  $('tr.same_options').hide();

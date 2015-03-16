@@ -35,7 +35,7 @@ $(document).ready(function(){
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
 			success:function(data){
-				var base_str = "<option value = '0' selected='selected' disabled>Select Course</option>";
+				var base_str = "<option value = '' selected='selected' disabled>Select Course</option>";
 				for($d=0 ; $d < data.length;$d++) {
 					base_str += "<option data-duration='"+data[$d]['duration']+"' value='"+ data[$d]['id']+"'>"+data[$d]["name"]+"</option>";
 				}
@@ -75,8 +75,8 @@ $(document).ready(function(){
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){
-				
-				base_str_branch = "<option selected = 'selected' disabled>Select Branch</option>";
+				console.log(data);
+				base_str_branch = "<option value = '' selected = 'selected' disabled>Select Branch</option>";
 				for($d=0 ; $d < data.length;$d++){
 					base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
@@ -87,7 +87,7 @@ $(document).ready(function(){
 				
 				var d = new Date();
 				var n = d.getFullYear();
-				base_str = "<option selected = 'selected' disabled>Valid From</option>";
+				base_str = "<option value = '' selected = 'selected' disabled>Valid From</option>";
 				
 				for($d=n-5;$d<=n+5;$d++)
 				{
@@ -150,8 +150,13 @@ $(document).ready(function(){
 		$("#cont_branch_selection").hide();
 		$("#cont_session_selection").hide();
 		$("#cont_semester").hide();
+		if($dept_selection.val() == "comm")
+		{
+			alert("To add for 1st Year please visit CourseStructure->add course structure->for 1st year Common");
+		}
+		else
+			add_course();
 		
-		add_course();
 	});
 
 });

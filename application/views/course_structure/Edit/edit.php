@@ -304,32 +304,38 @@
 									echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectid_".$semester."_".$seq_no)->id($subjects["subject_details"][$semester][$i+$j]->id)->value(
-									$subjects["subject_details"][$semester][$i+$j]->subject_id)->disabled()->show();
+									$ui->input()->name("subjectid_".$semester."_".$seq_no)->id($subjects["subject_details"][$semester][$i+$j]->id)
+									->value($subjects["subject_details"][$semester][$i+$j]->subject_id)->disabled()->show();
 							echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectname_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->name)->disabled()->show();
+									$ui->input()->name("subjectname_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]
+									->name)->disabled()->show();
 							echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectL_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->lecture)->disabled()->show();
+									$ui->input()->name("subjectL_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->
+									lecture)->disabled()->show();
 							echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectT_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->tutorial)->disabled()->show();
+									$ui->input()->name("subjectT_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->
+									tutorial)->disabled()->show();
 							echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectP_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->practical)->disabled()->show();
+									$ui->input()->name("subjectP_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->
+									practical)->disabled()->show();
 							echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcredithours_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->credit_hours)->disabled()->show();
+									$ui->input()->name("subjectcredithours_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][
+									$i+$j]->credit_hours)->disabled()->show();
 							echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcontacthours_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester][$i+$j]->contact_hours)->disabled()->show();
+									$ui->input()->name("subjectcontacthours_".$semester."_".$seq_no)->value($subjects["subject_details"][$semester
+									][$i+$j]->contact_hours)->disabled()->show();
 							echo '
 								</td>
 								<td>';
@@ -351,18 +357,18 @@
 									$ui->button()
 										->value('Edit')
 										->uiType('primary')
-										->id("editbutton_".$semester."_".$i)
+										->id("editbutton_".$semester."_".$seq_no)
 										->icon($ui->icon("edit"))
-										->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
+										->extras(' onclick = EditSubject(\''.$semester.'\',\''.$seq_no.'\') ')
 										->name('edit')
 										->show();
 										
 									$ui->button()
 										->value('Save')
 										->uiType('success')
-										->id("savebutton_".$semester."_".$i)
+										->id("savebutton_".$semester."_".$seq_no)
 										->icon($ui->icon("save"))
-										->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+										->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$seq_no.'\') ')
 										->name('save')
 										->classes("savebutton")
 										->show();
@@ -397,13 +403,13 @@
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectT_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->tutorial)->
-									disabled()->show();
+									$ui->input()->name("subjectT_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->tutorial)
+									->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectP_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->practical)->
-									disabled()->show();
+									$ui->input()->name("subjectP_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->practical)
+									->disabled()->show();
 								echo '
 								</td>
 								<td>';
@@ -412,8 +418,8 @@
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcontacthours_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]->
-									contact_hours)->disabled()->show();
+									$ui->input()->name("subjectcontacthours_".$semester."_".$i)->value($subjects["subject_details"][$semester][$i]
+									->contact_hours)->disabled()->show();
 								echo '
 								</td>
 								<td>';
@@ -480,7 +486,7 @@
 			if(isset($subjects['honour']['subject_details']) && $counter >= 5 && $counter <= 8)
 			{
 				$semester = $counter;
-			$box_form = $ui->box()->id("box_form_honour_".$counter)->title("Semester ". $counter. " (Honour)")->open();
+			$box_form = $ui->box()->id("box_form_".$counter."_1")->title("Semester ". $counter. " (Honour)")->open();
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>
@@ -509,37 +515,37 @@
 									echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectid_".$semester."_".$i)->id($subjects['honour']["subject_details"][$semester][$i]->id
-									)->value($subjects['honour']["subject_details"][$semester][$i]->subject_id)->disabled()->show();
+									$ui->input()->name("subjectid_".$semester."_1"."_".$i)->id($subjects['honour']["subject_details"][$semester][$i
+									]->id)->value($subjects['honour']["subject_details"][$semester][$i]->subject_id)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectname_".$semester."_".$i)->value($subjects['honour']["subject_details"][$semester][$i
-									]->name)->disabled()->show();
+									$ui->input()->name("subjectname_".$semester."_1"."_".$i)->value($subjects['honour']["subject_details"][
+									$semester][$i]->name)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectL_".$semester."_".$i)->value($subjects['honour']["subject_details"][$semester][$i]->
-									lecture)->disabled()->show();
+									$ui->input()->name("subjectL_".$semester."_1"."_".$i)->value($subjects['honour']["subject_details"][$semester][
+									$i]->lecture)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectT_".$semester."_".$i)->value($subjects['honour']["subject_details"][$semester][$i]->
-									tutorial)->disabled()->show();
+									$ui->input()->name("subjectT_".$semester."_1"."_".$i)->value($subjects['honour']["subject_details"][$semester][
+									$i]->tutorial)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectP_".$semester."_".$i)->value($subjects['honour']["subject_details"][$semester][$i]->
-									practical)->disabled()->show();
+									$ui->input()->name("subjectP_".$semester."_1"."_".$i)->value($subjects['honour']["subject_details"][$semester][
+									$i]->practical)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcredithours_".$semester."_".$i)->value($subjects['honour']["subject_details"][
+									$ui->input()->name("subjectcredithours_".$semester."_1"."_".$i)->value($subjects['honour']["subject_details"][
 									$semester][$i]->credit_hours)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcontacthours_".$semester."_".$i)->value($subjects['honour']["subject_details"][
+									$ui->input()->name("subjectcontacthours_".$semester."_1"."_".$i)->value($subjects['honour']["subject_details"][
 									$semester][$i]->contact_hours)->disabled()->show();
 								echo '
 								</td>
@@ -562,18 +568,18 @@
 									 $ui->button()
 										->value('Edit')
 										->uiType('primary')
-										->id("editbutton_".$semester."_".$i)
+										->id("editbutton_".$semester."_1"."_".$i)
 										->icon($ui->icon("edit"))
-										->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
+										->extras(' onclick = EditSubject(\''.$semester."_1".'\',\''.$i.'\') ')
 										->name('edit')
 										->show();
 										
 										$ui->button()
 											->value('Save')
 											->uiType('success')
-											->id("savebutton_".$semester."_".$i)
+											->id("savebutton_".$semester."_1"."_".$i)
 											->icon($ui->icon("save"))
-											->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+											->extras(' onclick = SaveSubject(\''.$semester."_1".'\',\''.$i.'\') ')
 											->name('save')
 											->classes("savebutton")
 											->show();
@@ -582,6 +588,9 @@
 						</tr>';
 					}	
 					$aggr_id = $CS_session['aggr_id'];
+					$session = explode("_",$aggr_id);
+					$session = $session[2]."_".$session[3];
+					$aggr_id = "honour_honour_".$session;
 					echo '
 						<tr>
 							<td>';
@@ -603,7 +612,7 @@
 			if(isset($subjects['minor']['subject_details']) && $counter >= 5 && $counter <= 8)
 			{
 				$semester = $counter;
-				$box_form = $ui->box()->id("box_form_minor".$counter)->title("Semester ". $counter. " (Minor)")->open();
+				$box_form = $ui->box()->id("box_form_".$counter."_2")->title("Semester ". $counter. " (Minor)")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -629,37 +638,37 @@
 									echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectid_".$semester."_".$i)->id($subjects['minor']["subject_details"][$semester][$i]->id
-									)->value($subjects['minor']["subject_details"][$semester][$i]->subject_id)->disabled()->show();
+									$ui->input()->name("subjectid_".$semester."_2"."_".$i)->id($subjects['minor']["subject_details"][$semester][$i]
+									->id)->value($subjects['minor']["subject_details"][$semester][$i]->subject_id)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectname_".$semester."_".$i)->value($subjects['minor']["subject_details"][$semester][$i
-									]->name)->disabled()->show();
+									$ui->input()->name("subjectname_".$semester."_2"."_".$i)->value($subjects['minor']["subject_details"][$semester
+									][$i]->name)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectL_".$semester."_".$i)->value($subjects['minor']["subject_details"][$semester][$i]->
-									lecture)->disabled()->show();
+									$ui->input()->name("subjectL_".$semester."_2"."_".$i)->value($subjects['minor']["subject_details"][$semester][
+									$i]->lecture)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectT_".$semester."_".$i)->value($subjects['minor']["subject_details"][$semester][$i]->
-									tutorial)->disabled()->show();
+									$ui->input()->name("subjectT_".$semester."_2"."_".$i)->value($subjects['minor']["subject_details"][$semester][
+									$i]->tutorial)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectP_".$semester."_".$i)->value($subjects['minor']["subject_details"][$semester][$i]->
-									practical)->disabled()->show();
+									$ui->input()->name("subjectP_".$semester."_2"."_".$i)->value($subjects['minor']["subject_details"][$semester][
+									$i]->practical)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcredithours_".$semester."_".$i)->value($subjects['minor']["subject_details"][
+									$ui->input()->name("subjectcredithours_".$semester."_2"."_".$i)->value($subjects['minor']["subject_details"][
 									$semester][$i]->credit_hours)->disabled()->show();
 								echo '
 								</td>
 								<td>';
-									$ui->input()->name("subjectcontacthours_".$semester."_".$i)->value($subjects['minor']["subject_details"][
+									$ui->input()->name("subjectcontacthours_".$semester."_2"."_".$i)->value($subjects['minor']["subject_details"][
 									$semester][$i]->contact_hours)->disabled()->show();
 								echo '
 								</td>
@@ -682,18 +691,18 @@
 							 $ui->button()
 								->value('Edit')
 								->uiType('primary')
-								->id("editbutton_".$semester."_".$i)
+								->id("editbutton_".$semester."_2"."_".$i)
 								->icon($ui->icon("edit"))
-								->extras(' onclick = EditSubject(\''.$semester.'\',\''.$i.'\') ')
+								->extras(' onclick = EditSubject(\''.$semester."_2".'\',\''.$i.'\') ')
 								->name('edit')
 								->show();
 								
 								$ui->button()
 									->value('Save')
 									->uiType('success')
-									->id("savebutton_".$semester."_".$i)
+									->id("savebutton_".$semester."_2"."_".$i)
 									->icon($ui->icon("save"))
-									->extras(' onclick = SaveSubject(\''.$semester.'\',\''.$i.'\') ')
+									->extras(' onclick = SaveSubject(\''.$semester."_2".'\',\''.$i.'\') ')
 									->name('save')
 									->classes("savebutton")
 									->show();
@@ -702,6 +711,9 @@
 					</tr>';
 				}
 				$aggr_id = $CS_session['aggr_id'];
+				$session = explode("_",$aggr_id);
+				$session = $session[2]."_".$session[3];
+				$aggr_id = "minor_minor_".$session;
 				echo '
 					<tr>
 						<td>';

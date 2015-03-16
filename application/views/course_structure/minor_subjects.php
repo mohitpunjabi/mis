@@ -7,7 +7,7 @@
 			$column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
 			
 				$formbox =  $ui->box()->id('box_form')->title("Minor Subjects For batch ".$batch." and Semester ".$semester."")->open();
-                    $form=$ui->form()->id("add_course_form")->action("course_structure/honour_subjects/CreateMapping")->multipart()->open();
+                    $form=$ui->form()->id("add_course_form")->action("course_structure/minor_subjects/CreateMapping")->multipart()->open();
 						$table = $ui->table()->responsive()->hover()->bordered()->open();						
 							echo '
 								<tr>

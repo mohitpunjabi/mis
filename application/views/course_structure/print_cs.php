@@ -17,7 +17,7 @@
 		{
 			$semester = $counter."_".$CS_session['group'];
 			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter."(group ".$CS_session['group'].") (".
-			$course_name."-".$branch_name.")-Valid From ".$session."")->open();		
+			$course_name."-".$branch_name.")")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>

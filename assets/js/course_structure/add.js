@@ -121,18 +121,29 @@ $(document).ready(function(){
 		
 		base_str = "";
 		
-		if(duration < 4){
+		if($("#course_selection").val() == "honour" || $("#course_selection").val() == "minor")
+		{
 			base_str = "<option value = '0'>All</option>";
-			for(counter = 1; counter <= 2*duration ; counter++){
-				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+			for(counter = 5; counter <= 8 ; counter++){
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
 			}
 		}
-		else{
-			base_str = "<option value = '0'>All</option>";
-			for(counter = 1; counter <= 2*duration ; counter++){
-				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+		else
+		{
+		
+			if(duration < 4){
+				base_str = "<option value = '0'>All</option>";
+				for(counter = 1; counter <= 2*duration ; counter++){
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+				}
 			}
-			
+			else{
+				base_str = "<option value = '0'>All</option>";
+				for(counter = 1; counter <= 2*duration ; counter++){
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+				}
+				
+			}
 		}
 		
 		$cont_semester_selection.show();

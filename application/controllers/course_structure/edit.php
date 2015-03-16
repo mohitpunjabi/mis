@@ -64,6 +64,26 @@ class Edit extends MY_Controller
 		}	
 		else
 			$aggr_id_common = $expected_common_aggr_id;
+			
+			
+		$expected_honour_aggr_id = "honour".'_'."honour".'_'.$session;
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_honour_aggr_id))
+		{
+			$result_aggr_id_honour = $this->basic_model->get_latest_aggr_id("honour","honour",$expected_honour_aggr_id);
+			$aggr_id_honour = $result_aggr_id_honour[0]->aggr_id;	
+		}	
+		else
+			$aggr_id_honour = $expected_honour_aggr_id;
+		
+		$expected_minor_aggr_id = "minor".'_'."minor".'_'.$session;
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_minor_aggr_id))
+		{
+			$result_aggr_id_minor = $this->basic_model->get_latest_aggr_id("honour","honour",$expected_minor_aggr_id);
+			$aggr_id_minor = $result_aggr_id_minor[0]->aggr_id;	
+		}	
+		else
+			$aggr_id_minor = $expected_minor_aggr_id;
+			
 		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
@@ -74,17 +94,35 @@ class Edit extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch_name']=$row_branch[0]->name;
 	
-		if($semester == 0)
+		if($course_id == "honour" || $course_id == "minor")
 		{
-			$start_semester = 1;
-			$end_semester = 2*$row_course[0]->duration;
-			//$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+			if($semester == 0)
+			{
+				$start_semester = 5;
+				$end_semester = 8;
+			}
+			else
+			{
+				$start_semester = $semester;
+				$end_semester = $semester;
+			}	
 		}
 		else
 		{
-			$start_semester = $semester;
-			$end_semester = $semester;
+			if($semester == 0)
+			{
+				$start_semester = 1;
+				$end_semester = 2*$row_course[0]->duration;
+			}
+			else
+			{
+				$start_semester = $semester;
+				$end_semester = $semester;
+			}	
 		}
+		
+		$data['CS_session']['start_semester'] = $start_semester;
+		$data['CS_session']['end_semester'] = $end_semester;
 		
 		
 		$data['flag'] = 1;
@@ -148,34 +186,71 @@ class Edit extends MY_Controller
 				//calculate subject details for other semester which are not common to all.
 				else
 				{
-					$counter = $k;
-					$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
-		  			$i=1;
-					foreach($result_ids as $row)
+					
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) &&  (($course_id == "honour") || ($course_id !="honour" &&  $row_course[0]
+					->duration == 4)))
 					{
-					   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
-					   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-					   
-					   if($group_id != 0)
-					   {
-						   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
-						   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
-						   $data["subjects"]["group_details"][$counter][$i] = $group_detials[0];	
+						//echo "honour";
+						//die();
+						$counter = $k;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_honour);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]['honour']["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $data["subjects"]['honour']["sequence_no"][$counter][$i] = $row->sequence; 
+						   $i++;
 						}
-						   
-						$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
-					   
-					   $data["subjects"][$group_id] = 0;
-					   $i++;
+						$data["subjects"]['honour']["count"][$counter]=$i-1;	
 					}
-					$data["subjects"]["count"][$counter]=$i-1;		
+					
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) && (($course_id == "minor") || ($course_id != "minor" && $row_course[0]->duration
+					== 4)))
+					{
+						
+						$counter = $k;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_minor);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]['minor']["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $data["subjects"]['minor']["sequence_no"][$counter][$i] = $row->sequence; 
+						   $i++;
+						}
+						$data["subjects"]['minor']["count"][$counter]=$i-1;	
+					}
+					
+					if($course_id != "honour" && $course_id != "minor")
+					{
+						$counter = $k;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+						   
+						   if($group_id != 0)
+						   {
+							   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
+							   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+							   $data["subjects"]["group_details"][$counter][$i] = $group_detials[0];	
+							}
+							   
+							$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+						   
+						   $data["subjects"][$group_id] = 0;
+						   $i++;
+						}
+						$data["subjects"]["count"][$counter]=$i-1;		
+					}
 				}	
 			}
 		}	
 
 		$this->session->set_userdata($data);
 		
-		$this->drawHeader("Course structure");  
+		$this->drawHeader("Course structure Valid From ".$session);  
 		$this->load->view('course_structure/Edit/edit',$data);
 		$this->drawFooter();
 

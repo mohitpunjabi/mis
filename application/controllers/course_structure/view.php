@@ -61,10 +61,26 @@ class View extends MY_Controller
 		else
 			$aggr_id_common = $expected_common_aggr_id;
 		
-		/*
-		$array_aggr_id = explode("_",$aggr_id);
-		$latest_session = $array_aggr_id[count($array_aggr_id)-2]."_".$array_aggr_id[count($array_aggr_id)-1];
-		*/
+		
+		$expected_honour_aggr_id = "honour".'_'."honour".'_'.$session;
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_honour_aggr_id))
+		{
+			$result_aggr_id_honour = $this->basic_model->get_latest_aggr_id("honour","honour",$expected_honour_aggr_id);
+			$aggr_id_honour = $result_aggr_id_honour[0]->aggr_id;	
+		}	
+		else
+			$aggr_id_honour = $expected_honour_aggr_id;
+		
+		$expected_minor_aggr_id = "minor".'_'."minor".'_'.$session;
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_minor_aggr_id))
+		{
+			$result_aggr_id_minor = $this->basic_model->get_latest_aggr_id("honour","honour",$expected_minor_aggr_id);
+			$aggr_id_minor = $result_aggr_id_minor[0]->aggr_id;	
+		}	
+		else
+			$aggr_id_minor = $expected_minor_aggr_id;
+		
+		
 		$course_branch_id = $this->basic_model->select_course_branch($course_id,$branch_id);
 		$course_branch_id = $course_branch_id[0]->course_branch_id;
 		
@@ -86,16 +102,35 @@ class View extends MY_Controller
 		
 		
 		//$semester == 0 when All(for all semester) has been selected in view CS. 
-		if($semester == 0)
+		if($course_id == "honour" || $course_id == "minor")
 		{
-			$start_semester = 1;
-			$end_semester = 2*$row_course[0]->duration;
+			if($semester == 0)
+			{
+				$start_semester = 5;
+				$end_semester = 8;
+			}
+			else
+			{
+				$start_semester = $semester;
+				$end_semester = $semester;
+			}	
 		}
 		else
 		{
-			$start_semester = $semester;
-			$end_semester = $semester;
+			if($semester == 0)
+			{
+				$start_semester = 1;
+				$end_semester = 2*$row_course[0]->duration;
+			}
+			else
+			{
+				$start_semester = $semester;
+				$end_semester = $semester;
+			}	
 		}
+		
+		$data['CS_session']['start_semester'] = $start_semester;
+		$data['CS_session']['end_semester'] = $end_semester;
 		$data['flag'] = 1;
 		
 		
@@ -160,38 +195,78 @@ class View extends MY_Controller
 						$data["subjects"]["count"][$counter]=$i-1;		  			
 					}		
 				}
+				
 				//calculate subject details for other semester which are not common to all.
 				else
 				{
-					$counter = $k;
-					$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
-		  			$i=1;
-					foreach($result_ids as $row)
+					//show the honour subjects for B.Tech 5th to 8th semester..
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) &&  (($course_id == "honour") || ($course_id !="honour" &&  $row_course[0]
+					->duration == 4)))
 					{
-					   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
-					   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
-					   
-					   if($group_id != 0)
-					   {
-						   $data['subjects']['group_details']['group_id'][$counter][$i] = $group_id;
-						   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
-						   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
-						   
-						   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
+						//echo "honour";
+						//die();
+						$counter = $k;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_honour);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]['honour']["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $data["subjects"]['honour']["sequence_no"][$counter][$i] = $row->sequence; 
+						   $i++;
 						}
-						   
-						$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
-					   
-					   $data["subjects"][$group_id] = 0;
-					   $i++;
+						$data["subjects"]['honour']["count"][$counter]=$i-1;	
 					}
-					$data["subjects"]["count"][$counter]=$i-1;
+					
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) && (($course_id == "minor") || ($course_id != "minor" && $row_course[0]->duration
+					== 4)))
+					{
+						
+						$counter = $k;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_minor);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]['minor']["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $data["subjects"]['minor']["sequence_no"][$counter][$i] = $row->sequence; 
+						   $i++;
+						}
+						$data["subjects"]['minor']["count"][$counter]=$i-1;	
+					}
+					
+					if($course_id != "honour" && $course_id != "minor")
+					{
+						
+					//show the normal B.Tech subjects
+						$counter = $k;
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+						$i=1;
+						foreach($result_ids as $row)
+						{
+						   $data["subjects"]["subject_details"][$counter][$i] = $this->basic_model->get_subject_details($row->id);
+						   $group_id = $data["subjects"]["subject_details"][$counter][$i]->elective;
+						   
+						   if($group_id != 0)
+						   {
+							   $data['subjects']['group_details']['group_id'][$counter][$i] = $group_id;
+							   $data["subjects"]["elective_count"][$group_id] = $this->basic_model->get_elective_count($group_id);
+							   $group_detials = $this->basic_model->select_elective_group_by_group_id($group_id);
+							   
+							   $data["subjects"]["group_details"][$group_id] = $group_detials[0];	
+							}
+							   
+							$data["subjects"]["sequence_no"][$counter][$i] = $row->sequence; 
+						   
+						   $data["subjects"][$group_id] = 0;
+						   $i++;
+						}
+						$data["subjects"]["count"][$counter]=$i-1;
+					}
 				}	
 			}
 		}
 		$this->session->set_userdata($data);
 		
-		$this->drawHeader("Course structure");  
+		$this->drawHeader("Course structure Valid From ".$session);  
 		$this->load->view('course_structure/print_cs',$data);
 		$this->drawFooter();
 	}

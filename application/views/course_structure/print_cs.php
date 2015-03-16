@@ -362,7 +362,7 @@
 			$box_form->close();
 			}
 			
-			if(isset($subjects['honour']['subject_details']) && $counter >= 5 && $counter <= 8)
+			if(isset($subjects['honour']) && $counter >= 5 && $counter <= 8)
 			{
 			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Honour)")->open();
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
@@ -451,8 +451,9 @@
 				$table->close();
 			$box_form->close();
 			}
+			
 			//show the minor subjects for the semester
-			if(isset($subjects['minor']['subject_details']) && $counter >= 5 && $counter <= 8)
+			if(isset($subjects['minor']) && $counter >= 5 && $counter <= 8)
 			{
 				$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Minor)")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();

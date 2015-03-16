@@ -14,7 +14,7 @@ class AddCS_Minor extends MY_Controller
 		$data = array();
 		$data['result_dept'] = $this->basic_model->get_depts();
 		$this->drawHeader("Add a Course Structure for Minor");
-		$this->load->view('course_structure/addCS_Minor',$data);
+		$this->load->view('course_structure/AddCS_Minor',$data);
 		$this->drawFooter();
 	}
 	

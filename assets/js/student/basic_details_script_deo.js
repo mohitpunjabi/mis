@@ -15,14 +15,6 @@
 
 		$('#stu_type').on('change', function() {
 			button_for_add();
-
-			if($('#stu_type').val() == 'jrf') {
-				$('#course_id, #branch_id').append($('<option>', {
-    				value: 'na',
-    				text: 'Not Applicable' ,
-    				selected : 'true'
-				}));
-			}
 		});
 
 		$('#depts').on('change', function() {
@@ -206,12 +198,19 @@
 		{
 			alert('validating correspondence address');
 			var line1 = document.getElementById("line13").value;
+			alert('0.1');
 			var line2 = document.getElementById("line23").value;
+			alert('0.11');
 			var city = document.getElementById("city3").value;
+			alert('0.111');
 			var state = document.getElementById("state3").value;
+			alert('0.1111');
 			var pincode = document.getElementById("pincode3").value;
+			alert('0.11111');
 			var country = document.getElementById("country3").value;
+			alert('0.1111111');
 			var contact = document.getElementById("contact3").value;
+			alert('2');
 			if(line1.trim() == '' || line2.trim() == '' || city.trim() =='' || pincode.trim() == '' || state.trim() == '' || country.trim() == ''|| contact.trim() == '')
 			{
 				alert("Please fill all the fields of correspondence address.");
@@ -232,6 +231,7 @@
 				alert("Correspondence mobile number not in range.");
 				return false;
 			}
+			alert('3');
 			return true;
 		}
 	}
@@ -363,7 +363,7 @@
 		}
 		return true;
 	}
-
+	
 	function image_validation()
 	{
 		var file=document.getElementById('photo').files[0];
@@ -385,7 +385,7 @@
 		}
 	}
 
-
+	
 	function corrAddr()
     {
         var y=document.getElementById("correspondence_addr");
@@ -644,8 +644,7 @@
 
 	function onclick_add()
 	{	
-		/*
-		var row=document.getElementById("tableid").rows;
+		/*var row=document.getElementById("tableid").rows;
 		var e=document.getElementsByName("exam4[]")[row.length-2].value;
 		var b=document.getElementsByName("branch4[]")[row.length-2].value;
 		var c=document.getElementsByName("clgname4[]")[row.length-2].value;
@@ -669,7 +668,7 @@
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
 		}
 	}
-
+	
 	function education_validation()
 	{
 		var n_row=document.getElementById("tableid").rows.length;
@@ -680,7 +679,7 @@
 			var b=document.getElementsByName("branch4[]")[i].value;
 			var c=document.getElementsByName("clgname4[]")[i].value;
 			var g=document.getElementsByName("grade4[]")[i].value;
-
+				
 			if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
 			{
 				alert('Sno '+(i+1)+': Please fill up all the fields !!');

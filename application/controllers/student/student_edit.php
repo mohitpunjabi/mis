@@ -133,7 +133,9 @@ class Student_edit extends MY_Controller
 		$this->load->model('student/student_academic_model','',TRUE);
 		$this->load->model('user/user_address_model','',TRUE);
 		$this->load->model('student/student_type_model','',TRUE);
+		$this->load->model('student/student_states_model','',TRUE);
 
+		$data['states'] = $this->student_states_model->get_all_states();
 		$data['stu_type'] = $this->student_type_model->get_all_types();
 		$data['user_details']=$this->user_details_model->getUserById($stu_id);
 		$data['user_other_details']=$this->user_other_details_model->getUserById($stu_id);

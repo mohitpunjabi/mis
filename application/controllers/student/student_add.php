@@ -59,6 +59,9 @@ class Student_add extends CI_Controller//MY_Controller
 
 		$data['stu_id'] = $this->userId;
 
+		$this->load->model('student/student_states_model','',TRUE);
+		$data['states'] = $this->student_states_model->get_all_states();
+
 		//Fetching Departments
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$data['academic_departments']=$this->basic_model->get_depts();

@@ -380,7 +380,7 @@ class Student_add_deo extends MY_Controller
 				'semester' => $this->input->post('semester')
 			);
 
-			if(!$this->input->post('correspondence_addr'))
+			if($this->input->post('correspondence_addr'))
 			{
 				$user_address = array(
 					array(

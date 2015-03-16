@@ -35,7 +35,7 @@
 										$ui->select()
 										   ->label()
 										   ->name("sequence".$counter)
-										   ->id("sequence".$counter)
+										   ->id("sequence_".$counter)
 										   ->options($array_option)
 										   ->show();
 							
@@ -179,6 +179,7 @@
 									  array_push($array_option,$ui->option()->value($j)->text($j));
 								  $ui->select()
 								     ->name("seq_e1")
+								     ->id('sequence_'.($CS_session['count_core']+$CS_session['count_elective']))
 									 ->options($array_option)
 									 ->show();
 							echo '
@@ -210,10 +211,11 @@
 										array_push($array_option,$ui->option()->value($it)->text($it));
 										$ui->select()
 										   ->name("seq_e".$i)
+										   ->id('sequence_'.($CS_session['count_core']+$i))
 										   ->options($array_option)
 										   ->show();
 								echo '
-									</td>';
+									</td></tr>';
 								}
 								
 								for($i = 1;$i<=$CS_session['count_elective'];$i++)
@@ -225,13 +227,14 @@
 											$ui->input()->width("6")->placeholder("Number of options")->name("options".$i)->show();
 											
 										$array_option = array();
+										array_push($array_option,$ui->option()->value($it)->text("Order of Elective ".$i));
 										for($it = 1;$it<=$CS_session['count_elective']+$CS_session['count_core'];$it++)
 											array_push($array_option,$ui->option()->value($it)->text($it));
 										
 										$ui->select()
-										   ->label("Order of Elective ".$i)
 										   ->name("seq_e".$i)
 										   ->width("6")
+										   ->id('sequence_'.($CS_session['count_core']+$i))
 										   ->options($array_option)
 										   ->show();	
 									echo '
@@ -292,8 +295,34 @@
       }
     });
 
-  });  
-  
+  });
+  var select_val=[];
+  for(i=0;i<elective_count+core_count;i++){
+  	select_val[i]=0;
+  }  
+  $(document).on('change','select[id^="sequence_"]',function(event){
+
+  	var _this = $(this);
+  	var id = _this.attr('id');
+  	id = id.split('_');
+  	id = parseInt(id[1]);
+  	
+	var flag = true;
+	for(i=0;i<elective_count+core_count;i++){
+  	
+	  	if(select_val[i] === parseInt(_this.val())){
+	  		alert('No two subjects can have same sequence number');
+	  		flag = false;
+	  		_this.focus();
+	  		event.preventDefault();
+	  	}
+	
+	}
+	if(flag){
+		select_val[id] = parseInt(_this.val());
+	}
+  	
+  });
   $(document).ready(function(){
 	  $('tr.diff_options').hide();
 	  $('tr.same_options').hide();

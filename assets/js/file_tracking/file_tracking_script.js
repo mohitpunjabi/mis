@@ -18,6 +18,8 @@
 			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
 			{
 				document.getElementById("move_details_of_sent_files").innerHTML = xmlhttp.responseText;
+				//document.location.href = "track_file/#move_details_of_sent_files";
+				$("#move_details_of_sent_files").focus();
 				//$(".loading").hide();
 			}
 		}

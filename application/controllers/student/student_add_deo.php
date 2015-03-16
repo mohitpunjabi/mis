@@ -409,8 +409,6 @@ class Student_add_deo extends MY_Controller
 			}
 			else
 			{
-				echo 'hi';
-				return;
 				$user_address = array(
 					array(
 						'id' => $stu_id ,
@@ -446,6 +444,8 @@ class Student_add_deo extends MY_Controller
 						'type' => 'correspondance'
 					)
 				);
+				var_dump($user_address);
+				return ;
 			}
 
 			// $stu_current_entry = array(

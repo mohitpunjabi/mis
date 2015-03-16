@@ -1,5 +1,5 @@
 <?php 
-   echo "<h4>".$CS_session['course_name']." (".$CS_session['branch'].") for Session "."20".$CS_session['session'][0].$CS_session['session'][1]."-20".$CS_session['session'][2].$CS_session['session'][3]."</h4>";
+   echo "<h4>".$CS_session['course_name']." (".$CS_session['branch'].") for Session ".$CS_session['session']."</h4>";
    
    $ui = new UI();
     $outer_row = $ui->row()->id('or')->open();

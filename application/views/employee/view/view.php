@@ -303,8 +303,11 @@ function view_basic_details($data,$emp,$ft,$pending_data=false,$pending_emp=fals
   					if($pending_data && $data['name'] != $pending_data['name']) echo '<br><span class="'.$status.'">'.$pending_data['name'].$ui->label()->uiType($uiType)->text(ucwords($status)).'</span>';
   				$col1->close();
   				$col2 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
-  					echo '<label>Gender</label><br>'.(($emp->sex == 'm' || $emp->sex == 'male')? 'Male':'Female');
-  					if($pending_emp && $emp->sex != $pending_emp->sex) echo '<br><span class="'.$status.'">'.(($pending_emp->sex == 'm' || $pending_emp->sex == 'male')? 'Male':'Female').$ui->label()->uiType($uiType)->text(ucwords($status)).'</span>';
+  					echo '<label>Gender</label><br>'.(($emp->sex == 'm')? 'Male':(($emp->sex == 'f')? 'Female':'Others'));
+  					if($pending_emp && $emp->sex != $pending_emp->sex) {
+  						$sex_val = ($pending_emp->sex=='m')? 'Male':(($pending_emp->sex=='f')? 'Female':'Others');
+  						echo '<br><span class="'.$status.'">'.$sex_val.$ui->label()->uiType($uiType)->text(ucwords($status)).'</span>';
+  					}
   				$col2->close();
   				$col3 = $ui->col()->width(2)->t_width(2)->m_width(6)->open();
   					echo '<label>DOB</label><br>'.date('d M Y', strtotime($emp->dob));

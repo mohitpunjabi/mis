@@ -206,7 +206,10 @@ class Basic_model extends CI_Model
 	function check_if_aggr_id_exist_in_CS($aggr_id)
 	{
 		$query = $this->db->get_where($this->table_dept_course,array("aggr_id"=>$aggr_id));
-		return $query->num_rows();	
+		if($query->num_rows() > 0)
+			return $query->num_rows();	
+		
+		return false;
 	}
 	function select_all_elective_subject_by_aggr_id_and_semester($aggr_id,$semester)
 	{

@@ -74,7 +74,7 @@ class View extends MY_Controller
 		$expected_minor_aggr_id = "minor".'_'."minor".'_'.$session;
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_minor_aggr_id))
 		{
-			$result_aggr_id_minor = $this->basic_model->get_latest_aggr_id("honour","honour",$expected_minor_aggr_id);
+			$result_aggr_id_minor = $this->basic_model->get_latest_aggr_id("minor","minor",$expected_minor_aggr_id);
 			$aggr_id_minor = $result_aggr_id_minor[0]->aggr_id;	
 		}	
 		else

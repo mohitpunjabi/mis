@@ -405,7 +405,7 @@
                     $state_array = array();
                     foreach ($states as $row)
                     {
-                      $state_array[] = $ui->option()->value($row->id)->text($row->row);
+                      $state_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name));
                       $state_array = array_values($state_array);
                     }
 
@@ -655,105 +655,6 @@
 
                 $student_address_details_box->close();
 
-                $student_educational_details_box = $ui->box()
-                                                      ->uiType('primary')
-                                                      ->solid()
-                                                      ->title('Educational Details')
-                                                      ->open();
-
-                    $educational_details_row_1 = $ui->row()
-                                                    ->open();
-
-                        $educational_detail_col = $ui->col()
-                                                     ->width(12)
-                                                     ->open();
-
-                        $table = $ui->table()
-                                    ->responsive()
-                                    ->id('tableid')
-                                    ->hover()
-                                    ->bordered()
-                                    ->open();
-
-                            $year_array = array();
-                            $year = 1926;
-                            $present_year = date('Y');
-                            while ($year <= $present_year)
-                            {
-                                $year_array[] = $ui->option()->value($year)->text($year);
-                                $year_array = array_values($year_array);
-                                $year++;
-                            }
-
-
-                            echo '
-                            <tr>
-                                <th>S no.</th>
-                                <th>Examination</th>
-                                <th>Branch/Specialization</th>
-                                <th>School/College/University/Institute</th>
-                                <th>Year</th>
-                                <th>Percentage/Grade</th>
-                                <th>Class/Division</th>
-                            </tr>
-                            <tr id="addrow">
-                                <td id="sno">1</td>
-                                <td>';$ui->input()
-                                         ->name('exam4[]')
-                                         ->show();echo'</td>
-                                <td>';$ui->input()
-                                         ->name('branch4[]')
-                                         ->show();echo'</td>
-                                <td>';$ui->input()
-                                         ->name('clgname4[]')
-                                         ->show();echo'</td>
-                                <td>';$ui->select()
-                                         ->name('year4[]')
-                                         ->options($year_array)
-                                         ->show();echo'</td>
-                                <td>';$ui->input()
-                                         ->name('grade4[]')
-                                         ->show();echo'</td>
-                                <td>';$ui->select()
-                                         ->name('div4[]')
-                                         ->options(array($ui->option()->value('first')->text('FIRST'),
-                                               $ui->option()->value('second')->text('SECOND'),
-                                               $ui->option()->value('third')->text('THIRD'),
-                                               $ui->option()->value('na')->text('NA')))
-                                         ->show();echo'</td>
-                            </tr>';
-
-                        $table->close();
-
-                        $educational_detail_col->close();
-
-                    $educational_details_row_1->close();
-
-                    $educational_details_row_2 = $ui->row()
-                                                    ->open();
-
-                        $educational_detail_col_1 = $ui->col()
-                                                       ->width(5)
-                                                       ->open();
-                        $educational_detail_col_1->close();
-
-                        $educational_detail_col_2 = $ui->col()
-                                                       ->width(2)
-                                                       ->open();
-
-                            $ui->button()
-                               ->block()
-                               ->value('Add More')
-                               ->id('add')
-                               ->name('add')
-                               ->show();
-
-                        $educational_detail_col_2->close();
-
-                    $educational_details_row_2->close();
-
-                $student_educational_details_box->close();
-
                 $student_admission_details_box = $ui->box()
                                                  ->uiType('primary')
                                                  ->solid()
@@ -943,6 +844,105 @@
                     $admission_details_row_4->close();
 
                 $student_admission_details_box->close();
+
+                $student_educational_details_box = $ui->box()
+                                                      ->uiType('primary')
+                                                      ->solid()
+                                                      ->title('Educational Details')
+                                                      ->open();
+
+                    $educational_details_row_1 = $ui->row()
+                                                    ->open();
+
+                        $educational_detail_col = $ui->col()
+                                                     ->width(12)
+                                                     ->open();
+
+                        $table = $ui->table()
+                                    ->responsive()
+                                    ->id('tableid')
+                                    ->hover()
+                                    ->bordered()
+                                    ->open();
+
+                            $year_array = array();
+                            $year = 1926;
+                            $present_year = date('Y');
+                            while ($year <= $present_year)
+                            {
+                                $year_array[] = $ui->option()->value($year)->text($year);
+                                $year_array = array_values($year_array);
+                                $year++;
+                            }
+
+
+                            echo '
+                            <tr>
+                                <th>S no.</th>
+                                <th>Examination</th>
+                                <th>Branch/Specialization</th>
+                                <th>School/College/University/Institute</th>
+                                <th>Year</th>
+                                <th>Percentage/Grade</th>
+                                <th>Class/Division</th>
+                            </tr>
+                            <tr id="addrow">
+                                <td id="sno">1</td>
+                                <td>';$ui->input()
+                                         ->name('exam4[]')
+                                         ->show();echo'</td>
+                                <td>';$ui->input()
+                                         ->name('branch4[]')
+                                         ->show();echo'</td>
+                                <td>';$ui->input()
+                                         ->name('clgname4[]')
+                                         ->show();echo'</td>
+                                <td>';$ui->select()
+                                         ->name('year4[]')
+                                         ->options($year_array)
+                                         ->show();echo'</td>
+                                <td>';$ui->input()
+                                         ->name('grade4[]')
+                                         ->show();echo'</td>
+                                <td>';$ui->select()
+                                         ->name('div4[]')
+                                         ->options(array($ui->option()->value('first')->text('FIRST'),
+                                               $ui->option()->value('second')->text('SECOND'),
+                                               $ui->option()->value('third')->text('THIRD'),
+                                               $ui->option()->value('na')->text('NA')))
+                                         ->show();echo'</td>
+                            </tr>';
+
+                        $table->close();
+
+                        $educational_detail_col->close();
+
+                    $educational_details_row_1->close();
+
+                    $educational_details_row_2 = $ui->row()
+                                                    ->open();
+
+                        $educational_detail_col_1 = $ui->col()
+                                                       ->width(5)
+                                                       ->open();
+                        $educational_detail_col_1->close();
+
+                        $educational_detail_col_2 = $ui->col()
+                                                       ->width(2)
+                                                       ->open();
+
+                            $ui->button()
+                               ->block()
+                               ->value('Add More')
+                               ->id('add')
+                               ->name('add')
+                               ->show();
+
+                        $educational_detail_col_2->close();
+
+                    $educational_details_row_2->close();
+
+                $student_educational_details_box->close();
 
                 $student_bank_details_box = $ui->box()
                                                    ->uiType('primary')

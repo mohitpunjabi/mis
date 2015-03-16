@@ -48,7 +48,6 @@ class Edit extends MY_Controller
 		
 		$expected_aggr_id = $course_id.'_'.$branch_id.'_'.$session;
 		
-		
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_aggr_id))
 		{	
 			$result_aggr_id = $this->basic_model->get_latest_aggr_id($course_id,$branch_id,$expected_aggr_id);
@@ -57,6 +56,14 @@ class Edit extends MY_Controller
 		else
 			$aggr_id = $expected_aggr_id;
 		
+		$expected_common_aggr_id = "comm".'_'."comm".'_'.$session;
+		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_common_aggr_id))
+		{
+			$result_aggr_id_common = $this->basic_model->get_latest_aggr_id("comm","comm",$expected_common_aggr_id);
+			$aggr_id_common = $result_aggr_id_common[0]->aggr_id;	
+		}	
+		else
+			$aggr_id_common = $expected_common_aggr_id;
 		
 		$data["CS_session"]['aggr_id'] = trim($aggr_id);
 		
@@ -77,7 +84,6 @@ class Edit extends MY_Controller
 		{
 			$start_semester = $semester;
 			$end_semester = $semester;
-			//
 		}
 		
 		
@@ -88,7 +94,7 @@ class Edit extends MY_Controller
 			if($data["CS_session"]['dept_id'] == "comm")
 			{
 				$counter = $k."_".$this->input->post("group");	
-				$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
+				$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_common);	
 		  		$i=1;
 				foreach($result_ids as $row)
 				{
@@ -112,12 +118,12 @@ class Edit extends MY_Controller
 			else
 			{
 				//calculate subject details for semester 1 and 2 which are common to all.
-				if($k == 1 || $k == 2)
+				if(($k == 1 || $k == 2) && ($row_course[0]->duration == 1 || $row_course[0]->duration == 4 || $row_course[0]->duration == 5))
 				{	
 					for($comm_group = 1;$comm_group <=2;$comm_group++)
 					{
 						$counter = $k."_".$comm_group;
-						$result_ids = $this->basic_model->get_subjects_by_sem($counter,"comm_comm_".$session);	
+						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_common);	
 						$i=1;
 						foreach($result_ids as $row)
 					    {

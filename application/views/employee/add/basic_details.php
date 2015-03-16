@@ -95,6 +95,7 @@ $form = $ui->form()->id('basic_details')->multipart()->action('employee/add/inse
                         echo '<label>Gender<span style= "color:red;"> *</span></label>';
                         $ui->radio()->name('sex')->value('m')->label('Male')->checked()->show();
                         $ui->radio()->name('sex')->value('f')->label('Female')->show();
+                        $ui->radio()->name('sex')->value('o')->label('Others')->show();
                     $col1->close();
 
                     $col2 = $ui->col()->width(3)->open();

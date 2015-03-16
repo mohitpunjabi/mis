@@ -75,7 +75,7 @@ $(document).ready(function(){
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
 			success:function(data){
-				
+				console.log(data);
 				base_str_branch = "<option value = '' selected = 'selected' disabled>Select Branch</option>";
 				for($d=0 ; $d < data.length;$d++){
 					base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";

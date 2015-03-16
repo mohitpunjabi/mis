@@ -117,7 +117,7 @@ class Basic_model extends CI_Model
 	
 	
 	function get_branches_by_course_and_dept($course,$dept){
-		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '$course' AND dept_course.dept_id = '$dept'");
+		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '".$course."' AND dept_course.dept_id = '".$dept."'");
 		if($query->num_rows() > 0)
 			return $query->result();
 		else
@@ -128,7 +128,7 @@ class Basic_model extends CI_Model
 	function get_branch_details_by_id($id)
 	{
 		$query = $this->db->get_where($this->table_branch,array('id'=>$id));
-		//if($query->num_rows()>0)
+		if($query->num_rows()>0)
 			return $query->result();
 	}
 	
@@ -156,6 +156,7 @@ class Basic_model extends CI_Model
     	$query = $this->db->get_where($this->table_course_branch, array('course_id'=>$course_id,'branch_id'=>$branch_id));
 		if($query->num_rows() >= 1)
 			return $query->result();
+		return false;
 	}
 	
 	function insert_course_branch($course_branch_mapping)
@@ -236,7 +237,10 @@ class Basic_model extends CI_Model
 
 	function delete_course_structure($semester,$aggr_id)
 	{
-		return $this->db->delete($this->table_course_structure,array('semester'=>$semester,'aggr_id'=>$aggr_id));
+		$query = $this->db->delete($this->table_course_structure,array('semester'=>$semester,'aggr_id'=>$aggr_id));
+		if($this->db->affected_rows() > 0)
+			return true;
+		return false;
 	}
 	
 	

@@ -36,8 +36,6 @@
 		$('#form_submit').on('submit', function(e) {
 			if(!form_validation())
 				e.preventDefault();
-			else
-				alert('form validated');
 		});
 
 		add_row_on_page_load();
@@ -162,7 +160,6 @@
 
 	function form_validation()
 	{
-		alert('validating');
 		if(!parent_guardian_validation())
 			return false;
 		if(!admission_based_on_validation())
@@ -190,27 +187,16 @@
 
 		var ca=document.getElementById("correspondence_addr").checked;
 		if(ca)
-		{
-			alert('no correspondence address');
 			return true;
-		}
 		else
 		{
-			alert('validating correspondence address');
 			var line1 = document.getElementById("line13").value;
-			alert('0.1');
 			var line2 = document.getElementById("line23").value;
-			alert('0.11');
 			var city = document.getElementById("city3").value;
-			alert('0.111');
 			var state = document.getElementById("state3").value;
-			alert('0.1111');
 			var pincode = document.getElementById("pincode3").value;
-			alert('0.11111');
 			var country = document.getElementById("country3").value;
-			alert('0.1111111');
 			var contact = document.getElementById("contact3").value;
-			alert('2');
 			if(line1.trim() == '' || line2.trim() == '' || city.trim() =='' || pincode.trim() == '' || state.trim() == '' || country.trim() == ''|| contact.trim() == '')
 			{
 				alert("Please fill all the fields of correspondence address.");
@@ -231,7 +217,6 @@
 				alert("Correspondence mobile number not in range.");
 				return false;
 			}
-			alert('3');
 			return true;
 		}
 	}
@@ -503,7 +488,6 @@
 
     function all_number_validation()
 	{
-		alert('validating all numbers');
 		if(isNaN(document.getElementById('father_gross_income').value))
 		{
 			alert("Father's Gross Income can only contain digits.");

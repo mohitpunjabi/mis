@@ -636,6 +636,7 @@
                                 $ui->select()
                                    ->label('State')
                                    ->name('state3')
+                                   ->id('state3')
                                    ->options($state_array)
                                    ->show();
 

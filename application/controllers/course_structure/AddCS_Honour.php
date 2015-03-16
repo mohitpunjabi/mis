@@ -64,8 +64,9 @@ class AddCS_Honour extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch']=$row_branch[0]->name;
 		$data["CS_session"]['session']=$session;
-		$this->session->set_userdata($data);
 		$data['honour'] = true;
+		$this->session->set_userdata($data);
+		
 		$this->drawHeader("Enter the number of core and elective subjects");
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();

@@ -635,7 +635,8 @@
 	}
 
 	function onclick_add()
-	{
+	{	
+		/*
 		var row=document.getElementById("tableid").rows;
 		var e=document.getElementsByName("exam4[]")[row.length-2].value;
 		var b=document.getElementsByName("branch4[]")[row.length-2].value;
@@ -644,7 +645,8 @@
 
 		if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
 			alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
-		else
+		else*/
+		if(education_validation())
 		{
 			if(row.length > 6)
 			{

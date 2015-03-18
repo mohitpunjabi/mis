@@ -100,7 +100,6 @@ class Student_add_deo extends MY_Controller
 		//$this->addJS("employee/print_script.js");
 
 		//view
-		var_dump('bye');
 		$this->drawHeader("Add Student Details");
 		$this->load->view('student/add/student_detail_deo',$data);
 		//$this->load->view('student/add/student_educational_details',$data);

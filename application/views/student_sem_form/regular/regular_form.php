@@ -66,6 +66,25 @@ $d1 = $d+1;
 		</table>
 		 
 <?php } ?>
+
+<?php if(($this->session->userdata('course_id') == 'btech' || $this->session->userdata('course_id') == 'b.tech') && (($this->session->userdata('semester')+1) >= 5)){ ?>
+
+		<div class="col-sm-12">
+			
+			<div class="row">
+					<div class="col-sm-8"><h3 class="page-header">Please Select If you are eligible for Honour & Minor </h3></div>
+					
+					<div class="col-sm-4">
+						<?php echo form_dropdown('HM',array(''=>'Select','H'=>'Honour','M'=>'Minnor','HM'=>'Honour With Minnor'),'','id="hm" class="form-control"'); ?>
+					</div>
+			</div>
+			<div class="row" id="getHS">
+					
+			</div>
+			
+		</div>
+	<br>
+<?php // } ?>
 		
 	<h2 class="page-header">Details of Fee Deposite through Internet Banking</h2>
 	
@@ -152,9 +171,11 @@ $d1 = $d+1;
 	 </div>
  
 </div>
+
  </div>
 </div>
 <?php echo form_close(); ?>
+<?php // var_dump($this->session->all_userdata()) ?>
  <script>
 $(function() {
 	$('#cyes').hide();
@@ -179,6 +200,19 @@ $( "#dateofPayment,#cdateofPayment" ).datepicker({
 		});
 	$('input[name="cenable"]').on('ifUnchecked',function(){
 			$('#cyes').hide('slow');
+		});
+
+	$('#hm').on('change',function(){
+
+		//alert('hello');
+				$.ajax({
+						url: site_url('student_sem_form/regular_form/getHonourMinnor'),
+						data :{'semester': <?php echo $this->session->userdata('semester'); ?>,'id': $(this).val()}, 
+						type: 'POST',
+						success: function(data){
+								$('#getHS').html(data);
+							}
+					});
 		});
 		
 });

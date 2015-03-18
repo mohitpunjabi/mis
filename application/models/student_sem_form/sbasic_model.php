@@ -67,7 +67,7 @@ class Sbasic_model extends CI_Model
 	/// End Date Set////	
 	
 	public function hod_vaise_student($dep){
-			$query = $this->db->query("select * from stu_sem_reg_form as sf, stu_details as sd, user_details as ud, stu_sem_reg_fee as srf  where branch_id='".$dep."' and srf.form_id = sf.sem_form_id and sd.admn_no = sf.admission_id and ud.id = sf.admission_id and YEAR(timestamp)='".date('Y')."' order by sf.semster");
+			$query = $this->db->query("select * from stu_sem_reg_form as sf, stu_details as sd, user_details as ud, stu_sem_reg_fee as srf  where dept_id='".$dep."' and srf.form_id = sf.sem_form_id and sd.admn_no = sf.admission_id and ud.id = sf.admission_id and YEAR(timestamp)='".date('Y')."' order by sf.semster");
 			if($query->num_rows() > 0){
 					return $query->result();
 			}else return false;

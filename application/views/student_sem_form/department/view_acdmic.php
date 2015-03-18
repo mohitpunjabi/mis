@@ -73,6 +73,27 @@
           </tbody>
           </table>
           </div>
+          <div class="col-xs-12">
+				<h2 class="page-header"><i class="fa fa-user"></i> Subject Selected for Honour & Minor Current Semester </h2>
+        	</div>
+        	<div class="col-xs-12 table-responsive">
+          <table class="table table-striped">
+          <thead>
+              <th>Sl N.</th>
+              <th>SUbject Code</th>
+              <th>SUbject Name</th>
+          </thead>
+          <tbody>
+          <?php $i=1; foreach($confirm['HM'] as $s) { ?>
+      <tr>
+        <td><?php echo $i; ?></td>
+        <td><?php echo $s['subject_id']; ?></td>
+        <td><?php echo $s['name']; ?></td>
+      </tr>
+      <?php $i++; } ?>
+          </tbody>
+          </table>
+          </div>
           </div>
           <!-- Carry Over -->
             <? if(is_array($carryover)){?>
@@ -184,14 +205,14 @@
       	 <div class="col-sm-6" style="background:#F4F4F4;">Approve:
                <div class="btn-group" data-toggle="buttons-radio">
            <button type="button" id='ap'  class="btn btn-primary">Approve</button>
-           <button type="button" id='rej' class="btn btn-warning">Reject</button>
+           <button type="button" id='rej' class="btn btn-warning">Modify</button>
            <input type='hidden' id="rf" name="hods" value='0'>
         </div>
         <?php echo form_textarea(array('name'=>'hodRemark','id'=>'re','style'=>"height:60px; width:200px;",'value'=>"")); ?>
          </div>
         
         		
-                <div class="col-sm-6" >
+                <div class="col-sm-6" >           
                		 <?php
 						echo form_hidden('formId',$student[0]->sem_form_id);
 						echo form_hidden('stuId',$student[0]->admn_no);

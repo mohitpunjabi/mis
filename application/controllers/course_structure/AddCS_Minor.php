@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AddCS_Common extends MY_Controller
+class AddCS_Minor extends MY_Controller
 {
 	function __construct()
 	{
@@ -12,22 +12,24 @@ class AddCS_Common extends MY_Controller
 	public function index($error='')
 	{
 		$data = array();
-		$this->drawHeader("Add a Common course structure");
-		$this->load->view('course_structure/addCS_Common',$data);
+		$data['result_dept'] = $this->basic_model->get_depts();
+		$this->drawHeader("Add a Course Structure for Minor");
+		$this->load->view('course_structure/AddCS_Minor',$data);
 		$this->drawFooter();
 	}
 	
 	public function EnterNumberOfSubjects()
 	{
-		$dept= "comm";
-		$course= "comm";
-		$branch= "comm";
+		if($this->input->post() == false)
+			redirect("course_structure/AddCS_Minor");
+			
+		$dept= $this->input->post("dept");
+		$course= "minor";
+		$branch= "minor";
 		$session= $this->input->post('session');
-		$sem=$this->input->post('semester');
-		$group=$this->input->post('group');
+		$sem=$this->input->post('semester');		
 		
 		//make semester equal to semester_group;
-		$sem = $sem."_".$group;
 		$aggr_id= $course.'_'.$branch.'_'.$session;
 		
 		$result_course_branch = $this->basic_model->select_course_branch($course,$branch);
@@ -44,11 +46,11 @@ class AddCS_Common extends MY_Controller
 		}
 		//die("inserted successfully");
 		//if CS already exisit for this semester then show error.
-		if($this->basic_model->get_subjects_by_sem($sem,$aggr_id))
+		if($this->basic_model->get_subjects_by_sem_and_dept($sem,$aggr_id,$dept))
 		{
 			$this->session->set_flashdata("flashError","Course Structure already exist.Please Delete course structure first and then 
 			add new.");
-			redirect("course_structure/AddCS_Common");
+			redirect("course_structure/AddCS_Honour");
 		}
 			
 		
@@ -62,8 +64,7 @@ class AddCS_Common extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch']=$row_branch[0]->name;
 		$data["CS_session"]['session']=$session;
-		
-		$data['common'] = true;
+		$data['minor'] = true;
 		$this->session->set_userdata($data);
 		
 		$this->drawHeader("Enter the number of core and elective subjects");

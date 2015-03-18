@@ -32,7 +32,6 @@ $(document).ready(function(){
 	$duration = 1;
 	
 	function add_course(){
-		
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
 			success:function(data){
@@ -69,61 +68,51 @@ $(document).ready(function(){
 	
 	
 	function add_branch(duration){
+		$course_selection = $('#course_selection');
+		$dept_selection = $('#dept_selection');
 		
-		if($course_selection.val() == "comm")
-			alert("To add for Honour, please visit CourseStructure->add course structure->For 1st Year Common");
-		else if($course_selection.val() == "honour")
-			alert("To add for Honour, please visit CourseStructure->add course structure->For Honour");
-		else if($course_selection.val() == "minor")
-			alert("To add for 1st Year please visit CourseStructure->add course structure->for Minor");	
-		else
-		{
-			$course_selection = $('#course_selection');
-			$dept_selection = $('#dept_selection');
-			
-			//alert($course_selection.find(':selected').val());
-			$box_form.showLoading();
-			$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
-				success:function(data){
-					console.log(data);
-					base_str_branch = "<option value = '' selected = 'selected' disabled>Select Branch</option>";
-					for($d=0 ; $d < data.length;$d++){
-						base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
-					}
-					//base_str_branch += "<option>Select Branch</option>";
-					
-					$cont_branch_selection.show();
-					$branch_selection.show().html(base_str_branch);
-					
-					var d = new Date();
-					var n = d.getFullYear();
-					base_str = "<option value = '' selected = 'selected' disabled>Valid From</option>";
-					
-					for($d=n-5;$d<=n+5;$d++)
-					{
-						var session = $d+"_"+($d+1);
-						base_str += "<option value= '"+session+"'>"+$d+"-"+($d+1)+"</option>"
-					}	
-					
-					$cont_session_selection.show();
-					$session_selection.show().html(base_str);
-					$branch_selection.on('change',function(){
-						//$session_selection.hide();
-						$semester_selection.hide();
-						$cont_semester_selection.hide();
-						add_semester(duration);
-					});
-					$box_form.hideLoading();
-				},
-				type:"POST",
-				//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
-				dataType:"json",
-				fail:function(error){
-					console.log(error);
-					$box_form.hideLoading();
+		//alert($course_selection.find(':selected').val());
+		$box_form.showLoading();
+		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
+			success:function(data){
+				console.log(data);
+				base_str_branch = "<option value = '' selected = 'selected' disabled>Select Branch</option>";
+				for($d=0 ; $d < data.length;$d++){
+					base_str_branch += "<option value=\""+ data[$d]["id"]+"\">"+data[$d]["name"]+"</option>";
 				}
-			});
-		}
+				//base_str_branch += "<option>Select Branch</option>";
+				
+				$cont_branch_selection.show();
+				$branch_selection.show().html(base_str_branch);
+				
+				var d = new Date();
+				var n = d.getFullYear();
+				base_str = "<option value = '' selected = 'selected' disabled>Valid From</option>";
+				
+				for($d=n-5;$d<=n+5;$d++)
+				{
+					var session = $d+"_"+($d+1);
+					base_str += "<option value= '"+session+"'>"+$d+"-"+($d+1)+"</option>"
+				}	
+				
+				$cont_session_selection.show();
+				$session_selection.show().html(base_str);
+				$branch_selection.on('change',function(){
+					//$session_selection.hide();
+					$semester_selection.hide();
+					$cont_semester_selection.hide();
+					add_semester(duration);
+				});
+				$box_form.hideLoading();
+			},
+			type:"POST",
+			//data :JSON.stringify({course:$course_selection.find(':selected').val()}),
+			dataType:"json",
+			fail:function(error){
+				console.log(error);
+				$box_form.hideLoading();
+			}
+		});
 	}
 	
 	function add_semester(duration){
@@ -156,14 +145,15 @@ $(document).ready(function(){
 
 	$dept_selection.change(function(){
 		$("#branch_selection").hide();
-		$course_selection = $('#course_selection');
 		$("#session_selection").hide();
 		$("#semester").hide();
 		$("#cont_branch_selection").hide();
 		$("#cont_session_selection").hide();
 		$("#cont_semester").hide();
 		if($dept_selection.val() == "comm")
+		{
 			alert("To add for 1st Year please visit CourseStructure->add course structure->for 1st year Common");
+		}
 		else
 			add_course();
 		

@@ -18,16 +18,23 @@ class Regular_form extends MY_Controller {
 		 
 	}
 		public function index($id="a12a"){	
-			
+			// CHECK Date Open Or Not
 			if($this->sbasic_model->checkDate() === false){
 				 redirect('/student_sem_form/regular_form/daterror', 'refresh');
 				}
+				// Get Flag from Database
 				$re=$this->sbasic_model->formrResponse($this->session->userdata('id'),($this->session->userdata('semester')+1));
+				
+				// Auth After Reject Form// 
 				if($this->input->post('flg') =="a12a" or $this->input->post('flg') =="" ){
-		if($this->sbasic_model->checkStudent($this->session->userdata('id'),($this->session->userdata('semester')+1))==false && $re[0]->re_id != $id ){
+				
+				// Compare id form link and database
+			if($this->sbasic_model->checkStudent($this->session->userdata('id'),($this->session->userdata('semester')+1))==false && $re[0]->re_id != $id ){
 			 redirect('/student_sem_form/regular_form/error', 'refresh');
 			}}
+			
 			$sub=$this->get_subject->getElective($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
+			
 			$dates =$this->sbasic_model->getOcdatedes();
 			//Validation
 			$this->load->helper(array('form', 'url'));
@@ -37,6 +44,7 @@ class Regular_form extends MY_Controller {
 			$this->form_validation->set_rules('transId', 'Transaction id / Reference No.', 'required');
 			$this->form_validation->set_rules('slip', 'Slip', 'callback_handle_upload');
 			if($dates[0]->type == 2)
+				
 			$this->form_validation->set_rules('slip1', 'Slip1', 'callback_handle_upload1');
 			
 			if($this->input->post('cenable') =='CY'){
@@ -117,6 +125,7 @@ class Regular_form extends MY_Controller {
 								$this->add_form->insertSemSubject($data1);
 						$fid++;
 						} 
+						$this->saveHornorMinner();
 						$this->CarryoverDetailSave();
 						return true;
 				
@@ -146,6 +155,22 @@ class Regular_form extends MY_Controller {
 						}
 			}
 			//
+			
+			protected function saveHornorMinner(){
+						$this->load->model('student_sem_form/add_form','',TRUE);
+						if($this->input->post('honour')){
+							$data['sem_form_id']=$this->lnid;
+							$data['subject_id']=$this->input->post('honour');
+							$data['type']='h';
+							$this->add_form->insertHM($data);
+						}
+						if($this->input->post('minor')){
+							$data['sem_form_id']=$this->lnid;
+							$data['subject_id']=$this->input->post('minor');
+							$data['type']='m';
+							$this->add_form->insertHM($data);
+						}
+			}
 		
 		
 		//Image Upload Validation Handler || Image upload Regular fee//
@@ -248,6 +273,7 @@ class Regular_form extends MY_Controller {
 			  return false;
 			}
 		  }
+
 		  
 		 function regular_form_save(){
 				//admission_id ,course_id, branch_id,semster,session_year,session,timestamp,status 
@@ -267,6 +293,7 @@ class Regular_form extends MY_Controller {
 					 redirect('/student_sem_form/regular_form/success', 'refresh');
 	
 		}
+		
 		public function error(){
 			$data['status']=$this->sbasic_model->formrResponse($this->session->userdata('id'),($this->session->userdata('semester')+1));
 			 $data['oldrecord'] = $this->sbasic_model->getApprovedFormByStudent($this->session->userdata('id'));			
@@ -347,6 +374,43 @@ class Regular_form extends MY_Controller {
 					$sd = "No Result Found!";
 					}
 			echo $sd;
+		}
+		
+		function getHonourMinnor(){
+					$ms=''; $hs='';
+					$h=''; $m='';
+				$this->load->model('student_sem_form/get_subject','',TRUE);
+					if($this->input->post('id') == 'H' || $this->input->post('id') == 'HM'){
+				
+							$data=$this->get_subject->getHonourSubject($this->session->userdata('id'),($this->session->userdata('semester')+1));
+							if(is_array($data)){
+							foreach($data as $val){
+								$s= $this->get_subject->getSubjectById($val->id);
+								
+							  $h .='<option value="'.$val->id.'">'.$s[0]->name.'</option>';
+							}
+							$hs='<div class="col-sm-4">Select Honour Subject</div><div class="col-sm-8">
+											<select name="honour" class="form-control">'.$h.'</select>
+									</div>';
+							}
+					}
+					
+					if($this->input->post('id') == 'M' || $this->input->post('id') == 'HM'){
+					
+						$data=$this->get_subject->getMinorSubject($this->session->userdata('id'),($this->session->userdata('semester')+1));
+						if(is_array($data)){
+						foreach($data as $val){
+							$s= $this->get_subject->getSubjectById($val->id);
+							$m.='<option value="'.$val->id.'">'.$s[0]->name.'</option>';
+						}
+						$ms='<div class="col-sm-4">Select Honour Subject</div><div class="col-sm-8">
+											<select name="minor" class="form-control">'.$m.'</select>
+									</div>';
+						}
+					}
+					
+					echo $hs.$ms;
+					
 		}
 }
 ?>

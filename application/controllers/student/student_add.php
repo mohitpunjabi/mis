@@ -48,7 +48,7 @@ class Student_add extends CI_Controller//MY_Controller
 	public function add_basic_details($error = '')
 	{
 		if(!$this->isValidRequest($this->input->get("id"), $this->input->get("token"))) {
-			show_404();	
+			show_404();
 		}
 		else $this->userId = $this->input->get("id");
 
@@ -59,8 +59,8 @@ class Student_add extends CI_Controller//MY_Controller
 
 		$data['stu_id'] = $this->userId;
 
-		$this->load->model('student/student_states_model','',TRUE);
-		$data['states'] = $this->student_states_model->get_all_states();
+		$this->load->model('indian_states_model','',TRUE);
+		$data['states']=$this->indian_states_model->getStates();
 
 		//Fetching Departments
 		$this->load->model('course_structure/basic_model','',TRUE);

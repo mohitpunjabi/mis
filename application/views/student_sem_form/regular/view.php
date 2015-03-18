@@ -72,6 +72,27 @@
           </tbody>
           </table>
           </div>
+          <div class="col-xs-12">
+				<h2 class="page-header"><i class="fa fa-user"></i> Subject Selected for Honour & Minor Current Semester </h2>
+        	</div>
+        	<div class="col-xs-12 table-responsive">
+          <table class="table table-striped">
+          <thead>
+              <th>Sl N.</th>
+              <th>SUbject Code</th>
+              <th>SUbject Name</th>
+          </thead>
+          <tbody>
+          <?php foreach($confirm['HM'] as $s) { ?>
+      <tr>
+        <td><?php echo $s['sequence']; ?></td>
+        <td><?php echo $s['subject_id']; ?></td>
+        <td><?php echo $s['name']; ?></td>
+      </tr>
+      <?php } ?>
+          </tbody>
+          </table>
+          </div>
           </div>
           <!-- Carry Over -->
             <? if(is_array($carryover)){?>

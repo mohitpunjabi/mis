@@ -33,6 +33,7 @@ $(document).ready(function(){
 	$duration = 1;
 	
 	function add_course(){
+		
 		$box_form.showLoading();
 		$.ajax({url:site_url("course_structure/add/json_get_course/"+$dept_selection.find(':selected').val()),
 			success:function(data){
@@ -70,11 +71,14 @@ $(document).ready(function(){
 	
 	
 	function add_branch(duration){
+			
+		
 		$course_selection = $('#course_selection');
 		$dept_selection = $('#dept_selection');
 		$box_form.showLoading();
 		//alert($course_selection.find(':selected').val());
-		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
+		$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(
+		':selected').val()),
 			success:function(data){
 				
 				base_str_branch = "<option value = '' selected = 'selected' disabled>Select Branch</option>";
@@ -115,24 +119,36 @@ $(document).ready(function(){
 				$box_form.hideLoading();
 			}
 		});
+		
 	}
 	
 	function add_semester(duration){
 		
 		base_str = "";
 		
-		if(duration < 4){
+		if($("#course_selection").val() == "honour" || $("#course_selection").val() == "minor")
+		{
 			base_str = "<option value = '0'>All</option>";
-			for(counter = 1; counter <= 2*duration ; counter++){
-				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+			for(counter = 5; counter <= 8 ; counter++){
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
 			}
 		}
-		else{
-			base_str = "<option value = '0'>All</option>";
-			for(counter = 1; counter <= 2*duration ; counter++){
-				base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+		else
+		{
+		
+			if(duration < 4){
+				base_str = "<option value = '0'>All</option>";
+				for(counter = 1; counter <= 2*duration ; counter++){
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+				}
 			}
-			
+			else{
+				base_str = "<option value = '0'>All</option>";
+				for(counter = 1; counter <= 2*duration ; counter++){
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
+				}
+				
+			}
 		}
 		
 		$cont_semester_selection.show();

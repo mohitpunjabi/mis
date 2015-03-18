@@ -56,6 +56,7 @@ class Regular_check_acdamic extends MY_Controller
 				$this->load->model('student_sem_form/sbasic_model','',TRUE);
 				$data['acdmic_status'] = $this->input->post('hods');
 				$data['acdmic_remark'] = $this->input->post('hodRemark');
+				
 				if($this->input->post('hods') ==2){
 					$data['re_id'] = rand(999012,12345678);
 					}

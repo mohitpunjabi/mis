@@ -32,7 +32,7 @@ class Leave_history extends MY_Controller {
             $auth_id = $this->lhm->get_user_auth_id($this->emp_id);
 
             
-            if($auth_id == 'hod'){
+            if($this->ludm->is_hod($this->emp_id)){
 
                 $this->data['notif'] = FALSE;
                 $this->data['set'] = FALSE;
@@ -68,8 +68,11 @@ class Leave_history extends MY_Controller {
                     $this->data['leave_history_casual'] = array();
                     $this->data['leave_history_restricted'] = array();
                     $this->data['name'] = $name;
-                    $this->data['leave_history_casual'] = $this->lhm->get_casual_leave_history_details($user_id , "2015-01-01","2015-12-31" );
-                    $this->data['leave_history_restricted'] = $this->lhm->get_restricted_leave_history_details($user_id , "2015-01-01","2015-12-31" );
+                    $year = date("Y");
+                    $start_date = "$year"."-01-01";
+                    $end_date = "$year"."-12-31";
+                    $this->data['leave_history_casual'] = $this->lhm->get_casual_leave_history_details($user_id , $start_date,$end_date );
+                    $this->data['leave_history_restricted'] = $this->lhm->get_restricted_leave_history_details($user_id , $start_date,$end_date );
                     
 
                     //var_dump($this->data['users']);

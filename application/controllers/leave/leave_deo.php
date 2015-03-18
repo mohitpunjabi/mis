@@ -15,9 +15,10 @@ class Leave_deo extends MY_Controller{
     var $current_emp_id;
     var $user_id;
     function __construct() {
-        parent::__construct(array('deo'));
+        parent::__construct(array('deo','est_ar','astreg','dir','dyreg'));
         $this->current_emp_id = $this->session->userdata('id');
         $this->load->model('leave/leave_deo_model','ldm');
+        $this->addJS("leave/deo_query.js");
         $this->load->model('user_model' , 'um');
         $this->load->model('departments_model');
         $this->load->model('leave/leave_users_details_model','ludm');
@@ -85,6 +86,11 @@ class Leave_deo extends MY_Controller{
         $this->drawFooter();
         
         
+    }
+    function leave_administration(){
+        $this->drawHeader();
+        $this->load->view('leave/leave_administration/leave_administration_view');
+        $this->drawFooter();
     }
     
 }

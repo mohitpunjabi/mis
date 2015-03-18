@@ -27,8 +27,8 @@
 <?php   
         $table->close();
         $box->close();
-        ?>
-        <?php
+?>
+<?php
         $tabBox1 = $ui->tabBox()
                     ->title('Leave Details')
                     ->tab("casual_leave", "Casual Leave", true)

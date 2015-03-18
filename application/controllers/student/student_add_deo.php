@@ -9,6 +9,8 @@ class Student_add_deo extends MY_Controller
 
 	public function index($error='')
 	{
+		var_dump('hi');
+		return ;
 		$this->add_basic_details($error);
 		// $this->load->model('student/student_current_entry_model','',TRUE);
 		// $entry = $this->student_current_entry_model->get_current_entry_status_by_id($this->userId);

@@ -18,7 +18,7 @@
 			
 			if($('#stu_type').val() == 'jrf') {
 			$('#course_id, #branch_id').append($('<option>', {value: 'na',text: 'Not Applicable' ,selected : 'true'}));                       
-		});
+		}});
 
 		$('#depts').on('change', function() {
 			options_of_courses();

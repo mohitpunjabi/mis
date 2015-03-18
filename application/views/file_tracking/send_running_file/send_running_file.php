@@ -1,89 +1,143 @@
-<div id="container">
-<h1>File Details</h1>
-<?php echo form_open (); ?> 
-<table align="center" nozebra>
-	<tr>
-		<td>File No : </td>
 <?php
+	$ui = new UI();
+
+	$row = $ui->row()->open();
+
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
+
+	$column2 = $ui->col()->width(8)->open();
+	$box = $ui->box()
+				->title('Forward File')
+				->solid()
+				->uiType('primary')
+				->open();
+
+	$form = $ui->form()->action('file_tracking/send_new_file/insert_move_details_main/'.$file_id)->open();
+
+	$inputRow1 = $ui->row()->open();
 		if ($file_no)
-		{
-?>
-		<td> 
-			<input type="text" name="file_no" id="file_no" value="<?php echo $file_no; ?>" readonly> 
-		</td>
-<?php
+		{	
+			 $ui->input()
+				->placeholder('Enter file number')
+				->type('text')
+				->label('File Number')
+				->name('file_no')
+				->value($file_no)
+				->disabled()
+				->width(6)
+				->show();
 		}
 		else
 		{
-?>
-		<td> 
-			<input type="text" name="file_no" id="file_no" value=""> 
-		</td> 
-<?php
+			 $ui->input()
+				->placeholder('File No. not yet generated')
+				->type('text')
+				->label('File Number')
+				->name('file_no')
+				->width(6)
+				->show();			
 		}
+
+		$ui->input()
+			->placeholder('Enter file subject')
+			->type('text')
+			->label('File Subject')
+			->name('file_sub')
+			->value($file_sub)
+//			->extras('readonly')
+			->disabled()
+			->width(6)
+			->show();
+	$inputRow1->close();
+
+	$inputRow2 = $ui->row()->open();
+		$ui->select()
+			->label('Department Type')
+			->name('type')
+			->id('type')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')->selected(),
+							$ui->option()->value('academic')->text('Academic'),
+							$ui->option()->value('nonacademic')->text('Non Academic')))
+			->width(6)
+			->show();
+		$ui->select()
+			->label('Select Department')
+			->name('department_name')
+			->id('department_name')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+
+			->width(6)
+				->show();
+	$inputRow2->close();
+
+	$inputRow3 = $ui->row()->open();
+				$ui->select()
+			->label('Designation')
+			->name('designation')
+			->id('designation')
+			->required()
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+				->width(6)
+				->show();
+		$ui->select()
+			->label('Employee Name')
+			->name('emp_name')
+			->id('emp_name')
+			->options(array($ui->option()->value('""')->text('Select')->selected()))
+				->width(6)
+				->show();
+	$inputRow3->close();
+
+   	$ui->textarea()
+		->label('Remarks')
+		->name('remarks')
+		->placeholder('Remarks')
+		->show();
 ?>
-	</tr>
-	<tr>
-		<td>File Subject : </td>
-		<td> 
-			<input type="text" name="file_sub" id="file_sub" value="<?php echo $file_sub; ?>" readonly> 
-		</td>
-	</tr>
-	<tr>
-		<td>Department Type : </td>
-		<td> 
-			<select name="type" id="type" onchange="get_departments(this.value)">
-				<option type="text" value="">Select</option>
-				<option type="text" value="academic">Academic</option>
-				<option type="text" value="nonacademic">Non Academic</option>
-			</select>
-		</td>
-	<td>Department Name : </td>
-		<td>
-			<select name="department_name" id="department_name" onchange="get_designation_name(this.value)">
-				<option type="text" value="">Select</option>
-			</select>
-		</td> 
-	</tr>
-	<tr>
-		<td>Designation : </td>
-		<td> 
-			<select name="designation" id="designation" onchange="get_emp_name(this.value)">
-				<option type="text" >Select</option>
-			</select>
-		</td>
-		<td>Employee Name : </td>
-		<td> 
-			<select name="emp_name" id="emp_name">
-				<option type="text" >Select</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Remarks : </td>
-		<td> 
-			<textarea name="remarks" id="remarks"></textarea>
-		</td>
-	</tr>
-</table>
-<table align="center" nozebra>
-	<tr>
-		<td> 
-			<input type="button" value="Send File" onClick="display_send_notification2(<?php echo $file_id; ?>)">
-		</td>
-	</tr>
-</table>
+<center>
+<?php
+	$ui->button()
+		->value('Send File')
+		->uiType('primary')
+		->submit(true)
+		->show();
+
+	$form->close();
+?>
+</center>
 <h2 align="center">OR</h2>
-<table align="center" nozebra>
-	<tr>
-		<td>Remarks: </td>
-		<td> 
-			<textarea name="remarks2" id="remarks2"></textarea>
-		</td>
-		<td> 
-			<input type="button" value="Send File Back" onClick="display_send_notification4(<?php echo $file_id; ?>,<?php echo $sent_by_emp_id ?>)">
-		</td>
-	</tr>	
-</table>
-</div>
-<div id="send_notification"></div>
+<?php
+	$form2 = $ui->form()->action('file_tracking/send_new_file/insert_move_details/'.$file_id.'/'.$sent_by_emp_id)->open();
+
+	 $ui->input()
+		->type('hidden')
+		->name('file_no')
+		->value($file_no)
+		->show();
+
+	$ui->textarea()
+		->label('Enter Remarks and Send Back')
+		->name('remarks')
+		->placeholder('Remarks')
+		->show();
+?>
+<center>
+<?php
+	$ui->button()
+		->value('Send File Back')
+		->uiType('primary')
+		->submit()
+		->show();
+
+	$form2->close();
+
+	$box->close();
+
+	$column2->close();
+
+	$row->close();
+?>
+</center>

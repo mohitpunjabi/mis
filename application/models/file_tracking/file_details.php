@@ -26,6 +26,8 @@ class File_details extends CI_Model
 	{
 		$sql_query = "SELECT track_num from file_details where file_id = '".$file_id."';";
 		$query = $this->db->query($sql_query);
+		if($query->num_rows() == 0) 
+			return false;
 		foreach ($query->result() as $row) //last
 				$track_num = $row->track_num;
 		return $track_num;		
@@ -61,7 +63,7 @@ class File_details extends CI_Model
 	}
 	function get_designation_by_department_id ($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT designations.id, designations.name FROM designations INNER JOIN user_details INNER JOIN emp_basic_details ON designations.id = emp_basic_details.designation AND user_details.id = emp_basic_details.id where dept_id = '".$dept_id."';");
+		$query = $this->db->query("SELECT DISTINCT designations.id, designations.name FROM designations INNER JOIN user_details INNER JOIN emp_basic_details ON designations.id = emp_basic_details.designation AND user_details.id = emp_basic_details.id where dept_id = '".$dept_id."' ORDER BY designations.name;");
 		if($query->num_rows() > 0)
 			return $query->result();
 		else
@@ -69,7 +71,7 @@ class File_details extends CI_Model
 	}
 	function get_emp_name ($designation, $dept)
 	{
-		$query = $this->db->query ("SELECT emp_basic_details.id AS id from user_details INNER JOIN emp_basic_details ON user_details.id = emp_basic_details.id where dept_id = '".$dept."' and designation = '".$designation."';");
+		$query = $this->db->query ("SELECT emp_basic_details.id AS id from user_details INNER JOIN emp_basic_details ON user_details.id = emp_basic_details.id where dept_id = '".$dept."' and designation = '".$designation."' ORDER BY salutation, first_name, middle_name, last_name;");
 		if($query->num_rows() > 0)
 			return $query->result();
 		else

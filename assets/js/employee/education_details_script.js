@@ -1,82 +1,47 @@
 function onclick_add()
 {
-        var row=document.getElementById("tableid").rows;
-        var e=document.getElementsByName("exam4[]")[row.length-2].value;
-        var b=document.getElementsByName("branch4[]")[row.length-2].value;
-        var c=document.getElementsByName("clgname4[]")[row.length-2].value;
-        var y=document.getElementsByName("year4[]")[row.length-2].value;
-        var g=document.getElementsByName("grade4[]")[row.length-2].value;
-        var d=document.getElementsByName("div4[]")[row.length-2].value;
+        var e=document.getElementsByName("exam4")[0].value;
+        var b=document.getElementsByName("branch4")[0].value;
+        var c=document.getElementsByName("clgname4")[0].value;
+        var y=document.getElementsByName("year4")[0].value;
+        var g=document.getElementsByName("grade4")[0].value;
+        var d=document.getElementsByName("div4")[0].value;
 
         if(e=="" || b=="" || c=="" || y=="" || g=="" || d=="" )
-                alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
+                alert('Please fill up all the fields !!');
+        else return true;
+        return false;
+}
+
+function examination_handler()
+{
+        var exam=document.getElementsByName("exam4")[0].value;
+        if(exam=="non-matric")
+        {
+                document.getElementsByName("branch4")[0].value="n/a";
+                document.getElementsByName("clgname4")[0].value="n/a";
+                document.getElementsByName("year4")[0].value="n/a";
+                document.getElementsByName("grade4")[0].value="n/a";
+                document.getElementsByName("div4")[0].value="n/a";
+        }
+}
+
+$(document).ready(function() {
+        $("#next_btn").click(function(e) {
+                if(!confirm('Are you sure not to add more details and go to next step ?'))
+                        e.preventDefault();
+        });
+        $("#add_btn").click(function(e) {
+                if(!onclick_add())
+                        e.preventDefault();
+        });
+
+        $("select[name=exam4]").change(examination_handler);
+
+        //if tbl4 is present show next btn otherwise hide it, as it is a compulsory page.
+        if($("#tbl4").length)
+                $("#next_btn").show();
         else
-        {
-                var newrow=document.getElementById("tableid").insertRow(row.length);
-                newrow.innerHTML=document.getElementById("addrow").innerHTML;
-                var newid=newrow.cells[0].id="sno"+Number(row.length-2);
-                document.getElementById(newid).innerHTML=row.length-1;
-        }
-}
+                $("#next_btn").hide();
 
-function validate()
-{
-        var n_row=document.getElementById("tableid").rows.length;
-        var i=0;
-        for(i=0;i<n_row-2;i++)
-        {
-                var e=document.getElementsByName("exam4[]")[i].value;
-                var b=document.getElementsByName("branch4[]")[i].value;
-                var c=document.getElementsByName("clgname4[]")[i].value;
-                var y=document.getElementsByName("year4[]")[i].value;
-                var g=document.getElementsByName("grade4[]")[i].value;
-                var d=document.getElementsByName("div4[]")[i].value;
-
-                if(e=="" || b=="" || c=="" || y=="" || g=="" || d=="" )
-                {
-                        alert('Sno '+(i+1)+': Please fill up all the fields !!');
-                        return false;
-                }
-        }
-        return true;
-}
-
-function onclick_submit()
-{
-        if(!validate())                 //validation of rows except last one
-                return false;
-        //validation of last row
-        var row=document.getElementById("tableid").rows;
-        var e=document.getElementsByName("exam4[]")[row.length-2].value;
-        var b=document.getElementsByName("branch4[]")[row.length-2].value;
-        var c=document.getElementsByName("clgname4[]")[row.length-2].value;
-        var y=document.getElementsByName("year4[]")[row.length-2].value;
-        var g=document.getElementsByName("grade4[]")[row.length-2].value;
-        var d=document.getElementsByName("div4[]")[row.length-2].value;
-
-        if((e=="" && b=="" && c=="" && y=="" && g=="" && d=="" && row.length!=2)        ||      (e!="" && b!="" && c!="" && y!="" && g!="" && d!=""))
-                return true;
-        else
-        {
-                alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
-                return false;
-        }
-}
-
-function examination_handler(obj)
-{
-        var row=document.getElementById("tableid").rows.length;
-        var i=0;
-        for(i=0;i<row;i++)
-        {
-                var exam=document.getElementsByName("exam4[]")[i].value;
-                if(exam=="non-matric")
-                {
-                        document.getElementsByName("branch4[]")[i].value="n/a";
-                        document.getElementsByName("clgname4[]")[i].value="n/a";
-                        document.getElementsByName("year4[]")[i].value="n/a";
-                        document.getElementsByName("grade4[]")[i].value="n/a";
-                        document.getElementsByName("div4[]")[i].value="n/a";
-                }
-        }
-}
+});

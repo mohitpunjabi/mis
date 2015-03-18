@@ -1,153 +1,127 @@
-	<?php 
+<?php
+	$ui = new UI();
 	$errors=validation_errors();
-	if($errors!='')$this->notification->drawNotification('Validation Errors',validation_errors(),'error'); ?>
-	<h1>Enter the details</h1>
-	<?php  echo form_open_multipart('information/post_circular/index/'.$auth_id);   ?>
-	Fields marked with <span style= "color:red;">*</span> are mandatory.
-	<table width='90%'>
-		<tr><th colspan=2></th></tr>
-		<tr>
-			<td width='20%'>
-    			Circular ID<span style= "color:red;"> *</span>
-            </td>
-			<td width='28%'>
-	        	<?php 
-				if($id->circular_id == NULL)
-				{
-					$data = array(
-							'name'=>'circular_ids',
-							'required'=>'required',
-							'value'=>'1',
-							'disabled'=>'disabled'
-							);
-					echo form_input($data);
-					//will produce
-					//echo '<input type="text" name="circular_ids" required="required" disabled="disabled"/>';
-				}
-				else
-				{
-					$data = array(
-							'name'=>'circular_ids',
-							'required'=>'required',
-							'value'=>$id->circular_id + 1,
-							'disabled'=>'disabled'
-							);
-					echo form_input($data);
-					//will produce
-					//echo '<input type="text" name="circular_ids" required="required" tabindex="1" value ="'.$no->circular_no.'" disabled="disabled"/>';
-					
-				}
-				$value=1;
-				if($id->circular_id != NULL)
-				   $value = $id->circular_id +1;
+	if($errors!='')
+		$this->notification->drawNotification('Validation Errors',validation_errors(),'error');
+	$row = $ui->row()->open();
+	
+	$column1 = $ui->col()->width(2)->open();
+	$column1->close();
+	
+	$column2 = $ui->col()->width(9)->open();
+	$box = $ui->box()
+			  ->title('Circular Details')
+			  ->solid()	
+			  ->uiType('primary')
+			  ->open();
+
+	$form = $ui->form()->action('information/post_circular/index/'.$auth_id)->extras('enctype="multipart/form-data"')->open();
+	$star_circular=$ui->row()->open();
+	//echo" Fields marked with <span style= 'color:red;'>*</span> are mandatory.";
+	$star_circular->close();
+	$inputRow1 = $ui->row()->open();
+		if($id->circular_id == NULL)
+		{
+			
+			$ui->input()
+			   ->label('Circular ID<span style= "color:red;"> *</span>')
+			   ->type('text')
+			   ->name('circular_ids')
+			   ->required()
+			   ->value('1')
+			   ->disabled()
+			   ->width(6)
+			   ->show();
+
+		}
+		else
+		{
+			$ui->input()
+			   ->type('text')
+			   ->label('Circular ID<span style= "color:red;"> *</span>')
+			   ->name('circular_ids')
+			   ->required()
+			   ->width(6)
+			   ->value($id->circular_id + 1)
+			   ->disabled()
+			   ->show();			
+		}
+
+		 $ui->input()
+		    ->type('text')
+		    ->label('Circular Number<span style= "color:red;"> *</span>')
+		    ->name('circular_no')
+		    ->required()
+		    ->width(6)
+		    ->placeholder('Enter Circular Number  (Ex: CSE_10185)')
+		    ->show();
+
+	$inputRow1->close();
+
+	$inputRow2 = $ui->row()->open();
+		 $ui->select()
+		    ->label('Viewed By<span style= "color:red;"> *</span>')
+			->name('circular_cat')
+			->options(array($ui->option()->value('emp')->text('Employee')->selected(),
+							$ui->option()->value('stu')->text('Student'),
+							$ui->option()->value('all')->text('All')))
+			->width(6)
+			->show();
+
+		 $ui->textarea()
+		    ->label('Circular Subject<span style= "color:red;"> *</span>')
+            ->placeholder('Enter the circular Subject in not more than 200 characters')
+            ->name('circular_sub')
+            ->required()->width(8)
+            ->show();
+	$inputRow2->close();
+
+	$inputRow3 = $ui->row()->open();
+     	 $ui->input()
+		    ->label('Circular File<span style= "color:red;"> *</span>')
+     	    ->type('file')
+     	    ->name('circular_path')
+     	    ->required()
+     	    ->width(6)
+     	    ->show();
+
+		 $ui->datePicker()
+			->name('valid_upto')
+		    ->label('Last Date<span style= "color:red;"> *</span> (Atleast today)')			
+			//->extras(min='date("Y-m-d")')
+			->value(date("yy-mm-dd"))
+			->dateFormat('yy-mm-dd')->width(6)
+			->show();
+
+
+	$inputRow3->close();
+	echo"(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)";
+	$value=1;
+		if($id->circular_id != NULL)
+		   $value = $id->circular_id +1;
 				
-				//hidden field because disabled input has 0 value only
-				echo form_hidden('circular_id',$value);
 				
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td width="20%">
-				Circular Number<span style= "color:red;"> *</span>
-			</td>
-			<td>
-			<?php
-				$circularno = array(
-							  'name'=> 'circular_no',
-							  'id'=> 'circular_no',
-							  'required'=>'required',
-							  'placeholder'=>'Enter Circular Number'
-							  );
-				echo form_input($circularno);
-			?>
-			(Ex: MIN_CIR29292)
-			</td>
-		</tr>
-		<tr>
-			<td width='20%'>
-    			Viewed By<span style= "color:red;"> *</span>
-	        </td>
-	        <td width='30%'>
-			<?php
-				$categories = array(
-							  'emp'=>'Employee',
-							  'stu'=>'Student',
-							  'all'=>'All'
-							   );
-				echo form_dropdown('circular_cat',$categories,'emp');
-				/*will produce
-				echo '<select name="circular_cat">
-						<option value="emp">Employee</option>
-						<option value="stu">Student</option>
-						</option value="all">All</option>
-					</select>';				
-				*/
-			?>
-	   	    </td>
-		</tr>
-		<tr>
-			<td width ="20%">
-				Circular Subject<span style="color:red;">*</span>
-			</td>
-			<td width="30%">
-				<?php
-					$subject = array(
-								'name'=>'circular_sub',
-								'rows'=>'3',
-								'cols'=>'80',
-								'required'=>'required',
-								'placeholder'=>'Enter the Circular Subject in not more than 200 characters'
-								);
-					echo form_textarea($subject);
-					/*
-						will produce
-						echo <input type="textarea" rows="3" cols="80" name ="circular_sub" required="required"/>
-					*/
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td width ="20%">
-				Circular File<span style="color:red;">*</span>
-			</td>
-			<td width="30%">
-				<?php
-					$file = array(
-							'name'=>'circular_path',
-							'required'=>'required'
-							);
-					echo form_upload($file);
-					/*
-						will produce
-						echo <input type="file" name="circular_path"/>
-					*/
-				?>
-				(Allowed Types: pdf, doc, docx, jpg, jpeg, png and Max Size: 1.0 MB)
-			</td>
-		</tr>
-		<tr>
-			<td width ="20%">
-				Valid Upto<span style="color:red;">*</span>
-			</td>
-			<td width="30%">
-				<?php
-					$date = array(
-							'name'=>'valid_upto',
-							'min'=>date("Y-m-d"),
-							'value'=>date("Y-m-d"),
-							'type'=>'date'
-							);
-					echo form_input($date);
-					/*
-						will produce
-						echo <input type="date" name="valid_upto" min="date("Y-m-d") value="date("Y-m-d")"/>
-					*/
-				?>
-				(atleast today's date)
-			</td>
-		</tr>
-	 </table> 
-    <?php 
-	echo form_submit('mysubmit','Post Circular');
-	echo form_close(); ?>
+		$ui->input()
+		   ->type('hidden')
+		   ->name('circular_id')
+		   ->required()
+		   ->value($value)
+		   ->show();
+?>
+<center>
+<?php
+	 $ui->button()
+		->value('Post Circular')
+	    ->uiType('primary')
+	    ->submit()
+	    ->name('mysubmit')
+	    ->show();
+	
+	$form->close();
+	$box->close();
+	
+	$column2->close();
+	
+	$row->close();
+?>
+</center>

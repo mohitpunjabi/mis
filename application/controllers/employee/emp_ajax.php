@@ -47,30 +47,95 @@ class Emp_ajax extends CI_Controller
 
 	public function delete_record($form = -1, $s = -1)
 	{
+		$emp_id=$this->session->userdata('EDIT_EMPLOYEE_ID');
 		switch($form)
 		{
 			case 2: $this->load->model('employee/emp_prev_exp_details_model','',TRUE);
-					if($s != -1)	$this->emp_prev_exp_details_model->delete_record(array('id'=>$this->session->userdata('EDIT_EMPLOYEE_ID'), 'sno'=>$s));
-					$this->edit_validation($this->session->userdata('EDIT_EMPLOYEE_ID'),'prev_exp_status');
+					$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id);
+					if(!$pending)
+						$this->emp_prev_exp_details_model->copyDetailstoPendingById($emp_id);
+					if($s != -1)	$this->emp_prev_exp_details_model->deletePendingDetailsWhere(array('id'=>$emp_id, 'sno'=>$s));
+					$this->edit_validation($emp_id,'prev_exp_status');
 					break;
 			case 4: $this->load->model('employee/emp_education_details_model','',TRUE);
-					if($s != -1)	$this->emp_education_details_model->delete_record(array('id'=>$this->session->userdata('EDIT_EMPLOYEE_ID'), 'sno'=>$s));
-					$this->edit_validation($this->session->userdata('EDIT_EMPLOYEE_ID'),'educational_status');
+					$pending = $this->emp_education_details_model->getPendingDetailsById($emp_id);
+					if(!$pending)
+						$this->emp_education_details_model->copyDetailstoPendingById($emp_id);
+					if($s != -1)	$this->emp_education_details_model->deletePendingDetailsWhere(array('id'=>$emp_id, 'sno'=>$s));
+					$this->edit_validation($emp_id,'educational_status');
 					break;
 			case 5: $this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
-					if($s != -1)	$this->emp_last5yrstay_details_model->delete_record(array('id'=>$this->session->userdata('EDIT_EMPLOYEE_ID'), 'sno'=>$s));
-					$this->edit_validation($this->session->userdata('EDIT_EMPLOYEE_ID'),'stay_status');
+					$pending = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id);
+					if(!$pending)
+						$this->emp_last5yrstay_details_model->copyDetailstoPendingById($emp_id);
+					if($s != -1)	$this->emp_last5yrstay_details_model->deletePendingDetailsWhere(array('id'=>$emp_id, 'sno'=>$s));
+					$this->edit_validation($emp_id,'stay_status');
 					break;
 		}
 		if($form !=-1 && $s!=-1)
 		{
 			$this->load->model('employee/emp_basic_details_model','',TRUE);
-				$emp_basic_details = $this->emp_basic_details_model->getEmployeeByID($this->session->userdata('EDIT_EMPLOYEE_ID'));
+				$emp_basic_details = $this->emp_basic_details_model->getEmployeeByID($emp_id);
 			if($emp_basic_details)	$data['joining_date'] = $emp_basic_details->joining_date;
 			else $data['joining_date'] = FALSE;
 			$data['form'] = $form;
-			$data['emp_id'] = $this->session->userdata('EDIT_EMPLOYEE_ID');
+			$data['emp_id'] = $emp_id;
 			$this->load->view('employee/emp_ajax/delete_record',$data);
+		}
+	}
+
+	public function edit_record($form = -1, $s = -1)
+	{
+		$emp_id=$this->session->userdata('EDIT_EMPLOYEE_ID');
+		switch($form)
+		{
+			case 2: $this->load->model('employee/emp_prev_exp_details_model','',TRUE);
+					if($s != -1) {
+						$pending = $this->emp_prev_exp_details_model->getPendingDetailsById($emp_id,$s);
+						if(!$pending)
+							$data['emp_prev_exp_details']=$this->emp_prev_exp_details_model->getEmpPrevExpById($emp_id,$s);
+						else
+							$data['emp_prev_exp_details']=$pending;
+					}
+					break;
+			case 3: $this->load->model('employee/emp_family_details_model','',TRUE);
+					if($s != -1) {
+						$pending = $this->emp_family_details_model->getPendingDetailsById($emp_id,$s);
+						if(!$pending)
+							$data['emp_family_details']=$this->emp_family_details_model->getEmpFamById($emp_id,$s);
+						else
+							$data['emp_family_details']=$pending;
+					}
+					break;
+			case 4: $this->load->model('employee/emp_education_details_model','',TRUE);
+					if($s != -1) {
+						$pending = $this->emp_education_details_model->getPendingDetailsById($emp_id,$s);
+						if(!$pending)
+							$data['emp_education_details']=$this->emp_education_details_model->getEmpEduById($emp_id,$s);
+						else
+							$data['emp_education_details']=$pending;
+					}
+					break;
+			case 5: $this->load->model('employee/emp_last5yrstay_details_model','',TRUE);
+					if($s != -1) {
+						$pending = $this->emp_last5yrstay_details_model->getPendingDetailsById($emp_id,$s);
+						if(!$pending)
+							$data['emp_last5yrstay_details']=$this->emp_last5yrstay_details_model->getEmpStayById($emp_id,$s);
+						else
+							$data['emp_last5yrstay_details']=$pending;
+					}
+					break;
+		}
+		if($form !=-1 && $s!=-1)
+		{
+			$this->load->model('employee/emp_basic_details_model','',TRUE);
+				$emp_basic_details = $this->emp_basic_details_model->getEmployeeByID($emp_id);
+			if($emp_basic_details)	$data['joining_date'] = $emp_basic_details->joining_date;
+			else $data['joining_date'] = FALSE;
+			$data['form'] = $form;
+			$data['emp_id'] = $emp_id;
+			$data['sno']=$s;
+			$this->load->view('employee/emp_ajax/edit_record',$data);
 		}
 	}
 

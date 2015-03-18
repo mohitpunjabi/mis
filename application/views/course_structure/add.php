@@ -1,37 +1,66 @@
-<div id="container">
-	<h1>Welcome to Course Structure Page!</h1>
-  <center>
-  <font face="Arial" size="3">
-  <b>Add New Course Structure</b><br><br>
-  <?php
-  //var_dump($courses_1);
-  	$form_attrinutes = array("id"=>"add_course_form");
-    echo form_open('course_structure/add/EnterNumberOfSubjects',$form_attrinutes);
-  ?>
-  <table id = "form_table">
-   	<tr>
-      <td>
-      <label for="dept_name">Department  </label>
-      </td>
-      <td>
-        <select name="dept" id="dept_selection">
-          <option value="0">Select Department</option>
-          <?php 
-            foreach ($result_dept as $row) {
-              echo "<option value='".$row->id."' >".$row->name."</option>"; 
-            }
-          ?>
-        </select>
-      </td>
-    </tr>
-    
-    
-    </table>
-    <?php
-    echo form_submit('submit', 'Add Course Structure');
-    echo form_close();
-    ?>
-  </font>
-  </center>
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-</div>
+<?php
+	$ui = new UI();
+        $outer_row = $ui->row()->id('or')->open();
+			$column1 = $ui->col()->width(12)->t_width(6)->m_width(12)->open();
+			
+				$formbox =  $ui->box()->id('box_form')->open();
+                    $form=$ui->form()->id("add_course_form")->action("course_structure/add/EnterNumberOfSubjects")->multipart()->open();
+					
+						$array_options = array();
+						$array_options[0] = $ui->option()->value("")->text("Select Department")->disabled();
+						foreach ($result_dept as $row) 
+							array_push($array_options,$ui->option()->value($row->id)->text($row->name));
+										
+							$ui->select()
+								->label('Select Department')
+								->name('dept')
+								->id("dept_selection")
+								->required()
+								->options($array_options)
+								->show();
+							
+							
+							$ui->select()
+								->label('Select Course')
+								->name('course')
+								->id("course_selection")
+								->required()
+								->containerId('cont_course_selection')
+								->show();
+								
+								$ui->select()
+								->label('Select Branch')
+								->name('branch')
+								->id("branch_selection")
+								->required()
+								->containerId('cont_branch_selection')
+								->show();
+								
+								$ui->select()
+								->label('Select Session')
+								->name('session')
+								->id("session_selection")
+								->required()
+								->containerId('cont_session_selection')
+								->show();
+								
+								$ui->select()
+								->label('Select Semester')
+								->name('sem')
+								->id("semester")
+								->required()
+								->containerId('cont_semester')
+								->show();
+							
+							$ui->button()
+								->value('Add course Structure')
+								->uiType('primary')
+								->submit()
+								->name('submit')
+								->show();
+						
+					$form->close();
+				$formbox->close();
+			$column1->close();
+		$outer_row->close();
+?>		 

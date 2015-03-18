@@ -449,6 +449,8 @@ class CI_DB_driver {
 		{
 			$this->initialize();
 		}
+		// CodeIgniter multi-database bugfix. Added by Mohit.
+	    $this->db_select();
 		return $this->_execute($sql);
 	}
 

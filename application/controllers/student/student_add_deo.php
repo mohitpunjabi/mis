@@ -76,7 +76,7 @@ class Student_add_deo extends MY_Controller
 
 		$course = $data['courses'];
 		if($course)
-			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($courses[0]->id,$depts[0]->id);
+			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($course[0]->id,$depts[0]->id);
 		else
 		{
 			$data['courses'] = FALSE;

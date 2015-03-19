@@ -71,7 +71,7 @@ class Student_add extends CI_Controller//MY_Controller
 
 		$course = $data['courses'];
 		if($course)
-			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($courses[0]->id,$depts[0]->id);
+			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($course[0]->id,$depts[0]->id);
 		else
 		{
 			$data['courses'] = FALSE;
@@ -219,12 +219,12 @@ class Student_add extends CI_Controller//MY_Controller
 
 			if($this->input->post('depends_on'))
 			{
-				$father_name = 'na';
-				$mother_name = 'na';
-				$father_occupation = 'na';
-				$mother_occupation = 'na';
-				$father_income = '0';
-				$mother_income = '0';
+				$father_name = '';
+				$mother_name = '';
+				$father_occupation = '';
+				$mother_occupation = '';
+				$father_income = '';
+				$mother_income = '';
 				$guardian_name = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_name'))));
 				$guardian_relation = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_relation_name'))));
 			}
@@ -236,8 +236,8 @@ class Student_add extends CI_Controller//MY_Controller
 				$mother_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_occupation'))));
 				$father_income = $this->input->post('father_gross_income');
 				$mother_income = $this->input->post('mother_gross_income');
-				$guardian_name = 'na';
-				$guardian_relation = 'na';
+				$guardian_name = '';
+				$guardian_relation = '';
 			}
 
 			$user_other_details = array(
@@ -405,7 +405,7 @@ class Student_add extends CI_Controller//MY_Controller
 						'pincode' => $this->input->post('pincode3') ,
 						'country' => strtolower($this->authorization->strclean($this->input->post('country3'))) ,
 						'contact_no' => $this->input->post('contact3') ,
-						'type' => 'correspondance'
+						'type' => 'correspondence'
 					)
 				);
 			}

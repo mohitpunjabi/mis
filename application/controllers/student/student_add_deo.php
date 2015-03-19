@@ -239,12 +239,12 @@ class Student_add_deo extends MY_Controller
 
 			if($this->input->post('depends_on'))
 			{
-				$father_name = 'na';
-				$mother_name = 'na';
-				$father_occupation = 'na';
-				$mother_occupation = 'na';
-				$father_income = '0';
-				$mother_income = '0';
+				$father_name = '';
+				$mother_name = '';
+				$father_occupation = '';
+				$mother_occupation = '';
+				$father_income = '';
+				$mother_income = '';
 				$guardian_name = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_name'))));
 				$guardian_relation = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_relation_name'))));
 			}
@@ -256,8 +256,8 @@ class Student_add_deo extends MY_Controller
 				$mother_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_occupation'))));
 				$father_income = $this->input->post('father_gross_income');
 				$mother_income = $this->input->post('mother_gross_income');
-				$guardian_name = 'na';
-				$guardian_relation = 'na';
+				$guardian_name = '';
+				$guardian_relation = '';
 			}
 
 			$user_other_details = array(

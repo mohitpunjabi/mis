@@ -1,5 +1,32 @@
 <?php
 $ui = new UI();
+/*
+ * Author :- Nishant Raj
+ */
+                $box =  $ui->box()
+               ->title('Leave Balance')
+                ->solid()	
+                ->uiType('primary')
+		->open();
+            
+            $table = $ui->table()->hover()->bordered()->open();
+?>
+            <tr>
+                <th>Leave Type</th>
+                <th>Leave Balance</th>
+            </tr>
+            <tr>
+                <td>Casual Leave</td>
+                <td><?php echo $Casual_balance; ?></td>
+            </tr>
+            <tr>
+                <td>Restricted Leave</td>
+                <td><?php echo $Resticted_balance ; ?></td>
+            </tr>
+                          
+<?php   
+        $table->close();
+        $box->close();
         $tabBox1 = $ui->tabBox()
                     ->title('Leave Details')
                     ->tab("casual_leave", "Casual Leave", true)

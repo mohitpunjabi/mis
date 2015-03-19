@@ -101,7 +101,7 @@ class Student_validate extends MY_Controller
 			'status' => 'rejected'
 		);
 
-		$this->db->trans_start();
+		//$this->db->trans_start();
 
 		delete_pending_data($stu_id);
 

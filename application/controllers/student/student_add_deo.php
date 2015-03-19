@@ -505,19 +505,19 @@ class Student_add_deo extends MY_Controller
 			$this->db->trans_start();
 
 			$this->users_model->insert($users);
-			$this->user_details_model->insert($user_details);
-			$this->user_other_details_model->insert($user_other_details);
-			$this->user_address_model->insert_batch($user_address);
-			if(!$this->student_academic_model->insert($stu_academic))
+			$this->user_details_model->insertPendingDetails($user_details);
+			$this->user_other_details_model->insertPendingDetails($user_other_details);
+			$this->user_address_model->insertPendingDetails($user_address);
+			if(!$this->student_academic_model->insertPendingDetails($stu_academic))
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_academic_model.');
-			if(!$this->student_details_model->insert($stu_details))
+			if(!$this->student_details_model->insertPendingDetails($stu_details))
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_details.');
-			if(!$this->student_other_details_model->insert($stu_other_details))
+			if(!$this->student_other_details_model->insertPendingDetails($stu_other_details))
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_other_details.');
-			if(!$this->student_fee_details_model->insert($stu_fee_details))
+			if(!$this->student_fee_details_model->insertPendingDetails($stu_fee_details))
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_fee_details.');
 			//$this->student_current_entry_model->insert($stu_current_entry);
-			if(!$this->student_education_details_model->insert_batch($stu_education_details))
+			if(!$this->student_education_details_model->insertPendingDetails($stu_education_details))
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_education_details.');
 			//$this->Student_type_model->insert($stu_type);
 			//$this->Student_new_student_type->update();

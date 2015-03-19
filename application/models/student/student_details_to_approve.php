@@ -20,4 +20,9 @@ class Student_details_to_approve extends CI_Model
 
 	function delete($id)
 	{}
+
+	function deleteDetailsWhere($data)
+	{
+		$this->db->delete($this->table,$data);
+	}
 }

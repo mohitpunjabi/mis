@@ -25,11 +25,31 @@ class Student_education_details_model extends CI_Model
 			return FALSE;
 	}
 
+	function insertPendingDetails($data)
+	{
+		if($this->db->insert_batch('pending_'.$this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
+	}
+
 	function getStuEduById($id = '')
 	{
 		if($id != '')
 		{
 			$query = $this->db->where('id',$id)->get($this->table);
+			if($query->num_rows() == 0)	return FALSE;
+			return $query->result();
+		}
+		else
+			return FALSE;
+	}
+
+	function getPendingStuEduById($id = '')
+	{
+		if($id != '')
+		{
+			$query = $this->db->where('id',$id)->get('pending_'.$this->table);
 			if($query->num_rows() == 0)	return FALSE;
 			return $query->result();
 		}
@@ -45,5 +65,10 @@ class Student_education_details_model extends CI_Model
 	function update_record($data,$where_array)
 	{
 		$this->db->update($this->table,$data,$where_array);
+	}
+
+	function deletePendingDetailsWhere($data)
+	{
+		$this->db->delete('pending_'.$this->table,$data);
 	}
 }

@@ -32,34 +32,9 @@ class Leave_station extends MY_Controller {
     		);
         
     	if (isset($_POST['submit'])) {
-    		$this->load->model('leave/leave_helper', 'helper');
 
-                $this->load->model('leave/leave_station_model', 'lm');
-               
-                $result = $this->lm->isVacationLeave($_POST[Leave_station::START_DATE], $_POST[Leave_station::END_DATE]);
-                
-                if (!$result->getResult()) {
-                        // check for weekend
-                        if ($this->getLeaveLength($_POST[Leave_station::START_DATE], $_POST[Leave_station::END_DATE]) 
-                                && isWeekend($_POST[Leave_station::START_DATE]) && isWeekend($_POST[Leave_station::END_DATE])) {
-                                // insert into table and notify higher auth
-                                
-                                $this->insertIntoStationTable();
-                                $data['is_notification_on'] = TRUE;
-                                $data['success_msg'] = "You Application has been submitted successfully";
-                        }
-                        else {
-                                $data['is_notification_on'] = TRUE;
-                                $data['error'] = "Please enter valid dates.";
-                        }
-                }
-                else {
-                        // insert into table and notify higher auth
-                        $this->insertIntoStationTable();
-                        $data['is_notification_on'] = TRUE;
-                        $data['success_msg'] = "You Application has been submitted successfully";
-                }
     	}
+
         $this->drawHeader('Leave Station Form');
     	$this->load->view('leave/leave_station_view', $data);
         $this->drawFooter();
@@ -90,13 +65,14 @@ class Leave_station extends MY_Controller {
     function insertIntoStationTable() {
     	$this->load->model('leave/leave_station', 'ls');
     	$this->ls->insert(
-                $this->emp_id,
+            $this->emp_id,
     		$_POST[Leave_station::START_DATE],
     		$_POST[Leave_station::END_DATE],
     		$_POST[Leave_station::START_TIME],
     		$_POST[Leave_station::END_TIME],
     		$_POST[Leave_station::PURPOSE],
-    		$_POST[Leave_station::ADDR]
-    		);
+    		$_POST[Leave_station::ADDR],
+            NULL
+    	);
     }  
 }

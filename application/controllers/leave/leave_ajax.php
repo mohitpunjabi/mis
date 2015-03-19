@@ -55,6 +55,13 @@ class Leave_ajax extends CI_Controller
 	}
         
         public function get_leave_by_emp_id($emp_id , $start_date , $end_date){
+
+            $start_time = strtotime($start_date);
+            $start_date = date('Y-m-d', $start_time);
+
+            $end_time = strtotime($end_date);
+            $end_date = date('Y-m-d', $end_time);
+
             $data = array();
             $this->load->model('leave/leave_history_model' , 'lhm');
             $data['leave_history_casual'] = $this->lhm->get_casual_leave_history_details($emp_id , $start_date,$end_date );

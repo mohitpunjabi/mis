@@ -1,4 +1,7 @@
 <?php
+/*
+ * Author :- Nishant Raj
+ */
 	$ui = new UI();
 
 	$row = $ui->row()->open();
@@ -8,7 +11,7 @@
 	
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
-			  ->title('File Details')
+			  ->title('Leave Details')
 			  ->solid()	
 			  ->uiType('primary')
 			  ->open();
@@ -56,7 +59,7 @@
 		    ->show();
 	$inputRow3->close();
         
-        $inputRow3 = $ui->row()->open();
+        $inputRow3 = $ui->row()->id('leave_date_picker')->open();
         
         $ui->datePicker()
                 ->label('Starting Date')
@@ -77,17 +80,7 @@
 ?>
 <center>
 <?php
-//	 $ui->button()
-//		->value('Submit')
-//		->submit(true)
-//                ->name('leave_submit')
-//                ->id('leave_submit')
-//		->uiType('primary')
-//		->show();
-//	
-	//$form->close();
 
-        
 	$box->close();
 	
 	$column2->close();
@@ -97,4 +90,20 @@
         $column5->close();
 ?>
 </center>
-
+<script charset="utf-8">
+	$("#emp_name").on('change', function() {
+		if (this.value != "")
+		{
+			$('#leave_date_picker').show();
+		}
+	});
+	$(window).load(function(){
+		$('#leave_date_picker').hide();
+                
+                $.ajax({url : site_url("leave/leave_ajax/get_emp_name/"+$(this).val()+"/"+$('#department_name').val()),
+				success : function (result) {
+					$('#leave_details').html(result);
+				}});
+	});
+	//$("#date")
+</script>

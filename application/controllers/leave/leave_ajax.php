@@ -1,5 +1,7 @@
 <?php 
-
+/*
+ * Author :- Nishant Raj
+ */
 class Leave_ajax extends CI_Controller
 {
     function __construct()
@@ -9,7 +11,6 @@ class Leave_ajax extends CI_Controller
 
 	public function index()
 	{
-		// Will never be used
 	}
 
 	public function get_dept($type)
@@ -61,7 +62,17 @@ class Leave_ajax extends CI_Controller
             $this->load->model('leave/leave_history_model' , 'lhm');
             $data['leave_history_casual'] = $this->lhm->get_casual_leave_history_details($emp_id , $start_date,$end_date );
             $data['leave_history_restricted'] = $this->lhm->get_restricted_leave_history_details($emp_id , $start_date,$end_date );
+            $this->load->model('leave/leave_casual_model', 'cm');
+            $this->load->model('leave/leave_restricted_model', 'rm');
             
+            $data['Casual_balance'] = $this->cm->get_casual_leave_balance($emp_id);
+            $data['Resticted_balance'] = $this->rm->get_restricted_leave_balance($emp_id);
             $this->load->view('leave/leave_administration/leave_details_view',$data);
         }
+        
+        public function all_emp_leave_balance(){
+            
+            
+        }
+        
 }

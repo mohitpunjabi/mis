@@ -116,7 +116,7 @@
 			return false;
 		if(!image_validation())
 			return false;
-		push_na_in_empty();
+		//push_na_in_empty();
 		return true;
 	}
 

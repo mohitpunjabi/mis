@@ -10,17 +10,24 @@
 		$('#stu_type').on('change', function() {
 			button_for_add();
 
-			if($('#stu_type').val() == 'jrf') {
+			/*if($('#stu_type').val() == 'jrf') {
 				$('#course_id, #branch_id').append($('<option>', {
     				value: 'na',
     				text: 'Not Applicable' ,
     				selected : 'true'
 				}));
+			}*/
+			if($('#stu_type').val() == 'jrf') {
+				document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
+				document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
 			}
+			else
+				options_of_courses();
 		});
 
 		$('#depts').on('change', function() {
-			options_of_courses();
+			if($('#stu_type').val() != 'jrf')
+				options_of_courses();
 		});
 
 		$('#course_id').on('change', function() {

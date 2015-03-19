@@ -1,14 +1,14 @@
 <?php
+	
+	$ui = new UI();
 
-    $ui = new UI();
+	$form=$ui->form()
+			 ->action('student/student_rejected/fetch_stu_details')
+			 ->multipart()
+			 ->id('form_submit')
+			 ->open();
 
-        $form=$ui->form()
-                 ->action('student/student_edit/edit_all_details')//select_details_to_edit')
-                 ->multipart()
-                 ->id('form_submit')
-                 ->open();
-
-            $select_details_to_edit_box = $ui->box()
+		$select_details_to_edit_box = $ui->box()
                                              ->uiType('primary')
                                              ->solid()
                                              ->title('Enter the Student Id')// and Select the Form')
@@ -63,6 +63,43 @@
 
             $select_details_to_edit_box->close();
 
-        $form->close();
+    $form->close();
+
+            $rejected_students_list_box = $ui->box()
+                                             ->uiType('primary')
+                                             ->id('rejectedUsersBox')
+                                             ->solid()
+                                             ->title('List of Rejected Students')// and Select the Form')
+                                             ->open();
+
+                $table = $ui->table()
+				            ->hover()
+				            ->id('rejectedUsers')
+				            ->bordered()
+				            ->striped()
+				            ->responsive()
+				            ->paginated()
+				            ->searchable()
+				            ->sortable()
+				            ->condensed()
+				            ->open();
+?>
+				    <thead>
+			            <tr>
+			                <th>User ID</th>
+			                <th>Reason For Rejection</th>
+			            </tr>
+					</thead>
+
+			        <tfoot>
+			            <tr>
+			                <th>User ID</th>
+			                <th>Reason For Rejection</th>
+			            </tr>
+			        </tfoot>
+<?
+				$table->close();
+
+            $rejected_students_list_box->close();
 
 ?>

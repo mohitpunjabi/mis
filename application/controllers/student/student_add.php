@@ -67,11 +67,11 @@ class Student_add extends CI_Controller//MY_Controller
 		$data['academic_departments']=$this->basic_model->get_depts();
 		$depts = $data['academic_departments'];
 
-		$data['courses']=$this->basic_model->get_course_offered_by_dept($depts[0]->id);
+		$data['courses']=$this->basic_model->get_course_offered_by_dept_for_student_reg($depts[0]->id);
 
 		$course = $data['courses'];
 		if($course)
-			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($course[0]->id,$depts[0]->id);
+			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept_for_student_reg($course[0]->id,$depts[0]->id);
 		else
 		{
 			$data['courses'] = FALSE;
@@ -209,7 +209,7 @@ class Student_add extends CI_Controller//MY_Controller
 				'last_name' => ucwords(strtolower($this->authorization->strclean($this->input->post('lastname')))) ,
 				'sex' => $this->input->post('sex') ,
 				'category' => $this->input->post('category') ,
-				'dob' => $this->input->post('dob') ,
+				'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 				'email' => $this->authorization->strclean($this->input->post('email')) ,
 				'photopath' => 'student/'.$stu_id.'/'.$upload['file_name'] ,
 				'marital_status' => $this->input->post('mstatus') ,
@@ -293,7 +293,7 @@ class Student_add extends CI_Controller//MY_Controller
 
 			$stu_details = array(
 				'admn_no' => $stu_id ,
-				'admn_date' => $this->input->post('entrance_date') ,
+				'admn_date' => date('Y-m-d',strtotime($this->input->post('entrance_date'))),
 				'enrollment_no' => $this->input->post('roll_no') ,
 				'type' => $this->input->post('stu_type') ,
 				'identification_mark' => strtolower($this->authorization->strclean($this->input->post('identification_mark'))) ,
@@ -311,7 +311,7 @@ class Student_add extends CI_Controller//MY_Controller
 				'fee_mode' => $this->input->post('fee_paid_mode') ,
 				'fee_amount' => $this->input->post('fee_paid_amount') ,
 				'fee_in_favour' => 'indian school of mines' ,
-				'payment_made_on' => $this->input->post('fee_paid_date') ,
+				'payment_made_on' => date('Y-m-d',strtotime($this->input->post('fee_paid_date'))) ,
 				'transaction_id' => $this->input->post('fee_paid_dd_chk_onlinetransaction_cashreceipt_no')
 			);
 

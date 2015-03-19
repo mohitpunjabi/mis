@@ -111,9 +111,6 @@ class Student_validate extends MY_Controller
 		if($rejected_status)
 			$this->student_rejected_detail_model->deleteDetailsWhere($stu_id);
 
-		if($rejected_status)
-			$this->student_rejected_detail_model->deleteDetailsWhere($stu_id);
-
 		delete_pending_data($stu_id);
 
 		if(!$this->student_rejected_detail_model->insert($rejected_reason))

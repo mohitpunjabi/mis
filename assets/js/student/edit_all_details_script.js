@@ -6,7 +6,7 @@
 
                 document.getElementById("add").onclick = function() {onclick_add();};
 
-                if(document.getElementById('middlename').value == 'Na')
+                /*if(document.getElementById('middlename').value == 'Na')
                         document.getElementById('middlename').value = '';
                 if(document.getElementById('lastname').value == 'Na')
                         document.getElementById('lastname').value = '';
@@ -21,7 +21,7 @@
                 if(document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value == 'na')
                         document.getElementById('fee_paid_dd_chk_onlinetransaction_cashreceipt_no').value = '';
                 if(document.getElementById('fee_paid_amount').value == '0')
-                        document.getElementById('fee_paid_amount').value = '';
+                        document.getElementById('fee_paid_amount').value = '';*/
                 // if(document.getElementById('alternate_email_id').value == 'na')
                 //      document.getElementById('alternate_email_id').value = '';
                 // if(document.getElementById('hobbies').value == 'na')
@@ -30,7 +30,7 @@
                 //      document.getElementById('favpast').value = '';
                 // if(document.getElementById('alternate_mobile').value == '0')
                 //      document.getElementById('alternate_mobile').value = '';
-                if(document.getElementById('father_name').value == 'na' && document.getElementById('mother_name').value == 'na')
+                if(document.getElementById('father_name').value == '' && document.getElementById('mother_name').value == '')
                 {
                         document.getElementById('father_name').value = '';
                         document.getElementById('mother_name').value = '';

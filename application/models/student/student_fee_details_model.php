@@ -17,7 +17,7 @@ Class Student_fee_details_model extends CI_Model
 			return FALSE;
 	}
 
-	function insertPendingDetails($data)
+	function pending_insert($data)
 	{
 		if($this->db->insert('pending_'.$this->table,$data))
 			return TRUE;

@@ -17,6 +17,14 @@ class Student_education_details_model extends CI_Model
 			return FALSE;
 	}
 
+	function pending_insert($data)
+	{
+		if($this->db->insert('pending_'.$this->table,$data))
+			return TRUE;
+		else
+			return FALSE;
+	}
+
 	function insert_batch($data)
 	{
 		if($this->db->insert_batch($this->table,$data))
@@ -24,8 +32,8 @@ class Student_education_details_model extends CI_Model
 		else
 			return FALSE;
 	}
-
-	function insertPendingDetails($data)
+	
+	function pending_insert_batch($data)
 	{
 		if($this->db->insert_batch('pending_'.$this->table,$data))
 			return TRUE;

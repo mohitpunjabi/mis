@@ -30,7 +30,10 @@ class Student_menu_model extends CI_Model
 		$menu['stu']['Edit Your Details'] = site_url('student/student_editable_by_student');
 		$menu['stu']["View Your Details"] = site_url('student_view_report/view');
 
-		//$auth == > 
+		//$auth ==> est_ar
+		$menu['est_ar']=array();
+		$menu['est_ar']['Student Details']=array();
+		$menu['est_ar']['Student Details']['Validation Requests'] = site_url('student/student_validate');
 
 
 		return $menu;

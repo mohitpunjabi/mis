@@ -385,7 +385,7 @@
                                                            ->title('Guardian\'s Details')
                                                            ->open();
 
-                            ?><input type='checkbox' id ="depends_on"  name="depends_on" <?php if($stu_other_details->guardian_name != 'na') echo "checked"; ?>/><?php
+                            ?><input type='checkbox' id ="depends_on"  name="depends_on" <?php if($stu_other_details->guardian_name != '') echo "checked"; ?>/><?php
 
                             echo '<label>Fill Guardian Details</label>';
 

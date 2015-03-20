@@ -691,10 +691,8 @@
 		if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
 			alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
 		else*/
-		alert('1');
 		if(education_validation())
 		{
-			alert('4');
 			if(row.length > 6)
 			{
 				alert('You are not allowed to add more rows.');
@@ -706,13 +704,11 @@
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
-			alert('5');
 		}
 	}
 	
 	function education_validation()
 	{
-		alert('2');
 		var n_row=document.getElementById("tableid").rows.length;
 		var i=0;
 		for(i=0;i<=n_row-2;i++)
@@ -728,7 +724,6 @@
 				return false;
 			}
 		}
-		alert('3');
 		return true;
 	}
 

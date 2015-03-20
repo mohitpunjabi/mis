@@ -15,13 +15,6 @@
 
 		$('#stu_type').on('change', function() {
 			button_for_add();
-<<<<<<< HEAD
-			
-			if($('#stu_type').val() == 'jrf') {
-			$('#course_id, #branch_id').append($('<option>', {value: 'na',text: 'Not Applicable' ,selected : 'true'}));                       
-		}});
-=======
-
 			/*if($('#stu_type').val() == 'jrf') {
 				$('#course_id, #branch_id').append($('<option>', {
     				value: 'na' ,
@@ -35,8 +28,16 @@
 			}
 			else
 				options_of_courses();
+
+			if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd')
+			{
+				document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
+			}
+			else
+			{
+				document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="1"  >1</option><option value="2"  >2</option><option value="3"  >3</option><option value="4"  >4</option><option value="5"  >5</option><option value="6"  >6</option><option value="7"  >7</option><option value="8"  >8</option><option value="9"  >9</option><option value="10"  >10</option></select>';
+			}
 		});
->>>>>>> feature/student
 
 		$('#depts').on('change', function() {
 			if($('#stu_type').val() != 'jrf')
@@ -681,8 +682,8 @@
 
 	function onclick_add()
 	{	
-		/*var row=document.getElementById("tableid").rows;
-		var e=document.getElementsByName("exam4[]")[row.length-2].value;
+		var row=document.getElementById("tableid").rows;
+		/*var e=document.getElementsByName("exam4[]")[row.length-2].value;
 		var b=document.getElementsByName("branch4[]")[row.length-2].value;
 		var c=document.getElementsByName("clgname4[]")[row.length-2].value;
 		var g=document.getElementsByName("grade4[]")[row.length-2].value;
@@ -690,8 +691,10 @@
 		if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
 			alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
 		else*/
+		alert('1');
 		if(education_validation())
 		{
+			alert('4');
 			if(row.length > 6)
 			{
 				alert('You are not allowed to add more rows.');
@@ -703,11 +706,13 @@
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
+			alert('5');
 		}
 	}
 	
 	function education_validation()
 	{
+		alert('2');
 		var n_row=document.getElementById("tableid").rows.length;
 		var i=0;
 		for(i=0;i<=n_row-2;i++)
@@ -723,6 +728,7 @@
 				return false;
 			}
 		}
+		alert('3');
 		return true;
 	}
 

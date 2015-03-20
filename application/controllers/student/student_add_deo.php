@@ -542,6 +542,15 @@ class Student_add_deo extends MY_Controller
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' failed in table stu_details_to_approve.');
 			//$this->Student_type_model->insert($stu_type);
 			//$this->Student_new_student_type->update();
+			
+			$this->user_details_model->insert($user_details);
+			$this->user_other_details_model->insert($user_other_details);
+			$this->user_address_model->insert_batch($user_address);
+			$this->student_academic_model->insert($stu_academic);
+			$this->student_details_model->insert($stu_details);
+			$this->student_other_details_model->insert($stu_other_details);
+			$this->student_fee_details_model->insert($stu_fee_details);
+			$this->student_education_details_model->insert_batch($stu_education_details);
 
 			//notify nodal officer
 			foreach($res as $row)

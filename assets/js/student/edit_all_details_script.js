@@ -60,17 +60,34 @@
                 $('#stu_type').on('change', function() {
                         button_for_add();
 
-                        if($('#stu_type').val() == 'jrf') {
+                        /*if($('#stu_type').val() == 'jrf') {
                                 $('#course_id, #branch_id').append($('<option>', {
                                 value: 'na',
                                 text: 'Not Applicable' ,
                                 selected : 'true'
                                 }));
+                        }*/
+
+                        if($('#stu_type').val() == 'jrf') {
+                                document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
+                                document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
+                        }
+                        else
+                                options_of_courses();
+
+                        if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd')
+                        {
+                                document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
+                        }
+                        else
+                        {
+                                document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="1"  >1</option><option value="2"  >2</option><option value="3"  >3</option><option value="4"  >4</option><option value="5"  >5</option><option value="6"  >6</option><option value="7"  >7</option><option value="8"  >8</option><option value="9"  >9</option><option value="10"  >10</option></select>';
                         }
                 });
 
                 $('#depts').on('change', function() {
-                        options_of_courses();
+                        if($('#stu_type').val() != 'jrf')
+                                options_of_courses();
                 });
 
                 $('#course_id').on('change', function() {
@@ -636,14 +653,15 @@
 function onclick_add()
 {
         var row=document.getElementById("tableid").rows;
-        var e=document.getElementsByName("exam4[]")[row.length-2].value;
+        /*var e=document.getElementsByName("exam4[]")[row.length-2].value;
         var b=document.getElementsByName("branch4[]")[row.length-2].value;
         var c=document.getElementsByName("clgname4[]")[row.length-2].value;
         var g=document.getElementsByName("grade4[]")[row.length-2].value;
 
         if(e.trim()=="" || b.trim()=="" || c.trim()=="" || g.trim()=="" )
                 alert('Sno '+(row.length-1)+' : Please fill up all the fields !!');
-        else
+        else*/
+        if(education_validation())
         {
                 if(row.length > 6)
                 {

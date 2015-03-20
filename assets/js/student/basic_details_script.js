@@ -23,6 +23,15 @@
 			}
 			else
 				options_of_courses();
+
+			if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd')
+			{
+				document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
+			}
+			else
+			{
+				document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="1"  >1</option><option value="2"  >2</option><option value="3"  >3</option><option value="4"  >4</option><option value="5"  >5</option><option value="6"  >6</option><option value="7"  >7</option><option value="8"  >8</option><option value="9"  >9</option><option value="10"  >10</option></select>';
+			}
 		});
 
 		$('#depts').on('change', function() {
@@ -688,8 +697,8 @@
 
 	function onclick_add()
 	{	
-		/*var row=document.getElementById("tableid").rows;
-		var e=document.getElementsByName("exam4[]")[row.length-2].value;
+		var row=document.getElementById("tableid").rows;
+		/*var e=document.getElementsByName("exam4[]")[row.length-2].value;
 		var b=document.getElementsByName("branch4[]")[row.length-2].value;
 		var c=document.getElementsByName("clgname4[]")[row.length-2].value;
 		var g=document.getElementsByName("grade4[]")[row.length-2].value;

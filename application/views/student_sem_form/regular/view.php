@@ -94,6 +94,29 @@
           </table>
           </div>
           </div>
+           <!-- Change Branch -->
+        
+         <?php if(($student[0]->semester+1) == 3 && is_array($CB)){ ?>
+          
+         			<div class="row">
+         			<div class="col-sm-12">
+         			<div class="row">
+         				<div class="page-header col-sm-6">Change Branch</div>
+         				<div class="page-header col-sm-6">Status :<?php echo ($CB[0]['status'] == 'P')?'<span class="label label-warning">Pending form Acdamic Side</span>':(($CB[0]['status'] == 'Y')?'<span class="label label-success">Your Branch has Been Changed</span>':'<span class="label label-denger">Your Branch can not be Changed</span>') ?></div>
+         			</div>
+         			</div>
+         			<div class="col-sm-12">
+         			<p>Selected for change</p>
+	         			<div class="row">
+	         				<div class="col-sm-4"><b>Department : </b> <?php echo $this->sbasic_model->getDepatmentById($CB[0]['department'])->name; 
+					?></div>
+	         				<div class="col-sm-4"><b>Course : </b> <?php echo $this->sbasic_model->getCourseById($CB[0]['course'])->name; ?></div>
+	         				<div class="col-sm-4"><b>Branch : </b> <?php echo $this->sbasic_model->getBranchById($CB[0]['branch'])->name; ?></div>
+	         				
+	         			</div>
+         			</div>
+         			</div>
+         <?php } ?>
           <!-- Carry Over -->
             <? if(is_array($carryover)){?>
             <div class="box box-warning">

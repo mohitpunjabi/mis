@@ -95,6 +95,29 @@
           </table>
           </div>
           </div>
+           <!-- Change Branch -->
+        
+         <?php if(($student[0]->semester+1) == 3 && is_array($CB)){ ?>
+          
+         			<div class="row">
+         			<div class="col-sm-12">
+         			<div class="page-header">Change Branch</div>
+         			</div>
+         			<div class="col-sm-12">
+         			<p>Selected for change</p>
+	         			<div class="row">
+	         				<div class="col-sm-3"><b>Department : </b> <?php echo $this->sbasic_model->getDepatmentById($CB[0]['department'])->name; 
+					?></div>
+	         				<div class="col-sm-3"><b>Course : </b> <?php echo $this->sbasic_model->getCourseById($CB[0]['course'])->name; ?></div>
+	         				<div class="col-sm-3"><b>Branch : </b> <?php echo $this->sbasic_model->getBranchById($CB[0]['branch'])->name; ?></div>
+	         				<div class="col-sm-3">
+	         				<label>Select</label>
+	         				<?php echo form_dropdown('CBS',array(''=>'--Select--','Y'=>'Yes He/She Can Change The Branch','N'=>'No He/She Can Not Change The'))?>
+	         				</div>
+	         			</div>
+         			</div>
+         			</div>
+         <?php } ?>
           <!-- Carry Over -->
             <? if(is_array($carryover)){?>
             <div class="box box-warning">
@@ -216,6 +239,13 @@
                		 <?php
 						echo form_hidden('formId',$student[0]->sem_form_id);
 						echo form_hidden('stuId',$student[0]->admn_no);
+
+						if(($student[0]->semester+1) == 3 && is_array($CB)){
+							
+						echo form_hidden('dept',$CB[0]['department']);
+						echo form_hidden('course',$CB[0]['course']);
+						echo form_hidden('branch',$CB[0]['brach']);
+						}
 						echo form_submit('submit','Submit','class="btn btn-primary" '); ?>
                 </div>
                <?php echo form_close(); ?>

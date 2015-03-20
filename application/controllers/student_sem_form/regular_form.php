@@ -15,6 +15,7 @@ class Regular_form extends MY_Controller {
 			//load model;
 			$this->load->model('student_sem_form/get_subject','',TRUE);
 			$this->load->model('student_sem_form/sbasic_model','',TRUE);	
+			$this->addJS("subject_mapping/stu_report_file.js");	
 		 
 	}
 		public function index($id="a12a"){	
@@ -33,9 +34,12 @@ class Regular_form extends MY_Controller {
 			 redirect('/student_sem_form/regular_form/error', 'refresh');
 			}}
 			
+			//Get Eletive offered by Department 
 			$sub=$this->get_subject->getElective($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
 			
+			// get date Type Normal or With Late Fee
 			$dates =$this->sbasic_model->getOcdatedes();
+			
 			//Validation
 			$this->load->helper(array('form', 'url'));
 			$this->load->library('form_validation');
@@ -44,18 +48,20 @@ class Regular_form extends MY_Controller {
 			$this->form_validation->set_rules('transId', 'Transaction id / Reference No.', 'required');
 			$this->form_validation->set_rules('slip', 'Slip', 'callback_handle_upload');
 			if($dates[0]->type == 2)
-				
 			$this->form_validation->set_rules('slip1', 'Slip1', 'callback_handle_upload1');
-			
+
+			//CarrOver Validation
 			if($this->input->post('cenable') =='CY'){
 				$this->form_validation->set_rules('cdateofPayment', 'Carryover Date of Payment', 'required');
 				$this->form_validation->set_rules('camount', 'Carryover Amount', 'required|numeric');
 				$this->form_validation->set_rules('ctransId', 'Carryover Transaction id / Reference No.', 'required');
 				$this->form_validation->set_rules('cslip', 'cslip', 'callback_handle_upload2');
 				$csem=$this->input->post('sem');
+				
+				//carry Over validation//
 				if(is_array($csem)){
 					foreach($csem as $cs){
-						//	$this->form_validation->set_rules('csub1-'.$cs, 'Semester '.$cs.' Subject 1 is Required if you dont have Carryover Please Uncheck the Carry Over check box', 'required');
+							$this->form_validation->set_rules('csub1-'.$cs, 'Semester '.$cs.' Subject 1 is Required if you dont have Carryover Please Uncheck the Carry Over check box', 'required');
 						}
 				}
 				}
@@ -65,8 +71,7 @@ class Regular_form extends MY_Controller {
 				if($this->fee_save())
 					 $this->confirm();
 			}else{
-			$this->addJS('jquery-ui.js');
-			$this->addCSS('jquery-ui.css');
+			
 			$this->drawHeader("Fill Semester Registration");
 			$this->load->view('student_sem_form/regular/regular_form',array('subjects'=>$sub['ele'],'dates'=>$dates,'flg'=>$id));
 			$this->drawFooter();
@@ -86,8 +91,7 @@ class Regular_form extends MY_Controller {
 				$sub=$this->get_subject->getSubject($this->session->userdata('course_id'),$this->session->userdata('branch_id'),($this->session->userdata('semester')+1),$this->session->userdata('id'));
 				//result
 				$this->load->model('student_sem_form/get_results','',TRUE);
-			
-				
+						
 					//print_r($data['carryover']); die();
 				$data=$this->get_subject->getConfirm($this->lnid);
 				$data= array_merge($data,$sub);
@@ -125,6 +129,7 @@ class Regular_form extends MY_Controller {
 								$this->add_form->insertSemSubject($data1);
 						$fid++;
 						} 
+						$this->saveChangeBrachReq();
 						$this->saveHornorMinner();
 						$this->CarryoverDetailSave();
 						return true;
@@ -146,7 +151,6 @@ class Regular_form extends MY_Controller {
 											$data['subject2_id']=$this->input->post('csub2-'.$s);
 											$data['fee_date']=date('Y-m-d', strtotime($this->input->post('cdateofPayment')));
 											$data['fee_amt']=$this->input->post('camount');
-										
 											$data['fee_slip']=$this->img_carry;
 											$data['trans_id']=$this->input->post('ctransId');
 											$this->add_form->insertCarryover($data);
@@ -154,8 +158,7 @@ class Regular_form extends MY_Controller {
 								}
 						}
 			}
-			//
-			
+			//Save Honour & Minor if Selected
 			protected function saveHornorMinner(){
 						$this->load->model('student_sem_form/add_form','',TRUE);
 						if($this->input->post('honour')){
@@ -170,6 +173,18 @@ class Regular_form extends MY_Controller {
 							$data['type']='m';
 							$this->add_form->insertHM($data);
 						}
+			}
+			
+			//Save Change Branch Section if Student Want
+			protected function saveChangeBrachReq(){
+					if($this->input->post('changeB')=='Y'){
+						$data['sem_form_id']=$this->lnid;
+						$data['department']=$this->input->post('department_name');
+						$data['course']=$this->input->post('course');
+						$data['branch']=$this->input->post('branch');
+						$this->load->model('student_sem_form/add_form','',TRUE);
+						$this->add_form->insertCB($data);
+					}
 			}
 		
 		
@@ -311,15 +326,15 @@ class Regular_form extends MY_Controller {
 			$this->drawFooter();
 		}
 		
-		public function ids($id=''){
-					if($id){
-						echo"this is very Good!";
-						return false;
-						}
-						$this->drawHeader("Error.");
-						$this->load->view('student_sem_form/free','');
-						$this->drawFooter();
-			}
+// 		public function ids($id=''){
+// 					if($id){
+// 						echo"this is very Good!";
+// 						return false;
+// 						}
+// 						$this->drawHeader("Error.");
+// 						$this->load->view('student_sem_form/free','');
+// 						$this->drawFooter();
+// 			}
 			
 	function view($id,$fid){
 			
@@ -330,14 +345,15 @@ class Regular_form extends MY_Controller {
 				$this->load->model('student_sem_form/get_carryover','',TRUE);
 				$data['student']=$this->sbasic_model->hod_view_student($id,$fid);
 				$data['subjects']=$this->get_subject->getSubject($data['student'][0]->course_id,$data['student'][0]->branch_id,($data['student'][0]->semester+1),$this->session->userdata('id'));
-				
 				$data['carryover']=$this->get_carryover->getCarryoverByformId($data['student'][0]->form_id);
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
+				//Change Branch
+				$data['CB']= $this->sbasic_model->getCbByfromId($data['student'][0]->form_id);
 				$this->load->view('templates/header_assets');
 				$this->load->view('student_sem_form/regular/view.php',$data);
 			}
 	}
-	
+	//Ajax For CarryOver//
 	function getAsub($sem,$sid,$depid,$cid,$bid){
 		//echo $sem;
 		$sd="";
@@ -376,6 +392,7 @@ class Regular_form extends MY_Controller {
 			echo $sd;
 		}
 		
+		//Ajax for Minor & honours//
 		function getHonourMinnor(){
 					$ms=''; $hs='';
 					$h=''; $m='';
@@ -409,9 +426,10 @@ class Regular_form extends MY_Controller {
 						}
 					}
 					
-					echo $hs.$ms;
-					
+				echo $hs.$ms;
 		}
+		
+	
 }
 ?>
 

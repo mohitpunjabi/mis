@@ -643,13 +643,6 @@ class Student_add_deo extends MY_Controller
 			return FALSE;
 	    }
 
-	    //dont upload files with no file name
-		/*for($i=0 ; $i < $n_family ; $i++)
-			if($_FILES[$name]["name"][$i] == '')
-			{
-				unset($_FILES[$name]["name"][$i]);
-			}*/
-
 		$config['file_name'] = $filename;
 
 		if(!is_dir($config['upload_path']))	//create the folder if it's not already exists

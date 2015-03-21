@@ -211,7 +211,7 @@ class Student_add extends CI_Controller//MY_Controller
 				'category' => $this->input->post('category') ,
 				'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 				'email' => $this->authorization->strclean($this->input->post('email')) ,
-				'photopath' => 'student/'.$stu_id.'/'.$upload['file_name'] ,
+				'photopath' => 'student/'.strtolower($stu_id).'/'.$upload['file_name'] ,
 				'marital_status' => $this->input->post('mstatus') ,
 				'physically_challenged' => $this->input->post('pd') ,
 				'dept_id' => $this->input->post('department')
@@ -493,7 +493,7 @@ class Student_add extends CI_Controller//MY_Controller
 			{
                 $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
                 $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                $filename='stu_'.$stu_id.'_'.date('YmdHis').$ext;
+                $filename='stu_'.strtolower($stu_id).'_'.date('YmdHis').$ext;
             }
         }
         else

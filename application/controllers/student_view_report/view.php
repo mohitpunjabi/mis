@@ -110,11 +110,6 @@ class View extends MY_Controller
 			$data['cross_address']=$this->user_address_model->getAddrById($admn_no,'correspondence');
 			$data['stu_education_details'] = $this->student_education_details_model->getStuEduById($admn_no);
 			$data['student_academic']=$this->student_academic_model->get_stu_academic_details_by_id($admn_no);
-
-			var_dump($data['user_details']->id);
-			return ;
-			
-			$this->addJS('student/student_details_view.js');		
 			
 			$this->drawHeader("View Student Details");
 			

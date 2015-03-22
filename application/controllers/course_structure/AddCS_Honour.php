@@ -29,7 +29,6 @@ class AddCS_Honour extends MY_Controller
 		$session= $this->input->post('session');
 		$sem=$this->input->post('semester');		
 		
-		//make semester equal to semester_group;
 		$aggr_id= $course.'_'.$branch.'_'.$session;
 		
 		$result_course_branch = $this->basic_model->select_course_branch($course,$branch);
@@ -44,7 +43,6 @@ class AddCS_Honour extends MY_Controller
 		{
 			$this->basic_model->insert_dept_course($dept_course);
 		}
-		//die("inserted successfully");
 		//if CS already exisit for this semester then show error.
 		if($this->basic_model->get_subjects_by_sem_and_dept($sem,$aggr_id,$dept))
 		{

@@ -17,7 +17,7 @@
 		{
 			$semester = $counter."_".$CS_session['group'];
 			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter."(group ".$CS_session['group'].") (".
-			$course_name."-".$branch_name.")")->open();		
+			$course_name.", ".$branch_name.")")->open();		
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>
@@ -104,14 +104,14 @@
 		}
 		//if CS for common is not selected then also show the CS for Common in any case.
 		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2) && (($CS_session['duration'] == 1 || $CS_session['duration'] == 4 
-		|| $CS_session['duration'] == 5) || $CS_session['course_id'] == "honour")  && !isset($subjects['minor']['subject_details'][$counter]))
+		|| $CS_session['duration'] == 5)))
 		{
 			for($comm_group = 1;$comm_group <=2;$comm_group++)
 			{
 				$total_contact_hours = 0;
 				$total_credit_hours = 0;
 				$semester = $counter."_".$comm_group;	
-				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter."(group ".$comm_group.") (".$course_name.",".
+				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter."(group ".$comm_group.") (".$course_name.", ".
 				$branch_name.")")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
@@ -197,13 +197,11 @@
 		//if it is not a common course or a minor or honour course..
 		else if(!isset($CS_session['group']))
 		{
-			if($CS_session['course_id'] != "minor")
+			if($CS_session['course_id'] != "honour" && $CS_session['course_id'] != "minor")
 			{ 
 				$semester = $counter;
-				if($CS_session['course_id'] == "honour")
-				  $box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (B.Tech, Honours)")->open();			
-
-				   
+				//if($CS_session['course_id'] == "honour")
+				  $box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (".$course_name.", ".$branch_name.")")->open();			
 				   
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 						echo '

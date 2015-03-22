@@ -72,15 +72,10 @@ $(document).ready(function(){
 		
 		if($course_selection.val() == "comm")
 			alert("To add for Honour, please visit CourseStructure->add course structure->For 1st Year Common");
-		else if($course_selection.val() == "honour")
-			alert("To add for Honour, please visit CourseStructure->add course structure->For Honour");
-		else if($course_selection.val() == "minor")
-			alert("To add for 1st Year please visit CourseStructure->add course structure->for Minor");	
 		else
 		{
 			$course_selection = $('#course_selection');
 			$dept_selection = $('#dept_selection');
-			
 			//alert($course_selection.find(':selected').val());
 			$box_form.showLoading();
 			$.ajax({url:site_url("course_structure/add/json_get_branch/"+$course_selection.find(':selected').val()+"/"+$dept_selection.find(':selected').val()),
@@ -128,15 +123,11 @@ $(document).ready(function(){
 	
 	function add_semester(duration){
 		base_str = "";
-		if($course_selection.find(':selected').val() == 'ug_comm')
+		
+		if($course_selection.find(':selected').val() == 'honour' || $course_selection.find(':selected').val() == 'minor')
 		{
-			for(counter = 1; counter <= 2 ; counter++){
-				if(counter == 1)
-					base_str += "<option value=\""+counter+"\">"+"Physics(Group "+counter+")"+"</option>";
-				else if(counter == 2)
-					base_str += "<option value=\""+counter+"\">"+"Chemistry(Group "+counter+")"+"</option>";
-			}
-			
+			for(counter = 5; counter <= 8 ; counter++)
+					base_str += "<option value=\""+counter+"\">"+counter+"</option>";
 		}
 		else if(duration < 4){
 			
@@ -162,6 +153,7 @@ $(document).ready(function(){
 		$("#cont_branch_selection").hide();
 		$("#cont_session_selection").hide();
 		$("#cont_semester").hide();
+		
 		if($dept_selection.val() == "comm")
 			alert("To add for 1st Year please visit CourseStructure->add course structure->for 1st year Common");
 		else

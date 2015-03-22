@@ -4,8 +4,8 @@ class Syllabus extends CI_Model
 {
 	var $table_userdetails = 'user_details';
 	var $table_dept_course = 'dept_course';
-	var $table_course = 'courses';
-	var $table_branch = 'branches';
+	var $table_course = 'cs_courses';
+	var $table_branch = 'cs_branches';
 	var $table_subject = 'subjects';
 	var $table_course_structure = 'course_structure';
 	var $table_elective_group = 'elective_group';

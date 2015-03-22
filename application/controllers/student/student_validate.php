@@ -207,12 +207,12 @@ class Student_validate extends MY_Controller
 			$this->user_address_model->updatePresentAddrById($user_present_address,$stu_id);
 			$this->user_address_model->updatePermanentAddrById($user_permanent_address,$stu_id);
 			if($correspondence_address)
-				if(!$this->input->post('correspondence_addr'))
+				if($user_correspondence_address)
 					$this->user_address_model->updateCorrespondenceAddrById($user_correspondence_address,$stu_id);
 				else
 					$this->user_address_model->deleteCorrespondenceAddrById($stu_id);
 			else
-				if(!$this->input->post('correspondence_addr'))
+				if($user_correspondence_address)
 					$this->user_address_model->insert($user_correspondence_address);
 			$this->student_details_model->update_by_id($stu_details,$stu_id);
 			$this->student_other_details_model->update_by_id($stu_other_details,$stu_id);

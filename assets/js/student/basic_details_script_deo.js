@@ -22,7 +22,7 @@
     				selected : 'true'
 				}));
 			}*/
-			if($('#stu_type').val() == 'jrf') {
+			if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd') {
 				document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
 				document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
 			}

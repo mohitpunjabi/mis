@@ -2,9 +2,16 @@
                 if(document.getElementById('student_type').value == 'ug')
                         document.getElementById('add').style.display='none';
                 else if(document.getElementById("tableid").rows.length > 6)
-                        document.getElementById('add_new').style.display='none';
+                        document.getElementById('add').style.display='none';
 
                 document.getElementById("add").onclick = function() {onclick_add();};
+
+                if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd')
+                {
+                        document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
+                        document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
+                        document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
+                }
 
                 /*if(document.getElementById('middlename').value == 'Na')
                         document.getElementById('middlename').value = '';
@@ -68,7 +75,7 @@
                                 }));
                         }*/
 
-                        if($('#stu_type').val() == 'jrf') {
+                        if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'jrf') {
                                 document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
                                 document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
                         }

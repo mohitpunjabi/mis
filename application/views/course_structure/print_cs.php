@@ -357,7 +357,11 @@
 							</tr>';
 							}//else closed
 						}//inner for loop 
-					
+						echo '
+							<tr>
+								<td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'
+								</td><td colspan="3"></td>
+							</tr>';
 				$table->close();
 			$box_form->close();
 			}
@@ -379,8 +383,6 @@
 					  <th>Elective</th>
 					  <th>Type</th>
 					</tr>';
-			
-				
 			//show the honour subjects
 			
 				$total_contact_hours = 0;
@@ -448,6 +450,11 @@
 							</td>									
 						</tr>';
 					}	
+					echo '
+					<tr>
+						<td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td><td
+						scolspan="3"></td>
+					</tr>';
 				$table->close();
 			$box_form->close();
 			}
@@ -455,6 +462,9 @@
 			//show the minor subjects for the semester
 			if(isset($subjects['minor']) && $counter >= 5 && $counter <= 8)
 			{
+				$total_contact_hours = 0;
+				$total_credit_hours = 0;
+				
 				$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Minor)")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
@@ -533,7 +543,11 @@
 						</td>									
 					</tr>';
 				}
-					
+					echo '
+						<tr>
+							<td colspan = "6" align ="center"><b>TOTAL</b></td><td> '.$total_credit_hours.'</td><td>'.$total_contact_hours.'</td>
+							<td colspan="3"></td>
+						</tr>';
 				$table->close();
 			$box_form->close();
 			}

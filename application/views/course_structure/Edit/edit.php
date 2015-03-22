@@ -85,10 +85,48 @@
 					echo '
 						</td>
 						<td>';
-						  if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
+						   $array_option = array();
+						  if($subjects["subject_details"][$semester][$i]->type=="Theory")
+						  {
+						   		array_push($array_option,$ui->option()->value("Theory")->value("Theory")->selected());
+								array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+								array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+								array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+						  }
+						  
+						  if($subjects["subject_details"][$semester][$i]->type=="Practical")
+						  {
+						   		array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+								array_push($array_option,$ui->option()->value("Practical")->value("Practical")->selected());
+								array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+								array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+						  }
+						  
+						  if($subjects["subject_details"][$semester][$i]->type=="Sessional")
+						  {
+						   		array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+								array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+								array_push($array_option,$ui->option()->value("Sessional")->value("Sessional")->selected());
+								array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+						  }
+						  
+						  if($subjects["subject_details"][$semester][$i]->type=="Non-Contact")
+						  {
+						   		array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+								array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+								array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+								array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact")->selected());  
+						  }
+						  /*
 						  if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
 						  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
 						  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
+						  */
+						  $ui->select()
+						   	  ->options($array_option)				
+							  ->disabled()
+							  ->show();
+							
 					echo '
 						</td>	
 						<td>';	
@@ -210,10 +248,44 @@
 						echo '
 							</td>
 							<td>';
+								$array_option = array();
+								  if($subjects["subject_details"][$semester][$i]->type=="Theory")
+								  {
+										array_push($array_option,$ui->option()->value("Theory")->value("Theory")->selected());
+										array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+										array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+										array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+								  }
+								  
+								  if($subjects["subject_details"][$semester][$i]->type=="Practical")
+								  {
+										array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+										array_push($array_option,$ui->option()->value("Practical")->value("Practical")->selected());
+										array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+										array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+								  }
+								  
+								  if($subjects["subject_details"][$semester][$i]->type=="Sessional")
+								  {
+										array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+										array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+										array_push($array_option,$ui->option()->value("Sessional")->value("Sessional")->selected());
+										array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+								  }
+								  
+								  if($subjects["subject_details"][$semester][$i]->type=="Non-Contact")
+								  {
+										array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+										array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+										array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+										array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact")->selected());  
+								  }
+										/*
 							  if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
 							  if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
 							  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
 							  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
+							  */
 						echo '
 							</td>	
 							<td>';	
@@ -346,10 +418,44 @@
 							echo '
 								</td>
 								<td>';
+									$array_option = array();
+				     				  if($subjects["subject_details"][$counter][$i]->type=="Theory")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory")->selected());
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects["subject_details"][$counter][$i]->type=="Practical")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical")->selected());
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects["subject_details"][$counter][$i]->type=="Sessional")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional")->selected());
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects["subject_details"][$counter][$i]->type=="Non-Contact")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact")->selected());  
+									  }
+								/*
 								  if($subjects["subject_details"][$semester][$i+$j]->type=="Theory") echo "Theory";
 								  if($subjects["subject_details"][$semester][$i+$j]->type=="Practical") echo "Practical";
 								  if($subjects["subject_details"][$semester][$i+$j]->type=="Sessional") echo "Sessional";
 								  if($subjects["subject_details"][$semester][$i+$j]->type =="Non-Contact") echo "Non-Contact";
+								  */
 							echo '
 								</td>	
 								<td>';
@@ -431,10 +537,44 @@
 							echo '
 								</td>
 								<td>';
+								$array_option = array();
+									if($subjects["subject_details"][$counter][$i]->type=="Theory")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory")->selected());
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects["subject_details"][$counter][$i]->type=="Practical")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical")->selected());
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects["subject_details"][$counter][$i]->type=="Sessional")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional")->selected());
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects["subject_details"][$counter][$i]->type=="Non-Contact")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact")->selected());  
+									  }
+								/*
 								  if($subjects["subject_details"][$semester][$i]->type=="Theory") echo "Theory";
 								  if($subjects["subject_details"][$semester][$i]->type=="Practical") echo "Practical";
 								  if($subjects["subject_details"][$semester][$i]->type=="Sessional") echo "Sessional";
 								  if($subjects["subject_details"][$semester][$i]->type =="Non-Contact") echo "Non-Contact";
+								  */
 							echo '
 								</td>	
 								<td>';	
@@ -558,10 +698,52 @@
 							echo '
 								</td>
 								<td>';
+										$array_option = array();
+									  if($subjects['honour']["subject_details"][$counter][$i]->type=="Theory")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->text("Theory")->selected());
+											array_push($array_option,$ui->option()->value("Practical")->text("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->text("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->text("Non-Contact"));  
+									  }
+									  
+									  if($subjects['honour']["subject_details"][$counter][$i]->type=="Practical")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical")->selected());
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects['honour']["subject_details"][$counter][$i]->type=="Sessional")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional")->selected());
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects['honour']["subject_details"][$counter][$i]->type=="Non-Contact")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact")->selected());  
+									  }
+									  
+									   $ui->select()
+										  ->options($array_option)	
+										  ->id("type_".$semester."_"."1_".$i)			
+										  ->name("type_".$semester."_"."1_".$i)			
+										  ->disabled()
+										  ->show();
+											
+								/*
 							  if($subjects['honour']["subject_details"][$counter][$i]->type=="Theory") echo "Theory";
 							  if($subjects['honour']["subject_details"][$counter][$i]->type=="Practical") echo "Practical";
 							  if($subjects['honour']["subject_details"][$counter][$i]->type=="Sessional") echo "Sessional";
 							  if($subjects['honour']["subject_details"][$counter][$i]->type =="Non-Contact") echo "Non-Contact";
+							  */
 						echo '
 							</td>
 							<td>';	
@@ -681,10 +863,45 @@
 							echo '
 								</td>
 								<td>';
+									$array_option = array();
+									 if($subjects['minor']["subject_details"][$semester][$i]->type=="Theory")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory")->selected());
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects['minor']["subject_details"][$semester][$i]->type=="Practical")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical")->selected());
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects['minor']["subject_details"][$semester][$i]->type=="Sessional")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional")->selected());
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact"));  
+									  }
+									  
+									  if($subjects['minor']["subject_details"][$semester][$i]->type=="Non-Contact")
+									  {
+											array_push($array_option,$ui->option()->value("Theory")->value("Theory"));
+											array_push($array_option,$ui->option()->value("Practical")->value("Practical"));
+											array_push($array_option,$ui->option()->value("Sessional")->value("Sessional"));
+											array_push($array_option,$ui->option()->value("Non-Contact")->value("Non-Contact")->selected());  
+									  }
+								
+								/*
 							  if($subjects['minor']["subject_details"][$counter][$i]->type=="Theory") echo "Theory";
 							  if($subjects['minor']["subject_details"][$counter][$i]->type=="Practical") echo "Practical";
 							  if($subjects['minor']["subject_details"][$counter][$i]->type=="Sessional") echo "Sessional";
 							  if($subjects['minor']["subject_details"][$counter][$i]->type =="Non-Contact") echo "Non-Contact";
+							  */
 						echo '
 							</td>
 							<td>';			

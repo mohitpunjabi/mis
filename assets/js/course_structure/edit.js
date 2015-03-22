@@ -13,6 +13,7 @@ function EditSubject(semester,seq_no)
 	$("[name='subjectP_"+semester+"_"+seq_no+"']").prop('disabled',false);
 	$("[name='subjectcredithours_"+semester+"_"+seq_no+"']").prop('disabled',false);
 	$("[name='subjectcontacthours_"+semester+"_"+seq_no+"']").prop('disabled',false);
+	$("[name='type_"+semester+"_"+seq_no+"']").prop('disabled',false);
 	//alert($("#editbutton_"+semester+"_"+seq_no).val());
 	$("#editbutton_"+semester+"_"+seq_no).hide();	
 	$("#savebutton_"+semester+"_"+seq_no).show();	

@@ -99,7 +99,7 @@ $(document).ready(function(){
 					var n = d.getFullYear();
 					base_str = "<option value = '' selected = 'selected' disabled>Valid From</option>";
 					
-					for($d=n-5;$d<=n+5;$d++)
+					for($d=1926;$d<=n;$d++)
 					{
 						var session = $d+"_"+($d+1);
 						base_str += "<option value= '"+session+"'>"+$d+"-"+($d+1)+"</option>"

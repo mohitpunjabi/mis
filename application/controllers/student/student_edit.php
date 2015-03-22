@@ -4,7 +4,7 @@ class Student_edit extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('deo'));
+		parent::__construct(array('deos'));
 	}
 
 	function index($error = '')
@@ -790,7 +790,7 @@ class Student_edit extends MY_Controller
 			$this->load->model('student/student_details_to_approve','',TRUE);
 			$this->load->model('student/student_rejected_detail_model','',TRUE);
 
-			$res = $this->user_auth_types_model->getUserIdByAuthId('est_ar');
+			$res = $this->user_auth_types_model->getUserIdByAuthId('acd_ar');
 
 			$this->db->trans_start();
 
@@ -817,7 +817,7 @@ class Student_edit extends MY_Controller
 
 			//notify nodal officer
 			foreach($res as $row)
-				$this->notification->notify($row->id, 'est_ar', "Validation Request", "Please validate ".$stu_id." details", "student/student_validate/validation/".$stu_id);
+				$this->notification->notify($row->id, 'acd_ar', "Validation Request", "Please validate ".$stu_id." details", "student/student_validate/validation/".$stu_id);
 
 			$this->db->trans_complete();
 

@@ -34,7 +34,7 @@ class Student_rejected_detail_model extends CI_Model
 
 	function get_all_stu_status_details()
 	{
-		$query = $this->db->order_by('id')->get($this->table);
+		$query = $this->db->get($this->table);
 		if($query->num_rows() > 0)
 			return $query->result();
 		else

@@ -10,7 +10,7 @@ class Syllabus extends CI_Model
 	var $table_course_structure = 'course_structure';
 	var $table_elective_group = 'elective_group';
 	var $table_course_branch = 'course_branch';
-	var $table_elective_offered = 'elective_offered';
+	var $table_optional_offered = 'optional_offered';
   	var $table_depts = 'departments';
 	var $table_syllabus = 'cs_syllabus';
     

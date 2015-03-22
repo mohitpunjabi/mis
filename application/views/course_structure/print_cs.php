@@ -200,8 +200,7 @@
 			if($CS_session['course_id'] != "honour" && $CS_session['course_id'] != "minor")
 			{ 
 				$semester = $counter;
-				//if($CS_session['course_id'] == "honour")
-				  $box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (".$course_name.", ".$branch_name.")")->open();			
+				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (".$course_name.", ".$branch_name.")")->open();			
 				   
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 						echo '
@@ -368,7 +367,7 @@
 			
 			if(isset($subjects['honour']) && $counter >= 5 && $counter <= 8)
 			{
-			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Honour)")->open();
+			$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Honour in ".$branch_name.")")->open();
 				$table = $ui->table()->responsive()->hover()->bordered()->open();
 				echo '
 					<tr>
@@ -465,7 +464,7 @@
 				$total_contact_hours = 0;
 				$total_credit_hours = 0;
 				
-				$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Minor)")->open();
+				$box_form = $ui->box()->id("box_form_".$counter)->title("Semester ". $counter. " (Minor in ".$branch_name.")")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>

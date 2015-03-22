@@ -12,7 +12,7 @@ $ui = new UI();
 						->id('count_core')
 						->name('count_core')
 						->show();
-					if((isset($honour) && $honour == true) || (isset($minor) && $minor== true) || (isset($common) && $common == true))
+					if(isset($CS_session['ele_count']) && $CS_session['ele_count'] == 0)
 					{
 						$ui->input()
 						->placeholder('input text')

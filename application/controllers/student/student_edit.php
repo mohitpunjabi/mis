@@ -38,7 +38,7 @@ class Student_edit extends MY_Controller
 		$form = $this->input->post('select_form');
 		$stu_id = $this->input->post('stu_id');
 
-		open_edit_form($stu_id);
+		$this->open_edit_form($stu_id);
 
 	}
 
@@ -128,6 +128,29 @@ class Student_edit extends MY_Controller
 		$correspondence_address=$this->user_address_model->getAddrById($stu_id,'correspondence');
 		$stu_education_details=$this->student_education_details_model->getStuEduById($stu_id);
 
+			if($this->input->post('depends_on'))
+			{
+				$father_name = '';
+				$mother_name = '';
+				$father_occupation = '';
+				$mother_occupation = '';
+				$father_income = '';
+				$mother_income = '';
+				$guardian_name = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_name'))));
+				$guardian_relation = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_relation_name'))));
+			}
+			else
+			{
+				$father_name = ucwords(strtolower($this->authorization->strclean($this->input->post('father_name'))));
+				$mother_name = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_name'))));
+				$father_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('father_occupation'))));
+				$mother_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_occupation'))));
+				$father_income = $this->input->post('father_gross_income');
+				$mother_income = $this->input->post('mother_gross_income');
+				$guardian_name = '';
+				$guardian_relation = '';
+			}
+
 		$details_modified = '';
 
 		$details_modified_array = array();
@@ -214,22 +237,22 @@ class Student_edit extends MY_Controller
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Identification Mark';
 		}
-		if($user_other_details->father_name != $this->input->post('father_name'))
+		if(ucwords(strtolower($user_other_details->father_name)) != ucwords(strtolower($this->input->post('father_name'))))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Father\'s Name' ;
 		}
-		if($user_other_details->mother_name != $this->input->post('mother_name'))
+		if(ucwords(strtolower($user_other_details->mother_name)) != ucwords(strtolower($this->input->post('mother_name'))))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Mother\'s Name';
 		}
-		if($stu_other_details->fathers_occupation != $this->input->post('father_occupation'))
+		if(ucwords(strtolower($stu_other_details->fathers_occupation)) != ucwords(strtolower($this->input->post('father_occupation'))))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Father\'s Occupation';
 		}
-		if($stu_other_details->mothers_occupation != $this->input->post('mother_occupation'))
+		if(ucwords(strtolower($stu_other_details->mothers_occupation)) != ucwords(strtolower($this->input->post('mother_occupation'))))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Mother\'s Occupation';
@@ -244,12 +267,12 @@ class Student_edit extends MY_Controller
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Mother\'s Gross Income';
 		}
-		if($stu_other_details->guardian_name != $this->input->post('guardian_name'))
+		if(ucwords(strtolower($stu_other_details->guardian_name)) != ucwords(strtolower($this->input->post('guardian_name'))))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Guardian\'s Name';
 		}
-		if($stu_other_details->guardian_relation != $this->input->post('guardian_relation'))
+		if(ucwords(strtolower($stu_other_details->guardian_relation)) != ucwords(strtolower($this->input->post('guardian_relation_name'))))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Guardian\'s Relation';
@@ -259,7 +282,11 @@ class Student_edit extends MY_Controller
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Parent/Guardian Mobile No.';
 		}
-		if($stu_basic_details->parent_landline_no != $this->input->post('parent_landline'))
+		if($stu_basic_details->parent_landline_no == '0')
+			$parent_landline_number = '';
+		else
+			$parent_landline_number = $stu_basic_details->parent_landline_no;
+		if($parent_landline_number != $this->input->post('parent_landline'))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Parent/Guardian Mobile No.';
@@ -365,7 +392,11 @@ class Student_edit extends MY_Controller
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Fee Transaction Id';
 		}
-		if($stu_fee_details->fee_amount != $this->input->post('fee_paid_amount'))
+		if($stu_fee_details->fee_amount == '0')
+			$fee_amt = '';
+		else
+			$fee_amt = $stu_fee_details->fee_amount;
+		if($fee_amt != $this->input->post('fee_paid_amount'))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Fee Amount Paid';
@@ -422,7 +453,7 @@ class Student_edit extends MY_Controller
 			$stu_education_detail[$i]['id'] = $stu_id;
 			$stu_education_detail[$i]['sno'] = $i+1;
 			$stu_education_detail[$i]['exam'] = strtolower($this->authorization->strclean($exam[$i]));
-			$stu_education_detail[$i]['branch'] = strtolower($this->authorization->strclean($branch[$i-2]));
+			$stu_education_detail[$i]['branch'] = strtolower($this->authorization->strclean($branch[$i]));
 			$stu_education_detail[$i]['institute'] = strtolower($this->authorization->strclean($clgname[$i]));
 			$stu_education_detail[$i]['year'] = $year[$i];
 			$stu_education_detail[$i]['grade'] = strtolower($this->authorization->strclean($grade[$i]));
@@ -440,7 +471,7 @@ class Student_edit extends MY_Controller
 			$i = 0;
 			while($i < $n)
 			{
-				if($stu_education_detail[$i]['exam'] != $stu_education_details[$i]->exam || $stu_education_detail[$i]['branch'] != $stu_education_details[$i]->branch || $stu_education_detail[$i]['institute'] != $stu_education_details[$i]->institute || $stu_education_detail[$i]['year'] != $stu_education_details[$i]->year || $stu_education_detail[$i]['grade'] != $stu_education_details[$i]->grade || $stu_education_detail[$i]['division'] != $stu_education_details[$i]->division)
+				if($stu_education_detail[$i]['exam'] != strtolower($stu_education_details[$i]->exam) || $stu_education_detail[$i]['branch'] != strtolower($stu_education_details[$i]->branch) || $stu_education_detail[$i]['institute'] != strtolower($stu_education_details[$i]->institute) || $stu_education_detail[$i]['year'] != $stu_education_details[$i]->year || $stu_education_detail[$i]['grade'] != strtolower($stu_education_details[$i]->grade) || $stu_education_detail[$i]['division'] != strtolower($stu_education_details[$i]->division))
 				{
 					$details_modified_array = array_values($details_modified_array);
 					$details_modified_array[] = 'Educational Details';
@@ -465,7 +496,11 @@ class Student_edit extends MY_Controller
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Mobile No.';
 		}
-		if($stu_basic_details->alternate_mobile_no != $this->input->post('alternate_mobile'))
+		if($stu_basic_details->alternate_mobile_no == '0')
+			$alternate_mobile_number = '';
+		else
+			$alternate_mobile_number = $stu_basic_details->alternate_mobile_no;
+		if($alternate_mobile_number != $this->input->post('alternate_mobile'))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Alternate Mobile No.';
@@ -491,20 +526,34 @@ class Student_edit extends MY_Controller
 			$details_modified_array[] = 'Any other relevant information';
 		}
 
-		if($this->input->post('photo'))
+		/*if($this->input->post('photo'))
 		{
+			var_dump('image');
 			$details_modified_array = array_values($details_modified_array);
-			$details_modified_array[] = 'Photo';
+			$details_modified_array[] = 'Photo';*/
 			$upload = $this->upload_image($stu_id,'photo');
-			if($upload !== FALSE)
+			if($upload == FALSE)
 			{
+				/*var_dump('no image');
 				$this->session->set_flashdata('flashError','Student '.$stu_id.' image upload failed.');
-				redirect("");
+				redirect("");*/
+				$image_path = $user_details->photopath;
 			}
-			$image_path = 'student/'.$stu_id.'/'.$upload['file_name'];
-		}
+			else
+			{
+				//var_dump('image');
+				$image_path = 'student/'.$stu_id.'/'.$upload['file_name'];
+				$details_modified_array = array_values($details_modified_array);
+				$details_modified_array[] = 'Photo';
+			}
+		/*}
 		else
+		{
+			var_dump('no image');
 			$image_path = $user_details->photopath;
+		}*/
+
+		//var_dump($this->input->post('photo'));
 
 			//.var_dump($upload);return;
 			$date = date("Y-m-d H:i:s",time());
@@ -524,29 +573,6 @@ class Student_edit extends MY_Controller
 				'physically_challenged' => $this->input->post('pd') ,
 				'dept_id' => $this->input->post('department')
 			);
-
-			if($this->input->post('depends_on'))
-			{
-				$father_name = '';
-				$mother_name = '';
-				$father_occupation = '';
-				$mother_occupation = '';
-				$father_income = '';
-				$mother_income = '';
-				$guardian_name = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_name'))));
-				$guardian_relation = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_relation_name'))));
-			}
-			else
-			{
-				$father_name = ucwords(strtolower($this->authorization->strclean($this->input->post('father_name'))));
-				$mother_name = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_name'))));
-				$father_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('father_occupation'))));
-				$mother_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_occupation'))));
-				$father_income = $this->input->post('father_gross_income');
-				$mother_income = $this->input->post('mother_gross_income');
-				$guardian_name = '';
-				$guardian_relation = '';
-			}
 
 			$user_other_details = array(
 				'id' => $stu_id ,
@@ -751,6 +777,9 @@ class Student_edit extends MY_Controller
 				$details_modified = $details_modified.$mod_data;
 			}
 
+			if($p == 0)
+				redirect("");
+
 			$stu_details_to_approve = array(
 				'id' => $stu_id,
 				'details' => $details_modified
@@ -792,6 +821,8 @@ class Student_edit extends MY_Controller
 
 			$this->db->trans_complete();
 
+			$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' data succssfully modified.');
+
 			redirect("");
 
 		/*if($user_details-> != $this->input->post(''))
@@ -829,7 +860,7 @@ class Student_edit extends MY_Controller
 			$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' profile picture updated.');
 			redirect('student/student_edit');
 		}
-	}
+	}*/
 
 	function upload_image($stu_id = '', $name ='')
 	{
@@ -852,6 +883,7 @@ class Student_edit extends MY_Controller
         }
         else
         {
+        	//var_dump('failure');
 	       	$this->index('ERROR: File Name not set.');
 			return FALSE;
 	    }
@@ -878,7 +910,7 @@ class Student_edit extends MY_Controller
 		}
 	}
 
-	private function edit_basic_details($stu_id)
+	/*private function edit_basic_details($stu_id)
 	{
 		$this->addJS("student/edit_basic_details_script.js");
 

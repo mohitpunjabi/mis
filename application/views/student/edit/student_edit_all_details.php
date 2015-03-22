@@ -430,11 +430,15 @@
                            ->name('parent_mobile')
                            ->show();
 
+                        if($stu_basic_details->parent_landline_no == '0')
+                          $parent_landline_number = '';
+                        else
+                          $parent_landline_number = $stu_basic_details->parent_landline_no;
                         $ui->input()
                            ->label('Parent/Guardian Landline No')
                            ->id('parent_landline')
                            ->width(6)
-                           ->value($stu_basic_details->parent_landline_no)
+                           ->value($parent_landline_number)
                            ->name('parent_landline')
                            ->show();
 
@@ -728,11 +732,15 @@
                            ->width(3)
                            ->show();
 
+                        if($stu_fee_details->fee_amount == '0')
+                          $fee_amt = '';
+                        else
+                          $fee_amt = $stu_fee_details->fee_amount;
                         $ui->input()
                            ->label('Fees Paid Amount')
                            ->name('fee_paid_amount')
                            ->id('fee_paid_amount')
-                           ->value($stu_fee_details->fee_amount)
+                           ->value($fee_amt)
                            ->width(3)
                            ->show();
 
@@ -1265,11 +1273,15 @@
                            ->width(3)
                            ->show();
 
+                        if($stu_basic_details->alternate_mobile_no == '0')
+                          $alternate_mobile_number = '';
+                        else
+                          $alternate_mobile_number = $stu_basic_details->alternate_mobile_no;
                         $ui->input()
                            ->label('Alternate Mobile No.')
                            ->name('alternate_mobile')
                            ->id('alternate_mobile')
-                           ->value($stu_basic_details->alternate_mobile_no)
+                           ->value($alternate_mobile_number)
                            ->width(3)
                            ->show();
 
@@ -1355,7 +1367,6 @@
                         $upload_img = $ui->imagePicker()
                                          ->id('photo')
                                          ->name('photo')
-                                         ->value('hi')
                                          ->width(12)
                                          ->show();
 

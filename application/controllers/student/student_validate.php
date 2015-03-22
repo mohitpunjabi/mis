@@ -111,7 +111,9 @@ class Student_validate extends MY_Controller
 		$this->db->trans_complete();
 
 		$this->notification->notify($stu_id, 'stu', "Details Approved", "Your details have been approved.", "student_view_report/view/".$stu_id);
-		redirect("");
+
+		$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' details Accepted.');
+		redirect("student/student_validate");
 	}
 
 	function details_rejected($stu_id)
@@ -133,7 +135,7 @@ class Student_validate extends MY_Controller
 		$this->db->trans_start();
 
 		if($rejected_status)
-			$this->student_rejected_detail_model->deleteDetailsWhere($stu_id);
+			$this->student_rejected_detail_model->deleteDetailsWhere(array('id' => $stu_id));
 
 		$this->delete_pending_data($stu_id);
 
@@ -148,7 +150,10 @@ class Student_validate extends MY_Controller
 		$res = $this->user_auth_types_model->getUserIdByAuthId('deo');
 		foreach($res as $row)
 			$this->notification->notify($row->id, 'deo', "Details Rejected", "Details of student ".$stu_id." have been rejected.", "".$stu_id);
-		redirect("");
+
+		$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' details Rejected.');
+		
+		redirect("student/student_validate");
 	}
 
 	function delete_pending_data($stu_id)

@@ -282,9 +282,10 @@ class Edit extends MY_Controller
 		$practical = $data['P'];
 		$credit_hours = $data['credit_hours'];
 		$contact_hours = $data['contact_hours'];
+		$type = $data['type'];
 		
 		$values = array("subject_id"=>$subjectid,"name"=>$name,"lecture"=>$lecture,"tutorial"=>$tutorial,"practical"=>$practical,"credit_hours"=>
-		$credit_hours,"contact_hours"=>$contact_hours);
+		$credit_hours,"contact_hours"=>$contact_hours,"type"=>$type);
 		$where = array("id"=>$id);
 		
 		//echo $subjectid;

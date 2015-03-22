@@ -113,7 +113,21 @@ class View extends MY_Controller
 		
 		
 		//$semester == 0 when All(for all semester) has been selected in view CS. 
-		if($course_id == "honour" || $course_id == "minor")
+		//if course id == honour then show normal B.Tech + Honour Subjects
+		if($course_id == "honour")
+		{
+			if($semester == 0)
+			{
+				$start_semester = 1;
+				$end_semester = 8;
+			}
+			else
+			{
+				$start_semester = $semester;
+				$end_semester = $semester;
+			}	
+		}
+		else if($course_id == "minor")
 		{
 			if($semester == 0)
 			{
@@ -124,7 +138,7 @@ class View extends MY_Controller
 			{
 				$start_semester = $semester;
 				$end_semester = $semester;
-			}	
+			}
 		}
 		else
 		{
@@ -211,8 +225,7 @@ class View extends MY_Controller
 				else
 				{
 					//show the honour subjects for B.Tech 5th to 8th semester..
-					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) &&  (($course_id == "honour") || ($course_id !="honour" &&  $row_course[0]
-					->duration == 4)))
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) &&  (($course_id == "honour")))
 					{
 						//echo "honour";
 						//die();
@@ -228,8 +241,7 @@ class View extends MY_Controller
 						$data["subjects"]['honour']["count"][$counter]=$i-1;	
 					}
 					
-					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) && (($course_id == "minor") || ($course_id != "minor" && $row_course[0]
-					->duration== 4)))
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) && (($course_id == "minor")))
 					{
 						$counter = $k;
 						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_minor);	
@@ -243,7 +255,7 @@ class View extends MY_Controller
 						$data["subjects"]['minor']["count"][$counter]=$i-1;	
 					}
 					
-					if($course_id != "honour" && $course_id != "minor")
+					if($course_id != "minor")
 					{
 						
 					//show the normal B.Tech subjects

@@ -7,7 +7,7 @@
 	$start_semester = $CS_session['start_semester'];
 	$end_semester = $CS_session['end_semester'];
 	$ui = new UI();
-	
+
     for($counter=$start_semester;$counter<=$end_semester;$counter++)
 	{
 		$total_credit_hours = 0;
@@ -103,17 +103,16 @@
 			$box_form->close();	
 		}
 		//if CS for common is not selected then also show the CS for Common in any case.
-		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2) && ($CS_session['duration'] == 1 || $CS_session['duration'] == 4 
-		|| $CS_session['duration'] == 5) && !isset($subjects['honour']['subject_details'][$counter]) && !isset($subjects['minor'][
-		'subject_details'][$counter]))
+		else if(!isset($CS_session['group']) && ($counter == 1 || $counter == 2) && (($CS_session['duration'] == 1 || $CS_session['duration'] == 4 
+		|| $CS_session['duration'] == 5) || $CS_session['course_id'] == "honour")  && !isset($subjects['minor']['subject_details'][$counter]))
 		{
 			for($comm_group = 1;$comm_group <=2;$comm_group++)
 			{
 				$total_contact_hours = 0;
 				$total_credit_hours = 0;
 				$semester = $counter."_".$comm_group;	
-				//echo $semester;
-				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter."(group ".$comm_group.") (".$course_name.",".$branch_name.")-Valid From ".$session."")->open();
+				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter."(group ".$comm_group.") (".$course_name.",".
+				$branch_name.")")->open();
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 					echo '
 						<tr>
@@ -198,11 +197,14 @@
 		//if it is not a common course or a minor or honour course..
 		else if(!isset($CS_session['group']))
 		{
-			if($CS_session['course_id'] != "honour" && $CS_session['course_id'] != "minor")
+			if($CS_session['course_id'] != "minor")
 			{ 
 				$semester = $counter;
-				$box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (".$course_name.", ".
-				$branch_name.")")->open();			
+				if($CS_session['course_id'] == "honour")
+				  $box_form = $ui->box()->id("box_form_".$semester)->title("Semester ". $counter." (B.Tech, Honours)")->open();			
+
+				   
+				   
 					$table = $ui->table()->responsive()->hover()->bordered()->open();
 						echo '
 							<tr>

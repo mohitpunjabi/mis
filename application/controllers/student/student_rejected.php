@@ -4,7 +4,7 @@ class Student_rejected extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('deo'));
+		parent::__construct(array('deos'));
 	}
 
 	function index()

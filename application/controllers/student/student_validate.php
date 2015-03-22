@@ -4,7 +4,7 @@ class Student_validate extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array());
+		parent::__construct(array('acd_ar'));
 	}
 
 	function index()
@@ -147,9 +147,9 @@ class Student_validate extends MY_Controller
 		$this->db->trans_complete();
 
 		$this->load->model('user/user_auth_types_model','',TRUE);
-		$res = $this->user_auth_types_model->getUserIdByAuthId('deo');
+		$res = $this->user_auth_types_model->getUserIdByAuthId('deos');
 		foreach($res as $row)
-			$this->notification->notify($row->id, 'deo', "Details Rejected", "Details of student ".$stu_id." have been rejected.", "".$stu_id);
+			$this->notification->notify($row->id, 'deos', "Details Rejected", "Details of student ".$stu_id." have been rejected.", "".$stu_id);
 
 		$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' details Rejected.');
 		

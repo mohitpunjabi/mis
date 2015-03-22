@@ -6,9 +6,15 @@
 
                 document.getElementById("add").onclick = function() {onclick_add();};
 
-                if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd')
+                if($('#stu_type').val() == 'jrf')
                 {
-                        document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
+                        document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="phd">Ph.D</option></select>';
+                        document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
+                        document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
+                }
+                else if($('#stu_type').val() == 'pd')
+                {
+                        document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="postdoc">Post Doc</option></select>';
                         document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
                         document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
                 }
@@ -75,8 +81,12 @@
                                 }));
                         }*/
 
-                        if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'jrf') {
-                                document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="na">Not Applicable</option></select>';
+                        if($('#stu_type').val() == 'jrf') {
+                                document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="phd">Ph.D</option></select>';
+                                document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
+                        }
+                        else if($('#stu_type').val() == 'pd') {
+                                document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="postdoc">Post Doc</option></select>';
                                 document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
                         }
                         else

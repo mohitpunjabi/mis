@@ -72,10 +72,10 @@ class Edit extends MY_Controller
 			$aggr_id_common = $expected_common_aggr_id;
 			
 			
-		$expected_honour_aggr_id = "honour".'_'."honour".'_'.$session;
+		$expected_honour_aggr_id = "honour".'_'.$branch_id.'_'.$session;
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_honour_aggr_id))
 		{
-			$result_aggr_id_honour = $this->basic_model->get_latest_aggr_id("honour","honour",$expected_honour_aggr_id);
+			$result_aggr_id_honour = $this->basic_model->get_latest_aggr_id("honour",$branch_id,$expected_honour_aggr_id);
 			if($result_aggr_id_honour)
 				$aggr_id_honour = $result_aggr_id_honour[0]->aggr_id;	
 			else	
@@ -85,10 +85,10 @@ class Edit extends MY_Controller
 			$aggr_id_honour = $expected_honour_aggr_id;
 		
 		
-		$expected_minor_aggr_id = "minor".'_'."minor".'_'.$session;
+		$expected_minor_aggr_id = "minor".'_'.$branch_id.'_'.$session;
 		if(!$this->basic_model->check_if_aggr_id_exist_in_CS($expected_minor_aggr_id))
 		{
-			$result_aggr_id_minor = $this->basic_model->get_latest_aggr_id("minor","minor",$expected_minor_aggr_id);
+			$result_aggr_id_minor = $this->basic_model->get_latest_aggr_id("minor",$branch_id,$expected_minor_aggr_id);
 			if($result_aggr_id_minor)
 				$aggr_id_minor = $result_aggr_id_minor[0]->aggr_id;	
 			else
@@ -200,8 +200,7 @@ class Edit extends MY_Controller
 				else
 				{
 					
-					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) &&  (($course_id == "honour") || ($course_id !="honour" &&  $row_course[0]
-					->duration == 4)))
+					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) &&  (($course_id == "honour")))
 					{
 						
 						$counter = $k;
@@ -216,8 +215,7 @@ class Edit extends MY_Controller
 						$data["subjects"]['honour']["count"][$counter]=$i-1;	
 					}
 					
-					if(($k == 5 || $k == 6 || $k == 7 || $k == 8) && (($course_id == "minor") || ($course_id != "minor" && $row_course[0]
-					->duration== 4)))
+					else if(($k == 5 || $k == 6 || $k == 7 || $k == 8) && (($course_id == "minor")))
 					{
 						$counter = $k;
 						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id_minor);	
@@ -231,7 +229,7 @@ class Edit extends MY_Controller
 						$data["subjects"]['minor']["count"][$counter]=$i-1;	
 					}
 					
-					if($course_id != "honour" && $course_id != "minor")
+					else
 					{
 						$counter = $k;
 						$result_ids = $this->basic_model->get_subjects_by_sem($counter,$aggr_id);	
@@ -282,9 +280,10 @@ class Edit extends MY_Controller
 		$practical = $data['P'];
 		$credit_hours = $data['credit_hours'];
 		$contact_hours = $data['contact_hours'];
+		$type = $data['type'];
 		
 		$values = array("subject_id"=>$subjectid,"name"=>$name,"lecture"=>$lecture,"tutorial"=>$tutorial,"practical"=>$practical,"credit_hours"=>
-		$credit_hours,"contact_hours"=>$contact_hours);
+		$credit_hours,"contact_hours"=>$contact_hours,"type"=>$type);
 		$where = array("id"=>$id);
 		
 		//echo $subjectid;

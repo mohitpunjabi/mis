@@ -19,22 +19,23 @@ class Course_structure_menu_model extends CI_Model
 		$menu['deo']["Course Structure"]["Delete Course/Branch"] = site_url('course_structure/delete');
 		
 		$menu['deo']["Course Structure"]['Add Course Structure']["Department Wise"] = site_url('course_structure/add');
-		$menu['deo']["Course Structure"]["Add Course Structure"]['For 1st Year'] = site_url('course_structure/AddCS_Common');
+		$menu['deo']["Course Structure"]["Add Course Structure"]['1st Year'] = site_url('course_structure/AddCS_Common');
 		
 		$menu['deo']["Course Structure"]["Edit Course Structure"] = site_url('course_structure/edit');
 		$menu['deo']["Course Structure"]["View Course Structure"] = site_url('course_structure/view');
 		
 		$menu['deo']["Course Structure"]["Upload Syllabus"] = site_url('course_structure/upload_syllabus');
 		
-		//$menu['deo']=array();
+		$menu['deo']['Create a New Course'] = site_url('course_structure/add_course_main');
+		$menu['deo']["Create a New Branch"] = site_url('course_structure/add_branch_main');
+		
+		
+		
 		$menu['hod']['Course Structure']=array();
 		$userid = $this->session->userdata('id');
     	$menu['hod']["Course Structure"]["View Course Structure"] = site_url('course_structure/view/index/'.$userid.'');
-			
-		//$menu['hod']=array();
-		//$menu['hod']['Choose Elective']=array();
-		$menu['hod']['Course Structure']["Offer Elective"] = site_url('course_structure/elective_offered_home');
-
+		$menu['hod']['Course Structure']["Offer Optional Subjects"] = site_url('course_structure/elective_offered_home');
+		
 		return $menu;
 	}
 }

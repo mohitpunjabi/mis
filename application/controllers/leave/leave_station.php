@@ -23,6 +23,7 @@ class Leave_station extends MY_Controller {
     function __construct() {
         parent::__construct(array('emp'));
         $this->emp_id = $this->session->userdata('id');
+        $this->addJS("leave/deo_query.js");
     }
 
     function index() {

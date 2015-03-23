@@ -18,7 +18,7 @@
 			if (xmlhttp.readyState == 4 && xmlhttp.status==200)
 			{
 				document.getElementById("move_details_of_sent_files").innerHTML = xmlhttp.responseText;
-				//$(".loading").hide();
+				$(window).scrollTop($('#move_details_of_sent_files').offset().top);
 			}
 		}
 		xmlhttp.open("POST",site_url("file_tracking/track_file/validate_track_num/"+track_num),true);

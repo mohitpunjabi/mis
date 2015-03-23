@@ -10,8 +10,6 @@ class Add extends MY_Controller
 		$this->load->model('course_structure/basic_model','',TRUE);
 		$CS_session = $this->session->userdata("CS_session");
 		
-		//if(!isset($CS_session['aggr_id']) || $CS_session['aggr_id'] == '__' )
-			//redirect("/home");
 	}
 
 	public function index($error='')
@@ -32,6 +30,10 @@ class Add extends MY_Controller
 		$session= $this->input->post('session');
 		$sem=$this->input->post('sem');
 		
+		//if course selected is honour,minor or common then dont show the count for elective field.
+		if($course == "honour" || $course == "minor" || $course == "comm")
+			$data['CS_session']['ele_count'] = 0;
+			
 		$aggr_id= $course.'_'.$branch.'_'.$session;
 		//if($dept == 0 || $course == 0 || $branch == 0 || $session == 0 || $sem == 0)
 		//{
@@ -69,8 +71,10 @@ class Add extends MY_Controller
 		$data["CS_session"]['course_name']=$row_course[0]->name;
 		$data["CS_session"]['branch']=$row_branch[0]->name;
 		$data["CS_session"]['session']=$session;
-		$this->session->set_userdata($data);
 		
+		
+		
+		$this->session->set_userdata($data);
 		$this->drawHeader("Enter the number of core and elective subjects");
 		$this->load->view('course_structure/count',$data);
 		$this->drawFooter();
@@ -126,7 +130,7 @@ class Add extends MY_Controller
 			$subject_details['practical'] = $this->input->post("P".$i);
 			
 			$credit_hours= $this->input->post('credit_hours'.$i);
-		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + $subject_details['practical'];
+		  	$contact_hours= $subject_details['lecture'] + $subject_details['tutorial'] + floatval($subject_details['practical']);
 
 			$subject_details['credit_hours'] = $credit_hours;
 			$subject_details['contact_hours'] = $contact_hours;
@@ -144,30 +148,41 @@ class Add extends MY_Controller
 				$data['error'] = $this->add_model->insert_subjects($subject_details);
 			}	
 		}
-	
-		$list_type= $this->input->post("list_type");
-		$data['CS_session']['list_type'] = $list_type;
 		
-		//if same list is selected
-		if($list_type == 1)
+		if($this->input->post('list_type') == false && $this->input->post('options1') == false)
 		{
-			$data["options"][1] = $this->input->post("options1");
-			$data["CS_session"]["options"][1] = $data["options"][1];
-			for($i = 1;$i<=$count_elective;$i++)
-			{
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
-			}
+			$this->session->set_flashdata("flashSuccess","Course structure for ".$data['CS_session']['course_name']." in ".$data['CS_session'][
+			'branch']." for semester ".$sem." inserted successfully");
+			redirect("course_structure/add");
+			
+			$list_type= 0;
+			$data['CS_session']['list_type'] = $list_type;	
 		}
 		else
 		{
-			for($i = 1;$i<=$count_elective;$i++)
+			$list_type= $this->input->post("list_type");
+			$data['CS_session']['list_type'] = $list_type;
+			//if same list is selected
+			if($list_type == 1)
 			{
-				$data["options"][$i] = $this->input->post("options".$i);	
-				$data["seq_e"][$i] = $this->input->post("seq_e".$i);
-				
-				$data["CS_session"]["options"][$i] = $data["options"][$i];
-				$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				$data["options"][1] = $this->input->post("options1");
+				$data["CS_session"]["options"][1] = $data["options"][1];
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);	
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
+			}
+			else
+			{
+				for($i = 1;$i<=$count_elective;$i++)
+				{
+					$data["options"][$i] = $this->input->post("options".$i);	
+					$data["seq_e"][$i] = $this->input->post("seq_e".$i);
+					
+					$data["CS_session"]["options"][$i] = $data["options"][$i];
+					$data["CS_session"]["seq_elective"][$i] = $data["seq_e"][$i];	
+				}
 			}
 		}
 	$this->session->set_userdata($data);	
@@ -217,7 +232,7 @@ class Add extends MY_Controller
 		
 		//$credit_hours= $elective_details['lecture']*2 + $elective_details['tutorial'] + $elective_details['practical'];
 		$credit_hours= $this->input->post("credit_hours".$counter);
-		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + $elective_details['practical'];
+		$contact_hours= $elective_details['lecture'] + $elective_details['tutorial'] + floatval($elective_details['practical']);
 	 
 		$options = $session_data['options'][$counter];
 		

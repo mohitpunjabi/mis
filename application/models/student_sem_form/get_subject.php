@@ -6,6 +6,7 @@ class Get_subject extends CI_Model
 	var $eleSubject = 'stu_sem_reg_subject';
 	var $fee = 'stu_sem_reg_fee';
 	var $result = 'result_status';
+	var $HM = 'stu_sem_honour_minor';
 	
 	function __construct()
 	{
@@ -70,12 +71,39 @@ WHERE
 		
 	}
 	
-	// Get Subject and fee Details for Registration During form Filling//
+	// get Honours Subject//
+	
+		function getHonourSubject($stuid,$semster){
+			
+			$d=$this->getStudentAcdamicDetails($stuid);
+			$curaid = "honour_honour_".$d[0]->enrollment_year;
+			
+			$this->load->model('course_structure/basic_model');
+			$agr =$this->basic_model->get_latest_aggr_id("honour","honour",$curaid);
+			$data=$this->basic_model->select_honour_or_minor_offered_by_aggr_id($agr[0]->aggr_id,$semster);
+			return $data;
+		}
+		
+		// Get Minor Subject//
+		function getMinorSubject($stuid,$semster){
+				
+			$d=$this->getStudentAcdamicDetails($stuid);
+			$curaid = "minor_minor_".$d[0]->enrollment_year;
+				
+			$this->load->model('course_structure/basic_model');
+			$agr =$this->basic_model->get_latest_aggr_id("minor","minor",$curaid);
+			$this->basic_model->select_honour_or_minor_offered_by_aggr_id($agr[0]->aggr_id,$semster);
+				
+		}
+	
+	// Get Elective, Hornor, Minor Subjects and fee Details for Registration During form Filling//
 	function getConfirm($id){
 		$data['ele'] =$this->db->query("select * from stu_sem_reg_subject join subjects on stu_sem_reg_subject.sub_id = subjects.id where stu_sem_reg_subject.sem_form_id='".$id."'")->result_array();
 		$data['fee'] =$this->db->get_where($this->fee,array('form_id'=>$id))->result_array();
+		$data['HM'] = $this->db->query("select * from stu_sem_honour_minor join subjects on stu_sem_honour_minor.subject_id = subjects.id where stu_sem_honour_minor.sem_form_id='".$id."'")->result_array();
 		return $data;
 		}
+	
 		
 		function getStudentAcdamicDetails($id){
 			return $this->db->get_where('stu_academic',array('id'=>$id))->result();
@@ -88,6 +116,8 @@ WHERE
 					}
 					return false;
 			}
+			
+	
 	
 }
 ?>

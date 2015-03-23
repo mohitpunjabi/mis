@@ -34,11 +34,12 @@ class Delete extends MY_Controller
 		$this->output->set_content_type('application/json');
 		$this->output->set_output(json_encode($this->basic_model->get_course()));	
 	}
-	public function json_delete_branch($branch = '')
+	public function json_delete_branch($branch)
 	{
 		if($branch != '')
 		{
 			$this->output->set_content_type('application/json');
+			//$this->output->set_output(json_encode(array("hello"=>"hii")));	
 			$this->output->set_output(json_encode($this->basic_model->delete_branch($branch)));	
 		}
 		

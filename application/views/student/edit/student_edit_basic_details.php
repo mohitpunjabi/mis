@@ -616,8 +616,14 @@
 
                         $course_array = array();
 
-                        if($courses === FALSE)
+                        //case : student type =jrf then course == na // Not Applicable
+                        $course_array[] = $ui->option()->value('na')->text('Not Applicable')->selected($stu_academic_details->course_id == 'na');
+                        $course_array = array_values($course_array);
+
+                        if($courses === FALSE) {
                             $course_array[] = $ui->option()->value('none')->text('No Course');
+                            $course_array = array_values($course_array);
+                        }
                         else
                             foreach ($courses as $row)
                             {
@@ -629,9 +635,14 @@
                             }
 
                         $branch_array = array();
+                        //case : student type =jrf then branch == na // Not Applicable
+                        $branch_array[] = $ui->option()->value('na')->text('Not Applicable')->selected($stu_academic_details->branch_id == 'na');
+                        $branch_array = array_values($branch_array);
 
-                        if($branches === FALSE)
+                        if($branches === FALSE) {
                             $branch_array[] = $ui->option()->value('none')->text('No Branch');
+                            $branch_array = array_values($branch_array);
+                        }
                         else
                             foreach ($branches as $row)
                             {
@@ -752,6 +763,20 @@
                                                   ->title('Address Details')
                                                   ->open();
 
+                    $state1_array = array();
+                    foreach ($states as $row)
+                    {
+                        $state1_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($present_address->state == $row->state_name);
+                        $state1_array = array_values($state1_array);
+                    }
+
+                    $state2_array = array();
+                    foreach ($states as $row)
+                    {
+                        $state2_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($permanent_address->state == $row->state_name);
+                        $state2_array = array_values($state2_array);
+                    }
+
                     $address_details_row_1 = $ui->row()
                                                 ->open();
 
@@ -786,11 +811,17 @@
                                ->required()
                                ->show();
 
-                            $ui->input()
+                            /*$ui->input()
                                ->label('State')
                                ->name('state1')
                                ->required()
                                ->value($present_address->state)
+                               ->show();*/
+
+                            $ui->select()
+                               ->label('State')
+                               ->name('state1')
+                               ->options($state1_array)
                                ->show();
 
                             $ui->input()
@@ -852,12 +883,19 @@
                                ->required()
                                ->show();
 
-                            $ui->input()
+                            /*$ui->input()
                                ->label('State')
                                ->name('state2')
                                ->value($permanent_address->state)
                                ->required()
+                               ->show();*/
+
+                            $ui->select()
+                               ->label('State')
+                               ->name('state2')
+                               ->options($state2_array)
                                ->show();
+
 
                             $ui->input()
                                ->label('Pincode')
@@ -912,7 +950,7 @@
                                                        ->width(7)
                                                        ->open();
 
-                            ?><input type='checkbox' id ="correspondence_addr"  name="correspondence_addr" <?php if(!$correspondence_address) echo "checked"; ?>/><?php 
+                            ?><input type='checkbox' id ="correspondence_addr"  name="correspondence_addr" <?php if(!$correspondence_address) echo "checked"; ?>/><?php
 
                             echo '<label>Correspondence address same as Permanent address.</label>';
 
@@ -942,6 +980,13 @@
                                                           ->open();
 
                                 if($coress_recv){
+
+                                $state3_array = array();
+                                foreach ($states as $row)
+                                {
+                                    $state3_array[] = $ui->option()->value($row->state_name)->text(ucwords($row->state_name))->selected($correspondence_address->state == $row->state_name);
+                                    $state3_array = array_values($state3_array);
+                                }
                                 $ui->input()
                                    ->label('Address Line 1')
                                    ->name('line13')
@@ -960,10 +1005,16 @@
                                    ->value($correspondence_address->city)
                                    ->show();
 
-                                $ui->input()
+                                /*$ui->input()
                                    ->label('State')
                                    ->name('state3')
                                    ->value($correspondence_address->state)
+                                   ->show();*/
+
+                                $ui->select()
+                                   ->label('State')
+                                   ->name('state3')
+                                   ->options($state3_array)
                                    ->show();
 
                                 $ui->input()

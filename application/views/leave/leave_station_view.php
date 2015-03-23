@@ -4,30 +4,6 @@
  * Author :- Nishant Raj
  */
 $ui = new UI();
-
-if (isset($is_notification_on)) {
-    // if notifications are on
-    if ($is_notification_on == TRUE) {
-
-        // if leave application has some errors show them
-        if (isset($errors)) {
-            $ui->alert()
-                    ->uiType('danger')
-                    ->desc($error)
-                    ->show();
-        }
-
-        // if successful leave application
-        else if (isset($success_msg)) {
-       //     $this->notification->drawNotification('', $success_msg, 'success');
-             $ui->alert()
-                    ->uiType('success')
-                    ->desc($success_msg)
-                    ->show();
-            
-        }
-    }
-}
 $row = $ui->row()->open();
 $margin = $ui->col()->width(2)->open();
 $margin->close();
@@ -45,6 +21,7 @@ $ui->datePicker()
         ->required()
         ->label('Proposed Date Of Leaving Station ')
         ->name('leave_st_date')
+    ->id('leave_st_date')
         ->placeholder("Enter the date")
         ->dateFormat('dd-mm-yyyy')
         ->value("")
@@ -52,6 +29,7 @@ $ui->datePicker()
         ->show();
 $ui->datePicker()
         ->required()
+    ->id('return_st_date')
         ->label('Proposed Date Of Reurning Station')
         ->name('return_st_date')
         ->placeholder("Enter the date")
@@ -61,26 +39,31 @@ $ui->datePicker()
         ->show();
 $inputRow1->close();
 
-$inputRow2 = $ui->row()
+$inputRow2 = $ui->row()->id('st_time')
         ->open();
-$ui->datePicker()
-        ->required()
-        ->label('Proposed time Of Leaving Station ')
-        ->name('leave_st_time')
-        ->placeholder("Enter the time")
-        ->dateFormat('dd-mm-yyyy')
-        ->value("")
-        ->width(6)
-        ->show();
-$ui->datePicker()
-        ->required()
-        ->label('Proposed time Of Reurning Station')
-        ->name('return_st_time')
-        ->placeholder("Enter the time")
-        ->dateFormat('dd-mm-yyyy')
-        ->width(6)
-        ->value("")
-        ->show();
+$ui->timePicker()
+    ->label('Leaving Time')
+    ->name('st_leaving_time')
+    ->addonLeft($ui->icon("clock-o"))
+    ->addonRight($ui->button()->value("Leaving Time")->uiType("success"))
+    ->uiType('primary')
+    ->id('st_leaving_time')
+    ->required()
+    ->showSeconds('true')
+    ->width(6)
+    ->show();
+
+$ui->timePicker()
+    ->label('Arrival Time')
+    ->name('st_arrival_time')
+    ->addonLeft($ui->icon("clock-o"))
+    ->addonRight($ui->button()->value("Arriving Time")->uiType("success"))
+    ->uiType('primary')
+    ->id('st_arrival_time')
+    ->required()
+    ->showSeconds('true')
+    ->width(6)
+    ->show();
 $inputRow2->close();
 
 $inputRow3 = $ui->row()
@@ -100,11 +83,57 @@ $ui->textarea()
         ->type('text')
         ->value("")
         ->label('Address During Absence From Station')
+    ->id('st_address')
         ->name('address')
         ->width(6)
         ->show();
 $inputRow3->close();
+$box1 = $ui->box()
+    ->title('Please Select Approving Employee')
+    ->solid()
+    ->id('approving_emp')
+    ->uiType('primary')
+    ->open();
+$inputRow4 = $ui->row()->open();
+$ui->select()
+    ->label('Department Type')
+    ->name('type')
+    ->id('type')
+    ->required()
+    ->options(array($ui->option()->value('""')->text('Select')->selected(),
+        $ui->option()->value('academic')->text('Academic'),
+        $ui->option()->value('nonacademic')->text('Non Academic')))
+    ->width(6)
+    ->show();
+$ui->select()
+    ->label('Select Department')
+    ->name('department_name')
+    ->id('department_name')
+    ->required()
+    ->options(array($ui->option()->value('""')->text('Select')))
+    ->width(6)
+    ->show();
+$inputRow4->close();
 
+$inputRow5 = $ui->row()->open();
+$ui->select()
+    ->label('Designation')
+    ->name('designation')
+    ->id('designation')
+    ->required()
+    ->options(array($ui->option()->value('""')->text('Select')))
+    ->width(6)
+    ->show();
+$ui->select()
+    ->label('Employee Name')
+    ->name('emp_name')
+    ->id('emp_name')
+    ->required()
+    ->options(array($ui->option()->value('""')->text('Select')->selected()))
+    ->width(6)
+    ->show();
+$inputRow5->close();
+$box1->close();
 $ui->button()
         ->value('Submit Station Leave request')
         ->name('submit')
@@ -116,3 +145,21 @@ $form->close();
 $box->close();
 $column->close();
 $row->close();
+?>
+<script charset="utf-8">
+    $("#return_st_date").on('change', function () {
+        if (this.value != "") {
+            $('#st_time').show();
+        }
+    });
+    $("#st_address").on('keyup', function () {
+        if (this.value != "") {
+            $('#approving_emp').show();
+        }
+    });
+    $(window).load(function () {
+        $('#st_time').hide();
+        $('#approving_emp').hide();
+    });
+    //$("#date")
+</script>

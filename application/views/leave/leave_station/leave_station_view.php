@@ -5,8 +5,17 @@
  */
 $ui = new UI();
 $row = $ui->row()->open();
+$alertRow = $ui->row()->open();
+$marginCol = $ui->col()->width(3)->open();
+$marginCol->close();
+if ($notification == true) {
+    $ui->alert()->uiType('danger')->desc($string)->show();
+}
+
+$alertRow->close();
 $margin = $ui->col()->width(2)->open();
 $margin->close();
+
 
 $column = $ui->col()->width(8)->open();
 
@@ -15,7 +24,7 @@ $box = $ui->box()
         ->solid()
         ->uiType('primary')
         ->open();
-$form = $ui->form()->action('leave/leave_station')->open();
+$form = $ui->form()->action('leave/leave_station/applyStationLeave')->open();
 $inputRow1 = $ui->row()->open();
 $ui->datePicker()
         ->required()
@@ -45,9 +54,9 @@ $ui->timePicker()
     ->label('Leaving Time')
     ->name('st_leaving_time')
     ->addonLeft($ui->icon("clock-o"))
-    ->addonRight($ui->button()->value("Leaving Time")->uiType("success"))
     ->uiType('primary')
     ->id('st_leaving_time')
+    ->showMeridian('false')
     ->required()
     ->showSeconds('true')
     ->width(6)
@@ -57,9 +66,9 @@ $ui->timePicker()
     ->label('Arrival Time')
     ->name('st_arrival_time')
     ->addonLeft($ui->icon("clock-o"))
-    ->addonRight($ui->button()->value("Arriving Time")->uiType("success"))
     ->uiType('primary')
     ->id('st_arrival_time')
+    ->showMeridian('false')
     ->required()
     ->showSeconds('true')
     ->width(6)
@@ -134,13 +143,18 @@ $ui->select()
     ->show();
 $inputRow5->close();
 $box1->close();
+?>
+<center>
+    <?php
 $ui->button()
         ->value('Submit Station Leave request')
         ->name('submit')
         ->submit(true)
         ->uiType('primary')
         ->show();
-
+    ?>
+</center>
+<?php
 $form->close();
 $box->close();
 $column->close();

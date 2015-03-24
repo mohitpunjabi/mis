@@ -17,10 +17,11 @@ class Leave_menu_model extends CI_Model{
         $menu['emp'] = array();
         $menu['emp']['Leave Management'] = array();
         $menu['emp']['Leave Management']['Apply For Leave'] = site_url('leave/leave_application');
-        $menu['emp']['Leave Management']['Apply For Station Leave'] = site_url('leave/leave_station');
+        $menu['emp']['Leave Management']['Station Leave'] = array();
+        $menu['emp']['Leave Management']['Station Leave']['Apply for Station Leave'] = site_url('leave/leave_station');
+        $menu['emp']['Leave Management']['Station Leave']['Station Leave History'] = site_url('leave/leave_station/stationLeaveHistory');
         $menu['emp']['Leave Management']['Leave History'] = site_url('leave/leave_history');
         $menu['emp']['Leave Management']['Cancle Leave'] = site_url('leave/leave_cancel');
-        
         
         
         $menu['deo']['Leave Management'] =array();

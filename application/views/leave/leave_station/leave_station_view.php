@@ -4,13 +4,15 @@
  * Author :- Nishant Raj
  */
 $ui = new UI();
+
+if ($notification == true) {
+    $ui->alert()->uiType($type)->desc($string)->show();
+}
 $row = $ui->row()->open();
 $alertRow = $ui->row()->open();
 $marginCol = $ui->col()->width(3)->open();
 $marginCol->close();
-if ($notification == true) {
-    $ui->alert()->uiType('danger')->desc($string)->show();
-}
+
 
 $alertRow->close();
 $margin = $ui->col()->width(2)->open();
@@ -41,7 +43,7 @@ $ui->datePicker()
     ->id('return_st_date')
         ->label('Proposed Date Of Reurning Station')
         ->name('return_st_date')
-        ->placeholder("Enter the date")
+    ->placeholder(" Select Returning Date")
         ->dateFormat('dd-mm-yyyy')
         ->width(6)
         ->value("")
@@ -149,7 +151,9 @@ $box1->close();
 $ui->button()
         ->value('Submit Station Leave request')
         ->name('submit')
+    ->id('application_submit')
         ->submit(true)
+    ->extras('onclick="incrementClick()"')
         ->uiType('primary')
         ->show();
     ?>
@@ -161,6 +165,7 @@ $column->close();
 $row->close();
 ?>
 <script charset="utf-8">
+    var index = 0;
     $("#return_st_date").on('change', function () {
         if (this.value != "") {
             $('#st_time').show();
@@ -171,9 +176,11 @@ $row->close();
             $('#approving_emp').show();
         }
     });
+
     $(window).load(function () {
         $('#st_time').hide();
         $('#approving_emp').hide();
+        $('#success_dialog_fade')
     });
     //$("#date")
 </script>

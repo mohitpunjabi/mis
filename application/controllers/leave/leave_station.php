@@ -27,6 +27,14 @@ class Leave_station extends MY_Controller {
         $this->emp_id = $this->session->userdata('id');
         $this->addJS("leave/deo_query.js");
         $this->load->model("leave/leave_station_model", 'lsm');
+        $this->load->model('employee_model');
+        $this->load->model('user_model', 'um');
+        $this->load->model('departments_model');
+        $this->load->model('leave/leave_users_details_model', 'ludm');
+        $this->load->model('designations_model');
+        $this->load->model('employee_model');
+        $this->load->model('leave/leave_bal_model', 'lbm');
+        $this->load->model('leave/leave_constants');
     }
 
     function index() {
@@ -55,11 +63,20 @@ class Leave_station extends MY_Controller {
         $leave_status = $this->lsm->get_station_leave_status($leave_id);
         if ($leave_id != NULL && $leave_status != Leave_constants::$CANCELED) {
             $data['notification'] = true;
+            $data['type'] = 'danger';
             $data['string'] = " You have previously applied station leave for same time and date . Please try again";
+        } else if ($arrival_date < $leaving_date) {
+            $data['notification'] = true;
+            $data['type'] = 'danger';
+            $data['string'] = " Arrival date should be greater than or equal to Leaving date";
         } else {
+
             $this->lsm->insert_station_leave_details($this->emp_id, $leaving_date, $leaving_time, $arrival_date, $arrival_time, $purpose, $address);
             $leave_id = $this->lsm->get_station_leave_id($this->emp_id, $current_time, $leaving_date, $leaving_time, $arrival_date, $arrival_time);
             $this->lsm->insert_station_leave_status($leave_id, $this->emp_id, $next_emp, Leave_constants::$PENDING);
+            $data['notification'] = true;
+            $data['type'] = 'success';
+            $data['string'] = 'Your leave have been Applied successfully and sent to selected employee';
         }
 
         $this->drawHeader('Leave Station Form');
@@ -79,6 +96,53 @@ class Leave_station extends MY_Controller {
         $this->load->view('leave/leave_station/station_leave_history_view', $data);
         $this->drawFooter();
     }
+
+
+    function pendingStationLeaveStatus()
+    {
+
+        $data = $this->lsm->get_pending_station_leave($this->emp_id);
+//        var_dump($data);
+        $this->drawHeader('Pending Leave for Approval/Cancel/Forward');
+        $this->load->view('leave/leave_station/pending_station_leave', $data);
+        $this->drawFooter();
+    }
+
+    /**
+     * @param $leave_id
+     * @param $next_emp_id
+     * @param $emp_id
+     */
+    function station_leave_approve($leave_id, $next_emp_id, $emp_id)
+    {
+        $data = array();
+        $details = $this->employee_model->getById($emp_id);
+        $data['emp'] = $details;
+        $data['img_path'] = $emp_id . "/";
+        $data['img_path'] .= $this->um->getPhotoById($emp_id);
+        $data['leave_id'] = $leave_id;
+        $data['next_emp'] = $next_emp_id;
+        $data['emp_id'] = $emp_id;
+        $data['leave_details'] = $this->lsm->get_station_leave_by_id($leave_id);
+        //$this->insert_station_leave_status($leave_id , $next_emp_id , $next_emp_id , Leave_constants::$APPROVED );
+        $this->drawHeader('Leave Approved');
+        $this->load->view('leave/leave_station/leave_station_approval_view', $data);
+        $this->drawFooter();
+
+    }
+
+    /**
+     * @param $leave_id
+     * @param $cur_emp
+     * @param $next_emp
+     * @param $status
+     */
+    function insert_station_leave_status($leave_id, $cur_emp, $next_emp, $status)
+    {
+
+        $this->lsm->insert_station_leave_status($leave_id, $cur_emp, $next_emp, $status);
+    }
+
     function isWeekend($date) {
     	$week_day = date('w', strtotime($date));
 

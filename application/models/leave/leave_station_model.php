@@ -12,6 +12,16 @@ class Leave_station_model extends CI_Model {
 		parent::__construct();
 	}
 
+    /**
+     * @param $emp_id
+     * @param $leaving_date
+     * @param $leaving_time
+     * @param $arrival_date
+     * @param $arrival_time
+     * @param $purpose
+     * @param $addr
+     * @return : NONE
+     */
     function insert_station_leave_details($emp_id, $leaving_date, $leaving_time, $arrival_date, $arrival_time, $purpose, $addr)
     {
 
@@ -29,15 +39,30 @@ class Leave_station_model extends CI_Model {
         $this->db->query($sql);
     }
 
+    /**
+     * @param $leave_id
+     * @param $current_emp
+     * @param $next_emp
+     * @param $status
+     */
     function insert_station_leave_status($leave_id, $current_emp, $next_emp, $status)
     {
 
         $sql = "INSERT INTO " . Leave_constants::$TABLE_STATION_LEAVE_STATUS .
-            " VALUES($leave_id , '$current_emp','$next_emp',$status ,'')";
+            " VALUES($leave_id , '$current_emp','$next_emp',$status,CURRENT_TIMESTAMP)";
 
         $this->db->query($sql);
     }
 
+    /**
+     * @param $emp_id
+     * @param $applying_date
+     * @param $leaving_date
+     * @param $leaving_time
+     * @param $arrival_date
+     * @param $arrival_time
+     * @return mixed
+     */
     function get_station_leave_id($emp_id, $applying_date, $leaving_date, $leaving_time, $arrival_date, $arrival_time)
     {
 
@@ -64,6 +89,10 @@ class Leave_station_model extends CI_Model {
         }
     }
 
+    /**
+     * @param $emp_id
+     * @return array
+     */
     function get_station_leave_history($emp_id)
     {
 
@@ -98,6 +127,10 @@ class Leave_station_model extends CI_Model {
         return $data;
     }
 
+    /**
+     * @param $leave_id
+     * @return array
+     */
     function get_station_leave_status($leave_id)
     {
 
@@ -116,6 +149,10 @@ class Leave_station_model extends CI_Model {
         }
     }
 
+    /**
+     * @param $emp_id
+     * @return string
+     */
     function get_user_name_by_id($emp_id)
     {
 
@@ -132,5 +169,76 @@ class Leave_station_model extends CI_Model {
             $name = "$salutation " . "$f_name " . "$m_name " . "$l_name";
             return $name;
         }
+    }
+
+    /**
+     * @param $emp_id
+     * @return array
+     */
+    function get_pending_station_leave($emp_id)
+    {
+        $pending = Leave_constants::$PENDING;
+        $forwarded = Leave_constants::$FORWARDED;
+        $sql = "SELECT * FROM " . Leave_constants::$TABLE_STATION_LEAVE_STATUS .
+            " WHERE next = '$emp_id'";
+
+        $result = $this->db->query($sql)->result_array();
+        $data = array();
+        $data['data'] = array();
+        $data['data'] = NULL;
+        $i = 0;
+        foreach ($result as $row) {
+
+            $status = $this->get_station_leave_status($row['id']);
+            if ($status['status'] == Leave_constants::$PENDING) {
+                $data['data'][$i] = array();
+                $temp = array();
+                $temp = $this->get_station_leave_by_id($row['id']);
+                $data['data'][$i]['status'] = $status['status'];
+                $data['data'][$i]['leave_id'] = $row['id'];
+                $data['data'][$i]['crt_emp'] = $emp_id;
+                $data['data'][$i]['emp_id'] = $temp['emp_id'];
+                $data['data'][$i]['name'] = $this->get_user_name_by_id($temp['emp_id']);
+                $data['data'][$i]['apl_date'] = $temp['applying_date'];
+                $data['data'][$i]['lv_date'] = $temp['leaving_date'];
+                $data['data'][$i]['lv_time'] = $temp['leaving_time'];
+                $data['data'][$i]['rt_date'] = $temp['arrival_date'];
+                $data['data'][$i]['rt_time'] = $temp['arrival_time'];
+                $data['data'][$i]['purpose'] = $temp['purpose'];
+                $data['data'][$i]['addr'] = $temp['addr'];
+                $lv_date = strtotime($temp['leaving_date']);
+                $rt_date = strtotime($temp['arrival_date']);
+                $period = (($rt_date - $lv_date) / (24 * 60 * 60)) + 1;
+                $data['data'][$i]['period'] = $period;
+                $i++;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * @param $leave_id
+     * @return string
+     */
+    function get_station_leave_by_id($leave_id)
+    {
+        $sql = "SELECT * FROM " . Leave_constants::$TABLE_STATION_LEAVE .
+            " WHERE id = '$leave_id'";
+
+        $result = $this->db->query($sql)->result_array();
+
+        $data = array();
+        $data = NULL;
+        foreach ($result as $temp) {
+            $data['emp_id'] = $temp['emp_id'];
+            $data['applying_date'] = $temp['applying_date'];
+            $data['leaving_date'] = $temp['leaving_date'];
+            $data['leaving_time'] = $temp['leaving_time'];
+            $data['arrival_date'] = $temp['arrival_date'];
+            $data['arrival_time'] = $temp['arrival_time'];
+            $data['purpose'] = $temp['purpose'];
+            $data['addr'] = $temp['addr'];
+        }
+        return $data;
     }
 }

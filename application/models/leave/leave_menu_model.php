@@ -22,8 +22,10 @@ class Leave_menu_model extends CI_Model{
         $menu['emp']['Leave Management']['Station Leave']['Station Leave History'] = site_url('leave/leave_station/stationLeaveHistory');
         $menu['emp']['Leave Management']['Leave History'] = site_url('leave/leave_history');
         $menu['emp']['Leave Management']['Cancle Leave'] = site_url('leave/leave_cancel');
-        
-        
+
+        $menu['hod']['Leave Management']['Station Leave'] = array();
+        $menu['hod']['Leave Management']['Station Leave']['Pending Leave for Approval/Disapproval'] = site_url('leave/leave_station/pendingStationLeaveStatus');
+
         $menu['deo']['Leave Management'] =array();
         $menu['deo']['Leave Management']['Leave Entry by Employee ID']=site_url('leave/leave_deo');
         $menu['deo']['Leave Management']['View Leave History'] = site_url('leave/leave_deo/leave_administration');

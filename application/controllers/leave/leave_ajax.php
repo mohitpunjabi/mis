@@ -15,7 +15,7 @@ class Leave_ajax extends CI_Controller
 	}
 
 	public function get_dept($type) {
-        var_dump($type);
+        //var_dump($type);
 		$this->load->model('departments_model');
 		$result = $this->departments_model->get_departments ($type);
 		$data['result'] = $result;

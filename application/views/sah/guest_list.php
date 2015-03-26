@@ -50,5 +50,4 @@ $headingBox = $ui->box()
 					$table->close();
 		
 $headingBox->close();
-
 ?>

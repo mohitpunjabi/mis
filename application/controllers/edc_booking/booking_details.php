@@ -20,6 +20,11 @@ class Booking_details extends MY_Controller
 			$data['app_num'] = $row['app_num'];
 			$data['user'] = $this->user_model->getNameById($row['user_id']);
 			$data['app_date'] = date('j M Y g:i A', strtotime($row['app_date']));
+			$data['hod_approved_status'] = $row['hod_approved_status'];
+			$data['hod_approved_timestamp'] = date('j M Y g:i A', strtotime($row['hod_approved_timestamp']));
+			$data['pce_approved_status'] = $row['pce_approved_status'];
+			$data['pce_approved_timestamp'] =date('j M Y g:i A', strtotime($row['hod_approved_timestamp']));
+			$data['deny_reason'] = $row['deny_reason'];
 			$data['purpose'] = $row['purpose'];
 			$data['check_in'] = $row['proposed_check_in'];
 			$data['check_out'] = $row['proposed_check_out'];
@@ -31,11 +36,12 @@ class Booking_details extends MY_Controller
 				$data['email'] = "NA";
 		}
 		
-		$res = $this->edc_booking_model->get_guest_details ($app_num);
-		$data['guests'] = $res;
 		$data['auth'] = $auth;
  		$this->drawHeader ("Booking Details");
-		$this->load->view('edc_booking/booking_details',$data);
+ 		if ($auth == "emp")
+ 			$this->load->view('edc_booking/booking_details_emp', $data);
+ 		else
+			$this->load->view('edc_booking/booking_details',$data);
 		$this->drawFooter();		
 	}		
 }

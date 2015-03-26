@@ -45,7 +45,7 @@ class Edc_booking_model extends CI_Model
 	function get_guest_details ($app_num)
 	{
 		$this->db->where('app_num',$app_num);
-		$query = $this->db->get('edc_registration_details');
+		$query = $this->db->get('edc_guest_details');
 		return $query->result_array();
 	}
 
@@ -74,29 +74,34 @@ class Edc_booking_model extends CI_Model
 			$user_id = $row['user_id'];
 		return $user_id;	
 	}
-/*	function is_there_any_application_for_user($user_id)
+
+	function get_pending_booking_details ($user_id)
 	{
 		$this->db->where('user_id',$user_id);
-		$this->db->where('app_status','Pending');
-		$query = $this->db->select('app_num')
-						  ->from('sah_application')
-						  ->get();
-		$appnum = $query->result_array();
-		if (count($appnum) == 0)
-			return 0;
-		else
-			return 1;
-	}
-	
-	function get_all_applications_with_checkin_today_onwards($user_id)
-	{
-		$this->db->where('user_id',$user_id);
-		$this->db->where('check_in >',date("Y-m-d",strtotime(date("Y-m-d"))+19800-86400));
-		$query = $this->db->order_by('app_date','asc')->get('sah_application');
+		$where = "hod_approved_status = 'Pending' OR pce_approved_status = 'Pending'";
+		$this->db->where($where);
+		$query = $this->db->get('edc_registration_details');
 		
 		return $query->result_array();
 	}
-	
+
+	function get_booking_history ($user_id, $status)
+	{
+		if ($status == "Approved") {
+			$this->db->where('user_id',$user_id);
+			$this->db->where('pce_approved_status','Approved');
+			$query = $this->db->order_by('app_date','desc')->get('edc_registration_details');
+			return $query->result_array();					
+		}
+		else {
+			$this->db->where('user_id',$user_id);
+			$where = "hod_approved_status = 'Rejected' OR pce_approved_status = 'Rejected'";
+			$this->db->where($where);
+			$query = $this->db->get('edc_registration_details');
+			return $query->result_array();			
+		}
+	}
+/*		
 	function get_all_guests_for_a_application($app_num)
 	{
 		$this->db->where('app_num',$app_num);

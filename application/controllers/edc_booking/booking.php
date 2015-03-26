@@ -76,19 +76,6 @@ class Booking extends MY_Controller
 		$this->notification->notify ($hod, "hod", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_details/details/".$app_num."/hod", "");
 
 		$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully sent.');
-		redirect('edc_booking/booking/track_status');
+		redirect('edc_booking/track_status');
 	}
-
-	function track_status()
-	{
-		$this->drawHeader('Executive Development Center');
-		$this->drawFooter();
-	}
-	
-	function history()
-	{	
-		$this->drawHeader('Executive Development Center');
-		$this->drawFooter();
-	}
-		
 }

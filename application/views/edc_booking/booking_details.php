@@ -54,18 +54,12 @@
 				?><p><strong> Payment made by Name </strong><br/>
 				  <span><?= $amount_name ?></span></p><?
 			$c2->close();
+			$c3 = $ui->col()->width(4)->open();
+				?><p><strong> <a href="<?php echo site_url("edc_booking/guest_details/get_guests/".$app_num);?>">Guest Details</a>  </strong><br/>
+				 </p><?
+			$c3->close();
 		$inputRow3->close();
 
-
-		$guestDetailsBox = $ui->box()
-							  ->uiType('primary')	
-							  ->solid()
-							  ->title("Guest Details")
-							  ->open();
-
-				//table of guest details			  
-
-		$guestDetailsBox ->close();
 
 		if ($auth == 'hod')
 			$form = $ui->form()->action('edc_booking/hod/hod_action/'.$app_num)->open();

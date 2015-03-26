@@ -7,7 +7,7 @@ class Booking_details extends MY_Controller
 		parent::__construct(array('emp','stu'));
 	}
 	
-	public function details ($app_num)
+	public function details ($app_num, $auth)
 	{
 		$this->load->model ('edc_booking/edc_booking_model', '', TRUE);
 		$res = $this->edc_booking_model->get_booking_details($app_num);
@@ -33,9 +33,9 @@ class Booking_details extends MY_Controller
 		
 		$res = $this->edc_booking_model->get_guest_details ($app_num);
 		$data['guests'] = $res;
-		$this->drawHeader ("Booking Details");
+		$data['auth'] = $auth;
+ 		$this->drawHeader ("Booking Details");
 		$this->load->view('edc_booking/booking_details',$data);
 		$this->drawFooter();		
-	}
-		
+	}		
 }

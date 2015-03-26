@@ -38,7 +38,7 @@
 					{
 ?>
 						<tr>
-							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_pending[$sno][1]."/hod");?>"><?php echo $data_array_pending[$sno][1];?></a></td>
+							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_pending[$sno][1]."/pce");?>"><?php echo $data_array_pending[$sno][1];?></a></td>
 							<td><?php echo $data_array_pending[$sno][2];?></td>
 							<td><?php echo $data_array_pending[$sno][3];?></td>
 							<td><?php echo $data_array_pending[$sno][4];?></td>
@@ -79,7 +79,7 @@
 					{
 ?>
 						<tr>
-							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_rejected[$sno][1]."/hod");?>"><?php echo $data_array_rejected[$sno][1];?></a></td>
+							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_rejected[$sno][1]."/pce");?>"><?php echo $data_array_rejected[$sno][1];?></a></td>
 							<td><?php echo $data_array_rejected[$sno][2];?></td>
 							<td><?php echo $data_array_rejected[$sno][3];?></td>
 							<td><?php echo $data_array_rejected[$sno][4];?></td>
@@ -120,7 +120,7 @@
 					{
 ?>
 						<tr>
-							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_approved[$sno][1]."/hod");?>"><?php echo $data_array_approved[$sno][1];?></a></td>
+							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_approved[$sno][1]."/pce");?>"><?php echo $data_array_approved[$sno][1];?></a></td>
 							<td><?php echo $data_array_approved[$sno][2];?></td>
 							<td><?php echo $data_array_approved[$sno][3];?></td>
 							<td><?php echo $data_array_approved[$sno][4];?></td>

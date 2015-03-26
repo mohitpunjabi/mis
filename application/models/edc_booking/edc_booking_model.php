@@ -18,7 +18,7 @@ class Edc_booking_model extends CI_Model
 		$this->db->insert('edc_registration_details',$data);
 	}
 
-	function get_requests ($status, $dept_id)
+	function get_hod_requests ($status, $dept_id)
 	{
 		$this->db->where('dept_id',$dept_id);
 		$this->db->where('hod_approved_status',$status);
@@ -26,6 +26,15 @@ class Edc_booking_model extends CI_Model
 		return $query->result_array();
 	}
 	
+	function get_pce_requests ($status, $dept_id)
+	{
+		$this->db->where('dept_id',$dept_id);
+		$this->db->where('hod_approved_status','Approved');
+		$this->db->where('pce_approved_status',$status);
+		$query = $this->db->order_by('app_date','asc')->get('edc_registration_details');		
+		return $query->result_array();
+	}
+
 	function get_booking_details ($app_num)
 	{
 		$this->db->where('app_num',$app_num);
@@ -40,13 +49,30 @@ class Edc_booking_model extends CI_Model
 		return $query->result_array();
 	}
 
-	function get_hod ($dept_id)
+	function update_hod_action ($app_num, $status, $reason)
 	{
-		$query = $this->db->query ("select user_details.id as id from user_details INNER JOIN user_auth_types on user_details.id = user_auth_types.id where dept_id = '".$dept_id."' and auth_id = 'hod'");
-		$res = $query->result_array();
-		foreach ($res as $row)
-			return ($row['id']);
-		return false;
+		if ($status == "Approved")
+			$this->db->query ("UPDATE edc_registration_details SET hod_approved_status= '".$status."', hod_approved_timestamp = now(), pce_approved_status = 'Pending' WHERE app_num = '".$app_num."';");
+		else
+			$this->db->query ("UPDATE edc_registration_details SET hod_approved_status= '".$status."', hod_approved_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");			
+	}
+
+	function update_pce_action ($app_num, $status, $reason)
+	{
+		if ($status == "Approved")
+			$this->db->query ("UPDATE edc_registration_details SET pce_approved_status= '".$status."', pce_approved_timestamp = now() WHERE app_num = '".$app_num."';");
+		else
+			$this->db->query ("UPDATE edc_registration_details SET pce_approved_status= '".$status."', pce_approved_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");			
+	}
+
+	function get_request_user_id ($app_num)
+	{
+		$this->db->where('app_num',$app_num);
+		$query = $this->db->get('edc_registration_details');		
+		$user_id = '';
+		foreach ($query->result_array() as $row)
+			$user_id = $row['user_id'];
+		return $user_id;	
 	}
 /*	function is_there_any_application_for_user($user_id)
 	{

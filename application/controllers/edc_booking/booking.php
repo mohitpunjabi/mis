@@ -68,8 +68,12 @@ class Booking extends MY_Controller
 			$this->edc_booking_model->insert_guest_details($data);
 		}
 
-		$hod = $this->edc_booking_model->get_hod($dept_id);
-		$this->notification->notify ($hod, "hod", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_details/details/".$app_num, "");
+		$this->load->model ('user_model');
+		$res = $this->user_model->getUsersByDeptAuth($dept_id, 'hod');
+		$hod = '';
+		foreach ($res as $row)
+			$hod = $row->id;
+		$this->notification->notify ($hod, "hod", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_details/details/".$app_num."/hod", "");
 
 		$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully sent.');
 		redirect('edc_booking/booking/track_status');

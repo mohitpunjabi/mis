@@ -21,6 +21,10 @@ class Edc_booking_menu_model extends CI_Model
 //		$menu['hod']['EDC Booking']=array();
 		$menu['hod']['EDC Booking'] = site_url('edc_booking/hod');
 		
+		//$auth=> Head of Department
+//		$menu['hod']['EDC Booking']=array();
+		$menu['pce']['EDC Booking'] = site_url('edc_booking/pce');
+
 		return $menu;
 	}
 }

@@ -132,9 +132,9 @@
 						
 							$('#rc_dis tbody').html("");
 							var i =0;
-							alert(data);
+							//alert(data);
 							$.each(json,function(key,value){
-									r="<tr><td><input data-toggle='tooltip' data-placement='top' type='text' value='"+value.m_name+"' id='mid-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' type='text' value='' id='mdis-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvfrom_dt-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvto_dt-"+i+"'/></td><td> <a onclick='save("+value.m_id+","+i+","+value.manu_id+","+sid+")'><span style='color:green;' class='glyphicon glyphicon-floppy-disk'></span></a></td></tr>";
+									r="<tr><td><input data-toggle='tooltip' data-placement='top' type='text'disabled='disabled' value='"+value.m_name+"' id='mid-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' type='text' value='' id='mdis-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvfrom_dt-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvto_dt-"+i+"'/></td><td> <a onclick='save("+value.m_id+","+i+","+value.manu_id+","+sid+")'><span style='color:green;' class='glyphicon glyphicon-floppy-disk'></span></a></td></tr>";
 									$('#rc_dis').append(r);
 									i++;
 									
@@ -157,29 +157,27 @@ function save(mid,row,manuid,sid)
 	 var vfrom=$('#mvfrom_dt-'+row).val();
 	 var vto=$('#mvto_dt-'+row).val();
 	 
-	 
+	 if(dis==""||vfrom==""||vto=="")
+	{
+		alert("Please Provide Input");
+	}
+	else{
 // alert("mid="+mid); alert("row="+row); alert("manu="+manuid);alert("sid="+sid); alert("dis="+dis); alert("dis from="+vfrom); alert("dis to="+vto);
 	 $.ajax({
 						url:'<?php echo site_url('healthcenter/rc_by_supp/insert') ?>',
 						type:"POST",
 						data:{"s_id":sid,"manu_id":manuid,"m_id":mid,"sdis":dis,"sdvfrom":vfrom,"sdvto":vto},
 						success:function(data){
-						alert(data);
-						//var json = $.parseJSON(data);
-							if(data !='0'){
-							//
-							$("#"+data+"-"+row).css('background-color','#FEC7C8');
-							$("#"+data+"-"+row).attr('title','Provide Input');
-							$("#"+data+"-"+row).tooltip();
-							}else{
-								$('#qty-'+row).css('background-color','#C3CFDB');
-								$('#qty-'+row).attr("disabled", "disabled"); 
+						
+							
 								
-							}
+								alert("Record Saved");
+								
+							
 						}
 					});
 	 
-	 
+	}
 	 
 	 
 

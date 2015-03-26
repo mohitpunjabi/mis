@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-12 ">
 	<!-- Error Form-->
-	
+	<div id="printableArea">
 	<div class="box box-solid box-primary">
 				
 	<div class="table-responsive">					
@@ -105,11 +105,12 @@
 							</div>
 										
 						</div>
+	</div>
 						<div class="row">
 						
 							<div class="col-md-12">
 								
-									<button type="button" class="btn btn-primary">Print</button>
+									<button type="button" onclick="printDiv('printableArea')" class="btn btn-primary">Print</button>
 								
 							</div>
 							
@@ -138,7 +139,16 @@ $(function(){
 	
 });
 
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
 
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
 
 
 </script>

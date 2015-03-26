@@ -41,9 +41,15 @@ class Rc_by_manu extends MY_Controller
 					
 					);
 					
+				//	print_r($data);
+				//	die;
+					
 					$this->load->model('healthcenter/discount_model','',TRUE);
-					$this->discount_model->supp_dis_insert($data);
-					echo "0";
+					$this->discount_model->manu_dis_insert($data);
+					//echo "0";
+					
+				
+					
 					//return false;
 				
 			}

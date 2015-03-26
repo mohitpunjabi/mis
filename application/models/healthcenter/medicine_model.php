@@ -8,6 +8,7 @@ class Medicine_model extends CI_Model
 	var $manuf = 'hc_manufacturer';
 	var $m_receive = 'hc_medi_receive';
 	var $t_po='hc_pur_order';
+	var $hc ='hc_indent_description';
 	
 	
 	
@@ -351,6 +352,51 @@ FROM
 			return $q->result_array();
 		}
 		
+		
+	}
+	
+	function getAll_Medi_byID($id)
+	{
+			
+			/*$query = $this->db->select("*");
+			$query = $this->db->from('hc_medicine');
+			$query = $this->db->where('m_id',$id);
+			$query=$this->db->get();
+			if($query->num_rows() > 0)
+			{	
+				
+			return $query->result();
+			}
+			else
+			{
+				return FALSE;
+			}*/
+			$this->db->select('*');
+			$this->db->from('hc_medicine');
+			$this->db->join('hc_manufacturer', 'hc_medicine.manu_id = hc_manufacturer.manu_id');
+			 $this->db->where('hc_medicine.m_id',$id);
+			$query = $this->db->get();
+						
+			if($query->num_rows() > 0)
+			{	
+				
+			return $query->result_array();
+			}
+			else
+			{
+				return FALSE;
+			}
+	}
+	function update_medi($id,$data){
+     $this->db->where('m_id', $id);
+     $this->db->update('hc_medicine', $data);  
+    }
+	function delete_MediBy_id($id)
+	{
+		$this->db->where('m_id', $id);
+		$this->db->delete('hc_medicine');
+		if ( $this->db->affected_rows() >0 ) {return TRUE;}
+			else {return FALSE;}
 		
 	}
 

@@ -133,7 +133,7 @@ width: 80px;
 	  var amt=$('#amount-'+row).val();
 	  var sqty1=$('#sqty-'+row).val();
 	  
-		//alert(suppdate);
+		
 		//alert(expdate);
 		//----------------------------------------------------------
 		
@@ -171,14 +171,15 @@ width: 80px;
 							//var json = $.parseJSON(data);
 							if(data !='0'){
 							//
-							$("#"+data+"-"+row).css('background-color','#FEC7C8');
-							$("#"+data+"-"+row).attr('title','Provide Input');
-							$("#"+data+"-"+row).tooltip();
+							alert("Please Provide Input");
+							//$("#"+data+"-"+row).css('background-color','#FEC7C8');
+							//$("#"+data+"-"+row).attr('title','Provide Input');
+							//$("#"+data+"-"+row).tooltip();
 							}else{
-								$('#qty-'+row).css('background-color','#C3CFDB');
-								$('#qty-'+row).attr("disabled", "disabled"); 
+								//$('#qty-'+row).css('background-color','#C3CFDB');
+								//$('#qty-'+row).attr("disabled", "disabled"); 
 								
-								
+								alert("Record Saved");
 								
 							}
 							

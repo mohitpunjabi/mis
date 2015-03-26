@@ -132,6 +132,7 @@
 									//create radio button
 									$data_radio1 = array(
 									'name' => 'group',
+									'id' => 'group',
 									'value' => 'A',
 									);
 									echo form_radio($data_radio1);
@@ -147,6 +148,7 @@
 											
 											$data_radio2 = array(
 											'name' => 'group',
+											'id' => 'group',
 											'value' => 'B',
 											);
 											echo form_radio($data_radio2);
@@ -230,7 +232,7 @@ $(document).ready(function(){
 								$("#m_reg_address").val(json.show_list[0].m_ro_address);
 								$("#m_reg__cnumber").val(json.show_list[0].m_ro_con_num);
 								$("#m_reg_contact").val(json.show_list[0].m_ro_con_person);
-								$("#group").val(json.show_list[0].m_group);
+								//$("#group").val(json.show_list[0].m_group);
 						}
 
 					 });
@@ -244,15 +246,21 @@ $(document).ready(function(){
 					$('#del_btn').click(function(){
 						id=$("#selmanu").val();
 							//alert(id);
+							if(id=="none")
+							{
+								alert("Please Select Manufacturer");
+								return false;
+							}
 							if(confirm("Do You want to Delete this Record"))
 						{
 							$.ajax({
 					url: "<?Php echo base_url(); ?>index.php/healthcenter/edit_manufacturer/del_manu/"+id,
 					 success: function(data)
 						{
-							alert(data);
-								alert("Manufacturer Deleted Successfully");
-								//$('#reportresult').html(data);
+							if(data=="1")
+								{
+									window.location=site_url("healthcenter/mainfile");
+								}
 						}
 						});
 						}
@@ -263,7 +271,21 @@ $(document).ready(function(){
 					
 					$('#up_btn').click(function(){
 						id=$("#selmanu").val();
-							alert(id);
+						
+						
+							if(id=="none")
+							{
+								alert("Please Select Manufacturer");
+								return false;
+							}
+							
+							
+							if($("#group:checked").length==0)
+							{
+								alert("Please Select Group of Manufacturer");
+								return false;
+							}
+							
 							
 							$.ajax({
 					url: "<?Php echo base_url(); ?>index.php/healthcenter/edit_manufacturer/update_manu/",

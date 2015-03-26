@@ -92,7 +92,7 @@
 			
 					
 			id=$("#selmanu").val();
-			alert(id);
+			//alert(id);
 				$.ajax({
 					url: "<?Php echo base_url(); ?>index.php/healthcenter/rc_by_manu/show_medi/"+id,
 					 success: function(data)
@@ -101,9 +101,9 @@
 						
 							$('#rc_dis tbody').html("");
 							var i =0;
-							alert(data);
+						//	alert(data);
 							$.each(json,function(key,value){
-									r="<tr><td><input data-toggle='tooltip' data-placement='top' type='text' value='"+value.m_name+"' id='mid-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' type='text' value='' id='mdis-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvfrom_dt-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvto_dt-"+i+"'/></td><td> <a onclick='save("+value.m_id+","+i+","+value.manu_id+")'><span style='color:green;' class='glyphicon glyphicon-floppy-disk'></span></a></td></tr>";
+									r="<tr><td><input data-toggle='tooltip' data-placement='top' type='text' disabled='disabled' value='"+value.m_name+"' id='mid-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' type='text' value='' id='mdis-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvfrom_dt-"+i+"'/></td><td><input data-toggle='tooltip' data-placement='top' data-provide='datepicker' data-date-format='dd M yyyy' id='mvto_dt-"+i+"'/></td><td> <a onclick='save("+value.m_id+","+i+","+value.manu_id+")'><span style='color:green;' class='glyphicon glyphicon-floppy-disk'></span></a></td></tr>";
 									$('#rc_dis').append(r);
 									i++;
 									
@@ -124,27 +124,24 @@
 	 var vto=$('#mvto_dt-'+row).val();
 	 
 	 
-	 //alert("mid="+mid); alert("row="+row); alert("manu="+manuid); alert("dis="+dis); alert("dis from="+vfrom); alert("dis to="+vto);
+	 
+	if(dis==""||vfrom==""||vto=="")
+	{
+		alert("Please Provide Input");
+	}
+	else{
+//	alert("mid="+mid); alert("row="+row); alert("manu="+manuid); alert("dis="+dis); alert("dis from="+vfrom); alert("dis to="+vto);
 	 $.ajax({
 						url:'<?php echo site_url('healthcenter/rc_by_manu/insert') ?>',
 						type:"POST",
 						data:{"manu_id":manuid,"m_id":mid,"mdis":dis,"mdvfrom":vfrom,"mdvto":vto},
 						success:function(data){
-							//var json = $.parseJSON(data);
-							if(data !='0'){
-							//
-							$("#"+data+"-"+row).css('background-color','#FEC7C8');
-							$("#"+data+"-"+row).attr('title','Provide Input');
-							$("#"+data+"-"+row).tooltip();
-							}else{
-								$('#qty-'+row).css('background-color','#C3CFDB');
-								$('#qty-'+row).attr("disabled", "disabled"); 
-								
-							}
+							//alert(data);
+							alert("Record Saved");
 						}
 					});
 	 
-	 
+	}
 	 
 	 
 

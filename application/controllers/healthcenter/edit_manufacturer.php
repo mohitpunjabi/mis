@@ -78,6 +78,8 @@ class Edit_manufacturer extends MY_Controller
 		
 		$this->load->model('healthcenter/manufacturer_model','',TRUE);
 		$r=$this->manufacturer_model->delete_ManuBy_id($id);
+		$this->session->set_flashdata('flashSuccess','Manufacturer Deleted Successfully.');
+					echo "1";
 		
 	}
 	public function get_data($id)

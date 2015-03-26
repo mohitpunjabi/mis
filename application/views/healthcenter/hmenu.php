@@ -59,7 +59,8 @@
 									<ul class="dropdown-menu">
 										<li><a href="<?php echo site_url("healthcenter/add_medicine") ?>"><span class="glyphicon glyphicon-paperclip"></span> Add</a></li>
 										<li class="divider"></li>
-										
+										<li><a href="<?php echo site_url("healthcenter/edit_medicine") ?>"><span class="glyphicon glyphicon-share"></span> Edit</a></li>
+										<li class="divider"></li>
 										<li><a href="<?php echo site_url("healthcenter/view_medicine") ?>"><span class="glyphicon glyphicon-share"></span> View</a></li>
 										<li class="divider"></li>
 									</ul>

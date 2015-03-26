@@ -14,6 +14,24 @@
 					<h3 class="box-title">Medicine Infomation</h3>
 				</div>
 				<div class="box-body">
+				<div class="row">
+				<div class="col-md-12">
+						<div class="form-group">
+							<div class="form-group">
+							<label for="mname">Select Medicine</label>
+									
+									<select name="selmedi" id="selmedi" class="form-control" >
+										<option value="none" selected="selected">Select Medicine</option>
+
+										<?php foreach($medi_list as $r):?>
+										<option value="<?php echo $r->m_id?>"><?php echo $r->m_name?></option>
+										<?php endforeach;?>
+									</select>
+							
+						</div>
+						</div>
+					</div>
+				</div>
 				
 				<div class="row">
 				<div class="col-md-6">
@@ -57,7 +75,7 @@
 						<div class="form-group">
 							<label for="mname">Select Manufacturer</label>
 									
-									<select name="selmanu" class="form-control" >
+									<select name="selmanu" id="selmanu" class="form-control" >
 										<option value="none" selected="selected">Select Manufacturer</option>
 
 										<?php foreach($manu_list as $r):?>
@@ -161,7 +179,10 @@
 				</div>
 				
 				<div class="box-footer">
-				<?php  echo form_submit('submit','Submit','class="btn btn-primary"'); ?>
+				
+				<button type="button" id ="up_btn" class="btn btn-primary">Update</button>
+				
+				
 				</div>
 				
 			</div>
@@ -177,4 +198,102 @@
 	border:1px groove #3c8dbc !important;
 }
 </style>
+
+<script>
+$(document).ready(function(){
+
+
+ 
+				
+					$('#selmedi').change(function() {
+					var id=$(this).val();
+					//alert(id);
+					$.ajax({
+					url: "<?Php echo base_url(); ?>index.php/healthcenter/edit_medicine/get_data/"+id,
+					 success: function(data)
+						{
+								//alert(data);
+								var json = $.parseJSON(data);
+								$("#medname").val(json.show_list[0].m_name);
+								//$("#dropdown_type option:selected").attr('selected','selected');
+								$("#dropdown_type option:contains('"+json.show_list[0].mtype+"')").attr('selected','selected').attr('value');
+								$("#gname").val(json.show_list[0].m_generic_nm);
+								$("#seffect").val(json.show_list[0].m_sideeffect);
+								$("#adultdose").val(json.show_list[0].m_adult_dose);
+								$("#kiddose").val(json.show_list[0].m_kids_dose);
+								$("#thresh").val(json.show_list[0].threshold);
+								$("#rackno").val(json.show_list[0].rack_no);
+								$("#cabinetno").val(json.show_list[0].cabi_no);
+								//$("#selmanu option:selected").text(json.show_list[0].manu_name).attr('selected','selected');.
+								$("#selmanu option:contains('"+json.show_list[0].manu_name+"')").attr('selected','selected').attr('value');
+								$("#sdelaytm").val(json.show_list[0].std_del_time);
+								$("#c_stock").val(json.show_list[0].c_stock);
+						}
+
+					 });
+					
+					
+					
+					
+					});
+					
+					
+					
+					$('#del_btn').click(function(){
+						id=$("#selmedi").val();
+							//alert(id);
+							if(confirm("Do You want to Delete this Record"))
+						{
+							$.ajax({
+					url: "<?Php echo base_url(); ?>index.php/healthcenter/edit_medicine/del_medi/"+id,
+					 success: function(data)
+						{
+							alert(data);
+								if(data=="1")
+								{
+									window.location=site_url("healthcenter/mainfile");
+								}
+								if(data=="0")
+								{
+									alert("Medicine Can not be Deleted.")
+								}
+								
+						}
+						});
+						}
+						
+					
+				
+					});
+					
+					$('#up_btn').click(function(){
+						var i= $("#dropdown_type option:selected").text();
+						var j= $("#selmanu option:selected").attr('value');
+						id=$("#selmedi").val();
+							//alert(id);
+							$.ajax({
+					url: "<?Php echo base_url(); ?>index.php/healthcenter/edit_medicine/update_medi/",
+					type:"POST",
+					
+					data:{"m_id":id,"medname":$("#medname").val(),"dropdown_menu":i.toString(),"gname":$("#gname").val(),"seffect":$("#seffect").val(),"adultdose":$("#adultdose").val(),"kiddose":$("#kiddose").val(),"thresh":$("#thresh").val(),"rackno":$("#rackno").val(),"cabinetno":$("#cabinetno").val(),"selmanu":j.toString(),"sdelaytm":$("#sdelaytm").val(),"c_stock":$("#c_stock").val()},
+					 success: function(data)
+						{
+								
+								//alert(data);
+								if(data=="1")
+								{
+									window.location=site_url("healthcenter/mainfile");
+								}
+								
+						}
+							});
+							
+							
+						
+						});
+					
+					
+
+ });
+ </script>
 

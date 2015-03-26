@@ -11,7 +11,7 @@ class View_finyear extends MY_Controller
 			{
 					$this->load->model('healthcenter/fy_model','',TRUE);
 					//$this->output->enable_profiler(true);
-					$r=$data['fy_list'] = $this->fy_model->fyear_getAll();
+					$r=$data['fy_list'] = $this->fy_model->fyear_getAll_view();
 					if($r)
 					{
 					$this->drawHeader("Health Center");

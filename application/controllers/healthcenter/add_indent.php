@@ -61,7 +61,7 @@ class Add_indent extends MY_Controller
 			'indent_ref_no' => $this->input->post('ind_ref_no'),
 			'indent_date'=>date('Y-m-d',strtotime($this->input->post('ind_date'))) ,
 			'ind_type'=> $this->input->post('ind_type'),
-			's_id'=>$this->input->post('s_id'),
+			's_id'=>$this->input->post('selsup'),
 			'indent_timestamp'=>$timestamp,
 			'image_path'=>NULL,
 			'remarks'=>$t_remarks
@@ -183,7 +183,7 @@ class Add_indent extends MY_Controller
 	
 	function viewindent()
 	{
-		
+	//	$this->addJS('employee/print_script.js');
 		if($this->input->get("id")){
 			 $id=$this->input->get("id");
 		$this->load->model('healthcenter/indent_model','',TRUE);

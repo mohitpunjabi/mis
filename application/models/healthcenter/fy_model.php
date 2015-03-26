@@ -53,6 +53,21 @@ class Fy_model extends CI_Model
 				return FALSE;
 			}
 	}
+	function fyear_getAll_view()
+	{
+			
+			$query = $this->db->query("SELECT * FROM hc_budget order by curr_fin_year desc");
+			
+			if($query->num_rows() > 0)
+			{	
+				
+			return $query->result();
+			}
+			else
+			{
+				return FALSE;
+			}
+	}
 	
 	function getFYById($id,$t=""){
 			$this->db->select('*');

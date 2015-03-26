@@ -6,7 +6,7 @@
                                 <?php echo validation_errors(); ?>
     </div>
 	<?php } ?>
-	
+	<div id="printableArea">
 	<div class="box box-solid box-primary">
 				<h2 class="page-header">Indian School of Mines</h2>
 	<div class="table-responsive">					
@@ -170,19 +170,20 @@
 							</div>
 										
 						</div>
+	</div>
 						<div class="row">
 						
 							<div class="col-md-4">
 								
-									<button type="button" class="btn btn-primary">Print</button>
+									<button type="button" onclick="printDiv('printableArea')" class="btn btn-primary">Print</button>
 								
 							</div>
 							
 										
 						</div>
-	</div>
-	</div>
 	
+	</div>
+	</div>
 </div>
 </div>
 
@@ -210,7 +211,16 @@ $(function(){
 	
 });
 
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
 
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
 
 
 </script>

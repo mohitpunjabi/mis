@@ -74,6 +74,7 @@ class Leave_station extends MY_Controller {
             $this->lsm->insert_station_leave_details($this->emp_id, $leaving_date, $leaving_time, $arrival_date, $arrival_time, $purpose, $address);
             $leave_id = $this->lsm->get_station_leave_id($this->emp_id, $current_time, $leaving_date, $leaving_time, $arrival_date, $arrival_time);
             $this->lsm->insert_station_leave_status($leave_id, $this->emp_id, $next_emp, Leave_constants::$PENDING);
+
             $data['notification'] = true;
             $data['type'] = 'success';
             $data['string'] = 'Your leave have been Applied successfully and sent to selected employee';
@@ -113,10 +114,11 @@ class Leave_station extends MY_Controller {
      * @param $next_emp_id
      * @param $emp_id
      */
-    function station_leave_approve($leave_id, $next_emp_id, $emp_id)
+    function station_leave_approve($leave_id, $next_emp_id, $emp_id, $rqst_type)
     {
         $data = array();
         $details = $this->employee_model->getById($emp_id);
+        $data['type'] = $rqst_type;
         $data['emp'] = $details;
         $data['img_path'] = $emp_id . "/";
         $data['img_path'] .= $this->um->getPhotoById($emp_id);
@@ -131,6 +133,17 @@ class Leave_station extends MY_Controller {
 
     }
 
+    function cancelStationLeave()
+    {
+
+        $data = array();
+        $data = $this->lsm->getCancellableStationLeave($this->emp_id);
+
+        $this->drawHeader('Leave Cancellation Page');
+        $this->load->view('leave/leave_station/cancel_station_leave_view', $data);
+        $this->drawFooter();
+    }
+
     /**
      * @param $leave_id
      * @param $cur_emp
@@ -139,7 +152,7 @@ class Leave_station extends MY_Controller {
      */
     function insert_station_leave_status($leave_id, $cur_emp, $next_emp, $status)
     {
-
+        var_dump($leave_id);
         $this->lsm->insert_station_leave_status($leave_id, $cur_emp, $next_emp, $status);
     }
 

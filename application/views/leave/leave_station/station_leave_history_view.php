@@ -58,7 +58,7 @@ if ($data != NULL)
         $period = $data[$i]['period'];
         $purpose = $data[$i]['purpose'];
         $addr = $data[$i]['addr'];
-
+        $leave_status = $data[$i]['status'];
         $leave_st = $data[$i]['status'];
         if ($leave_st == Leave_constants::$PENDING || $leave_st == Leave_constants::$FORWARDED) {
             $pending_at = $data[$i]['fwd_to'];
@@ -84,6 +84,10 @@ if ($data != NULL)
         } else if ($leave_st == Leave_constants::$WAITING_CANCELLATION) {
             $waitc = "label label-info";
             $str = "<label class='$waitc'>" . "WAITING CANCELLATION" . "</label>";
+            $leave_status = $str;
+        } else if ($leave_st == Leave_constants::$FORWARDED) {
+            $waitc = "label label-info";
+            $str = "<label class='$waitc'>" . "FORWARDED" . "</label>";
             $leave_status = $str;
         }
 

@@ -16,7 +16,9 @@ $test_box = $ui->box()->classes('modal-content')->id('approve_dialog_content')->
 </div>
 <div class="modal-body">
     <?php
-    $ui->alert()->title('Leave Has Been Approved')->uiType('success')->show();
+    $ui->alert()->title('Leave has been Approved')->uiType('success')->id('first_alert_leave')->show();
+    $ui->alert()->title('Leave has been Forwarded to Selected Officer')->uiType('success')->id('second_alert_leave')->show();
+    $ui->alert()->title('Leave has been Canceled')->uiType('success')->id('third_alert_leave')->show();
     ?>
 </div>
 <div class="modal-footer">
@@ -30,54 +32,6 @@ $test_box = $ui->box()->classes('modal-content')->id('approve_dialog_content')->
 $test_box->close();
 $test_col->close();
 $test_row->close();
-
-$test_row1 = $ui->row()->classes('modal fade')->id('forward_dialog_fade')->open();
-$test_col1 = $ui->col()->classes('modal-dialog')->id('forward_dialog_dialog')->open();
-$test_box1 = $ui->box()->classes('modal-content')->id('forward_dialog_content')->open();
-?>
-<div class="modal-header">
-    <h1>Leave Approval/Forward/Cancel</h1>
-</div>
-<div class="modal-body">
-    <?php
-    $ui->alert()->title('Leave Has Been Forwarded to selected Employee')->uiType('success')->show();
-    ?>
-</div>
-<div class="modal-footer">
-    <a href="<?php echo site_url("leave/leave_station/pendingStationLeaveStatus"); ?>">
-        <?php
-        $ui->button()->width(4)->id('dialog_approve')->name('dialog_approve')->uiType('success')->value('Close')->show();
-        ?>
-    </a>
-</div>
-<?php
-$test_box1->close();
-$test_col1->close();
-$test_row1->close();
-
-$test_row2 = $ui->row()->classes('modal fade')->id('cancel_dialog_fade')->open();
-$test_col2 = $ui->col()->classes('modal-dialog')->id('cancel_dialog_dialog')->open();
-$test_box2 = $ui->box()->classes('modal-content')->id('cancel_dialog_content')->open();
-?>
-<div class="modal-header">
-    <h1>Leave Approval/Forward/Cancel</h1>
-</div>
-<div class="modal-body">
-    <?php
-    $ui->alert()->title('Leave Has Been Canceled')->uiType('success')->show();
-    ?>
-</div>
-<div class="modal-footer">
-    <a href="<?php echo site_url("leave/leave_station/pendingStationLeaveStatus"); ?>">
-        <?php
-        $ui->button()->width(4)->id('dialog_approve')->name('dialog_approve')->uiType('success')->value('Close')->show();
-        ?>
-    </a>
-</div>
-<?php
-$test_box2->close();
-$test_col2->close();
-$test_row2->close();
 
 
 $row = $ui->row()->open();
@@ -168,53 +122,103 @@ $emp_id = $leave_details['emp_id'];
 <?php
 $table1->close();
 $box1->close();
-$button_row = $ui->row()->id('button_row')->open();
-$col1 = $ui->col()->width(4)->open();
-?>
-<center>
-    <?php
-    $ui->button()
-        ->uiType('success')
-        ->name('approve_button')
-        ->id('approve_button')
-        ->value('APPROVE')
-        ->extras('onclick="incrementIndex()"')
-        ->show();
+if ($type == Leave_constants::$PENDING) {
+    $button_row = $ui->row()->id('button_row')->open();
+    $col1 = $ui->col()->width(4)->open();
     ?>
-</center>
-<?php
-$col1->close();
-$col2 = $ui->col()->width(4)->open();
-?>
-<center>
+    <center>
+        <?php
+        $ui->button()
+            ->uiType('success')
+            ->name('approve_button')
+            ->id('approve_button')
+            ->value('APPROVE')
+            ->extras('onclick="incrementIndex()"')
+            ->show();
+        ?>
+    </center>
     <?php
-    $ui->button()
-        ->uiType('primary')
-        ->name('forward_button')
-        ->id('forward_button')
-        ->extras('onclick="incrementIndex()"')
-        ->value('FORWARD')
-        ->show();
+    $col1->close();
+    $col2 = $ui->col()->width(4)->open();
     ?>
-</center>
-<?php
-$col2->close();
-$col3 = $ui->col()->width(4)->open();
-?>
-<center>
+    <center>
+        <?php
+        $ui->button()
+            ->uiType('primary')
+            ->name('forward_button')
+            ->id('forward_button')
+            ->extras('onclick="incrementIndex()"')
+            ->value('FORWARD')
+            ->show();
+        ?>
+    </center>
     <?php
-    $ui->button()
-        ->uiType('danger')
-        ->name('cancel_button')
-        ->id('cancel_button')
-        ->extras('onclick="incrementIndex()"')
-        ->value('CANCEL')
-        ->show();
+    $col2->close();
+    $col3 = $ui->col()->width(4)->open();
     ?>
-</center>
-<?php
-$col3->close();
-$button_row->close();
+    <center>
+        <?php
+        $ui->button()
+            ->uiType('danger')
+            ->name('cancel_button')
+            ->id('cancel_button')
+            ->extras('onclick="incrementIndex()"')
+            ->value('REJECT LEAVE')
+            ->show();
+        ?>
+    </center>
+    <?php
+    $col3->close();
+    $button_row->close();
+} else {
+    $button_row1 = $ui->row()->id('cancel_button_row')->open();
+    $col4 = $ui->col()->width(4)->open();
+    ?>
+    <center>
+        <?php
+        $ui->button()
+            ->uiType('success')
+            ->name('cancel_approve_button')
+            ->id('cancel_approve_button')
+            ->value('APPROVE CANCELLATION REQUEST')
+            ->extras('onclick="incrementIndex()"')
+            ->show();
+        ?>
+    </center>
+    <?php
+    $col4->close();
+    $col5 = $ui->col()->width(4)->open();
+    ?>
+    <center>
+        <?php
+        $ui->button()
+            ->uiType('primary')
+            ->name('cancel_forward_button')
+            ->id('cancel_forward_button')
+            ->extras('onclick="incrementIndex()"')
+            ->value('FORWARD CANCELLATION REQUEST')
+            ->show();
+        ?>
+    </center>
+    <?php
+    $col5->close();
+    $col6 = $ui->col()->width(4)->open();
+    ?>
+    <center>
+        <?php
+        $ui->button()
+            ->uiType('danger')
+            ->name('cancel_cancel_button')
+            ->id('cancel_cancel_button')
+            ->extras('onclick="incrementIndex()"')
+            ->value('REJECT CANCELLATION REQUEST')
+            ->show();
+        ?>
+    </center>
+    <?php
+    $col6->close();
+    $button_row1->close();
+}
 $col_leave->close();
 $leave_row->close();
 $row2 = $ui->row()->open();
@@ -286,18 +290,22 @@ $row2->close();
 $row->close();
 ?>
 <script charset="utf-8">
+    var type = '<?php echo $type;?>';
     var leave_id = '<?php echo $leave_id;?>';
     var next_emp = '<?php echo $next_emp;?>';
     var approve = '<?php echo Leave_constants::$APPROVED ;?>';
     var cancel = '<?php echo Leave_constants::$CANCELED ;?>';
+    var rejected = '<?php echo Leave_constants::$REJECTED?>';
     var pending = '<?php echo Leave_constants::$PENDING ;?>';
     var forward = '<?php echo Leave_constants::$FORWARDED  ;?>';
+    var waitingCancel = '<?php echo Leave_constants::$WAITING_CANCELLATION  ;?>';
     var loc = '<?php echo site_url("leave/leave_station/pendingStationLeaveStatus");?>';
     var index = 0;
     $("#approve_button").on('click', function () {
         if (index === 1) {
             var ins = insertLeaveStatus(leave_id, next_emp, next_emp, approve);
             $("#approve_dialog_fade").modal('show');
+            $('#first_alert_leave').show();
         }
         else
             window.location = loc;
@@ -305,7 +313,10 @@ $row->close();
     $("#forward_button").on('click', function () {
         if (index === 1) {
             $('#approving_emp').show();
-            $('#button_row').hide();
+            if (type === pending)
+                $('#button_row').hide();
+            else
+                $('#button_row1').hide();
         }
         else
             window.location = loc;
@@ -313,15 +324,17 @@ $row->close();
     $("#forward_submit").on('click', function () {
         if (index === 1) {
             insertLeaveStatus(leave_id, next_emp, $('#emp_name').val(), forward);
-            $("#forward_dialog_fade").modal('show');
+            $("#approve_dialog_fade").modal('show');
+            $('#second_alert_leave').show();
         }
         else
             window.location = loc;
     });
     $('#cancel_button').on('click', function () {
         if (index === 1) {
-            insertLeaveStatus(leave_id, next_emp, next_emp, cancel);
-            $("#cancel_dialog_fade").modal('show');
+            insertLeaveStatus(leave_id, next_emp, next_emp, rejected);
+            $("#approve_dialog_fade").modal('show');
+            $('#third_alert_leave').show();
         }
         else
             window.location = loc;
@@ -338,11 +351,12 @@ $row->close();
             }
         });
     }
-    $(window).load(function () {
+    $(document).ready(function () {
         $('#approving_emp').hide();
         $('#approve_dialog_fade').hide();
-        $('#forward_dialog_fade').hide();
-        $('#cancel_dialog_fade').hide();
+        $('#third_alert_leave').hide();
+        $('#second_alert_leave').hide();
+        $('#first_alert_leave').hide();
     });
     //$("#date")
 </script>

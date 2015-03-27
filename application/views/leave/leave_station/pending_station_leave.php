@@ -62,6 +62,16 @@ if ($data == NULL) {
     $row5->close();
 } else {
     foreach ($data as $row) {
+        $type = $data[$i]['type'];
+        if ($type == Leave_constants::$WAITING_CANCELLATION) {
+            $dsp_string = "Leave Cancellation Request";
+            $ui_type = "info";
+            $rqst_type = Leave_constants::$WAITING_CANCELLATION;
+        } else {
+            $dsp_string = "Approve/Cancel/Forward";
+            $ui_type = "primary";
+            $rqst_type = Leave_constants::$PENDING;
+        }
         $number = $i + 1;
         $emp_id = $data[$i]['emp_id'];
         $name = $data[$i]['name'];
@@ -134,10 +144,9 @@ if ($data == NULL) {
                 $column1 = $ui->col()->width(4)->open();
                 ?>
                 <center>
-
-                    <a href="<?php echo site_url("leave/leave_station/station_leave_approve/" . $leave_id . "/" . $cur_user . "/" . $emp_id); ?>">
+                    <a href="<?php echo site_url("leave/leave_station/station_leave_approve/" . $leave_id . "/" . $cur_user . "/" . $emp_id . "/" . $rqst_type); ?>">
                         <?php
-                        $ui->button()->id('st_submit')->width(4)->uiType('primary')->name('approve')->value('Approve/Cancel/Forward')->show();
+                        $ui->button()->id('st_submit')->width(4)->uiType($ui_type)->name('approve')->value($dsp_string)->show();
                         ?>
                     </a>
                 </center>

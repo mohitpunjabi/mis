@@ -190,8 +190,12 @@ class Leave_station_model extends CI_Model {
         foreach ($result as $row) {
 
             $status = $this->get_station_leave_status($row['id']);
-            if ($status['status'] == Leave_constants::$PENDING) {
+            if (($status['status'] == Leave_constants::$PENDING || $status['status'] == Leave_constants::$WAITING_CANCELLATION || $status['status'] == Leave_constants::$FORWARDED) && $status['fwd_to'] == $emp_id) {
                 $data['data'][$i] = array();
+                if ($status['status'] == Leave_constants::$PENDING)
+                    $data['data'][$i]['type'] = Leave_constants::$PENDING;
+                else
+                    $data['data'][$i]['type'] = Leave_constants::$WAITING_CANCELLATION;
                 $temp = array();
                 $temp = $this->get_station_leave_by_id($row['id']);
                 $data['data'][$i]['status'] = $status['status'];
@@ -238,6 +242,45 @@ class Leave_station_model extends CI_Model {
             $data['arrival_time'] = $temp['arrival_time'];
             $data['purpose'] = $temp['purpose'];
             $data['addr'] = $temp['addr'];
+        }
+        return $data;
+    }
+
+    function getCancellableStationLeave($emp_id)
+    {
+
+        $sql = "SELECT * FROM " . Leave_constants::$TABLE_STATION_LEAVE .
+            " WHERE emp_id = '$emp_id'";
+
+        $result = $this->db->query($sql)->result_array();
+        $i = 0;
+        $data = array();
+        $data['data'] = NULL;
+        foreach ($result as $row) {
+            $temp = $this->get_station_leave_status($row['id']);
+            if ($temp['status'] == Leave_constants::$APPROVED || $temp['status'] == Leave_constants::$PENDING ||
+                $temp['status'] == Leave_constants::$FORWARDED
+            ) {
+                $data['data'][$i] = array();
+                $data['data'][$i]['emp_id'] = $emp_id;
+                $data['data'][$i]['id'] = $row['id'];
+                $data['data'][$i]['applying_date'] = $row['applying_date'];
+                $data['data'][$i]['leaving_date'] = $row['leaving_date'];
+                $data['data'][$i]['leaving_time'] = $row['leaving_time'];
+                $data['data'][$i]['arrival_time'] = $row['arrival_time'];
+                $data['data'][$i]['arrival_date'] = $row['arrival_date'];
+                $data['data'][$i]['purpose'] = $row['purpose'];
+                $data['data'][$i]['addr'] = $row['addr'];
+                $data['data'][$i]['status'] = $temp['status'];
+                $data['data'][$i]['fwd_by'] = $temp['fwd_by'];
+                $data['data'][$i]['fwd_to'] = $this->get_user_name_by_id($temp['fwd_to']);
+                $data['data'][$i]['fwd_at'] = $temp['fwd_at'];
+                $lv_date = strtotime($row['leaving_date']);
+                $rt_date = strtotime($row['arrival_date']);
+                $period = (($rt_date - $lv_date) / (24 * 60 * 60)) + 1;
+                $data['data'][$i]['period'] = $period;
+                $i++;
+            }
         }
         return $data;
     }

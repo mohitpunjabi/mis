@@ -29,7 +29,7 @@ class Users_model extends CI_Model
 				return false;
 			}
 
-            $password = $this->authorization->encode_password($password, $row->created_date);
+            //$password = $this->authorization->encode_password($password, $row->created_date);
 			if($password == $row->password)
 			{
 				// Login Successful

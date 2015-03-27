@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Restricted Leave</td>
-                <td><?php echo $Resticted_balance ; ?></td>
+                <td><?php echo $Restricted_balance; ?></td>
             </tr>
                           
 <?php   

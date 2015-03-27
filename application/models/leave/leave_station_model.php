@@ -242,8 +242,12 @@ class Leave_station_model extends CI_Model {
             $data['arrival_time'] = $temp['arrival_time'];
             $data['purpose'] = $temp['purpose'];
             $data['addr'] = $temp['addr'];
+            $status = $this->get_station_leave_status($temp['id']);
+            $data['status'] = $status['status'];
+            $data['next_emp'] = $status['fwd_to'];
+            return $data;
         }
-        return $data;
+
     }
 
     function getCancellableStationLeave($emp_id)

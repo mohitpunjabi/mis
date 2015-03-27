@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pce extends MY_Controller
+class Dsw extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct();
+		parent::__construct(array('dsw'));
 	}
 	
 	function index()
@@ -12,7 +12,7 @@ class Pce extends MY_Controller
 		$this->load->model('edc_booking/edc_booking_model');
 		$this->load->model('user_model');
 
-		$res = $this->edc_booking_model->get_pce_requests ("Pending", $this->session->userdata('dept_id'));
+		/*$res = $this->edc_booking_model->get_pce_requests ("Pending", $this->session->userdata('dept_id'));
 		$total_rows_pending = count($res);
 		$data_array_pending = array();
 		$sno = 1;
@@ -62,16 +62,16 @@ class Pce extends MY_Controller
 		$data['data_array_approved'] = $data_array_approved;
 		$data['total_rows_approved'] = $total_rows_approved;
 		$data['data_array_rejected'] = $data_array_rejected;
-		$data['total_rows_rejected'] = $total_rows_rejected;
+		$data['total_rows_rejected'] = $total_rows_rejected;*/
 		
 		$this->drawHeader('Executive Development Center');
-		$this->load->view('edc_booking/view_pce_requests',$data);
+		$this->load->view('edc_booking/view_dsw_requests',$data);
 		$this->drawFooter();
 	}
 
 	function pce_action ($app_num)
 	{
-			$status = $this->input->post ('status');
+/*			$status = $this->input->post ('status');
 			$reason = $this->input->post ('reason');
 
 			if ($status == "Approved")
@@ -87,6 +87,6 @@ class Pce extends MY_Controller
 				$this->notification->notify ($user_id, "emp", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) is has been Rejected.", "edc_booking/booking_details/details/".$app_num."/emp", "");
 
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
-			redirect('edc_booking/pce');
+			redirect('edc_booking/pce');*/
 	}
 }

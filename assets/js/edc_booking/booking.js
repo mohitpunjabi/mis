@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
 	$("button").hide();
 	$("select[name=no_of_guests]").change(function() {
 		var html = $("#guest-details-tpl").html();
@@ -22,4 +22,4 @@ $(document).ready(function(){
 		}
 		$("button").show();
 	});
-});
+});*/

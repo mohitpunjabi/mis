@@ -85,10 +85,14 @@ class Hod extends MY_Controller
 			$pce = '';
 			foreach ($res as $row)
 				$pce = $row->id;
-			$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_details/details/".$app_num."/pce", "");
 
-/*			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully sent.');
-			redirect('edc_booking/booking/track_status');
-			$this->session->set_flashdata('flashSuccess','')*/
+			$user_id = $this->edc_booking_model->get_request_user_id ($app_num);
+			if ($status == "Approved")
+				$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_details/details/".$app_num."/pce", "");
+			else //Rejected -> Notify to User
+				$this->notification->notify ($user_id, "emp", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) has been Rejected.", "edc_booking/booking_details/details/".$app_num."/emp", "");
+
+			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
+			redirect('edc_booking/hod');
 	}
 }

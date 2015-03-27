@@ -25,8 +25,8 @@ class Booking extends MY_Controller
 		//echo $app_num."<br>";
 
 		$user_id = $this->session->userdata('id');
-		$email_id = $this->session->userdata('email');
-		$dept_id = $this->session->userdata('dept_id');
+//		$email_id = $this->session->userdata('email');
+//		$dept_id = $this->session->userdata('dept_id');
 		$purpose = $this->input->post('purpose');
 		$check_in = $this->input->post('checkin');
 		$check_out = $this->input->post('checkout');
@@ -39,8 +39,8 @@ class Booking extends MY_Controller
 
 		$registration_data = array('app_num'=>$app_num,
 			  'user_id'=>$user_id,
-			  'email_id'=>$email_id,
-			  'dept_id'=>$dept_id,
+//			  'email_id'=>$email_id,
+//			  'dept_id'=>$dept_id,
 			  'purpose'=>$purpose,
 			  'no_of_guests'=>$no_of_guests,
 			  'proposed_check_in'=>$check_in,

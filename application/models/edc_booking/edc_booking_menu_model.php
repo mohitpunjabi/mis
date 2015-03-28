@@ -26,9 +26,9 @@ class Edc_booking_menu_model extends CI_Model
 //		$menu['hod']['EDC Booking']=array();
 		$menu['hod']['EDC Booking'] = site_url('edc_booking/hod');
 		
-		$menu['pce']['EDC Booking'] = site_url('edc_booking/pce');
-
 		$menu['dsw']['EDC Booking'] = site_url('edc_booking/dsw');
+
+		$menu['pce']['EDC Booking'] = site_url('edc_booking/pce');
  
 		$menu['edc_ctk']['EDC Booking'] = array();
 		$menu['edc_ctk']['EDC Booking']['Room Allotment'] = site_url('');

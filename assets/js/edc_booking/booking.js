@@ -1,25 +1,26 @@
-/*$(document).ready(function(){
-	$("button").hide();
-	$("select[name=no_of_guests]").change(function() {
-		var html = $("#guest-details-tpl").html();
-		var template = $(html);
-		var numGuests = $(this).val();
-		numGuests = parseInt(numGuests);
-		//console.log(numGuests);
-		var box = $("#get-guestdetailscol");
-		box.find(".guest-details").remove();
-		//console.log(box);
-		for(var i=0; i<numGuests; i++) {
-			var row = template.clone();
-			row.addClass("guest-details");
-			//console.log(row);
-			row.find(".box-title").append('<span class="guest-no"> '+(i+1)+' </span>');
-			row.find("#name").attr("name", "guest["+i+"][name]");
-			row.find("#gender").attr("name", "guest["+i+"][gender]");
-			row.find("#address").attr("name", "guest["+i+"][address]");
-			row.find("#room_preference").attr("name", "guest["+i+"][room_preference]");
-			box.append(row);
+$(document).ready(function(){
+		$('select[name="purpose"]').change(function(){
+		var value  = this.value;
+		if(value == 'Personal'){
+			$("#application_file").removeAttr("required");
+			$("#school_guest_row").hide();
 		}
-		$("button").show();
+		else{
+			$("#application_file").attr("required","required");
+			$("#school_guest_row").show();
+		}
 	});
-});*/
+
+
+	$('select[name="school_guest"]').change(function(){
+		var value  = this.value;
+		if(value == '0'){
+			$("#application_file").removeAttr("required");
+			$("#application_file_row").hide();
+		}
+		else{
+			$("#application_file").attr("required","required");
+			$("#application_file_row").show();
+		}
+	});
+});

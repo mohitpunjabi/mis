@@ -49,20 +49,37 @@ class Edc_booking_model extends CI_Model
 		return $query->result_array();
 	}
 
+	function get_building ()
+	{
+		$this->db->where('app_num',NULL);
+		$query = $this->db->get('edc_room_details');
+		return $query->result_array();		
+	}
+
+	function get_floor ($building)
+	{
+
+	}
+
+	function get_room ($building, $floor)
+	{
+
+	}
+
 	function update_hod_action ($app_num, $status, $reason)
 	{
 		if ($status == "Approved")
-			$this->db->query ("UPDATE edc_registration_details SET hod_approved_status= '".$status."', hod_approved_timestamp = now(), pce_approved_status = 'Pending' WHERE app_num = '".$app_num."';");
+			$this->db->query ("UPDATE edc_registration_details SET hod_status= '".$status."', hod_action_timestamp = now(), pce_status = 'Pending' WHERE app_num = '".$app_num."';");
 		else
-			$this->db->query ("UPDATE edc_registration_details SET hod_approved_status= '".$status."', hod_approved_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");			
+			$this->db->query ("UPDATE edc_registration_details SET hod_status= '".$status."', hod_action_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");			
 	}
 
 	function update_pce_action ($app_num, $status, $reason)
 	{
 		if ($status == "Approved")
-			$this->db->query ("UPDATE edc_registration_details SET pce_approved_status= '".$status."', pce_approved_timestamp = now() WHERE app_num = '".$app_num."';");
+			$this->db->query ("UPDATE edc_registration_details SET pce_status= '".$status."', pce_action_timestamp = now() WHERE app_num = '".$app_num."';");
 		else
-			$this->db->query ("UPDATE edc_registration_details SET pce_approved_status= '".$status."', pce_approved_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");			
+			$this->db->query ("UPDATE edc_registration_details SET pce_status= '".$status."', pce_action_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");			
 	}
 
 	function get_request_user_id ($app_num)
@@ -78,7 +95,7 @@ class Edc_booking_model extends CI_Model
 	function get_pending_booking_details ($user_id)
 	{
 		$this->db->where('user_id',$user_id);
-		$where = "hod_approved_status = 'Pending' OR pce_approved_status = 'Pending'";
+		$where = "hod_status = 'Pending' OR pce_status = 'Pending' OR dsw_status = 'Pending'";
 		$this->db->where($where);
 		$query = $this->db->get('edc_registration_details');
 		

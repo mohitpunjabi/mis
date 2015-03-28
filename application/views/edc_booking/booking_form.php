@@ -77,17 +77,19 @@
 		   ->action('edc_booking/booking/insert')
 		   ->open();
 				 	
-		$ui->select()
-		   ->name('purpose')
-		   ->label('Purpose')
-		   ->addonLeft($ui->icon("bars"))
-		   ->options(array(
-                   $ui->option()->value('official')->text('Official'),
-                   $ui->option()->value('personal')->text('Personal')))
-           ->required()
-		   ->show();	
+		if ($auth == 'emp') {
+			$ui->select()
+			   ->name('purpose')
+			   ->label('Purpose')
+			   ->addonLeft($ui->icon("bars"))
+			   ->options(array(
+	                   $ui->option()->value('Official')->text('Official'),
+	                   $ui->option()->value('Personal')->text('Personal')))
+	           ->required()
+			   ->show();	
+		}
 
-		$ui->textarea()->label('Purpose of Visit')->name('purpose')->placeholder("Enter the purpose")->required()->show();	
+		$ui->textarea()->label('Purpose of Visit')->name('purpose_of_visit')->placeholder("Enter the purpose of visit")->required()->show();	
 			  
 		$ui->input()
 			->placeholder('Name')
@@ -126,7 +128,7 @@
 
 		  
 		$ui->select()
-		   ->label('Number of Rooms Required')
+		   ->label('Number of Guests')
 		   ->name('no_of_guests')
 		   ->addonLeft($ui->icon("bars"))
 		   ->options(array(
@@ -139,6 +141,76 @@
 				   $ui->option()->value('6')->text('6')))
 	       ->required()
 		   ->show();	
+
+		$ui->select()
+		   ->label('No. of Guests for Single AC')
+		   ->name('single_AC')
+		   ->addonLeft($ui->icon("bars"))
+		   ->options(array(
+	               $ui->option()->value('0')->text('0')->selected(),
+	               $ui->option()->value('1')->text('1'),
+				   $ui->option()->value('2')->text('2'),
+				   $ui->option()->value('3')->text('3'),
+				   $ui->option()->value('4')->text('4'),
+				   $ui->option()->value('5')->text('5'),
+				   $ui->option()->value('6')->text('6')))
+		   ->show();	
+
+		$ui->select()
+		   ->label('No. of Guests for Double AC')
+		   ->name('double_AC')
+		   ->addonLeft($ui->icon("bars"))
+		   ->options(array(
+	               $ui->option()->value('0')->text('0')->selected(),
+	               $ui->option()->value('1')->text('1'),
+				   $ui->option()->value('2')->text('2'),
+				   $ui->option()->value('3')->text('3'),
+				   $ui->option()->value('4')->text('4'),
+				   $ui->option()->value('5')->text('5'),
+				   $ui->option()->value('6')->text('6')))
+		   ->show();	
+
+		$ui->select()
+		   ->label('No. of Guests for Suite AC')
+		   ->name('suite_AC')
+		   ->addonLeft($ui->icon("bars"))
+		   ->options(array(
+	               $ui->option()->value('0')->text('0')->selected(),
+	               $ui->option()->value('1')->text('1'),
+				   $ui->option()->value('2')->text('2'),
+				   $ui->option()->value('3')->text('3'),
+				   $ui->option()->value('4')->text('4'),
+				   $ui->option()->value('5')->text('5'),
+				   $ui->option()->value('6')->text('6')))
+		   ->show();	
+
+		$row1 = $ui->row()->id('school_guest_row')->open();
+
+			$col = $ui->col()->open();
+			$ui->select()
+				->label('Whether School Guest?')
+				->name('school_guest')
+				->id('school_guest')
+				->addonLeft($ui->icon("bars"))
+				->options(array(
+				       $ui->option()->value('0')->text('No'),
+					   $ui->option()->value('1')->text('Yes')))
+				->show();	
+
+			$row2 = $ui->row()->id('application_file_row')->open();
+			
+				$col1 = $ui->col()->open();
+				 $ui->input()
+					->type('file')
+					->label('Application File')
+					->name('application_file')
+					->id('application_file')
+					->required()
+					->show();
+				$col1->close();
+			$row2->close();
+			$col->close();
+		$row1->close();
 ?>
 <center>
 <?

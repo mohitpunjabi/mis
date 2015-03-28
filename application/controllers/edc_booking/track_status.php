@@ -23,23 +23,32 @@ class Track_status extends MY_Controller
 		{
 			$data['app_num'] = $row['app_num'];
 			$data['app_date'] = date('j M Y g:i A', strtotime($row['app_date']));
-			$data['hod_approved_status'] = $row['hod_approved_status'];
-			$data['hod_approved_timestamp'] = $row['hod_approved_timestamp'];
-			$data['pce_approved_status'] = $row['pce_approved_status'];
-			$data['pce_approved_timestamp'] = $row['pce_approved_timestamp'];
-			$data['deny_reason'] = $row['deny_reason'];
 			$data['purpose'] = $row['purpose'];
-			$data['check_in'] = $row['proposed_check_in'];
-			$data['check_out'] = $row['proposed_check_out'];
-			$data['amount_deposited'] = $row['amount_deposited'];
-			$data['amount_name'] = $row['amount_name'];
+			$data['purpose_of_visit'] = $row['purpose_of_visit'];
+			$data['name'] = $row['name'];
+			$data['designation'] = $row['designation'];
+			$data['check_in'] = $row['check_in'];
+			$data['check_out'] = $row['check_out'];
+			$data['no_of_guests'] = $row['no_of_guests'];
+			$data['single_AC'] = $row['single_AC'];
+			$data['double_AC'] = $row['double_AC'];
+			$data['suite_AC'] = $row['suite_AC'];
+			$data['school_guest'] = $row['school_guest'];
+			$data['file_path'] = $row['file_path'];
+
+			$data['hod_status'] = $row['hod_status'];
+			$data['hod_action_timestamp'] = $row['hod_action_timestamp'];
+			$data['dsw_status'] = $row['dsw_status'];
+			$data['dsw_action_timestamp'] = $row['dsw_action_timestamp'];
+			$data['pce_status'] = $row['pce_status'];
+			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
+			$data['deny_reason'] = $row['deny_reason'];
 		}
 		
-		$res = $this->edc_booking_model->get_guest_details ($data['app_num']);
-		$data['guests'] = $res;
+		$data ['auth'] = $this->session->userdata('auth')[0];
 
 		$this->drawHeader('Track Booking Status');
- 		$this->load->view('edc_booking/booking_details_emp', $data);
+ 		$this->load->view('edc_booking/booking_details_user', $data);
 		$this->drawFooter();
 	}
 }

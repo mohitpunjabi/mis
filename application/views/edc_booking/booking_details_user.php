@@ -20,9 +20,50 @@
 				<th><? $ui->icon("clock-o")->show() ?>Registered On</th>
 				<td><?= $app_date ?></td>
 			</tr>
+			<? if ($auth == 'emp' && $purpose == 'Official') { ?>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?>Registered By</th>
-				<td><?= $user ?></td>
+				<th><? $ui->icon("clock-o")->show() ?> HOD Approval</th>
+				<td>
+					<? 
+				  			if ($hod_status == "Approved") 
+				  				echo "Approved on ".$hod_action_timestamp; 
+				  			else if ($hod_status == "Rejected") 
+				  				echo "Rejected on ".$hod_action_timestamp;
+				  			else
+				  				echo $hod_status; 
+				  		?>
+				</td>
+			</tr>
+			<? } ?>
+
+			<? if ($auth == 'stu') { ?>
+			<tr>
+				<th><? $ui->icon("clock-o")->show() ?> DSW Approval</th>
+				<td>
+					<? 
+				  			if ($dsw_status == "Approved") 
+				  				echo "Approved on ".$dsw_action_timestamp; 
+				  			else if ($dsw_status == "Rejected") 
+				  				echo "Rejected on ".$dsw_action_timestamp;
+				  			else 
+				  				echo $dsw_status; 
+				  		?>
+				</td>
+			</tr>
+			<? } ?>
+
+			<tr>
+				<th><? $ui->icon("clock-o")->show() ?> PCE Approval</th>
+				<td>
+					<? 
+				  			if ($pce_status == "Approved") 
+				  				echo "Approved on ".$pce_action_timestamp; 
+				  			else if ($pce_status == "Rejected") 
+				  				echo "Rejected on ".$pce_action_timestamp;
+				  			else
+				  				echo $pce_status; 
+				  		?>
+				</td>
 			</tr>
 			<tr>
 				<th>Purpose</th>
@@ -75,95 +116,59 @@
 				</tr>
 <?
 			}
+
+			if ($deny_reason) {
 ?>
-			<tr>	
-			<th colspan='2'>
+				<tr>
+					<th>Reason of Rejection</th>
+					<td>
+						<?= $deny_reason ?>
+					</td>
+				</tr>
 <?
-		if ($auth == 'hod')
-			$form = $ui->form()->action('edc_booking/hod/hod_action/'.$app_num)->open();
-		else if ($auth == 'pce')
-			$form = $ui->form()->action('edc_booking/pce/pce_action/'.$app_num)->open();
-
-		$inputRow4 = $ui->row()->open();
-
-			$c1 = $ui->col()->width(1)->open();
-			$c1->close();
-		
-			$c2 = $ui->col()->width(4)->open();
-					$ui->select()
-					   ->label('Approve OR Reject')
-					   ->name('status')
-					   ->required()
-					   ->options(array( $ui->option()->value("Approved")->text('Approve'),
-										$ui->option()->value("Rejected")->text('Reject'),
-									  )
-								)
-					   ->show();
-			$c2->close();
-
-			$c3 = $ui->col()->width(1)->open();
-			$c3->close();
-		
-			$c4 = $ui->col()->width(6)->open();
-					$ui->textarea()->label('Reason for Rejection')->name("reason")->placeholder('Reason for Rejection')->show();
-			$c4->close();
-		
-		$inputRow4->close();
-?>
-			</th>
-			</tr>
-			<tr>
-			<th colspan="2">
-<center>
-<?
-		$ui->button()
-			->value('Submit')
-			->submit(true)
-			->id('complaint')
-			->uiType('primary')
-			->show();
-?>
-			</th>
-			</tr>
-<?
-		$form->close();
-
+			}
 		$table->close();
-
 	$box->close();	
-
 	$column2->close();
 	
 	$row->close();
 ?>
-</center>
-<?php
-/*	$ui = new UI();
-//echo form_open('complaint/register_complaint/insert');   	
-	$row = $ui->row()->open();
-	
-	$column1 = $ui->col()->width(2)->open();
-	$column1->close();
-	
-	$column2 = $ui->col()->width(8)->open();
-	$box = $ui->box()
+<?/*	$box = $ui->box()
 			  ->solid()
 			  ->title("Application No. : ".$app_num)
 			  ->uiType('primary')
 			  ->open();
-
+	
 		$inputRow1 = $ui->row()->open();
 			$c1 = $ui->col()->width(4)->open();
 				?><p><strong><? $ui->icon("clock-o")->show() ?> Registered On</strong><br/>
 				  <sapn><?= $app_date ?></span></p><?
 			$c1->close();
 			$c2 = $ui->col()->width(4)->open();
-				?><p><strong><? $ui->icon("user")->show() ?> Registerd By</strong><br/>
-				  <span><?= $user ?></span></p><?
+				?><p><strong><? $ui->icon("clock-o")->show() ?> HOD Approval </strong><br/>
+				  <span>
+				  		<? 
+				  			if ($hod_approved_status == "Approved") 
+				  				echo "Approved on ".$hod_approved_timestamp; 
+				  			else if ($hod_approved_status == "Rejected") 
+				  				echo "Rejected on ".$hod_approved_timestamp;
+				  			else
+				  				echo "Pending"; 
+				  		?>
+				  </span></p><?
 			$c2->close();
 			$c3 = $ui->col()->width(4)->open();
-				?><p><strong><? $ui->icon("mail-forward")->show() ?> Email ID</strong><br/>
-				  <span><?= $email ?></span></p><?
+				?><p><strong> <? $ui->icon("clock-o")->show() ?> PCE Approval </strong><br/>
+				  <span>
+				  		<? 
+				  			if ($pce_approved_status == "Approved") 
+				  				echo "Approved on ".$pce_approved_timestamp; 
+				  			else if ($pce_approved_status == "Rejected") 
+				  				echo "Rejected on ".$pce_approved_timestamp;
+				  			else
+				  				echo "Pending"; 
+				  		?>
+				  </span></p><?
 			$c3->close();
 		$inputRow1->close();
 		
@@ -193,57 +198,18 @@
 				?><p><strong> Payment made by Name </strong><br/>
 				  <span><?= $amount_name ?></span></p><?
 			$c2->close();
-			$c3 = $ui->col()->width(4)->open();
-				?><p><strong> <a href="<?php echo site_url("edc_booking/guest_details/get_guests/".$app_num);?>">Guest Details</a>  </strong><br/>
-				 </p><?
-			$c3->close();
+			
+			if ($deny_reason) {
+				$c3 = $ui->col()->width(4)->open();
+					?><p><strong> Reason of Rejection </strong><br/>
+					  <span><?= $deny_reason ?>
+					  </span></p><?
+				$c3->close();
+			}
 		$inputRow3->close();
-
-
-		if ($auth == 'hod')
-			$form = $ui->form()->action('edc_booking/hod/hod_action/'.$app_num)->open();
-		else if ($auth == 'pce')
-			$form = $ui->form()->action('edc_booking/pce/pce_action/'.$app_num)->open();
-
-		$inputRow4 = $ui->row()->open();
-
-			$c1 = $ui->col()->width(1)->open();
-			$c1->close();
-		
-			$c2 = $ui->col()->width(4)->open();
-					$ui->select()
-					   ->label('Approve OR Reject')
-					   ->name('status')
-					   ->required()
-					   ->options(array( $ui->option()->value("Approved")->text('Approve'),
-										$ui->option()->value("Rejected")->text('Reject'),
-									  )
-								)
-					   ->show();
-			$c2->close();
-
-			$c3 = $ui->col()->width(1)->open();
-			$c3->close();
-		
-			$c4 = $ui->col()->width(6)->open();
-					$ui->textarea()->label('Reason for Rejection')->name("reason")->placeholder('Reason for Rejection')->show();
-			$c4->close();
-		$inputRow4->close();
 ?>
-<center>
+<center><a href="<?php echo site_url("edc_booking/guest_details/get_guests/".$app_num);?>"><strong>Guest Details<strong></a></center>
 <?
-		$ui->button()
-			->value('Submit')
-			->submit(true)
-			->id('complaint')
-			->uiType('primary')
-			->show();
-
-		$form->close();
 
 	$box->close();
-	
-	$column2->close();
-	
-	$row->close();*/
-?>
+*/	

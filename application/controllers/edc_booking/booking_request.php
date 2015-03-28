@@ -6,12 +6,12 @@ class Booking_request extends MY_Controller
 	{
 		parent::__construct(array('hod','pce','dsw','edc_ctk'));
 	}
-	
+
 	public function details ($app_num, $auth)
 	{
 		$this->load->model ('edc_booking/edc_booking_model', '', TRUE);
 		$res = $this->edc_booking_model->get_booking_details($app_num);
-		
+
 		$this->load->model('user_model', '', TRUE);
 
 		$data = array();
@@ -41,10 +41,12 @@ class Booking_request extends MY_Controller
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
 		}
-		
+
+		//Redundant lines. Delete.
 		if ($auth == 'ctk') {
 
 		}
+		//Up to here.
 
 		$data['auth'] = $auth;
  		$this->drawHeader ("Booking Details");
@@ -54,8 +56,8 @@ class Booking_request extends MY_Controller
  			$this->load->view('edc_booking/booking_details_ctk', $data);
  		else
 			$this->load->view('edc_booking/booking_details',$data);
-		$this->drawFooter();		
-	}		
+		$this->drawFooter();
+	}
 
 	function hod()
 	{
@@ -113,7 +115,7 @@ class Booking_request extends MY_Controller
 		$data['total_rows_approved'] = $total_rows_approved;
 		$data['data_array_rejected'] = $data_array_rejected;
 		$data['total_rows_rejected'] = $total_rows_rejected;
-		
+
 		$this->drawHeader('Executive Development Center');
 		$this->load->view('edc_booking/view_hod_requests',$data);
 		$this->drawFooter();
@@ -180,7 +182,7 @@ class Booking_request extends MY_Controller
 		$data['total_rows_approved'] = $total_rows_approved;
 		$data['data_array_rejected'] = $data_array_rejected;
 		$data['total_rows_rejected'] = $total_rows_rejected;
-		
+
 		$this->drawHeader('Executive Development Center');
 		$this->load->view('edc_booking/view_pce_requests',$data);
 		$this->drawFooter();

@@ -1,18 +1,18 @@
 <?php
 	$ui = new UI();
-//echo form_open('complaint/register_complaint/insert');   	
+//echo form_open('complaint/register_complaint/insert');
 	$row = $ui->row()->open();
-	
+
 	$column1 = $ui->col()->width(2)->open();
 	$column1->close();
-	
+
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
 			  ->solid()
 			  ->title("Application No. : ".$app_num)
 			  ->uiType('primary')
 			  ->open();
-		$form = $ui->form()->action('edc_booking/ctk/ctk_action/'.$app_num)->open();
+		$form = $ui->form()->action('edc_booking/room_allotment/ctk_action/'.$app_num)->open();
 
 		$table = $ui->table()->hover()
 					->open();
@@ -72,10 +72,10 @@
 
 		$table->close();
 
-	$box->close();	
+	$box->close();
 
 	$column2->close();
-	
+
 	$row->close();
 ?>
 </center>

@@ -42,12 +42,6 @@ class Booking_request extends MY_Controller
 			$data['deny_reason'] = $row['deny_reason'];
 		}
 
-		//Redundant lines. Delete.
-		if ($auth == 'ctk') {
-
-		}
-		//Up to here.
-
 		$data['auth'] = $auth;
  		$this->drawHeader ("Booking Details");
  		if ($auth == 'ft' || $auth == 'stu')

@@ -80,9 +80,9 @@
 			<th colspan='2'>
 <?
 		if ($auth == 'hod')
-			$form = $ui->form()->action('edc_booking/hod/hod_action/'.$app_num)->open();
+			$form = $ui->form()->action('edc_booking/booking_request/hod_action/'.$app_num)->open();
 		else if ($auth == 'pce')
-			$form = $ui->form()->action('edc_booking/pce/pce_action/'.$app_num)->open();
+			$form = $ui->form()->action('edc_booking/booking_request/pce_action/'.$app_num)->open();
 
 		$inputRow4 = $ui->row()->open();
 

@@ -1,5 +1,9 @@
 $(document).ready(function(){
-		$('select[name="purpose"]').change(function(){
+	
+	$("#application_file_row").hide();
+	$("#application_file").removeAttr("required");
+
+	$('select[name="purpose"]').change(function(){
 		var value  = this.value;
 		if(value == 'Personal'){
 			$("#application_file").removeAttr("required");
@@ -10,7 +14,6 @@ $(document).ready(function(){
 			$("#school_guest_row").show();
 		}
 	});
-
 
 	$('select[name="school_guest"]').change(function(){
 		var value  = this.value;

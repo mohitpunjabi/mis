@@ -74,7 +74,7 @@
 		
 		$form = $ui->form()
 		   ->multipart()
-		   ->action('edc_booking/booking/insert')
+		   ->action('edc_booking/booking/insert_edc_registration_details')
 		   ->open();
 				 	
 		if ($auth == 'emp') {
@@ -192,7 +192,7 @@
 				->name('school_guest')
 				->id('school_guest')
 				->addonLeft($ui->icon("bars"))
-				->options(array(
+				->options(array(		
 				       $ui->option()->value('0')->text('No'),
 					   $ui->option()->value('1')->text('Yes')))
 				->show();	

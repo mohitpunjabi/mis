@@ -21,6 +21,9 @@ $approve_table = $ui1->table()->hover()->bordered()->sortable()->searchable()->p
             <center>Number</center>
         </th>
         <th>
+            <center>Name</center>
+        </th>
+        <th>
             <center>Applying Date</center>
         </th>
         <th>
@@ -61,8 +64,10 @@ if ($approved['leave_details'] != NULL)
         $period = $row['period'];
         $purpose = $row['purpose'];
         $addr = $row['addr'];
+        $name = $row['name'];
         $i++;
         echo "<tr><td><center>$i</center></td>"
+            . "<td><center>$name</center></td>"
             . "<td><center>$st_applying_date</center></td>"
             . "<td><center>$st_lv_date</center></td>"
             . "<td><center>$st_lv_time</center></td>"
@@ -82,6 +87,9 @@ $reject_table = $ui1->table()->hover()->bordered()->sortable()->searchable()->pa
     <tr>
         <th>
             <center>Number</center>
+        </th>
+        <th>
+            <center>Name</center>
         </th>
         <th>
             <center>Applying Date</center>
@@ -124,6 +132,7 @@ if ($rejected['leave_details'] != NULL)
         $addr = $row['addr'];
         $i++;
         echo "<tr><td><center>$i</center></td>"
+            . "<td><center>$name</center></td>"
             . "<td><center>$st_applying_date</center></td>"
             . "<td><center>$st_lv_date</center></td>"
             . "<td><center>$st_lv_time</center></td>"
@@ -143,6 +152,9 @@ $forward_table = $ui1->table()->hover()->bordered()->sortable()->searchable()->p
     <tr>
         <th>
             <center>Number</center>
+        </th>
+        <th>
+            <center>Name</center>
         </th>
         <th>
             <center>Applying Date</center>
@@ -185,6 +197,7 @@ if ($forwarded['leave_details'] != NULL)
         $addr = $row['addr'];
         $i++;
         echo "<tr><td><center>$i</center></td>"
+            . "<td><center>$name</center></td>"
             . "<td><center>$st_applying_date</center></td>"
             . "<td><center>$st_lv_date</center></td>"
             . "<td><center>$st_lv_time</center></td>"

@@ -288,4 +288,74 @@ class Leave_station_model extends CI_Model {
         }
         return $data;
     }
+
+    //This will return leave having status = $status caused by employee having employee ID = $emp_id
+    function get_approved_rejected_leave_by_emp($emp_id, $status)
+    {
+        $sql = "SELECT id   FROM " . Leave_constants::$TABLE_STATION_LEAVE_STATUS .
+            " WHERE next = '$emp_id' and status = $status GROUP BY id";
+
+        $result = $this->db->query($sql)->result();
+
+        if (!empty($result)) {
+            $i = 0;
+            $data['leave_details'] = array();
+            foreach ($result as $row) {
+                $leave_details = $this->get_station_leave_by_id($row->id);
+                $data['leave_details'][$i] = array();
+                $data['leave_details'][$i]['applying_date'] = $leave_details['applying_date'];
+                $data['leave_details'][$i]['leaving_date'] = $leave_details['leaving_date'];
+                $data['leave_details'][$i]['leaving_time'] = $leave_details['leaving_time'];
+                $data['leave_details'][$i]['arrival_time'] = $leave_details['arrival_time'];
+                $data['leave_details'][$i]['arrival_date'] = $leave_details['arrival_date'];
+                $data['leave_details'][$i]['purpose'] = $leave_details['purpose'];
+                $data['leave_details'][$i]['addr'] = $leave_details['addr'];
+                $data['leave_details'][$i]['emp_id'] = $leave_details['emp_id'];
+                $data['leave_details'][$i]['id'] = $row->id;
+                $lv_date = strtotime($leave_details['leaving_date']);
+                $rt_date = strtotime($leave_details['arrival_date']);
+                $period = (($rt_date - $lv_date) / (24 * 60 * 60)) + 1;
+                $data['leave_details'][$i]['period'] = $period;
+                $i++;
+            }
+            return $data;
+        }
+        return NULL;
+    }
+
+    //This will return leave forwarded by employee having employee ID = $emp_id
+    function get_forwarded_leave_by_emp($emp_id)
+    {
+        $forward = Leave_constants::$FORWARDED;
+        $sql = "SELECT id   FROM " . Leave_constants::$TABLE_STATION_LEAVE_STATUS .
+            " WHERE current = '$emp_id' and status = $forward GROUP BY id";
+
+        $result = $this->db->query($sql)->result();
+
+        if (!empty($result)) {
+            $i = 0;
+            $data['leave_details'] = array();
+            foreach ($result as $row) {
+                $leave_details = $this->get_station_leave_by_id($row->id);
+                $data['leave_details'][$i] = array();
+                $data['leave_details'][$i]['applying_date'] = $leave_details['applying_date'];
+                $data['leave_details'][$i]['leaving_date'] = $leave_details['leaving_date'];
+                $data['leave_details'][$i]['leaving_time'] = $leave_details['leaving_time'];
+                $data['leave_details'][$i]['arrival_time'] = $leave_details['arrival_time'];
+                $data['leave_details'][$i]['arrival_date'] = $leave_details['arrival_date'];
+                $data['leave_details'][$i]['purpose'] = $leave_details['purpose'];
+                $data['leave_details'][$i]['addr'] = $leave_details['addr'];
+                $data['leave_details'][$i]['emp_id'] = $leave_details['emp_id'];
+                $data['leave_details'][$i]['id'] = $row->id;
+
+                $lv_date = strtotime($leave_details['leaving_date']);
+                $rt_date = strtotime($leave_details['arrival_date']);
+                $period = (($rt_date - $lv_date) / (24 * 60 * 60)) + 1;
+                $data['leave_details'][$i]['period'] = $period;
+                $i++;
+            }
+            return $data;
+        }
+        return NULL;
+    }
 }

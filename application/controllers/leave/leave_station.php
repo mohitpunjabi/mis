@@ -198,6 +198,18 @@ class Leave_station extends MY_Controller {
         return $result['emp_id'];
     }
 
+    function adminLeaveHistory()
+    {
+
+
+        $data['dept'] = $this->ludm->get_user_dept($this->emp_id);
+
+        $this->drawHeader('Leave History');
+        $this->load->view('leave/leave_station/station_leave_history_hod_view', $data);
+        $this->drawFooter();
+
+    }
+
     function cancelStationLeave()
     {
 

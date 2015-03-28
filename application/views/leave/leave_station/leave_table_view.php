@@ -53,7 +53,7 @@ $approve_table = $ui1->table()->hover()->bordered()->sortable()->searchable()->p
 
 $i = 0;
 if ($approved['leave_details'] != NULL)
-    //var_dump($approved);
+//    var_dump($approved['leave_details']);
     foreach ($approved['leave_details'] as $row) {
 
         $st_applying_date = $row['applying_date'];
@@ -121,6 +121,7 @@ $reject_table = $ui1->table()->hover()->bordered()->sortable()->searchable()->pa
 
 $i = 0;
 if ($rejected['leave_details'] != NULL)
+//    var_dump($rejected['leave_details']);
     foreach ($rejected['leave_details'] as $row) {
         $st_applying_date = $row['applying_date'];
         $st_lv_date = $row['leaving_date'];
@@ -130,6 +131,7 @@ if ($rejected['leave_details'] != NULL)
         $period = $row['period'];
         $purpose = $row['purpose'];
         $addr = $row['addr'];
+        $name = $row['name'];
         $i++;
         echo "<tr><td><center>$i</center></td>"
             . "<td><center>$name</center></td>"
@@ -195,6 +197,7 @@ if ($forwarded['leave_details'] != NULL)
         $period = $row['period'];
         $purpose = $row['purpose'];
         $addr = $row['addr'];
+        $name = $row['name'];
         $i++;
         echo "<tr><td><center>$i</center></td>"
             . "<td><center>$name</center></td>"

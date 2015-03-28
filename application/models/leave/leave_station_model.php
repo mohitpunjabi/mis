@@ -295,13 +295,13 @@ class Leave_station_model extends CI_Model {
         $sql = "SELECT id   FROM " . Leave_constants::$TABLE_STATION_LEAVE_STATUS .
             " WHERE next = '$emp_id' and status = $status GROUP BY id";
 
-        $result = $this->db->query($sql)->result();
+        $result = $this->db->query($sql)->result_array();
 
         if (!empty($result)) {
             $i = 0;
             $data['leave_details'] = array();
             foreach ($result as $row) {
-                $leave_details = $this->get_station_leave_by_id($row->id);
+                $leave_details = $this->get_station_leave_by_id($row['id']);
                 $data['leave_details'][$i] = array();
                 $data['leave_details'][$i]['applying_date'] = $leave_details['applying_date'];
                 $data['leave_details'][$i]['leaving_date'] = $leave_details['leaving_date'];
@@ -312,7 +312,7 @@ class Leave_station_model extends CI_Model {
                 $data['leave_details'][$i]['addr'] = $leave_details['addr'];
                 $data['leave_details'][$i]['emp_id'] = $leave_details['emp_id'];
                 $data['leave_details'][$i]['name'] = $this->get_user_name_by_id($leave_details['emp_id']);
-                $data['leave_details'][$i]['id'] = $row->id;
+                $data['leave_details'][$i]['id'] = $row['id'];
                 $lv_date = strtotime($leave_details['leaving_date']);
                 $rt_date = strtotime($leave_details['arrival_date']);
                 $period = (($rt_date - $lv_date) / (24 * 60 * 60)) + 1;

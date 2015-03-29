@@ -37,6 +37,7 @@
      	 $ui->input()
  			->type('text')
  			->label('Check In Time')
+//<<<<<<< HEAD
  			->name('check_in_display')
       		->value($check_in_display)
        		->disabled()
@@ -60,6 +61,19 @@
 
      	 $ui->input()
 			->type('hidden')
+//=======
+/*			->id('check_in')
+ 			->name('check_in')
+      ->value($check_in)
+       //->readable()
+ 		  ->show();
+		//	date('j M Y g:i A', strtotime(
+     $ui->input()
+		//	->placeholder('Check Out Time')
+			->type('text')
+			->label('Check Out Time')
+			->id('check_out')*/
+//>>>>>>> c13560e48283ab260875fb12bbde488ce6c45b34
 			->name('check_out')
       		->id('check_out')
       		->value($check_out)

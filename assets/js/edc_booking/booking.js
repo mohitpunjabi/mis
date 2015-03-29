@@ -57,6 +57,10 @@ $(document).ready(function(){
         $('input[type=checkbox]').not(":checked").attr('disabled', true);
         alert("You are only allowed to allocate "+limit+" rooms.");
     }
+		if ($('input[type=checkbox]:checked').length < limit) {
+        $('input[type=checkbox]').not(":checked").attr('disabled', false);
+        //alert("You are only allowed to allocate "+limit+" rooms.");
+    }
 	});
 
 });

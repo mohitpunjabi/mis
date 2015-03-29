@@ -17,6 +17,7 @@ class Room_allotment extends MY_Controller
 		{
 			$data['check_in_display'] = date('j M Y g:i A', strtotime($row['check_in']));
 			$data['check_out_display'] = date('j M Y g:i A', strtotime($row['check_out']));
+
 			$data['check_in'] = $row['check_in'];
 			$data['check_out'] = $row['check_out'];
 			$data['single_AC'] = $row['single_AC'];
@@ -42,8 +43,10 @@ class Room_allotment extends MY_Controller
 	function get_room_plans($building,$check_in,$check_out)
 	{
 		$this->load->model ('edc_booking/edc_allotment_model', '', TRUE);
-
+		//$check_in = urldecode($check_in);
+		//$check_out = urldecode($check_out);
 		$result_uavail_rooms = $this->edc_allotment_model->check_unavail($check_in,$check_out);
+		//print_r($result_uavail_rooms);
 		//$data['app_detail'] = $result_avail_rooms;
 		//$result_booked_history = $this->edc_allotment_model->booking_history($result_avail_rooms);
 		$floor_array = $this->edc_allotment_model->get_floors($building);

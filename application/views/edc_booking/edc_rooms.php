@@ -8,24 +8,28 @@
           ->icon($ui->icon('edit'))
           ->open();
 
-      unset($floor[0]);
-      if(count($floor)==0)
-      {
-        $box = $ui->callout()
-          ->title("Sorry!! No rooms available.")
-          ->uiType("warning")
-          ->show();
-          continue;
-      }
-      foreach($floor as $row)
-      {
-        $ui->checkbox()
-            ->name('room_list[]')
-            //->width(1)
-            ->label($row[1].'-'.$row[2])
-            ->value($row[0])
+      $row5 = $ui->row()
+                 ->open();
+
+        unset($floor[0]);
+        if(count($floor)==0)
+        {
+          $box = $ui->callout()
+            ->title("Sorry!! No rooms available.")
+            ->uiType("warning")
             ->show();
-      }
+            continue;
+        }
+        foreach($floor as $row)
+        {
+          $ui->checkbox()
+              ->name('room_list[]')
+              ->width(4)
+              ->label($row[1].'-'.$row[2])
+              ->value($row[0])
+              ->show();
+        }
+        $row5->close();
 
 
     $box->close();

@@ -83,7 +83,7 @@
 			->label('Application Number')
 			->name('app_num')
       ->value($app_num)
-      //->readable()
+      ->disabled()
 		  ->show();
 
       $ui->input()
@@ -92,6 +92,7 @@
  			->label('Check In Time')
 			->id('check_in')
  			->name('check_in')
+      ->disabled()
       ->value($check_in)
        //->readable()
  		  ->show();
@@ -102,6 +103,7 @@
 			->label('Check Out Time')
 			->id('check_out')
 			->name('check_out')
+      ->disabled()
       ->value($check_out)
       //->readable()
 		  ->show();
@@ -119,6 +121,7 @@
 			->type('text')
 			->label('Total room to be allocated')
 			->name('room_total')
+      ->disabled()
 			->value($total_room)
 		  ->show();
 

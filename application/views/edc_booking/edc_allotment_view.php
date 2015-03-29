@@ -90,15 +90,17 @@
  		//	->placeholder('Check In Time')
  			->type('text')
  			->label('Check In Time')
+			->id('check_in')
  			->name('check_in')
       ->value($check_in)
        //->readable()
  		  ->show();
-
+		//	date('j M Y g:i A', strtotime(
      $ui->input()
 		//	->placeholder('Check Out Time')
 			->type('text')
 			->label('Check Out Time')
+			->id('check_out')
 			->name('check_out')
       ->value($check_out)
       //->readable()

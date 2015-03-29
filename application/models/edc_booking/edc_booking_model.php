@@ -118,13 +118,13 @@ class Edc_booking_model extends CI_Model
 	{
 		if ($status == "Approved") {
 			$this->db->where('user_id',$user_id);
-			$this->db->where('pce_approved_status','Approved');
+			$this->db->where('pce_status','Approved');
 			$query = $this->db->order_by('app_date','desc')->get('edc_registration_details');
 			return $query->result_array();					
 		}
 		else {
 			$this->db->where('user_id',$user_id);
-			$where = "hod_approved_status = 'Rejected' OR pce_approved_status = 'Rejected'";
+			$where = "hod_status = 'Rejected' OR pce_status = 'Rejected'";
 			$this->db->where($where);
 			$query = $this->db->get('edc_registration_details');
 			return $query->result_array();			

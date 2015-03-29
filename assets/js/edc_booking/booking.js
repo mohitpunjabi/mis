@@ -35,7 +35,7 @@ $(document).ready(function(){
 	$('select[name="floor"]').change(function(){
 		$.ajax({url : site_url("edc_booking/room_allotment/get_room_plans/"+$('select[name="building"]').val()+"/"+$(this).val()+"/"+$('select[name="check_in"]').val()+"/"+$('select[name="check_out"]').val()),
 				success : function (result) {
-					$('select[name="room"]').html(result);
+					$('#room_container').html(result);
 				}});
 	});
 });

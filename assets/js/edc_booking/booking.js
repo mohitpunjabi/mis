@@ -34,7 +34,8 @@ $(document).ready(function(){
 		}
 	});
 	$('select[name="building"]').change(function(){
-		$.ajax({url : site_url("edc_booking/room_allotment/get_room_plans/"+$(this).val()+"/"+$('select[name="check_in"]').val()+"/"+$('select[name="check_out"]').val()),
+		//alert($('#check_in').val());
+		$.ajax({url : site_url("edc_booking/room_allotment/get_room_plans/"+$(this).val()+"/"+$('#check_in').val()+"/"+$('#check_out').val()),
 				success : function (result) {
 					$('#floor').html(result);
 				}});
@@ -56,6 +57,10 @@ $(document).ready(function(){
     if ($('input[type=checkbox]:checked').length == limit) {
         $('input[type=checkbox]').not(":checked").attr('disabled', true);
         alert("You are only allowed to allocate "+limit+" rooms.");
+    }
+		if ($('input[type=checkbox]:checked').length < limit) {
+        $('input[type=checkbox]').not(":checked").attr('disabled', false);
+        //alert("You are only allowed to allocate "+limit+" rooms.");
     }
 	});
 

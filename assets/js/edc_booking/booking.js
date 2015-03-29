@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+
 	$("#application_file_row").hide();
 	$("#application_file").removeAttr("required");
 
@@ -25,5 +25,17 @@ $(document).ready(function(){
 			$("#application_file").attr("required","required");
 			$("#application_file_row").show();
 		}
+	});
+	$('select[name="building"]').change(function(){
+		$.ajax({url : site_url("edc_booking/room_allotment/get_floor_plans/"+$(this).val()),
+				success : function (result) {
+					$('select[name="floor"]').html(result);
+				}});
+	});
+	$('select[name="floor"]').change(function(){
+		$.ajax({url : site_url("edc_booking/room_allotment/get_room_plans/"+$('select[name="building"]').val()+"/"+$(this).val()+"/"+$('select[name="check_in"]').val()+"/"+$('select[name="check_out"]').val()),
+				success : function (result) {
+					$('select[name="room"]').html(result);
+				}});
 	});
 });

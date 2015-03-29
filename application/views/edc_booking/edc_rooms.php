@@ -8,9 +8,8 @@
           ->icon($ui->icon('edit'))
           ->open();
 
-      $row5 = $ui->row()
-                 ->open();
 
+      $input_row = $ui->row()->open();
         unset($floor[0]);
         if(count($floor)==0)
         {
@@ -22,14 +21,17 @@
         }
         foreach($floor as $row)
         {
+          $row5 = $ui->col()->width(6)
+                     ->open();
           $ui->checkbox()
               ->name('room_list[]')
-              ->width(4)
               ->label($row[1].'-'.$row[2])
               ->value($row[0])
               ->show();
+
+          $row5->close();
         }
-        $row5->close();
+        $input_row->close();
 
 
     $box->close();

@@ -13,9 +13,9 @@ class Edc_booking_menu_model extends CI_Model
 		$menu=array();
 		//auth ==> Employee
 		$menu['ft']['EDC Booking']=array();
-		$menu['ft']['EDC Booking']['Room Allotment Form'] = site_url('edc_booking/booking');
-		$menu['ft']['EDC Booking']['Track Booking Status'] = site_url('edc_booking/track_status');
-		$menu['ft']['EDC Booking']['Booked History'] = site_url('edc_booking/booking_history');
+		$menu['ft']['EDC Booking']['Room Allotment Form'] = site_url('edc_booking/booking/form');
+		$menu['ft']['EDC Booking']['Track Booking Status'] = site_url('edc_booking/booking/track_status');
+		$menu['ft']['EDC Booking']['Booked History'] = site_url('edc_booking/booking/history');
 				
 		$menu['stu']['EDC Booking']=array();
 		$menu['stu']['EDC Booking']['Room Allotment Form'] = site_url('edc_booking/booking');
@@ -24,11 +24,11 @@ class Edc_booking_menu_model extends CI_Model
 
 		//$auth=> Head of Department
 //		$menu['hod']['EDC Booking']=array();
-		$menu['hod']['EDC Booking'] = site_url('edc_booking/hod');
+		$menu['hod']['EDC Booking'] = site_url('edc_booking/booking_request/hod');
 		
-		$menu['dsw']['EDC Booking'] = site_url('edc_booking/dsw');
+		$menu['dsw']['EDC Booking'] = site_url('edc_booking/booking_request/dsw');
 
-		$menu['pce']['EDC Booking'] = site_url('edc_booking/pce');
+		$menu['pce']['EDC Booking'] = site_url('edc_booking/booking_request/pce');
  
 		$menu['edc_ctk']['EDC Booking'] = array();
 		$menu['edc_ctk']['EDC Booking']['Room Allotment'] = site_url('');

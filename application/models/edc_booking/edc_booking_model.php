@@ -21,7 +21,8 @@ class Edc_booking_model extends CI_Model
 	function get_hod_requests ($status, $dept_id)
 	{
 		$this->db->where('dept_id',$dept_id);
-		$this->db->where('hod_approved_status',$status);
+		$this->db->where('hod_status',$status);
+		$this->db->join('user_details', 'user_details.id = edc_registration_details.user_id');
 		$query = $this->db->order_by('app_date','asc')->get('edc_registration_details');		
 		return $query->result_array();
 	}
@@ -29,8 +30,17 @@ class Edc_booking_model extends CI_Model
 	function get_pce_requests ($status, $dept_id)
 	{
 		$this->db->where('dept_id',$dept_id);
-		$this->db->where('hod_approved_status','Approved');
-		$this->db->where('pce_approved_status',$status);
+		$this->db->where('pce_status',$status);
+		$this->db->join('user_details', 'user_details.id = edc_registration_details.user_id');
+		$query = $this->db->order_by('app_date','asc')->get('edc_registration_details');		
+		return $query->result_array();
+	}
+
+	function get_dsw_requests ($status, $dept_id)
+	{
+		$this->db->where('dept_id',$dept_id);
+		$this->db->where('dsw_status',$status);
+		$this->db->join('user_details', 'user_details.id = edc_registration_details.user_id');
 		$query = $this->db->order_by('app_date','asc')->get('edc_registration_details');		
 		return $query->result_array();
 	}

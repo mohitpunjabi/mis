@@ -1,76 +1,89 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Hod extends MY_Controller
+class Room_allotment extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('hod'));
+		parent::__construct(array('edc_ctk'));
+		$this->addJS("edc_booking/booking.js");
 	}
-	
-	function index()
+	function ctk_action($app_num)
 	{
-		$this->load->model('edc_booking/edc_booking_model');
-		$this->load->model('user_model');
-
-		$res = $this->edc_booking_model->get_ctk_requests ("Pending", $this->session->userdata('dept_id'));
-/*		$total_rows_pending = count($res);
-		$data_array_pending = array();
-		$sno = 1;
-		foreach ($res as $row)
+		$this->load->model ('edc_booking/edc_allotment_model', '', TRUE);
+		$res = $this->edc_allotment_model->get_app_details($app_num);
+		$data = array();
+		//print_r($res);
+		foreach($res as $row)
 		{
-			$data_array_pending[$sno]=array();
-			$j=1;
-			$data_array_pending[$sno][$j++] = $row['app_num'];
-			$data_array_pending[$sno][$j++] = date('j M Y g:i A', strtotime($row['app_date']));
-			$data_array_pending[$sno][$j++] = $this->user_model->getNameById($row['user_id']);
-			$data_array_pending[$sno][$j++] = $row['no_of_guests'];
-			$sno++;
+			$data['check_in'] = date('j M Y g:i A', strtotime($row['check_in']));
+			$data['check_out'] = date('j M Y g:i A', strtotime($row['check_out']));
 		}
-
-		$res = $this->edc_booking_model->get_hod_requests ("Approved", $this->session->userdata('dept_id'));
-		$total_rows_approved = count($res);
-		$data_array_approved = array();
-		$sno = 1;
-		foreach ($res as $row)
-		{
-			$data_array_approved[$sno]=array();
-			$j=1;
-			$data_array_approved[$sno][$j++] = $row['app_num'];
-			$data_array_approved[$sno][$j++] = date('j M Y g:i A', strtotime($row['app_date']));
-			$data_array_approved[$sno][$j++] = $this->user_model->getNameById($row['user_id']);
-			$data_array_approved[$sno][$j++] = $row['no_of_guests'];
-			$sno++;
-		}
-
-		$res = $this->edc_booking_model->get_hod_requests ("Rejected", $this->session->userdata('dept_id'));
-		$total_rows_rejected = count($res);
-		$data_array_rejected = array();
-		$sno = 1;
-		foreach ($res as $row)
-		{
-			$data_array_rejected[$sno]=array();
-			$j=1;
-			$data_array_rejected[$sno][$j++] = $row['app_num'];
-			$data_array_rejected[$sno][$j++] = date('j M Y g:i A', strtotime($row['app_date']));
-			$data_array_rejected[$sno][$j++] = $this->user_model->getNameById($row['user_id']);
-			$data_array_rejected[$sno][$j++] = $row['no_of_guests'];
-			$sno++;
-		}
-
-		$data['data_array_pending'] = $data_array_pending;
-		$data['total_rows_pending'] = $total_rows_pending;
-		$data['data_array_approved'] = $data_array_approved;
-		$data['total_rows_approved'] = $total_rows_approved;
-		$data['data_array_rejected'] = $data_array_rejected;
-		$data['total_rows_rejected'] = $total_rows_rejected;
-		
-		$this->drawHeader('Executive Development Center');
-		$this->load->view('edc_booking/view_hod_requests',$data);
-		$this->drawFooter();*/
+		$data['app_num'] = $app_num;
+		$this->drawHeader ("Room Allotment");
+		$this->load->view('edc_booking/edc_allotment_view',$data);
+		$this->drawFooter();
 	}
-
-	function ctk_action ($app_num)
+	function get_floor_plans($building)
 	{
-		
+		$this->load->model ('edc_booking/edc_allotment_model', '', TRUE);
+		$res = $this->edc_allotment_model->get_floors($building);
+		$data = array();
+		$data['floor_array'] = $res;
+		//print_r($res);
+		$this->load->view('edc_booking/edc_floor',$data);
 	}
+	function get_room_plans($building,$floor,$check_in,$check_out)
+	{
+		$this->load->model ('edc_booking/edc_allotment_model', '', TRUE);
+
+		$result_uavail_rooms = $this->edc_allotment_model->check_unavail($check_in,$check_out);
+		//print_r($res);
+		//$data['app_detail'] = $result_avail_rooms;
+		//$result_booked_history = $this->edc_allotment_model->booking_history($result_avail_rooms);
+
+		//print_r($result_booked_history);
+		$result_floor_wise = $this->edc_allotment_model->get_rooms($building,$floor);
+		//print_r($result_floor_wise);
+		$data_array = array();
+		$sno=1;
+		foreach($result_floor_wise as $row)
+		{
+				$flag=0;
+			foreach($result_uavail_rooms as $room_unavailable)
+			{
+				if($row['id']==$room_unavailable['room_id'])
+					$flag = 1;
+			}
+			if($flag==0)
+			{
+				$data_array[$sno][0] = $row['id'];
+				$data_array[$sno++][1] = $row['room_no'];
+			}
+		}
+		$data['room_array'] = $data_array;
+		//print_r($res);
+		$this->load->view('edc_booking/edc_rooms',$data);
+	}
+	function insert_edc_allotment()
+	{
+		$room_id = $this->input->post('room');
+		$app_num = $this->input->post('app_num');
+
+		$input_data = array(
+			'app_num' => $app_num,
+			'room_id'	=> $room_id,
+		);
+		$this->load->model('edc_booking/edc_allotment_model');
+		$this->edc_allotment_model->insert_booking_details ($input_data);
+		$this->load->model ('user_model');
+		$res = $this->user_model->getUsersByDeptAuth('all', 'pce');
+		$pce = '';
+		foreach ($res as $row)
+			$pce = $row->id;
+		$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details/".$app_num."/pce", "");
+		$this->session->set_flashdata('flashSuccess','Room Allotment has been done successfully.');
+		redirect('home');
+
+	}
+
 }

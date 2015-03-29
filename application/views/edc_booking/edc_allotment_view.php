@@ -43,12 +43,12 @@
  		  	->show();
 
      	 $ui->input()
-			->type('text')
-			->label('Check Out Time')
-			->name('check_out_display')
-      		->value(date('j M Y g:i A', strtotime($check_out)))
-      		->disabled()
-		  	->show();
+						->type('text')
+						->label('Check Out Time')
+						->name('check_out_display')
+						->value(date('j M Y g:i A', strtotime($check_out)))
+						->disabled()
+					  	->show();
 
 		 $ui->input()
  			->type('hidden')
@@ -87,6 +87,7 @@
 			   ->name('building')
 			   ->label('Select Building')
 			   ->addonLeft($ui->icon("bars"))
+				 ->required()
 			   ->options(array(
                      $ui->option()->value()->text('Select')->disabled(),
 	                   $ui->option()->value('old')->text('Old'),

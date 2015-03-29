@@ -70,12 +70,18 @@ class Room_allotment extends MY_Controller
 					if($row['id']==$room_unavailable['room_id'])
 						$flag = 1;
 				}
+				$data_array[$i][$sno][0] = $row['id'];
+				$data_array[$i][$sno][1] = $row['room_no'];
+				$data_array[$i][$sno][2] = $row['room_type'];
 				if($flag==0)
 				{
-					$data_array[$i][$sno][0] = $row['id'];
-					$data_array[$i][$sno][1] = $row['room_no'];
-					$data_array[$i][$sno++][2] = $row['room_type'];
+					$data_array[$i][$sno++][3] = 1;
 				}
+				else
+				{
+					$data_array[$i][$sno++][3] = 0;
+				}
+
 			}
 			$i++;
 		}
@@ -96,6 +102,7 @@ class Room_allotment extends MY_Controller
 				'app_num' => $app_num,
 				'room_id'	=> $room,
 			);
+			//print_r($input_data);
 			$this->edc_allotment_model->insert_booking_details ($input_data);
 		}
 		$this->load->model ('user_model');

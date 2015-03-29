@@ -30,14 +30,4 @@
 
     $box->close();
   }
-  /*foreach($room_array as $row)
-  {
-    //print_r($row);
-
-    $ui->checkbox()
-        ->name('room_list[]')
-        ->width(1)
-        ->value($row[0])
-        ->show();
-  }*/
 ?>

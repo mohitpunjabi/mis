@@ -206,7 +206,7 @@ class Booking_request extends MY_Controller
 				$this->notification->notify ($user_id, "ft", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) has been Rejected.", "edc_booking/booking_request/details/".$app_num."/emp", "");
 
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
-			redirect('home');
+			redirect('edc_booking/booking_request/hod');
 	}
 
 	function dsw_action ($app_num)
@@ -239,7 +239,7 @@ class Booking_request extends MY_Controller
 				$this->notification->notify ($user_id, "emp", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) is has been Rejected.", "edc_booking/booking_details/details/".$app_num."/emp", "");
 
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
-			redirect('home');
+			redirect('edc_booking/booking_request/pce');
 	}
 
 }

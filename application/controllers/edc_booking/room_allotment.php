@@ -90,10 +90,10 @@ class Room_allotment extends MY_Controller
 		//print_r($res);
 		$this->load->view('edc_booking/edc_rooms',$data);
 	}
-	function insert_edc_allotment()
+	function insert_edc_allotment($app_num)
 	{
+		//$app_num = $this->input->post('app_num');
 		$room_list = $this->input->post('room_list');
-		$app_num = $this->input->post('app_num');
 
 		$this->load->model('edc_booking/edc_allotment_model');
 		foreach($room_list as $room)

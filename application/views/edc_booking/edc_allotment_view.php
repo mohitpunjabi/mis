@@ -22,7 +22,7 @@
 
 		$form = $ui->form()
 		   ->multipart()
-		   ->action('edc_booking/room_allotment/insert_edc_allotment')
+		   ->action('edc_booking/room_allotment/insert_edc_allotment/'.$app_num)
 		   ->open();
 
      $ui->input()

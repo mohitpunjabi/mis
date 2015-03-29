@@ -15,6 +15,9 @@ class Room_allotment extends MY_Controller
 		//print_r($res);
 		foreach($res as $row)
 		{
+			$data['check_in_display'] = date('j M Y g:i A', strtotime($row['check_in']));
+			$data['check_out_display'] = date('j M Y g:i A', strtotime($row['check_out']));
+
 			$data['check_in'] = $row['check_in'];
 			$data['check_out'] = $row['check_out'];
 			$data['single_AC'] = $row['single_AC'];

@@ -1,55 +1,3 @@
-<script type="template" id="guest-details-tpl">
-	<?php
-/*		$ui = new UI();
-		$guestdetailsRow = $ui->row()
-					->id('guestdetailsRow')
-					->open();
-		$guestdetailsCol = $ui->col()->open();
-			$guestdetailsBox = $ui->box()->title('Enter the details of Guest')->open();
-
-
-						$ui->input()
-						   ->id('name')
-						   ->name('name')
-						   ->label('Name')
-						   ->placeholder('Enter Guest Name')
-						   ->required()
-						   ->show();
-
-
-
-						$ui->select()
-						   ->label('Gender')
-						   ->name('gender')
-						   ->id('gender')
-						   ->addonLeft($ui->icon("bars"))
-						   ->options(array(
-								   $ui->option()->value('M')->text('Male'),
-								   $ui->option()->value('F')->text('Female')))
-								   ->required()
-						   ->show();
-
-
-						$ui->textarea()->name('address')->label('Address')->id('address')->required()->placeholder("Enter the Address")->show();
-
-
-						$ui->select()
-						   ->label('Room Preference')
-						   ->name('room_preference')
-						   ->id('room_preference')
-						   ->addonLeft($ui->icon("bars"))
-						   ->options(array(
-								   $ui->option()->value('Double Bedded AC')->text('Double Bedded AC'),
-								   $ui->option()->value('Double AC Suit')->text('Double AC Suit')))
-								   ->required()
-						   ->show();
-
-		$guestdetailsBox->close();
-		$guestdetailsCol->close();
-	$guestdetailsRow->close();
-*/	?>
-</script>
-
 <?php
 
 	$ui = new UI();
@@ -86,11 +34,35 @@
       ->disabled()
 		  ->show();
 
-      $ui->input()
- 		//	->placeholder('Check In Time')
+     	 $ui->input()
  			->type('text')
  			->label('Check In Time')
-			->id('check_in')
+//<<<<<<< HEAD
+ 			->name('check_in_display')
+      		->value($check_in_display)
+       		->disabled()
+ 		  	->show();
+
+     	 $ui->input()
+			->type('text')
+			->label('Check Out Time')
+			->name('check_out_display')
+      		->value($check_out_display)
+      		->disabled()
+		  	->show();
+		
+		 $ui->input()
+ 			->type('hidden')
+ 			->name('check_in')
+ 			->id('check_in')
+      		->value($check_in)
+       		->show();
+       		//->readable();
+
+     	 $ui->input()
+			->type('hidden')
+//=======
+/*			->id('check_in')
  			->name('check_in')
       ->disabled()
       ->value($check_in)
@@ -101,12 +73,19 @@
 		//	->placeholder('Check Out Time')
 			->type('text')
 			->label('Check Out Time')
-			->id('check_out')
+			->id('check_out')*/
+//>>>>>>> c13560e48283ab260875fb12bbde488ce6c45b34
 			->name('check_out')
+<<<<<<< HEAD
       ->disabled()
       ->value($check_out)
       //->readable()
 		  ->show();
+=======
+      		->id('check_out')
+      		->value($check_out)
+      		->show();
+>>>>>>> 01ba07d63552f05b54a28bc1c67775b3b019cc5e
 
 			if($single_AC+$double_AC+$suite_AC-$total_alloc_rooms <= 0)
 			{
@@ -123,7 +102,7 @@
 			->name('room_total')
       ->disabled()
 			->value($total_room)
-		  ->show();
+		  	->show();
 
      $ui->select()
 			   ->name('building')
@@ -153,6 +132,7 @@
 			$col1->close();
 
 		 $floor_box->close();
+
      /*$ui->select()
 			   ->name('room')
 			   ->label('Select Room')

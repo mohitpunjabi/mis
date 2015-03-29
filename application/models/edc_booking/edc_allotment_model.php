@@ -35,12 +35,13 @@ class Edc_allotment_model extends CI_Model
   function check_unavail($check_in,$check_out)
   {
     $query = $this->db->query(
-        "SELECT edc_booking_details.room_id as room_id
+        "SELECT *
         FROM edc_registration_details
         INNER JOIN edc_booking_details
-        ON edc_registration_details.app_num=edc_booking_details.app_num
-        WHERE edc_registration_details.check_out > '{$check_in}'
-        OR edc_registration_details.check_in < '{$check_out}'");
+        ON edc_registration_details.app_num = edc_booking_details.app_num
+        WHERE NOT (
+        edc_registration_details.check_out <  '{$check_in}'
+        OR edc_registration_details.check_in >  '{$check_out}')");
     return $query->result_array();
   }
   /*function booking_history()

@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 	$('#room_alloc_button').attr('disabled','disabled');
 	if($('input[name="room_total"]').val() != 'No room left to be allocated.'){
-		alert('gkhkdfg');
+		//alert('gkhkdfg');
 		$('#room_alloc_button').removeAttr('disabled');
 	}
 

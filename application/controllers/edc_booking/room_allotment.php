@@ -66,15 +66,18 @@ class Room_allotment extends MY_Controller
 	}
 	function insert_edc_allotment()
 	{
-		$room_id = $this->input->post('room');
+		$room_list = $this->input->post('room_list');
 		$app_num = $this->input->post('app_num');
 
-		$input_data = array(
-			'app_num' => $app_num,
-			'room_id'	=> $room_id,
-		);
 		$this->load->model('edc_booking/edc_allotment_model');
-		$this->edc_allotment_model->insert_booking_details ($input_data);
+		foreach($room_list as $room)
+		{
+			$input_data = array(
+				'app_num' => $app_num,
+				'room_id'	=> $room,
+			);
+			$this->edc_allotment_model->insert_booking_details ($input_data);
+		}
 		$this->load->model ('user_model');
 		$res = $this->user_model->getUsersByDeptAuth('all', 'pce');
 		$pce = '';

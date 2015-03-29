@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+
+	$('#room_alloc_button').attr('disabled','disabled');
+	if($('input[name="room_total"]').val() != 'No room left to be allocated.'){
+		alert('gkhkdfg');
+		$('#room_alloc_button').removeAttr('disabled');
+	}
+
 	$("#application_file_row").hide();
 	$("#application_file").removeAttr("required");
 
@@ -27,9 +34,9 @@ $(document).ready(function(){
 		}
 	});
 	$('select[name="building"]').change(function(){
-		$.ajax({url : site_url("edc_booking/room_allotment/get_floor_plans/"+$(this).val()),
+		$.ajax({url : site_url("edc_booking/room_allotment/get_room_plans/"+$(this).val()+"/"+$('select[name="check_in"]').val()+"/"+$('select[name="check_out"]').val()),
 				success : function (result) {
-					$('select[name="floor"]').html(result);
+					$('#floor').html(result);
 				}});
 	});
 	$('select[name="floor"]').change(function(){
@@ -38,4 +45,18 @@ $(document).ready(function(){
 					$('#room_container').html(result);
 				}});
 	});
+	/*$("input[type=checkbox][name=room_list[]]").click(function() {
+
+    var bol = $("input[type=checkbox][name=room_list[]]:checked").length >= 4;
+    $("input[type=checkbox][name=room_list[]]").not(":checked").attr("disabled",bol);
+
+	});*/
+	$('#floor').click(function () {
+		var limit = $('input[name="room_total"]').val();
+    if ($('input[type=checkbox]:checked').length == limit) {
+        $('input[type=checkbox]').not(":checked").attr('disabled', true);
+        alert("You are only allowed to allocate "+limit+" rooms.");
+    }
+	});
+
 });

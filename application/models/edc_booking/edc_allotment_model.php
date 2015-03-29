@@ -12,6 +12,12 @@ class Edc_allotment_model extends CI_Model
     $query = $this->db->get('edc_registration_details');
 		return $query->result_array();
   }
+  function get_allocated_rooms($app_num)
+  {
+    $this->db->where('app_num',$app_num);
+    $query = $this->db->get('edc_booking_details');
+		return $query->num_rows();
+  }
   function get_floors($building)
   {
     $this->db->where('building',$building);

@@ -41,9 +41,9 @@ class Edc_allotment_model extends CI_Model
           ON edc_registration_details.app_num = edc_booking_details.app_num
           WHERE ( edc_registration_details.check_out >=  '{$check_in}'
           AND edc_registration_details.check_in <=  '{$check_in}')
-          OR edc_registration_details.check_in
+          OR (edc_registration_details.check_in
           BETWEEN  '{$check_in}'
-          AND  '{$check_out}'");
+          AND  '{$check_out}')");
     return $query->result_array();
   }
   /*function booking_history()

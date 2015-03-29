@@ -34,23 +34,36 @@
       //->readable()
 		  ->show();
 
-      $ui->input()
- 		//	->placeholder('Check In Time')
+     	 $ui->input()
  			->type('text')
  			->label('Check In Time')
- 			->name('check_in')
-      ->value($check_in)
-       //->readable()
- 		  ->show();
+ 			->name('check_in_display')
+      		->value($check_in_display)
+       		->disabled()
+ 		  	->show();
 
-     $ui->input()
-		//	->placeholder('Check Out Time')
+     	 $ui->input()
 			->type('text')
 			->label('Check Out Time')
+			->name('check_out_display')
+      		->value($check_out_display)
+      		->disabled()
+		  	->show();
+		
+		 $ui->input()
+ 			->type('hidden')
+ 			->name('check_in')
+ 			->id('check_in')
+      		->value($check_in)
+       		->show();
+       		//->readable();
+
+     	 $ui->input()
+			->type('hidden')
 			->name('check_out')
-      ->value($check_out)
-      //->readable()
-		  ->show();
+      		->id('check_out')
+      		->value($check_out)
+      		->show();
 
 			if($single_AC+$double_AC+$suite_AC-$total_alloc_rooms <= 0)
 			{
@@ -66,7 +79,7 @@
 			->label('Total room to be allocated')
 			->name('room_total')
 			->value($total_room)
-		  ->show();
+		  	->show();
 
      $ui->select()
 			   ->name('building')
@@ -96,6 +109,7 @@
 			$col1->close();
 
 		 $floor_box->close();
+
      /*$ui->select()
 			   ->name('room')
 			   ->label('Select Room')

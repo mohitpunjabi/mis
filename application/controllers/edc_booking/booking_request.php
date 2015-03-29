@@ -1,14 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/*
-details ($app_num, $auth)
-hod()
-dsw()
-pce()
-hod_action()
-dsw_action()
-pce_action()
-room_approval_from_pce() ... in this contoller OR room_allotment controller
-*/
+
 class Booking_request extends MY_Controller
 {
 	function __construct()
@@ -61,8 +52,6 @@ class Booking_request extends MY_Controller
 			$this->load->view('edc_booking/booking_details',$data);
 		$this->drawFooter();
 	}
-
-
 
 	function hod()
 	{
@@ -252,4 +241,5 @@ class Booking_request extends MY_Controller
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
 			redirect('edc_booking/booking_request/pce');
 	}
+
 }

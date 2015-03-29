@@ -7,9 +7,9 @@ class Booking extends MY_Controller
 		parent::__construct(array('ft','stu'));
 		$this->addJS("edc_booking/booking.js");
 	}
-	
+
 	function form ()
-	{		
+	{
 		$this->drawHeader('Executive Development Center');
 		$data['auth'] = $this->session->userdata('auth')[0];
 
@@ -18,9 +18,9 @@ class Booking extends MY_Controller
 		$this->load->view('edc_booking/booking_form', $data);
 		$this->drawFooter();
 	}
-	
+
 	function insert_edc_registration_details ()
-	{		
+	{
 		$this->load->model('edc_booking/edc_booking_model');
 
 		$prec = 'EDC'; //optional
@@ -37,7 +37,7 @@ class Booking extends MY_Controller
 		$designation = $this->input->post('designation');
 		$check_in = $this->input->post('checkin');
 		$check_out = $this->input->post('checkout');
-					  
+
 		//echo $user_id."<br>".$email_id."<br>".$dept_id."<br>".$purpose."<br>".$check_in."<br>".$check_out."<br>".$app_date."<br>";
 
 		$no_of_guests = (int)$this->input->post('no_of_guests');
@@ -83,26 +83,26 @@ class Booking extends MY_Controller
 		}
 		if ($this->session->userdata('auth')[0] == 'stu')
 			$dsw_status = 'Pending';
-		
+
 		$registration_data = array('app_num'=>$app_num,
 			  'app_date'=>$app_date,
 			  'user_id'=>$user_id,
 			  'purpose'=>$purpose,
-			  'purpose_of_visit'=>$purpose_of_visit,	
-			  'name'=>$name,	
+			  'purpose_of_visit'=>$purpose_of_visit,
+			  'name'=>$name,
 			  'designation'=>$designation,
 			  'check_in'=>$check_in,
 			  'check_out'=>$check_out,
 			  'no_of_guests'=>$no_of_guests,
-			  'single_AC'=>$single_AC,	
+			  'single_AC'=>$single_AC,
 			  'double_AC'=>$double_AC,
 			  'suite_AC'=>$suite_AC,
 			  'school_guest'=>$school_guest,
 			  'file_path'=>$file_path,
-			  'hod_status'=>$hod_status,			  	
-			  'dsw_status'=>$dsw_status,			  	
-			  'pce_status'=>$pce_status,			  	
-		);		
+			  'hod_status'=>$hod_status,
+			  'dsw_status'=>$dsw_status,
+			  'pce_status'=>$pce_status,
+		);
 
 		$this->edc_booking_model->insert_edc_registration_details ($registration_data);
 
@@ -118,7 +118,7 @@ class Booking extends MY_Controller
 					'name'=>$guest[$i]['name'],
 					'address'=>$guest[$i]['address'],
 					'gender'=>$guest[$i]['gender'],
-					'room_prefered'=>$guest[$i]['room_preference']		
+					'room_prefered'=>$guest[$i]['room_preference']
 					);
 			$this->edc_booking_model->insert_guest_details($data);
 		}*/
@@ -128,7 +128,7 @@ class Booking extends MY_Controller
 	}
 
 	function history()
-	{	
+	{
 		$this->load->model('edc_booking/edc_booking_model');
 		$this->load->model('user_model');
 
@@ -161,7 +161,7 @@ class Booking extends MY_Controller
 			if ($row['hod_approved_status'] == "Rejected")
 				$data_array_rejected[$sno][4] = "Head of Department";
 			else
-				$data_array_rejected[$sno][4] = "PCE";				
+				$data_array_rejected[$sno][4] = "PCE";
 			$sno++;
 		}
 
@@ -169,22 +169,22 @@ class Booking extends MY_Controller
 		$data['total_rows_approved'] = $total_rows_approved;
 		$data['data_array_rejected'] = $data_array_rejected;
 		$data['total_rows_rejected'] = $total_rows_rejected;
-		
+
 		$this->drawHeader('Executive Development Center');
 		$this->load->view('edc_booking/booking_history',$data);
 		$this->drawFooter();
-	}		
+	}
 
 
 	function track_status()
 	{
 		$this->load->model('edc_booking/edc_booking_model');
 		$res = $this->edc_booking_model->get_pending_booking_details($this->session->userdata('id'));
-		
+
 		if(count($res) == 0){
 			$this->session->set_flashdata('flashError','You haven\'t any application form to track.');
 			redirect('edc_booking/booking');
-		}	
+		}
 
 		$data = array();
 		foreach ($res as $row)
@@ -212,7 +212,7 @@ class Booking extends MY_Controller
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
 		}
-		
+
 		$data ['auth'] = $this->session->userdata('auth')[0];
 
 		$this->drawHeader('Track Booking Status');
@@ -244,9 +244,9 @@ class Booking extends MY_Controller
 	        	redirect('sah/booking/form');
 				return FALSE;
 	        }
-	   
+
 			$config['file_name'] = $filename;
-			
+
 			if(!is_dir($config['upload_path']))	//create the folder if it's not already exists
 			{
 				mkdir($config['upload_path'],0777,TRUE);

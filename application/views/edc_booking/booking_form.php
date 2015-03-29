@@ -16,8 +16,8 @@
 						   ->required()
 						   ->show();
 
-					
-										  
+
+
 						$ui->select()
 						   ->label('Gender')
 						   ->name('gender')
@@ -27,14 +27,14 @@
 								   $ui->option()->value('M')->text('Male'),
 								   $ui->option()->value('F')->text('Female')))
 								   ->required()
-						   ->show();	
+						   ->show();
 
-										  
-						$ui->textarea()->name('address')->label('Address')->id('address')->required()->placeholder("Enter the Address")->show();	
-					   
-						  
+
+						$ui->textarea()->name('address')->label('Address')->id('address')->required()->placeholder("Enter the Address")->show();
+
+
 						$ui->select()
-						   ->label('Room Preference')	
+						   ->label('Room Preference')
 						   ->name('room_preference')
 						   ->id('room_preference')
 						   ->addonLeft($ui->icon("bars"))
@@ -42,7 +42,7 @@
 								   $ui->option()->value('Double Bedded AC')->text('Double Bedded AC'),
 								   $ui->option()->value('Double AC Suit')->text('Double AC Suit')))
 								   ->required()
-						   ->show();	
+						   ->show();
 
 		$guestdetailsBox->close();
 		$guestdetailsCol->close();
@@ -55,7 +55,7 @@
 	$ui = new UI();
 
 	$row = $ui->row()->open();
-	
+
 	$col1 = $ui->col()
 				 ->width(2)
 	             ->open();
@@ -63,7 +63,7 @@
 
 	$col2 = $ui->col()
 				 ->width(8)
-	             ->open(); 	
+	             ->open();
 
 
 	$box = $ui->box()
@@ -71,12 +71,12 @@
 			 ->title('EDC Room Allotment Form')
 			 ->solid()
 			 ->open();
-		
+
 		$form = $ui->form()
 		   ->multipart()
 		   ->action('edc_booking/booking/insert_edc_registration_details')
 		   ->open();
-				 	
+
 		if ($auth == 'emp') {
 			$ui->select()
 			   ->name('purpose')
@@ -86,11 +86,11 @@
 	                   $ui->option()->value('Official')->text('Official'),
 	                   $ui->option()->value('Personal')->text('Personal')))
 	           ->required()
-			   ->show();	
+			   ->show();
 		}
 
-		$ui->textarea()->label('Purpose of Visit')->name('purpose_of_visit')->placeholder("Enter the purpose of visit")->required()->show();	
-			  
+		$ui->textarea()->label('Purpose of Visit')->name('purpose_of_visit')->placeholder("Enter the purpose of visit")->required()->show();
+
 		$ui->input()
 			->placeholder('Name')
 			->type('text')
@@ -115,10 +115,10 @@
 			 ->dateFormat('yyyy-mm-dd')
 			 ->required()
 			 ->show();
-		
-			  
+
+
 		$ui->datePicker()
-			 ->label ('Check-Out-Date-Time')	
+			 ->label ('Check-Out-Date-Time')
 			 ->name('checkout')
 		   	 ->placeholder("Select Check-Out-Date-Time")
 			 ->addonLeft($ui->icon("calendar"))
@@ -126,7 +126,7 @@
 			 ->required()
 			 ->show();
 
-		  
+
 		$ui->select()
 		   ->label('Number of Guests')
 		   ->name('no_of_guests')
@@ -140,7 +140,7 @@
 				   $ui->option()->value('5')->text('5'),
 				   $ui->option()->value('6')->text('6')))
 	       ->required()
-		   ->show();	
+		   ->show();
 
 		$ui->select()
 		   ->label('No. of Guests for Single AC')
@@ -154,7 +154,7 @@
 				   $ui->option()->value('4')->text('4'),
 				   $ui->option()->value('5')->text('5'),
 				   $ui->option()->value('6')->text('6')))
-		   ->show();	
+		   ->show();
 
 		$ui->select()
 		   ->label('No. of Guests for Double AC')
@@ -168,7 +168,7 @@
 				   $ui->option()->value('4')->text('4'),
 				   $ui->option()->value('5')->text('5'),
 				   $ui->option()->value('6')->text('6')))
-		   ->show();	
+		   ->show();
 
 		$ui->select()
 		   ->label('No. of Guests for Suite AC')
@@ -182,7 +182,7 @@
 				   $ui->option()->value('4')->text('4'),
 				   $ui->option()->value('5')->text('5'),
 				   $ui->option()->value('6')->text('6')))
-		   ->show();	
+		   ->show();
 
 		$row1 = $ui->row()->id('school_guest_row')->open();
 
@@ -192,13 +192,13 @@
 				->name('school_guest')
 				->id('school_guest')
 				->addonLeft($ui->icon("bars"))
-				->options(array(		
+				->options(array(
 				       $ui->option()->value('0')->text('No'),
 					   $ui->option()->value('1')->text('Yes')))
-				->show();	
+				->show();
 
 			$row2 = $ui->row()->id('application_file_row')->open();
-			
+
 				$col1 = $ui->col()->open();
 				 $ui->input()
 					->type('file')
@@ -222,8 +222,8 @@
 		   ->show();
 ?>
 </center>
-<?			
-		$form->close();	
+<?
+		$form->close();
 
 	$box->close();
 

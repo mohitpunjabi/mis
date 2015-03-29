@@ -35,22 +35,21 @@
 		  ->show();
 
      	 $ui->input()
- 			->type('text')
- 			->label('Check In Time')
-//<<<<<<< HEAD
- 			->name('check_in_display')
-      		->value($check_in_display)
-       		->disabled()
+	 			->type('text')
+	 			->label('Check In Time')
+	 			->name('check_in_display')
+	      ->value(date('j M Y g:i A', strtotime($check_in)))
+	      ->disabled()
  		  	->show();
 
      	 $ui->input()
 			->type('text')
 			->label('Check Out Time')
 			->name('check_out_display')
-      		->value($check_out_display)
+      		->value(date('j M Y g:i A', strtotime($check_out)))
       		->disabled()
 		  	->show();
-		
+
 		 $ui->input()
  			->type('hidden')
  			->name('check_in')
@@ -61,31 +60,11 @@
 
      	 $ui->input()
 			->type('hidden')
-//=======
-/*			->id('check_in')
- 			->name('check_in')
-      ->disabled()
-      ->value($check_in)
-       //->readable()
- 		  ->show();
-		//	date('j M Y g:i A', strtotime(
-     $ui->input()
-		//	->placeholder('Check Out Time')
-			->type('text')
-			->label('Check Out Time')
-			->id('check_out')*/
-//>>>>>>> c13560e48283ab260875fb12bbde488ce6c45b34
 			->name('check_out')
-<<<<<<< HEAD
       ->disabled()
       ->value($check_out)
       //->readable()
 		  ->show();
-=======
-      		->id('check_out')
-      		->value($check_out)
-      		->show();
->>>>>>> 01ba07d63552f05b54a28bc1c67775b3b019cc5e
 
 			if($single_AC+$double_AC+$suite_AC-$total_alloc_rooms <= 0)
 			{

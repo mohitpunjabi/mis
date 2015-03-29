@@ -11,6 +11,8 @@ class Edc_booking_model extends CI_Model
 	function insert_guest_details ($data)
 	{
 		$this->db->insert('edc_guest_details',$data);
+		$this->db->query ("UPDATE edc_guest_details SET check_in = now() WHERE app_num = '".$data['app_num']."';");
+
 	}
 	
 	function insert_edc_registration_details ($data)
@@ -137,9 +139,21 @@ class Edc_booking_model extends CI_Model
 	}
 	function get_rooms_for_application($app_num)
 	{
-		$query = "SELECT edc_room_details.building as building,edc_room_details.floor as floor,edc_room_details.room_no as room_no FROM edc_booking_details inner join edc_room_details on edc_booking_details.room_id=edc_room_details.id WHERE edc_booking_details.app_num = '".$app_num."'";
+		$query = "SELECT id,edc_room_details.building as building,edc_room_details.floor as floor,edc_room_details.room_no as room_no FROM edc_booking_details inner join edc_room_details on edc_booking_details.room_id=edc_room_details.id WHERE edc_booking_details.app_num = '".$app_num."'";
 		$quer = $this->db->query($query);
 		return $quer->result();
+	}
+	function get_guest_detail($app_num)
+	{
+		$query = "SELECT * FROM  edc_guest_details WHERE  app_num = '".$app_num."'";
+		$quer = $this->db->query($query);
+		return $quer->result();
+
+	}
+	function checkout($app_num,$room_allocated)
+	{
+		$this->db->query ("UPDATE edc_guest_details SET check_out = now() WHERE app_num = '".$app_num."' AND room_alloted = '".$room_allocated."';");
+
 	}
 /*		
 	function get_all_guests_for_a_application($app_num)

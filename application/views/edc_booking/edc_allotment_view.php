@@ -52,6 +52,22 @@
       //->readable()
 		  ->show();
 
+			if($single_AC+$double_AC+$suite_AC-$total_alloc_rooms <= 0)
+			{
+				$total_room = 'No room left to be allocated.';
+			}
+			else
+			{
+				$total_room = $single_AC+$double_AC+$suite_AC-$total_alloc_rooms;
+			}
+			$ui->input()
+		//	->placeholder('Check Out Time')
+			->type('text')
+			->label('Total room to be allocated')
+			->name('room_total')
+			->value($total_room)
+		  ->show();
+
      $ui->select()
 			   ->name('building')
 			   ->label('Select Building')
@@ -62,14 +78,24 @@
 	                   $ui->option()->value('extension')->text('Extension')))
 	       ->required()
 			   ->show();
-     $ui->select()
+     /*$ui->select()
 			   ->name('floor')
 			   ->label('Select Floor')
 			   ->addonLeft($ui->icon("bars"))
 			   ->options(array(
 	                   $ui->option()->value()->text('Select')->disabled()))
 	       ->required()
-			   ->show();
+			   ->show();*/
+		$floor_box = $ui->row()
+										->open();
+			$col4 = $ui->col()
+								 ->name('floor')
+						 		 ->id('floor')
+								 ->width(12)
+					       ->open();
+			$col1->close();
+
+		 $floor_box->close();
      /*$ui->select()
 			   ->name('room')
 			   ->label('Select Room')
@@ -80,7 +106,7 @@
 			   ->show();*/
 
 		$box = $ui->row()
-							->id('room_container')
+						->id('room_container')
 			        //->width(12)
 			        //->t_width(8)
 			        //->m_width(12)
@@ -94,10 +120,12 @@
 <center>
 <?
 		$ui->button()
+			 ->id('room_alloc_button')
 		   ->value('Submit')
 		   ->uiType('primary')
 		   ->submit()
 		   ->name('submit')
+			 //->extras('disabled = true')
 		   ->show();
 ?>
 </center>

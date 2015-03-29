@@ -12,6 +12,12 @@ class Edc_allotment_model extends CI_Model
     $query = $this->db->get('edc_registration_details');
 		return $query->result_array();
   }
+  function get_allocated_rooms($app_num)
+  {
+    $this->db->where('app_num',$app_num);
+    $query = $this->db->get('edc_booking_details');
+		return $query->num_rows();
+  }
   function get_floors($building)
   {
     $this->db->where('building',$building);
@@ -29,12 +35,15 @@ class Edc_allotment_model extends CI_Model
   function check_unavail($check_in,$check_out)
   {
     $query = $this->db->query(
-        "SELECT edc_booking_details.room_id as room_id
-        FROM edc_registration_details
-        INNER JOIN edc_booking_details
-        ON edc_registration_details.app_num=edc_booking_details.app_num
-        WHERE edc_registration_details.check_out > '{$check_in}'
-        OR edc_registration_details.check_in < '{$check_out}'");
+          "SELECT edc_booking_details.room_id as room_id
+          FROM edc_registration_details
+          INNER JOIN edc_booking_details
+          ON edc_registration_details.app_num = edc_booking_details.app_num
+          WHERE ( edc_registration_details.check_out >=  '{$check_in}'
+          AND edc_registration_details.check_in <=  '{$check_in}')
+          OR edc_registration_details.check_in
+          BETWEEN  '{$check_in}'
+          AND  '{$check_out}'");
     return $query->result_array();
   }
   /*function booking_history()

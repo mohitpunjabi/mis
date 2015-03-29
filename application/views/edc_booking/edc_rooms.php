@@ -1,18 +1,43 @@
 <?php
-foreach($room_array as $row)
-{
-  //print_r($row);
   $ui = new UI();
-  $ui->checkbox()
-      ->name('room_list[]')
-      ->width(1)
-      ->value($row[0])
-      ->show();
-?>
-  <!--<option type="text" value="<?php //echo $row[0]; ?>" ><?php //echo $row[1]; ?></option>-->
+  foreach($floor_room_array as $floor)
+  {
+    $box = $ui->box()
+          ->uiType('primary')
+          ->title($floor[0].' Floor')
+          ->icon($ui->icon('edit'))
+          ->open();
 
-    <!--<input type="checkbox" name="room_list[]" value="564"/>-->
+      unset($floor[0]);
+      if(count($floor)==0)
+      {
+        $box = $ui->callout()
+          ->title("Sorry!! No rooms available.")
+          ->uiType("warning")
+          ->show();
+          continue;
+      }
+      foreach($floor as $row)
+      {
+        $ui->checkbox()
+            ->name('room_list[]')
+            //->width(1)
+            ->label($row[1].'-'.$row[2])
+            ->value($row[0])
+            ->show();
+      }
 
-<?php
-}
+
+    $box->close();
+  }
+  /*foreach($room_array as $row)
+  {
+    //print_r($row);
+
+    $ui->checkbox()
+        ->name('room_list[]')
+        ->width(1)
+        ->value($row[0])
+        ->show();
+  }*/
 ?>

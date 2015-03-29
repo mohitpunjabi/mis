@@ -122,14 +122,25 @@
 	                   $ui->option()->value()->text('Select')->disabled()))
 	       ->required()
 			   ->show();
-     $ui->select()
+     /*$ui->select()
 			   ->name('room')
 			   ->label('Select Room')
 			   ->addonLeft($ui->icon("bars"))
 			   ->options(array(
 	                   $ui->option()->value()->text('Select')->disabled()))
 	       ->required()
-			   ->show();
+			   ->show();*/
+
+		$box = $ui->row()
+							->id('room_container')
+			        //->width(12)
+			        //->t_width(8)
+			        //->m_width(12)
+			        ->open();
+
+                    /* content */
+
+		$box->close();
 
 ?>
 <center>

@@ -89,6 +89,13 @@ class Edc_booking_model extends CI_Model
 	function update_pce_action ($app_num, $status, $reason)
 	{
 		if ($status == "Approved")
+			$this->db->query ("UPDATE edc_registration_details SET pce_to_ctk_status= '".$status."', pce_to_ctk_timestamp = now() WHERE app_num = '".$app_num."';");
+		else
+			$this->db->query ("UPDATE edc_registration_details SET pce_to_ctk_status= '".$status."', pce_to_ctk_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");
+	}
+	function update_pce_final_action($app_num, $status, $reason)
+	{
+		if ($status == "Approved")
 			$this->db->query ("UPDATE edc_registration_details SET pce_status= '".$status."', pce_action_timestamp = now() WHERE app_num = '".$app_num."';");
 		else
 			$this->db->query ("UPDATE edc_registration_details SET pce_status= '".$status."', pce_action_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");

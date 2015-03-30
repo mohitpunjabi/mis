@@ -6,10 +6,22 @@ class Edc_allotment_model extends CI_Model
 		// Call the Model constructor
 		parent::__construct();
 	}
+  function get_room_details($room_id)
+  {
+    $this->db->where('id',$room_id);
+    $query = $this->db->get('edc_room_details');
+		return $query->row_array();
+  }
   function get_app_details($app_num)
   {
     $this->db->where('app_num',$app_num);
     $query = $this->db->get('edc_registration_details');
+		return $query->result_array();
+  }
+  function get_allocated_room_detail($app_num)
+  {
+    $this->db->where('app_num',$app_num);
+    $query = $this->db->get('edc_booking_details');
 		return $query->result_array();
   }
   function get_allocated_rooms($app_num)
@@ -51,9 +63,9 @@ class Edc_allotment_model extends CI_Model
           "')");
     return $query->result_array();
   }
-  function set_stk_status()
+  function set_ctk_status($status,$app_num)
   {
-			$this->db->query ("UPDATE edc_registration_details SET ctk_action_timestamp= '".$status."', pce_action_timestamp = now() WHERE app_num = '".$app_num."';");
+			$this->db->query ("UPDATE edc_registration_details SET ctk_allotment_status = '".$status."', ctk_action_timestamp = now() WHERE app_num = '".$app_num."';");
 
   }
   /*function booking_history()
@@ -66,6 +78,15 @@ class Edc_allotment_model extends CI_Model
   function insert_booking_details($data)
   {
     $this->db->insert('edc_booking_details',$data);
+  }
+  /*function insert_confirmation_details($data)
+  {
+    $this->db->query ("UPDATE edc_registration_details SET WHERE app_num = '".$app_num."';");
+  }*/
+  function delete_room_detail($app_num)
+  {
+    $this->db->query("DELETE FROM edc_booking_details WHERE app_num = '".$app_num."';");
+    //$this->db->delete('edc_booking_details', array('app_num' => $app_num));
   }
 }
 ?>

@@ -53,17 +53,21 @@
   $tabBox1 = $ui->tabBox()
 				   ->icon($ui->icon("th"))
 				   ->title("Select Rooms")
-				   ->tab("double_ac", "Double Bedded AC", true)
-				   ->tab("suite_ac", "Suite AC")
+				   ->tab("double_ac", "Double Bedded AC")
+				   ->tab("suite_ac", "Suite AC", true)
 				   //->tab("settings", $ui->icon('gear'))
 				   ->open();
   foreach($room_array as $room_type)
   {
       //$room_type_box = $ui->box()->title($room_type['room_type'])->open();
       if($room_type['room_type']== 'Double Bedded AC')
+      {
         $tab1 = $ui->tabPane()->id("double_ac")->active()->open();
+      }
       else
+      {
         $tab1 = $ui->tabPane()->id("suite_ac")->active()->open();
+      }
       $t = $ui->table()->condensed()->open();
       foreach($floor_room_array as $floor)
       {
@@ -94,41 +98,8 @@
           ?>
         </tr>
         <?php
-        /*$box = $ui->box()
-              ->uiType('primary')
-              ->title($floor[0].' Floor')
-              ->icon($ui->icon('edit'))
-              ->open();
-
-
-          $input_row = $ui->row()->open();
-            unset($floor[0]);
-            if(count($floor)==0)
-            {
-              $box = $ui->callout()
-                ->title("Sorry!! No rooms available.")
-                ->uiType("warning")
-                ->show();
-                continue;
-            }
-            foreach($floor as $row)
-            {
-              $row5 = $ui->col()->width(6)
-                         ->open();
-              $ui->checkbox()
-                  ->name('room_list[]')
-                  ->label($row[1].'-'.$row[2])
-                  ->value($row[0])
-                  ->show();
-
-              $row5->close();
-            }
-            $input_row->close();
-
-        $box->close();*/
       }
       $t->close();
-      //$room_type_box->close();
       $tab1->close();
     }
     $tabBox1->close();

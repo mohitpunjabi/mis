@@ -76,39 +76,42 @@
 <?
 			}
 ?>
-			<tr>	
-			<th colspan='2'>
 <?
 		if ($auth == 'hod')
 			$form = $ui->form()->action('edc_booking/booking_request/hod_action/'.$app_num)->open();
 		else if ($auth == 'pce')
 			$form = $ui->form()->action('edc_booking/booking_request/pce_action/'.$app_num)->open();
 
-		$inputRow4 = $ui->row()->open();
+		if ($deny_reason == '') {
+?>
+			<tr>	
+			<th colspan='2'>
+<?
+			$inputRow4 = $ui->row()->open();
 
-			$c1 = $ui->col()->width(1)->open();
-			$c1->close();
-		
-			$c2 = $ui->col()->width(4)->open();
-					$ui->select()
-					   ->label('Approve OR Reject')
-					   ->name('status')
-					   ->required()
-					   ->options(array( $ui->option()->value("Approved")->text('Approve'),
-										$ui->option()->value("Rejected")->text('Reject'),
-									  )
-								)
-					   ->show();
-			$c2->close();
+				$c1 = $ui->col()->width(1)->open();
+				$c1->close();
+			
+				$c2 = $ui->col()->width(4)->open();
+						$ui->select()
+						   ->label('Approve OR Reject')
+						   ->name('status')
+						   ->required()
+						   ->options(array( $ui->option()->value("Approved")->text('Approve'),
+											$ui->option()->value("Rejected")->text('Reject'),
+										  )
+									)
+						   ->show();
+				$c2->close();
 
-			$c3 = $ui->col()->width(1)->open();
-			$c3->close();
-		
-			$c4 = $ui->col()->width(6)->open();
-					$ui->textarea()->label('Reason for Rejection')->name("reason")->placeholder('Reason for Rejection')->show();
-			$c4->close();
-		
-		$inputRow4->close();
+				$c3 = $ui->col()->width(1)->open();
+				$c3->close();
+			
+				$c4 = $ui->col()->width(6)->open();
+						$ui->textarea()->label('Reason for Rejection')->name("reason")->placeholder('Reason for Rejection')->show();
+				$c4->close();
+			
+			$inputRow4->close();
 ?>
 			</th>
 			</tr>
@@ -126,6 +129,16 @@
 			</th>
 			</tr>
 <?
+		}
+		else { ?>
+				<tr>
+					<th>Reason of Rejection</th>
+					<td>
+						<?= $deny_reason ?>
+					</td>
+				</tr>
+<?			}
+
 		$form->close();
 
 		$table->close();

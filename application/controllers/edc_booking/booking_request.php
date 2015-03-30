@@ -203,7 +203,7 @@ class Booking_request extends MY_Controller
 			if ($status == "Approved")
 				$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details/".$app_num."/pce", "");
 			else //Rejected -> Notify to User
-				$this->notification->notify ($user_id, "ft", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) has been Rejected.", "edc_booking/booking_request/details/".$app_num."/emp", "");
+				$this->notification->notify ($user_id, "ft", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) has been Rejected by HOD.", "edc_booking/booking/track_status/".$app_num, "");
 
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
 			redirect('edc_booking/booking_request/hod');
@@ -235,8 +235,16 @@ class Booking_request extends MY_Controller
 			$user_id = $this->edc_booking_model->get_request_user_id ($app_num);
 			if ($status == "Approved")
 				$this->notification->notify ($edc_ctk, "edc_ctk", "EDC Room Allotment Request", "Allot room for (Application No. : ".$app_num." )", "edc_booking/booking_request/details/".$app_num."/ctk", "");
-			else
-				$this->notification->notify ($user_id, "emp", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) is has been Rejected.", "edc_booking/booking_details/details/".$app_num."/emp", "");
+			else {
+				$this->notification->notify ($user_id, "ft", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) has been Rejected by PCE.", "edc_booking/booking/track_status/".$app_num, "");
+			
+				$this->load->model ('user_model');
+				$res = $this->user_model->getUsersByDeptAuth($this->session->userdata('dept_id'), 'hod');
+				$hod = '';	
+				foreach ($res as $row)
+					$hod = $row->id;
+				$this->notification->notify ($hod, "hod", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) is has been Rejected by PCE.", "edc_booking/booking_request/details/".$app_num."/hod", "");
+			}
 
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
 			redirect('edc_booking/booking_request/pce');

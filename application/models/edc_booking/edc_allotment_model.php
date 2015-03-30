@@ -32,6 +32,12 @@ class Edc_allotment_model extends CI_Model
 		$query = $this->db->order_by('room_no','asc')->get('edc_room_details');
 		return $query->result_array();
   }
+  function get_room_types()
+  {
+    $this->db->select('room_type');
+    $query = $this->db->group_by('room_type')->get('edc_room_details');
+    return $query->result_array();
+  }
   function check_unavail($check_in,$check_out)
   {
     $query = $this->db->query("SELECT edc_booking_details.room_id as room_id

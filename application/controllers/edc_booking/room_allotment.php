@@ -51,8 +51,10 @@ class Room_allotment extends MY_Controller
 		$flr = 1;
 		foreach($floor_array as $floor)
 		{
-			$result_floor_wise[$flr][0] = $this->edc_allotment_model->get_rooms($building,$floor['floor']);
+			$temp_query = $this->edc_allotment_model->get_rooms($building,$floor['floor']);
+			$result_floor_wise[$flr][0] = $temp_query;
 			$result_floor_wise[$flr++][1] = $floor['floor'];
+			//$result_floor_wise[$flr++][2] = $temp_query['room_type'];
 		}
 		//print_r($result_floor_wise);
 		$data_array = array();
@@ -87,6 +89,7 @@ class Room_allotment extends MY_Controller
 		}
 		//print_r($data_array);
 		$data['floor_room_array'] = $data_array;
+		$data['room_array'] = $this->edc_allotment_model->get_room_types();
 		//print_r($res);
 		$this->load->view('edc_booking/edc_rooms',$data);
 	}

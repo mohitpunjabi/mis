@@ -50,65 +50,77 @@
  	<?
 
   $t->close();
-  $t = $ui->table()->condensed()->open();
-  foreach($floor_room_array as $floor)
+  /*$room_array = array(
+    'Double Bedded AC','Double AC SUIT'
+  );*/
+  //print_r($room_array);
+  foreach($room_array as $room_type)
   {
-    ?>
-    <tr>
-      <th>
-        <?php
-          echo $floor[0].' Floor';
-          unset($floor[0]);
+      $room_type_box = $ui->box()->title($room_type['room_type'])->open();
+      $t = $ui->table()->condensed()->open();
+      foreach($floor_room_array as $floor)
+      {
         ?>
-      </th>
-      <?php
-        foreach($floor as $row)
-        {
-            $output_str = "<td class=";
-            if($row[3]==0)
-              $output_str .= "\"bg-danger\"";
-            else
-              $output_str .= "\"bg-success\"";
-            $output_str .= "align=\"center\">".$row[1];
-            $output_str .= "<input type=\"checkbox\" value=\"";
-            $output_str .= $row[0]."\"name=\"room_list[]\"></td>";
-            echo $output_str;
-        }
-      ?>
-    </tr>
-    <?php
-    /*$box = $ui->box()
-          ->uiType('primary')
-          ->title($floor[0].' Floor')
-          ->icon($ui->icon('edit'))
-          ->open();
+        <tr>
+          <th>
+            <?php
+              echo $floor[0].' Floor';
+              unset($floor[0]);
+            ?>
+          </th>
+          <?php
+            foreach($floor as $row)
+            {
+              if($row[2] == $room_type['room_type'])
+              {
+                $output_str = "<td class=";
+                if($row[3]==0)
+                  $output_str .= "\"bg-danger\"";
+                else
+                  $output_str .= "\"bg-success\"";
+                $output_str .= "align=\"center\">".$row[1];
+                $output_str .= "<input type=\"checkbox\" value=\"";
+                $output_str .= $row[0]."\"name=\"room_list[]\"></td>";
+                echo $output_str;
+              }
+            }
+          ?>
+        </tr>
+        <?php
+        /*$box = $ui->box()
+              ->uiType('primary')
+              ->title($floor[0].' Floor')
+              ->icon($ui->icon('edit'))
+              ->open();
 
 
-      $input_row = $ui->row()->open();
-        unset($floor[0]);
-        if(count($floor)==0)
-        {
-          $box = $ui->callout()
-            ->title("Sorry!! No rooms available.")
-            ->uiType("warning")
-            ->show();
-            continue;
-        }
-        foreach($floor as $row)
-        {
-          $row5 = $ui->col()->width(6)
-                     ->open();
-          $ui->checkbox()
-              ->name('room_list[]')
-              ->label($row[1].'-'.$row[2])
-              ->value($row[0])
-              ->show();
+          $input_row = $ui->row()->open();
+            unset($floor[0]);
+            if(count($floor)==0)
+            {
+              $box = $ui->callout()
+                ->title("Sorry!! No rooms available.")
+                ->uiType("warning")
+                ->show();
+                continue;
+            }
+            foreach($floor as $row)
+            {
+              $row5 = $ui->col()->width(6)
+                         ->open();
+              $ui->checkbox()
+                  ->name('room_list[]')
+                  ->label($row[1].'-'.$row[2])
+                  ->value($row[0])
+                  ->show();
 
-          $row5->close();
-        }
-        $input_row->close();
+              $row5->close();
+            }
+            $input_row->close();
 
-    $box->close();*/
-  }
-  $t->close();
+        $box->close();*/
+      }
+      $t->close();
+      $room_type_box->close();
+    }
 ?>

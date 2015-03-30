@@ -176,10 +176,13 @@ class Booking extends MY_Controller
 	}
 
 
-	function track_status()
+	function track_status($app_num = '')
 	{
 		$this->load->model('edc_booking/edc_booking_model');
-		$res = $this->edc_booking_model->get_pending_booking_details($this->session->userdata('id'));
+		if ($app_num == '')
+			$res = $this->edc_booking_model->get_pending_booking_details($this->session->userdata('id'));
+		else
+			$res = $this->edc_booking_model->get_booking_details($app_num);
 
 		if(count($res) == 0){
 			$this->session->set_flashdata('flashError','You haven\'t any application form to track.');

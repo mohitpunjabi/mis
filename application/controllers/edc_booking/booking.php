@@ -213,6 +213,8 @@ class Booking extends MY_Controller
 			$data['dsw_action_timestamp'] = $row['dsw_action_timestamp'];
 			$data['pce_status'] = $row['pce_status'];
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
+			$data['pce_to_ctk_status'] = $row['pce_to_ctk_status'];
+			$data['pce_to_ctk_timestamp'] = $row['pce_to_ctk_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
 		}
 

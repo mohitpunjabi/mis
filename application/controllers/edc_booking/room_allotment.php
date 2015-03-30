@@ -20,10 +20,11 @@ class Room_allotment extends MY_Controller
 			$data['single_AC'] = $row['single_AC'];
 			$data['double_AC'] = $row['double_AC'];
 			$data['suite_AC'] = $row['suite_AC'];
+			$data['allocation_confirm_status'] = $row['allocation_confirm_status'];
 		}
 		$data['app_num'] = $app_num;
-		$total_alloc_rooms = $this->edc_allotment_model->get_allocated_rooms($app_num);
-		$data['total_alloc_rooms'] = $total_alloc_rooms;
+		//$total_alloc_rooms = $this->edc_allotment_model->get_allocated_rooms($app_num);
+		//$data['total_alloc_rooms'] = $total_alloc_rooms;
 		$this->drawHeader ("Room Allotment");
 		$this->load->view('edc_booking/edc_allotment_view',$data);
 		$this->drawFooter();
@@ -99,7 +100,8 @@ class Room_allotment extends MY_Controller
 		$room_list = $this->input->post('room_list');
 
 		$this->load->model('edc_booking/edc_allotment_model');
-		$this->edc_allotment_model->set_stk_status($app_num);
+		$this->edc_allotment_model->set_ctk_status("Approved",$app_num);
+		$this->edc_allotment_model->delete_room_detail($app_num);
 		foreach($room_list as $room)
 		{
 			$input_data = array(
@@ -109,12 +111,13 @@ class Room_allotment extends MY_Controller
 			//print_r($input_data);
 			$this->edc_allotment_model->insert_booking_details ($input_data);
 		}
+		//$this->edc_allotment_model->insert_confirmation_details ($app_num);
 		$this->load->model ('user_model');
 		$res = $this->user_model->getUsersByDeptAuth('all', 'pce');
 		$pce = '';
 		foreach ($res as $row)
 			$pce = $row->id;
-		$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details/".$app_num."/pce", "");
+		$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details_final/".$app_num."/pce", "");
 		$this->session->set_flashdata('flashSuccess','Room Allotment has been done successfully.');
 		redirect('home');
 

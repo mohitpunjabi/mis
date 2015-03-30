@@ -50,13 +50,20 @@
  	<?
 
   $t->close();
-  /*$room_array = array(
-    'Double Bedded AC','Double AC SUIT'
-  );*/
-  //print_r($room_array);
+  $tabBox1 = $ui->tabBox()
+				   ->icon($ui->icon("th"))
+				   ->title("Select Rooms")
+				   ->tab("double_ac", "Double Bedded AC", true)
+				   ->tab("suite_ac", "Suite AC")
+				   //->tab("settings", $ui->icon('gear'))
+				   ->open();
   foreach($room_array as $room_type)
   {
-      $room_type_box = $ui->box()->title($room_type['room_type'])->open();
+      //$room_type_box = $ui->box()->title($room_type['room_type'])->open();
+      if($room_type['room_type']== 'Double Bedded AC')
+        $tab1 = $ui->tabPane()->id("double_ac")->active()->open();
+      else
+        $tab1 = $ui->tabPane()->id("suite_ac")->active()->open();
       $t = $ui->table()->condensed()->open();
       foreach($floor_room_array as $floor)
       {
@@ -121,6 +128,8 @@
         $box->close();*/
       }
       $t->close();
-      $room_type_box->close();
+      //$room_type_box->close();
+      $tab1->close();
     }
+    $tabBox1->close();
 ?>

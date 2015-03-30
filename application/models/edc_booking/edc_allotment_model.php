@@ -51,9 +51,9 @@ class Edc_allotment_model extends CI_Model
           "')");
     return $query->result_array();
   }
-  function set_stk_status($app_num)
+  function set_stk_status()
   {
-			$this->db->query ("UPDATE edc_registration_details SET ctk_allotment_status= 1, ctk_action_timestamp = now() WHERE app_num = '".$app_num."';");
+			$this->db->query ("UPDATE edc_registration_details SET ctk_action_timestamp= '".$status."', pce_action_timestamp = now() WHERE app_num = '".$app_num."';");
 
   }
   /*function booking_history()

@@ -1,11 +1,11 @@
 <?php
 	$ui = new UI();
-//echo form_open('complaint/register_complaint/insert');   	
+//echo form_open('complaint/register_complaint/insert');
 	$row = $ui->row()->open();
-	
+
 	$column1 = $ui->col()->width(2)->open();
 	$column1->close();
-	
+
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
 			  ->solid()
@@ -24,13 +24,13 @@
 			<tr>
 				<th><? $ui->icon("clock-o")->show() ?> HOD Approval</th>
 				<td>
-					<? 
-				  			if ($hod_status == "Approved") 
-				  				echo "Approved on ".$hod_action_timestamp; 
-				  			else if ($hod_status == "Rejected") 
+					<?
+				  			if ($hod_status == "Approved")
+				  				echo "Approved on ".$hod_action_timestamp;
+				  			else if ($hod_status == "Rejected")
 				  				echo "Rejected on ".$hod_action_timestamp;
 				  			else
-				  				echo $hod_status; 
+				  				echo $hod_status;
 				  		?>
 				</td>
 			</tr>
@@ -40,13 +40,13 @@
 			<tr>
 				<th><? $ui->icon("clock-o")->show() ?> DSW Approval</th>
 				<td>
-					<? 
-				  			if ($dsw_status == "Approved") 
-				  				echo "Approved on ".$dsw_action_timestamp; 
-				  			else if ($dsw_status == "Rejected") 
+					<?
+				  			if ($dsw_status == "Approved")
+				  				echo "Approved on ".$dsw_action_timestamp;
+				  			else if ($dsw_status == "Rejected")
 				  				echo "Rejected on ".$dsw_action_timestamp;
-				  			else 
-				  				echo $dsw_status; 
+				  			else
+				  				echo $dsw_status;
 				  		?>
 				</td>
 			</tr>
@@ -55,13 +55,13 @@
 			<tr>
 				<th><? $ui->icon("clock-o")->show() ?> PCE Approval</th>
 				<td>
-					<? 
-				  			if ($pce_status == "Approved") 
-				  				echo "Approved on ".$pce_action_timestamp; 
-				  			else if ($pce_status == "Rejected") 
+					<?
+				  			if ($pce_status == "Approved")
+				  				echo "Approved on ".$pce_action_timestamp;
+				  			else if ($pce_to_ctk_status == "Rejected")
 				  				echo "Rejected on ".$pce_action_timestamp;
 				  			else
-				  				echo $pce_status; 
+				  				echo $pce_status;
 				  		?>
 				</td>
 			</tr>
@@ -128,9 +128,9 @@
 <?
 			}
 		$table->close();
-	$box->close();	
+	$box->close();
 	$column2->close();
-	
+
 	$row->close();
 ?>
 <?/*	$box = $ui->box()
@@ -138,7 +138,7 @@
 			  ->title("Application No. : ".$app_num)
 			  ->uiType('primary')
 			  ->open();
-	
+
 		$inputRow1 = $ui->row()->open();
 			$c1 = $ui->col()->width(4)->open();
 				?><p><strong><? $ui->icon("clock-o")->show() ?> Registered On</strong><br/>
@@ -147,31 +147,31 @@
 			$c2 = $ui->col()->width(4)->open();
 				?><p><strong><? $ui->icon("clock-o")->show() ?> HOD Approval </strong><br/>
 				  <span>
-				  		<? 
-				  			if ($hod_approved_status == "Approved") 
-				  				echo "Approved on ".$hod_approved_timestamp; 
-				  			else if ($hod_approved_status == "Rejected") 
+				  		<?
+				  			if ($hod_approved_status == "Approved")
+				  				echo "Approved on ".$hod_approved_timestamp;
+				  			else if ($hod_approved_status == "Rejected")
 				  				echo "Rejected on ".$hod_approved_timestamp;
 				  			else
-				  				echo "Pending"; 
+				  				echo "Pending";
 				  		?>
 				  </span></p><?
 			$c2->close();
 			$c3 = $ui->col()->width(4)->open();
 				?><p><strong> <? $ui->icon("clock-o")->show() ?> PCE Approval </strong><br/>
 				  <span>
-				  		<? 
-				  			if ($pce_approved_status == "Approved") 
-				  				echo "Approved on ".$pce_approved_timestamp; 
-				  			else if ($pce_approved_status == "Rejected") 
+				  		<?
+				  			if ($pce_approved_status == "Approved")
+				  				echo "Approved on ".$pce_approved_timestamp;
+				  			else if ($pce_approved_status == "Rejected")
 				  				echo "Rejected on ".$pce_approved_timestamp;
 				  			else
-				  				echo "Pending"; 
+				  				echo "Pending";
 				  		?>
 				  </span></p><?
 			$c3->close();
 		$inputRow1->close();
-		
+
 
 		$inputRow2 = $ui->row()->open();
 			$c1 = $ui->col()->width(4)->open();
@@ -198,7 +198,7 @@
 				?><p><strong> Payment made by Name </strong><br/>
 				  <span><?= $amount_name ?></span></p><?
 			$c2->close();
-			
+
 			if ($deny_reason) {
 				$c3 = $ui->col()->width(4)->open();
 					?><p><strong> Reason of Rejection </strong><br/>
@@ -212,4 +212,4 @@
 <?
 
 	$box->close();
-*/	
+*/

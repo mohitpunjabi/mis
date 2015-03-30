@@ -66,13 +66,13 @@
       //->readable()
 		  ->show();
 
-			if($single_AC+$double_AC+$suite_AC-$total_alloc_rooms <= 0)
+			if($allocation_confirm_status==0)
 			{
-				$total_room = 'No room left to be allocated.';
+					$total_room = $single_AC+$double_AC+$suite_AC;
 			}
 			else
 			{
-				$total_room = $single_AC+$double_AC+$suite_AC-$total_alloc_rooms;
+				$total_room = 'No room left to be allocated.';
 			}
 			$ui->input()
 		//	->placeholder('Check Out Time')

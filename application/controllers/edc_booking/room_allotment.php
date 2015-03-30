@@ -99,6 +99,7 @@ class Room_allotment extends MY_Controller
 		$room_list = $this->input->post('room_list');
 
 		$this->load->model('edc_booking/edc_allotment_model');
+		$this->edc_allotment_model->set_stk_status($app_num);
 		foreach($room_list as $room)
 		{
 			$input_data = array(

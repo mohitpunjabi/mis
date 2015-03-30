@@ -54,6 +54,8 @@
           <?php
             foreach($floor as $row)
             {
+              if($room_type['room_type']==$row[2])
+              {
                 $output_str = "<td class=";
                 if($row[3]==0) {
                   $output_str .= "\"bg-danger\"";
@@ -68,6 +70,7 @@
                   $output_str .= $row[0]."\"name=\"room_list[]\"></td>";
                 }
                 echo $output_str;
+              }
             }
           ?>
         </tr>

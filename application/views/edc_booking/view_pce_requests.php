@@ -4,7 +4,8 @@
 	$tabBox1 = $ui->tabBox()
 		   ->icon($ui->icon("list"))	
 		   ->title("Booking Requests")
-		   ->tab("pending_requests", "Pending Requests", true)
+		   ->tab("pending_requests", "Rooms Alloted by Care Taker", true)
+		   ->tab("pending_requests_to_ctk", "Pending Requests")
 		   ->tab("rejected_requests", "Rejected Requests")
 		   ->tab("approved_requests", "Approved Requests")
 		   ->open();
@@ -14,7 +15,7 @@
 			if ($total_rows_pending == 0) {
 				$ui->callout()
 				   ->uiType("info")
-				   ->title("No Pending Requests.")
+				   ->title("No Pending Requests of Alloted Rooms by Care Taker.")
 				   ->desc("")
 				   ->show();
 			}
@@ -50,7 +51,48 @@
 		}	
 		$tab1->close();
 
-		$tab2 = $ui->tabPane()->id("rejected_requests")->open();
+		$tab2 = $ui->tabPane()->id("pending_requests_to_ctk")->open();
+
+			if ($total_rows_pending_to_ctk == 0) {
+				$ui->callout()
+				   ->uiType("info")
+				   ->title("No Pending Requests.")
+				   ->desc("")
+				   ->show();
+			}
+
+			else {
+				$table = $ui->table()->hover()->bordered()
+							->sortable()->searchable()->paginated()
+							->open();
+?>
+					<thead>		
+						<tr>
+							<th>Application No.</th>
+							<th>Registered On</th>
+							<th>Registered By</th>
+							<th>No. of Guests</th>
+						</tr>
+					</thead>
+<?php
+					$sno=1;
+					while ($sno <= $total_rows_pending_to_ctk)
+					{
+?>
+						<tr>
+							<td><a href="<?php echo site_url("edc_booking/booking_request/details/".$data_array_pending_to_ctk[$sno][1]."/pce");?>"><?php echo $data_array_pending_to_ctk[$sno][1];?></a></td>
+							<td><?php echo $data_array_pending_to_ctk[$sno][2];?></td>
+							<td><?php echo $data_array_pending_to_ctk[$sno][3];?></td>
+							<td><?php echo $data_array_pending_to_ctk[$sno][4];?></td>
+						</tr>
+<?php
+						$sno++;
+					}
+			$table->close();
+		}	
+		$tab2->close();
+
+		$tab3 = $ui->tabPane()->id("rejected_requests")->open();
 
 			if ($total_rows_rejected == 0) {
 				$ui->callout()
@@ -89,9 +131,9 @@
 					}
 			$table->close();
 		}	
-		$tab2->close();
+		$tab3->close();
 
-		$tab3 = $ui->tabPane()->id("approved_requests")->open();
+		$tab4 = $ui->tabPane()->id("approved_requests")->open();
 
 			if ($total_rows_approved == 0) {
 				$ui->callout()
@@ -130,7 +172,7 @@
 					}
 			$table->close();
 		}	
-		$tab3->close();
+		$tab4->close();
 
 	$tabBox1->close();
 ?>

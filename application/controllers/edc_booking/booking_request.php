@@ -186,6 +186,7 @@ class Booking_request extends MY_Controller
 		$this->load->model('edc_booking/edc_booking_model');
 		$this->load->model('user_model');
 
+//Pending Request from ctk
 		$res = $this->edc_booking_model->get_pce_requests ("Pending", $this->session->userdata('dept_id'));
 		$total_rows_pending = count($res);
 		$data_array_pending = array();
@@ -201,6 +202,23 @@ class Booking_request extends MY_Controller
 			$sno++;
 		}
 
+//Pending Request from HOD or DSW or Faculty
+		$res = $this->edc_booking_model->get_pce_to_ctk_requests ("Pending", $this->session->userdata('dept_id'));
+		$total_rows_pending_to_ctk = count($res);
+		$data_array_pending_to_ctk = array();
+		$sno = 1;
+		foreach ($res as $row)
+		{
+			$data_array_pending_to_ctk[$sno]=array();
+			$j=1;
+			$data_array_pending_to_ctk[$sno][$j++] = $row['app_num'];
+			$data_array_pending_to_ctk[$sno][$j++] = date('j M Y g:i A', strtotime($row['app_date']));
+			$data_array_pending_to_ctk[$sno][$j++] = $this->user_model->getNameById($row['user_id']);
+			$data_array_pending_to_ctk[$sno][$j++] = $row['no_of_guests'];
+			$sno++;
+		}
+
+//In Approved tab .... Request with final approval are displayed, i.e when pce_status = 'Approved'
 		$res = $this->edc_booking_model->get_pce_requests ("Approved", $this->session->userdata('dept_id'));
 		$total_rows_approved = count($res);
 		$data_array_approved = array();
@@ -216,7 +234,8 @@ class Booking_request extends MY_Controller
 			$sno++;
 		}
 
-		$res = $this->edc_booking_model->get_pce_requests ("Rejected", $this->session->userdata('dept_id'));
+//In Approved tab .... Request that are rejected before going to ctk are displayed, i.e when pce_to_ctk_status = 'Rejected'
+		$res = $this->edc_booking_model->get_pce_to_ctk_requests ("Rejected", $this->session->userdata('dept_id'));
 		$total_rows_rejected = count($res);
 		$data_array_rejected = array();
 		$sno = 1;
@@ -233,6 +252,8 @@ class Booking_request extends MY_Controller
 
 		$data['data_array_pending'] = $data_array_pending;
 		$data['total_rows_pending'] = $total_rows_pending;
+		$data['data_array_pending_to_ctk'] = $data_array_pending_to_ctk;
+		$data['total_rows_pending_to_ctk'] = $total_rows_pending_to_ctk;
 		$data['data_array_approved'] = $data_array_approved;
 		$data['total_rows_approved'] = $total_rows_approved;
 		$data['data_array_rejected'] = $data_array_rejected;
@@ -403,7 +424,7 @@ class Booking_request extends MY_Controller
 			$user_id = $this->edc_booking_model->get_request_user_id ($app_num);
 			if ($status == "Approved")
 			{
-				$this->db->query ("UPDATE edc_registration_details SET allocation_confirm_status = 1 WHERE app_num = '".$app_num."';");
+//				$this->db->query ("UPDATE edc_registration_details SET allocation_confirm_status = 1 WHERE app_num = '".$app_num."';");
 				$this->notification->notify ($user_id, "ft", "EDC Room Allotment Request", "Allot room for (Application No. : ".$app_num." )", "edc_booking/booking_request/details/".$app_num."/ft", "");
 			}
 			else

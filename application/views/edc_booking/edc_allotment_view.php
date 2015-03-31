@@ -66,7 +66,7 @@
       //->readable()
 		  ->show();
 
-			if($allocation_confirm_status==0)
+			if($pce_status==0)
 			{
 					$total_room = $single_AC+$double_AC+$suite_AC;
 			}

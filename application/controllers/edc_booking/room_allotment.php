@@ -20,7 +20,7 @@ class Room_allotment extends MY_Controller
 			$data['single_AC'] = $row['single_AC'];
 			$data['double_AC'] = $row['double_AC'];
 			$data['suite_AC'] = $row['suite_AC'];
-			$data['allocation_confirm_status'] = $row['allocation_confirm_status'];
+			$data['pce_status'] = $row['pce_status'];
 		}
 		$data['app_num'] = $app_num;
 		//$total_alloc_rooms = $this->edc_allotment_model->get_allocated_rooms($app_num);

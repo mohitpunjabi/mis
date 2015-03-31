@@ -4,13 +4,12 @@ class View extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('stu','deo','emp'));
+		parent::__construct(array('stu','acad_da1','emp'));
 	}
-
 
 	public function index($admn_no = '')
 	{
-		if($this->authorization->is_auth('deo'))
+		if($this->authorization->is_auth('acad_da1'))
 		{
 			
 
@@ -36,12 +35,19 @@ class View extends MY_Controller
 		}
 			
 	}
+	
+	function loadUsersEducationDetails($admn_no)
+	{
+		$this->load->model('student/student_education_details_model','',TRUE);
+		$data['users_education_details']=$this->student_education_details_model->getStuEduById($admn_no);
+		$this->load->view('student_view_report/view/student_education_table',$data);
+	}
 
 	function view_form()
 	{
 		
 		
-		if(!$this->authorization->is_auth('deo') && !$this->authorization->is_auth('emp'))
+		if(!$this->authorization->is_auth('acad_da1') && !$this->authorization->is_auth('emp'))
 		{
 			$this->session->set_flashdata('flashError','You are not authorized.');
 			redirect('student_view_report/view');
@@ -81,10 +87,9 @@ class View extends MY_Controller
 		{
 		 
 				$this->addJS('student_view_report/print_script.js');
+				//$this->addJS('student_view_report/student_view_education_detail_script.js');
 
 			 $data['admn_no'] = $admn_no;
-		
-		
 
 			$this->load->model('user/user_details_model','',TRUE);
 			$this->load->model('student/student_details_model','',TRUE);
@@ -93,13 +98,15 @@ class View extends MY_Controller
 			$this->load->model('user/user_other_details_model','',TRUE);
 			$this->load->model('student/student_other_details_model','',TRUE);
 			$this->load->model('student/student_fee_details_model','',TRUE);
-			$this->load->model('student/student_education_details_model','',TRUE);
 			$this->load->model('student/student_academic_model','',TRUE);
 			$this->load->model('student/student_type_model','',TRUE);
-			$this->load->model('student_view_report/get_cb','',TRUE);
-			$this->load->model('student_view_report/student_typeugpg_model','',TRUE);
+			//$this->load->model('student_view_report/get_cb','',TRUE);
+			//$this->load->model('student_view_report/student_typeugpg_model','',TRUE);
+			$this->load->model('student/student_education_details_model','',TRUE);
+			$this->load->model('course_structure/basic_model','',TRUE);
 			
-
+			
+			$data['users_education_details']=$this->student_education_details_model->getStuEduById($admn_no);
 			$data['user_details']=$this->user_details_model->getUserById($admn_no);
 			$data['stu_other_details']=$this->student_other_details_model->get_student_other_details_by_id($admn_no);
 			$data['student_fee_details']=$this->student_fee_details_model->get_stu_fee_details_by_id($admn_no);
@@ -108,8 +115,20 @@ class View extends MY_Controller
 			$data['permanent_address']=$this->user_address_model->getAddrById($admn_no,'permanent');
 			$data['present_address']=$this->user_address_model->getAddrById($admn_no,'present');
 			$data['cross_address']=$this->user_address_model->getAddrById($admn_no,'correspondence');
-			$data['stu_education_details'] = $this->student_education_details_model->getStuEduById($admn_no);
 			$data['student_academic']=$this->student_academic_model->get_stu_academic_details_by_id($admn_no);
+			if($data['student_academic']->course_id == 'na')
+				$data['course_name']='NA';
+			else if($data['student_academic']->course_id == 'postdoc')
+				$data['course_name']='Post Doc';
+			else if($data['student_academic']->course_id == 'phd')
+				$data['course_name']='Ph.D';
+			else
+				$data['course_name']=$this->basic_model->get_course_details_by_id($data['student_academic']->course_id)[0]->name;
+				
+			if($data['student_academic']->branch_id == 'na')
+				$data['branch_name']='NA';
+			else
+				$data['branch_name']=$this->basic_model->get_branch_details_by_id($data['student_academic']->branch_id)[0]->name;
 			
 			$this->drawHeader("View Student Details");
 			

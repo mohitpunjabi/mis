@@ -4,7 +4,7 @@ class Student_add_deo extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('deos'));
+		parent::__construct(array('acad_da1'));
 	}
 
 	public function index($error='')
@@ -199,11 +199,32 @@ class Student_add_deo extends MY_Controller
 		$this->form_validation->set_rules('mobile','Mobile No','required|regex_match[/^[0-9]{10}$/]');
 		//$this->form_validation->set_rules('alternate_mobile','Alternate Mobile No','regex_match[/^[0-9]{10}$/]');
 		//$this->form_validation->set_rules('fee_paid_amount','Fee Paid Amount','numeric');
-		if($this->form_validation->run() === FALSE)
+		if($this->input->post('branch') == 'none' || $this->input->post('course') == 'none' || $this->form_validation->run() === FALSE)
 		{
 			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
 			redirect('student/student_add_deo');
 		}
+		
+		$this->load->model('course_structure/basic_model','',TRUE);
+		$data['branches_to_check'] = $this->basic_model->get_branches_by_course_and_dept_for_student_reg($this->input->post('course'),$this->input->post('department'));
+		$flag = 0;
+		if($data['branches_to_check'])
+		{
+			foreach($data['branches_to_check'] as $row)
+			{
+				if($row->id == $this->input->post('branch'))
+				{
+					$flag = 1;
+					break;
+				}
+			}
+		}
+		if($flag == 0)
+		{
+			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
+			redirect('student/student_add_deo');
+		}
+		
 		/*else
 			redirect('student/student_edit');*/
 		$stu_id = strtolower($this->input->post('stu_id'));
@@ -517,7 +538,7 @@ class Student_add_deo extends MY_Controller
 			//$this->load->model('student/Student_type_model','',TRUE);
 			//$this->load->model('student/Student_new_student_type','',TRUE);
 
-			$res = $this->user_auth_types_model->getUserIdByAuthId('acd_ar');
+			$res = $this->user_auth_types_model->getUserIdByAuthId('acad_ar');
 
 			$this->db->trans_start();
 
@@ -554,7 +575,7 @@ class Student_add_deo extends MY_Controller
 
 			//notify nodal officer
 			foreach($res as $row)
-				$this->notification->notify($row->id, 'acd_ar', "Validation Request", "Please validate ".$stu_id." details", "student/student_validate/validation/".$stu_id);
+				$this->notification->notify($row->id, 'acad_ar', "Validation Request", "Please validate ".$stu_id." details", "student/student_validate/validation/".$stu_id);
 
 			$this->db->trans_complete();
 

@@ -88,9 +88,27 @@
 			            <tr>
 			                <th>User ID</th>
 			                <th>Details to Validate</th>
+							<th>Select to Validate</th>
 			            </tr>
 					</thead>
-
+					
+					<? $count_validate = count($users_to_validate);
+						for($i =0 ; $i < $count_validate; $i++) 
+						{ ?>
+							<tr>
+								<td>
+									<? echo $users_to_validate[$i]->id; ?>
+								</td>
+								<td>
+									<? echo $users_to_validate[$i]->details; ?>
+								</td>
+								<td><a class="btn btn-primary" data-toggle="modal" value="<?php echo $users_to_validate[$i]->id; ?>" id="rv" onclick="send_data_to_validate('<?php echo $users_to_validate[$i]->id; ?>')"   >Validate Profile</a>
+									<? //echo '<input type="button" value="Vlidate" id="validation_button" onclick="send_data_to_validate('.$users_to_validate[$i]->id.');"/>';
+										//$ui->button->value('Validate')->extras('onclick="send_data_to_validate('.$users_to_validate[$i]->id.')"'); ?>
+								</td>
+							</tr>
+					<? } ?>
+					
 			        <tfoot>
 			            <tr>
 			                <th>User ID</th>

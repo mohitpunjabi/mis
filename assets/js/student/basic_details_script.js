@@ -1,7 +1,10 @@
 	$(document).ready(function() {
 		document.getElementById('corr_addr_visibility').style.display = 'none';
+		document.getElementById('remove').style.display = 'none';
 
 		document.getElementById("add").onclick = function() {onclick_add();};
+		document.getElementById("remove").onclick = function() {onclick_remove();};
+		
 
 		$('[name="depends_on"]').on('ifChanged', function() {
     		depends_on_whom();
@@ -63,6 +66,29 @@
 		add_row_on_page_load();
 
 	});
+	
+	function onclick_remove()
+	{
+		var table=document.getElementById("tableid");
+		var rowCount=table.rows.length;
+		if(rowCount<=2)
+		{
+			alert("Cannot delete any more rows.");
+			return;
+		}
+		table.deleteRow(rowCount-1);
+		button_for_remove();
+	}
+
+
+	function button_for_remove()
+	{
+		var row=document.getElementById("tableid").rows;
+		if(row.length > 3)
+			document.getElementById('remove').style.display='block';
+		else
+			document.getElementById('remove').style.display='none';
+	}
 
 	function add_row_on_page_load()
 	{
@@ -79,7 +105,7 @@
 		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
 	}
 
-	function preview_pic()
+	/*function preview_pic()
 	{
 		var file=document.getElementById('photo').files[0];
 		if(!file)
@@ -94,7 +120,7 @@
 			};
 			oFReader.readAsDataURL(file);
 		}
-	}
+	}*/
 
 	function check_if_student_type_others()
     {
@@ -509,7 +535,7 @@
         //xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true); this is original line to select branch we need to select courses
 		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
         xmlhttp.send();
-        tr.innerHTML="<option selected=\"selected\">Loading...</option>";
+        tr.innerHTML="<option value=\"none\" selected=\"selected\">Loading...</option>";
     }
 
     function options_of_courses()
@@ -539,7 +565,7 @@
         //alert(branch);
         xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
-        tr.innerHTML="<option selected=\"selected\">Loading...</option>";
+        tr.innerHTML="<option value=\"none\" selected=\"selected\">Loading...</option>";
     }
 
     function all_number_validation()
@@ -726,6 +752,7 @@
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
+			button_for_remove();
 		}
 	}
 

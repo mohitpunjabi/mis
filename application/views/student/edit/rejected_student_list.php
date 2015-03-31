@@ -88,9 +88,26 @@
 			            <tr>
 			                <th>User ID</th>
 			                <th>Reason For Rejection</th>
+							<th>Edit the Details</th>
 			            </tr>
 					</thead>
-
+					
+					<? $count_rejected = count($rejected_users);
+						for($i =0 ; $i < $count_rejected; $i++) 
+						{ ?>
+							<tr>
+								<td>
+									<? echo $rejected_users[$i]->id; ?>
+								</td>
+								<td>
+									<? echo $rejected_users[$i]->reason; ?>
+								</td>
+								<td><a class="btn btn-primary" data-toggle="modal" value="<?php echo $rejected_users[$i]->id; ?>" id="rv" onclick="send_data_to_edit('<?php echo $rejected_users[$i]->id; ?>')" >Edit</a>
+									<? //echo '<input type="button" value="Edit" id="validation_button" onclick="send_data_to_edit('.$rejected_users[$i]->id.');"/>';
+										//$ui->button->value('Edit')->extras('onclick="send_data_to_edit('.$rejected_users[$i]->id.')"'); ?>
+								</td>
+							</tr>
+					<? } ?>
 			        <tfoot>
 			            <tr>
 			                <th>User ID</th>

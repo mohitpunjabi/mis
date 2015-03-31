@@ -803,11 +803,15 @@
                         if($academic_departments === FALSE)
                             $dept_array[] = $ui->option()->value('')->text('No Depatment');
                         else
+						{
+							$dept_array[] = $ui->option()->value('')->text('Select Depatment')->selected()->disabled();
+							$dept_array = array_values($dept_array);
                             foreach ($academic_departments as $row)
                             {
                                 $dept_array[] = $ui->option()->value($row->id)->text($row->name);
                                 $dept_array = array_values($dept_array);
                             }
+						}
 
                         $course_array = array();
 
@@ -937,11 +941,11 @@
                                                     ->open();
 
                         $educational_detail_col_1 = $ui->col()
-                                                       ->width(5)
+                                                       ->width(4)
                                                        ->open();
                         $educational_detail_col_1->close();
 
-                        $educational_detail_col_1 = $ui->col()
+                        $educational_detail_col_2 = $ui->col()
                                                        ->width(2)
                                                        ->open();
 
@@ -952,7 +956,20 @@
                                ->name('add')
                                ->show();
 
-                        $educational_detail_col_1->close();
+                        $educational_detail_col_2->close();
+						
+						$educational_detail_col_3 = $ui->col()
+                                                       ->width(2)
+                                                       ->open();
+
+                            $ui->button()
+                               ->block()
+                               ->value('Remove Last Row')
+                               ->id('remove')
+                               ->name('remove')
+                               ->show();
+
+                        $educational_detail_col_3->close();
 
                     $educational_details_row_1->close();
 
@@ -998,8 +1015,9 @@
                            ->label('Mode of Payment')
                            ->name('fee_paid_mode')
                            ->width(3)
-                           ->options(array($ui->option()->value('dd')->text('CHEQUE'),
-                                           $ui->option()->value('cheque')->text('CASH'),
+                           ->options(array($ui->option()->value('dd')->text('DD'),
+                                           $ui->option()->value('cash')->text('CASH'),
+										   $ui->option()->value('cheque')->text('CHEQUE'),
                                            $ui->option()->value('online')->text('ONLINE TRANSFER'),
                                            $ui->option()->value('none')->text('NONE')->selected()))
                            ->show();

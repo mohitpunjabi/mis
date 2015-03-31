@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#rejectedUsersBox").showLoading();
+	/*$("#rejectedUsersBox").showLoading();
 	$.ajax({
 		url: site_url("student/student_rejected/loadRejectedUsers")
 	}).done(function(userData) {
@@ -19,7 +19,7 @@ $(document).ready(function() {
 	}).always(function() {
 		// Hide the loading gif, when request is complete.
 		$("#rejectedUsersBox").hideLoading();
-	});
+	});*/
 
 	$('#form_submit').on('submit', function(e) {
 		if(!form_validation())
@@ -27,6 +27,12 @@ $(document).ready(function() {
 	});
 
 });
+
+function send_data_to_edit(stu_id)
+{
+	document.getElementsByName("stu_id")[0].value = stu_id;
+	document.getElementById("form_submit").submit();
+}
 
 function form_validation()
 {

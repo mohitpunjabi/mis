@@ -81,7 +81,7 @@ class Edc_booking_model extends CI_Model
 	function update_hod_action ($app_num, $status, $reason)
 	{
 		if ($status == "Approved")
-			$this->db->query ("UPDATE edc_registration_details SET hod_status= '".$status."', hod_action_timestamp = now(), pce_status = 'Pending' WHERE app_num = '".$app_num."';");
+			$this->db->query ("UPDATE edc_registration_details SET hod_status= '".$status."', hod_action_timestamp = now(), pce_to_ctk_status = 'Pending' WHERE app_num = '".$app_num."';");
 		else
 			$this->db->query ("UPDATE edc_registration_details SET hod_status= '".$status."', hod_action_timestamp = now(), deny_reason = '".$reason."' WHERE app_num = '".$app_num."';");
 	}

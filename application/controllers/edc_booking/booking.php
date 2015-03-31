@@ -101,7 +101,7 @@ class Booking extends MY_Controller
 			  'file_path'=>$file_path,
 			  'hod_status'=>$hod_status,
 			  'dsw_status'=>$dsw_status,
-			  'pce_to_ctk_status'=>$pce_to_ctk_status,
+			  'pce_to_ctk_status'=>$pce_to_ctk_status
 		);
 
 		$this->edc_booking_model->insert_edc_registration_details ($registration_data);

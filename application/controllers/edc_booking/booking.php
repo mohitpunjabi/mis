@@ -57,7 +57,7 @@ class Booking extends MY_Controller
 
 		$hod_status = '';
 		$dsw_status = '';
-		$pce_status = '';
+		$pce_to_ctk_status = '';
 
 		if ($this->session->userdata('auth')[0] == 'emp' && $purpose == 'Official') {
 			$hod_status = 'Pending';
@@ -67,11 +67,11 @@ class Booking extends MY_Controller
 			$hod = '';
 			foreach ($res as $row)
 				$hod = $row->id;
-			$this->notification->notify ($hod, "hod", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details/".$app_num."/hod", "");
+			$this->notification->notify ($hod, "hod", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details_notification/".$app_num."/hod", "");
 		}
 
 		if ($this->session->userdata('auth')[0] == 'emp' && $purpose == 'Personal') {
-			$pce_status = 'Pending';
+			$pce_to_ctk_status = 'Pending';
 
 			$this->load->model ('user_model');
 			$res = $this->user_model->getUsersByDeptAuth('all', 'pce');
@@ -79,7 +79,7 @@ class Booking extends MY_Controller
 			foreach ($res as $row)
 				$pce = $row->id;
 
-			$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details/".$app_num."/pce", "");
+			$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details_notification/".$app_num."/pce", "");
 		}
 		if ($this->session->userdata('auth')[0] == 'stu')
 			$dsw_status = 'Pending';
@@ -101,7 +101,7 @@ class Booking extends MY_Controller
 			  'file_path'=>$file_path,
 			  'hod_status'=>$hod_status,
 			  'dsw_status'=>$dsw_status,
-			  'pce_status'=>$pce_status,
+			  'pce_to_ctk_status'=>$pce_to_ctk_status,
 		);
 
 		$this->edc_booking_model->insert_edc_registration_details ($registration_data);

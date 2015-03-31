@@ -37,6 +37,57 @@ class Booking_request extends MY_Controller
 			$data['hod_action_timestamp'] = $row['hod_action_timestamp'];
 			$data['dsw_status'] = $row['dsw_status'];
 			$data['dsw_action_timestamp'] = $row['dsw_action_timestamp'];
+			$data['pce_to_ctk_status'] = $row['pce_to_ctk_status'];
+			$data['pce_to_ctk_timestamp'] = $row['pce_to_ctk_timestamp'];
+			$data['pce_status'] = $row['pce_status'];
+			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
+			$data['deny_reason'] = $row['deny_reason'];
+		}
+
+		$data['auth'] = $auth;
+ 		$this->drawHeader ("Booking Details");
+ 		if ($auth == 'ft' || $auth == 'stu')
+ 			$this->load->view('edc_booking/booking_details_user', $data);
+ 		else if ($auth=='ctk')
+ 			$this->load->view('edc_booking/booking_details_ctk', $data); 		
+ 		else if ( $auth=='hod' || $auth=='dsw' || $auth=='pce' )
+			$this->load->view('edc_booking/booking_details',$data);
+
+		$this->drawFooter();
+	}
+
+	public function details_notification ($app_num, $auth)
+	{
+		$this->load->model ('edc_booking/edc_booking_model', '', TRUE);
+		$res = $this->edc_booking_model->get_booking_details($app_num);
+
+		$this->load->model('user_model', '', TRUE);
+
+		$data = array();
+		foreach ($res as $row)
+		{
+			$data['app_num'] = $row['app_num'];
+			$data['app_date'] = date('j M Y g:i A', strtotime($row['app_date']));
+			$data['user'] = $this->user_model->getNameById($row['user_id']);
+			$data['purpose'] = $row['purpose'];
+			$data['purpose_of_visit'] = $row['purpose_of_visit'];
+			$data['name'] = $row['name'];
+			$data['designation'] = $row['designation'];
+			$data['check_in'] = $row['check_in'];
+			$data['check_out'] = $row['check_out'];
+			$data['no_of_guests'] = $row['no_of_guests'];
+			$data['single_AC'] = $row['single_AC'];
+			$data['double_AC'] = $row['double_AC'];
+			$data['suite_AC'] = $row['suite_AC'];
+			$data['school_guest'] = $row['school_guest'];
+			$data['file_path'] = $row['file_path'];
+
+			$data['hod_status'] = $row['hod_status'];
+			$data['hod_action_timestamp'] = $row['hod_action_timestamp'];
+			$data['dsw_status'] = $row['dsw_status'];
+			$data['dsw_action_timestamp'] = $row['dsw_action_timestamp'];
+			$data['pce_to_ctk_status'] = $row['pce_to_ctk_status'];
+			$data['pce_to_ctk_timestamp'] = $row['pce_to_ctk_timestamp'];
 			$data['pce_status'] = $row['pce_status'];
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
@@ -48,8 +99,18 @@ class Booking_request extends MY_Controller
  			$this->load->view('edc_booking/booking_details_user', $data);
  		else if ($auth=='ctk')
  			$this->load->view('edc_booking/booking_details_ctk', $data);
- 		else
+ 		
+ 		else if ( ($auth=='hod' && $data['hod_status']=='Pending') || ($auth=='dsw' && $data['dsw_status']=='Pending') || ($auth=='pce' && $data['pce_to_ctk_status']=='Pending') )
 			$this->load->view('edc_booking/booking_details',$data);
+ 		else if ( ($auth=='hod' && $data['hod_status']=='Approved') || ($auth=='dsw' && $data['dsw_status']=='Approved') || ($auth=='pce' && $data['pce_to_ctk_status']=='Approved') ) {
+ 			$this->session->set_flashdata('flashSuccess','Request has been already Approved. See details in Approved tab');
+			redirect('edc_booking/booking_request/'.$auth);
+ 		}
+ 		else if ( ($auth=='hod' && $data['hod_status']=='Rejected') || ($auth=='dsw' && $data['dsw_status']=='Rejected') || ($auth=='pce' && $data['pce_to_ctk_status']=='Rejected') ) {
+  			$this->session->set_flashdata('flashSuccess','Request has been already Rejected. See details in Rejected tab');
+			redirect('edc_booking/booking_request/'.$auth);			
+ 		}
+
 		$this->drawFooter();
 	}
 
@@ -201,7 +262,7 @@ class Booking_request extends MY_Controller
 
 			$user_id = $this->edc_booking_model->get_request_user_id ($app_num);
 			if ($status == "Approved")
-				$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details/".$app_num."/pce", "");
+				$this->notification->notify ($pce, "pce", "Approve/Reject Pending Request", "EDC Room Booking Request (Application No. : ".$app_num." ) is Pending for your approval.", "edc_booking/booking_request/details_notification/".$app_num."/pce", "");
 			else //Rejected -> Notify to User
 				$this->notification->notify ($user_id, "ft", "EDC Room Allotment Request", "Your Request for EDC Room Allotment (Application No. : ".$app_num." ) has been Rejected by HOD.", "edc_booking/booking/track_status/".$app_num, "");
 
@@ -343,5 +404,4 @@ class Booking_request extends MY_Controller
 			$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully '.$status.'.');
 			redirect('edc_booking/booking_request/pce');
 	}
-
 }

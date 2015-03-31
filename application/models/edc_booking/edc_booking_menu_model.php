@@ -19,7 +19,7 @@ class Edc_booking_menu_model extends CI_Model
 				
 		$menu['stu']['EDC Booking']=array();
 		$menu['stu']['EDC Booking']['Room Allotment Form'] = site_url('edc_booking/booking');
-		$menu['stu']['EDC Booking']['Track Booking Status'] = site_url('edc_booking/track_status');
+		$menu['stu']['EDC Booking']['Track Booking Status'] = site_url('edc_booking/booking/track_status');
 		$menu['stu']['EDC Booking']['Booked History'] = site_url('edc_booking/booking_history');
 
 		//$auth=> Head of Department

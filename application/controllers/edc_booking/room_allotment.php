@@ -101,7 +101,7 @@ class Room_allotment extends MY_Controller
 
 		$this->load->model('edc_booking/edc_allotment_model');
 		$this->edc_allotment_model->set_ctk_status("Approved",$app_num);
-		$this->edc_allotment_model->delete_room_detail($app_num);
+		//$this->edc_allotment_model->delete_room_detail($app_num);
 		foreach($room_list as $room)
 		{
 			$input_data = array(

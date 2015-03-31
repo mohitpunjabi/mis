@@ -316,17 +316,13 @@ class Booking_request extends MY_Controller
 		$res = $this->edc_booking_model->get_booking_details($app_num);
 
 		$this->load->model('edc_booking/edc_allotment_model');
-		$allocated_rooms = $this->edc_allotment_model->get_allocated_room_detail($app_num);
 
 		$this->load->model('user_model', '', TRUE);
 
 		$data = array();
 		$count=0;
 		//print_r($allocated_rooms);
-		foreach($allocated_rooms as $row)
-		{
-			$data['room_array'][$count++] = $this->edc_allotment_model->get_room_details($row['room_id']);
-		}
+
 		foreach ($res as $row)
 		{
 			$data['app_num'] = $row['app_num'];
@@ -352,6 +348,13 @@ class Booking_request extends MY_Controller
 			$data['pce_status'] = $row['pce_status'];
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
+		}
+		$limit = $data['single_AC']+$data['double_AC']+$data['suite_AC'];
+
+		$allocated_rooms = $this->edc_allotment_model->get_allocated_room_detail_limited($app_num,$limit);
+		foreach($allocated_rooms as $row)
+		{
+			$data['room_array'][$count++] = $this->edc_allotment_model->get_room_details($row['room_id']);
 		}
 		$data['auth'] = $auth;
  		$this->drawHeader ("Booking Details");

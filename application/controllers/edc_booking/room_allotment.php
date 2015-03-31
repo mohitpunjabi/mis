@@ -17,7 +17,6 @@ class Room_allotment extends MY_Controller
 		{
 			$data['check_in'] = $row['check_in'];
 			$data['check_out'] = $row['check_out'];
-			$data['single_AC'] = $row['single_AC'];
 			$data['double_AC'] = $row['double_AC'];
 			$data['suite_AC'] = $row['suite_AC'];
 			$data['pce_status'] = $row['pce_status'];

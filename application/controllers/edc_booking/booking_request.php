@@ -27,7 +27,6 @@ class Booking_request extends MY_Controller
 			$data['check_in'] = $row['check_in'];
 			$data['check_out'] = $row['check_out'];
 			$data['no_of_guests'] = $row['no_of_guests'];
-			$data['single_AC'] = $row['single_AC'];
 			$data['double_AC'] = $row['double_AC'];
 			$data['suite_AC'] = $row['suite_AC'];
 			$data['school_guest'] = $row['school_guest'];
@@ -46,12 +45,16 @@ class Booking_request extends MY_Controller
 
 		$data['auth'] = $auth;
  		$this->drawHeader ("Booking Details");
- 		if ($auth == 'ft' || $auth == 'stu')
+ 		if ($auth == 'emp' || $auth == 'stu')
  			$this->load->view('edc_booking/booking_details_user', $data);
  		else if ($auth=='ctk')
  			$this->load->view('edc_booking/booking_details_ctk', $data); 		
- 		else if ( $auth=='hod' || $auth=='dsw' || $auth=='pce' )
-			$this->load->view('edc_booking/booking_details',$data);
+ 		else if ( $auth=='hod') 
+			$this->load->view('edc_booking/booking_details_hod',$data);
+ 		else if ( $auth=='dsw') 
+			$this->load->view('edc_booking/booking_details_dsw',$data);
+ 		else if ( $auth=='pce') 
+			$this->load->view('edc_booking/booking_details_pce',$data);
 
 		$this->drawFooter();
 	}
@@ -76,7 +79,6 @@ class Booking_request extends MY_Controller
 			$data['check_in'] = $row['check_in'];
 			$data['check_out'] = $row['check_out'];
 			$data['no_of_guests'] = $row['no_of_guests'];
-			$data['single_AC'] = $row['single_AC'];
 			$data['double_AC'] = $row['double_AC'];
 			$data['suite_AC'] = $row['suite_AC'];
 			$data['school_guest'] = $row['school_guest'];
@@ -101,7 +103,7 @@ class Booking_request extends MY_Controller
  			$this->load->view('edc_booking/booking_details_ctk', $data);
  		
  		else if ( ($auth=='hod' && $data['hod_status']=='Pending') || ($auth=='dsw' && $data['dsw_status']=='Pending') || ($auth=='pce' && $data['pce_to_ctk_status']=='Pending') )
-			$this->load->view('edc_booking/booking_details',$data);
+			$this->load->view('edc_booking/booking_details_'.$auth,$data);
  		else if ( ($auth=='hod' && $data['hod_status']=='Approved') || ($auth=='dsw' && $data['dsw_status']=='Approved') || ($auth=='pce' && $data['pce_to_ctk_status']=='Approved') ) {
  			$this->session->set_flashdata('flashSuccess','Request has been already Approved. See details in Approved tab');
 			redirect('edc_booking/booking_request/'.$auth);
@@ -356,7 +358,6 @@ class Booking_request extends MY_Controller
 			$data['check_in'] = $row['check_in'];
 			$data['check_out'] = $row['check_out'];
 			$data['no_of_guests'] = $row['no_of_guests'];
-			$data['single_AC'] = $row['single_AC'];
 			$data['double_AC'] = $row['double_AC'];
 			$data['suite_AC'] = $row['suite_AC'];
 			$data['school_guest'] = $row['school_guest'];
@@ -370,7 +371,7 @@ class Booking_request extends MY_Controller
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
 		}
-		$limit = $data['single_AC']+$data['double_AC']+$data['suite_AC'];
+		$limit = $data['double_AC']+$data['suite_AC'];
 
 		$allocated_rooms = $this->edc_allotment_model->get_allocated_room_detail_limited($app_num,$limit);
 		foreach($allocated_rooms as $row)
@@ -406,11 +407,10 @@ class Booking_request extends MY_Controller
 			//print_r($res);
 			foreach($res as $row)
 			{
-				$single_AC = $row['single_AC'];
 				$double_AC = $row['double_AC'];
 				$suite_AC = $row['suite_AC'];
 			}
-			$limit = $total - $single_AC - $double_AC - $suite_AC;
+			$limit = $total - $double_AC - $suite_AC;
 			//echo $limit;
 
 			$this->edc_allotment_model->delete_room_detail($app_num,$limit,$status);

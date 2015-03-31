@@ -38,19 +38,15 @@
 				<td><?= $check_out ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Number of Guests</th>
+				<th> Number of Guests</th>
 				<td><?= $no_of_guests ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Single AC Rooms (Prefered)</th>
-				<td><?= $single_AC ?></td>
-			</tr>
-			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Double AC Rooms (Prefered)</th>
+				<th> Guest in Double AC Rooms (Prefered)</th>
 				<td><?= $double_AC ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Suite AC Rooms (Prefered)</th>
+				<th> Guest in Suite AC Rooms (Prefered)</th>
 				<td><?= $suite_AC ?></td>
 			</tr>
 			<tr>

@@ -49,40 +49,33 @@
 				<td><?= $check_out ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Number of Guests</th>
+				<th>Number of Guests</th>
 				<td><?= $no_of_guests ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Single AC Rooms (Prefered)</th>
-				<td><?= $single_AC ?></td>
-			</tr>
-			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Double AC Rooms (Prefered)</th>
+				<th>Guest in Double AC Rooms (Prefered)</th>
 				<td><?= $double_AC ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Suite AC Rooms (Prefered)</th>
+				<th>Guest in Suite AC Rooms (Prefered)</th>
 				<td><?= $suite_AC ?></td>
 			</tr>
 			<? if ($school_guest == '1') { ?>
 				<tr>
-					<th><? $ui->icon("clock-o")->show() ?> Whether School Guest?</th>
+					<th>Whether School Guest?</th>
 					<td><?= $school_guest ?></td>
 				</tr>
 				<tr>
-					<th><? $ui->icon("clock-o")->show() ?> File Path</th>
+					<th>File Path</th>
 					<td><a href="<?= site_url('../assets/files/edc_booking/'.$file_path) ?>"><?= $file_path?></a></td>
 				</tr>
 <?
 			}
 ?>
 <?
-		if ($auth == 'hod')
-			$form = $ui->form()->action('edc_booking/booking_request/hod_action/'.$app_num)->open();
-		else if ($auth == 'pce')
-			$form = $ui->form()->action('edc_booking/booking_request/pce_action/'.$app_num)->open();
+		$form = $ui->form()->action('edc_booking/booking_request/pce_action/'.$app_num)->open();
 
-		if ($deny_reason == '') {
+		if ($pce_to_ctk_status!='Approved') {
 ?>
 			<tr>	
 			<th colspan='2'>
@@ -130,7 +123,8 @@
 			</tr>
 <?
 		}
-		else { ?>
+		//Rejected
+		else if ($deny_reason) { ?>
 				<tr>
 					<th>Reason of Rejection</th>
 					<td>
@@ -138,6 +132,7 @@
 					</td>
 				</tr>
 <?			}
+		//else ... Approved
 
 		$form->close();
 

@@ -36,7 +36,7 @@
 					{
 ?>
 						<tr>
-							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_approved[$sno][1]."/emp");?>"><?php echo $data_array_approved[$sno][1];?></a></td>
+							<td><a href="<?php echo site_url("edc_booking/booking_request/details/".$data_array_approved[$sno][1]."/".$auth);?>"><?php echo $data_array_approved[$sno][1];?></a></td>
 							<td><?php echo $data_array_approved[$sno][2];?></td>
 							<td><?php echo $data_array_approved[$sno][3];?></td>
 						</tr>
@@ -76,7 +76,7 @@
 					{
 ?>
 						<tr>
-							<td><a href="<?php echo site_url("edc_booking/booking_details/details/".$data_array_rejected[$sno][1]."/emp");?>"><?php echo $data_array_rejected[$sno][1];?></a></td>
+							<td><a href="<?php echo site_url("edc_booking/booking_request/details/".$data_array_rejected[$sno][1]."/".$auth);?>"><?php echo $data_array_rejected[$sno][1];?></a></td>
 							<td><?php echo $data_array_rejected[$sno][2];?></td>
 							<td><?php echo $data_array_rejected[$sno][3];?></td>
 							<td><?php echo $data_array_rejected[$sno][4];?></td>

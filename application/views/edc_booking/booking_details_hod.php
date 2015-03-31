@@ -1,11 +1,11 @@
 <?php
 	$ui = new UI();
-//echo form_open('complaint/register_complaint/insert');
+//echo form_open('complaint/register_complaint/insert');   	
 	$row = $ui->row()->open();
-
+	
 	$column1 = $ui->col()->width(2)->open();
 	$column1->close();
-
+	
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
 			  ->solid()
@@ -49,58 +49,42 @@
 				<td><?= $check_out ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Number of Guests</th>
+				<th>Number of Guests</th>
 				<td><?= $no_of_guests ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Double AC Rooms (Prefered)</th>
+				<th>Guest in Double AC Rooms (Prefered)</th>
 				<td><?= $double_AC ?></td>
 			</tr>
 			<tr>
-				<th><? $ui->icon("clock-o")->show() ?> Guest in Suite AC Rooms (Prefered)</th>
+				<th>Guest in Suite AC Rooms (Prefered)</th>
 				<td><?= $suite_AC ?></td>
 			</tr>
-      <tr>
-        <th>
-          Rooms Allocated
-        </th>
-        <?php
-          //print_r($room_array);
-          echo '<td>';
-          foreach($room_array as $room)
-          {
-            echo $room['room_no'].'-'.$room['room_type'];
-          }
-          echo '</th>';
-        ?>
-      </tr>
 			<? if ($school_guest == '1') { ?>
 				<tr>
-					<th><? $ui->icon("clock-o")->show() ?> Whether School Guest?</th>
+					<th>Whether School Guest?</th>
 					<td><?= $school_guest ?></td>
 				</tr>
 				<tr>
-					<th><? $ui->icon("clock-o")->show() ?> File Path</th>
+					<th>File Path</th>
 					<td><a href="<?= site_url('../assets/files/edc_booking/'.$file_path) ?>"><?= $file_path?></a></td>
 				</tr>
 <?
 			}
 ?>
 <?
-		//if ($auth == 'hod')
-		//	$form = $ui->form()->action('edc_booking/booking_request/hod_action/'.$app_num)->open();
-		if ($auth == 'pce')
-			$form = $ui->form()->action('edc_booking/booking_request/pce_final_action/'.$app_num)->open();
+		$form = $ui->form()->action('edc_booking/booking_request/hod_action/'.$app_num)->open();
 
+		if ($hod_status == 'Pending') {
 ?>
-			<tr>
+			<tr>	
 			<th colspan='2'>
 <?
 			$inputRow4 = $ui->row()->open();
 
 				$c1 = $ui->col()->width(1)->open();
 				$c1->close();
-
+			
 				$c2 = $ui->col()->width(4)->open();
 						$ui->select()
 						   ->label('Approve OR Reject')
@@ -115,11 +99,11 @@
 
 				$c3 = $ui->col()->width(1)->open();
 				$c3->close();
-
+			
 				$c4 = $ui->col()->width(6)->open();
 						$ui->textarea()->label('Reason for Rejection')->name("reason")->placeholder('Reason for Rejection')->show();
 				$c4->close();
-
+			
 			$inputRow4->close();
 ?>
 			</th>
@@ -138,26 +122,37 @@
 			</th>
 			</tr>
 <?
+		}
+		//Rejected
+		else if ($deny_reason) { ?>
+				<tr>
+					<th>Reason of Rejection</th>
+					<td>
+						<?= $deny_reason ?>
+					</td>
+				</tr>
+<?			}
+		//else ... Approved
 
 		$form->close();
 
 		$table->close();
 
-	$box->close();
+	$box->close();	
 
 	$column2->close();
-
+	
 	$row->close();
 ?>
 </center>
 <?php
 /*	$ui = new UI();
-//echo form_open('complaint/register_complaint/insert');
+//echo form_open('complaint/register_complaint/insert');   	
 	$row = $ui->row()->open();
-
+	
 	$column1 = $ui->col()->width(2)->open();
 	$column1->close();
-
+	
 	$column2 = $ui->col()->width(8)->open();
 	$box = $ui->box()
 			  ->solid()
@@ -179,7 +174,7 @@
 				  <span><?= $email ?></span></p><?
 			$c3->close();
 		$inputRow1->close();
-
+		
 
 		$inputRow2 = $ui->row()->open();
 			$c1 = $ui->col()->width(4)->open();
@@ -222,7 +217,7 @@
 
 			$c1 = $ui->col()->width(1)->open();
 			$c1->close();
-
+		
 			$c2 = $ui->col()->width(4)->open();
 					$ui->select()
 					   ->label('Approve OR Reject')
@@ -237,7 +232,7 @@
 
 			$c3 = $ui->col()->width(1)->open();
 			$c3->close();
-
+		
 			$c4 = $ui->col()->width(6)->open();
 					$ui->textarea()->label('Reason for Rejection')->name("reason")->placeholder('Reason for Rejection')->show();
 			$c4->close();
@@ -255,8 +250,8 @@
 		$form->close();
 
 	$box->close();
-
+	
 	$column2->close();
-
+	
 	$row->close();*/
 ?>

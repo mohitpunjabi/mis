@@ -32,6 +32,16 @@ $(document).ready(function(){
 			$("#application_file_row").show();
 		}
 	});
+
+	$('#booking_form').click(function() {
+		var checkin = $('#checkin').val();
+		var checkout = $('#checkout').val();
+		if (checkin>checkout) {
+			alert ("Check In Date can't be earlier than Check Out Date.");
+			return false;
+		}
+	});
+
 	$('select[name="building"]').change(function(){
 		//alert($('#check_in').val());
 		$.ajax({url : site_url("edc_booking/room_allotment/get_room_plans/"+$(this).val()+"/"+$('#check_in').val()+"/"+$('#check_out').val()),

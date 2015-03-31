@@ -10,6 +10,13 @@ class Booking extends MY_Controller
 
 	function form ()
 	{
+		$this->load->model('edc_booking/edc_booking_model');
+		$res = $this->edc_booking_model->get_pending_booking_details($this->session->userdata('id'));
+		if(count($res) != 0){
+			$this->session->set_flashdata('flashError','You already have a pending application.');
+			redirect('edc_booking/booking/history');
+		}
+
 		$this->drawHeader('Executive Development Center');
 		$data['auth'] = $this->session->userdata('auth')[0];
 
@@ -42,7 +49,6 @@ class Booking extends MY_Controller
 
 		$no_of_guests = (int)$this->input->post('no_of_guests');
 		//echo $numofguests;
-		$single_AC = $this->input->post('single_AC');
 		$double_AC = $this->input->post('double_AC');
 		$suite_AC = $this->input->post('suite_AC');
 
@@ -94,7 +100,6 @@ class Booking extends MY_Controller
 			  'check_in'=>$check_in,
 			  'check_out'=>$check_out,
 			  'no_of_guests'=>$no_of_guests,
-			  'single_AC'=>$single_AC,
 			  'double_AC'=>$double_AC,
 			  'suite_AC'=>$suite_AC,
 			  'school_guest'=>$school_guest,
@@ -125,6 +130,54 @@ class Booking extends MY_Controller
 
 		$this->session->set_flashdata('flashSuccess','Room Allotment request has been successfully sent.');
 		redirect('edc_booking/booking/track_status');
+	}
+
+	function track_status($app_num = '')
+	{
+		$this->load->model('edc_booking/edc_booking_model');
+		if ($app_num == '')
+			$res = $this->edc_booking_model->get_pending_booking_details($this->session->userdata('id'));
+		else
+			$res = $this->edc_booking_model->get_booking_details($app_num);
+
+		if(count($res) == 0){
+			$this->session->set_flashdata('flashError','You don\'t have any application to track.');
+			redirect('edc_booking/booking/history');
+		}
+
+		$data = array();
+		foreach ($res as $row)
+		{
+			$data['app_num'] = $row['app_num'];
+			$data['app_date'] = date('j M Y g:i A', strtotime($row['app_date']));
+			$data['purpose'] = $row['purpose'];
+			$data['purpose_of_visit'] = $row['purpose_of_visit'];
+			$data['name'] = $row['name'];
+			$data['designation'] = $row['designation'];
+			$data['check_in'] = $row['check_in'];
+			$data['check_out'] = $row['check_out'];
+			$data['no_of_guests'] = $row['no_of_guests'];
+			$data['double_AC'] = $row['double_AC'];
+			$data['suite_AC'] = $row['suite_AC'];
+			$data['school_guest'] = $row['school_guest'];
+			$data['file_path'] = $row['file_path'];
+
+			$data['hod_status'] = $row['hod_status'];
+			$data['hod_action_timestamp'] = $row['hod_action_timestamp'];
+			$data['dsw_status'] = $row['dsw_status'];
+			$data['dsw_action_timestamp'] = $row['dsw_action_timestamp'];
+			$data['pce_status'] = $row['pce_status'];
+			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
+			$data['pce_to_ctk_status'] = $row['pce_to_ctk_status'];
+			$data['pce_to_ctk_timestamp'] = $row['pce_to_ctk_timestamp'];
+			$data['deny_reason'] = $row['deny_reason'];
+		}
+
+		$data ['auth'] = $this->session->userdata('auth')[0];
+
+		$this->drawHeader('Track Booking Status');
+ 		$this->load->view('edc_booking/booking_details_user', $data);
+		$this->drawFooter();
 	}
 
 	function history()
@@ -158,7 +211,7 @@ class Booking extends MY_Controller
 			$data_array_rejected[$sno][$j++] = date('j M Y g:i A', strtotime($row['app_date']));
 			$data_array_rejected[$sno][$j++] = $row['no_of_guests'];
 			$data_array_rejected[$sno][$j++] = "";
-			if ($row['hod_approved_status'] == "Rejected")
+			if ($row['hod_status'] == "Rejected")
 				$data_array_rejected[$sno][4] = "Head of Department";
 			else
 				$data_array_rejected[$sno][4] = "PCE";
@@ -170,58 +223,10 @@ class Booking extends MY_Controller
 		$data['data_array_rejected'] = $data_array_rejected;
 		$data['total_rows_rejected'] = $total_rows_rejected;
 
-		$this->drawHeader('Executive Development Center');
-		$this->load->view('edc_booking/booking_history',$data);
-		$this->drawFooter();
-	}
-
-
-	function track_status($app_num = '')
-	{
-		$this->load->model('edc_booking/edc_booking_model');
-		if ($app_num == '')
-			$res = $this->edc_booking_model->get_pending_booking_details($this->session->userdata('id'));
-		else
-			$res = $this->edc_booking_model->get_booking_details($app_num);
-
-		if(count($res) == 0){
-			$this->session->set_flashdata('flashError','You haven\'t any application form to track.');
-			redirect('edc_booking/booking');
-		}
-
-		$data = array();
-		foreach ($res as $row)
-		{
-			$data['app_num'] = $row['app_num'];
-			$data['app_date'] = date('j M Y g:i A', strtotime($row['app_date']));
-			$data['purpose'] = $row['purpose'];
-			$data['purpose_of_visit'] = $row['purpose_of_visit'];
-			$data['name'] = $row['name'];
-			$data['designation'] = $row['designation'];
-			$data['check_in'] = $row['check_in'];
-			$data['check_out'] = $row['check_out'];
-			$data['no_of_guests'] = $row['no_of_guests'];
-			$data['single_AC'] = $row['single_AC'];
-			$data['double_AC'] = $row['double_AC'];
-			$data['suite_AC'] = $row['suite_AC'];
-			$data['school_guest'] = $row['school_guest'];
-			$data['file_path'] = $row['file_path'];
-
-			$data['hod_status'] = $row['hod_status'];
-			$data['hod_action_timestamp'] = $row['hod_action_timestamp'];
-			$data['dsw_status'] = $row['dsw_status'];
-			$data['dsw_action_timestamp'] = $row['dsw_action_timestamp'];
-			$data['pce_status'] = $row['pce_status'];
-			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
-			$data['pce_to_ctk_status'] = $row['pce_to_ctk_status'];
-			$data['pce_to_ctk_timestamp'] = $row['pce_to_ctk_timestamp'];
-			$data['deny_reason'] = $row['deny_reason'];
-		}
-
 		$data ['auth'] = $this->session->userdata('auth')[0];
 
-		$this->drawHeader('Track Booking Status');
- 		$this->load->view('edc_booking/booking_details_user', $data);
+		$this->drawHeader('Executive Development Center');
+		$this->load->view('edc_booking/booking_history',$data);
 		$this->drawFooter();
 	}
 

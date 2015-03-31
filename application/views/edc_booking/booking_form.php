@@ -67,7 +67,7 @@
 
 
 	$box = $ui->box()
-			 ->uiType('info')
+			 ->uiType('primary')
 			 ->title('EDC Room Allotment Form')
 			 ->solid()
 			 ->open();
@@ -109,6 +109,7 @@
 
 		$ui->datePicker()
 			 ->label ('Check-In-Date-Time')
+			 ->id('checkin')	
 			 ->name('checkin')
 		   	 ->placeholder("Select Check-In-Date-Time")
 			 ->addonLeft($ui->icon("calendar"))
@@ -119,6 +120,7 @@
 
 		$ui->datePicker()
 			 ->label ('Check-Out-Date-Time')
+			 ->id('checkout')
 			 ->name('checkout')
 		   	 ->placeholder("Select Check-Out-Date-Time")
 			 ->addonLeft($ui->icon("calendar"))
@@ -143,21 +145,7 @@
 		   ->show();
 
 		$ui->select()
-		   ->label('No. of Guests for Single AC')
-		   ->name('single_AC')
-		   ->addonLeft($ui->icon("bars"))
-		   ->options(array(
-	               $ui->option()->value('0')->text('0')->selected(),
-	               $ui->option()->value('1')->text('1'),
-				   $ui->option()->value('2')->text('2'),
-				   $ui->option()->value('3')->text('3'),
-				   $ui->option()->value('4')->text('4'),
-				   $ui->option()->value('5')->text('5'),
-				   $ui->option()->value('6')->text('6')))
-		   ->show();
-
-		$ui->select()
-		   ->label('No. of Guests for Double AC')
+		   ->label('No. Double AC Rooms Required')
 		   ->name('double_AC')
 		   ->addonLeft($ui->icon("bars"))
 		   ->options(array(
@@ -171,7 +159,7 @@
 		   ->show();
 
 		$ui->select()
-		   ->label('No. of Guests for Suite AC')
+		   ->label('No. of Suite AC Rooms Required')
 		   ->name('suite_AC')
 		   ->addonLeft($ui->icon("bars"))
 		   ->options(array(
@@ -215,6 +203,7 @@
 <center>
 <?
 		$ui->button()
+		   ->id('booking_form')
 		   ->value('Submit')
 		   ->uiType('primary')
 		   ->submit()

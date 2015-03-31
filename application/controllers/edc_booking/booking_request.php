@@ -353,7 +353,6 @@ class Booking_request extends MY_Controller
 			$data['pce_action_timestamp'] = $row['pce_action_timestamp'];
 			$data['deny_reason'] = $row['deny_reason'];
 		}
-
 		$data['auth'] = $auth;
  		$this->drawHeader ("Booking Details");
  		//if ($auth == 'ft' || $auth == 'stu')
@@ -373,8 +372,24 @@ class Booking_request extends MY_Controller
 				$reason = "NULL";
 
 			$this->load->model ('edc_booking/edc_booking_model');
+			$this->load->model ('edc_booking/edc_allotment_model');
+
 			$this->edc_booking_model->update_pce_final_action ($app_num, $status, $reason);
 
+			$total = $this->edc_allotment_model->get_allocated_rooms($app_num);
+			//echo $total;
+			$res = $this->edc_allotment_model->get_app_details($app_num);
+			//print_r($res);
+			foreach($res as $row)
+			{
+				$single_AC = $row['single_AC'];
+				$double_AC = $row['double_AC'];
+				$suite_AC = $row['suite_AC'];
+			}
+			$limit = $total - $single_AC - $double_AC - $suite_AC;
+			//echo $limit;
+
+			$this->edc_allotment_model->delete_room_detail($app_num,$limit,$status);
 			$this->load->model ('user_model');
 			$res = $this->user_model->getUsersByDeptAuth('all', 'edc_ctk');
 			$edc_booking = '';

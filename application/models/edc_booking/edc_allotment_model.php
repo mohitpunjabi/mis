@@ -83,9 +83,11 @@ class Edc_allotment_model extends CI_Model
   {
     $this->db->query ("UPDATE edc_registration_details SET WHERE app_num = '".$app_num."';");
   }*/
-  function delete_room_detail($app_num)
+  function delete_room_detail($app_num,$limit,$status)
   {
-    $this->db->query("DELETE FROM edc_booking_details WHERE app_num = '".$app_num."';");
+    if($status == 'Approved')
+      $this->db->query("DELETE FROM edc_booking_details WHERE app_num = '".$app_num."' ORDER by id ASC LIMIT $limit;");
+    //$this->db->query("DELETE FROM edc_booking_details WHERE app_num = '".$app_num."';");
     //$this->db->delete('edc_booking_details', array('app_num' => $app_num));
   }
 }

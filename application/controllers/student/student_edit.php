@@ -4,7 +4,7 @@ class Student_edit extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('deos'));
+		parent::__construct(array('acad_da1'));
 	}
 
 	function index($error = '')
@@ -44,6 +44,14 @@ class Student_edit extends MY_Controller
 
 	function open_edit_form($stu_id)
 	{
+	
+		$this->load->model('student/student_details_to_approve','',TRUE);
+		$verify_details = $this->student_details_to_approve->get_all_stu_details_by_id($stu_id);
+		if($verify_details)
+		{
+			$this->session->set_flashdata('flashSuccess','Student '.$stu_id.'\'s some data already sent for verification.');
+			redirect("student/student_edit");
+		}
 		$this->addJS("student/edit_all_details_script.js");
 
 		//For Image details
@@ -212,7 +220,7 @@ class Student_edit extends MY_Controller
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Marital Status';
 		}
-		if($user_details->category != $this->input->post('category'))
+		if(strtolower($user_details->category) != strtolower($this->input->post('category')))
 		{
 			$details_modified_array = array_values($details_modified_array);
 			$details_modified_array[] = 'Category';
@@ -778,7 +786,10 @@ class Student_edit extends MY_Controller
 			}
 
 			if($p == 0)
-				redirect("");
+			{
+				$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' no data modified.');
+				redirect("student/student_edit");
+			}
 
 			$stu_details_to_approve = array(
 				'id' => $stu_id,
@@ -790,7 +801,7 @@ class Student_edit extends MY_Controller
 			$this->load->model('student/student_details_to_approve','',TRUE);
 			$this->load->model('student/student_rejected_detail_model','',TRUE);
 
-			$res = $this->user_auth_types_model->getUserIdByAuthId('acd_ar');
+			$res = $this->user_auth_types_model->getUserIdByAuthId('acad_ar');
 
 			$this->db->trans_start();
 
@@ -817,7 +828,7 @@ class Student_edit extends MY_Controller
 
 			//notify nodal officer
 			foreach($res as $row)
-				$this->notification->notify($row->id, 'acd_ar', "Validation Request", "Please validate ".$stu_id." details", "student/student_validate/validation/".$stu_id);
+				$this->notification->notify($row->id, 'acad_ar', "Validation Request", "Please validate ".$stu_id." details", "student/student_validate/validation/".$stu_id);
 
 			$this->db->trans_complete();
 

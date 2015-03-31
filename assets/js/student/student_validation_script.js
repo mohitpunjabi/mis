@@ -1,32 +1,17 @@
 $(document).ready(function() {
-	$("#UsersToValidateBox").showLoading();
-	$.ajax({
-		url: site_url("student/student_validate/loadUsersToValidate")
-	}).done(function(userData) {
-		(function() {
-			var users = eval(userData);
-			var $UsersToValidateTable = $("#UsersToValidate").dataTable();
-			var data = [];
-			for(var i = 0; i < users.length; i++) {
-				data[i] = [
-					users[i].id,
-					users[i].details
-				];
-			}
-
-			$UsersToValidateTable.fnAddData(data);
-		})();
-	}).always(function() {
-		// Hide the loading gif, when request is complete.
-		$("#UsersToValidateBox").hideLoading();
-	});
-
+	
 	$('#form_submit').on('submit', function(e) {
 		if(!form_validation())
 			e.preventDefault();
 	});
 
 });
+
+function send_data_to_validate(student_id)
+{
+	document.getElementsByName("stu_id")[0].value = student_id;
+	document.getElementById("form_submit").submit();
+}
 
 function form_validation()
 {

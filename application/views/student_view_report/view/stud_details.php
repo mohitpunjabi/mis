@@ -1,5 +1,11 @@
 <?php $ui = new UI();
 echo '<div id="print" >';
+
+	$ui->input()
+	   ->type('hidden')
+	   ->value($admn_no)
+	   ->id('stu_id')
+	   ->show();
 	  if(isset($user_details))
     {
        
@@ -19,14 +25,26 @@ echo '<div id="print" >';
 		  
 		   $deparment=$this->departments_model->getDepartmentById($user_details->dept_id)->name;
 		  
-			if(isset($this->student_typeugpg_model->getTypeById($student_details->type)->name))
+			/*if(isset($this->student_typeugpg_model->getTypeById($student_details->type)->name))
 			{
 			$tstype=$this->student_typeugpg_model->getTypeById($student_details->type)->name;
 			}
 			else
 			{
 				$tstype=" ";
-			}
+			}*/
+			$tstype =  $student_details->type;
+			if($tstype == 'ug')
+				$tstype='UnderGraduate';
+			else if($tstype == 'g')
+				$tstype='Graduate';
+			else if($tstype == 'pg')
+				$tstype='Post Graduate';
+			else if($tstype == 'jrf')
+				$tstype='Junior Research Fellow';
+			else if($tstype == 'pd')
+				$tstype='Post Doctoral Fellow';
+				
 			$tbgroup=$student_details->blood_group;
 			
 			if($tbgroup=='apos')
@@ -418,10 +436,11 @@ echo '<div id="print" >';
 						$boxeducationdetail = $ui->box()
 							  ->title('Educational Details')
 							  ->solid()	
+							  ->id('UsersEducationBox')
 							  ->uiType('primary')
 							  ->open();
 							  
-							  $stuRowexamheading = $ui->row()->open();
+							  /*$stuRowexamheading = $ui->row()->open();
 								
 									$col1 = $ui->col()->width(2)->open();
 										echo "<label>Examination</label>";
@@ -477,7 +496,44 @@ echo '<div id="print" >';
 									echo ucwords($row->division);
 									$col6->close();
 								}
-								$stuRowexamloop->close();
+								$stuRowexamloop->close();*/
+								
+								$table = $ui->table()
+											->hover()
+											->id('UsersEducationTable')
+											->bordered()
+											->striped()
+											->responsive()
+											->condensed()
+											->open();
+											
+											$count_edu = count($users_education_details);
+				?>
+									<thead>
+										<tr>
+											<th>Examination</th>
+											<th>Course/Specialization</th>
+											<th>College/University/Institute</th>
+											<th>Year</th>
+											<th>Percentage/Grade</th>
+											<th>Class/Division</th>
+										</tr>
+									</thead>
+									
+									<?php
+										for($i = 0; $i < $count_edu; $i++)
+										{?>
+											<tr>
+												<td><? echo ucwords($users_education_details[$i]->exam); ?></td>
+												<td><? echo ucwords($users_education_details[$i]->branch); ?></td>
+												<td><? echo ucwords($users_education_details[$i]->institute); ?></td>
+												<td><? echo ucwords($users_education_details[$i]->year); ?></td>
+												<td><? echo ucwords($users_education_details[$i]->grade); ?></td>
+												<td><? echo ucwords($users_education_details[$i]->division); ?></td>
+											</tr>
+				<?
+										}
+								$table->close();
 							  
 							  
 						$boxeducationdetail->close();  
@@ -611,10 +667,7 @@ echo '<div id="print" >';
 							$col3->close();
 							
 							$col4 = $ui->col()->width(3)->open();
-								if($student_academic->course_id = 'na')
-									echo 'NA';
-								else
-									echo $student_academic->course_id;
+								echo $course_name;
 							$col4->close();
 						$stuRowdept->close();
 						
@@ -628,10 +681,7 @@ echo '<div id="print" >';
 							$col3->close();
 							
 							$col4 = $ui->col()->width(3)->open();
-								if($student_academic->branch_id == 'na')
-									echo 'NA';
-								else
-									echo $student_academic->branch_id;
+								echo $branch_name;
 							$col4->close();
 							
 						$stuRowcourse->close();

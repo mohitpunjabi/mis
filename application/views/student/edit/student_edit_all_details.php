@@ -710,8 +710,9 @@
                            ->label('Mode of Payment')
                            ->name('fee_paid_mode')
                            ->width(3)
-                           ->options(array($ui->option()->value('dd')->text('CHEQUE')->selected($stu_fee_details->fee_mode == "dd"),
-                                           $ui->option()->value('cheque')->text('CASH')->selected($stu_fee_details->fee_mode == "cheque"),
+                           ->options(array($ui->option()->value('dd')->text('DD')->selected($stu_fee_details->fee_mode == "dd"),
+                                           $ui->option()->value('cash')->text('CASH')->selected($stu_fee_details->fee_mode == "cash"),
+										   $ui->option()->value('cheque')->text('CHEQUE')->selected($stu_fee_details->fee_mode == "cheque"),
                                            $ui->option()->value('online')->text('ONLINE TRANSFER')->selected($stu_fee_details->fee_mode == "online"),
                                            $ui->option()->value('none')->text('NONE')->selected()->selected($stu_fee_details->fee_mode == "none")))
                            ->show();
@@ -1207,11 +1208,11 @@
                                                     ->open();
 
                         $educational_detail_col_1 = $ui->col()
-                                                       ->width(5)
+                                                       ->width(4)
                                                        ->open();
                         $educational_detail_col_1->close();
 
-                        $educational_detail_col_1 = $ui->col()
+                        $educational_detail_col_2 = $ui->col()
                                                        ->width(2)
                                                        ->open();
 
@@ -1222,7 +1223,20 @@
                                ->name('add')
                                ->show();
 
-                        $educational_detail_col_1->close();
+                        $educational_detail_col_2->close();
+						
+						$educational_detail_col_3 = $ui->col()
+                                                       ->width(2)
+                                                       ->open();
+
+                            $ui->button()
+                               ->block()
+                               ->value('Remove Last Row')
+                               ->id('remove')
+                               ->name('remove')
+                               ->show();
+
+                        $educational_detail_col_3->close();
 
                     $educational_details_row_2->close();
 

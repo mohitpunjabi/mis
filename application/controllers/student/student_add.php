@@ -42,6 +42,11 @@ class Student_add extends CI_Controller//MY_Controller
 
 	public function index($error='')
 	{
+		if($error !='')
+		{
+			echo $error;
+			return;
+		}
 		$this->add_basic_details($error);
 	}
 
@@ -183,11 +188,35 @@ class Student_add extends CI_Controller//MY_Controller
 		$this->form_validation->set_rules('mobile','Mobile No','required|regex_match[/^[0-9]{10}$/]');
 		//$this->form_validation->set_rules('alternate_mobile','Alternate Mobile No','required|regex_match[/^[0-9]{10}$/]');
 		$this->form_validation->set_rules('fee_paid_amount','Fee Paid Amount','numeric');
-		if($this->form_validation->run() === FALSE)
+		if($this->input->post('branch') == 'none' || $this->input->post('course') == 'none' || $this->form_validation->run() === FALSE)
 		{
-			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			//return;redirect('student/student_add');
+			//$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
+			echo '<html>Either your Javascript is Off or due to some other problem the javascript did not work and some incorrect details were reveived by the Server.<br> If your javascript is not turned off then press the back button of browser and make sure the following fields are filled properly : <br>1. All the Contact numbers (except the Parent/Guardian Landline number) should be of 10 digits only. <br>2. The combination of the Department, Course and Branch is correct.<br><br> If still facing problem contact Mr. Rajesh K. Mishra, CSE Dept.<html>';
+			return;
+			//redirect('student/student_add');
+			//redirect("login/logout/5");
 		}
+		
+		$this->load->model('course_structure/basic_model','',TRUE);
+		$data['branches_to_check'] = $this->basic_model->get_branches_by_course_and_dept_for_student_reg($this->input->post('course'),$this->input->post('department'));
+		$flag = 0;
+		if($data['branches_to_check'])
+		{
+			foreach($data['branches_to_check'] as $row)
+			{
+				if($row->id == $this->input->post('branch'))
+				{
+					$flag = 1;
+					break;
+				}
+			}
+		}
+		if($flag == 0)
+		{
+			echo '<html>Either your Javascript is Off or due to some other problem the javascript did not work and some incorrect details were reveived by the Server.<br> If your javascript is not turned off then press the back button of browser and make sure the following fields are filled properly : <br>1. All the Contact numbers (except the Parent/Guardian Landline number) should be of 10 digits only. <br>2. The combination of the Department, Course and Branch is correct.<br><br> If still facing problem contact Mr. Rajesh K. Mishra, CSE Dept.<html>';
+			return;
+		}
+		
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)
 		{
@@ -479,12 +508,12 @@ class Student_add extends CI_Controller//MY_Controller
 
 	function upload_image($stu_id = '', $name ='')
 	{
-		$config['upload_path'] = 'assets/images/student/'.strtolower($stu_id).'/';
+		$config['upload_path'] = './assets/images/student/'.strtolower($stu_id).'/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']  = '200';
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
-
+		var_dump($config['upload_path']);
 		if(isset($_FILES[$name]['name']))
     	{
             if($_FILES[$name]['name'] == "")
@@ -508,13 +537,15 @@ class Student_add extends CI_Controller//MY_Controller
 	    {
 			mkdir($config['upload_path'],0777,TRUE);
     	}
-
+		//var_dump($config);
 		$this->load->library('upload', $config);
-
-		if ( ! $this->upload->do_upload($name))		//do_multi_upload is back compatible with do_upload
+		
+		if ( !$this->upload->do_upload($name))		//do_multi_upload is back compatible with do_upload
 		{
 			$error = $this->upload->display_errors();
-			$this->index('ERROR: '.$error);
+			/*var_dump(get_current_user());
+			echo($error);*/
+			$this->index($error);
 			return FALSE;
 		}
 		else
@@ -522,5 +553,6 @@ class Student_add extends CI_Controller//MY_Controller
 			$upload_data = $this->upload->data();
 			return $upload_data;
 		}
+                //return FALSE;
 	}
 }

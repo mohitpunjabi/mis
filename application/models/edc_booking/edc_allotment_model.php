@@ -18,8 +18,16 @@ class Edc_allotment_model extends CI_Model
     $query = $this->db->get('edc_registration_details');
 		return $query->result_array();
   }
+  function get_allocated_room_detail_limited($app_num,$limit)
+  {
+    $query = $this->db->query("SELECT * FROM edc_booking_details WHERE app_num = '".$app_num."' ORDER by id DESC LIMIT $limit;");
+    //$this->db->where('app_num',$app_num);
+    //$query = $this->db->get('edc_booking_details');
+		return $query->result_array();
+  }
   function get_allocated_room_detail($app_num)
   {
+    //$query = $this->db->query("SELECT * FROM edc_booking_details WHERE app_num = '".$app_num."' ORDER by id DESC LIMIT $limit;");
     $this->db->where('app_num',$app_num);
     $query = $this->db->get('edc_booking_details');
 		return $query->result_array();

@@ -5,8 +5,10 @@ class AddCS_Common extends MY_Controller
 	function __construct()
 	{
 		// This is to call the parent constructor
+		
 		parent::__construct(array('deo'));
 		$this->load->model('course_structure/basic_model','',TRUE);
+		$this->addJS("course_structure/addCS_Common.js");
 	}
 
 	public function index($error='')

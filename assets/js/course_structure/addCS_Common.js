@@ -18,6 +18,7 @@ $(document).ready(function(){
 			$cont_group_2.hide();
 			$group_2.hide();
 			$cont_group_1.show();
+			$group_1.prop('disabled',false);
 			$group_1.show();
 		}
 		else
@@ -25,6 +26,7 @@ $(document).ready(function(){
 			$cont_group_1.hide();
 			$group_1.hide();
 			$cont_group_2.show();
+			$group_2.prop('disabled',false);
 			$group_2.show();
 		}
 	});

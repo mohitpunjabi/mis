@@ -35,6 +35,7 @@
 						->required()
 						->name('group')
 						->id("group_1")
+						->disabled()
 						->options($array_option1)
 						->containerId('cont_group1')
 						->show();
@@ -45,6 +46,7 @@
 						->required()
 						->name('group')
 						->id("group_2")
+						->disabled()
 						->options($array_option2)
 						->containerId('cont_group2')
 						->show();

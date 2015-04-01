@@ -144,14 +144,14 @@ class Edc_booking_model extends CI_Model
 	}
 	function get_alloted_application()
 	{
-		$where = "ctk_allotment_status = '1' AND check_in >=now()";
+		$where = "allocation_confirm_status = '1' AND check_in >=now()";
 		$this->db->where($where);
 		$query = $this->db->get('edc_registration_details');
 		return $query->result();
 	}
 	function get_rooms_for_application($app_num)
 	{
-		$query = "SELECT id,edc_room_details.building as building,edc_room_details.floor as floor,edc_room_details.room_no as room_no FROM edc_booking_details inner join edc_room_details on edc_booking_details.room_id=edc_room_details.id WHERE edc_booking_details.app_num = '".$app_num."'";
+		$query = "SELECT edc_room_details.id as id,edc_room_details.building as building,edc_room_details.floor as floor,edc_room_details.room_no as room_no FROM edc_booking_details inner join edc_room_details on edc_booking_details.room_id=edc_room_details.id WHERE edc_booking_details.app_num = '".$app_num."'";
 		$quer = $this->db->query($query);
 		return $quer->result();
 	}

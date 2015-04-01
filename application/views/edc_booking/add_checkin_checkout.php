@@ -9,7 +9,7 @@
 	foreach($room_booking_details as $room)
 	{
 		$room_mapping[$room->id] = $room->building."-".$room->floor."-".$room->room_no;
-		$room_string = $room_string.", ".$room_mapping[$room->id];
+		$room_string = $room_string." ".$room_mapping[$room->id];
 		$drop_down[$i++] = $ui->option()->value($room->id)->text($room->building."-".$room->floor."-".$room->room_no);
 		//$room_select = $ui->option()->value($room->id)->text($room->building."-".$room->floor."-".$room->room_no)->selected())
 	}
@@ -106,7 +106,7 @@ $table = $ui->table()->hover()->bordered()
 							<tr>							
 								<th>S. No.</th>
 								<th >Name</th>
-								<th >Address</th>
+								<th >Designation</th>
 								<th>Room Alloted</th>				
 								<th>CheckIn</th>
 								<th >CheckOut</th>								
@@ -123,7 +123,7 @@ $table = $ui->table()->hover()->bordered()
 									
 									<td><?=$i++?></td>
 									<td><?=$guest->name?></td>
-									<td ><?=$guest->address?></td>
+									<td ><?=$guest->designation?></td>
 									<td><?=$room_mapping[$guest->room_alloted]?></td>
 									<td><?=date('d M Y g:i a',strtotime($guest->check_in))?></td>
 									<td>

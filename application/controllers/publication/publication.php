@@ -192,7 +192,20 @@ class Publication extends MY_Controller{
 			}
 		}
 	}
-
+	public function editauthorslist($rec_id){
+		$this->drawHeader('Edit authors list');
+		$temp['authors'] = $this->basic_model->get_ism_author_detail_by_pub($rec_id);
+		$data = array();
+		$i = 0;
+		foreach ($temp['authors'] as $authors) {
+			$data['authors'][$i] = array();
+			$data['authors'][$i]['emp_id'] = $authors->id;
+			$data['authors'][$i]['name'] = $authors->name; 
+		}
+		$data['rec_id'] = $rec_id;
+		$this->load->view('publication/edit_authors_list');
+		$this->drawFooter();
+	}
 	public function submit_edit(){
 		$sess = $this->session->userdata('pub_data');
 		$data['rec_id'] = $sess['rec_id'];

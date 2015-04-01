@@ -3,8 +3,12 @@
                         document.getElementById('add').style.display='none';
                 else if(document.getElementById("tableid").rows.length > 6)
                         document.getElementById('add').style.display='none';
+						
+				if(document.getElementById("tableid").rows.length <= 3)
+						document.getElementById('remove').style.display='none';
 
                 document.getElementById("add").onclick = function() {onclick_add();};
+				document.getElementById("remove").onclick = function() {onclick_remove();};
 
                 if($('#stu_type').val() == 'jrf')
                 {
@@ -127,6 +131,29 @@
                 depends_on_whom();
                 });
         });
+		
+		function onclick_remove()
+		{
+			var table=document.getElementById("tableid");
+			var rowCount=table.rows.length;
+			if(rowCount<=2)
+			{
+				alert("Cannot delete any more rows.");
+				return;
+			}
+			table.deleteRow(rowCount-1);
+			button_for_remove();
+		}
+	
+	
+		function button_for_remove()
+		{
+			var row=document.getElementById("tableid").rows;
+			if(row.length > 3)
+				document.getElementById('remove').style.display='block';
+			else
+				document.getElementById('remove').style.display='none';
+		}
 
 
         function form_validation()
@@ -695,6 +722,7 @@ function onclick_add()
                 var b=document.getElementsByName("branch4[]")[row.length-2].value='';
                 var c=document.getElementsByName("clgname4[]")[row.length-2].value='';
                 var g=document.getElementsByName("grade4[]")[row.length-2].value='';
+				button_for_remove();
         }
 }
 

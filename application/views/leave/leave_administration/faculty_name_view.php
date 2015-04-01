@@ -1,4 +1,10 @@
-<option type="text" value="">Select</option>		
+<?php
+/*
+ * Author : Nishant Raj
+ */
+?>
+
+<option type="text" value="">Select</option>
 <?php
 	$sno=1;
 	while ($sno <= $total_rows)

@@ -35,15 +35,43 @@
 		}
 		$str[$type].= "\"".$publications[$i]['title']."\", ";
 		if ($type==1 || $type==2)
-		{
-			$date="";
-			for ($k=0; $k<10; $k++)
-				$date .= $publications[$i]['begin_date'][$k];
-			$str[$type] .= "Published in the ".$publications[$i]['name'].", Vol. ";
-			$str[$type] .= $publications[$i]['vol_no'].", No. ";
-			$str[$type] .= $publications[$i]['issue_no'].", ".$date.", ";
-			$str[$type] .= "pp ".$publications[$i]['page_no'].".";
-		}
+			{
+				$date="";
+				for ($k=0; $k<10; $k++)
+					$date .= $publications[$i]['begin_date'][$k];
+				$year = $date[0].$date[1].$date[2].$date[3];
+				$month = $date[5].$date[6];
+				$str[$type] .= "Published in the ".$publications[$i]['name'].", Vol. ";
+				$str[$type] .= $publications[$i]['vol_no'].", No. ";
+				$str[$type] .= $publications[$i]['issue_no'].", ";
+
+				if ($month == "01")
+					$str[$type] .= "January ".$year.", ";
+				if ($month == "02")
+					$str[$type] .= "February ".$year.", ";
+				if ($month == "03")
+					$str[$type] .= "March ".$year.", ";
+				if ($month == "04")
+					$str[$type] .= "April ".$year.", ";
+				if ($month == "05")
+					$str[$type] .= "May ".$year.", ";
+				if ($month == "06")
+					$str[$type] .= "June ".$year.", ";
+				if ($month == "07")
+					$str[$type] .= "July ".$year.", ";
+				if ($month == "08")
+					$str[$type] .= "August ".$year.", ";
+				if ($month == "09")
+					$str[$type] .= "September ".$year.", ";
+				if ($month == "10")
+					$str[$type] .= "October ".$year.", ";
+				if ($month == "11")
+					$str[$type] .= "November ".$year.", ";
+				if ($month == "12")
+					$str[$type] .= "December ".$year.", ";
+				
+				$str[$type] .= "pp ".$publications[$i]['page_no'].".";
+			}
 		else if ($type==3 || $type==4)
 		{
 			$begin_date = "";

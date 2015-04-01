@@ -32,8 +32,6 @@ class Publication extends MY_Controller{
 		$data['title'] = $this->input->post('title');
 		$data['type_id'] = $this->input->post('publication_type');
 		$data['name'] = $this->input->post('publication_name');
-		$data['begin_date'] = (new DateTime($this->input->post('begin_date')));
-		$data['begin_date'] = $data['begin_date']->format('Y-m-d h:i:s');
 		$data['place'] = '';
 		$data['vol_no'] = '';
 		$data['issue_no'] = '';
@@ -41,10 +39,16 @@ class Publication extends MY_Controller{
 
 		if($data['type_id'] == '1' || $data['type_id'] =='2'){
 			$data['vol_no'] = $this->input->post('vol_no');
+			$month = $this->input->post('month');
+			$year = $this->input->post('year');
+			$data['begin_date'] = $year.'-'.$month.'-01 00:00:00';
+			//var_dump($data['begin_date']);
 			$data['issue_no'] = $this->input->post('issue_no');
 		}
 		else if($data['type_id'] == '3' || $data['type_id'] =='4'){
 			$data['place'] = $this->input->post('venue');
+			$data['begin_date'] = (new DateTime($this->input->post('begin_date')));
+			$data['begin_date'] = $data['begin_date']->format('Y-m-d h:i:s');
 			$data['end_date'] = (new DateTime($this->input->post('end_date')));
 			$data['end_date'] = $data['end_date']->format('Y-m-d h:i:s');
 		}
@@ -52,12 +56,16 @@ class Publication extends MY_Controller{
 			$data['edition'] = $this->input->post('edition');
 			$data['isbn_no'] = $this->input->post('isbn_no');
 			$data['publisher'] = $this->input->post('publisher');
+			$data['begin_date'] = (new DateTime($this->input->post('begin_date')));
+			$data['begin_date'] = $data['begin_date']->format('Y-m-d h:i:s');
 		}
 		else if ($data['type_id']=='6'){
 			$data['chapter_name'] = $this->input->post('chapter_name');
 			$data['chapter_no'] = $this->input->post('chapter_no');
 			$data['isbn_no'] = $this->input->post('isbn_no');
 			$data['publisher'] = $this->input->post('publisher');
+			$data['begin_date'] = (new DateTime($this->input->post('begin_date')));
+			$data['begin_date'] = $data['begin_date']->format('Y-m-d h:i:s');
 		}
 		$data['page_no'] = $this->input->post('page_no');
 		$data['other_info'] = $this->input->post('other_info');

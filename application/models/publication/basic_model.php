@@ -74,8 +74,17 @@ class Basic_model extends CI_Model{
 		return $query->result();
 	}
 
+	public function delete_ism_author_from_coauthor_list($id,$rec_id){
+		$query = $this->db->query("DELETE FROM prk_ism_author WHERE emp_id = {$id} AND rec_id = \"{$rec_id}\"");
+	}
+
 	public function get_all_user_pub($emp_id){
 		$query = $this->db->query("SELECT rec.rec_id as rec_id,rec.title as title,rec.name as name,rec.type_id as type,rec.no_of_authors as no_of_authors,rec.other_authors as other_authors from prk_record as rec join prk_ism_author as auth ON auth.rec_id = rec.rec_id where auth.emp_id = {$emp_id}");
+		return $query->result();
+	}
+
+	public function get_status_of_author($rec_id,$emp_id){
+		$query = $this->db->query("SELECT notify_status FROM prk_ism_author WHERE emp_id = {$emp_id} AND rec_id = \"{$rec_id}\"");
 		return $query->result();
 	}
 

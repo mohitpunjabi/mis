@@ -131,8 +131,13 @@ class Publication extends MY_Controller{
 
 	public function editpublication($rec_id=''){
 		if(!empty($rec_id)){//Edit particular Publication
-			$temp= $this->basic_model->get_pub_detail_by_rec_id($rec_id);
-			$data= array();
+			$temp = $this->basic_model->get_pub_detail_by_rec_id($rec_id);
+			$data = array();
+			$temp1 = $this->basic_model->get_status_of_author($rec_id,$this->session->userdata('id'));
+			if (count($temp1) > 0)
+				$data['status'] = $temp1[0]->notify_status;
+			else
+				$data['status'] = 0;
 			$data['publication'] = array();
 			$data['publication']['rec_id'] = $temp[0]->rec_id;
 			$data['publication']['title'] = $temp[0]->title;
@@ -193,18 +198,28 @@ class Publication extends MY_Controller{
 		}
 	}
 	public function editauthorslist($rec_id){
-		$this->drawHeader('Edit authors list');
+		
 		$temp['authors'] = $this->basic_model->get_ism_author_detail_by_pub($rec_id);
 		$data = array();
 		$i = 0;
+		$data['own_emp_id'] = $this->session->userdata('id');
 		foreach ($temp['authors'] as $authors) {
 			$data['authors'][$i] = array();
 			$data['authors'][$i]['emp_id'] = $authors->id;
 			$data['authors'][$i]['name'] = $authors->name; 
+			$i++;
 		}
 		$data['rec_id'] = $rec_id;
-		$this->load->view('publication/edit_authors_list');
+		//var_dump($data);
+		$this->drawHeader('Edit authors list');
+		$this->load->view('publication/edit_authors_list',$data);
 		$this->drawFooter();
+	}
+
+	public function deleteauthors($id,$rec_id){
+		$this->basic_model->delete_ism_author_from_coauthor_list($id,$rec_id);
+		$this->session->set_flashdata("flashSuccess","Deleted Successfully");
+		redirect('publication/publication/editpublication/'.$rec_id);
 	}
 	public function submit_edit(){
 		$sess = $this->session->userdata('pub_data');
@@ -433,14 +448,14 @@ class Publication extends MY_Controller{
 		$data = array();
 		$data['rec_id'] = $this->input->post('rec_id');
 		$data['reason'] = $this->input->post('reason');
-		$this->basic_model->remove_own_from_publication($data['rec_id'],$this->session->userdata('id'));
-		$this->basic_model->decrease_no_of_approval_after_decline($data['rec_id']);
+		//$this->basic_model->remove_own_from_publication($data['rec_id'],$this->session->userdata('id'));
+		//$this->basic_model->decrease_no_of_approval_after_decline($data['rec_id']);
 		$data['ism_authors'] = $this->basic_model->get_approved_author($data['rec_id']);
 		foreach ($data['ism_authors'] as $authors){
 			$temp = $this->basic_model->get_name_of_author_by_emp_id($this->session->userdata('id'));
 			$title = "Declining of Publication by ".$temp[0]->name;
 			$description = $data['reason'];
-			$link = "publication/publication/view";
+			$link = "publication/publication/editpublication/".$data['rec_id'];
 			$this->notification->notify($authors->emp_id,"emp",$title,$description,$link,"");
 		}
 		$this->session->set_flashdata("flashSuccess","Successfully declined the publication.");

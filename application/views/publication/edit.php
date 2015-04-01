@@ -202,8 +202,12 @@
 
 			$row4->close();
 		}
-	echo " <a href='".base_url().'index.php/publication/publication/editauthorslist/'.$publication['rec_id']."'>Edit</a>";
 	$ui->button()->value('Edit')->submit(true)->id('Edit')->uiType('primary')->show();
+	?><br><br><?
+	if ($status == 1)
+		echo " <a href='".base_url().'index.php/publication/publication/editauthorslist/'.$publication['rec_id']."'><b>Click here to edit coauthors list</b></a>";
+	?><br><?
+	
 	$box->close();
 	$col11->close();
 	$form->close();

@@ -75,6 +75,10 @@ class Leave_station extends MY_Controller {
             $leave_id = $this->lsm->get_station_leave_id($this->emp_id, $current_time, $leaving_date, $leaving_time, $arrival_date, $arrival_time);
             $this->lsm->insert_station_leave_status($leave_id, $this->emp_id, $next_emp, Leave_constants::$PENDING);
 
+            //notification Sending to selected Employee
+            $type = Leave_constants::$PENDING;
+            $auth_type = "admin";
+            $this->push_notification($leave_id, $next_emp, $auth_type, $type, Leave_constants::$PENDING, "");
             $data['notification'] = true;
             $data['type'] = 'success';
             $data['string'] = 'Your leave have been Applied successfully and sent to selected employee';
@@ -83,6 +87,50 @@ class Leave_station extends MY_Controller {
         $this->drawHeader('Leave Station Form');
         $this->load->view('leave/leave_station/leave_station_view', $data);
         $this->drawFooter();
+    }
+
+    function push_notification($leave_id, $next_emp, $auth_type, $type, $action_type, $fwd_to)
+    {
+
+        $leave_details = $this->lsm->get_station_leave_by_id($leave_id);
+        $leave_requesting_employee = $leave_details['emp_id'];
+        $leave_requesting_employee_name = $this->lsm->get_user_name_by_id($leave_requesting_employee);
+        if ($auth_type == "admin") {
+            if ($type == Leave_constants::$PENDING) {
+                $path = 'leave/leave_station/station_leave_approve/' . $leave_id . '/' . $next_emp . '/' . $leave_requesting_employee . '/' . $type;
+            } else {
+                $path = 'leave/leave_station/pendingStationLeaveStatus';
+            }
+        } else {
+            $path = 'leave/leave_station/stationLeaveHistory';
+        }
+        if ($auth_type == 'emp') {
+            if ($action_type == Leave_constants::$APPROVED) {
+                $request_type = "Station Leave Approved";
+                $message = "Your Station Leave has been Approved by " . $this->lsm->get_user_name_by_id($this->emp_id);
+            } else if ($action_type == Leave_constants::$FORWARDED) {
+                $request_type = "Station Leave Forwarded";
+                $message = "Your Station Leave Has been forwarded by " . $this->lsm->get_user_name_by_id($this->emp_id) . " to " . $this->lsm->get_user_name_by_id($fwd_to);
+            } else {
+                $request_type = "Station Leave Rejected";
+                $message = "Your Station Leave has been Rejected by " . $this->lsm->get_user_name_by_id($this->emp_id);
+            }
+        } else {
+            if ($action_type == Leave_constants::$PENDING) {
+                $request_type = "Station Leave Request";
+                $message = "You Have Station Leave request from " . $leave_requesting_employee_name;
+            } else if ($action_type == Leave_constants::$FORWARDED) {
+                $request_type = "Station Leave Request";
+                $message = "Station Leave Request of " . $leave_requesting_employee_name . " has been Forwarded to you by " . $this->lsm->get_user_name_by_id($this->emp_id);
+            }
+        }
+        $this->notification->notify(
+            $next_emp,
+            'emp',
+            $request_type,
+            $message,
+            $path
+        );
     }
 
     function stationLeaveHistory()
@@ -97,7 +145,6 @@ class Leave_station extends MY_Controller {
         $this->load->view('leave/leave_station/station_leave_history_view', $data);
         $this->drawFooter();
     }
-
 
     function pendingStationLeaveStatus()
     {
@@ -116,19 +163,49 @@ class Leave_station extends MY_Controller {
      */
     function station_leave_approve($leave_id, $next_emp_id, $emp_id, $rqst_type)
     {
+
         $data = array();
-        $details = $this->employee_model->getById($emp_id);
-        $data['type'] = $rqst_type;
-        $data['emp'] = $details;
-        $data['img_path'] = $emp_id . "/";
-        $data['img_path'] .= $this->um->getPhotoById($emp_id);
-        $data['leave_id'] = $leave_id;
-        $data['next_emp'] = $next_emp_id;
-        $data['emp_id'] = $emp_id;
-        $data['leave_details'] = $this->lsm->get_station_leave_by_id($leave_id);
-        //$this->insert_station_leave_status($leave_id , $next_emp_id , $next_emp_id , Leave_constants::$APPROVED );
-        $this->drawHeader('Leave Approved');
+        $temp = $this->lsm->get_station_leave_by_id($leave_id);
+        if (($temp['status'] == Leave_constants::$PENDING || $temp['status'] == Leave_constants::$FORWARDED ||
+                $temp['status'] == Leave_constants::$WAITING_CANCELLATION) && $next_emp_id == $temp['next_emp']
+        ) {
+            $data['leave_details'] = $temp;
+            $data['respond'] = false;
+            $details = $this->employee_model->getById($emp_id);
+            $data['type'] = $rqst_type;
+            $data['emp'] = $details;
+            $data['img_path'] = $emp_id . "/";
+            $data['img_path'] .= $this->um->getPhotoById($emp_id);
+            $data['leave_id'] = $leave_id;
+            $data['next_emp'] = $next_emp_id;
+            $data['emp_id'] = $emp_id;
+            $data['leave_user_id'] = $this->get_user_id_by_leave_id($leave_id);
+            $data['name'] = $this->lsm->get_user_name_by_id($emp_id);
+            //$this->insert_station_leave_status($leave_id , $next_emp_id , $next_emp_id , Leave_constants::$APPROVED );
+        } else
+            $data['respond'] = true;
+
+        $this->drawHeader('Leave Approve/Reject/Forward');
         $this->load->view('leave/leave_station/leave_station_approval_view', $data);
+        $this->drawFooter();
+
+    }
+
+    function get_user_id_by_leave_id($leave_id)
+    {
+
+        $result = $this->lsm->get_station_leave_by_id($leave_id);
+        return $result['emp_id'];
+    }
+
+    function adminLeaveHistory()
+    {
+
+
+        $data['dept'] = $this->ludm->get_user_dept($this->emp_id);
+
+        $this->drawHeader('Leave History');
+        $this->load->view('leave/leave_station/station_leave_history_hod_view', $data);
         $this->drawFooter();
 
     }

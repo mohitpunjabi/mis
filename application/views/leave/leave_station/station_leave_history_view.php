@@ -50,7 +50,6 @@ $i = 0;
 if ($data != NULL)
     foreach ($data as $row) {
 
-        $number = $i + 1;
         $st_lv_date = $data[$i]['leaving_date'];
         $st_lv_time = $data[$i]['leaving_time'];
         $st_rt_date = $data[$i]['arrival_date'];
@@ -90,8 +89,8 @@ if ($data != NULL)
             $str = "<label class='$waitc'>" . "FORWARDED" . "</label>";
             $leave_status = $str;
         }
-
-        echo "<tr><td><center>$number</center></td>"
+        $i++;
+        echo "<tr><td><center>$i</center></td>"
             . "<td><center>$st_lv_date</center></td>"
             . "<td><center>$st_lv_time</center></td>"
             . "<td><center>$st_rt_date</center></td>"
@@ -101,7 +100,7 @@ if ($data != NULL)
             . "<td><center>$addr</center></td>"
             . "<td><center>$pending_at</center></td>"
             . "<td><center>$leave_status</center></td></tr>";
-        $i++;
+
     }
 
 $table->close();

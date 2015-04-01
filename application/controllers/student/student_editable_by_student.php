@@ -35,6 +35,10 @@ class Student_editable_by_student extends MY_Controller
 		$this->load->model('student/student_other_details_model');
 		$this->load->model('user/user_details_model');
 		$this->load->model('user/user_other_details_model');
+		
+		$alternate_mobile_number = $this->input->post('alternate_mobile');
+		//var_dump($alternate_mobile_number);
+		//return;
 
 		$user_details = array(
 			'email' => $this->authorization->strclean($this->input->post('email'))
@@ -47,7 +51,7 @@ class Student_editable_by_student extends MY_Controller
 		);
 
 		$stu_details = array(
-			'alternate_mobile_no' => $this->input->post('alternate_mobile') ,
+			'alternate_mobile_no' => $alternate_mobile_number ,
 			'alternate_email_id' => $this->input->post('alternate_email_id')
 		);
 

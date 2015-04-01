@@ -85,8 +85,10 @@ class Reports extends MY_Controller
 		$this->load->model('student/student_education_details_model','',TRUE);
 		$this->load->model('student/student_academic_model','',TRUE);
 		$this->load->model('student/student_type_model','',TRUE);
-		$this->load->model('student_view_report/get_cb','',TRUE);
-		$this->load->model('student_view_report/student_typeugpg_model','',TRUE);
+		//$this->load->model('student_view_report/get_cb','',TRUE);
+		//$this->load->model('student_view_report/student_typeugpg_model','',TRUE);
+		$this->load->model('student/student_education_details_model','',TRUE);
+		$this->load->model('course_structure/basic_model','',TRUE);
 		
 
 		$data['user_details']=$this->user_details_model->getUserById($admn_no);
@@ -97,8 +99,21 @@ class Reports extends MY_Controller
 		$data['permanent_address']=$this->user_address_model->getAddrById($admn_no,'permanent');
 		$data['present_address']=$this->user_address_model->getAddrById($admn_no,'present');
 		$data['cross_address']=$this->user_address_model->getAddrById($admn_no,'correspondence');
-		$data['stu_education_details'] = $this->student_education_details_model->getStuEduById($admn_no);
+		$data['users_education_details']=$this->student_education_details_model->getStuEduById($admn_no);
 		$data['student_academic']=$this->student_academic_model->get_stu_academic_details_by_id($admn_no);
+		if($data['student_academic']->course_id == 'na')
+			$data['course_name']='NA';
+		else if($data['student_academic']->course_id == 'postdoc')
+			$data['course_name']='Post Doc';
+		else if($data['student_academic']->course_id == 'phd')
+			$data['course_name']='Ph.D';
+		else
+			$data['course_name']=$this->basic_model->get_course_details_by_id($data['student_academic']->course_id)[0]->name;
+			
+		if($data['student_academic']->branch_id == 'na')
+			$data['branch_name']='NA';
+		else
+			$data['branch_name']=$this->basic_model->get_branch_details_by_id($data['student_academic']->branch_id)[0]->name;
 		
 		
 					

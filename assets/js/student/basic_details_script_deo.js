@@ -4,6 +4,8 @@
 		document.getElementById("fetch_id_btn").onclick = function() {fetch_details();};
 
 		document.getElementById("add").onclick = function() {onclick_add();};
+		document.getElementById("remove").onclick = function() {onclick_remove();};
+		document.getElementById('remove').style.display='none';
 
 		/*$('[name="depends_on"]').on('change', function() {
     		depends_on_whom();
@@ -68,6 +70,29 @@
 		add_row_on_page_load();
 
 	});
+	
+	function onclick_remove()
+	{
+		var table=document.getElementById("tableid");
+		var rowCount=table.rows.length;
+		if(rowCount<=2)
+		{
+			alert("Cannot delete any more rows.");
+			return;
+		}
+		table.deleteRow(rowCount-1);
+		button_for_remove();
+	}
+
+
+	function button_for_remove()
+	{
+		var row=document.getElementById("tableid").rows;
+		if(row.length > 3)
+			document.getElementById('remove').style.display='block';
+		else
+			document.getElementById('remove').style.display='none';
+	}
 
 	function add_row_on_page_load()
 	{
@@ -498,7 +523,7 @@
         }
         xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
         xmlhttp.send();
-        tr.innerHTML="<option selected=\"selected\">Loading...</option>";
+        tr.innerHTML="<option value=\"none\" selected=\"selected\">Loading...</option>";
     }
 
     function options_of_courses()
@@ -524,7 +549,7 @@
         }
         xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
-        tr.innerHTML="<option selected=\"selected\">Loading...</option>";
+        tr.innerHTML="<option value=\"none\" selected=\"selected\">Loading...</option>";
     }
 
     function all_number_validation()
@@ -708,6 +733,7 @@
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
+			button_for_remove();
 		}
 	}
 	

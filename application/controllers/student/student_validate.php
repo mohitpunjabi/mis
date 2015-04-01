@@ -4,22 +4,24 @@ class Student_validate extends MY_Controller
 {
 	function __construct()
 	{
-		parent::__construct(array('acd_ar'));
+		parent::__construct(array('acad_ar'));
 	}
 
 	function index()
 	{
 		$this->addJS('student/student_validation_script.js');
+		$this->load->model('student/student_details_to_approve','',TRUE);
+		$data["users_to_validate"] = $this->student_details_to_approve->get_all_stu_details();
 		$this->drawHeader('Select Student To Validate Details');
-		$this->load->view('student/validate/student_validation_list');
+		$this->load->view('student/validate/student_validation_list',$data);
 		$this->drawFooter();
 	}
 
-	function loadUsersToValidate()
+	/*function loadUsersToValidate()
 	{
 		$this->load->model('student/student_details_to_approve','',TRUE);
 		$this->load->view('student/validate/student_for_validation_table',array("users_to_validate" => $this->student_details_to_approve->get_all_stu_details()));
-	}
+	}*/
 
 	function validation($admn_no='')
 	{
@@ -39,8 +41,9 @@ class Student_validate extends MY_Controller
 			$this->load->model('student/student_education_details_model','',TRUE);
 			$this->load->model('student/student_academic_model','',TRUE);
 			$this->load->model('student/student_type_model','',TRUE);
-			$this->load->model('student_view_report/get_cb','',TRUE);
-			$this->load->model('student_view_report/student_typeugpg_model','',TRUE);
+			$this->load->model('course_structure/basic_model','',TRUE);
+			//$this->load->model('student_view_report/get_cb','',TRUE);
+			//$this->load->model('student_view_report/student_typeugpg_model','',TRUE);
 			
 
 			$data['user_details']=$this->user_details_model->getPendingDetailsById($admn_no);
@@ -53,6 +56,19 @@ class Student_validate extends MY_Controller
 			$data['cross_address']=$this->user_address_model->getPendingDetailsById($admn_no,'correspondence');
 			$data['stu_education_details'] = $this->student_education_details_model->getPendingStuEduById($admn_no);
 			$data['student_academic']=$this->student_academic_model->get_pending_stu_academic_details_by_id($admn_no);
+			if($data['student_academic']->course_id == 'na')
+				$data['course_name']='NA';
+			else if($data['student_academic']->course_id == 'postdoc')
+				$data['course_name']='Post Doc';
+			else if($data['student_academic']->course_id == 'phd')
+				$data['course_name']='Ph.D';
+			else
+				$data['course_name']=$this->basic_model->get_course_details_by_id($data['student_academic']->course_id)[0]->name;
+				
+			if($data['student_academic']->branch_id == 'na')
+				$data['branch_name']='NA';
+			else
+				$data['branch_name']=$this->basic_model->get_branch_details_by_id($data['student_academic']->branch_id)[0]->name;
 			
 			$this->load->model('student/student_details_to_approve','',TRUE);
 			$head_data['data_recv'] = $this->student_details_to_approve->get_all_stu_details_by_id($admn_no);
@@ -110,7 +126,7 @@ class Student_validate extends MY_Controller
 
 		$this->db->trans_complete();
 
-		$this->notification->notify($stu_id, 'stu', "Details Approved", "Your details have been approved.", "student_view_report/view/".$stu_id);
+		$this->notification->notify($stu_id, 'stu', "Details Approved", "Your details have been approved.", "student_view_report/view");
 
 		$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' details Accepted.');
 		redirect("student/student_validate");
@@ -147,9 +163,9 @@ class Student_validate extends MY_Controller
 		$this->db->trans_complete();
 
 		$this->load->model('user/user_auth_types_model','',TRUE);
-		$res = $this->user_auth_types_model->getUserIdByAuthId('deos');
+		$res = $this->user_auth_types_model->getUserIdByAuthId('acad_da1');
 		foreach($res as $row)
-			$this->notification->notify($row->id, 'deos', "Details Rejected", "Details of student ".$stu_id." have been rejected.", "".$stu_id);
+			$this->notification->notify($row->id, 'acad_da1', "Details Rejected", "Details of student ".$stu_id." have been rejected.", "student/student_edit/open_edit_form/".$stu_id);
 
 		$this->session->set_flashdata('flashSuccess','Student '.$stu_id.' details Rejected.');
 		

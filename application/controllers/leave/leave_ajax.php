@@ -78,5 +78,20 @@ class Leave_ajax extends CI_Controller
             
             
         }
-        
+
+    public function get_all_station_leave_by_emp()
+    {
+        $this->load->model("leave/leave_station_model", 'lsm');
+        $data['approved'] = $this->lsm->get_approved_rejected_leave_by_emp($this->session->userdata('id'), Leave_constants::$APPROVED);
+        $data['rejected'] = $this->lsm->get_approved_rejected_leave_by_emp($this->session->userdata('id'), Leave_constants::$REJECTED);
+        $data['forwarded'] = $this->lsm->get_forwarded_leave_by_emp($this->session->userdata('id'));
+//        var_dump($data);
+        $this->load->view('leave/leave_station/leave_table_view', $data);
+    }
+
+    public function get_all_station_leave_of_emp_by_emp($emp_id)
+    {
+
+
+    }
 }

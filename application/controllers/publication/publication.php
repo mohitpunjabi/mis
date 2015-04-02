@@ -295,9 +295,9 @@ class Publication extends MY_Controller{
 	public function view(){
 		$temp = array();
 		$temp['emp_id'] = $this->session->userdata('id');
-		$temp['publications'] = $this->basic_model->get_own_publications($temp);
+		$temp['publications'] = $this->basic_model->get_own_publications($temp,$this->session->userdata('id'));
 		$data['flag'] = 0;
-		$i=0;
+		$i = 0;
 		foreach($temp['publications'] as $pub){
 			$data['publications'][$i] = array();
 			$data['publications'][$i]['rec_id'] = $pub->rec_id;

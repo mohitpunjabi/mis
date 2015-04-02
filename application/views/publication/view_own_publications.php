@@ -166,6 +166,7 @@
 		?><h4><center> Paper published by <? echo $own_name; ?> in National Journal</center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
 			?><th>National Publication</th><?php
+			echo $str[1];
 		$table->close();
 		echo '</div>';
 		?><center><button value = "PRINT" class = " btn btn-primary "onclick="printContent('print_nat_jour')" >PRINT</button></center><?php

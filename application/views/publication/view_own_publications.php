@@ -1,6 +1,5 @@
 <?php
 	$ui = new UI();
-
 	for ($i=0; $i<=10; $i++)
 		$str[$i]="";
 	$num = 0;
@@ -35,15 +34,44 @@
 					$count++;
 				}  
 			}
-			$str[$type].= "\"".$publications[$i]['title']."\", ";
+			if ($type != 5 && $type != 6)
+				$str[$type].= "\"".$publications[$i]['title']."\", ";
 			if ($type==1 || $type==2)
 			{
 				$date="";
 				for ($k=0; $k<10; $k++)
 					$date .= $publications[$i]['begin_date'][$k];
+				$year = $date[0].$date[1].$date[2].$date[3];
+				$month = $date[5].$date[6];
 				$str[$type] .= "Published in the ".$publications[$i]['name'].", Vol. ";
-				$str[$type] .= $publications[$i]['vol_no']." in issue ";
-				$str[$type] .= $publications[$i]['issue_no'].", ".$date.", ";
+				$str[$type] .= $publications[$i]['vol_no'].", No. ";
+				$str[$type] .= $publications[$i]['issue_no'].", ";
+
+				if ($month == "01")
+					$str[$type] .= "January ".$year.", ";
+				if ($month == "02")
+					$str[$type] .= "February ".$year.", ";
+				if ($month == "03")
+					$str[$type] .= "March ".$year.", ";
+				if ($month == "04")
+					$str[$type] .= "April ".$year.", ";
+				if ($month == "05")
+					$str[$type] .= "May ".$year.", ";
+				if ($month == "06")
+					$str[$type] .= "June ".$year.", ";
+				if ($month == "07")
+					$str[$type] .= "July ".$year.", ";
+				if ($month == "08")
+					$str[$type] .= "August ".$year.", ";
+				if ($month == "09")
+					$str[$type] .= "September ".$year.", ";
+				if ($month == "10")
+					$str[$type] .= "October ".$year.", ";
+				if ($month == "11")
+					$str[$type] .= "November ".$year.", ";
+				if ($month == "12")
+					$str[$type] .= "December ".$year.", ";
+				
 				$str[$type] .= "pp ".$publications[$i]['page_no'].".";
 			}
 			else if ($type==3 || $type==4)
@@ -104,6 +132,7 @@
 	
 	$allPublication = $ui->tabPane()->id("all")->active()->open();
 		echo '<div id="all" >';
+		?><h4><center> All publications of <? echo $own_name; ?></center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
 			for ($i=1; $i<=10; $i++)
 				if ($str[$i]!=""){
@@ -134,7 +163,9 @@
 
 	$nationalJournal = $ui->tabPane()->id("national_journal")->open();
 		echo '<div id="print_nat_jour" >';
+		?><h4><center> Paper published by <? echo $own_name; ?> in National Journal</center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
+			?><th>National Publication</th><?php
 			echo $str[1];
 		$table->close();
 		echo '</div>';
@@ -143,7 +174,9 @@
 
 	$internationalJournal = $ui->tabPane()->id("international_journal")->open();
 		echo '<div id="print_inat_jour" >';
+		?><h4><center> Paper published by <? echo $own_name; ?> in International Journal</center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
+			?><th>International Publication</th><?php
 			echo $str[2];
 		$table->close();
 		echo '</div>';
@@ -152,7 +185,9 @@
 
 	$nationalConference = $ui->tabPane()->id("national_conference")->open();
 		echo '<div id="print_nat_conf" >';
+		?><h4><center> Paper published by <? echo $own_name; ?> in National Conference</center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
+			?><th>National Conference</th><?php
 			echo $str[3];
 		$table->close();
 		echo '</div>';
@@ -161,7 +196,9 @@
 
 	$internationalConference = $ui->tabPane()->id("international_conference")->open();
 		echo '<div id="print_inat_conf" >';
+		?><h4><center> Paper published by <? echo $own_name; ?> in International Conference</center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
+			?><th>International Conference</th><?php
 			echo $str[4];
 		$table->close();
 		echo '</div>';
@@ -170,7 +207,9 @@
 
 	$books = $ui->tabPane()->id("books")->open();
 		echo '<div id="print_book" >';
+		?><h4><center> Books written by <? echo $own_name; ?></center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
+			?><th>Books</th><?php
 			echo $str[5];
 		$table->close();
 		echo '</div>';
@@ -179,7 +218,9 @@
 
 	$book_chapter = $ui->tabPane()->id("book_chapter")->open();
 		echo '<div id="print_book_chap" >';
+		?><h4><center> Chapters in books written by <? echo $own_name; ?></center></h4><?php
 		$table = $ui->table()->hover()->bordered()->open();
+			?><th>Book Chapters</th><?php
 			echo $str[6];
 		$table->close();
 		echo '</div>';

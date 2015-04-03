@@ -74,4 +74,8 @@ class Add_publication_ajax extends CI_Controller
 		$data['result']=$this->basic_model->get_emp_by_dept($type);
 		$this->load->view('publication/put_faculty_for_query',$data);
 	}
+	public function put_year()
+	{
+		$this->load->view('publication/put_year');
+	}
 }

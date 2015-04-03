@@ -27,7 +27,38 @@ $d1 = $d+1;
  echo(($this->session->userdata('semester')+1)%2 == 0)?'Winter':'Monsoon'; ?></strong></td>
 </tr>
 </table>
-				
+	<?php if(($this->session->userdata('semester')+1)== 3){ ?>
+				<br>
+			<div class="row">
+			<div class="col-sm-8">
+			<h2 class="page-header">Do you want To Change Your Branch! </h2>
+			</div>
+			<div class="col-sm-4">
+				<?php echo form_dropdown('changeB',array(''=>'Select','Y'=>'Yes','N'=>'No'),'','class="form-control" id="changeCB"') ?>
+			</div>
+			<div class="col-sm-12" id="cbdata">
+			 <div class="col-sm-4">
+                               		<div class="form-group">
+                                		<label for="department">Department</label>
+                               				<?php echo form_dropdown('department_name',array('Select Department'),'','id="department_name" class="form-control"') ?>
+                               		 </div>
+                                </div>
+                                <div class="col-sm-4">
+                                <div class="form-group">
+                                		<label for="course">Select Course</label>
+                               				<?php echo form_dropdown('course',array('Select Course'),'','id="course" class="form-control"') ?>
+                               		 </div>
+                                </div>
+                                <div class="col-sm-4">
+                                <div class="form-group">
+                                		<label for="branch">Select Branch</label>
+                               				<?php echo form_dropdown('branch',array('Select Branch'),'','id="branch" class="form-control"') ?>
+                               		 </div>
+                                </div>
+			</div>
+			</div>
+			<br>
+	<?php } ?>			
 <h2 class="page-header">Choose Elective Subject</h2>
 		
 		
@@ -67,12 +98,13 @@ $d1 = $d+1;
 		 
 <?php } ?>
 
-<?php if(($this->session->userdata('course_id') == 'btech' || $this->session->userdata('course_id') == 'b.tech') && (($this->session->userdata('semester')+1) >= 5)){ ?>
+
+<?php if(($this->session->userdata('course_id') == 'b.tech' || $this->session->userdata('course_id') == 'btech') && (($this->session->userdata('semester')+1) >= '5')){ ?>
 
 		<div class="col-sm-12">
 			
 			<div class="row">
-					<div class="col-sm-8"><h3 class="page-header">Please Select If you are eligible for Honour & Minor </h3></div>
+					<div class="col-sm-8"><h3 class="page-header">Please Select If you are Interested for Honours & Minor </h3></div>
 					
 					<div class="col-sm-4">
 						<?php echo form_dropdown('HM',array(''=>'Select','H'=>'Honour','M'=>'Minnor','HM'=>'Honour With Minnor'),'','id="hm" class="form-control"'); ?>
@@ -84,7 +116,7 @@ $d1 = $d+1;
 			
 		</div>
 	<br>
-<?php // } ?>
+<?php  } ?>
 		
 	<h2 class="page-header">Details of Fee Deposite through Internet Banking</h2>
 	
@@ -179,6 +211,7 @@ $d1 = $d+1;
  <script>
 $(function() {
 	$('#cyes').hide();
+	$('#cbdata').hide();
 $( "#dateofPayment,#cdateofPayment" ).datepicker({
 	endDate: '+0d',
      autoclose: true
@@ -213,6 +246,11 @@ $( "#dateofPayment,#cdateofPayment" ).datepicker({
 								$('#getHS').html(data);
 							}
 					});
+		});
+
+	$('#changeCB').on('change',function(){
+				
+				if($(this).val() == 'Y'){ $('#cbdata').show('slow');}else{$('#cbdata').hide('slow')}
 		});
 		
 });

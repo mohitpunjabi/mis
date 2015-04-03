@@ -128,3 +128,18 @@ function get_dept_query(type)
 	xmlhttp.send();
 	return false;
 }
+
+function put_year()
+{
+	var xmlhttp = getxmlhttp();
+	xmlhttp.onreadystatechange = function()
+	{
+		if (xmlhttp.readyState == 4 && xmlhttp.status==200)
+		{
+			document.getElementById("year").innerHTML = xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("POST",site_url("publication/add_publication_ajax/put_year/"),true);
+	xmlhttp.send();
+	return false;
+}

@@ -77,7 +77,7 @@
 									<td>P</td>
 									<td>';
 										$array_option = array();
-										for($it=0;$it<=10;$it=$it+0.5)
+										for($it=0;$it<=30;$it=$it+0.5)
 											array_push($array_option,$ui->option()->value($it)->text($it));
 										$ui->select()
 										   ->name("P".$counter)

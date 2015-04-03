@@ -53,17 +53,18 @@ WHERE
 		
 	$query =	"SELECT   `subjects`.`id`, `subjects`.`subject_id`, `subjects`.`name`,  `course_structure`.`sequence`
 		 FROM
-		  `elective_offered`
-		  INNER JOIN `subjects` ON (`elective_offered`.`id` = `subjects`.`id`)
-		  INNER JOIN `course_structure` ON (`elective_offered`.`aggr_id` = `course_structure`.`aggr_id`)
-		  AND (`elective_offered`.`id` = `course_structure`.`id`)
+		  `optional_offered`
+		  INNER JOIN `subjects` ON (`optional_offered`.`id` = `subjects`.`id`)
+		  INNER JOIN `course_structure` ON (`optional_offered`.`aggr_id` = `course_structure`.`aggr_id`)
+		  AND (`optional_offered`.`id` = `course_structure`.`id`)
 		  INNER JOIN `dept_course` ON (`course_structure`.`aggr_id` = `dept_course`.`aggr_id`)
 		  INNER JOIN `course_branch` ON (`dept_course`.`course_branch_id` = `course_branch`.`course_branch_id`)
 		WHERE
 		  `course_branch`.`course_id` = '".$course_id."' AND 
 		  `course_branch`.`branch_id` = '".$branch_id."' AND 
 		  `course_structure`.`semester` = '".$semster."' AND
-		  `elective_offered`.`aggr_id` = '".$agr[0]->aggr_id."'";
+		  `optional_offered`.`aggr_id` = '".$agr[0]->aggr_id."' AND
+		  `optional_offered.batch` = '".date('Y')."'"	;
 		
 	   $data['ele']=$this->db->query($query)->result_array();
 	

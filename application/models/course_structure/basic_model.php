@@ -4,13 +4,13 @@ class Basic_model extends CI_Model
 {
 	var $table_userdetails = 'user_details';
 	var $table_dept_course = 'dept_course';
-	var $table_course = 'courses';
-	var $table_branch = 'branches';
+	var $table_course = 'cs_courses';
+	var $table_branch = 'cs_branches';
 	var $table_subject = 'subjects';
 	var $table_course_structure = 'course_structure';
 	var $table_elective_group = 'elective_group';
 	var $table_course_branch = 'course_branch';
-	var $table_elective_offered = 'elective_offered';
+	var $table_optional_offered = 'optional_offered';
 	var $table_honour_minor_offered = 'honour_minor_offered';
 	var $table_minor_offered = 'minor_offered';
   	var $table_depts = 'departments';
@@ -84,8 +84,27 @@ class Basic_model extends CI_Model
 	function get_course_offered_by_dept($dept_id)
 	{
 		$query = $this->db->query("SELECT DISTINCT course_branch.course_id,id,name,duration FROM 
-		courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		cs_courses INNER JOIN course_branch ON course_branch.course_id = cs_courses.id INNER JOIN dept_course ON 
 		dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
+	}
+
+	function get_course_offered_by_dept_for_student_reg($dept_id)
+	{
+		$query = $this->db->query("SELECT DISTINCT course_branch.course_id,id,name,duration FROM 
+		courses INNER JOIN course_branch ON course_branch.course_id = courses.id INNER JOIN dept_course ON 
+		dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id' AND courses.id != 'honour' AND courses.id != 'minor' AND courses.id != 'comm'");
+		if($query->num_rows() > 0)
+			return $query->result();
+		else
+			return false;
+	}
+
+	function get_branches_by_course_and_dept_for_student_reg($course,$dept){
+		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '".$course."' AND dept_course.dept_id = '".$dept."' AND branches.id != 'comm' AND branches.id != 'honour' AND branches.id != 'minor'");
 		if($query->num_rows() > 0)
 			return $query->result();
 		else
@@ -112,14 +131,14 @@ class Basic_model extends CI_Model
 
 	
 	function get_branches_by_course($course){
-		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id WHERE course_branch.course_id = '$course'"
+		$query = $this->db->query("SELECT DISTINCT id,name FROM cs_branches INNER JOIN course_branch ON course_branch.branch_id = cs_branches.id WHERE course_branch.course_id = '$course'"
 		);
 		return $query->result();
 	}
 	
 	
 	function get_branches_by_course_and_dept($course,$dept){
-		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '".$course."' AND dept_course.dept_id = '".$dept."'");
+		$query = $this->db->query("SELECT DISTINCT id,name,dept_course.course_branch_id FROM cs_branches INNER JOIN course_branch ON course_branch.branch_id = cs_branches.id INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE course_branch.course_id = '".$course."' AND dept_course.dept_id = '".$dept."'");
 		if($query->num_rows() > 0)
 			return $query->result();
 		else
@@ -136,7 +155,7 @@ class Basic_model extends CI_Model
 	
 	function get_branch_offered_by_dept($dept_id)
 	{
-		$query = $this->db->query("SELECT DISTINCT id,name FROM branches INNER JOIN course_branch ON course_branch.branch_id = branches.id 
+		$query = $this->db->query("SELECT DISTINCT id,name FROM cs_branches INNER JOIN course_branch ON course_branch.branch_id = cs_branches.id 
 		INNER JOIN dept_course ON dept_course.course_branch_id = course_branch.course_branch_id WHERE dept_course.dept_id = '$dept_id'");
 		return $query->result();
 	}

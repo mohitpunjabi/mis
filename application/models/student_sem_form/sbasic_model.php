@@ -5,6 +5,11 @@ class Sbasic_model extends CI_Model
 	var $sem_start_date = 'stu_sem_reg_oc_date';
 	var $sem_date_des = 'stu_sem_oc_date_des';
 	var $branches = 'branches';
+	var $Cbranch = 'stu_sem_change_branch';
+	
+	//In Case of change Branch/
+	private $stu_acdamic = 'stu_academic';
+	private $ud='user_details';
 	
 	function __construct()
 	{
@@ -83,6 +88,7 @@ class Sbasic_model extends CI_Model
 				$q.=" and sf.branch_id='".$did."'";
 			if($sid)
 				$q.=" and sf.semester='".$sid."'";
+				$q.=" and sf.hod_status='1'";
 				$q.=" order by sf.semster";
 			
 			$query = $this->db->query($q);
@@ -110,7 +116,22 @@ WHERE
 			$this->db->update($this->sem_form, $data, array('sem_form_id' => $form,'admission_id'=>$stu_id));
 			return true;
 		}
+		
+		public function udateCBStatus($form,$data){
+			$this->db->update($this->Cbranch, $data, array('sem_form_id' => $form));
+			return true;
+		}
 	
+		public function udateCourseBranch($stu_id,$data){
+			$this->db->update($this->stu_acdamic, $data, array('id'=>$stu_id));
+			return true;
+		}
+		
+		public function udateDept($stu_id,$data){
+			$this->db->update($this->sem_form, $data, array('id'=>$stu_id));
+			return true;
+		}
+		
 	public function formrResponse($stid,$sem){
 		$query = $this->db->select_max('sem_form_id')->get_where($this->sem_form,array('admission_id'=>$stid,'semster'=>$sem))->result();
 		
@@ -143,6 +164,17 @@ WHERE
 			}
 	  
 	  }
+	  
+  public function getCbByfromId($id){
+	  	$query = $this->db->get_where($this->Cbranch,array('sem_form_id'=>$id));
+	  		
+	  	if($query->num_rows() > 0){
+	  		return $query->result_array();
+	  	}
+	  	 
+	  }
+	  
+	  
 	
 			
 }

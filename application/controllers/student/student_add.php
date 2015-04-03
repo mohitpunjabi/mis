@@ -42,6 +42,11 @@ class Student_add extends CI_Controller//MY_Controller
 
 	public function index($error='')
 	{
+		if($error !='')
+		{
+			echo $error;
+			return;
+		}
 		$this->add_basic_details($error);
 	}
 
@@ -67,11 +72,11 @@ class Student_add extends CI_Controller//MY_Controller
 		$data['academic_departments']=$this->basic_model->get_depts();
 		$depts = $data['academic_departments'];
 
-		$data['courses']=$this->basic_model->get_course_offered_by_dept($depts[0]->id);
+		$data['courses']=$this->basic_model->get_course_offered_by_dept_for_student_reg($depts[0]->id);
 
 		$course = $data['courses'];
 		if($course)
-			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept($courses[0]->id,$depts[0]->id);
+			$data['branches'] = $this->basic_model->get_branches_by_course_and_dept_for_student_reg($course[0]->id,$depts[0]->id);
 		else
 		{
 			$data['courses'] = FALSE;
@@ -183,11 +188,35 @@ class Student_add extends CI_Controller//MY_Controller
 		$this->form_validation->set_rules('mobile','Mobile No','required|regex_match[/^[0-9]{10}$/]');
 		//$this->form_validation->set_rules('alternate_mobile','Alternate Mobile No','required|regex_match[/^[0-9]{10}$/]');
 		$this->form_validation->set_rules('fee_paid_amount','Fee Paid Amount','numeric');
-		if($this->form_validation->run() === FALSE)
+		if($this->input->post('branch') == 'none' || $this->input->post('course') == 'none' || $this->form_validation->run() === FALSE)
 		{
-			$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
-			//return;redirect('student/student_add');
+			//$this->session->set_flashdata('flashError','You did not fill some of the fields properly. Please switch on ypur Javascript if it is off.');
+			echo '<html>Either your Javascript is Off or due to some other problem the javascript did not work and some incorrect details were reveived by the Server.<br> If your javascript is not turned off then press the back button of browser and make sure the following fields are filled properly : <br>1. All the Contact numbers (except the Parent/Guardian Landline number) should be of 10 digits only. <br>2. The combination of the Department, Course and Branch is correct.<br><br> If still facing problem contact Mr. Rajesh K. Mishra, CSE Dept.<html>';
+			return;
+			//redirect('student/student_add');
+			//redirect("login/logout/5");
 		}
+		
+		$this->load->model('course_structure/basic_model','',TRUE);
+		$data['branches_to_check'] = $this->basic_model->get_branches_by_course_and_dept_for_student_reg($this->input->post('course'),$this->input->post('department'));
+		$flag = 0;
+		if($data['branches_to_check'])
+		{
+			foreach($data['branches_to_check'] as $row)
+			{
+				if($row->id == $this->input->post('branch'))
+				{
+					$flag = 1;
+					break;
+				}
+			}
+		}
+		if($flag == 0)
+		{
+			echo '<html>Either your Javascript is Off or due to some other problem the javascript did not work and some incorrect details were reveived by the Server.<br> If your javascript is not turned off then press the back button of browser and make sure the following fields are filled properly : <br>1. All the Contact numbers (except the Parent/Guardian Landline number) should be of 10 digits only. <br>2. The combination of the Department, Course and Branch is correct.<br><br> If still facing problem contact Mr. Rajesh K. Mishra, CSE Dept.<html>';
+			return;
+		}
+		
 		$upload = $this->upload_image($stu_id,'photo');
 		if($upload !== FALSE)
 		{
@@ -209,9 +238,9 @@ class Student_add extends CI_Controller//MY_Controller
 				'last_name' => ucwords(strtolower($this->authorization->strclean($this->input->post('lastname')))) ,
 				'sex' => $this->input->post('sex') ,
 				'category' => $this->input->post('category') ,
-				'dob' => $this->input->post('dob') ,
+				'dob' => date('Y-m-d',strtotime($this->input->post('dob'))) ,
 				'email' => $this->authorization->strclean($this->input->post('email')) ,
-				'photopath' => 'student/'.$stu_id.'/'.$upload['file_name'] ,
+				'photopath' => 'student/'.strtolower($stu_id).'/'.$upload['file_name'] ,
 				'marital_status' => $this->input->post('mstatus') ,
 				'physically_challenged' => $this->input->post('pd') ,
 				'dept_id' => $this->input->post('department')
@@ -219,12 +248,12 @@ class Student_add extends CI_Controller//MY_Controller
 
 			if($this->input->post('depends_on'))
 			{
-				$father_name = 'na';
-				$mother_name = 'na';
-				$father_occupation = 'na';
-				$mother_occupation = 'na';
-				$father_income = '0';
-				$mother_income = '0';
+				$father_name = '';
+				$mother_name = '';
+				$father_occupation = '';
+				$mother_occupation = '';
+				$father_income = '';
+				$mother_income = '';
 				$guardian_name = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_name'))));
 				$guardian_relation = ucwords(strtolower($this->authorization->strclean($this->input->post('guardian_relation_name'))));
 			}
@@ -236,8 +265,8 @@ class Student_add extends CI_Controller//MY_Controller
 				$mother_occupation = ucwords(strtolower($this->authorization->strclean($this->input->post('mother_occupation'))));
 				$father_income = $this->input->post('father_gross_income');
 				$mother_income = $this->input->post('mother_gross_income');
-				$guardian_name = 'na';
-				$guardian_relation = 'na';
+				$guardian_name = '';
+				$guardian_relation = '';
 			}
 
 			$user_other_details = array(
@@ -293,7 +322,7 @@ class Student_add extends CI_Controller//MY_Controller
 
 			$stu_details = array(
 				'admn_no' => $stu_id ,
-				'admn_date' => $this->input->post('entrance_date') ,
+				'admn_date' => date('Y-m-d',strtotime($this->input->post('entrance_date'))),
 				'enrollment_no' => $this->input->post('roll_no') ,
 				'type' => $this->input->post('stu_type') ,
 				'identification_mark' => strtolower($this->authorization->strclean($this->input->post('identification_mark'))) ,
@@ -311,7 +340,7 @@ class Student_add extends CI_Controller//MY_Controller
 				'fee_mode' => $this->input->post('fee_paid_mode') ,
 				'fee_amount' => $this->input->post('fee_paid_amount') ,
 				'fee_in_favour' => 'indian school of mines' ,
-				'payment_made_on' => $this->input->post('fee_paid_date') ,
+				'payment_made_on' => date('Y-m-d',strtotime($this->input->post('fee_paid_date'))) ,
 				'transaction_id' => $this->input->post('fee_paid_dd_chk_onlinetransaction_cashreceipt_no')
 			);
 
@@ -405,7 +434,7 @@ class Student_add extends CI_Controller//MY_Controller
 						'pincode' => $this->input->post('pincode3') ,
 						'country' => strtolower($this->authorization->strclean($this->input->post('country3'))) ,
 						'contact_no' => $this->input->post('contact3') ,
-						'type' => 'correspondance'
+						'type' => 'correspondence'
 					)
 				);
 			}
@@ -479,12 +508,12 @@ class Student_add extends CI_Controller//MY_Controller
 
 	function upload_image($stu_id = '', $name ='')
 	{
-		$config['upload_path'] = 'assets/images/student/'.strtolower($stu_id).'/';
+		$config['upload_path'] = './assets/images/student/'.strtolower($stu_id).'/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']  = '200';
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
-
+		var_dump($config['upload_path']);
 		if(isset($_FILES[$name]['name']))
     	{
             if($_FILES[$name]['name'] == "")
@@ -493,7 +522,7 @@ class Student_add extends CI_Controller//MY_Controller
 			{
                 $filename=$this->security->sanitize_filename(strtolower($_FILES[$name]['name']));
                 $ext =  strrchr( $filename, '.' ); // Get the extension from the filename.
-                $filename='stu_'.$stu_id.'_'.date('YmdHis').$ext;
+                $filename='stu_'.strtolower($stu_id).'_'.date('YmdHis').$ext;
             }
         }
         else
@@ -508,13 +537,15 @@ class Student_add extends CI_Controller//MY_Controller
 	    {
 			mkdir($config['upload_path'],0777,TRUE);
     	}
-
+		//var_dump($config);
 		$this->load->library('upload', $config);
-
-		if ( ! $this->upload->do_upload($name))		//do_multi_upload is back compatible with do_upload
+		
+		if ( !$this->upload->do_upload($name))		//do_multi_upload is back compatible with do_upload
 		{
 			$error = $this->upload->display_errors();
-			$this->index('ERROR: '.$error);
+			/*var_dump(get_current_user());
+			echo($error);*/
+			$this->index($error);
 			return FALSE;
 		}
 		else
@@ -522,5 +553,6 @@ class Student_add extends CI_Controller//MY_Controller
 			$upload_data = $this->upload->data();
 			return $upload_data;
 		}
+                //return FALSE;
 	}
 }

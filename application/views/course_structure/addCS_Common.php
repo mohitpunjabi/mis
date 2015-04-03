@@ -20,18 +20,35 @@
 						->containerId('cont_semester')
 						->show();
 						
-						$array_option = array();
-						$array_option[0] = $ui->option()->value('""')->text("Select Group")->disabled();
-						$array_option[1] = $ui->option()->value("1")->text("Group 1(Physics)");
-						$array_option[2] = $ui->option()->value("2")->text("Group 2(Chemistry)");
+						$array_option1= array();
+						$array_option1[0] = $ui->option()->value('""')->text("Select Group")->disabled();
+						$array_option1[1] = $ui->option()->value("1")->text("Group 1(Physics)");
+						$array_option1[2] = $ui->option()->value("2")->text("Group 2(Chemistry)");
+						
+						$array_option2 = array();
+						$array_option2[0] = $ui->option()->value('""')->text("Select Group")->disabled();
+						$array_option2[1] = $ui->option()->value("1")->text("Group 1(Chemistry)");
+						$array_option2[2] = $ui->option()->value("2")->text("Group 2(Physics)");
 						
 						$ui->select()
 						->label('Select Group')
 						->required()
 						->name('group')
-						->id("group")
-						->options($array_option)
-						->containerId('cont_group')
+						->id("group_1")
+						->disabled()
+						->options($array_option1)
+						->containerId('cont_group1')
+						->show();
+						
+						
+						$ui->select()
+						->label('Select Group')
+						->required()
+						->name('group')
+						->id("group_2")
+						->disabled()
+						->options($array_option2)
+						->containerId('cont_group2')
 						->show();
 						
 						$array_option = array();

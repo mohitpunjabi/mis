@@ -34,6 +34,8 @@ class Regular_check extends MY_Controller
 				$data['carryover']=$this->get_carryover->getCarryoverByformId($data['student'][0]->form_id);
 				// Elective Subject
 				$data['confirm']=$this->get_subject->getConfirm($data['student'][0]->form_id);
+				//Change Branch
+				$data['CB']= $this->sbasic_model->getCbByfromId($data['student'][0]->form_id);
 				$this->load->view('templates/header_assets');
 				if($p==1){
 						$this->load->helper(array('dompdf', 'file'));

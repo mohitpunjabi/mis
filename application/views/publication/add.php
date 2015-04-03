@@ -38,9 +38,29 @@
 		   ->show();
 
 	$Col2->close();
-	$innerCol1 = $ui->col()->id("publication_name_one")->width(6)->open();
-				$ui->input()->label('Name of Jorunal<sub>*</sub>')->name('publication_name')->show();
-			$innerCol1->close();
+	$innerCol1 = $ui->col()->id('month_col')->width(6)->open();
+		$ui->select()->label('Month')->name('month')->required()->options(array(
+				$ui->option()->value()->text("Select"),
+				$ui->option()->value("01")->text("January"),
+				$ui->option()->value("02")->text("February"),
+				$ui->option()->value("03")->text("March"),
+				$ui->option()->value("04")->text("April"),
+				$ui->option()->value("05")->text("May"),
+				$ui->option()->value("06")->text("June"),
+				$ui->option()->value("07")->text("July"),
+				$ui->option()->value("08")->text("August"),
+				$ui->option()->value("09")->text("September"),
+				$ui->option()->value("10")->text("October"),
+				$ui->option()->value("11")->text("November"),
+				$ui->option()->value("12")->text("December")
+			))->show();
+	$innerCol1->close();
+	$innerCol2 = $ui->col()->id('year_col')->width(6)->open();
+		$ui->select()->label('Year')->name('year')->id('year')->required()
+				->options(array($ui->option()->value('""')->text('Selectq1')))
+				->show();
+	$innerCol2->close();
+	
 	$innerColumn3 = $ui->col()->id("date_picker_one")->width(6)->open();
 				$ui->datePicker()->label('Date')->id('date')
 				   ->name('begin_date')->placeholder("dd-mm-yyyy")
@@ -82,10 +102,11 @@
 <script charset="utf-8">
 	$("#publication_type").on('change', function() {
 		get_publication_type(this.value);
+		put_year();
 		if (this.value == 1 || this.value == 2)
 		{
-			$('#date_picker_one').show();
-			$('#publication_name_one').show();
+			$('#year_col').show();
+			$('#month_col').show();
 			$('#date_picker_the').hide();
 			$('#date_picker_two').hide();
 			$('#isbn_first').hide();
@@ -93,7 +114,8 @@
 		else if(this.value==3||this.value==4)
 		{
 			$('#date_picker_one').hide();
-			$('#publication_name_one').hide();
+			$('#year_col').hide();
+			$('#month_col').hide();
 			$('#date_picker_the').show();
 			$('#date_picker_two').show();
 			$('#isbn_first').hide();
@@ -101,18 +123,20 @@
 		else
 		{
 			$('#date_picker_one').show();
-			$('#publication_name_one').hide();
+			$('#year_col').hide();
+			$('#month_col').hide();
 			$('#date_picker_the').hide();
 			$('#date_picker_two').hide();
 			$('#isbn_first').show();
 		}
 	});
 	$(window).load(function(){
-		$('#publication_name_one').hide();
 		$('#date_picker_one').hide();
 		$('#date_picker_two').hide();
 		$('#date_picker_the').hide();
 		$('#isbn_first').hide();
+		$('#year_col').hide();
+		$('#month_col').hide();
 	});
 	//$("#date")
 </script>

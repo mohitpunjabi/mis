@@ -6,28 +6,31 @@
 		$row = $ui->row()->open();
 		$row1 = $ui->row()->open();
 
+			$innerCol3 = $ui->col()->id("publication_name_one")->width(6)->open();
+				$ui->input()->label('Name of Jorunal<sup>*</sup>')->name('publication_name')->show();
+			$innerCol3->close();
 			$innerColumn4 = $ui->col()->width(6)->open();
 				$ui->input()->label('Issue No.')->name('issue_no')->required()->show();
 			$innerColumn4->close();
-
-			$innerCol2 = $ui->col()->width(6)->open();
-				$ui->input()->label('Volume No.')->name('vol_no')->required()->show();
-			$innerCol2->close();
 
 		$row1->close();
 
 		$row3 = $ui->row()->open();
 
+			$innerCol2 = $ui->col()->width(6)->open();
+				$ui->input()->label('Volume No.')->name('vol_no')->required()->show();
+			$innerCol2->close();
 			$innerColumn5 = $ui->col()->width(6)->open();
 				$ui->input()->label('Page Range')->name('page_no')->required()->show();
 			$innerColumn5->close();
+
+		$row3->close();
+		$row4 = $ui->row()->open();
 			$innerColumn6 = $ui->col()->width(6)->open();
 				$ui->textarea()->label('Any other informations')->name("other_info")
 				   ->placeholder("Any other details")->required()->show();
 			$innerColumn6->close();
-
-		$row3->close();
-
+		$row4->close();
 		$Col = $ui->col()->width(4)->open();
 		$Col->close();
 

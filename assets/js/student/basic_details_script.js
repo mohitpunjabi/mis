@@ -1,7 +1,10 @@
 	$(document).ready(function() {
 		document.getElementById('corr_addr_visibility').style.display = 'none';
+		document.getElementById('remove').style.display = 'none';
 
 		document.getElementById("add").onclick = function() {onclick_add();};
+		document.getElementById("remove").onclick = function() {onclick_remove();};
+		
 
 		$('[name="depends_on"]').on('ifChanged', function() {
     		depends_on_whom();
@@ -10,17 +13,37 @@
 		$('#stu_type').on('change', function() {
 			button_for_add();
 
-			if($('#stu_type').val() == 'jrf') {
+			/*if($('#stu_type').val() == 'jrf') {
 				$('#course_id, #branch_id').append($('<option>', {
     				value: 'na',
     				text: 'Not Applicable' ,
     				selected : 'true'
 				}));
+			}*/
+			if($('#stu_type').val() == 'jrf') {
+				document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="phd">Ph.D</option></select>';
+				document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
+			}
+			else if($('#stu_type').val() == 'pd') {
+				document.getElementById('course_id').innerHTML = '<select id="course_id" name="course"><option value="postdoc">Post Doc</option></select>';
+				document.getElementById('branch_id').innerHTML = '<select id="branch_id" name="branch"><option value="na">Not Applicable</option></select>';
+			}
+			else
+				options_of_courses();
+
+			if($('#stu_type').val() == 'jrf' || $('#stu_type').val() == 'pd')
+			{
+				document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="-1">Not Applicable</option></select>';
+			}
+			else
+			{
+				document.getElementsByName('semester')[0].innerHTML = '<select name="semester"><option value="1"  >1</option><option value="2"  >2</option><option value="3"  >3</option><option value="4"  >4</option><option value="5"  >5</option><option value="6"  >6</option><option value="7"  >7</option><option value="8"  >8</option><option value="9"  >9</option><option value="10"  >10</option></select>';
 			}
 		});
 
 		$('#depts').on('change', function() {
-			options_of_courses();
+			if($('#stu_type').val() != 'jrf')
+				options_of_courses();
 		});
 
 		$('#course_id').on('change', function() {
@@ -43,6 +66,29 @@
 		add_row_on_page_load();
 
 	});
+	
+	function onclick_remove()
+	{
+		var table=document.getElementById("tableid");
+		var rowCount=table.rows.length;
+		if(rowCount<=2)
+		{
+			alert("Cannot delete any more rows.");
+			return;
+		}
+		table.deleteRow(rowCount-1);
+		button_for_remove();
+	}
+
+
+	function button_for_remove()
+	{
+		var row=document.getElementById("tableid").rows;
+		if(row.length > 3)
+			document.getElementById('remove').style.display='block';
+		else
+			document.getElementById('remove').style.display='none';
+	}
 
 	function add_row_on_page_load()
 	{
@@ -59,7 +105,7 @@
 		document.getElementsByName('branch4[]')[row.length-2].disabled = true;
 	}
 
-	function preview_pic()
+	/*function preview_pic()
 	{
 		var file=document.getElementById('photo').files[0];
 		if(!file)
@@ -74,7 +120,7 @@
 			};
 			oFReader.readAsDataURL(file);
 		}
-	}
+	}*/
 
 	function check_if_student_type_others()
     {
@@ -116,7 +162,7 @@
 			return false;
 		if(!image_validation())
 			return false;
-		push_na_in_empty();
+		//push_na_in_empty();
 		return true;
 	}
 
@@ -489,7 +535,7 @@
         //xmlhttp.open("GET","AJAX_branches_by_dept.php?dept="+dept,true); this is original line to select branch we need to select courses
 		xmlhttp.open("POST",site_url("student/student_ajax/update_branch/"+course+"/"+dept),true);
         xmlhttp.send();
-        tr.innerHTML="<option selected=\"selected\">Loading...</option>";
+        tr.innerHTML="<option value=\"none\" selected=\"selected\">Loading...</option>";
     }
 
     function options_of_courses()
@@ -519,7 +565,7 @@
         //alert(branch);
         xmlhttp.open("POST",site_url("student/student_ajax/update_courses/"+dept),true);
         xmlhttp.send();
-        tr.innerHTML="<option selected=\"selected\">Loading...</option>";
+        tr.innerHTML="<option value=\"none\" selected=\"selected\">Loading...</option>";
     }
 
     function all_number_validation()
@@ -681,8 +727,8 @@
 
 	function onclick_add()
 	{	
-		/*var row=document.getElementById("tableid").rows;
-		var e=document.getElementsByName("exam4[]")[row.length-2].value;
+		var row=document.getElementById("tableid").rows;
+		/*var e=document.getElementsByName("exam4[]")[row.length-2].value;
 		var b=document.getElementsByName("branch4[]")[row.length-2].value;
 		var c=document.getElementsByName("clgname4[]")[row.length-2].value;
 		var g=document.getElementsByName("grade4[]")[row.length-2].value;
@@ -706,6 +752,7 @@
 			var newid=newrow.cells[0].id="sno"+Number(row.length-2);
 			document.getElementById(newid).innerHTML=row.length-1;
 			document.getElementsByName('branch4[]')[row.length-2].disabled=false;
+			button_for_remove();
 		}
 	}
 
